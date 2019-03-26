@@ -1,10 +1,10 @@
 
 public class Cell {
-    private int respawn;   //1 è un punto di rigenerazione, 0 non lo è, -1 non esiste
+    private int respawn;   //1 is a spawn point, 0 it is not, -1 cell does not exist
     private Colour c;
     private Position p;
-    private int[] pMuri;
-    private int[] pPorte;              //1 indica sopra, 2 indica destra, 3 indica sotto, 4 indica sinistra
+    private int[] posWall;
+    private int[] posDoor;              //1 above, 2 right, 3 below, 4 left
     private AmmoCard a;
 
 
@@ -20,10 +20,10 @@ public class Cell {
             this.a = new AmmoCard();
         this.c = c1;
         //this.p = p1;
-        this.pMuri = new int[pm.length];
-        System.arraycopy(pm, 0, this.pMuri,0, pm.length);
-        this.pPorte = new int[pp.length];
-        System.arraycopy(pp, 0, this.pPorte,0, pp.length);
+        this.posWall = new int[pm.length];
+        System.arraycopy(pm, 0, this.posWall,0, pm.length);
+        this.posDoor = new int[pp.length];
+        System.arraycopy(pp, 0, this.posDoor,0, pp.length);
 
 
     }
@@ -41,12 +41,12 @@ public class Cell {
     }
 
 
-    public int[] getpMuri() {
-        return pMuri;
+    public int[] getPosWall() {
+        return posWall;
     }
 
-    public int[] getpPorte() {
-        return pPorte;
+    public int[] getPosDoor() {
+        return posDoor;
     }
 
     public AmmoCard getA() {

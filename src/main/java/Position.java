@@ -1,5 +1,5 @@
 public class Position {
-    private int x;                      //NON SO SE SERVE
+    private int x;                      //IS IT USEFUL?
     private int y;
 
     public Position(int x, int y){

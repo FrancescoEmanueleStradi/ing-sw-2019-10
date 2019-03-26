@@ -1,9 +1,9 @@
 public enum Colour {
 
-    VIOLA("VI"), GIALLO("G"), ROSSO("R"), BIANCO("B"), AZZURRO("A"), VERDE("VE"), NERO("N");
+    PURPLE("P"), YELLOW("Y"), RED("R"), WHITE("W"), BLUE("B"), GREEN("G"), BLACK("BK");
     private String abbreviation;
 
-    private Colour(String abbreviation){     //chiedere al prof riguardo private
+    private Colour(String abbreviation){     //Ask professor about the private
         this.abbreviation = abbreviation;
     }
 

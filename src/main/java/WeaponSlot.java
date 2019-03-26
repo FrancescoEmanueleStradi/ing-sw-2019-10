@@ -1,5 +1,5 @@
 public class WeaponSlot {
-    private int n;     //ci sono 3 WS, indica il numero della SW a cui ci stiamo riferendo (1 alto, 2 destra, 3 sinistra)
+    private int n;     //there are 3 WS, it refers to the WS position (1 high, 2 right, 3 left)
     private Card card1;
     private Card card2;
     private Card card3;

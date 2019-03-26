@@ -1,11 +1,11 @@
 public class KillTrack {
 
-    private int[] skulls;     //0 teschio, 1 goccia, 2 doppia goccia, 3 vuoto
+    private int[] skulls;     //0 skull, 1 damage, 2 double damage, 3 empty
     private Colour[] c;
 
     public KillTrack(){
         skulls = new int[8];
-        c = new Colour[8];       //Attenzione: l'array viene esportato, si possono implementare metodi che utilizzano l'indice del suddetto
+        c = new Colour[8];       //Attention: the array could be exported, we could implement methods that use indexes of the array
     }
 
     public Colour[] getC() {

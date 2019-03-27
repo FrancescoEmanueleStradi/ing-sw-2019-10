@@ -5,7 +5,7 @@ public class AmmoCube {
     public AmmoCube(Colour c) throws InvalidColourException {
         if(c.equals(Colour.BLUE)||c.equals(Colour.YELLOW)||c.equals(Colour.RED))
             this.c = c;
-        else throw InvalidColourException;
+        else throw new InvalidColourException();
 
     }
 

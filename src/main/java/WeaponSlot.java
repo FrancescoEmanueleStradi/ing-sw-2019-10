@@ -1,13 +1,13 @@
 public class WeaponSlot {
     private int n;     //there are 3 WS, it refers to the WS position (1 high, 2 right, 3 left)
-    private Card card1;
-    private Card card2;
-    private Card card3;
+    private WeaponCard card1;
+    private WeaponCard card2;
+    private WeaponCard card3;
 
-    public WeaponSlot(int n) {
-        card1 = new Card();
-        card2 = new Card();
-        card3 = new Card();
+    public WeaponSlot(int n, WeaponCard w1, WeaponCard w2,WeaponCard w3) {
+        this.card1 = w1;
+        this.card2 = w2;
+        this.card3 = w3;
         this.n = n;
     }
 
@@ -19,7 +19,7 @@ public class WeaponSlot {
         return card1;
     }
 
-    public void setCard1(Card card1) {
+    public void setCard1(WeaponCard card1) {
         this.card1 = card1;
     }
 
@@ -27,7 +27,7 @@ public class WeaponSlot {
         return card2;
     }
 
-    public void setCard2(Card card2) {
+    public void setCard2(WeaponCard card2) {
         this.card2 = card2;
     }
 
@@ -35,7 +35,7 @@ public class WeaponSlot {
         return card3;
     }
 
-    public void setCard3(Card card3) {
+    public void setCard3(WeaponCard card3) {
         this.card3 = card3;
     }
 }

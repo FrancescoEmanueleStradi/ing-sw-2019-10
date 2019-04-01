@@ -1,15 +1,17 @@
 public abstract class WeaponCard implements Card {
 
-    private String cardName;
-    private AmmoCube[] reloadCost;      //first cube is the default one
+    protected String cardName;
+    protected AmmoCube[] reloadCost;      //first cube is the default one
+    protected String description;
+    protected int numSpecialEffect;      //number of special effects
 
 
     public String getCardName() {
-        return cardName;
+        return this.cardName;
     }
 
     public AmmoCube[] getReloadCost() {
-        return reloadCost;
+        return this.reloadCost;
     }
 
     public abstract void applySpecialEffect();

@@ -2,7 +2,6 @@ import java.util.Scanner;
 
 public class MachineGun extends WeaponCard {
 
-
     public MachineGun() throws InvalidColourException {
         super();
         this.cardName = "Machine Gun";                                                                                  //here?

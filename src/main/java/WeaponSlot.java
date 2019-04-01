@@ -15,7 +15,7 @@ public class WeaponSlot {
         return n;
     }
 
-    public Card getCard1() {
+    public WeaponCard getCard1() {
         return card1;
     }
 
@@ -23,7 +23,7 @@ public class WeaponSlot {
         this.card1 = card1;
     }
 
-    public Card getCard2() {
+    public WeaponCard getCard2() {
         return card2;
     }
 
@@ -31,7 +31,7 @@ public class WeaponSlot {
         this.card2 = card2;
     }
 
-    public Card getCard3() {
+    public WeaponCard getCard3() {
         return card3;
     }
 

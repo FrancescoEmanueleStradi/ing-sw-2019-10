@@ -1,6 +1,6 @@
 
 public class Cell {
-    private int respawn;   //1 is a spawn point, 0 it is not, -1 cell does not exist
+    private int status;   //1 is a spawn point, 0 it is not, -1 cell does not exist
     private Colour c;
     private Position p;
     private int[] posWall;
@@ -9,14 +9,14 @@ public class Cell {
 
 
     public Cell(int r){                     //r = -1
-        this.respawn = r;
+        this.status = r;
 
     }
 
     public Cell(int r, Colour c1, /*Position p1,*/  int[] pm,  int[] pp) {
 
-        this.respawn = r;
-        if(this.respawn==0)
+        this.status = r;
+        if(this.status ==0)
             this.a = new AmmoCard();
         this.c = c1;
         //this.p = p1;
@@ -28,8 +28,8 @@ public class Cell {
 
     }
 
-    public int getRespawn() {
-        return respawn;
+    public int getStatus() {
+        return status;
     }
 
     public Colour getC() {

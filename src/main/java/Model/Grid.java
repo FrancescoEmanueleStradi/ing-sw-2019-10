@@ -15,7 +15,7 @@ public class Grid {
     public Grid(int aType) throws InvalidColourException {
         this.weaponDeck = new WeaponDeck();
         this. powerupDeck = new PowerUpDeck();
-        this.ammoDeck = new AmmoDeck();
+        //TODO this.ammoDeck = new AmmoDeck();
         this.board = new Board(aType);
         this.pB = new ArrayList<PlayerBoard>();
         this.fig = new ArrayList<Figure>();
@@ -35,5 +35,9 @@ public class Grid {
 
     public void removeFIG(Figure fig) {
         this.fig.remove(fig);
+    }
+
+    public void damage(String p) {
+        //TODO
     }
 }

@@ -12,6 +12,7 @@ public class Board {
     public Board(int type) {
         this.k = new KillTrack();
         this.aType = type;
+        //TODO randomly extraction
         /*Model.WeaponCard wc1
         Model.WeaponCard wc2
         Model.WeaponCard wc3
@@ -20,10 +21,10 @@ public class Board {
         Model.WeaponCard wc6
         Model.WeaponCard wc7
         Model.WeaponCard wc8
-        Model.WeaponCard wc9*/
+        Model.WeaponCard wc9
         this.w1 = new WeaponSlot(1, wc1, wc2, wc3); //randomly generated (before this call)
         this.w2 = new WeaponSlot(2, wc4, wc5, wc6);
-        this.w3 = new WeaponSlot(3, wc7, wc8, wc9);
+        this.w3 = new WeaponSlot(3, wc7, wc8, wc9);*/
 
         if(this.aType == 1) {
             int[] a1 = new int[]{1,4};

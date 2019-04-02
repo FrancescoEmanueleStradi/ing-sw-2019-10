@@ -21,8 +21,9 @@ public class Cell {
     public Cell(int r, Colour c1, /*Model.Position p1,*/  int[] pm,  int[] pp) {
 
         this.status = r;
-        if(this.status ==0)
-            this.a = new AmmoCard();
+        //TODO random AmmoCard
+        /*if(this.status ==0)
+            this.a = new AmmoCard();*/
         this.c = c1;
         //this.p = p1;
         this.posWall = new int[pm.length];

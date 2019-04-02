@@ -17,7 +17,7 @@ public class DamageTrack {
            for (DamageToken d : damageTr){
                i++;
                if(d==null) {                            //attention to the index
-                   damageTr[i] = DamageToken(c);
+                   damageTr[i] = new DamageToken(c);
                    numDamage--;
                }
                if(damageTr[11]!=null)

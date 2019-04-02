@@ -36,10 +36,10 @@ public class MachineGun extends WeaponCard {
         System.out.println("Choose 1 or 2 targets you can see to attack");
         Scanner in = new Scanner(System.in);
         String p = in.next();
-        Grid.damage(p);
+        //TODO Grid.damage(p);
         String p2 = in.next();
-        if ((p2 != null))
-            Grid.damage(p2);
+        //TODO if ((p2 != null))
+            //Grid.damage(p2);
 
     }
 

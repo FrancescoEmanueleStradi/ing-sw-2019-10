@@ -1,3 +1,5 @@
+package Model;
+
 public class TargetingScope extends PowerUpCard {
 
     public TargetingScope(Colour c) throws InvalidColourException {

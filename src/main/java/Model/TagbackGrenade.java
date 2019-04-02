@@ -1,3 +1,5 @@
+package Model;
+
 public class TagbackGrenade extends PowerUpCard {
 
     public TagbackGrenade(Colour c) throws InvalidColourException {

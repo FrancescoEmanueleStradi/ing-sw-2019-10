@@ -1,5 +1,4 @@
-public interface  Card {
-
+public interface Card {
 
       void applyEffect();
 

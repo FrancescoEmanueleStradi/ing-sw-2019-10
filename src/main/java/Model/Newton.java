@@ -4,7 +4,7 @@ public class Newton extends PowerUpCard {
 
     public Newton(Colour c) throws InvalidColourException {
         super();
-        this.cardName = "Model.Newton";
+        this.cardName = "Newton";
         this.value = new AmmoCube(c);
         String description = "You may play this card on your turn before or\n" +
                 "after any action. Choose any other player's\n" +

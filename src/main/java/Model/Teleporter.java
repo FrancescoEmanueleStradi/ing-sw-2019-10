@@ -4,7 +4,7 @@ public class Teleporter extends PowerUpCard{
 
     public Teleporter(Colour c) throws InvalidColourException {
         super();
-        this.cardName = "Model.Teleporter";
+        this.cardName = "Teleporter";
         this.value = new AmmoCube(c);
         String description = "You may play this card on your turn before\n" +
                 "or after any action. Pick up your figure and\n" +

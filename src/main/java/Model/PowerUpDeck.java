@@ -18,7 +18,7 @@ public class PowerUpDeck extends Deck {
         TargetingScope c5 = new TargetingScope(Colour.YELLOW);
             powerUpDeck.add(c5);
         TargetingScope c6 = new TargetingScope(Colour.YELLOW);
-            powerUpDeck.add(c6)
+            powerUpDeck.add(c6);
 
         Newton c7 = new Newton(Colour.RED);
             powerUpDeck.add(c7);

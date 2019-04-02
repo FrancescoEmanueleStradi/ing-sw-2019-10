@@ -1,7 +1,7 @@
 public abstract class PowerUpCard implements Card{
 
-    private String cardName;
-    private AmmoCube value;
+    protected String cardName;
+    protected AmmoCube value;
 
     public String getCardName() {
         return cardName;

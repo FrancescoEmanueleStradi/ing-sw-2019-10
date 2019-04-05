@@ -47,17 +47,17 @@ public class PowerUpDeck extends Deck {
             powerUpDeck.add(c18);
 
         Teleporter c19 = new Teleporter(Colour.RED);
-        powerUpDeck.add(c19);
+            powerUpDeck.add(c19);
         Teleporter c20 = new Teleporter(Colour.RED);
-        powerUpDeck.add(c20);
+            powerUpDeck.add(c20);
         Teleporter c21 = new Teleporter(Colour.BLUE);
-        powerUpDeck.add(c21);
+            powerUpDeck.add(c21);
         Teleporter c22 = new Teleporter(Colour.BLUE);
-        powerUpDeck.add(c22);
+            powerUpDeck.add(c22);
         Teleporter c23 = new Teleporter(Colour.YELLOW);
-        powerUpDeck.add(c23);
+            powerUpDeck.add(c23);
         Teleporter c24 = new Teleporter(Colour.YELLOW);
-        powerUpDeck.add(c24);
+            powerUpDeck.add(c24);
     }
 
     public void startingShuffle() {

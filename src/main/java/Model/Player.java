@@ -1,5 +1,7 @@
 package Model;
 
+import Model.Board.*;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -7,17 +9,22 @@ public class Player {
 
     private String nickName;
     private Colour c;
+    private PlayerBoard pB;
+    private Figure fig;
     private boolean firstPlayerCard;            //0 is not the first player, 1 is
     private int score;
     //private ArrayList<DamageToken> dT;
     private AmmoCube[] aC;                  //from 0 to 9; maximum 3 for each colour
     private LinkedList<WeaponCard> wC;
     private LinkedList<PowerUpCard> pC;
+    private Cell cell;
 
     public Player(String name,Colour c, boolean f)throws InvalidColourException{
 
         this.nickName = name;
         this.c = c;
+        this.pB = new PlayerBoard();
+        this.fig = new Figure(c);
         this.firstPlayerCard = f;
         this.score = 0;
         //this.dT = new ArrayList<>();
@@ -35,6 +42,11 @@ public class Player {
     public Colour getC() {
         return c;
     }
+
+    public PlayerBoard getpB() {
+        return pB;
+    }
+
 
     public boolean isFirstPlayerCard() {
         return firstPlayerCard;
@@ -54,7 +66,36 @@ public class Player {
 
     public void addAC(AmmoCube ac) {
 
-        //TODO
+        if (ac.getC() == Colour.RED) {
+            for (int i = 0; i < 3; i++) {
+                if (this.aC[i] == null) {
+                    this.aC[i] = ac;
+                    break;
+                }
+
+            }
+        }
+
+        if (ac.getC() == Colour.BLUE) {
+            for (int i = 3; i < 6; i++) {
+                if (this.aC[i] == null) {
+                    this.aC[i] = ac;
+                    break;
+                }
+
+            }
+        }
+
+        if (ac.getC() == Colour.YELLOW) {
+            for (int i = 6; i < 9; i++) {
+                if (this.aC[i] == null) {
+                    this.aC[i] = ac;
+                    break;
+                }
+
+            }
+
+        }
     }
 
     public LinkedList<WeaponCard> getwC() {
@@ -81,7 +122,17 @@ public class Player {
         this.pC.remove(p);
     }
 
-    
+    public void setCell(Cell c){
+        this.cell = new Cell(c.getStatus(), c.getC(), c.getPosWall(), c.getPosDoor(), c.getP());
+    }
+
+    public void changeCell(Cell c){
+        this.cell = c;
+    }
+
+    public Cell getCell() {
+        return cell;
+    }
 }
 
 

@@ -9,7 +9,7 @@ public class Sledgehammer extends WeaponCard {
 
     public Sledgehammer() throws InvalidColourException {
         super();
-        this.cardName = "Model.WeaponCards.Sledgehammer";
+        this.cardName = "Sledgehammer";
         this.reloadCost = new AmmoCube[]{new AmmoCube(Colour.YELLOW)};
         this.numSpecialEffect = 0;                                    //has alternate fire mode
         String description = "basic mode: Deal 2 damage to 1 target on\n" +

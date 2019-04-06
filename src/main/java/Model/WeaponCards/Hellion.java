@@ -29,5 +29,4 @@ public class Hellion extends WeaponCard {
     public void applySpecialEffect() {
 
     }
-
 }

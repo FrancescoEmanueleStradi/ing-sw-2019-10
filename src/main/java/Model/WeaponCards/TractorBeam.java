@@ -11,7 +11,7 @@ public class TractorBeam extends WeaponCard {
         super();
         this.cardName = "Tractor Beam";
         this.reloadCost = new AmmoCube[]{new AmmoCube(Colour.BLUE)};
-        this.numSpecialEffect = 0;                                  //has alternative fire mode
+        this.numSpecialEffect = 0;                                  //has alternate fire mode
         String description = "basic mode: Move a target 0, 1, or 2 squares to a square\n" +
                 "you can see, and give it 1 damage.\n" +
                 "in punisher mode: Choose a target 0, 1, or 2 moves away\n" +

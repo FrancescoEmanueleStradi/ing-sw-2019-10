@@ -9,7 +9,7 @@ public class Flamethrower extends WeaponCard {
 
     public Flamethrower() throws InvalidColourException {
         super();
-        this.cardName = "Model.WeaponCards.Flamethrower";
+        this.cardName = "Flamethrower";
         this.reloadCost = new AmmoCube[]{new AmmoCube(Colour.RED)};
         this.numSpecialEffect = 0;                                 //has alternate fire mode
         String description = "basic mode: Choose a square 1 move away and possibly a second square\n" +
@@ -33,5 +33,4 @@ public class Flamethrower extends WeaponCard {
     public void applySpecialEffect() {
 
     }
-
 }

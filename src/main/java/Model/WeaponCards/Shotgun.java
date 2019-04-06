@@ -9,7 +9,7 @@ public class Shotgun extends WeaponCard {
 
     public Shotgun() throws InvalidColourException {
         super();
-        this.cardName = "Model.WeaponCards.Shotgun";
+        this.cardName = "Shotgun";
         this.reloadCost = new AmmoCube[]{new AmmoCube(Colour.YELLOW), new AmmoCube(Colour.YELLOW)};
         this.numSpecialEffect = 0;                                    //has alternate fire  mode
         String description = "basic mode: Deal 3 damage to 1 target on\n" +

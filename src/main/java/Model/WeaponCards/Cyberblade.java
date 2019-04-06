@@ -9,7 +9,7 @@ public class Cyberblade extends WeaponCard {
 
     public Cyberblade() throws InvalidColourException {
         super();
-        this.cardName = "Model.WeaponCards.Cyberblade";
+        this.cardName = "Cyberblade";
         this.reloadCost = new AmmoCube[]{new AmmoCube(Colour.YELLOW), new AmmoCube(Colour.RED)};
         this.numSpecialEffect = 2;
         String description = "basic effect: Deal 2 damage to 1 target on your square.\n" +

@@ -18,6 +18,4 @@ public abstract class WeaponCard implements Card {
 
     public abstract void applySpecialEffect();
 
-
-
 }

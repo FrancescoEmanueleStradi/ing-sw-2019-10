@@ -9,7 +9,7 @@ public class Whisper extends WeaponCard {
 
     public Whisper () throws InvalidColourException {
         super();
-        this.cardName = "Model.WeaponCards.Whisper";
+        this.cardName = "Whisper";
         this.reloadCost = new AmmoCube[]{new AmmoCube(Colour.BLUE), new AmmoCube(Colour.BLUE), new AmmoCube(Colour.YELLOW)};
         this.numSpecialEffect = 0;
         String description = "effect: Deal 3 damage and 1 mark to 1 target you can see.\n" +

@@ -9,7 +9,7 @@ public class Railgun extends WeaponCard {
 
     public Railgun() throws InvalidColourException {
         super();
-        this.cardName = "Model.WeaponCards.Railgun";
+        this.cardName = "Railgun";
         this.reloadCost = new AmmoCube[]{new AmmoCube(Colour.YELLOW), new AmmoCube(Colour.YELLOW), new AmmoCube(Colour.BLUE)};
         this.numSpecialEffect = 0;                                 //has alternate fire mode
         String description = "basic mode: Choose a cardinal direction and 1 target in that direction.\n" +

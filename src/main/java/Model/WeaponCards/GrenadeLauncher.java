@@ -33,5 +33,4 @@ public class GrenadeLauncher extends WeaponCard {
     public void applySpecialEffect() {
 
     }
-
 }

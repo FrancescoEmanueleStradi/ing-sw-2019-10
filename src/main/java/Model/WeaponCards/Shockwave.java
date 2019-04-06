@@ -9,7 +9,7 @@ public class Shockwave extends WeaponCard {
 
     public Shockwave() throws InvalidColourException {
         super();
-        this.cardName = "Model.WeaponCards.Shockwave";
+        this.cardName = "Shockwave";
         this.reloadCost = new AmmoCube[]{new AmmoCube(Colour.YELLOW)};
         this.numSpecialEffect = 0;                                    //has alternate fire mode
         String description = "basic mode: Choose up to 3 targets on\n" +

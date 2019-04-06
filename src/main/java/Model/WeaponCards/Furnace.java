@@ -9,7 +9,7 @@ public class Furnace extends WeaponCard {
 
     public Furnace() throws InvalidColourException {
         super();
-        this.cardName = "Model.WeaponCards.Furnace";
+        this.cardName = "Furnace";
         this.reloadCost = new AmmoCube[]{new AmmoCube(Colour.RED), new AmmoCube(Colour.BLUE)};
         this.numSpecialEffect = 0;                                  //has alternate fire mode
         String description = "basic mode: Choose a room you can see, but not the room\n" +

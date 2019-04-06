@@ -6,9 +6,9 @@ import model.cards.PowerUpCard;
 import java.util.ArrayList;
 
 public abstract class AmmoCard {
-    private ArrayList<AmmoCube>  aC;
-    private ArrayList<PowerUpCard>  pC;
+    protected ArrayList<AmmoCube> aC;
+    protected ArrayList<PowerUpCard> pC;
 
-    public abstract void AmmoCard();            //for each AmmoCard implement the arrays
+    /*public abstract void AmmoCard();*/            //for each AmmoCard implement the arrays
 
 }

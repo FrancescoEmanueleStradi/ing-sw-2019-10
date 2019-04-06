@@ -71,4 +71,12 @@ public class PowerUpDeck extends Deck {
     public void startingShuffle() {
         shuffleDeck(powerUpDeck);
     }
+
+    public ArrayList<PowerUpCard> getPowerUpDeck() {
+        return powerUpDeck;
+    }
+
+    public void addCard(PowerUpCard c){
+        this.getPowerUpDeck().add(c);
+    }
 }

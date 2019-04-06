@@ -5,6 +5,7 @@ import model.decks.AmmoDeck;
 import model.decks.Deck;
 import model.decks.PowerUpDeck;
 import model.decks.WeaponDeck;
+import model.cards.*;
 
 import java.util.ArrayList;
 
@@ -91,6 +92,23 @@ public class Grid {
 
     }
     
+    public AmmoCard collectCard(Player p){
+        //TODO return p.getCell().getA();
+    }
 
-    
+    public boolean isIntheRoom(Player p, Player p2){
+        //TODO return 1 if Player p2 is in the same room of Player p
+    }
+
+    public void pickWeaponCard(WeaponDeck d, Player p){
+            p.addWeaponCard(d.getWeaponDeck().get(0));
+            d.getWeaponDeck().remove(0);
+    }
+
+    public void pickPowerUpCard(PowerUpDeck d, Player p){
+            p.addPowerUpCard(d.getPowerUpDeck().get(0));
+            d.getPowerUpDeck().remove(0);
+    }
+
+
 }

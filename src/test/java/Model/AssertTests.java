@@ -74,11 +74,51 @@ public class AssertTests {
     }
 
 
+    @Test
+    public void DamageTokenTest() {
+        DamageToken dt = new DamageToken(Colour.BLUE);
+
+        assertEquals(Colour.BLUE, dt.getC());
+    }
+
+
+    @Test
+    public void CellExists() {
+        int[] pw = {1, 2};
+        int[] pd = {3, 4};
+        Cell cell = new Cell(1, Colour.RED, pw, pd);
+
+        int[] posWall = cell.getPosWall();
+        int[] posDoor = cell.getPosDoor();
+
+        assertEquals(1, cell.getStatus());
+        assertEquals(Colour.RED, cell.getC());
+
+        for(int i = 0; i < posWall.length; i++)
+            assertEquals(pw[i], posWall[i]);
+
+        for(int i = 0; i < posDoor.length; i++)
+            assertEquals(pd[i], posDoor[i]);
+    }
+
 
     @Test
     public void CellDoesNotExists() {
         Cell cell = new Cell(-1);
         assertEquals(-1, cell.getStatus());
+    }
+
+
+    @Test
+    public void DamageTrackTest() {
+        DamageTrack dt = new DamageTrack();
+        DamageToken dt1 = new DamageToken(Colour.RED);
+
+        dt.addDamage(2, Colour.RED);
+
+        assertEquals(dt1, dt.getDT(0));
+        assertEquals(dt1, dt.getDT(1));
+        //TODO: it does not finish: there's an error in the for cicle in DamageTrack
     }
 
 
@@ -97,6 +137,7 @@ public class AssertTests {
         assertEquals(Colour.RED, cube3.getC());
         assertEquals("R", cube3.getC().getAbbreviation());
     }
+
 
     @Test
     public void FigureRightColour() {
@@ -124,6 +165,7 @@ public class AssertTests {
         assertEquals(wc2, wc12);
         assertEquals(wc3, wc13);
     }
+
 
     @Test
     public void WeaponSlotSetCard() throws InvalidColourException {

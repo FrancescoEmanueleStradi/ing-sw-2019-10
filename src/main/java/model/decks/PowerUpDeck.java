@@ -79,4 +79,11 @@ public class PowerUpDeck extends Deck {
     public void addCard(PowerUpCard c){
         this.getPowerUpDeck().add(c);
     }
+
+    public PowerUpCard getTopOfDeck() {
+        return powerUpDeck.get(0);
+    }
+
+    public void drawFromDeck() {
+    }
 }

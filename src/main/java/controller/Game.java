@@ -27,6 +27,10 @@ public class Game {
         System.out.println("here are the details:"+w.getDescription());
     }
 
+    public void printCardDetails(PowerUpCard p){
+        System.out.println("here are the details:"+p.getDescription());
+    }
+
     
 
 }

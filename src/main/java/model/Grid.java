@@ -92,13 +92,13 @@ public class Grid {
 
     }
     
-    public AmmoCard collectCard(Player p){
+    /*public AmmoCard collectCard(Player p){
         //TODO return p.getCell().getA();
     }
 
     public boolean isIntheRoom(Player p, Player p2){
         //TODO return 1 if Player p2 is in the same room of Player p
-    }
+    }*/
 
     public void pickWeaponCard(WeaponDeck d, Player p){
             p.addWeaponCard(d.getWeaponDeck().get(0));

@@ -10,7 +10,7 @@ import model.cards.*;
 import java.util.ArrayList;
 
 public class Grid {
-    private static ArrayList<Player> players;
+    private  ArrayList<Player> players;
     private Board board;
     private Deck weaponDeck;
     private PowerUpDeck powerUpDeck;
@@ -37,8 +37,12 @@ public class Grid {
         return players;
     }
 
-    public static Player choosePlayerNum(int n) {
-        return players.get(n);
+    public Player getPlayerObject(String name) {
+        for (Player p : this.players){
+            if(p.getNickName().equals(name))
+                return p;
+        }
+        return null;
     }
 
     public int getNumPlayer(){

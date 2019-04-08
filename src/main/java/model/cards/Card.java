@@ -1,7 +1,9 @@
 package model.cards;
 
-public interface Card {
+import model.Grid;
+import model.Player;
 
+public interface Card {
       void applyEffect();
 
 }

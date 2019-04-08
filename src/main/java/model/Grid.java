@@ -10,7 +10,7 @@ import model.cards.*;
 import java.util.ArrayList;
 
 public class Grid {
-    private ArrayList<Player> players;
+    private static ArrayList<Player> players;
     private Board board;
     private Deck weaponDeck;
     private Deck powerupDeck;
@@ -41,7 +41,7 @@ public class Grid {
         return this.players.size();
     }
 
-    public void damage(Player p, int numDamages) {
+    public static void damage(Player p, int numDamages) {
         p.getpB().getDamages().addDamage(numDamages, p.getC());
     }
 

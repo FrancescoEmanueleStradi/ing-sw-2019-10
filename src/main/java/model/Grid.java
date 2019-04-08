@@ -37,6 +37,10 @@ public class Grid {
         return players;
     }
 
+    public static Player choosePlayerNum(int n) {
+        return players.get(n);
+    }
+
     public int getNumPlayer(){
         return this.players.size();
     }

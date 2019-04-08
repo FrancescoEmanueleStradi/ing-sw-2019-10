@@ -8,7 +8,6 @@ import java.util.LinkedList;
 
 public class Player {
 
-    private int playerNumber;
     private String nickName;
     private Colour c;
     private PlayerBoard pB;
@@ -21,9 +20,8 @@ public class Player {
     private LinkedList<PowerUpCard> pC;
     private Cell cell;
 
-    public Player(int num, String name,Colour c, boolean f) throws InvalidColourException{
+    public Player(String name,Colour c, boolean f) throws InvalidColourException{
 
-        this.playerNumber = num;
         this.nickName = name;
         this.c = c;
         this.pB = new PlayerBoard();
@@ -35,10 +33,6 @@ public class Player {
         wC = new LinkedList<>();
         pC = new LinkedList<>();
 
-    }
-
-    public int getPlayerNumber() {
-        return playerNumber;
     }
 
     public String getNickName() {

@@ -11,8 +11,11 @@ public class MachineGun extends WeaponCard {
     private String target1;
     private String target2;
 
-    private String specialEffect1 = "Focus shot";
-    private String specialEffect2 = "Turret tripod";
+    private int target1num = 1;
+    private int target2num = 2;
+
+    private String specialEffect1 = "Focus Shot";
+    private String specialEffect2 = "Turret Tripod";
 
     public MachineGun() throws InvalidColourException {
         super();
@@ -55,46 +58,76 @@ public class MachineGun extends WeaponCard {
         }
         */
 
-        System.out.println("Enter the name of the target player");
         Scanner in = new Scanner(System.in);
-        this.target1 = in.next();
 
-        System.out.println("Target another player?");
+        System.out.println("Enter the name of a player you can see");
+        this.target1 = in.next();
+        Player p1 = Grid.choosePlayerNum(this.target1num);
+        Grid.damage(p1, 1);
+
+        System.out.println("Target another player you can see?");
         String response = in.next();
         if(response == ("y")) {
-            System.out.println("Enter the name of the target player");
+            System.out.println("Enter the name of the player");
             this.target2 = in.next();
-
-            //Player p1 = Grid.choosePlayer(numPlayer);
-            //Grid.damage(p1, 1);
+            Player p2 = Grid.choosePlayerNum(this.target2num);
+            Grid.damage(p2, 1);
         }
 
     }
 
-
+    //ask professor about override
+    //too procedural, not enough methods??
     @Override
     public void applySpecialEffect() {
-        //ask professor about override
+
         Scanner in = new Scanner(System.in);
+
         System.out.println("Apply effect '" + getSpecialEffect1() + "'? (y/n)");
         String response = in.next();
-        if (response == ("y")) {
-            System.out.println("Which of the previous players do you want to target? "
-                               + this.target1 + " or " + this.target2 +"? Enter 1 or 2");
-            String selection = in.next();
-            if (selection == "1") {
 
+        if (response == ("y")) {
+            if(this.target2 == null) {
+                System.out.println("Do you want to target " + this.target1 + " or another player you " +
+                                   "can see? Enter 1 or 2");
+                String selection = in.next();
+                if (selection == "1") {
+                    Player p1 = Grid.choosePlayerNum(this.target1num);
+                    Grid.damage(p1, 1);
+                }
+                if (selection == "2") {
+                    System.out.println("Enter the name of the player");
+                    this.target2 = in.next();
+                    Player p2 = Grid.choosePlayerNum(this.target2num);
+                    Grid.damage(p2, 1);
+                }
+            }
+            else {
+                System.out.println("Do you want to target " + this.target1 + " or " + this.target2 +"? Enter 1 or 2");
+                String selection = in.next();
+                if (selection == "1") {
+                    Player p1 = Grid.choosePlayerNum(this.target1num);
+                    Grid.damage(p1, 1);
+                }
+                if (selection == "2") {
+                    Player p2 = Grid.choosePlayerNum(this.target2num);
+                    Grid.damage(p2, 1);
+                }
             }
 
+        if (response == ("n")) {
+            System.out.println("Apply effect '" + getSpecialEffect2() + "'? (y/n)");
+            String response2 = in.next();
+            if (response2 == "y") {
+                System.out.println("If you applied Focus Shot on one of the previous players, the next target has to " +
+                                   "be the other of the two, or another player you can see\n");
+                System.out.println("");
 
 
-            int numPlayer = Integer.parseInt(this.target1);
-            //Player p1 = Grid.choosePlayer(numPlayer);
-            //Grid.damage(p1, 1);
+            }
         }
-        System.out.println("Enter the name of another player");
 
-        String playerName = in.next();
+        }
 
     }
 }

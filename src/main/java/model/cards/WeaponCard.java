@@ -22,6 +22,10 @@ public abstract class WeaponCard implements Card {
         return this.reloadCost;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
     public abstract void applySpecialEffect();
 
 }

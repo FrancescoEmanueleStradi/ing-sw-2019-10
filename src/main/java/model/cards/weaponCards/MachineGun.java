@@ -11,9 +11,6 @@ public class MachineGun extends WeaponCard {
     private String target1;
     private String target2;
 
-    private int target1num = 1;
-    private int target2num = 2;
-
     private String specialEffect1 = "Focus Shot";
     private String specialEffect2 = "Turret Tripod";
 
@@ -60,18 +57,22 @@ public class MachineGun extends WeaponCard {
 
         Scanner in = new Scanner(System.in);
 
-        System.out.println("Enter the name of a player you can see");
-        this.target1 = in.next();
-        Player p1 = Grid.choosePlayerNum(this.target1num);
-        Grid.damage(p1, 1);
+        do {
+            System.out.println("Enter the name of a player you can see");
+            this.target1 = in.next();
+            if(Grid.getPlayerObject(this.target1) != null)
+                Grid.damage(Grid.getPlayerObject(this.target1), 1);
+        } while(Grid.getPlayerObject(this.target1) == null);
 
         System.out.println("Target another player you can see?");
         String response = in.next();
         if(response == ("y")) {
-            System.out.println("Enter the name of the player");
-            this.target2 = in.next();
-            Player p2 = Grid.choosePlayerNum(this.target2num);
-            Grid.damage(p2, 1);
+            do {
+                System.out.println("Enter the name of the player");
+                this.target2 = in.next();
+                if(Grid.getPlayerObject(this.target2) != null)
+                    Grid.damage(Grid.getPlayerObject(this.target2), 1);
+            } while (Grid.getPlayerObject(this.target2) == null);
         }
 
     }
@@ -91,28 +92,23 @@ public class MachineGun extends WeaponCard {
                 System.out.println("Do you want to target " + this.target1 + " or another player you " +
                                    "can see? Enter 1 or 2");
                 String selection = in.next();
-                if (selection == "1") {
-                    Player p1 = Grid.choosePlayerNum(this.target1num);
-                    Grid.damage(p1, 1);
-                }
+                if (selection == "1")
+                    Grid.damage(Grid.getPlayerObject(this.target1), 1);
                 if (selection == "2") {
-                    System.out.println("Enter the name of the player");
-                    this.target2 = in.next();
-                    Player p2 = Grid.choosePlayerNum(this.target2num);
-                    Grid.damage(p2, 1);
+                    do {
+                        System.out.println("Enter the name of the player");
+                        this.target2 = in.next();
+                        Grid.damage(Grid.getPlayerObject(this.target2), 1);
+                    } while (Grid.getPlayerObject(this.target2) == null);
                 }
             }
             else {
                 System.out.println("Do you want to target " + this.target1 + " or " + this.target2 +"? Enter 1 or 2");
                 String selection = in.next();
-                if (selection == "1") {
-                    Player p1 = Grid.choosePlayerNum(this.target1num);
-                    Grid.damage(p1, 1);
-                }
-                if (selection == "2") {
-                    Player p2 = Grid.choosePlayerNum(this.target2num);
-                    Grid.damage(p2, 1);
-                }
+                if (selection == "1")
+                    Grid.damage(Grid.getPlayerObject(this.target1), 1);
+                if (selection == "2")
+                    Grid.damage(Grid.getPlayerObject(this.target2), 1);
             }
 
         if (response == ("n")) {

@@ -1,11 +1,15 @@
 package model;
 
+import model.board.Board;
 import model.board.Cell;
 import model.board.KillTrack;
 import model.board.WeaponSlot;
 import model.cards.WeaponCard;
 import model.cards.weaponCards.*;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class AssertTests {
@@ -113,6 +117,16 @@ class AssertTests {
 
 
     @Test
+    void CellCorrectPositionTest() {
+        Position pos = new Position(1, 3);
+        Cell cell = new Cell(-1, pos);
+
+        assertEquals(1, cell.getP().getX());
+        assertEquals(3, cell.getP().getY());
+    }
+
+
+    @Test
     void DamageTrackTest() {
         DamageTrack dt = new DamageTrack();
         DamageToken dt1 = new DamageToken(Colour.RED);
@@ -162,6 +176,149 @@ class AssertTests {
         Colour colour = fig.getC();
 
         assertEquals(Colour.GREEN, colour);
+    }
+
+
+    @Test
+    void PositionTest() {
+        Position pos1 = new Position(0, 0);
+
+        assertEquals(0, pos1.getX());
+        assertEquals(0, pos1.getY());
+
+        Position pos2 = new Position(1, 3);
+
+        assertEquals(1, pos2.getX());
+        assertEquals(3, pos2.getY());
+    }
+
+
+    @Test
+    void PointsPlayerBoardTest() {
+        PointsPlayerBoard ppb = new PointsPlayerBoard();
+
+        int i = ppb.getInt(0);
+        assertEquals(1, i);
+
+        i = ppb.getInt(1);
+        assertEquals(8, i);
+
+        i = ppb.getInt(2);
+        assertEquals(6, i);
+
+        i = ppb.getInt(3);
+        assertEquals(4, i);
+
+        i = ppb.getInt(4);
+        assertEquals(2, i);
+
+        i = ppb.getInt(5);
+        assertEquals(1, i);
+
+        i = ppb.getInt(6);
+        assertEquals(1, i);
+
+        ppb.remove();
+        assertEquals(6, ppb.getInt(1));
+
+        ppb.remove();
+        assertEquals(4, ppb.getInt(1));
+
+        ppb.remove();
+        assertEquals(2, ppb.getInt(1));
+
+        ppb.remove();
+        assertEquals(1, ppb.getInt(1));
+
+        ppb.remove();
+        assertEquals(1, ppb.getInt(1));
+
+        assertEquals(1, ppb.getInt(0));
+    }
+
+
+    @Test
+    void BoardTest() {
+        Board board1 = new Board(1);
+        Cell[][] arena1 = board1.getArena();
+
+        assertEquals(Colour.RED, arena1[0][0].getC());
+        assertEquals(Colour.BLUE, arena1[0][1].getC());
+        assertEquals(Colour.BLUE, arena1[0][2].getC());
+        assertEquals(-1, arena1[0][3].getStatus());
+        assertEquals(Colour.RED, arena1[1][0].getC());
+        assertEquals(Colour.PURPLE, arena1[1][1].getC());
+        assertEquals(Colour.PURPLE, arena1[1][2].getC());
+        assertEquals(Colour.YELLOW, arena1[1][3].getC());
+        assertEquals(Colour.WHITE, arena1[2][0].getC());
+        assertEquals(Colour.WHITE, arena1[2][1].getC());
+        assertEquals(Colour.WHITE, arena1[2][2].getC());
+        assertEquals(Colour.YELLOW, arena1[2][3].getC());
+
+        Board board2 = new Board(2);
+        Cell[][] arena2 = board2.getArena();
+
+        assertEquals(Colour.BLUE, arena2[0][0].getC());
+        assertEquals(Colour.BLUE, arena2[0][1].getC());
+        assertEquals(Colour.BLUE, arena2[0][2].getC());
+        assertEquals(-1, arena2[0][3].getStatus());
+        assertEquals(Colour.PURPLE, arena2[1][0].getC());
+        assertEquals(Colour.PURPLE, arena2[1][1].getC());
+        assertEquals(Colour.PURPLE, arena2[1][2].getC());
+        assertEquals(Colour.YELLOW, arena2[1][3].getC());
+        assertEquals(-1, arena2[2][0].getStatus());
+        assertEquals(Colour.WHITE, arena2[2][1].getC());
+        assertEquals(Colour.WHITE, arena2[2][2].getC());
+        assertEquals(Colour.YELLOW, arena2[2][3].getC());
+
+        Board board3 = new Board(3);
+        Cell[][] arena3 = board3.getArena();
+
+        assertEquals(Colour.BLUE, arena3[0][0].getC());
+        assertEquals(Colour.BLUE, arena3[0][1].getC());
+        assertEquals(Colour.BLUE, arena3[0][2].getC());
+        assertEquals(Colour.GREEN, arena3[0][3].getC());
+        assertEquals(Colour.RED, arena3[1][0].getC());
+        assertEquals(Colour.RED, arena3[1][1].getC());
+        assertEquals(Colour.YELLOW, arena3[1][2].getC());
+        assertEquals(Colour.YELLOW, arena3[1][3].getC());
+        assertEquals(-1, arena3[2][0].getStatus());
+        assertEquals(Colour.WHITE, arena3[2][1].getC());
+        assertEquals(Colour.YELLOW, arena3[2][2].getC());
+        assertEquals(Colour.YELLOW, arena3[2][3].getC());
+
+        Board board4 = new Board(4);
+        Cell[][] arena4 = board4.getArena();
+
+        assertEquals(Colour.RED, arena4[0][0].getC());
+        assertEquals(Colour.BLUE, arena4[0][1].getC());
+        assertEquals(Colour.BLUE, arena4[0][2].getC());
+        assertEquals(Colour.GREEN, arena4[0][3].getC());
+        assertEquals(Colour.RED, arena4[1][0].getC());
+        assertEquals(Colour.PURPLE, arena4[1][1].getC());
+        assertEquals(Colour.YELLOW, arena4[1][2].getC());
+        assertEquals(Colour.YELLOW, arena4[1][3].getC());
+        assertEquals(Colour.WHITE, arena4[2][0].getC());
+        assertEquals(Colour.WHITE, arena4[2][1].getC());
+        assertEquals(Colour.YELLOW, arena4[2][2].getC());
+        assertEquals(Colour.YELLOW, arena4[2][3].getC());
+    }
+
+
+    @Test
+    void GridTest() throws InvalidColourException {
+        Grid grid = new Grid(1);
+        Player p1 = new Player("Test", Colour.BLUE, true);
+        grid.addPlayer(p1);
+        ArrayList<Player> players = grid.getPlayers();
+
+        assertEquals(players.get(0).getNickName(), "Test");
+        assertEquals(players.get(0).getC(), Colour.BLUE);
+
+        int numPlayers = grid.getNumPlayer();
+        assertEquals(1, numPlayers);
+
+        assertNull(grid.whereAmI(p1));
     }
 
 

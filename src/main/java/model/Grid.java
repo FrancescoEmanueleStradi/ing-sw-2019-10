@@ -13,14 +13,14 @@ public class Grid {
     private static ArrayList<Player> players;
     private Board board;
     private Deck weaponDeck;
-    private Deck powerupDeck;
+    private PowerUpDeck powerUpDeck;
     private Deck ammoDeck;
 
     public Grid(int aType) throws InvalidColourException {
         this.players = new ArrayList<>();
         this.board = new Board(aType);
         this.weaponDeck = new WeaponDeck();
-        this.powerupDeck = new PowerUpDeck();
+        this.powerUpDeck = new PowerUpDeck();
         this.ammoDeck = new AmmoDeck();
 
     }
@@ -92,13 +92,57 @@ public class Grid {
 
     }
     
-    /*public AmmoCard collectCard(Player p){
-        //TODO return p.getCell().getA();
+    public void collectCard(Player p){
+          if(p.getCell().getA().ispC())
+              pickPowerUpCard(this.powerUpDeck, p);
+          for(int i = 0; i < p.getCell().getA().getaC().size(); i++)
+              p.addAC(p.getCell().getA().getaC().get(i));
     }
 
     public boolean isIntheRoom(Player p, Player p2){
-        //TODO return 1 if Player p2 is in the same room of Player p
-    }*/
+        return (p.getCell().getC() == p2.getCell().getC());
+    }
+
+    public boolean isIntheRoom(Player p, Colour c){
+        return (p.getCell().getC() == c);
+    }
+
+    public boolean isInViewZone(Player p, Player p2){
+        boolean b = false;
+        for(int i=0; i<p.getCell().getPosDoor().length; i++){
+            if(!b) {
+                if (p.getCell().getPosDoor()[i] == 1)
+                    b = isIntheRoom(p2, this.board.getArena()[p2.getCell().getP().getX() - 1][p2.getCell().getP().getY()].getC());
+                if (p.getCell().getPosDoor()[i] == 2)
+                    b = isIntheRoom(p2, this.board.getArena()[p2.getCell().getP().getX()][p2.getCell().getP().getY() + 1].getC());
+                if (p.getCell().getPosDoor()[i] == 3)
+                    b = isIntheRoom(p2, this.board.getArena()[p2.getCell().getP().getX() + 1][p2.getCell().getP().getY()].getC());
+                if (p.getCell().getPosDoor()[i] == 4)
+                    b = isIntheRoom(p2, this.board.getArena()[p2.getCell().getP().getX()][p2.getCell().getP().getY() - 1].getC());
+
+            }
+        }
+
+        return (isIntheRoom(p, p2) || ((p.getCell().getPosDoor()!=null) && b));
+    }
+
+    public ArrayList<Player> wichiIsInTheRoom(Player p){
+        ArrayList<Player> pRoom = new ArrayList<>();
+        for(Player px : players){
+            if(isIntheRoom(p, px) && p!=px)         //Does it work?
+                pRoom.add(px);
+        }
+        return pRoom;
+    }
+
+    public ArrayList<Player> whoIsInTheViewZone(Player p) {
+        ArrayList<Player> pViewZone = new ArrayList<>();
+        for (Player px : players) {
+            if (isInViewZone(p, px) && p != px)         //Does it work?
+                pViewZone.add(px);
+        }
+        return pViewZone;
+    }
 
     public void pickWeaponCard(WeaponDeck d, Player p){
             p.addWeaponCard(d.getWeaponDeck().get(0));

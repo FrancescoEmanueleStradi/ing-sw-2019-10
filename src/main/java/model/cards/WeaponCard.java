@@ -26,6 +26,10 @@ public abstract class WeaponCard implements Card {
         return description;
     }
 
+    public int getNumSpecialEffect() {
+        return numSpecialEffect;
+    }
+
     public abstract void applySpecialEffect();
 
 }

@@ -9,6 +9,8 @@ import model.cards.*;
 
 import java.util.ArrayList;
 
+import static java.lang.Math.abs;
+
 public class Grid {
     private static ArrayList<Player> players;
     private Board board;
@@ -69,8 +71,16 @@ public class Grid {
 
     }
 
+    public int distance(Player p1, Player p2){
+        return abs(p1.getCell().getP().getX()-p2.getCell().getP().getX()) + abs(p1.getCell().getP().getY()-p2.getCell().getP().getY());
+    }
+
     public Cell whereAmI(Player p){
         return p.getCell();
+    }
+
+    public void moveInMyCell(Player p, Player p2){
+        p2.setCell(p.getCell());
     }
 
     public void move(Player p, int d){                                //1 up, 2 right, 3 down, 4 left

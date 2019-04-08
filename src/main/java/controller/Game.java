@@ -8,7 +8,7 @@ public class Game {
     private Grid grid;
 
     public void askPlayerDamage(){
-        System.out.println("Write the Nickname of player you want to damage");
+        System.out.println("Write the Nickname of the player you want to damage");
     }
 
     public void errorInvalidPlayer(){
@@ -31,6 +31,6 @@ public class Game {
         System.out.println("here are the details:"+p.getDescription());
     }
 
-    
+
 
 }

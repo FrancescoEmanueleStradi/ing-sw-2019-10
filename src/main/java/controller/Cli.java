@@ -1,13 +1,11 @@
 package controller;
 
-import model.cards.*;
-import model.*;
+import model.cards.PowerUpCard;
+import model.cards.WeaponCard;
 
-public class Game {                                 //Cli or Gui -- Rmi or Socket
+public class Cli {
 
-    private Grid grid;
-
-    public static void askPlayerDamage(){
+    public void askPlayerDamage(){
         System.out.println("Write the Nickname of the player you want to damage");
     }
 
@@ -30,7 +28,4 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
     public void printCardDetails(PowerUpCard p){
         System.out.println("here are the details:"+p.getDescription());
     }
-
-
-
 }

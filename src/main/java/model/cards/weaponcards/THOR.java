@@ -13,16 +13,13 @@ public class THOR extends WeaponCard {
         this.cardName = "T.H.O.R.";
         this.reloadCost = new AmmoCube[]{new AmmoCube(Colour.BLUE), new AmmoCube(Colour.RED)};
         this.numOptionalEffect = 2;
-        super.alternateFireMode = true;
+        super.alternateFireMode = false;
         String description = "basic effect: Deal 2 damage to 1 target you can see.\n" +
-                "with chain reaction: Deal 1 damage to a second target that\n" +
-                "your first target can see.\n" +
-                "with high voltage: Deal 2 damage to a third target that\n" +
-                "your second target can see. You cannot use this effect\n" +
-                "unless you first use the chain reaction.\n" +
-                "Notes: This card constrains the order in which you can use\n" +
-                "its effects. (Most cards don't.) Also note that each target\n" +
-                "must be a different player.";
+                "with chain reaction: Deal 1 damage to a second target that your first target can see.\n" +
+                "with high voltage: Deal 2 damage to a third target that your second target can see.\n" +
+                "You cannot use this effect unless you first use the chain reaction.\n" +
+                "Notes: This card constrains the order in which you can use its effects (most cards don't).\n" +
+                "Also note that each target must be a different player.\n";
     }
 
     public String getOptionalEffect1() {
@@ -33,15 +30,23 @@ public class THOR extends WeaponCard {
         return optionalEffect2;
     }
 
-    @Override
-    public void applyEffect(Grid grid, Player p, Player p1) { //player p gives 2 damages to p1 (a target he can sees)
-        grid.damage(p1, , 2);
+    //before: controller let the player p choose which player p1 (visible) he wants to attack
+
+    public void applyEffect(Grid grid, Player p, Player p1) { //player p gives 2 damages to p1
+        grid.damage(p, p1, 2);
     }
 
-    @Override
-    public void applySpecialEffect(Grid grid, Player p1) { //player p gives 1 damage to p1, who is a second target that the first target can see
-        grid.damage(p1, , 1);
+    //before: controller let the player p choose which player p2 (visible by p1) he wants to attack
+
+    public void applySpecialEffect(Grid grid, Player p, Player p2) { //Chain Reaction: player p gives 1 damage to p2, who is a second target that the first target p1 can see
+        grid.damage(p, p2, 1);
     }
 
+    //before: controller check if player p has used applySpecialEffect. At this point, player p can choose which player p3 (visible by p2) he wants to attack
 
+    public void applySpecialEffect2(Grid grid, Player p, Player p3) { //High Voltage: player p gives 2 damage to player p3, who is a third target that the second target p2 can see
+        grid.damage(p, p3, 2);
+    }
+
+    //Each target must be a different player!
 }

@@ -35,6 +35,6 @@ public abstract class WeaponCard implements Card {
         return alternateFireMode;
     }
 
-    //public abstract void applySpecialEffect(Grid grid, Player p1);
+    //public abstract void applySpecialEffect(Grid grid, Player p1); (useful? almost every card has a different signature)
 
 }

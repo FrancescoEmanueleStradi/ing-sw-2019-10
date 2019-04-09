@@ -3,10 +3,10 @@ package model.decks;
 import model.Colour;
 import model.InvalidColourException;
 import model.cards.PowerUpCard;
-import model.cards.powerUpCards.Newton;
-import model.cards.powerUpCards.TagbackGrenade;
-import model.cards.powerUpCards.TargetingScope;
-import model.cards.powerUpCards.Teleporter;
+import model.cards.powerupcards.Newton;
+import model.cards.powerupcards.TagbackGrenade;
+import model.cards.powerupcards.TargetingScope;
+import model.cards.powerupcards.Teleporter;
 
 import java.util.ArrayList;
 

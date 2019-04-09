@@ -4,6 +4,6 @@ import model.Grid;
 import model.Player;
 
 public interface Card {
-      void applyEffect();
+      void applyEffect(Player p);
 
 }

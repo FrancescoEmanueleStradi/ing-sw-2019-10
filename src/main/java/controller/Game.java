@@ -7,7 +7,7 @@ public class Game {
 
     private Grid grid;
 
-    public void askPlayerDamage(){
+    public static void askPlayerDamage(){
         System.out.println("Write the Nickname of the player you want to damage");
     }
 

@@ -5,7 +5,7 @@ import model.board.Cell;
 import model.board.KillTrack;
 import model.board.WeaponSlot;
 import model.cards.WeaponCard;
-import model.cards.weaponCards.*;
+import model.cards.weaponcards.*;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

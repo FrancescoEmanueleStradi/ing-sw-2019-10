@@ -2,7 +2,7 @@ package model.decks;
 
 import model.InvalidColourException;
 import model.cards.WeaponCard;
-import model.cards.weaponCards.*;
+import model.cards.weaponcards.*;
 
 import java.util.ArrayList;
 

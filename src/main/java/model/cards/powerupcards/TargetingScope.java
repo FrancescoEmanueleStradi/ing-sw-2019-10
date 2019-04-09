@@ -18,7 +18,7 @@ public class TargetingScope extends PowerUpCard {
     }
 
     @Override
-    public void applyEffect(Grid grid, Player p1) {
+    public void applyEffect(Grid grid, Player p, Player p1) {
 
     }
 }

@@ -1,9 +1,7 @@
 package model;
 
-import com.sun.jmx.snmp.internal.SnmpMsgProcessingModel;
 import model.board.*;
 import model.decks.AmmoDeck;
-import model.decks.Deck;
 import model.decks.PowerUpDeck;
 import model.decks.WeaponDeck;
 import model.cards.*;

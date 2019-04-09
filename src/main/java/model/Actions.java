@@ -3,7 +3,7 @@ package model;
 import controller.Cli;
 
 public class Actions {
-
+                                                            //Probably it will be a view class
     private String shiftMove;
     private String collectMove;
     private String shootMove;

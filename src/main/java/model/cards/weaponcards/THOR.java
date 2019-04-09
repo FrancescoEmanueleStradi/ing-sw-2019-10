@@ -35,12 +35,12 @@ public class THOR extends WeaponCard {
 
     @Override
     public void applyEffect(Grid grid, Player p, Player p1) { //player p gives 2 damages to p1 (a target he can sees)
-        grid.damage(p1, 2);
+        grid.damage(p1, , 2);
     }
 
     @Override
     public void applySpecialEffect(Grid grid, Player p1) { //player p gives 1 damage to p1, who is a second target that the first target can see
-        grid.damage(p1, 1);
+        grid.damage(p1, , 1);
     }
 
 

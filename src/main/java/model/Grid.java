@@ -56,8 +56,8 @@ public class Grid {
         return this.players.size();
     }
 
-    public void damage(Player p, int numDamages) {
-        p.getpB().getDamages().addDamage(numDamages, p.getC());
+    public void damage(Player p, Player p1, int numDamages) { //p attacks, p1 is attacked
+        p1.getpB().getDamages().addDamage(numDamages, p.getC());
     }
 
     public void clean(Player p){
@@ -71,7 +71,7 @@ public class Grid {
     public void removeMarkAndAdd(Player p1, Player p2){
         long x = p2.getpB().getMarks().stream().filter(a -> a.getC() == p1.getC()).count();
         int y = (int)x;
-        this.damage(p2, y);
+        this.damage(p2, p1, y);
         p2.getpB().clearMark(p2.getC());
 
     }

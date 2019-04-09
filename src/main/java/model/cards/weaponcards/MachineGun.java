@@ -14,7 +14,7 @@ public class MachineGun extends WeaponCard {
         this.cardName = "Machine Gun";                                                                                  //here?
         this.reloadCost = new AmmoCube[]{new AmmoCube(Colour.BLUE), new AmmoCube(Colour.RED)};
         this.numOptionalEffect = 2;
-        super.alternateFireMode = false;
+        this.alternateFireMode = false;
         String description = "basic effect: Choose 1 or 2 targets you can see and deal 1 damage to each.\n" +
                 "with focus shot: Deal 1 additional damage to one of those targets.\n" +                                                                            //write cost
                 "with turret tripod: Deal 1 additional damage to the other of those targets and/or deal 1 damage to a different target you can see.\n" +
@@ -31,37 +31,32 @@ public class MachineGun extends WeaponCard {
         return optionalEffect2;
     }
 
-//before applying effects: let player p selecting player(s) to attack, checking if they are visible and if the player p has enough ammo
+//before applying effects: let player p selecting player(s) to attack, checking if they are visible
 
     public void applyEffect(Grid grid, Player p, Player p1) { //primary attack if only 1 target is selected: player p attacks p1
-        grid.damage(p1, 1);
+        grid.damage(p, p1, 1);
     }
 
-    public void applyEffect(Grid grid, Player p, Player p1, Player p2) { //primary attack if 2 targets are selected: player p attacks p1 and p2
-        grid.damage(p1, 1);
-        grid.damage(p2, 1);
+    public void applyEffect(Grid grid, Player p, Player p1, Player p2) { //primary attack if 2 targets are selected: player attacks p1 and p2
+        grid.damage(p, p1, 1);
+        grid.damage(p, p2, 1);
     }
 
-    @Override
-    public void applySpecialEffect(Grid grid, Player p1) { //Focus Shot: player p damages p1
-        grid.damage(p1,1);
+    public void applySpecialEffect(Grid grid, Player p, Player p1) { //Focus Shot: player damages p1 (controller)
+        grid.damage(p, p1, 1);
     }
 
-    public void applySpecialEffect2(Grid grid, Player p1) { //Turret Tripod: player p damages the "other" player (not the one selected in Focus Shot)
-        grid.damage(p1, 1);
+    public void applySpecialEffect2(Grid grid, Player p, Player p1) { //Turret Tripod: player p damages the "other" player (not the one selected in Focus Shot)
+        grid.damage(p, p1, 1);
     }
 
-    public void applySpecialEffect2bis(Grid grid, Player p1) { //Turret Tripod: player p damages a different target
-        grid.damage(p1, 1);
+    public void applySpecialEffect2bis(Grid grid, Player p, Player p1, Player p2) { //Turret Tripod: player damages the "other" player and a different target
+        grid.damage(p, p1, 1);
+        grid.damage(p, p2, 1);
     }
 
-    public void applySpecialEffect2(Grid grid, Player p1, Player p2) { //Turret Tripod: player damages the "other" player and a different target
-        grid.damage(p1, 1);
-        grid.damage(p2, 1);
-    }
-
-    public void applySpecialEffectSpecialCase(Grid grid, Player p1, Player p2) { //Special case: if player uses both special effect but sees only 2 players (so he cannot attack a different target)
-        grid.damage(p1, 2);
-        grid.damage(p2, 2);
+    public void applySpecialEffectSpecialCase(Grid grid, Player p, Player p1, Player p2) { //Special case: if player uses both special effect but sees only 2 players (so he cannot attack a different target)
+        grid.damage(p, p2, 2);
+        grid.damage(p, p2, 2);
     }
 }

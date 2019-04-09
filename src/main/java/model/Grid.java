@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import static java.lang.Math.abs;
 
 public class Grid {
-    private static ArrayList<Player> players;
+    private ArrayList<Player> players;
     private Board board;
     private WeaponDeck weaponDeck;
     private PowerUpDeck powerUpDeck;
@@ -39,7 +39,7 @@ public class Grid {
         return players;
     }
 
-    public static Player getPlayerObject(String name) {
+    public Player getPlayerObject(String name) {
         for (Player p : players){
             if(p.getNickName().equals(name))
                 return p;
@@ -51,7 +51,7 @@ public class Grid {
         return this.players.size();
     }
 
-    public static void damage(Player p, int numDamages) {
+    public void damage(Player p, int numDamages) {
         p.getpB().getDamages().addDamage(numDamages, p.getC());
     }
 

@@ -1,4 +1,4 @@
-package controller;
+package view;
 
 import model.cards.PowerUpCard;
 import model.cards.WeaponCard;

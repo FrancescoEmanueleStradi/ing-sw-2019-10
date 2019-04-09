@@ -22,7 +22,7 @@ public class Furnace extends WeaponCard {
         return alternativeEffect;
     }
 
-    //before: controller let the player p choose a room he can see (excluding the room the player is in)
+    //before: let the player p choose a room he can see (excluding the room the player is in)
 
     public void applyEffect(Grid grid, Player p, Colour c) {    //damage every enemy in that room
         for(Player enemy : grid.getPlayers()) {
@@ -31,7 +31,7 @@ public class Furnace extends WeaponCard {
         }
     }
 
-    //before: controller let the player choose a cell one move away from him (it checks this)
+    //before: let the player choose a cell one move away from him (it checks this)
 
     public void applySpecialEffect(Grid grid, Player p, Cell cell) {    //Cozy Fire Mode: player p gives 1 damage and 1 mark to every enemy in that cell
         for(Player enemy : grid.getPlayers()) {

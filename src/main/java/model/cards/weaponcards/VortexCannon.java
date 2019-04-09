@@ -25,14 +25,14 @@ public class VortexCannon extends WeaponCard {
         return optionalEffect1;
     }
 
-    //before: controller let the player p choose a cell for the vortex, and a player p1 to move into the vortex (p1 must be on the vortex or 1 move away from it) and to damage it
+    //before: let the player p choose a cell for the vortex, and a player p1 to move into the vortex (p1 must be on the vortex or 1 move away from it) and to damage it
 
     public void applyEffect(Grid grid, Player p, Player p1, Cell vortex) {  //p1 is moved into the vortex and damaged
         p1.setCell(vortex);
         grid.damage(p, p1, 2);
     }
 
-    //before: controller let the player p choose up to 2 other targets on the vortex or 1 move away from it
+    //before: let the player p choose up to 2 other targets on the vortex or 1 move away from it
 
     public void applySpecialEffect(Grid grid, Player p, Player p1, Player p2, Cell vortex) { //p2 can be null. p1 and p2 are moved into the vortex and damaged
         p1.setCell(vortex);

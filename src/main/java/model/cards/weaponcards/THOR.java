@@ -30,19 +30,19 @@ public class THOR extends WeaponCard {
         return optionalEffect2;
     }
 
-    //before: controller let the player p choose which player p1 (visible) he wants to attack
+    //before: let the player p choose which player p1 (visible) he wants to attack
 
     public void applyEffect(Grid grid, Player p, Player p1) { //player p gives 2 damages to p1
         grid.damage(p, p1, 2);
     }
 
-    //before: controller let the player p choose which player p2 (visible by p1) he wants to attack
+    //before: let the player p choose which player p2 (visible by p1) he wants to attack
 
     public void applySpecialEffect(Grid grid, Player p, Player p2) { //Chain Reaction: player p gives 1 damage to p2, who is a second target that the first target p1 can see
         grid.damage(p, p2, 1);
     }
 
-    //before: controller check if player p has used applySpecialEffect. At this point, player p can choose which player p3 (visible by p2) he wants to attack
+    //before: check if player p has used applySpecialEffect. At this point, player p can choose which player p3 (visible by p2) he wants to attack
 
     public void applySpecialEffect2(Grid grid, Player p, Player p3) { //High Voltage: player p gives 2 damage to player p3, who is a third target that the second target p2 can see
         grid.damage(p, p3, 2);

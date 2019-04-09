@@ -24,14 +24,14 @@ public class TractorBeam extends WeaponCard {
         return alternativeEffect;
     }
 
-    //before the attack, controller let the player p choose which player p1 he wants to move and damage, letting him choose the visible cell he wants to move the enemy in
+    //before: let the player p choose which player p1 he wants to move and damage, letting him choose the visible cell he wants to move the enemy in
 
     public void applyEffect(Grid grid, Player p, Player p1, Cell destCell) {    //enemy is moved to cell and damaged
         p1.setCell(destCell);
         grid.damage(p, p1, 1);
     }
 
-    //before the alternate fire mode, controller let the player choose which player p1 he wants to move and damage: controller checks if the distance is 0, 1 or 2, but player p don't necessarily have to see the enemy
+    //before: let the player choose which player p1 he wants to move and damage: controller checks if the distance is 0, 1 or 2, but player p don't necessarily have to see the enemy
 
     public void applySpecialEffect(Grid grid, Player p, Player p1) {    //enemy is moved to p and damaged
         p1.setCell(p.getCell());

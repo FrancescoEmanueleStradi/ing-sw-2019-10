@@ -1,5 +1,7 @@
 package model;
 
+import controller.Cli;
+
 public class Actions {
 
     private String shiftMove;
@@ -17,16 +19,16 @@ public class Actions {
 
     }
 
-    public void printShift(){
-        System.out.println("First option: "+ this.shiftMove);
+    public void printShift(Cli c){
+        c.printShift(this.shiftMove);
     }
 
-    public void printCollect(){
-        System.out.println("Second option: "+ this.collectMove);
+    public void printCollect(Cli c){
+        c.printShift(this.collectMove);
     }
 
-    public void printShoot(){
-        System.out.println("Third option: "+ this.shootMove);
+    public void printShoot(Cli c){
+        c.printShift(this.shootMove);
     }
 
 }

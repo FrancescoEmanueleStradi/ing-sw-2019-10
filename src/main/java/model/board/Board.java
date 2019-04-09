@@ -1,6 +1,7 @@
 package model.board;
 
 import model.*;
+import model.cards.*;
 
 public class Board {
 
@@ -9,22 +10,12 @@ public class Board {
     private Cell[][] arena = new Cell[3][4];        //3 rows 4 columns
     private int aType;                              // From 1 to 4 --> From the highest (the biggest) to the lowest in the rule file
 
-    public Board(int type) {
+    public Board(int type, WeaponCard wc1, WeaponCard wc2, WeaponCard wc3, WeaponCard wc4, WeaponCard wc5, WeaponCard wc6, WeaponCard wc7, WeaponCard wc8, WeaponCard wc9) {
         this.k = new KillTrack();
         this.aType = type;
-        //TODO random extraction
-        /*WeaponCard wc1
-        WeaponCard wc2
-        WeaponCard wc3
-        WeaponCard wc4
-        WeaponCard wc5
-        WeaponCard wc6
-        WeaponCard wc7
-        WeaponCard wc8
-        WeaponCard wc9
-        this.w1 = new WeaponSlot(1, wc1, wc2, wc3); //randomly generated (before this call)
+        this.w1 = new WeaponSlot(1, wc1, wc2, wc3);
         this.w2 = new WeaponSlot(2, wc4, wc5, wc6);
-        this.w3 = new WeaponSlot(3, wc7, wc8, wc9);*/
+        this.w3 = new WeaponSlot(3, wc7, wc8, wc9);
 
         if(this.aType == 1) {
 

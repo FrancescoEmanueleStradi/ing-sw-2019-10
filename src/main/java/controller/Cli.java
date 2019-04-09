@@ -28,4 +28,16 @@ public class Cli {
     public void printCardDetails(PowerUpCard p){
         System.out.println("here are the details:"+p.getDescription());
     }
+
+    public void printShift(String s){
+        System.out.println("First option: "+ s);
+    }
+
+    public void printCollect(String s){
+        System.out.println("Second option: "+ s);
+    }
+
+    public void printShoot(String s){
+        System.out.println("Third option: "+ s);
+    }
 }

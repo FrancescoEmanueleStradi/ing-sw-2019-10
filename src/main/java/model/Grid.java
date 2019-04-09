@@ -14,16 +14,16 @@ import static java.lang.Math.abs;
 public class Grid {
     private static ArrayList<Player> players;
     private Board board;
-    private Deck weaponDeck;
+    private WeaponDeck weaponDeck;
     private PowerUpDeck powerUpDeck;
     private Deck ammoDeck;
 
     public Grid(int aType) throws InvalidColourException {
         this.players = new ArrayList<>();
-        this.board = new Board(aType);
         this.weaponDeck = new WeaponDeck();
         this.powerUpDeck = new PowerUpDeck();
         this.ammoDeck = new AmmoDeck();
+        this.board = new Board(aType, pickWeaponCard(this.weaponDeck), pickWeaponCard(this.weaponDeck), pickWeaponCard(this.weaponDeck), pickWeaponCard(this.weaponDeck), pickWeaponCard(this.weaponDeck), pickWeaponCard(this.weaponDeck), pickWeaponCard(this.weaponDeck), pickWeaponCard(this.weaponDeck), pickWeaponCard(this.weaponDeck));
 
     }
 
@@ -166,6 +166,13 @@ public class Grid {
             p.addWeaponCard(d.getWeaponDeck().get(0));
             d.getWeaponDeck().remove(0);
     }
+
+    public WeaponCard pickWeaponCard(WeaponDeck d){
+        WeaponCard w = d.getWeaponDeck().get(0);
+        d.getWeaponDeck().remove(0);
+        return w;
+    }
+
 
     public void pickPowerUpCard(PowerUpDeck d, Player p){
             p.addPowerUpCard(d.getPowerUpDeck().get(0));

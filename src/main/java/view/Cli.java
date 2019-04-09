@@ -3,7 +3,7 @@ package view;
 import model.cards.PowerUpCard;
 import model.cards.WeaponCard;
 
-public class Cli {
+public class Cli implements View{
 
     public void askPlayerDamage(){
         System.out.println("Write the Nickname of the player you want to damage");

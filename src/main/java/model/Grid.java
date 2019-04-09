@@ -17,13 +17,19 @@ public class Grid {
     private PowerUpDeck powerUpDeck;
     private AmmoDeck ammoDeck;
 
-    public Grid(int aType) throws InvalidColourException {
+    public Grid() throws InvalidColourException {
         this.players = new ArrayList<>();
         this.weaponDeck = new WeaponDeck();
+        this.weaponDeck.startingShuffle();
         this.powerUpDeck = new PowerUpDeck();
+        this.powerUpDeck.startingShuffle();
         this.ammoDeck = new AmmoDeck();
-        this.board = new Board(aType, pickWeaponCard(this.weaponDeck), pickWeaponCard(this.weaponDeck), pickWeaponCard(this.weaponDeck), pickWeaponCard(this.weaponDeck), pickWeaponCard(this.weaponDeck), pickWeaponCard(this.weaponDeck), pickWeaponCard(this.weaponDeck), pickWeaponCard(this.weaponDeck), pickWeaponCard(this.weaponDeck));
+        //this.board = new Board(aType, pickWeaponCard(this.weaponDeck), pickWeaponCard(this.weaponDeck), pickWeaponCard(this.weaponDeck), pickWeaponCard(this.weaponDeck), pickWeaponCard(this.weaponDeck), pickWeaponCard(this.weaponDeck), pickWeaponCard(this.weaponDeck), pickWeaponCard(this.weaponDeck), pickWeaponCard(this.weaponDeck));
 
+    }
+
+    public void setType(int aType){
+        this.board = new Board(aType, pickWeaponCard(this.weaponDeck), pickWeaponCard(this.weaponDeck), pickWeaponCard(this.weaponDeck), pickWeaponCard(this.weaponDeck), pickWeaponCard(this.weaponDeck), pickWeaponCard(this.weaponDeck), pickWeaponCard(this.weaponDeck), pickWeaponCard(this.weaponDeck), pickWeaponCard(this.weaponDeck));
     }
 
     public void addPlayer(Player p){

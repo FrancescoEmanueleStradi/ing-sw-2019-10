@@ -5,8 +5,10 @@ import view.View;
 
 public class Game {                                 //Cli or Gui -- Rmi or Socket
 
+    private GameState gameState;
     private boolean init = false;
     private Grid grid;
+
     //private View v;
 
    public boolean gameStart(String nickName, Colour c) throws InvalidColourException{

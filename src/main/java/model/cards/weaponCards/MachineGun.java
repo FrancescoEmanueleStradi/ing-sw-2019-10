@@ -66,7 +66,7 @@ public class MachineGun extends WeaponCard {
 
         System.out.println("Target another player you can see?");
         String response = in.next();
-        if(response == ("y")) {
+        if(response.equals("y")) {
             do {
                 System.out.println("Enter the name of the player");
                 this.target2 = in.next();
@@ -87,34 +87,33 @@ public class MachineGun extends WeaponCard {
         System.out.println("Apply effect '" + getSpecialEffect1() + "'? (y/n)");
         String response = in.next();
 
-        if (response == ("y")) {
-            if(this.target2 == null) {
+        if (response.equals("y")) {
+            if (this.target2 == null) {
                 System.out.println("Do you want to target " + this.target1 + " or another player you " +
-                                   "can see? Enter 1 or 2");
+                        "can see? Enter 1 or 2");
                 String selection = in.next();
-                if (selection == "1")
+                if (selection.equals("1"))
                     Grid.damage(Grid.getPlayerObject(this.target1), 1);
-                if (selection == "2") {
+                if (selection.equals("2")) {
                     do {
                         System.out.println("Enter the name of the player");
                         this.target2 = in.next();
                         Grid.damage(Grid.getPlayerObject(this.target2), 1);
                     } while (Grid.getPlayerObject(this.target2) == null);
                 }
-            }
-            else {
-                System.out.println("Do you want to target " + this.target1 + " or " + this.target2 +"? Enter 1 or 2");
+            } else {
+                System.out.println("Do you want to target " + this.target1 + " or " + this.target2 + "? Enter 1 or 2");
                 String selection = in.next();
-                if (selection == "1")
+                if (selection.equals("1"))
                     Grid.damage(Grid.getPlayerObject(this.target1), 1);
-                if (selection == "2")
+                if (selection.equals("2"))
                     Grid.damage(Grid.getPlayerObject(this.target2), 1);
             }
-
-        if (response == ("n")) {
+        }
+        if (response.equals("n")) {
             System.out.println("Apply effect '" + getSpecialEffect2() + "'? (y/n)");
             String response2 = in.next();
-            if (response2 == "y") {
+            if (response2.equals("y")) {
                 System.out.println("If you applied Focus Shot on one of the previous players, the next target has to " +
                                    "be the other of the two, or another player you can see\n");
                 System.out.println("");
@@ -122,8 +121,5 @@ public class MachineGun extends WeaponCard {
 
             }
         }
-
-        }
-
     }
 }

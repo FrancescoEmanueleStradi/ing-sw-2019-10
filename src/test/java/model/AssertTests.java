@@ -238,6 +238,37 @@ class AssertTests {
 
 
     @Test
+    void PlayerBoardTest() {
+        PlayerBoard pb = new PlayerBoard();
+
+        assertNotNull(pb.getActions());
+        Actions newActions = new Actions();
+        pb.setActions(newActions);
+        assertEquals(newActions, pb.getActions());
+
+        assertNotNull(pb.getDamages());
+        DamageTrack newDT = new DamageTrack();
+        pb.setDamages(newDT);
+        assertEquals(newDT, pb.getDamages());
+
+        assertEquals(8, pb.getPoints().getInt(1));
+        PointsPlayerBoard ppb = new PointsPlayerBoard();
+        ppb.remove();
+        pb.setPoints(ppb);
+        assertEquals(6, pb.getPoints().getInt(1));
+
+        assertTrue(pb.mIsEmpty());
+        DamageToken dt = new DamageToken(Colour.RED);
+        pb.addMark(dt);
+        assertNotNull(pb.getMarks());
+
+        pb.clearMark(Colour.RED);
+        assertTrue(pb.mIsEmpty());
+
+    }
+
+
+    @Test
     void BoardTest() {
         Board board1 = new Board(1);
         Cell[][] arena1 = board1.getArena();

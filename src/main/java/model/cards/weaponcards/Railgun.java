@@ -5,11 +5,14 @@ import model.cards.WeaponCard;
 
 public class Railgun extends WeaponCard {
 
+    private String alternateFireMode = "Piercing Mode";
+
     public Railgun() throws InvalidColourException {
         super();
         this.cardName = "Railgun";
         this.reloadCost = new AmmoCube[]{new AmmoCube(Colour.YELLOW), new AmmoCube(Colour.YELLOW), new AmmoCube(Colour.BLUE)};
-        this.numSpecialEffect = 0;                                 //has alternate fire mode
+        this.numOptionalEffect = 0;
+        super.alternateFireMode = true;
         String description = "basic mode: Choose a cardinal direction and 1 target in that direction.\n" +
                 "Deal 3 damage to it.\n" +
                 "in piercing mode: Choose a cardinal direction and 1 or 2 targets in that\n" +
@@ -21,6 +24,10 @@ public class Railgun extends WeaponCard {
                 "door, square-on, and firing in that direction. Anyone on a square in that\n" +
                 "direction (including yours) is a valid target. In piercing mode,\n" +
                 "the 2 targets can be on the same square or on different squares.";
+    }
+
+    public String getAlternateFireMode() {
+        return alternateFireMode;
     }
 
     @Override

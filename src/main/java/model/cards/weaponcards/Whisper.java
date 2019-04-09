@@ -10,7 +10,8 @@ public class Whisper extends WeaponCard {
         this.cardName = "Whisper";
         this.cardName = "model.cards.weaponcards.Whisper";
         this.reloadCost = new AmmoCube[]{new AmmoCube(Colour.BLUE), new AmmoCube(Colour.BLUE), new AmmoCube(Colour.YELLOW)};
-        this.numSpecialEffect = 0;
+        this.numOptionalEffect = 0;
+        super.alternateFireMode = false;
         String description = "effect: Deal 3 damage and 1 mark to 1 target you can see.\n" +
                 "Your target must be at least 2 moves away from you.\n" +
                 "Notes: For example, in the 2-by-2 room, you cannot shoot\n" +

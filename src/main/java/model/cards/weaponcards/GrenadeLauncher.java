@@ -5,11 +5,14 @@ import model.cards.WeaponCard;
 
 public class GrenadeLauncher extends WeaponCard {
 
+    private String optionalEffect1 = "Extra Grenade";
+
     public GrenadeLauncher() throws InvalidColourException {
         super();
         this.cardName = "Grenade Launcher";
         this.reloadCost = new AmmoCube[]{new AmmoCube(Colour.RED)};
-        this.numSpecialEffect = 1;
+        this.numOptionalEffect = 1;
+        super.alternateFireMode = false;
         String description = "basic effect: Deal 1 damage to 1 target you can see. Then you may move\n" +
                 "the target 1 square.\n" +
                 "with extra grenade: Deal 1 damage to every player on a square you can\n" +
@@ -20,6 +23,10 @@ public class GrenadeLauncher extends WeaponCard {
                 "then move the main target. Or you can deal 1 to an isolated target and\n" +
                 "1 to everyone on a different square. If you target your own square,\n" +
                 "you will not be moved or damaged.";
+    }
+
+    public String getOptionalEffect1() {
+        return optionalEffect1;
     }
 
     @Override

@@ -5,22 +5,22 @@ import model.cards.WeaponCard;
 
 public class Electroscythe extends WeaponCard {
 
-    private String alternateFireMode1 = "Reaper Mode";
+    private String alternateFireMode = "Reaper Mode";
 
     public Electroscythe() throws InvalidColourException {
         super();
         this.cardName = "Electroscythe";
         this.reloadCost = new AmmoCube[]{new AmmoCube(Colour.BLUE)};
         this.numOptionalEffect = 0;
-        this.numAlternateFireMode = 1;
+        super.alternateFireMode = true;
         String description = "basic mode: Deal 1 damage to every other player\n" +
                 "on your square.\n" +
                 "in reaper mode: Deal 2 damage to every other player\n" +
                 "on your square.";
     }
 
-    public String getAlternateFireMode1() {
-        return alternateFireMode1;
+    public String getAlternateFireMode() {
+        return alternateFireMode;
     }
 
     @Override

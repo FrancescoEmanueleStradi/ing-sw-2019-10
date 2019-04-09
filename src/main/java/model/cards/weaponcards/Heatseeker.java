@@ -9,7 +9,8 @@ public class Heatseeker extends WeaponCard {
         super();
         this.cardName = "Heatseeker";
         this.reloadCost = new AmmoCube[]{new AmmoCube(Colour.RED), new AmmoCube(Colour.RED), new AmmoCube(Colour.YELLOW)};
-        this.numSpecialEffect = 0;
+        this.numOptionalEffect = 0;
+        super.alternateFireMode = false;
         String description = "effect: Choose 1 target you cannot see and deal 3 damage\n" +
                 "to it.\n" +
                 "Notes: Yes, this can only hit targets you cannot see.";

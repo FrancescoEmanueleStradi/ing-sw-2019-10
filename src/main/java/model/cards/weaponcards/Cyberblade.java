@@ -5,11 +5,15 @@ import model.cards.WeaponCard;
 
 public class Cyberblade extends WeaponCard {
 
+    private String optionalEffect1 = "Shadowstep";
+    private String optionalEffect2 = "Slice and Dice";
+
     public Cyberblade() throws InvalidColourException {
         super();
         this.cardName = "Cyberblade";
         this.reloadCost = new AmmoCube[]{new AmmoCube(Colour.YELLOW), new AmmoCube(Colour.RED)};
-        this.numSpecialEffect = 2;
+        this.numOptionalEffect = 2;
+        super.alternateFireMode = false;
         String description = "basic effect: Deal 2 damage to 1 target on your square.\n" +
                 "with shadowstep: Move 1 square before or after the basic effect.\n" +
                 "with slice and dice: Deal 2 damage to a different target on your square.\n" +
@@ -19,6 +23,13 @@ public class Cyberblade extends WeaponCard {
                 "or whack 2 people and then move.";
     }
 
+    public String getOptionalEffect2() {
+        return optionalEffect2;
+    }
+
+    public String getOptionalEffect1() {
+        return optionalEffect1;
+    }
 
     @Override
     public void applyEffect(Grid grid, Player p, Player p1) {

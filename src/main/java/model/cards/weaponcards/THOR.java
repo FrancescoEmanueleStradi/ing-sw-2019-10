@@ -13,7 +13,7 @@ public class THOR extends WeaponCard {
         this.cardName = "T.H.O.R.";
         this.reloadCost = new AmmoCube[]{new AmmoCube(Colour.BLUE), new AmmoCube(Colour.RED)};
         this.numOptionalEffect = 2;
-        this.numAlternateFireMode = 0;
+        super.alternateFireMode = true;
         String description = "basic effect: Deal 2 damage to 1 target you can see.\n" +
                 "with chain reaction: Deal 1 damage to a second target that\n" +
                 "your first target can see.\n" +

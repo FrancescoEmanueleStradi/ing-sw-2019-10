@@ -5,11 +5,15 @@ import model.cards.WeaponCard;
 
 public class RocketLauncher extends WeaponCard {
 
+    private String optionalEffect1 = "Rocket Jump";
+    private String optionalEffect2 = "Fragmenting Warhead";
+
     public RocketLauncher() throws InvalidColourException {
         super();
         this.cardName = "Rocket Launcher";
         this.reloadCost = new AmmoCube[]{new AmmoCube(Colour.RED), new AmmoCube(Colour.RED)};
-        this.numSpecialEffect = 2;
+        this.numOptionalEffect = 2;
+        super.alternateFireMode = false;
         String description = "basic effect: Deal 2 damage to 1 target you can see that is not on your\n" +
                 "square. Then you may move the target 1 square.\n" +
                 "with rocket jump: Move 1 or 2 squares. This effect can be used either\n" +
@@ -22,6 +26,14 @@ public class RocketLauncher extends WeaponCard {
                 "even move off a square so you can shoot someone on it. If you use the\n" +
                 "fragmenting warhead, you deal damage to everyone on the target's\n" +
                 "square before you move the target – your target will take 3 damage total.";
+    }
+
+    public String getOptionalEffect1() {
+        return optionalEffect1;
+    }
+
+    public String getOptionalEffect2() {
+        return optionalEffect2;
     }
 
     @Override

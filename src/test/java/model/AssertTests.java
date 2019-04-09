@@ -349,7 +349,7 @@ class AssertTests {
 
     @Test
     void GridTest() throws InvalidColourException {
-        Grid grid = new Grid(1);
+        Grid grid = new Grid();
         Player p1 = new Player("Test", Colour.BLUE, true);
         grid.addPlayer(p1);
         ArrayList<Player> players = grid.getPlayers();

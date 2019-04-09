@@ -5,11 +5,15 @@ import model.cards.WeaponCard;
 
 public class PlasmaGun extends WeaponCard {
 
+    private String optionalEffect1 = "Phase Glide";
+    private String optionalEffect2 = "Charged Shot";
+
     public PlasmaGun() throws InvalidColourException {
         super();
         this.cardName = "Plasma Gun";
         this.reloadCost = new AmmoCube[]{new AmmoCube(Colour.BLUE), new AmmoCube(Colour.YELLOW)};
-        this.numSpecialEffect = 2;
+        this.numOptionalEffect = 2;
+        super.alternateFireMode = false;
         String description = "basic effect: Deal 2 damage to 1 target you can see.\n" +
                 "with phase glide: Move 1 or 2 squares. This effect can be\n" +
                 "used either before or after the basic effect.\n" +
@@ -20,6 +24,14 @@ public class PlasmaGun extends WeaponCard {
                 "For example, you can move 2 squares and shoot a target\n" +
                 "you now see. You cannot use 1 move before shooting and\n" +
                 "1 move after.";
+    }
+
+    public String getOptionalEffect1() {
+        return optionalEffect1;
+    }
+
+    public String getOptionalEffect2() {
+        return optionalEffect2;
     }
 
     @Override

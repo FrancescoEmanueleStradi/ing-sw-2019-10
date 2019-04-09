@@ -11,7 +11,7 @@ public abstract class WeaponCard implements Card {
     protected AmmoCube[] reloadCost;      //first cube is the default one
     protected String description;
     protected int numOptionalEffect;      //number of optional effects
-    protected int numAlternateFireMode;   //number of alternate fire modes
+    protected boolean alternateFireMode;   //presence of alternate fire mode: true if present
     protected ArrayList<String> effect = new ArrayList<>();
 
 
@@ -31,8 +31,8 @@ public abstract class WeaponCard implements Card {
         return numOptionalEffect;
     }
 
-    public int getNumAlternateFireMode() {
-        return numAlternateFireMode;
+    public boolean hasAlternateFireMode() {
+        return alternateFireMode;
     }
 
     public abstract void applySpecialEffect(Grid grid, Player p1);

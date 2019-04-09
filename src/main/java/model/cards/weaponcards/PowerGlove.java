@@ -5,11 +5,14 @@ import model.cards.WeaponCard;
 
 public class PowerGlove extends WeaponCard {
 
+    private String alternateFireMode = "Rocket Fist Mode";
+
     public PowerGlove() throws InvalidColourException {
         super();
         this.cardName = "Power Glove";
         this.reloadCost = new AmmoCube[]{new AmmoCube(Colour.YELLOW), new AmmoCube(Colour.BLUE)};
-        this.numSpecialEffect = 0;                                    //has alternate fire mode
+        this.numOptionalEffect = 0;
+        super.alternateFireMode = true;
         String description = "basic mode: Choose 1 target on any square\n" +
                 "exactly 1 move away. Move onto that square\n" +
                 "and give the target 1 damage and 2 marks.\n" +
@@ -23,6 +26,10 @@ public class PowerGlove extends WeaponCard {
                 "Notes: In rocket fist mode, you're flying\n" +
                 "2 squares in a straight line, punching\n" +
                 "1 person per square.";
+    }
+
+    public String getAlternateFireMode() {
+        return alternateFireMode;
     }
 
     @Override

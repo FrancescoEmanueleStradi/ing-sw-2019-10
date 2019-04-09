@@ -5,11 +5,14 @@ import model.cards.WeaponCard;
 
 public class Flamethrower extends WeaponCard {
 
+    private String alternateFireMode = "Barbecue Mode";
+
     public Flamethrower() throws InvalidColourException {
         super();
         this.cardName = "Flamethrower";
         this.reloadCost = new AmmoCube[]{new AmmoCube(Colour.RED)};
-        this.numSpecialEffect = 0;                                 //has alternate fire mode
+        this.numOptionalEffect = 0;
+        super.alternateFireMode = true;
         String description = "basic mode: Choose a square 1 move away and possibly a second square\n" +
                 "1 more move away in the same direction. On each square, you may\n" +
                 "choose 1 target and give it 1 damage.\n" +
@@ -20,6 +23,10 @@ public class Flamethrower extends WeaponCard {
                 "it can sometimes damage a target you can't see – the flame won't go\n" +
                 "through walls, but it will go through doors. Think of it as a straight-line\n" +
                 "blast of flame that can travel 2 squares in a cardinal direction.";
+    }
+
+    public String getAlternateFireMode() {
+        return alternateFireMode;
     }
 
     @Override

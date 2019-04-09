@@ -14,7 +14,7 @@ public class MachineGun extends WeaponCard {
         this.cardName = "Machine Gun";                                                                                  //here?
         this.reloadCost = new AmmoCube[]{new AmmoCube(Colour.BLUE), new AmmoCube(Colour.RED)};
         this.numOptionalEffect = 2;
-        this.numAlternateFireMode = 0;
+        super.alternateFireMode = false;
         String description = "basic effect: Choose 1 or 2 targets you can see and deal 1 damage to each.\n" +
                 "with focus shot: Deal 1 additional damage to one of those targets.\n" +                                                                            //write cost
                 "with turret tripod: Deal 1 additional damage to the other of those targets and/or deal 1 damage to a different target you can see.\n" +

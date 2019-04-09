@@ -5,14 +5,14 @@ import model.cards.WeaponCard;
 
 public class TractorBeam extends WeaponCard {
 
-    private String alternateFireMode1 = "Punisher Mode";
+    private String alternateFireMode = "Punisher Mode";
 
     public TractorBeam() throws InvalidColourException {
         super();
         this.cardName = "Tractor Beam";
         this.reloadCost = new AmmoCube[]{new AmmoCube(Colour.BLUE)};
         this.numOptionalEffect = 0;
-        this.numAlternateFireMode = 1;
+        super.alternateFireMode = true;
         String description = "basic mode: Move a target 0, 1, or 2 squares to a square\n" +
                 "you can see, and give it 1 damage.\n" +
                 "in punisher mode: Choose a target 0, 1, or 2 moves away\n" +
@@ -24,8 +24,8 @@ public class TractorBeam extends WeaponCard {
                 "direction.";
     }
 
-    public String getAlternateFireMode1() {
-        return alternateFireMode1;
+    public String getAlternateFireMode() {
+        return alternateFireMode;
     }
 
     //TODO
@@ -44,7 +44,6 @@ public class TractorBeam extends WeaponCard {
     }
 
     public void applySpecialEffect2(Grid grid, Player p) {
-        
-    }
 
+    }
 }

@@ -18,12 +18,10 @@ public class Cell {
 
     }
 
-    public Cell(int r, Colour c1, int[] pm,  int[] pp, Position p, AmmoCard a) {
+    public Cell(int r, Colour c1, int[] pm,  int[] pp, Position p) {
 
         this.p = p;
         this.status = r;
-        if(this.status ==0)
-            this.a = a;
         this.c = c1;
         this.posWall = new int[pm.length];
         System.arraycopy(pm, 0, this.posWall,0, pm.length);
@@ -59,6 +57,7 @@ public class Cell {
     }
 
     public void setA(AmmoCard a) {
-        this.a = a;
+        if(this.status ==0)
+            this.a = a;
     }
 }

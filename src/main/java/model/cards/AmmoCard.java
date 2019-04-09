@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public abstract class AmmoCard {
     protected ArrayList<AmmoCube> aC;
-    protected boolean pC;   //if 1 the AmmoCard has tha PowerUpcard
+    protected boolean pC;   //if true the AmmoCard has the PowerUpCard
 
     /*public abstract void AmmoCard();*/            //for each AmmoCard implement the arrays
 

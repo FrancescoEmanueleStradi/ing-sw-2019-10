@@ -12,7 +12,10 @@ public class PYY extends AmmoCard{
 
     public PYY() throws InvalidColourException {
         super();
-        this.aC = new ArrayList<AmmoCube>(Arrays.asList(new AmmoCube(Colour.YELLOW), new AmmoCube(Colour.BLUE)));
-        //this.pC = new ArrayList<PowerUpCard>
+        this.aC = new ArrayList<>();
+        this.aC.add(new AmmoCube(Colour.YELLOW));
+        this.aC.add(new AmmoCube(Colour.YELLOW));
+
+        this.pC = true;
     }
 }

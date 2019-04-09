@@ -6,13 +6,16 @@ import model.InvalidColourException;
 import model.cards.AmmoCard;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class RBB extends AmmoCard{
 
     public RBB() throws InvalidColourException {
         super();
-        this.aC = new ArrayList<AmmoCube>(Arrays.asList(new AmmoCube(Colour.YELLOW), new AmmoCube(Colour.BLUE)));
-        //this.pC = new ArrayList<PowerUpCard>
+        this.aC = new ArrayList<>();
+        this.aC.add(new AmmoCube(Colour.RED));
+        this.aC.add(new AmmoCube(Colour.BLUE));
+        this.aC.add(new AmmoCube(Colour.BLUE));
+
+        this.pC = false;
     }
 }

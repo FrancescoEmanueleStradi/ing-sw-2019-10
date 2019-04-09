@@ -1,5 +1,6 @@
 package model;
 
+import com.sun.jmx.snmp.internal.SnmpMsgProcessingModel;
 import model.board.*;
 import model.decks.AmmoDeck;
 import model.decks.Deck;
@@ -16,7 +17,7 @@ public class Grid {
     private Board board;
     private WeaponDeck weaponDeck;
     private PowerUpDeck powerUpDeck;
-    private Deck ammoDeck;
+    private AmmoDeck ammoDeck;
 
     public Grid(int aType) throws InvalidColourException {
         this.players = new ArrayList<>();
@@ -179,5 +180,43 @@ public class Grid {
             d.getPowerUpDeck().remove(0);
     }
 
+    public AmmoCard pickAmmoCard(AmmoDeck aD){
+        AmmoCard a = this.ammoDeck.getAmmoDeck().get(0);
+        this.ammoDeck.getAmmoDeck().remove(0);
+        return a;
+    }
 
+
+    public void setUpAmmoCard(){
+
+        Position p1 = new Position(0,0);
+        this.board.getArena()[p1.getX()][p1.getY()].setA(pickAmmoCard(this.ammoDeck));
+        Position p2 = new Position(0,1);;
+        this.board.getArena()[p1.getX()][p1.getY()].setA(pickAmmoCard(this.ammoDeck));
+        Position p3 = new Position(0,2);;
+        this.board.getArena()[p1.getX()][p1.getY()].setA(pickAmmoCard(this.ammoDeck));
+        Position p4 = new Position(0,3);;
+        this.board.getArena()[p1.getX()][p1.getY()].setA(pickAmmoCard(this.ammoDeck));
+        Position p5 = new Position(1,0);;
+        this.board.getArena()[p1.getX()][p1.getY()].setA(pickAmmoCard(this.ammoDeck));
+        Position p6 = new Position(1,1);;
+        this.board.getArena()[p1.getX()][p1.getY()].setA(pickAmmoCard(this.ammoDeck));
+        Position p7 = new Position(1,2);;
+        this.board.getArena()[p1.getX()][p1.getY()].setA(pickAmmoCard(this.ammoDeck));
+        Position p8 = new Position(1,3);;
+        this.board.getArena()[p1.getX()][p1.getY()].setA(pickAmmoCard(this.ammoDeck));
+        Position p9 = new Position(2,0);;
+        this.board.getArena()[p1.getX()][p1.getY()].setA(pickAmmoCard(this.ammoDeck));
+        Position p10 = new Position(2,1);;
+        this.board.getArena()[p1.getX()][p1.getY()].setA(pickAmmoCard(this.ammoDeck));
+        Position p11 = new Position(2,2);;
+        this.board.getArena()[p1.getX()][p1.getY()].setA(pickAmmoCard(this.ammoDeck));
+        Position p12 = new Position(2,3);;
+        this.board.getArena()[p1.getX()][p1.getY()].setA(pickAmmoCard(this.ammoDeck));
+
+    }
+
+    public void changeAmmoCard(Position p){
+        this.board.getArena()[p.getX()][p.getY()].setA(pickAmmoCard(this.ammoDeck));
+    }
 }

@@ -96,4 +96,7 @@ public class AmmoDeck extends Deck {
         ammoDeck.add(c36);
     }
 
+    public ArrayList<AmmoCard> getAmmoDeck() {
+        return ammoDeck;
+    }
 }

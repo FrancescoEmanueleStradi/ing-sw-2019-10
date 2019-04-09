@@ -4,6 +4,6 @@ import model.Grid;
 import model.Player;
 
 public interface Card {
-      void applyEffect(Player p);
+      void applyEffect(Grid grid, Player p1); //player attacks p1
 
 }

@@ -1,7 +1,7 @@
 package model.cards;
 
 import model.AmmoCube;
-import model.cards.Card;
+import model.*;
 
 import java.util.ArrayList;
 
@@ -30,6 +30,6 @@ public abstract class WeaponCard implements Card {
         return numSpecialEffect;
     }
 
-    public abstract void applySpecialEffect();
+    public abstract void applySpecialEffect(Grid grid, Player p1);
 
 }

@@ -1,6 +1,6 @@
 package model;
 
-import controller.Cli;
+import view.Cli;
 
 public class Actions {
                                                             //Probably it will be a view class

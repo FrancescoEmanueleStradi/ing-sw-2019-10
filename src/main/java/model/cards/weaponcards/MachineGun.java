@@ -1,16 +1,13 @@
 package model.cards.weaponcards;
 
-import controller.Game;
 import model.*;
 import model.AmmoCube;
 import model.cards.WeaponCard;
+import view.Cli;
 
 import java.util.Scanner;
 
 public class MachineGun extends WeaponCard {
-
-    private String target1;
-    private String target2;
 
     private String specialEffect1 = "Focus Shot";
     private String specialEffect2 = "Turret Tripod";
@@ -28,14 +25,6 @@ public class MachineGun extends WeaponCard {
                 "2 targets, you deal 2 to each if you use both optional effects. If you use the basic effect on only 1 target, you can still use the the turret tripod to give it 1 additional damage.";
     }
 
-    public String getTarget1() {
-        return target1;
-    }
-
-    public String getTarget2() {
-        return target2;
-    }
-
     public String getSpecialEffect1() {
         return specialEffect1;
     }
@@ -44,40 +33,46 @@ public class MachineGun extends WeaponCard {
         return specialEffect2;
     }
 
-    @Override
-    public void applyEffect(Player p) {
+    //before applying effects: let player selecting player(s) to attack, checking if they are visible and if the player has enough ammo
 
-        //to implement in another method(Controller)
-        /*
-        if ((player.munition).equals(this.reloadCost)){
-        }
-        else
-        System.out.println("You don't have the right ammo :(");
-        }
-        */
-
-        Scanner in = new Scanner(System.in);
-
-        do {
-            Game.askPlayerDamage();
-            this.target1 = in.next();
-            //if(Grid.getPlayerObject(this.target1) != null && Grid.isInViewZone())
-                Grid.damage(Grid.getPlayerObject(this.target1), 1);
-        } while(Grid.getPlayerObject(this.target1) == null);
-
-        System.out.println("Target another player you can see?");
-        String response = in.next();
-        if(response.equals("y")) {
-            do {
-                System.out.println("Enter the name of the player");
-                this.target2 = in.next();
-                if(Grid.getPlayerObject(this.target2) != null)
-                    Grid.damage(Grid.getPlayerObject(this.target2), 1);
-            } while (Grid.getPlayerObject(this.target2) == null);
-        }
-
+    public void applyEffect(Grid grid, Player p1) { //primary attack if only 1 target is selected: player attacks p1
+        grid.damage(p1, 1);
     }
 
+    public void applyEffect(Grid grid, Player p1, Player p2) { //primary attack if 2 targets are selected: player attacks p1 and p2
+        grid.damage(p1, 1);
+        grid.damage(p2, 1);
+    }
+
+    @Override
+    public void applySpecialEffect(Grid grid, Player p1) { //Focus Shot: player damages p1
+        grid.damage(p1,1);
+    }
+
+    public void applySpecialEffect2(Grid grid, Player p1) { //Turret Tripod: player damages the "other" player (not the one selected in Focus Shot)
+        grid.damage(p1, 1);
+    }
+
+    public void applySpecialEffect2bis(Grid grid, Player p1) { //Turret Tripod: player damages a different target
+        grid.damage(p1, 1);
+    }
+
+    public void applySpecialEffect2(Grid grid, Player p1, Player p2) { //Turret Tripod: player damages the "other" player and a different target
+        grid.damage(p1, 1);
+        grid.damage(p2, 1);
+    }
+
+    public void applySpecialEffectSpecialCase(Grid grid, Player p1, Player p2) { //Special case: if player uses both special effect but sees only 2 players (so he cannot attack a different target)
+        grid.damage(p1, 2);
+        grid.damage(p2, 2);
+    }
+}
+
+
+
+
+
+    /*
     //ask professor about override
     //too procedural, not enough methods??
     @Override

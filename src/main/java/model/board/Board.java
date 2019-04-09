@@ -267,6 +267,26 @@ public class Board {
         }
     }
 
+    public void changeAmmoCard(Position p, AmmoCard a){
+        this.arena[p.getX()][p.getY()].setA(a);
+    }
+
+    public void changeWeaponCard(WeaponSlot w, WeaponCard wC){
+        if(this.w1.equals(w))                               //it works in the first position
+            this.w1.setCard1(wC);
+        if(this.w2.equals(w))
+            this.w2.setCard1(wC);
+        if(this.w2.equals(w))
+            this.w2.setCard1(wC);
+    }
+
+    public void removeSkull(){
+        for(int i = 0; i <this.k.getSkulls().length; i++){
+            if(this.k.getSkulls()[i] != 3)
+             this.k.getSkulls()[i] = 3;
+        }
+    }
+
     public Cell[][] getArena() {
         return arena;
     }

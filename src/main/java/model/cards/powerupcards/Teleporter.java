@@ -1,8 +1,6 @@
 package model.cards.powerupcards;
 
-import model.AmmoCube;
-import model.Colour;
-import model.InvalidColourException;
+import model.*;
 import model.cards.PowerUpCard;
 
 public class Teleporter extends PowerUpCard {
@@ -20,7 +18,7 @@ public class Teleporter extends PowerUpCard {
     }
 
     @Override
-    public void applyEffect() {
+    public void applyEffect(Grid grid, Player p1) {
 
     }
 }

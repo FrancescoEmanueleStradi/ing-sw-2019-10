@@ -269,8 +269,19 @@ class AssertTests {
 
 
     @Test
-    void BoardTest() {
-        Board board1 = new Board(1);
+    void BoardTest() throws InvalidColourException {
+        WeaponCard w1 = new MachineGun();
+        WeaponCard w2 = new MachineGun();
+        WeaponCard w3 = new MachineGun();
+        WeaponCard w4 = new MachineGun();
+        WeaponCard w5 = new MachineGun();
+        WeaponCard w6 = new MachineGun();
+        WeaponCard w7 = new MachineGun();
+        WeaponCard w8 = new MachineGun();
+        WeaponCard w9 = new MachineGun();
+
+
+        Board board1 = new Board(1, w1, w2, w3, w4, w5, w6, w7, w8, w9);
         Cell[][] arena1 = board1.getArena();
 
         assertEquals(Colour.RED, arena1[0][0].getC());
@@ -286,7 +297,7 @@ class AssertTests {
         assertEquals(Colour.WHITE, arena1[2][2].getC());
         assertEquals(Colour.YELLOW, arena1[2][3].getC());
 
-        Board board2 = new Board(2);
+        Board board2 = new Board(2, w1, w2, w3, w4, w5, w6, w7, w8, w9);
         Cell[][] arena2 = board2.getArena();
 
         assertEquals(Colour.BLUE, arena2[0][0].getC());
@@ -302,7 +313,7 @@ class AssertTests {
         assertEquals(Colour.WHITE, arena2[2][2].getC());
         assertEquals(Colour.YELLOW, arena2[2][3].getC());
 
-        Board board3 = new Board(3);
+        Board board3 = new Board(3, w1, w2, w3, w4, w5, w6, w7, w8, w9);
         Cell[][] arena3 = board3.getArena();
 
         assertEquals(Colour.BLUE, arena3[0][0].getC());
@@ -318,7 +329,7 @@ class AssertTests {
         assertEquals(Colour.YELLOW, arena3[2][2].getC());
         assertEquals(Colour.YELLOW, arena3[2][3].getC());
 
-        Board board4 = new Board(4);
+        Board board4 = new Board(4, w1, w2, w3, w4, w5, w6, w7, w8, w9);
         Cell[][] arena4 = board4.getArena();
 
         assertEquals(Colour.RED, arena4[0][0].getC());

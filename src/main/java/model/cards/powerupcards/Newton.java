@@ -1,5 +1,6 @@
 package model.cards.powerupcards;
 
+import model.*;
 import model.AmmoCube;
 import model.Colour;
 import model.InvalidColourException;
@@ -20,7 +21,7 @@ public class Newton extends PowerUpCard {
     }
 
     @Override
-    public void applyEffect() {
+    public void applyEffect(Grid grid, Player p1) {
 
     }
 }

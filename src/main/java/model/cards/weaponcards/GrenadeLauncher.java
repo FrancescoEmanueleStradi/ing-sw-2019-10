@@ -1,8 +1,6 @@
 package model.cards.weaponcards;
 
-import model.AmmoCube;
-import model.Colour;
-import model.InvalidColourException;
+import model.*;
 import model.cards.WeaponCard;
 
 public class GrenadeLauncher extends WeaponCard {
@@ -25,12 +23,12 @@ public class GrenadeLauncher extends WeaponCard {
     }
 
     @Override
-    public void applyEffect() {
+    public void applyEffect(Grid grid, Player p1) {
 
     }
 
     @Override
-    public void applySpecialEffect() {
+    public void applySpecialEffect(Grid grid, Player p1) {
 
     }
 }

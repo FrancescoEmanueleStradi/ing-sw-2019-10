@@ -88,6 +88,38 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
        }
        return false;
    }
+                                                            //view ask the choice
+
+   public boolean firstActionShoot(Player p){
+       if(this.gameState.equals(STARTTURN)){
+           //TODO
+
+           this.gameState = ACTION1;
+           return true;
+       }
+       return false;
+   }
+
+
+    public boolean firstActionMove(Player p, String s){
+        if(this.gameState.equals(STARTTURN)){
+
+            //TODO
+            this.gameState = ACTION1;
+            return true;
+        }
+        return false;
+    }
+
+    public boolean firstActionGrab(Player p, String s){
+        if(this.gameState.equals(STARTTURN)){
+            //TODO
+
+            this.gameState = ACTION1;
+            return true;
+        }
+        return false;
+    }
 
 
 }

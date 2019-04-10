@@ -29,7 +29,7 @@ public class Flamethrower extends WeaponCard {
 
     public void applyEffect(Grid grid, Player p, Player p1, Player p2) {    //player p deals 1 damage to p1 and p2. p2 can be null
         grid.damage(p, p1, 1);
-        if(!(p2.equals(null)))
+        if(!(p2 ==null))
             grid.damage(p, p2, 1);
     }
 
@@ -41,7 +41,7 @@ public class Flamethrower extends WeaponCard {
                 grid.damage(p, enemy, 2);
         }
 
-        if(!(c2.equals(null))) {
+        if(!(c2 ==null)) {
             for(Player enemy : grid.getPlayers()) {
                 if(enemy.getCell().equals(c2))
                     grid.damage(p, enemy, 1);

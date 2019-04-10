@@ -36,7 +36,7 @@ public class VortexCannon extends WeaponCard {
 
     public void applySpecialEffect(Grid grid, Player p, Player p1, Player p2, Cell vortex) { //p2 can be null. p1 and p2 are moved into the vortex and damaged
         p1.setCell(vortex);
-        if(!(p2.equals(null))) {
+        if(!(p2 == null)) {
             p2.setCell(vortex);
             grid.damage(p, p2, 1);
         }

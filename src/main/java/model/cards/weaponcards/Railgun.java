@@ -35,7 +35,7 @@ public class Railgun extends WeaponCard {
 
     public void applySpecialEffect(Grid grid, Player p, Player p1, Player p2) { //player p deals 2 damage to p1 and, if selected, 2 damages to p2 too
         grid.damage(p, p1, 2);
-        if(!(p2.equals(null)))
+        if(!(p2 == null))
             grid.damage(p, p2, 2);
     }
 }

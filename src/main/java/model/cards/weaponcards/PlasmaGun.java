@@ -35,7 +35,7 @@ public class PlasmaGun extends WeaponCard {
         grid.damage(p, p1, 2);
     }
 
-    //before: ask the player p how many cells he wants to move (1 or 2). PLAYER CAN USE THIS BEFORE OR AFTER THE BASIC EFFECT, so we should ask first
+    //before: ask the player p how many cells he wants to move (1 or 2) (alternative: let him click the cell he wants to go to). PLAYER CAN USE THIS BEFORE OR AFTER THE PRIMARY EFFECT
 
     public void applySpecialEffect(Grid grid, Player p, int moves, int direction1, int direction2) {   //Phase Glide: player p moves 1 or 2 cells: he can change direction (i.e. one move up and one right)
         if(moves == 1) {

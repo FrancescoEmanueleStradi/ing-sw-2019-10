@@ -1,38 +1,43 @@
 package model.cards.weaponcards;
 
 import model.*;
+import model.board.Cell;
 import model.cards.WeaponCard;
 
 public class Sledgehammer extends WeaponCard {
 
-    private String alternateFireMode = "Pulverize Mode";
+    private String alternativeEffect = "Pulverize Mode";
 
     public Sledgehammer() throws InvalidColourException {
         super();
         this.cardName = "Sledgehammer";
         this.reloadCost = new AmmoCube[]{new AmmoCube(Colour.YELLOW)};
         this.numOptionalEffect = 0;
-        super.alternateFireMode = true;
-        String description = "basic mode: Deal 2 damage to 1 target on\n" +
-                "your square.\n" +
-                "in pulverize mode: Deal 3 damage to 1 target\n" +
-                "on your square, then move that target 0, 1,\n" +
-                "or 2 squares in one direction.\n" +
-                "Notes: Remember that moves go through\n" +
-                "doors, but not walls.";
+        this.alternateFireMode = true;
+        String description = "basic mode: Deal 2 damage to 1 target on your square.\n" +
+                             "in pulverize mode: Deal 3 damage to 1 target on your square, then move that target 0, 1, or 2 squares in one direction.\n" +
+                             "Notes: Remember that moves go through doors, but not walls.\n";
     }
 
-    public String getAlternateFireMode() {
-        return alternateFireMode;
+    public String getAlternativeEffect() {
+        return alternativeEffect;
     }
 
-    @Override
-    public void applyEffect(Grid grid, Player p, Player p1) {
+    //before: let player p choose a target p1 on his cell.
 
+    public void applyEffect(Grid grid, Player p, Player p1) {   //player p deals 2 damages to the chosen p1
+        grid.damage(p, p1, 2);
     }
 
-    @Override
-    public void applySpecialEffect(Grid grid, Player p1) {
+    //before: let player p choose a target p1 on his cell.
 
+    public void applySpecialEffect(Grid grid, Player p, Player p1) {    //Pulverize Mode (First Part): player p deals 3 damages to the chosen p1
+        grid.damage(p, p1, 3);
+    }
+
+    //then (optional): if player p wants, he can move the attacked p1 0, 1, 2 cells in one direction. Player p will click the cell. ALTERNATIVE: numMoves and direction as parameters and if.
+
+    public void moveEnemy(Player p1, Cell cell) {   //Pulverize Mode (Second Part): enemy p1 is moved where player p has decided
+        p1.setCell(cell);
     }
 }

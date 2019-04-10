@@ -26,17 +26,21 @@ public class GrenadeLauncher extends WeaponCard {
         return optionalEffect1;
     }
 
-    //before: let the player p choose a target p1 he can see. Ask him if he want to move p1 one cell (???: possibility or not? Ask before or damage and then ask?)
+    //before: let player p choose a target p1 he can see.
 
-    public void applyEffect(Grid grid, Player p, Player p1, boolean move, int direction) { //player p deals 1 damage to p1 and, if move = true, p1 is moved in the direction selected (alternative: in the Cell selected)
+    public void applyEffect(Grid grid, Player p, Player p1) { //player p deals 1 damage to p1
         grid.damage(p, p1, 1);
-        if(move)
-            grid.move(p1, direction);
+    }
+
+    //after primary effect: ask player p if he wants to move the attacked player p1 one cell, and in which direction (click on cell and from that we get the direction?)
+
+    public void moveEnemy(Grid grid, Player p1, int direction) {    //right after the primary effect
+        grid.move(p1, direction);
     }
 
     //before: let the player p choose a Cell cell he can see. PLAYER CAN DO THIS BEFORE OR AFTER THE BASIC EFFECT!
 
-    public void applySpecialEffect(Grid grid, Player p, Cell cell) {  //player p deals 1 damage to every enemy on the selected Cell cell
+    public void applySpecialEffect(Grid grid, Player p, Cell cell) {  //Extra Grenade: player p deals 1 damage to every enemy on the selected Cell cell
         for(Player enemy : grid.getPlayers()) {
             if(enemy.getCell().equals(cell) && enemy != p)
                 grid.damage(p, enemy, 1);

@@ -5,32 +5,39 @@ import model.cards.WeaponCard;
 
 public class Shockwave extends WeaponCard {
 
-    private String alternateFireMode = "Tsunami Mode";
+    private String alternativeEffect = "Tsunami Mode";
 
     public Shockwave() throws InvalidColourException {
         super();
         this.cardName = "Shockwave";
         this.reloadCost = new AmmoCube[]{new AmmoCube(Colour.YELLOW)};
         this.numOptionalEffect = 0;
-        super.alternateFireMode = true;
-        String description = "basic mode: Choose up to 3 targets on\n" +
-                "different squares, each exactly 1 move away.\n" +
-                "Deal 1 damage to each target.\n" +
-                "in tsunami mode: Deal 1 damage to all\n" +
-                "targets that are exactly 1 move away.";
+        this.alternateFireMode = true;
+        String description = "basic mode: Choose up to 3 targets on different squares, each exactly 1 move away. Deal 1 damage to each target.\n" +
+                "in tsunami mode: Deal 1 damage to all targets that are exactly 1 move away.\n";
     }
 
-    public String getAlternateFireMode() {
-        return alternateFireMode;
+    public String getAlternativeEffect() {
+        return alternativeEffect;
     }
 
-    @Override
-    public void applyEffect(Grid grid, Player p, Player p1) {
+    //before: let player p choose up to three targets p1, p2, p3 on different cells, each exactly one cell away from p.
 
+    public void applyEffect(Grid grid, Player p, Player p1, Player p2, Player p3) { //player p deals 1 damage to p1 and, if p2/p3 is selected, he deals 1 damage to him/them too.
+        grid.damage(p, p1, 1);
+        if(!(p2.equals(null)))
+            grid.damage(p, p2, 1);
+        if(!(p3.equals(null)))
+            grid.damage(p, p3, 1);
     }
 
-    @Override
-    public void applySpecialEffect(Grid grid, Player p1) {
-
+    public void applySpecialEffect(Grid grid, Player p) {   //Tsunami Mode: player p deals 1 damage to every enemy who is in a cell exactly one move away from him
+        for(Player enemy : grid.getPlayers()) {
+            if((enemy.getCell().getP().getX() == p.getCell().getP().getX()+1) ||
+                    enemy.getCell().getP().getX() == p.getCell().getP().getX()-1 ||
+                    enemy.getCell().getP().getY() == p.getCell().getP().getY()+1 ||
+                    enemy.getCell().getP().getY() == p.getCell().getP().getY()-1)
+                grid.damage(p, enemy, 1);
+        }
     }
 }

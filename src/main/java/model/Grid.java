@@ -30,7 +30,7 @@ public class Grid {
     }
 
     public void setType(int aType){
-        this.board = new Board(aType, pickWeaponCard(this.weaponDeck), pickWeaponCard(this.weaponDeck), pickWeaponCard(this.weaponDeck), pickWeaponCard(this.weaponDeck), pickWeaponCard(this.weaponDeck), pickWeaponCard(this.weaponDeck), pickWeaponCard(this.weaponDeck), pickWeaponCard(this.weaponDeck), pickWeaponCard(this.weaponDeck));
+        this.board = new Board(aType, pickWeaponCard(), pickWeaponCard(), pickWeaponCard(), pickWeaponCard(), pickWeaponCard(), pickWeaponCard(), pickWeaponCard(), pickWeaponCard(), pickWeaponCard());
     }
 
     public void addPlayer(Player p){
@@ -115,10 +115,14 @@ public class Grid {
         }
 
     }
+
+    public void move(Player p, Position pt){
+        p.changeCell(board.getArena()[pt.getX()][pt.getY()]);
+    }
     
     public void collectCard(Player p){
           if(p.getCell().getA().ispC())
-              pickPowerUpCard(this.powerUpDeck, p);
+              pickPowerUpCard(p);
           for(int i = 0; i < p.getCell().getA().getaC().size(); i++)
               p.addAC(p.getCell().getA().getaC().get(i));
     }
@@ -168,21 +172,25 @@ public class Grid {
         return pViewZone;
     }
 
-    public void pickWeaponCard(WeaponDeck d, Player p){
-            p.addWeaponCard(d.getWeaponDeck().get(0));
-            d.getWeaponDeck().remove(0);
+    public void pickWeaponCard(Player p){
+            p.addWeaponCard(this.weaponDeck.getWeaponDeck().get(0));
+            this.weaponDeck.getWeaponDeck().remove(0);
     }
 
-    public WeaponCard pickWeaponCard(WeaponDeck d){
-        WeaponCard w = d.getWeaponDeck().get(0);
-        d.getWeaponDeck().remove(0);
+    public WeaponCard pickWeaponCard(){
+        WeaponCard w = this.weaponDeck.getWeaponDeck().get(0);
+        this.weaponDeck.getWeaponDeck().remove(0);
         return w;
     }
 
 
-    public void pickPowerUpCard(PowerUpDeck d, Player p){
-            p.addPowerUpCard(d.getPowerUpDeck().get(0));
-            d.getPowerUpDeck().remove(0);
+    public void pickPowerUpCard(Player p){
+            p.addPowerUpCard(this.powerUpDeck.getPowerUpDeck().get(0));
+            this.powerUpDeck.getPowerUpDeck().remove(0);
+    }
+
+    public PowerUpCard pickPowerUpCard(){
+        return this.powerUpDeck.getTopOfDeck();
     }
 
     public AmmoCard pickAmmoCard(){

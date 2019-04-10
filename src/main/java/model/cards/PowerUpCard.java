@@ -1,11 +1,13 @@
 package model.cards;
 
 import model.AmmoCube;
+import model.Colour;
 import model.cards.Card;
 
 public abstract class PowerUpCard implements Card {
 
     protected String cardName;
+    protected Colour c;
     protected AmmoCube value;
     protected String description;
 
@@ -19,5 +21,9 @@ public abstract class PowerUpCard implements Card {
 
     public String getDescription() {
         return description;
+    }
+
+    public Colour getC() {
+        return c;
     }
 }

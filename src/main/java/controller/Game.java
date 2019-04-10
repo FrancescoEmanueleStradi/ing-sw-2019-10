@@ -1,7 +1,15 @@
 package controller;
 
 import model.*;
+import model.board.Cell;
+import model.cards.PowerUpCard;
+import model.Position;
 import view.View;
+
+import java.util.LinkedList;
+import java.util.List;
+
+import static controller.GameState.*;
 
 public class Game {                                 //Cli or Gui -- Rmi or Socket
 
@@ -17,37 +25,69 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
            this.grid = new Grid();
            Player p = new Player(nickName, c, true);
            this.grid.addPlayer(p);               //first state
+           this.gameState = START;
            return true;
        }
        return false;
    }
 
-   public boolean receiveType(int type){
-       this.grid.setType(type);                 //find a condition
-       this.grid.setUpAmmoCard();
-       return true;
-   }
-
-   public boolean addPlayer(String nickName, Colour c) throws InvalidColourException{
-       if(init) {
-           Player p = new Player(nickName, c, false);
-           this.grid.addPlayer(p);
-           return true;
-       }
-       return false;
-   }
-
-    public boolean removePlayer(String nickName){
-       if(init) {
-           this.grid.removePlayer(this.grid.getPlayerObject(nickName));
-           return true;
-       }
-       return false;
+    public boolean addPlayer(String nickName, Colour c) throws InvalidColourException{      //TODO control name
+        if(init) {
+            Player p = new Player(nickName, c, false);
+            this.grid.addPlayer(p);
+            return true;
+        }
+        return false;
     }
 
+    public boolean removePlayer(String nickName){
+        if(init) {
+            this.grid.removePlayer(this.grid.getPlayerObject(nickName));
+            return true;
+        }
+        return false;
+    }
+
+   public boolean receiveType(int type){
+       if(this.gameState.equals(START)) {
+           this.grid.setType(type);                 //find a condition
+           this.grid.setUpAmmoCard();
+           this.gameState = INITIALIZED;
+           return true;
+       }
+       return false;
+   }
+
+   public List<PowerUpCard> giveTwoPUCard(Player p){
+       if(this.gameState.equals(INITIALIZED) && (p.getCell() == null)) {
+           List<PowerUpCard> L = new LinkedList<>();
+           L.add(this.grid.pickPowerUpCard());
+           L.add(this.grid.pickPowerUpCard());
+           return L;
+       }
+                                            //View control -> empty list
+       return new LinkedList<>();
+   }
+
+   public Colour pickAndDiscardCard(Player p, PowerUpCard p1, PowerUpCard p2){     //p1 choose, p2 discard
+           p.addPowerUpCard(p1);
+           return p2.getC();
+   }
 
 
-    //public boolean chooseSpawnPoint()
+   public boolean chooseSpawnPoint(Colour c, Player p){
+       if(this.gameState.equals(INITIALIZED)){
+           if(c.equals(Colour.YELLOW))
+               this.grid.move(p, new Position(2,3));
+           if(c.equals(Colour.RED))
+               this.grid.move(p, new Position(1,0));
+           if(c.equals(Colour.BLUE))
+               this.grid.move(p, new Position(0,2));
+           this.gameState = STARTTURN;
+            return true;
+       }
+       return false;
+   }
 
 
 }

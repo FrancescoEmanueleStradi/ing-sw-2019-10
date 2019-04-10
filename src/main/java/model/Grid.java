@@ -7,6 +7,7 @@ import model.decks.WeaponDeck;
 import model.cards.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static java.lang.Math.abs;
 
@@ -40,7 +41,7 @@ public class Grid {
         this.players.remove(p);
     }
 
-    public ArrayList<Player> getPlayers() {
+    public List<Player> getPlayers() {
         return players;
     }
 
@@ -94,7 +95,7 @@ public class Grid {
 
         for(int i =0; i<p.getCell().getPosWall().length; i++) {
             if (p.getCell().getPosWall()[i] == d) {
-                System.out.println("you can't move");
+                //System.out.println("you can't move");
                 n=1;
             }
         }
@@ -149,7 +150,7 @@ public class Grid {
         return (isIntheRoom(p, p2) || ((p.getCell().getPosDoor()!=null) && b));
     }
 
-    public ArrayList<Player> wichiIsInTheRoom(Player p){
+    public List<Player> wichiIsInTheRoom(Player p){
         ArrayList<Player> pRoom = new ArrayList<>();
         for(Player px : players){
             if(isIntheRoom(p, px) && p!=px)         //Does it work?
@@ -158,7 +159,7 @@ public class Grid {
         return pRoom;
     }
 
-    public ArrayList<Player> whoIsInTheViewZone(Player p) {
+    public List<Player> whoIsInTheViewZone(Player p) {
         ArrayList<Player> pViewZone = new ArrayList<>();
         for (Player px : players) {
             if (isInViewZone(p, px) && p != px)         //Does it work?
@@ -184,7 +185,7 @@ public class Grid {
             d.getPowerUpDeck().remove(0);
     }
 
-    public AmmoCard pickAmmoCard(AmmoDeck aD){
+    public AmmoCard pickAmmoCard(){
         AmmoCard a = this.ammoDeck.getAmmoDeck().get(0);
         this.ammoDeck.getAmmoDeck().remove(0);
         return a;
@@ -193,34 +194,22 @@ public class Grid {
 
     public void setUpAmmoCard(){
 
-        Position p1 = new Position(0,0);
-        this.board.getArena()[p1.getX()][p1.getY()].setA(pickAmmoCard(this.ammoDeck));
-        Position p2 = new Position(0,1);;
-        this.board.getArena()[p1.getX()][p1.getY()].setA(pickAmmoCard(this.ammoDeck));
-        Position p3 = new Position(0,2);;
-        this.board.getArena()[p1.getX()][p1.getY()].setA(pickAmmoCard(this.ammoDeck));
-        Position p4 = new Position(0,3);;
-        this.board.getArena()[p1.getX()][p1.getY()].setA(pickAmmoCard(this.ammoDeck));
-        Position p5 = new Position(1,0);;
-        this.board.getArena()[p1.getX()][p1.getY()].setA(pickAmmoCard(this.ammoDeck));
-        Position p6 = new Position(1,1);;
-        this.board.getArena()[p1.getX()][p1.getY()].setA(pickAmmoCard(this.ammoDeck));
-        Position p7 = new Position(1,2);;
-        this.board.getArena()[p1.getX()][p1.getY()].setA(pickAmmoCard(this.ammoDeck));
-        Position p8 = new Position(1,3);;
-        this.board.getArena()[p1.getX()][p1.getY()].setA(pickAmmoCard(this.ammoDeck));
-        Position p9 = new Position(2,0);;
-        this.board.getArena()[p1.getX()][p1.getY()].setA(pickAmmoCard(this.ammoDeck));
-        Position p10 = new Position(2,1);;
-        this.board.getArena()[p1.getX()][p1.getY()].setA(pickAmmoCard(this.ammoDeck));
-        Position p11 = new Position(2,2);;
-        this.board.getArena()[p1.getX()][p1.getY()].setA(pickAmmoCard(this.ammoDeck));
-        Position p12 = new Position(2,3);;
-        this.board.getArena()[p1.getX()][p1.getY()].setA(pickAmmoCard(this.ammoDeck));
+        this.board.getArena()[0][0].setA(this.pickAmmoCard());
+        this.board.getArena()[0][1].setA(this.pickAmmoCard());
+        this.board.getArena()[0][2].setA(this.pickAmmoCard());
+        this.board.getArena()[0][3].setA(this.pickAmmoCard());
+        this.board.getArena()[1][0].setA(this.pickAmmoCard());
+        this.board.getArena()[1][1].setA(this.pickAmmoCard());
+        this.board.getArena()[1][2].setA(this.pickAmmoCard());
+        this.board.getArena()[1][3].setA(this.pickAmmoCard());
+        this.board.getArena()[2][0].setA(this.pickAmmoCard());
+        this.board.getArena()[2][1].setA(this.pickAmmoCard());
+        this.board.getArena()[2][2].setA(this.pickAmmoCard());
+        this.board.getArena()[2][3].setA(this.pickAmmoCard());
 
     }
 
     public void changeAmmoCard(Position p){
-        this.board.getArena()[p.getX()][p.getY()].setA(pickAmmoCard(this.ammoDeck));
+        this.board.getArena()[p.getX()][p.getY()].setA(this.pickAmmoCard());
     }
 }

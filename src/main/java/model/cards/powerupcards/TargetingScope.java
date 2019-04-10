@@ -17,7 +17,6 @@ public class TargetingScope extends PowerUpCard {
                 "is receiving only marks.";
     }
 
-    @Override
     public void applyEffect(Grid grid, Player p, Player p1) {
 
     }

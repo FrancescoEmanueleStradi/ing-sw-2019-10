@@ -15,7 +15,6 @@ public class TagbackGrenade extends PowerUpCard {
                 "Give that player 1 mark.";
     }
 
-    @Override
     public void applyEffect(Grid grid, Player p, Player p1) {
 
     }

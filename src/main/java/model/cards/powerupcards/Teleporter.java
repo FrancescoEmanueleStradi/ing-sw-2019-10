@@ -17,7 +17,6 @@ public class Teleporter extends PowerUpCard {
                 "too late.)";
     }
 
-    @Override
     public void applyEffect(Grid grid, Player p, Player p1) {
 
     }

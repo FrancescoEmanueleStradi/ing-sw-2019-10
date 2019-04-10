@@ -8,7 +8,7 @@ import model.cards.WeaponCard;
 import model.cards.weaponcards.*;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -352,7 +352,7 @@ class AssertTests {
         Grid grid = new Grid();
         Player p1 = new Player("Test", Colour.BLUE, true);
         grid.addPlayer(p1);
-        ArrayList<Player> players = grid.getPlayers();
+        List<Player> players = grid.getPlayers();
 
         assertEquals(players.get(0).getNickName(), "Test");
         assertEquals(players.get(0).getC(), Colour.BLUE);

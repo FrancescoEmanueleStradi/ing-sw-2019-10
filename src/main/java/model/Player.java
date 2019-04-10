@@ -5,6 +5,7 @@ import model.cards.PowerUpCard;
 import model.cards.WeaponCard;
 
 import java.util.LinkedList;
+import java.util.List;
 
 public class Player {
 
@@ -98,7 +99,7 @@ public class Player {
         }
     }
 
-    public LinkedList<WeaponCard> getwC() {
+    public List<WeaponCard> getwC() {
         return wC;
     }
 
@@ -110,7 +111,7 @@ public class Player {
         this.wC.remove(w);
     }
 
-    public LinkedList<PowerUpCard> getpC() {
+    public List<PowerUpCard> getpC() {
         return pC;
     }
 

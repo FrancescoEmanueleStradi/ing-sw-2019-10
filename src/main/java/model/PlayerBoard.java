@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class PlayerBoard {
 
@@ -44,7 +45,7 @@ public class PlayerBoard {
         return this.marks.isEmpty();
     }
 
-    public ArrayList<DamageToken> getMarks() {
+    public List<DamageToken> getMarks() {
         return marks;
     }
 

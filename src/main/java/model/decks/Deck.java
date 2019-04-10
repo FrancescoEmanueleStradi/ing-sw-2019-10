@@ -1,15 +1,15 @@
 package model.decks;
 
-import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 public abstract class Deck {
 
-    public void shuffleDeck(ArrayList deck) {
+    public void shuffleDeck(List deck) {
         Collections.shuffle(deck);
     }
 
-    public void showDeck(ArrayList deck) {
+    public void showDeck(List deck) {
         System.out.println(deck);
     }
 

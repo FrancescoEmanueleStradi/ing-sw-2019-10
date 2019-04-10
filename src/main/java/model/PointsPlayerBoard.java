@@ -3,7 +3,7 @@ package model;
 import java.util.ArrayList;
 public class PointsPlayerBoard {
 
-    private ArrayList<Integer> points = new ArrayList<Integer>();
+    private ArrayList<Integer> points = new ArrayList<>();
 
     public PointsPlayerBoard(){
         points.add(1);

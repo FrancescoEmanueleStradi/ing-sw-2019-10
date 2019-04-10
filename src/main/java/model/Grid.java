@@ -173,20 +173,20 @@ public class Grid {
     }
 
     public void pickWeaponCard(Player p){
-            p.addWeaponCard(this.weaponDeck.getWeaponDeck().get(0));
-            this.weaponDeck.getWeaponDeck().remove(0);
+            p.addWeaponCard(this.weaponDeck.getDeck().get(0));
+            this.weaponDeck.getDeck().remove(0);
     }
 
     public WeaponCard pickWeaponCard(){
-        WeaponCard w = this.weaponDeck.getWeaponDeck().get(0);
-        this.weaponDeck.getWeaponDeck().remove(0);
+        WeaponCard w = this.weaponDeck.getDeck().get(0);
+        this.weaponDeck.getDeck().remove(0);
         return w;
     }
 
 
     public void pickPowerUpCard(Player p){
-            p.addPowerUpCard(this.powerUpDeck.getPowerUpDeck().get(0));
-            this.powerUpDeck.getPowerUpDeck().remove(0);
+            p.addPowerUpCard(this.powerUpDeck.getDeck().get(0));
+            this.powerUpDeck.getDeck().remove(0);
     }
 
     public PowerUpCard pickPowerUpCard(){
@@ -194,8 +194,8 @@ public class Grid {
     }
 
     public AmmoCard pickAmmoCard(){
-        AmmoCard a = this.ammoDeck.getAmmoDeck().get(0);
-        this.ammoDeck.getAmmoDeck().remove(0);
+        AmmoCard a = this.ammoDeck.getDeck().get(0);
+        this.ammoDeck.getDeck().remove(0);
         return a;
     }
 

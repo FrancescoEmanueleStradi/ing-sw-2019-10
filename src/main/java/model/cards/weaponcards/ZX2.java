@@ -5,33 +5,38 @@ import model.cards.WeaponCard;
 
 public class ZX2 extends WeaponCard {
 
-    private String alternateFireMode = "Scanner Mode";
+    private String alternativeEffect = "Scanner Mode";
 
     public ZX2() throws InvalidColourException {
         super();
         this.cardName = "ZX-2";
         this.reloadCost = new AmmoCube[]{new AmmoCube(Colour.YELLOW), new AmmoCube(Colour.RED)};
         this.numOptionalEffect = 0;
-        super.alternateFireMode = true;
-        String description = "basic mode: Deal 1 damage and 2 marks to\n" +
-                "1 target you can see.\n" +
-                "in scanner mode: Choose up to 3 targets you\n" +
-                "can see and deal 1 mark to each.\n" +
-                "Notes: Remember that the 3 targets can be\n" +
-                "in 3 different rooms.";
+        this.alternateFireMode = true;
+        String description = "basic mode: Deal 1 damage and 2 marks to 1 target you can see.\n" +
+                             "in scanner mode: Choose up to 3 targets you can see and deal 1 mark to each.\n" +
+                             "Notes: Remember that the 3 targets can be in 3 different rooms.\n";
     }
 
-    public String getAlternateFireMode() {
-        return alternateFireMode;
+    public String getAlternativeEffect() {
+        return alternativeEffect;
     }
 
-    @Override
-    public void applyEffect(Grid grid, Player p, Player p1) {
+    //before: let player p choose one target he can see: p1.
 
+    public void applyEffect(Grid grid, Player p, Player p1) {   //player p deals 1 damage to p1 and adds 2 marks to him
+        grid.damage(p, p1, 1);
+        grid.addMark(p, p1);
+        grid.addMark(p, p1);
     }
 
-    @Override
-    public void applySpecialEffect(Grid grid, Player p1) {
+    //before: let player p choose up to three target he can see: p1, p2, p3. They can be in three different rooms.
 
+    public void applySpecialEffect(Grid grid, Player p, Player p1, Player p2, Player p3) { //Scanner Mode: player p deals 1 damage to p1, p2 and p3: p2 and/or p3 can be null
+        grid.damage(p, p1, 1);
+        if(!(p2.equals(null)))
+            grid.damage(p, p2, 1);
+        if(!(p3.equals(null)))
+            grid.damage(p, p3, 1);
     }
 }

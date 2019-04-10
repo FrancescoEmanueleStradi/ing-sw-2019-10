@@ -5,7 +5,7 @@ import model.cards.WeaponCard;
 
 public class Hellion extends WeaponCard {
 
-    private String alternateFireMode = "Nano-Tracer Mode";
+    private String alternativeEffect = "Nano-Tracer Mode";
 
     public Hellion() throws InvalidColourException {
         super();
@@ -17,8 +17,8 @@ public class Hellion extends WeaponCard {
                              "in nano-tracer mode: Deal 1 damage to 1 target you can see at least 1 move away. Then give 2 marks to that target and everyone else on that square.\n";
     }
 
-    public String getAlternateFireMode() {
-        return alternateFireMode;
+    public String getAlternativeEffect() {
+        return alternativeEffect;
     }
 
     //before: let the player p choose 1 visible target p1 at least 1 move away.

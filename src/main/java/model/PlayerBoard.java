@@ -48,7 +48,14 @@ public class PlayerBoard {
         return marks;
     }
 
-    public void addMark(DamageToken d){     //TODO: there is a limit of 3 marks per player on another player board, so check if there are already 3 and, in that case, simply don't add the new mark
+    public void addMark(DamageToken d){
+        int i = 0;
+        for(DamageToken dT : this.marks) {
+            if (d.getC().equals(dT.getC()))
+                i++;
+            if(i == 3)
+                return;
+        }
         this.marks.add(d);
     }
 

@@ -209,6 +209,30 @@ class AssertTests {
 
 
     @Test
+    void PlayerTest() throws InvalidColourException {
+        Player p1 = new Player("Test", Colour.BLUE, true);
+        int[] pm = new int[]{0, 2};
+        int[] pp = new int[]{1, 3};
+        Position pos1 = new Position(0, 1);
+        Position pos2 = new Position(0, 2);
+        Cell cell1 = new Cell(1, Colour.BLUE, pm, pp, pos1);
+        Cell cell2 = new Cell(0, Colour.BLUE, pm, pp, pos2);
+
+        assertTrue(p1.isFirstPlayerCard());
+
+        p1.setScore(42);
+        assertEquals(42, p1.getScore());
+
+        //TODO to finish
+        /*p1.setCell(cell1);
+        assertSame(cell1, p1.getCell());
+
+        p1.changeCell(cell2);
+        assertSame(cell2, p1.getCell());*/
+    }
+
+
+    @Test
     void PointsPlayerBoardTest() {
         PointsPlayerBoard ppb = new PointsPlayerBoard();
 

@@ -130,11 +130,26 @@ class AssertTests {
     void DamageTrackTest() {
         DamageTrack dt = new DamageTrack();
         DamageToken dt1 = new DamageToken(Colour.RED);
+        DamageToken dt2 = new DamageToken(Colour.GREEN);
 
+        dt.addDamage(0, Colour.BLUE);   //useless, it just tests the "else if" without entering the "if"
         dt.addDamage(2, Colour.RED);
 
         assertEquals(dt1.getC(), dt.getDT(0).getC());
         assertEquals(dt1.getC(), dt.getDT(1).getC());
+
+        dt.addDamage(10, Colour.GREEN);
+
+        assertEquals(dt2.getC(), dt.getDT(2).getC());
+        assertEquals(dt2.getC(), dt.getDT(3).getC());
+        assertEquals(dt2.getC(), dt.getDT(4).getC());
+        assertEquals(dt2.getC(), dt.getDT(5).getC());
+        assertEquals(dt2.getC(), dt.getDT(6).getC());
+        assertEquals(dt2.getC(), dt.getDT(7).getC());
+        assertEquals(dt2.getC(), dt.getDT(8).getC());
+        assertEquals(dt2.getC(), dt.getDT(9).getC());
+        assertEquals(dt2.getC(), dt.getDT(10).getC());
+        assertEquals(dt2.getC(), dt.getDT(11).getC());
 
         dt.clean();
 

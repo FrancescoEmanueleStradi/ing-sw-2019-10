@@ -9,7 +9,6 @@ public class DamageTrack {
 
     }
 
-
     public void addDamage(int numDamage, Colour c){
         for(int i = 0; i < damageTr.length; i++){
             if(damageTr[i] == null && numDamage != 0) {
@@ -21,13 +20,9 @@ public class DamageTrack {
            }
     }
 
-
-
     public DamageToken getDT(int index){
         return this.damageTr[index];
     }
-
-
 
     public void clean(){
         for(int i=0; i<12; i++){
@@ -35,6 +30,3 @@ public class DamageTrack {
         }
     }
 }
-
-
-

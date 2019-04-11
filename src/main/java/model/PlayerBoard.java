@@ -61,7 +61,7 @@ public class PlayerBoard {
     }
 
     public void clearMark(Colour c){
-        for(int i = 0; i < this.marks.size(); i++){
+        for(int i = this.marks.size() - 1; i >= 0 ; i--){
             if(this.marks.get(i).getC() == c)
                 this.marks.remove(i);
         }

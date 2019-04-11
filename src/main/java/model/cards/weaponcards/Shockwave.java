@@ -25,9 +25,9 @@ public class Shockwave extends WeaponCard {
 
     public void applyEffect(Grid grid, Player p, Player p1, Player p2, Player p3) { //player p deals 1 damage to p1 and, if p2/p3 is selected, he deals 1 damage to him/them too.
         grid.damage(p, p1, 1);
-        if(!(p2 == null))
+        if(p2 != null)
             grid.damage(p, p2, 1);
-        if(!(p3 == null))
+        if(p3 != null)
             grid.damage(p, p3, 1);
     }
 

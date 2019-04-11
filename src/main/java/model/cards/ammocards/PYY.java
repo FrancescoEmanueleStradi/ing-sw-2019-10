@@ -6,7 +6,6 @@ import model.InvalidColourException;
 import model.cards.AmmoCard;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class PYY extends AmmoCard{
 

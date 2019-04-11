@@ -1,9 +1,9 @@
 package model.cards;
 
 import model.AmmoCube;
-import model.cards.PowerUpCard;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public abstract class AmmoCard {
     protected ArrayList<AmmoCube> aC;
@@ -12,7 +12,7 @@ public abstract class AmmoCard {
     /*public abstract void AmmoCard();*/            //for each AmmoCard implement the arrays
 
 
-    public ArrayList<AmmoCube> getaC() {
+    public List<AmmoCube> getaC() {
         return aC;
     }
 

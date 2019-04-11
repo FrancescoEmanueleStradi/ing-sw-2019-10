@@ -1,7 +1,6 @@
 package controller;
 
 import model.*;
-import model.board.Cell;
 import model.cards.PowerUpCard;
 import model.Position;
 import view.View;

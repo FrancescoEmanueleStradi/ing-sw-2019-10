@@ -4,6 +4,7 @@ import model.*;
 import model.AmmoCube;
 import model.Colour;
 import model.InvalidColourException;
+import model.board.Cell;
 import model.cards.PowerUpCard;
 
 public class Newton extends PowerUpCard {
@@ -11,16 +12,17 @@ public class Newton extends PowerUpCard {
     public Newton(Colour c) throws InvalidColourException {
         super();
         this.cardName = "Newton";
+        this.c = c;
         this.value = new AmmoCube(c);
-        String description = "You may play this card on your turn before or\n" +
-                "after any action. Choose any other player's\n" +
-                "figure and move it 1 or 2 squares in one\n" +
-                "direction. (You can't use this to move a figure\n" +
-                "after it respawns at the end of your turn. That\n" +
-                "would be too late.)";
+        this.description = "You may play this card on your turn before or after any action.\n" +
+                            "Choose any other player's figure and move it 1 or 2 squares in one direction.\n" +
+                            "(You can't use this to move a figure after it respawns at the end of your turn. That would be too late.)\n";
     }
 
-    public void applyEffect(Grid grid, Player p, Player p1) {
+    //before: let player p choose a player p1 at any time of his turn, except for when p1 respawns at the end of p's turn.
+    //        also let player p select a Cell cell one or two cells away from p1.
 
+    public void applyEffect(Grid grid, Player p1, Cell cell) {  //p1 is moved in cell
+        p1.setCell(cell);
     }
 }

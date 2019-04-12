@@ -14,7 +14,7 @@ public class Sledgehammer extends WeaponCard {
         this.reloadCost = new AmmoCube[]{new AmmoCube(Colour.YELLOW)};
         this.numOptionalEffect = 0;
         this.alternateFireMode = true;
-        String description = "basic mode: Deal 2 damage to 1 target on your square.\n" +
+        this.description = "basic mode: Deal 2 damage to 1 target on your square.\n" +
                              "in pulverize mode: Deal 3 damage to 1 target on your square, then move that target 0, 1, or 2 squares in one direction.\n" +
                              "Notes: Remember that moves go through doors, but not walls.\n";
     }

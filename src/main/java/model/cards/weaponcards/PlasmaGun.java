@@ -14,7 +14,7 @@ public class PlasmaGun extends WeaponCard {
         this.reloadCost = new AmmoCube[]{new AmmoCube(Colour.BLUE), new AmmoCube(Colour.YELLOW)};
         this.numOptionalEffect = 2;
         this.alternateFireMode = false;
-        String description = "basic effect: Deal 2 damage to 1 target you can see.\n" +
+        this.description = "basic effect: Deal 2 damage to 1 target you can see.\n" +
                 "with phase glide: Move 1 or 2 squares. This effect can be used either before or after the basic effect.\n" +
                 "with charged shot: Deal 1 additional damage to your target.\n" +
                 "Notes: The two moves have no ammo cost. You don't have to be able to see your target when you play the card.\n" +

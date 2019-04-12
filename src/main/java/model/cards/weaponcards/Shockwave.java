@@ -13,7 +13,7 @@ public class Shockwave extends WeaponCard {
         this.reloadCost = new AmmoCube[]{new AmmoCube(Colour.YELLOW)};
         this.numOptionalEffect = 0;
         this.alternateFireMode = true;
-        String description = "basic mode: Choose up to 3 targets on different squares, each exactly 1 move away. Deal 1 damage to each target.\n" +
+        this.description = "basic mode: Choose up to 3 targets on different squares, each exactly 1 move away. Deal 1 damage to each target.\n" +
                 "in tsunami mode: Deal 1 damage to all targets that are exactly 1 move away.\n";
     }
 

@@ -18,7 +18,7 @@ public class RocketLauncher extends WeaponCard {
         this.reloadCost = new AmmoCube[]{new AmmoCube(Colour.RED), new AmmoCube(Colour.RED)};
         this.numOptionalEffect = 2;
         this.alternateFireMode = false;
-        String description = "basic effect: Deal 2 damage to 1 target you can see that is not on your square. Then you may move the target 1 square.\n" +
+        this.description = "basic effect: Deal 2 damage to 1 target you can see that is not on your square. Then you may move the target 1 square.\n" +
                              "with rocket jump: Move 1 or 2 squares. This effect can be used either before or after the basic effect.\n" +
                              "with fragmenting warhead: During the basic effect, deal 1 damage to every player on your target's original square – including the target, even if you move it.\n" +
                              "Notes: If you use the rocket jump before the basic effect, you consider only your new square when determining if a target is legal.\n" +

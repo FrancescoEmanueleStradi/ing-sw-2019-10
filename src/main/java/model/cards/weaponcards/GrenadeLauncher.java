@@ -14,7 +14,7 @@ public class GrenadeLauncher extends WeaponCard {
         this.reloadCost = new AmmoCube[]{new AmmoCube(Colour.RED)};
         this.numOptionalEffect = 1;
         this.alternateFireMode = false;
-        String description = "basic effect: Deal 1 damage to 1 target you can see. Then you may move the target 1 square.\n" +
+        this.description = "basic effect: Deal 1 damage to 1 target you can see. Then you may move the target 1 square.\n" +
                              "with extra grenade: Deal 1 damage to every player on a square you can see. You can use this before or after the basic effect's move.\n" +
                              "Notes: For example, you can shoot a target, move it onto a square with other targets, then damage everyone including the first target.\n" +
                              "Or you can deal 2 to a main target, 1 to everyone else on that square, then move the main target.\n" +

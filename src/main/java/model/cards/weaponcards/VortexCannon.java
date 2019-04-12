@@ -13,8 +13,8 @@ public class VortexCannon extends WeaponCard {
         this.cardName = "Vortex Cannon";
         this.reloadCost = new AmmoCube[]{new AmmoCube(Colour.RED), new AmmoCube(Colour.BLUE)};
         this.numOptionalEffect = 1;
-        super.alternateFireMode = false;
-        String description = "basic effect: Choose a square you can see, but not your square. Call it \"the vortex\".\n" +
+        this.alternateFireMode = false;
+        this.description = "basic effect: Choose a square you can see, but not your square. Call it \"the vortex\".\n" +
                              "Choose a target on the vortex or 1 move away from it. Move it onto the vortex and give it 2 damage.\n" +
                              "with black hole: Choose up to 2 other targets on the vortex or 1 move away from it. Move them onto the vortex and give them each 1 damage.\n" +
                              "Notes: The 3 targets must be different, but some might start on the same square.\n" +

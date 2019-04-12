@@ -15,7 +15,7 @@ public class Cyberblade extends WeaponCard {
         this.reloadCost = new AmmoCube[]{new AmmoCube(Colour.YELLOW), new AmmoCube(Colour.RED)};
         this.numOptionalEffect = 2;
         this.alternateFireMode = false;
-        String description = "basic effect: Deal 2 damage to 1 target on your square.\n" +
+        this.description = "basic effect: Deal 2 damage to 1 target on your square.\n" +
                              "with shadowstep: Move 1 square before or after the basic effect.\n" +
                              "with slice and dice: Deal 2 damage to a different target on your square.\n" +
                              "The shadowstep may be used before or after this effect.\n" +

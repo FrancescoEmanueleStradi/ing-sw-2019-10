@@ -14,7 +14,7 @@ public class Flamethrower extends WeaponCard {
         this.reloadCost = new AmmoCube[]{new AmmoCube(Colour.RED)};
         this.numOptionalEffect = 0;
         this.alternateFireMode = true;
-        String description = "basic mode: Choose a square 1 move away and possibly a second square 1 more move away in the same direction.\n" +
+        this.description = "basic mode: Choose a square 1 move away and possibly a second square 1 more move away in the same direction.\n" +
                              "On each square, you may choose 1 target and give it 1 damage.\n" +
                              "in barbecue mode: Choose 2 squares as above. Deal 2 damage to everyone on the first square and 1 damage to everyone on the second square.\n" +
                              "Notes: This weapon cannot damage anyone in your square. However, it can sometimes damage a target you can't see – the flame won't go through walls, but it will go through doors. Think of it as a straight-line\n" +

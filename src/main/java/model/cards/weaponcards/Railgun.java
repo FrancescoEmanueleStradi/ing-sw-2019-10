@@ -13,7 +13,7 @@ public class Railgun extends WeaponCard {
         this.reloadCost = new AmmoCube[]{new AmmoCube(Colour.YELLOW), new AmmoCube(Colour.YELLOW), new AmmoCube(Colour.BLUE)};
         this.numOptionalEffect = 0;
         this.alternateFireMode = true;
-        String description = "basic mode: Choose a cardinal direction and 1 target in that direction. Deal 3 damage to it.\n" +
+        this.description = "basic mode: Choose a cardinal direction and 1 target in that direction. Deal 3 damage to it.\n" +
                 "in piercing mode: Choose a cardinal direction and 1 or 2 targets in that direction. Deal 2 damage to each.\n" +
                 "Notes: Basically, you're shooting in a straight line and ignoring walls.\n" +
                 "You don't have to pick a target on the other side of a wall – it could even be someone on your own square – but shooting through walls sure is fun.\n" +

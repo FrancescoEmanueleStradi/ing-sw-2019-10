@@ -13,7 +13,7 @@ public class Electroscythe extends WeaponCard {
         this.reloadCost = new AmmoCube[]{new AmmoCube(Colour.BLUE)};
         this.numOptionalEffect = 0;
         this.alternateFireMode = true;
-        String description = "basic mode: Deal 1 damage to every other player on your square.\n" +
+        this.description = "basic mode: Deal 1 damage to every other player on your square.\n" +
                              "in reaper mode: Deal 2 damage to every other player on your square.\n";
     }
 

@@ -12,8 +12,8 @@ public class Hellion extends WeaponCard {
         this.cardName = "Hellion";
         this.reloadCost = new AmmoCube[]{new AmmoCube(Colour.RED), new AmmoCube(Colour.YELLOW)};
         this.numOptionalEffect = 0;
-        super.alternateFireMode = true;
-        String description = "basic mode: Deal 1 damage to 1 target you can see at least 1 move away. Then give 1 mark to that target and everyone else on that square.\n" +
+        this.alternateFireMode = true;
+        this.description = "basic mode: Deal 1 damage to 1 target you can see at least 1 move away. Then give 1 mark to that target and everyone else on that square.\n" +
                              "in nano-tracer mode: Deal 1 damage to 1 target you can see at least 1 move away. Then give 2 marks to that target and everyone else on that square.\n";
     }
 

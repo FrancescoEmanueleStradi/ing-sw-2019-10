@@ -15,7 +15,7 @@ public class LockRifle extends WeaponCard {
         this.reloadCost = new AmmoCube[]{new AmmoCube(Colour.BLUE), new AmmoCube(Colour.BLUE)};
         this.numOptionalEffect = 1;
         this.alternateFireMode = false;
-        String description = "basic effect: Deal 2 damage and 1 mark to 1 target you can see.\n" +
+        this.description = "basic effect: Deal 2 damage and 1 mark to 1 target you can see.\n" +
                              "with second lock: Deal 1 mark to a different target you can see.\n";
     }
 

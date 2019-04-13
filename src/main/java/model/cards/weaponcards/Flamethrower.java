@@ -3,6 +3,8 @@ package model.cards.weaponcards;
 import model.*;
 import model.board.Cell;
 import model.cards.WeaponCard;
+import model.player.AmmoCube;
+import model.player.Player;
 
 public class Flamethrower extends WeaponCard {
 

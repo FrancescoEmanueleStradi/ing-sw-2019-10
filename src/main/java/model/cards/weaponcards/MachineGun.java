@@ -1,8 +1,9 @@
 package model.cards.weaponcards;
 
 import model.*;
-import model.AmmoCube;
+import model.player.AmmoCube;
 import model.cards.WeaponCard;
+import model.player.Player;
 
 public class MachineGun extends WeaponCard {
 

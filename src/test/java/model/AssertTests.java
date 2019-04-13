@@ -10,6 +10,7 @@ import model.cards.powerupcards.*;
 import model.cards.weaponcards.*;
 import model.decks.PowerUpDeck;
 import model.decks.WeaponDeck;
+import model.player.*;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

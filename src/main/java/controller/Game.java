@@ -3,6 +3,7 @@ package controller;
 import model.*;
 import model.cards.PowerUpCard;
 import model.Position;
+import model.player.Player;
 
 import java.util.LinkedList;
 import java.util.List;

@@ -1,11 +1,12 @@
 package model.cards.powerupcards;
 
 import model.*;
-import model.AmmoCube;
+import model.player.AmmoCube;
 import model.Colour;
 import model.InvalidColourException;
 import model.board.Cell;
 import model.cards.PowerUpCard;
+import model.player.Player;
 
 public class Newton extends PowerUpCard {
 

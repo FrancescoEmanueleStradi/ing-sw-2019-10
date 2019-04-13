@@ -1,5 +1,6 @@
-package model;
+package model.player;
 
+import model.*;
 import model.board.*;
 import model.cards.PowerUpCard;
 import model.cards.WeaponCard;
@@ -24,7 +25,7 @@ public class Player {
     private boolean adrenaline1;
     private boolean adrenaline2;
 
-    public Player(String name,Colour c, boolean f) throws InvalidColourException{
+    public Player(String name,Colour c, boolean f) throws InvalidColourException {
 
         this.nickName = name;
         this.c = c;

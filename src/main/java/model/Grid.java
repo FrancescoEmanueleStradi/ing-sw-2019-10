@@ -5,6 +5,8 @@ import model.decks.AmmoDeck;
 import model.decks.PowerUpDeck;
 import model.decks.WeaponDeck;
 import model.cards.*;
+import model.player.DamageToken;
+import model.player.Player;
 
 import java.util.ArrayList;
 import java.util.LinkedList;

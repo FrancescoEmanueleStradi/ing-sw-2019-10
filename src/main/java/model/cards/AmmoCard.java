@@ -1,6 +1,6 @@
 package model.cards;
 
-import model.AmmoCube;
+import model.player.AmmoCube;
 
 import java.util.ArrayList;
 import java.util.List;

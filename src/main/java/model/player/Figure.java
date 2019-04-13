@@ -1,4 +1,6 @@
-package model;
+package model.player;
+
+import model.Colour;
 
 public class Figure {
     Colour c;

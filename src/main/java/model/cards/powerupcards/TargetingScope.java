@@ -2,6 +2,8 @@ package model.cards.powerupcards;
 
 import model.*;
 import model.cards.PowerUpCard;
+import model.player.AmmoCube;
+import model.player.Player;
 
 public class TargetingScope extends PowerUpCard {
 

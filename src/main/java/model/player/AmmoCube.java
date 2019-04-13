@@ -1,4 +1,7 @@
-package model;
+package model.player;
+
+import model.Colour;
+import model.InvalidColourException;
 
 public class AmmoCube {
 

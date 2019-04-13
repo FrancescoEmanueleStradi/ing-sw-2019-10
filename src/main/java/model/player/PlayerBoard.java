@@ -1,4 +1,6 @@
-package model;
+package model.player;
+
+import model.*;
 
 import java.util.ArrayList;
 import java.util.List;

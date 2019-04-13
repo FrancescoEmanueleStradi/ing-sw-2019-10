@@ -2,6 +2,8 @@ package model.cards.weaponcards;
 
 import model.*;
 import model.cards.WeaponCard;
+import model.player.AmmoCube;
+import model.player.Player;
 
 public class THOR extends WeaponCard {
 

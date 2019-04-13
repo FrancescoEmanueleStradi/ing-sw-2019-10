@@ -1,6 +1,6 @@
 package model.cards;
 
-import model.AmmoCube;
+import model.player.AmmoCube;
 import model.Colour;
 
 public abstract class PowerUpCard implements Card {

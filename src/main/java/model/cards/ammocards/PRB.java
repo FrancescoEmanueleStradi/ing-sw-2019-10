@@ -1,6 +1,6 @@
 package model.cards.ammocards;
 
-import model.AmmoCube;
+import model.player.AmmoCube;
 import model.Colour;
 import model.InvalidColourException;
 import model.cards.AmmoCard;

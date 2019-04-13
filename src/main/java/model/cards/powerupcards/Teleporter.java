@@ -3,6 +3,8 @@ package model.cards.powerupcards;
 import model.*;
 import model.board.Cell;
 import model.cards.PowerUpCard;
+import model.player.AmmoCube;
+import model.player.Player;
 
 public class Teleporter extends PowerUpCard {
 

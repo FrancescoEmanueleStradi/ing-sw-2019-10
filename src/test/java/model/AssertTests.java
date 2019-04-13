@@ -534,8 +534,8 @@ class AssertTests {
     void PowerUpDeckTest() throws InvalidColourException {
         PowerUpDeck puDeck = new PowerUpDeck();
 
-        assertEquals("Targeting Scope", puDeck.getTopOfDeck().getCardName());
-        assertEquals(Colour.RED, puDeck.getTopOfDeck().getC());
+        assertEquals("Targeting Scope", puDeck.getDeck().get(0).getCardName());
+        assertEquals(Colour.RED, puDeck.getDeck().get(0).getC());
         assertEquals("Targeting Scope", puDeck.getDeck().get(1).getCardName());
         assertEquals(Colour.RED, puDeck.getDeck().get(1).getC());
         assertEquals("Targeting Scope", puDeck.getDeck().get(2).getCardName());
@@ -587,6 +587,12 @@ class AssertTests {
 
         puDeck.addCard(fakeCard);
         assertEquals(fakeCard, puDeck.getDeck().get(24));
+
+        PowerUpCard firstCard = puDeck.getTopOfDeck();
+        assertEquals("Targeting Scope", firstCard.getCardName());
+        assertEquals(Colour.RED, firstCard.getC());
+        assertEquals("Targeting Scope", puDeck.getDeck().get(0).getCardName());
+        assertEquals(Colour.RED, puDeck.getDeck().get(0).getC());
     }
 
 

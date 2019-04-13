@@ -15,6 +15,10 @@ public class PointsPlayerBoard {
         points.add(1);
     }
 
+    public ArrayList<Integer> getPoints() {
+        return points;
+    }
+
     public int getInt(int index){
         return this.points.get(index);
     }

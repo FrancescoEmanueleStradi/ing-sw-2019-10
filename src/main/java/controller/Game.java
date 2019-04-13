@@ -152,7 +152,8 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
             int n = this.grid.getBoard().substituteSkull(1);
             this.grid.getBoard().getK().getC()[n] = p.getpB().getDamages().getDT(10).getC();
         }
-        p.getpB().getPoints().remove();
+        if(p.getpB().getPoints().getPoints().size()>1)
+            p.getpB().getPoints().remove();
         p.getpB().getDamages().clean();
         p.addPowerUpCard(this.grid.pickPowerUpCard());
 
@@ -162,9 +163,11 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
        if(this.gameState.equals(RELOADED) && (this.grid.whoIsDead()!=null)){
            for(Player p : this.grid.whoIsDead()) {
                this.grid.scoringByColour(p.getpB().getDamages().getDamageTr()[0].getC(), 1);
-               this.grid.scoringByColour(p.getpB().getDamages().bestKiller(), p.getpB().getPoints().getInt(1));
-               
+               if(p.getpB().getPoints().getPoints().size()>1) {
+                   this.grid.scoringByColour(p.getpB().getDamages().bestKiller(), p.getpB().getPoints().getInt(1));
+                    //TODO
 
+               }
                this.death(p);
                this.gameState = DEATH;
                return true;

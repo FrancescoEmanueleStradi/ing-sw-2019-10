@@ -267,6 +267,10 @@ public class Board {
         }
     }
 
+    public KillTrack getK() {
+        return k;
+    }
+
     public WeaponSlot getW1() {
         return w1;
     }
@@ -292,11 +296,15 @@ public class Board {
             this.w2.setCard1(wC);
     }
 
-    public void removeSkull(){
+    public int substituteSkull(int n){
         for(int i = 0; i <this.k.getSkulls().length; i++){
-            if(this.k.getSkulls()[i] != 3)
-             this.k.getSkulls()[i] = 3;
+            if(this.k.getSkulls()[i] == 0) {
+                this.k.getSkulls()[i] = n;
+                return i;
+            }
+
         }
+        return -1;
     }
 
     public Cell[][] getArena() {

@@ -57,6 +57,14 @@ public class Grid {
         return l;
     }
 
+    public List<Colour> getPlayersColour() {
+        LinkedList<Colour> l = new LinkedList<>();
+        for(Player p: this.getPlayers()){
+            l.add(p.getC());
+        }
+        return l;
+    }
+
     public Player getPlayerObject(String name) {
         for (Player p : players){
             if(p.getNickName().equals(name))
@@ -67,6 +75,18 @@ public class Grid {
 
     public int getNumPlayers(){
         return this.players.size();
+    }
+
+    public void scoringByColour(Colour c, int n){
+        for(Player p : this.players){
+            if(c.equals(p.getC()))
+                p.setScore(n);
+        }
+
+    }
+
+    public Board getBoard() {
+        return board;
     }
 
     public void damage(Player p, Player p1, int numDamage) { //p attacks, p1 is attacked
@@ -215,6 +235,7 @@ public class Grid {
 
 
     public void pickPowerUpCard(Player p){
+        if(p.getpC().size() < 3)
             p.addPowerUpCard(this.powerUpDeck.getTopOfDeck());
     }
 
@@ -255,5 +276,15 @@ public class Grid {
 
     public void changeAmmoCard(Position p){
         this.board.getArena()[p.getX()][p.getY()].setA(this.pickAmmoCard());
+    }
+
+    public List<Player> whoIsDead(){
+        LinkedList<Player> l = new LinkedList<>();
+        for(Player p: this.players){
+            if(p.isDead())
+                l.add(p);
+
+        }
+        return l;
     }
 }

@@ -195,4 +195,12 @@ public class Player {
     public void setFalseAdrenaline2() {
         this.adrenaline2 = false;
     }
+
+    public boolean isDead(){
+        return (this.pB.getDamages().getDamageTr()[10]!=null);
+    }
+
+    public boolean isOverkilled(){
+        return (this.pB.getDamages().getDamageTr()[11]!=null);
+    }
 }

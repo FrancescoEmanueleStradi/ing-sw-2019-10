@@ -30,7 +30,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
    }
 
     public boolean addPlayer(String nickName, Colour c) throws InvalidColourException{
-       if((init) && !(this.grid.getPlayersNickName().contains(nickName))) {
+       if((init) && !(this.grid.getPlayersNickName().contains(nickName)) && !(this.grid.getPlayersColour().contains(c))) {
            Player p = new Player(nickName, c, false);
            this.grid.addPlayer(p);
            return true;
@@ -58,10 +58,10 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
    public List<PowerUpCard> giveTwoPUCard(Player p){
        if(p.getCell() == null) {
-           List<PowerUpCard> L = new LinkedList<>();
-           L.add(this.grid.pickPowerUpCard());
-           L.add(this.grid.pickPowerUpCard());
-           return L;
+           List<PowerUpCard> l = new LinkedList<>();
+           l.add(this.grid.pickPowerUpCard());
+           l.add(this.grid.pickPowerUpCard());
+           return l;
        }
                                             //View control -> empty list
        return new LinkedList<>();
@@ -141,15 +141,51 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
        return false;
     }
 
-    public boolean scoring(Player p){
-       //TODO
-        return true;
-                //return false;
+
+    private void death(Player p){
+       p.changeCell(null);
+       if(p.getpB().getDamages().getDamageTr()[11] != null) {
+           int n = this.grid.getBoard().substituteSkull(2);
+           this.grid.getBoard().getK().getC()[n] = p.getpB().getDamages().getDT(11).getC();
+        }
+        else {
+            int n = this.grid.getBoard().substituteSkull(1);
+            this.grid.getBoard().getK().getC()[n] = p.getpB().getDamages().getDT(10).getC();
+        }
+        p.getpB().getPoints().remove();
+        p.getpB().getDamages().clean();
+        p.addPowerUpCard(this.grid.pickPowerUpCard());
+
+    }
+
+    public boolean scoring(){
+       if(this.gameState.equals(RELOADED) && (this.grid.whoIsDead()!=null)){
+           for(Player p : this.grid.whoIsDead()) {
+               this.grid.scoringByColour(p.getpB().getDamages().getDamageTr()[0].getC(), 1);
+               this.grid.scoringByColour(p.getpB().getDamages().bestKiller(), p.getpB().getPoints().getInt(1));
+               
+
+               this.death(p);
+               this.gameState = DEATH;
+               return true;
+           }
+       }
+       return false;
+    }
+
+    public boolean discardCardForSpawnPoint(Player p, PowerUpCard p1){      //Attention to the view
+       if(this.gameState == DEATH) {
+           chooseSpawnPoint(p1.getC(), p);
+           p.removePowerUpCard(p1);
+           return true;
+       }
+       return false;
     }
 
     public void replace(){
+
        this.grid.replaceAmmoCard();
        this.grid.replaceWeaponCard();
-       this.gameState = ENDTURN;
+       this.gameState = STARTTURN;
     }
 }

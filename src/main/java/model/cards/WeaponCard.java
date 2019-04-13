@@ -13,6 +13,7 @@ public abstract class WeaponCard implements Card {
     protected int numOptionalEffect;      //number of optional effects
     protected boolean alternateFireMode;   //presence of alternate fire mode: true if present --> if true, it's unnecessary to check how many optional effect are present
     protected ArrayList<String> effect = new ArrayList<>();
+    boolean reloaded;
 
 
     public String getCardName() {
@@ -25,6 +26,18 @@ public abstract class WeaponCard implements Card {
 
     public String getDescription() {
         return description;
+    }
+
+    public boolean isReloaded() {
+        return reloaded;
+    }
+
+    public void reload(){
+        this.reloaded = true;
+    }
+
+    public void unload(){
+        this.reloaded = false;
     }
 
     public int getNumOptionalEffect() {

@@ -7,6 +7,7 @@ import model.decks.WeaponDeck;
 import model.cards.*;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import static java.lang.Math.abs;
@@ -43,6 +44,14 @@ public class Grid {
 
     public List<Player> getPlayers() {
         return players;
+    }
+
+    public List<String> getPlayersNickName() {
+        LinkedList<String> l = new LinkedList<>();
+        for(Player p: this.getPlayers()){
+            l.add(p.getNickName());
+        }
+        return l;
     }
 
     public Player getPlayerObject(String name) {

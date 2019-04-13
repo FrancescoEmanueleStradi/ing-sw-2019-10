@@ -3,7 +3,6 @@ package controller;
 import model.*;
 import model.cards.PowerUpCard;
 import model.Position;
-import view.View;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -16,7 +15,6 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
     private boolean init = false;
     private Grid grid;
 
-    //private View v;
 
    public boolean gameStart(String nickName, Colour c) throws InvalidColourException{
        if(!init) {
@@ -30,13 +28,13 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
        return false;
    }
 
-    public boolean addPlayer(String nickName, Colour c) throws InvalidColourException{      //TODO control name
-        if(init) {
-            Player p = new Player(nickName, c, false);
-            this.grid.addPlayer(p);
-            return true;
-        }
-        return false;
+    public boolean addPlayer(String nickName, Colour c) throws InvalidColourException{
+       if((init) && !(this.grid.getPlayersNickName().contains(nickName))) {
+           Player p = new Player(nickName, c, false);
+           this.grid.addPlayer(p);
+           return true;
+       }
+       return false;
     }
 
     public boolean removePlayer(String nickName){
@@ -58,7 +56,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
    }
 
    public List<PowerUpCard> giveTwoPUCard(Player p){
-       if(this.gameState.equals(INITIALIZED) && (p.getCell() == null)) {
+       if(p.getCell() == null) {
            List<PowerUpCard> L = new LinkedList<>();
            L.add(this.grid.pickPowerUpCard());
            L.add(this.grid.pickPowerUpCard());
@@ -68,14 +66,14 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
        return new LinkedList<>();
    }
 
-   public Colour pickAndDiscardCard(Player p, PowerUpCard p1, PowerUpCard p2){     //p1 choose, p2 discard
+   public boolean pickAndDiscardCard(Player p, PowerUpCard p1, PowerUpCard p2){     //p1 choose, p2 discard
            p.addPowerUpCard(p1);
-           return p2.getC();
+           return chooseSpawnPoint(p2.getValue().getC(), p);
    }
 
 
    public boolean chooseSpawnPoint(Colour c, Player p){
-       if(this.gameState.equals(INITIALIZED)){
+       if(p.getCell() == null){
            if(c.equals(Colour.YELLOW))
                this.grid.move(p, new Position(2,3));
            if(c.equals(Colour.RED))
@@ -120,5 +118,27 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         return false;
     }
 
+    public boolean usePowerUpCard(Player p, String s){
+        if(this.gameState.equals(STARTTURN) || this.gameState.equals(ACTION1) || this.gameState.equals(ACTION2)){
+            //TODO
 
+            return true;
+        }
+        return false;
+    }
+
+    public boolean reaload(Player p, String s, int end){  // end is 1 if the player has finished to reload
+       if(this.gameState.equals(ACTION2)){
+           if(p.checkAmmoCube(p.getWeaponCardObject(s).getReloadCost())){
+                p.getWeaponCardObject(s).reload();
+                p.removeArrayAC(p.getWeaponCardObject(s).getReloadCost());
+           }
+           if(end == 1)
+               this.gameState = RELOADED;
+           return true;
+       }
+       return false;
+    }
+
+    
 }

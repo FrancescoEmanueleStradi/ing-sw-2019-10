@@ -4,6 +4,7 @@ import model.board.*;
 import model.cards.PowerUpCard;
 import model.cards.WeaponCard;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -30,7 +31,7 @@ public class Player {
         this.firstPlayerCard = f;
         this.score = 0;
         //this.dT = new ArrayList<>();
-        this.aC = new AmmoCube[]{new AmmoCube(Colour.RED), new AmmoCube(Colour.RED), new AmmoCube(Colour.RED), new AmmoCube(Colour.BLUE), new AmmoCube(Colour.BLUE), new AmmoCube(Colour.BLUE), new AmmoCube(Colour.YELLOW), new AmmoCube(Colour.YELLOW), new AmmoCube(Colour.YELLOW)};
+        this.aC = new AmmoCube[]{new AmmoCube(Colour.RED), /*new AmmoCube(Colour.RED), new AmmoCube(Colour.RED),*/ new AmmoCube(Colour.BLUE),/* new AmmoCube(Colour.BLUE), new AmmoCube(Colour.BLUE),*/ new AmmoCube(Colour.YELLOW), /*new AmmoCube(Colour.YELLOW), new AmmoCube(Colour.YELLOW)*/};
         wC = new LinkedList<>();
         pC = new LinkedList<>();
 
@@ -65,38 +66,63 @@ public class Player {
         return aC;
     }
 
+    public boolean checkAmmoCube(AmmoCube[] a){
+        List<AmmoCube> l1 = Arrays.asList(this.aC);
+        List<AmmoCube> l2 = Arrays.asList(a);
+        return (l1.containsAll(l2));
+    }
+
     public void addAC(AmmoCube ac) {
 
         if (ac.getC() == Colour.RED) {
-            for (int i = 0; i < 3; i++) {
+            this.aC[0] = ac;
+            /*for (int i = 0; i < 3; i++) {
                 if (this.aC[i] == null) {
                     this.aC[i] = ac;
                     break;
                 }
 
-            }
+            }*/
         }
 
         if (ac.getC() == Colour.BLUE) {
-            for (int i = 3; i < 6; i++) {
+            this.aC[1] = ac;
+            /*for (int i = 3; i < 6; i++) {
                 if (this.aC[i] == null) {
                     this.aC[i] = ac;
                     break;
                 }
 
-            }
+            }*/
         }
 
         if (ac.getC() == Colour.YELLOW) {
-            for (int i = 6; i < 9; i++) {
+            this.aC[2] = ac;
+            /*for (int i = 6; i < 9; i++) {
                 if (this.aC[i] == null) {
                     this.aC[i] = ac;
                     break;
                 }
 
-            }
+            }*/
 
         }
+    }
+
+    private void removeAC(AmmoCube a){
+        int i = 0;
+        for(AmmoCube a1 : this.getaC()){
+            if(a1.getC().equals(a.getC())){
+                this.aC[i] = null;
+                return;
+            }
+            i++;
+        }
+    }
+
+    public void removeArrayAC(AmmoCube a[]){
+        for(AmmoCube a1 : a)
+            removeAC(a1);
     }
 
     public List<WeaponCard> getwC() {
@@ -109,6 +135,14 @@ public class Player {
 
     public void removeWeaponCard(WeaponCard w){
         this.wC.remove(w);
+    }
+
+    public WeaponCard getWeaponCardObject(String s){
+        for (WeaponCard w: this.wC){
+            if(w.getCardName().equals(s))
+                return w;
+        }
+        return null;
     }
 
     public List<PowerUpCard> getpC() {

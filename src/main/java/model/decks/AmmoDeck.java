@@ -97,6 +97,10 @@ public class AmmoDeck extends Deck {
         deck.add(c36);
     }
 
+    public void startingShuffle() {
+        shuffleDeck(deck);
+    }
+
     public List<AmmoCard> getDeck() {
         return deck;
     }

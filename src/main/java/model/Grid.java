@@ -28,6 +28,7 @@ public class Grid {
         this.powerUpDeck = new PowerUpDeck();
         this.powerUpDeck.startingShuffle();
         this.ammoDeck = new AmmoDeck();
+        this.ammoDeck.startingShuffle();
         //this.board = new Board(aType, pickWeaponCard(this.weaponDeck), pickWeaponCard(this.weaponDeck), pickWeaponCard(this.weaponDeck), pickWeaponCard(this.weaponDeck), pickWeaponCard(this.weaponDeck), pickWeaponCard(this.weaponDeck), pickWeaponCard(this.weaponDeck), pickWeaponCard(this.weaponDeck), pickWeaponCard(this.weaponDeck));
 
     }

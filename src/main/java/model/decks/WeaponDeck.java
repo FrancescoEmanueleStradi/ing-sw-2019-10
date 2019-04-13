@@ -57,11 +57,11 @@ public class WeaponDeck extends Deck {
     }
 
     public void startingShuffle() {
-        shuffleDeck(deck);
+        shuffleDeck(this.deck);
     }
 
     public List<WeaponCard> getDeck() {
-        return deck;
+        return this.deck;
     }
 
     public void addCard(WeaponCard c){

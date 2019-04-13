@@ -468,7 +468,7 @@ class AssertTests {
         assertEquals(players.get(0).getNickName(), "Test");
         assertEquals(players.get(0).getC(), Colour.BLUE);
 
-        int numPlayers = grid.getNumPlayer();
+        int numPlayers = grid.getNumPlayers();
         assertEquals(1, numPlayers);
 
         assertNull(grid.whereAmI(p1));

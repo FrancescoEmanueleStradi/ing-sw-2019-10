@@ -65,12 +65,12 @@ public class Grid {
         return null;
     }
 
-    public int getNumPlayer(){
+    public int getNumPlayers(){
         return this.players.size();
     }
 
-    public void damage(Player p, Player p1, int numDamages) { //p attacks, p1 is attacked
-        p1.getpB().getDamages().addDamage(numDamages, p.getC());
+    public void damage(Player p, Player p1, int numDamage) { //p attacks, p1 is attacked
+        p1.getpB().getDamages().addDamage(numDamage, p.getC());
     }
 
     public void clean(Player p){
@@ -139,11 +139,11 @@ public class Grid {
               p.addAC(p.getCell().getA().getaC().get(i));
     }
 
-    public boolean isIntheRoom(Player p, Player p2){
+    public boolean isInTheRoom(Player p, Player p2){
         return (p.getCell().getC() == p2.getCell().getC());
     }
 
-    public boolean isIntheRoom(Player p, Colour c){
+    public boolean isInTheRoom(Player p, Colour c){
         return (p.getCell().getC() == c);
     }
 
@@ -152,24 +152,24 @@ public class Grid {
         for(int i=0; i<p.getCell().getPosDoor().length; i++){
             if(!b) {
                 if (p.getCell().getPosDoor()[i] == 1)
-                    b = isIntheRoom(p2, this.board.getArena()[p2.getCell().getP().getX() - 1][p2.getCell().getP().getY()].getC());
+                    b = isInTheRoom(p2, this.board.getArena()[p2.getCell().getP().getX() - 1][p2.getCell().getP().getY()].getC());
                 if (p.getCell().getPosDoor()[i] == 2)
-                    b = isIntheRoom(p2, this.board.getArena()[p2.getCell().getP().getX()][p2.getCell().getP().getY() + 1].getC());
+                    b = isInTheRoom(p2, this.board.getArena()[p2.getCell().getP().getX()][p2.getCell().getP().getY() + 1].getC());
                 if (p.getCell().getPosDoor()[i] == 3)
-                    b = isIntheRoom(p2, this.board.getArena()[p2.getCell().getP().getX() + 1][p2.getCell().getP().getY()].getC());
+                    b = isInTheRoom(p2, this.board.getArena()[p2.getCell().getP().getX() + 1][p2.getCell().getP().getY()].getC());
                 if (p.getCell().getPosDoor()[i] == 4)
-                    b = isIntheRoom(p2, this.board.getArena()[p2.getCell().getP().getX()][p2.getCell().getP().getY() - 1].getC());
+                    b = isInTheRoom(p2, this.board.getArena()[p2.getCell().getP().getX()][p2.getCell().getP().getY() - 1].getC());
 
             }
         }
 
-        return (isIntheRoom(p, p2) || ((p.getCell().getPosDoor()!=null) && b));
+        return (isInTheRoom(p, p2) || ((p.getCell().getPosDoor()!=null) && b));
     }
 
-    public List<Player> wichiIsInTheRoom(Player p){
+    public List<Player> whoIsInTheRoom(Player p){
         ArrayList<Player> pRoom = new ArrayList<>();
         for(Player px : players){
-            if(isIntheRoom(p, px) && p!=px)         //Does it work?
+            if(isInTheRoom(p, px) && p!=px)         //Does it work?
                 pRoom.add(px);
         }
         return pRoom;

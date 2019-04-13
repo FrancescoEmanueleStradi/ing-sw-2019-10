@@ -21,6 +21,8 @@ public class Player {
     private LinkedList<WeaponCard> wC;
     private LinkedList<PowerUpCard> pC;
     private Cell cell;
+    private boolean adrenaline1;
+    private boolean adrenaline2;
 
     public Player(String name,Colour c, boolean f) throws InvalidColourException{
 
@@ -167,5 +169,29 @@ public class Player {
 
     public Cell getCell() {
         return cell;
+    }
+
+    public boolean isAdrenaline1() {
+        return adrenaline1;
+    }
+
+    public void setTrueAdrenaline1() {
+        this.adrenaline1 = true;
+    }
+
+    public void setFalseAdrenaline1() {
+        this.adrenaline1 = false;
+    }
+
+    public boolean isAdrenaline2() {
+        return adrenaline2;
+    }
+
+    public void setTrueAdrenaline2() {
+        this.adrenaline2 = true;
+    }
+
+    public void setFalseAdrenaline2() {
+        this.adrenaline2 = false;
     }
 }

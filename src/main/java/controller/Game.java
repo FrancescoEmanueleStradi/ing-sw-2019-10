@@ -140,5 +140,5 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
        return false;
     }
 
-    
+
 }

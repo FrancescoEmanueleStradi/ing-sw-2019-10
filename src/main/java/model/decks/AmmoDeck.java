@@ -100,4 +100,14 @@ public class AmmoDeck extends Deck {
     public List<AmmoCard> getDeck() {
         return deck;
     }
+
+    public AmmoCard getTopOfDeck() {
+        AmmoCard a = this.deck.get(0);
+        this.deck.remove(0);
+        return a;
+    }
+
+    public void addCard(AmmoCard a){                //we don't desire to shuffle
+        deck.add(a);
+    }
 }

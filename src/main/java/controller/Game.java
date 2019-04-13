@@ -141,5 +141,15 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
        return false;
     }
 
+    public boolean scoring(Player p){
+       //TODO
+        return true;
+                //return false;
+    }
 
+    public void replace(){
+       this.grid.replaceAmmoCard();
+       this.grid.replaceWeaponCard();
+       this.gameState = ENDTURN;
+    }
 }

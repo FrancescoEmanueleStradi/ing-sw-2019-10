@@ -184,20 +184,37 @@ public class Grid {
     }
 
     public void pickWeaponCard(Player p){
-            p.addWeaponCard(this.weaponDeck.getDeck().get(0));
-            this.weaponDeck.getDeck().remove(0);
+            p.addWeaponCard(this.weaponDeck.getTopOfDeck());
     }
 
     public WeaponCard pickWeaponCard(){
-        WeaponCard w = this.weaponDeck.getDeck().get(0);
-        this.weaponDeck.getDeck().remove(0);
-        return w;
+        return this.weaponDeck.getTopOfDeck();
+    }
+
+    public void replaceWeaponCard(){
+       if(this.board.getW1().getCard1() == null)
+           this.board.getW1().setCard1(pickWeaponCard());
+        if(this.board.getW1().getCard2() == null)
+            this.board.getW1().setCard2(pickWeaponCard());
+        if(this.board.getW1().getCard3() == null)
+            this.board.getW1().setCard3(pickWeaponCard());
+        if(this.board.getW2().getCard1() == null)
+            this.board.getW2().setCard1(pickWeaponCard());
+        if(this.board.getW2().getCard2() == null)
+            this.board.getW2().setCard2(pickWeaponCard());
+        if(this.board.getW2().getCard3() == null)
+            this.board.getW2().setCard3(pickWeaponCard());
+        if(this.board.getW3().getCard1() == null)
+            this.board.getW3().setCard1(pickWeaponCard());
+        if(this.board.getW3().getCard2() == null)
+            this.board.getW3().setCard2(pickWeaponCard());
+        if(this.board.getW3().getCard3() == null)
+            this.board.getW3().setCard3(pickWeaponCard());
     }
 
 
     public void pickPowerUpCard(Player p){
-            p.addPowerUpCard(this.powerUpDeck.getDeck().get(0));
-            this.powerUpDeck.getDeck().remove(0);
+            p.addPowerUpCard(this.powerUpDeck.getTopOfDeck());
     }
 
     public PowerUpCard pickPowerUpCard(){
@@ -205,9 +222,7 @@ public class Grid {
     }
 
     public AmmoCard pickAmmoCard(){
-        AmmoCard a = this.ammoDeck.getDeck().get(0);
-        this.ammoDeck.getDeck().remove(0);
-        return a;
+        return this.ammoDeck.getTopOfDeck();
     }
 
 
@@ -226,6 +241,15 @@ public class Grid {
         this.board.getArena()[2][2].setA(this.pickAmmoCard());
         this.board.getArena()[2][3].setA(this.pickAmmoCard());
 
+    }
+
+    public void replaceAmmoCard(){
+        for(int i = 0; i < 3; i++){
+            for(int j = 0; j < 4; j++){
+                if(this.board.getArena()[i][j].getA() == null)              //check that when we pick up the card from the cell it will be null
+                    this.board.getArena()[i][j].setA(this.pickAmmoCard());
+            }
+        }
     }
 
     public void changeAmmoCard(Position p){

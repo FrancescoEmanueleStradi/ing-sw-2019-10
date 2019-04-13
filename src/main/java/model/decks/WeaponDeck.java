@@ -67,4 +67,14 @@ public class WeaponDeck extends Deck {
     public void addCard(WeaponCard c){
         this.getDeck().add(c);
     }
+
+    public WeaponCard getTopOfDeck() {
+        if(!this.deck.isEmpty()) {
+            WeaponCard w = this.deck.get(0);
+            this.deck.remove(0);
+            return w;
+        }
+        return null;
+    }
+
 }

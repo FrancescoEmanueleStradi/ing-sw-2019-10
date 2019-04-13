@@ -267,6 +267,18 @@ public class Board {
         }
     }
 
+    public WeaponSlot getW1() {
+        return w1;
+    }
+
+    public WeaponSlot getW2() {
+        return w2;
+    }
+
+    public WeaponSlot getW3() {
+        return w3;
+    }
+
     public void changeAmmoCard(Position p, AmmoCard a){
         this.arena[p.getX()][p.getY()].setA(a);
     }

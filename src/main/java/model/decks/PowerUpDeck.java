@@ -70,19 +70,21 @@ public class PowerUpDeck extends Deck {
     }
 
     public void startingShuffle() {
-        shuffleDeck(deck);
+        shuffleDeck(this.deck);
     }
 
     public List<PowerUpCard> getDeck() {
-        return deck;
+        return this.deck;
     }
 
     public void addCard(PowerUpCard c){
         this.getDeck().add(c);
     }
 
-    public PowerUpCard getTopOfDeck() {
-        return deck.get(0);
+    public PowerUpCard getTopOfDeck() {             //deck ends or not?
+        PowerUpCard p = this.deck.get(0);
+        this.deck.remove(0);
+        return p;
     }
 
     public void drawFromDeck() {

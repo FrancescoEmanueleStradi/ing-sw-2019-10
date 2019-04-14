@@ -21,6 +21,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
     private boolean init = false;
     private Grid grid;
     private boolean discard = false;
+    private List<String> deadList = new LinkedList<>();
 
     public boolean gameIsNotStarted(){
         return this.grid.getPlayers().isEmpty();
@@ -204,7 +205,8 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         return this.gameState.equals(ACTION2);
     }
 
-    public void reload(Player p, String s, int end){  // end is 1 if the player has finished to reload
+    public void reload(String p1, String s, int end){  // end is 1 if the player has finished to reload
+           Player p = this.grid.getPlayerObject(p1);
            if(p.checkAmmoCube(p.getWeaponCardObject(s).getReloadCost())){
                 p.getWeaponCardObject(s).reload();
                 p.removeArrayAC(p.getWeaponCardObject(s).getReloadCost());
@@ -240,6 +242,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
     public void scoring(){
            int c = 0;
            for(Player p : this.grid.whoIsDead()) {
+               this.deadList.add(p.getNickName());
                this.grid.scoringByColour(p.getpB().getDamages().getDamageTr()[0].getC(), 1);
                for(int i = 1; i < p.getpB().getPoints().getPoints().size(); i++)
                    this.grid.scoringByColour(p.getpB().getDamages().getColourPosition(i-1), p.getpB().getPoints().getInt(i));
@@ -253,13 +256,25 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
     }
 
+    public List<String> getDeadList() {
+        return deadList;
+    }
+
     public boolean isValidDiscardCardForSpawnPoint(){
         return this.gameState == DEATH;
     }
 
-    public void discardCardForSpawnPoint(Player p, PowerUpCard p1){      //Attention to the view
+    public void discardCardForSpawnPoint(String pS, String s1){      //Attention to the view
+           Player p = this.grid.getPlayerObject(pS);
+           PowerUpCard p1 = p.getPowerUpCardObject(s1);
            chooseSpawnPoint(p1.getC(), p);
            p.removePowerUpCard(p1);
+           this.gameState = ENDTURN;
+           this.deadList.clear();
+    }
+
+    public boolean isValidToReplace(){
+        return this.gameState == ENDTURN;
     }
 
     public void replace(){

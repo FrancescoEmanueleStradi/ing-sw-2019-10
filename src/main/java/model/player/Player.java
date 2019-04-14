@@ -170,6 +170,14 @@ public class Player {
         this.pC.remove(p);
     }
 
+    public PowerUpCard getPowerUpCardObject(String s){
+        for (PowerUpCard p: this.pC){
+            if(p.getCardName().equals(s))
+                return p;
+        }
+        return null;
+    }
+
     public void setCell(Cell c){
         this.cell = new Cell(c.getStatus(), c.getC(), c.getPosWall(), c.getPosDoor(), c.getP());
     }

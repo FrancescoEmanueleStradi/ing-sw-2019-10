@@ -77,7 +77,7 @@ public class Cli implements View{
 
     public void action1(){
         Scanner in = new Scanner(System.in);
-        System.out.println("choose the action you want to do(Move, Shoot, Grab)");
+        System.out.println("Choose the action you want to do(Move, Shoot, Grab)");
         String action = in.nextLine();
         if(action.equals("Move"))
             this.move();
@@ -91,7 +91,7 @@ public class Cli implements View{
         Scanner in = new Scanner(System.in);
         List<Integer> l = new LinkedList<>();
         while(!this.game.isValidFirstActionMove(l)) {
-            System.out.println("choose the sequence of movement you want to do");
+            System.out.println("Choose the sequence of movement you want to do");
             while (in.hasNext())
                 l.add(in.nextInt());
         }
@@ -104,5 +104,61 @@ public class Cli implements View{
 
     private void grab(){
         //TODO
+    }
+
+    public void action2(){
+        Scanner in = new Scanner(System.in);
+        System.out.println("Choose the action you want to do(Move, Shoot, Grab)");
+        String action = in.nextLine();
+        if(action.equals("Move"))
+            this.move();
+        if(action.equals("Shoot"))
+            this.shoot();
+        if(action.equals("Grab"))
+            this.grab();
+    }
+
+
+    public void reload(){               //the player knows everything!
+        Scanner in = new Scanner(System.in);
+        int i = 0;
+        while(i == 0){
+            System.out.println("Choose the weapon card you want to reload");
+            String s = in.nextLine();
+            System.out.println("Enter 0 if you want to reload another card, otherwise 1");
+            i = in.nextInt();
+            if(this.game.isValidReload())
+                this.game.reload(this.nickName, s, i);
+            else
+                System.out.println("You can't reload now: pay attention to the rule! (you can find the rule book near the board you bought)");
+        }
+    }
+
+    public void scoring(){
+        if(this.game.isValidScoring())
+            this.game.scoring();
+        else
+            System.out.println("It is not time for scoring: pay attention to the rule! (you can find the rule book near the board you bought)");
+    }
+
+
+    public void newSpawnPoint(){
+
+        if(this.game.isValidDiscardCardForSpawnPoint() && this.game.getDeadList().contains(this.nickName)) {
+            System.out.println("Enter the PowerUp card you want to discard");
+            Scanner in = new Scanner(System.in);
+            String s = in.nextLine();
+            this.game.discardCardForSpawnPoint(this.nickName, s);
+        }
+        else
+            System.out.println("What are you doing, man?");
+    }
+
+
+    public void replace(){
+        if(this.game.isValidToReplace())
+            this.game.replace();
+        else
+            System.out.println("Time for replacing has not come yet: pay attention to the rule! (you can find the rule book near the board you bought)");
     }
 }

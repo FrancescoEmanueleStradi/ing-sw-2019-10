@@ -200,17 +200,18 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         return false;
     }
 
-    public boolean reload(Player p, String s, int end){  // end is 1 if the player has finished to reload
-       if(this.gameState.equals(ACTION2)){
+    public boolean isValidReload(){
+        return this.gameState.equals(ACTION2);
+    }
+
+    public void reload(Player p, String s, int end){  // end is 1 if the player has finished to reload
            if(p.checkAmmoCube(p.getWeaponCardObject(s).getReloadCost())){
                 p.getWeaponCardObject(s).reload();
                 p.removeArrayAC(p.getWeaponCardObject(s).getReloadCost());
            }
            if(end == 1)
                this.gameState = RELOADED;
-           return true;
-       }
-       return false;
+
     }
 
 
@@ -232,8 +233,11 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
     }
 
-    public boolean scoring(){
-       if(this.gameState.equals(RELOADED) && (this.grid.whoIsDead()!=null)){
+    public boolean isValidScoring(){
+        return this.gameState.equals(RELOADED) && (this.grid.whoIsDead()!=null);
+    }
+
+    public void scoring(){
            int c = 0;
            for(Player p : this.grid.whoIsDead()) {
                this.grid.scoringByColour(p.getpB().getDamages().getDamageTr()[0].getC(), 1);
@@ -246,18 +250,16 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                this.death(p);
                this.gameState = DEATH;
            }
-           return true;
-       }
-       return false;
+
     }
 
-    public boolean discardCardForSpawnPoint(Player p, PowerUpCard p1){      //Attention to the view
-       if(this.gameState == DEATH) {
+    public boolean isValidDiscardCardForSpawnPoint(){
+        return this.gameState == DEATH;
+    }
+
+    public void discardCardForSpawnPoint(Player p, PowerUpCard p1){      //Attention to the view
            chooseSpawnPoint(p1.getC(), p);
            p.removePowerUpCard(p1);
-           return true;
-       }
-       return false;
     }
 
     public void replace(){

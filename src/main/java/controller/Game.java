@@ -3,6 +3,7 @@ package controller;
 import model.*;
 import model.cards.PowerUpCard;
 import model.Position;
+import model.player.DamageToken;
 import model.player.Player;
 
 import java.util.LinkedList;
@@ -147,6 +148,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
        if(p.getpB().getDamages().getDamageTr()[11] != null) {
            int n = this.grid.getBoard().substituteSkull(2);
            this.grid.getBoard().getK().getC()[n] = p.getpB().getDamages().getDT(11).getC();
+           p.getpB().addMark(new DamageToken(p.getpB().getDamages().getDT(11).getC()));      //OverKill
         }
         else {
             int n = this.grid.getBoard().substituteSkull(1);
@@ -161,17 +163,19 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
     public boolean scoring(){
        if(this.gameState.equals(RELOADED) && (this.grid.whoIsDead()!=null)){
+           int c = 0;
            for(Player p : this.grid.whoIsDead()) {
                this.grid.scoringByColour(p.getpB().getDamages().getDamageTr()[0].getC(), 1);
-               if(p.getpB().getPoints().getPoints().size()>1) {
-                   this.grid.scoringByColour(p.getpB().getDamages().bestKiller(), p.getpB().getPoints().getInt(1));
-                    //TODO
-
-               }
+               for(int i = 1; i < p.getpB().getPoints().getPoints().size(); i++)
+                   this.grid.scoringByColour(p.getpB().getDamages().getColourPosition(i-1), p.getpB().getPoints().getInt(i));
+               p.getpB().getDamages().cleanL();
+               c++;
+               if(c == 2)
+                   this.grid.scoringByColour(p.getpB().getDamages().getDamageTr()[10].getC(),1);        //Double Kill
                this.death(p);
                this.gameState = DEATH;
-               return true;
            }
+           return true;
        }
        return false;
     }

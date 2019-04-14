@@ -6,11 +6,13 @@ import model.cards.*;
 public class Board {
 
     private KillTrack k;
-    private WeaponSlot w1, w2, w3;
+    private WeaponSlot w1;
+    private WeaponSlot w2;
+    private WeaponSlot w3;
     private Cell[][] arena = new Cell[3][4];        //3 rows 4 columns
     private int aType;                              // From 1 to 4 --> From the highest (the biggest) to the lowest in the rule file
 
-    public Board(int type, WeaponCard wc1, WeaponCard wc2, WeaponCard wc3, WeaponCard wc4, WeaponCard wc5, WeaponCard wc6, WeaponCard wc7, WeaponCard wc8, WeaponCard wc9) {
+    public Board(int type, WeaponCard wc1, WeaponCard wc2, WeaponCard wc3, WeaponCard wc4, WeaponCard wc5, WeaponCard wc6, WeaponCard wc7, WeaponCard wc8, WeaponCard wc9) {    //too many parameters: maybe give WeaponSlot already initialized.
         this.k = new KillTrack();
         this.aType = type;
         this.w1 = new WeaponSlot(1, wc1, wc2, wc3);

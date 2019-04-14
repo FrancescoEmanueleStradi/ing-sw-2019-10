@@ -1,6 +1,5 @@
 package model.player.damagetrack;
 
-import com.sun.istack.internal.NotNull;
 import model.Colour;
 import model.player.DamageToken;
 
@@ -53,25 +52,12 @@ public class DamageTrack {
     }
 
     private List<Colour> colours(){
-        LinkedList<Colour> l = new LinkedList<>();
+        LinkedList<Colour> lC = new LinkedList<>();
         for(DamageToken d : this.damageTr){
-            if(!l.contains(d.getC()))
-                l.add(d.getC());
+            if(!lC.contains(d.getC()))
+                lC.add(d.getC());
         }
-        return l;
-    }
-
-
-    public Colour bestKiller(){
-        Colour c = null;
-        int n = 0;
-        for(Colour c1 : this.colours()){
-            if(n < this.damageByColour(c1)){
-                c = c1;
-                n = this.damageByColour(c1);
-            }
-        }
-       return c;
+        return lC;
     }
 
     public void cleanL(){
@@ -117,18 +103,6 @@ public class DamageTrack {
         }
         this.tie();
     }
-
-    /*private Colour firstAttacker(List<Colour> l){
-        for(DamageToken d : this.damageTr){
-            for(Colour c : l){
-                if(c.equals(d.getC()))
-                    return c;
-            }
-        }
-        return null;
-    }*/
-
-
 
     private List<NumColour> getOrderedNumColour(){
         return this.l.stream().sorted((a, b) -> (a.colourDifference(b))).collect(Collectors.toList());

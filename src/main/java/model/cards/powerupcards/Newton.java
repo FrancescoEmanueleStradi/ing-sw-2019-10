@@ -23,7 +23,7 @@ public class Newton extends PowerUpCard {
     //before: let player p choose a player p1 at any time of his turn, except for when p1 respawns at the end of p's turn.
     //        also let player p select a Cell cell one or two cells away from p1.
 
-    public void applyEffect(Grid grid, Player p1, Cell cell) {  //p1 is moved in cell
+    public void applyEffect(Player p1, Cell cell) {  //p1 is moved in cell
         p1.setCell(cell);
     }
 }

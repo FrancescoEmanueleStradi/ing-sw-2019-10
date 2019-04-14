@@ -10,8 +10,4 @@ public abstract class Deck {
         Collections.shuffle(deck);
     }
 
-    public void showDeck(List deck) {
-        System.out.println(deck);
-    }
-
 }

@@ -1,6 +1,8 @@
 package model.player;
 
 import java.util.ArrayList;
+import java.util.List;
+
 public class PointsPlayerBoard {
 
     private ArrayList<Integer> points = new ArrayList<>();
@@ -15,7 +17,7 @@ public class PointsPlayerBoard {
         points.add(1);
     }
 
-    public ArrayList<Integer> getPoints() {
+    public List<Integer> getPoints() {
         return points;
     }
 

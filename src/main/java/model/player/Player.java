@@ -152,10 +152,10 @@ public class Player {
         return null;
     }
 
-    public boolean canPay(WeaponCard wC){
+    /*public boolean canPay(WeaponCard wC){
         //TODO return (this.checkAmmoCubeForPay(wC.getReloadCost()) && )
 
-    }
+    }*/
 
 
     public List<PowerUpCard> getpC() {

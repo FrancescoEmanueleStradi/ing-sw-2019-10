@@ -7,6 +7,8 @@ import model.cards.PowerUpCard;
 import model.cards.WeaponCard;
 import model.player.Player;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Cli implements View{
@@ -30,8 +32,8 @@ public class Cli implements View{
 
             System.out.println("Choose the type of Arena(1, 2, 3, 4)");
             int type = in.nextInt();
-            if(isValidReceiveType())
-                game.receiveType(type);
+            if(this.game.isValidReceiveType())
+                this.game.receiveType(type);
             return;
         }
 
@@ -55,5 +57,52 @@ public class Cli implements View{
     }
 
 
+    public void selectSpawnPoint(){
+        Scanner in = new Scanner(System.in);
+        List<PowerUpCard> l = new LinkedList<>();
+        for(PowerUpCard p : this.game.giveTwoPUCard(this.nickName)){
+            System.out.println(p.getCardName());
+            l.add(p);
+        }
+        System.out.println("Enter the name of the card you want to choose, you will discard the other one");
+        String p1 = in.nextLine();
+        if(this.game.isValidPickAndDiscard(this.nickName)) {
+            if(l.get(0).getCardName().equals(p1))
+                this.game.pickAndDiscardCard(this.nickName, l.get(0), l.get(1));
+            else
+                this.game.pickAndDiscardCard(this.nickName, l.get(1), l.get(0));
+        }
+    }
 
+
+    public void action1(){
+        Scanner in = new Scanner(System.in);
+        System.out.println("choose the action you want to do(Move, Shoot, Grab)");
+        String action = in.nextLine();
+        if(action.equals("Move"))
+            this.move();
+        if(action.equals("Shoot"))
+            this.shoot();
+        if(action.equals("Grab"))
+            this.grab();
+    }
+
+    private void move(){
+        Scanner in = new Scanner(System.in);
+        List<Integer> l = new LinkedList<>();
+        while(!this.game.isValidFirstActionMove(l)) {
+            System.out.println("choose the sequence of movement you want to do");
+            while (in.hasNext())
+                l.add(in.nextInt());
+        }
+        this.game.firstActionMove(this.nickName, l);
+    }
+
+    private void shoot(){
+        //TODO
+    }
+
+    private void grab(){
+        //TODO
+    }
 }

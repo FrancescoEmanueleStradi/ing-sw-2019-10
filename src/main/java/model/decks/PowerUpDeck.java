@@ -87,7 +87,7 @@ public class PowerUpDeck extends Deck {
         return p;
     }
 
-    public void drawFromDeck() {
-        //TODO
+    public void getPowerUpCardObject(String s) {
+
     }
 }

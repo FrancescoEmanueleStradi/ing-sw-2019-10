@@ -76,15 +76,19 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
        return new LinkedList<>();
    }
 
-   public boolean pickAndDiscardCard(String nickName, PowerUpCard p1, PowerUpCard p2){     //p1 choose, p2 discard
+   public boolean isValidPickAndDiscard(String nickName){
+        Player p = this.grid.getPlayerObject(nickName);
+        return (p.getCell() == null);
+   }
+
+   public void pickAndDiscardCard(String nickName, PowerUpCard p1, PowerUpCard p2){     //p1 choose, p2 discard
        Player p = this.grid.getPlayerObject(nickName);
        p.addPowerUpCard(p1);
-       return chooseSpawnPoint(p2.getValue().getC(), p);
+       chooseSpawnPoint(p2.getValue().getC(), p);
    }
 
 
-   public boolean chooseSpawnPoint(Colour c, Player p){
-       if(p.getCell() == null){
+   public void chooseSpawnPoint(Colour c, Player p){
            if(c.equals(Colour.YELLOW))
                this.grid.move(p, new Position(2,3));
            if(c.equals(Colour.RED))
@@ -92,9 +96,6 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
            if(c.equals(Colour.BLUE))
                this.grid.move(p, new Position(0,2));
            this.gameState = STARTTURN;
-            return true;
-       }
-       return false;
    }
                                                             //view ask the choice
 
@@ -108,22 +109,21 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
        return false;
    }
 
-   private void move(Player p, int[] directions) {
-       for(int i = 0; i < directions.length; i++) {
-           this.grid.move(p, directions[i]);    //view will tell player if there's a wall
+   private void move(Player p, List<Integer> directions) {
+       for(int i = 0; i < directions.size(); i++) {
+           this.grid.move(p, directions.get(i));    //view will tell player if there's a wall
        }
    }
 
 
-    public boolean firstActionMove(Player p, int[] directions){ //player p moves 1,2,3 cells: directions contains every direction from cell to cell
-        if(this.gameState.equals(STARTTURN)) {
-            if (directions.length < 4) {
+   public boolean isValidFirstActionMove(List<Integer> directions){
+        return (this.gameState.equals(STARTTURN) && (directions.size() < 4) && (!directions.isEmpty()));
+   }
+
+    public void firstActionMove(String s, List<Integer> directions){ //player p moves 1,2,3 cells: directions contains every direction from cell to cell
+                Player p = this.grid.getPlayerObject(s);
                 move(p, directions);
                 this.gameState = ACTION1;
-                return true;
-            }
-        }
-        return false;
     }
 
     private void giveWhatIsOnAmmoCard(Player p, AmmoCard card) {
@@ -133,13 +133,13 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
            p.addNewAC(cube);
     }
 
-    private void GrabNotAdrenaline(Player p, int direction, WeaponCard wCard, ) {
+    private void GrabNotAdrenaline(Player p, int direction, WeaponCard wCard ) {
         this.grid.move(p, direction);
         if(p.getCell().getStatus() == 0)
             giveWhatIsOnAmmoCard(p, p.getCell().getA());
         else if((p.getCell().getStatus() == 1) && wCard != null) {
-            if(p.canPay(wCard))
-                p.payWeaponCard(wCard);
+            //if(p.canPay(wCard))
+                //p.payWeaponCard(wCard);
         }
         if(p.getwC().size() > 3)
             this.discard = true;                    //View saved the Weapon Slot
@@ -179,9 +179,9 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         return false;
     }
 
-    public boolean secondActionMove(Player p, int[] directions){ //player p moves 1,2,3 cells: directions contains every direction from cell to cell
+    public boolean secondActionMove(Player p, List<Integer> directions){ //player p moves 1,2,3 cells: directions contains every direction from cell to cell
         if(this.gameState.equals(ACTION1)) {
-            if (directions.length < 4) {
+            if (directions.size() < 4) {
                 move(p, directions);
                 this.gameState = ACTION2;
                 return true;

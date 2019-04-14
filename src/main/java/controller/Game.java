@@ -54,30 +54,32 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         return false;
     }
 
-   public boolean receiveType(int type){
-       if(this.gameState.equals(START)) {
-           this.grid.setType(type);                 //find a condition
-           this.grid.setUpAmmoCard();
-           this.gameState = INITIALIZED;
-           return true;
-       }
-       return false;
+    public boolean isValidReceiveType() {
+        return this.gameState.equals(START);    //also check if int type is 1, 2, 3 or 4?
+    }
+
+   public void receiveType(int type){
+        this.grid.setType(type);                 //find a condition
+        this.grid.setUpAmmoCard();
+        this.gameState = INITIALIZED;
    }
 
-   public List<PowerUpCard> giveTwoPUCard(Player p){
-       if(p.getCell() == null) {
-           List<PowerUpCard> l = new LinkedList<>();
-           l.add(this.grid.pickPowerUpCard());
-           l.add(this.grid.pickPowerUpCard());
-           return l;
-       }
+   public List<PowerUpCard> giveTwoPUCard(String nickName){
+        Player p = this.grid.getPlayerObject(nickName);
+        if(p.getCell() == null) {
+            List<PowerUpCard> l = new LinkedList<>();
+            l.add(this.grid.pickPowerUpCard());
+            l.add(this.grid.pickPowerUpCard());
+            return l;
+        }
                                             //View control -> empty list
        return new LinkedList<>();
    }
 
-   public boolean pickAndDiscardCard(Player p, PowerUpCard p1, PowerUpCard p2){     //p1 choose, p2 discard
-           p.addPowerUpCard(p1);
-           return chooseSpawnPoint(p2.getValue().getC(), p);
+   public boolean pickAndDiscardCard(String nickName, PowerUpCard p1, PowerUpCard p2){     //p1 choose, p2 discard
+       Player p = this.grid.getPlayerObject(nickName);
+       p.addPowerUpCard(p1);
+       return chooseSpawnPoint(p2.getValue().getC(), p);
    }
 
 

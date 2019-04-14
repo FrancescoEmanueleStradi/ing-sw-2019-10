@@ -1,6 +1,5 @@
 package model.player;
 
-import model.Actions;
 import model.Colour;
 import model.player.damagetrack.DamageTrack;
 import org.junit.jupiter.api.Test;
@@ -11,11 +10,6 @@ class PlayerBoardAssertTests {
     @Test
     void PlayerBoardTest() {
         PlayerBoard pb = new PlayerBoard();
-
-        assertNotNull(pb.getActions());
-        Actions newActions = new Actions();
-        pb.setActions(newActions);
-        assertEquals(newActions, pb.getActions());
 
         assertNotNull(pb.getDamages());
         DamageTrack newDT = new DamageTrack();

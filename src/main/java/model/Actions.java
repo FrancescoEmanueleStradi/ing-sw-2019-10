@@ -1,4 +1,4 @@
-package model;
+/*package model;
 
 import view.Cli;
 
@@ -31,4 +31,4 @@ public class Actions {
         c.printShift(this.shootMove);
     }
 
-}
+}*/

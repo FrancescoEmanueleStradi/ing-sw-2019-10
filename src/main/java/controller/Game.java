@@ -1,6 +1,7 @@
 package controller;
 
 import model.*;
+import model.board.WeaponSlot;
 import model.cards.AmmoCard;
 import model.cards.PowerUpCard;
 import model.Position;
@@ -19,27 +20,30 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
     private GameState gameState;
     private boolean init = false;
     private Grid grid;
+    private boolean discard = false;
 
+    public boolean gameIsNotStarted(){
+        return this.grid.getPlayers().isEmpty();
+    }
 
-   public boolean gameStart(String nickName, Colour c) throws InvalidColourException{
+   public void gameStart(String nickName, Colour c) throws InvalidColourException{
        if(!init) {
            init = true;
            this.grid = new Grid();
            Player p = new Player(nickName, c, true);
            this.grid.addPlayer(p);               //first state
            this.gameState = START;
-           return true;
        }
-       return false;
    }
 
-    public boolean addPlayer(String nickName, Colour c) throws InvalidColourException{
-       if((init) && !(this.grid.getPlayersNickName().contains(nickName)) && !(this.grid.getPlayersColour().contains(c))) {
+   public boolean isValidAddPlayer(String nickName, Colour c){
+       return ((init) && !(this.grid.getPlayersNickName().contains(nickName)) && !(this.grid.getPlayersColour().contains(c)));
+   }
+
+
+   public void addPlayer(String nickName, Colour c) throws InvalidColourException{
            Player p = new Player(nickName, c, false);
            this.grid.addPlayer(p);
-           return true;
-       }
-       return false;
     }
 
     public boolean removePlayer(String nickName){
@@ -127,25 +131,45 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
            p.addNewAC(cube);
     }
 
-    private void GrabNotAdrenaline(Player p, int direction, WeaponCard wcard) {
+    private void GrabNotAdrenaline(Player p, int direction, WeaponCard wCard, ) {
         this.grid.move(p, direction);
         if(p.getCell().getStatus() == 0)
             giveWhatIsOnAmmoCard(p, p.getCell().getA());
-        else if((p.getCell().getStatus() == 1) && wcard != null)
-            p.addWeaponCard(wcard);
-            //TODO
+        else if((p.getCell().getStatus() == 1) && wCard != null) {
+            if(p.canPay(wCard))
+                p.payWeaponCard(wCard);
+        }
+        if(p.getwC().size() > 3)
+            this.discard = true;                    //View saved the Weapon Slot
+    }
+
+    private void discardWeaponCard(Player p, WeaponSlot wS, WeaponCard wC){
+       p.removeWeaponCard(wC);
+       if(wS.getCard1() == null){
+           wS.setCard1(wC);
+           return;
+       }
+        if(wS.getCard2() == null){
+            wS.setCard2(wC);
+            return;
+        }
+        if(wS.getCard3() == null)
+            wS.setCard3(wC);
     }
 
     private void GrabAdrenaline() {
 
     }
 
-    public boolean firstActionGrab(Player p, int[] directions, WeaponCard wcard){ //directions contains where p wants to go. directions contains '0' if p doesn't want to move and only grab
+    public boolean firstActionGrab(Player p, int[] directions, WeaponCard wCard){ //directions contains where p wants to go. directions contains '0' if p doesn't want to move and only grab
         if(this.gameState.equals(STARTTURN)){
             if(!(p.isAdrenaline1()) && (directions.length == 1))
-                GrabNotAdrenaline(p, directions[0], wcard);
+                GrabNotAdrenaline(p, directions[0], wCard);
             else return false;
 
+            if(p.isAdrenaline1()||p.isAdrenaline2()){
+
+            }
 
             this.gameState = ACTION1;
             return true;
@@ -174,7 +198,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         return false;
     }
 
-    public boolean reaload(Player p, String s, int end){  // end is 1 if the player has finished to reload
+    public boolean reload(Player p, String s, int end){  // end is 1 if the player has finished to reload
        if(this.gameState.equals(ACTION2)){
            if(p.checkAmmoCube(p.getWeaponCardObject(s).getReloadCost())){
                 p.getWeaponCardObject(s).reload();

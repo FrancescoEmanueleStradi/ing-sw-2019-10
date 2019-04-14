@@ -1,43 +1,59 @@
 package view;
 
+import controller.Game;
+import model.Colour;
+import model.InvalidColourException;
 import model.cards.PowerUpCard;
 import model.cards.WeaponCard;
+import model.player.Player;
+
+import java.util.Scanner;
 
 public class Cli implements View{
 
-    public void askPlayerDamage(){
-        System.out.println("Write the Nickname of the player you want to damage");
+    private Game game;
+    private String nickName;
+    private Colour colour;
+
+    public void askNameAndColour() throws InvalidColourException {
+
+        Scanner in = new Scanner(System.in);
+        if (this.game.gameIsNotStarted()) {
+            System.out.println("Enter your name:");
+            this.nickName = in.nextLine();
+
+            System.out.println("Enter your colour(YELLOW, BLUE, GREEN, PURPLE, BLACK):");
+            String stringColour = in.nextLine();
+            this.colour = Colour.valueOf(stringColour);
+
+            this.game.gameStart(nickName, colour);
+
+            System.out.println("Choose the type of Arena(1, 2, 3, 4)");
+            int type = in.nextInt();
+            if(isValidReceiveType())
+                game.receiveType(type);
+            return;
+        }
+
+        System.out.println("Enter your name:");
+        this.nickName = in.nextLine();
+
+        System.out.println("Enter your colour:");
+        String stringColour = in.nextLine();
+        this.colour = Colour.valueOf(stringColour);
+
+        while(!this.game.isValidAddPlayer( this.nickName, this.colour)){
+            System.out.println("Enter your name:");
+            this.nickName = in.nextLine();
+
+            System.out.println("Enter your colour:");
+            String stringColour1 = in.nextLine();
+            this.colour = Colour.valueOf(stringColour);
+        }
+
+        this.game.addPlayer(this.nickName, this.colour);
     }
 
-    public void errorInvalidPlayer(){
-        System.out.println("You wrote an Invalid Nickname");
-    }
 
-    public void enterYourNickname(){
-        System.out.println("Enter your Nickname:");
-    }
 
-    public void effectType(){
-        System.out.println("Which type of effect you desire to use?");
-    }
-
-    public void printCardDetails(WeaponCard w){
-        System.out.println("here are the details:"+w.getDescription());
-    }
-
-    public void printCardDetails(PowerUpCard p){
-        System.out.println("here are the details:"+p.getDescription());
-    }
-
-    public void printShift(String s){
-        System.out.println("First option: "+ s);
-    }
-
-    public void printCollect(String s){
-        System.out.println("Second option: "+ s);
-    }
-
-    public void printShoot(String s){
-        System.out.println("Third option: "+ s);
-    }
 }

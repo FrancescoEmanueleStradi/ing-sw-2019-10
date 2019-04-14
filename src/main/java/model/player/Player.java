@@ -73,6 +73,13 @@ public class Player {
         return (l1.containsAll(l2));
     }
 
+    public boolean checkAmmoCubeForPay(AmmoCube[] a){           //does it work on the original one? we hope not
+        List<AmmoCube> l1 = Arrays.asList(this.aC);
+        List<AmmoCube> l2 = Arrays.asList(a);
+        l2.remove(0);
+        return (l1.containsAll(l2));
+    }
+
     public void addAC(AmmoCube ac) {    //initialization
 
         if (ac.getC() == Colour.RED) {
@@ -144,6 +151,12 @@ public class Player {
         }
         return null;
     }
+
+    public boolean canPay(WeaponCard wC){
+        //TODO return (this.checkAmmoCubeForPay(wC.getReloadCost()) && )
+
+    }
+
 
     public List<PowerUpCard> getpC() {
         return pC;

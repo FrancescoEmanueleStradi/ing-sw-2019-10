@@ -1,5 +1,6 @@
 package model.player.damagetrack;
 
+import com.sun.istack.internal.NotNull;
 import model.Colour;
 import model.player.DamageToken;
 
@@ -86,11 +87,12 @@ public class DamageTrack {
     }
 
     private NumColour giveNumColour(Colour c){
+        NumColour nullColour = new NumColour(null);
         for(NumColour n : this.l){
             if(n.getC().equals(c))
                 return n;
         }
-        return null;
+        return nullColour;
     }
 
     private void tie(){

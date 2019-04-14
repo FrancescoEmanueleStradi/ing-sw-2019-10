@@ -7,14 +7,25 @@ import java.util.*;
 
 public class Server extends UnicastRemoteObject implements ServerInterface {
 
-    public Server() throws RemoteException {
+    private String someMessage = "Hello there";
 
+    public String getSomeMessage() {
+        return someMessage;
     }
 
-    public static void main(String args[]) throws AlreadyBoundException, RemoteException {
+    public Server() throws RemoteException {
+        super();
+    }
+
+    public static void main(String[] args) throws AlreadyBoundException, RemoteException {
         System.out.println("Generating server...");
+        Server centralServer = new Server();
 
-        Server central = new Server();
+        System.out.println("Binding server to registry...");
+        //Registry registry = LocateRegistry.getRegistry();
+        Registry registry = LocateRegistry.createRegistry(5099);
+        registry.bind("central", centralServer);
 
+        System.out.println("Client may now invoke methods");
     }
 }

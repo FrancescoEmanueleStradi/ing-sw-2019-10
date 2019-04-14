@@ -11,6 +11,7 @@ import model.cards.weaponcards.*;
 import model.decks.PowerUpDeck;
 import model.decks.WeaponDeck;
 import model.player.*;
+import model.player.damagetrack.DamageTrack;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

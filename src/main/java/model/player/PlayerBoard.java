@@ -1,6 +1,7 @@
 package model.player;
 
 import model.*;
+import model.player.damagetrack.DamageTrack;
 
 import java.util.ArrayList;
 import java.util.List;

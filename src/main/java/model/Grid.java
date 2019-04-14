@@ -111,6 +111,10 @@ public class Grid {
         return abs(p1.getCell().getP().getX()-p2.getCell().getP().getX()) + abs(p1.getCell().getP().getY()-p2.getCell().getP().getY());
     }
 
+    public int distance(Player p, Position pos){
+        return abs(p.getCell().getP().getX()-pos.getX()) + abs(p.getCell().getP().getY()-pos.getY());
+    }
+
     public Cell whereAmI(Player p){
         return p.getCell();
     }

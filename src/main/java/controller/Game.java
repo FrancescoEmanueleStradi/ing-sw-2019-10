@@ -99,13 +99,20 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
        return false;
    }
 
+   private void move(Player p, int[] directions) {
+       for(int i = 0; i < directions.length; i++) {
+           this.grid.move(p, directions[i]);    //view will tell player if there's a wall
+       }
+   }
 
-    public boolean firstActionMove(Player p, String s){
-        if(this.gameState.equals(STARTTURN)){
 
-            //TODO
-            this.gameState = ACTION1;
-            return true;
+    public boolean firstActionMove(Player p, int[] directions){ //player p moves 1,2,3 cells: directions contains every direction from cell to cell
+        if(this.gameState.equals(STARTTURN)) {
+            if (directions.length < 4) {
+                move(p, directions);
+                this.gameState = ACTION1;
+                return true;
+            }
         }
         return false;
     }
@@ -119,6 +126,18 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         }
         return false;
     }
+
+    public boolean secondActionMove(Player p, int[] directions){ //player p moves 1,2,3 cells: directions contains every direction from cell to cell
+        if(this.gameState.equals(ACTION1)) {
+            if (directions.length < 4) {
+                move(p, directions);
+                this.gameState = ACTION2;
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     public boolean usePowerUpCard(Player p, String s){
         if(this.gameState.equals(STARTTURN) || this.gameState.equals(ACTION1) || this.gameState.equals(ACTION2)){

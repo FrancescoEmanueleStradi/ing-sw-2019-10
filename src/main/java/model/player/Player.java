@@ -32,7 +32,7 @@ public class Player {
         this.fig = new Figure(c);
         this.firstPlayerCard = f;
         this.score = 0;
-        this.aC = new AmmoCube[]{new AmmoCube(Colour.RED), /*new AmmoCube(Colour.RED), new AmmoCube(Colour.RED),*/ new AmmoCube(Colour.BLUE),/* new AmmoCube(Colour.BLUE), new AmmoCube(Colour.BLUE),*/ new AmmoCube(Colour.YELLOW), /*new AmmoCube(Colour.YELLOW), new AmmoCube(Colour.YELLOW)*/};
+        this.aC = new AmmoCube[]{new AmmoCube(Colour.RED), null, null, new AmmoCube(Colour.BLUE), null, null, new AmmoCube(Colour.YELLOW), null, null};
         wC = new LinkedList<>();
         pC = new LinkedList<>();
 
@@ -73,18 +73,39 @@ public class Player {
         return (l1.containsAll(l2));
     }
 
-    public void addAC(AmmoCube ac) {
+    public void addAC(AmmoCube ac) {    //initialization
 
         if (ac.getC() == Colour.RED) {
             this.aC[0] = ac;
         }
 
         if (ac.getC() == Colour.BLUE) {
-            this.aC[1] = ac;
+            this.aC[3] = ac;
         }
 
         if (ac.getC() == Colour.YELLOW) {
-            this.aC[2] = ac;
+            this.aC[6] = ac;
+        }
+    }
+
+    public void addNewAC(AmmoCube ac) {
+        if(ac.getC() == Colour.RED) {
+            for (int i = 0; i < 3; i++) {
+                if (this.aC[i] == null)
+                    this.aC[i] = ac;
+            }
+        }
+        else if(ac.getC() == Colour.BLUE) {
+            for (int i = 3; i < 6; i++) {
+                if (this.aC[i] == null)
+                    this.aC[i] = ac;
+            }
+        }
+        else if(ac.getC() == Colour.YELLOW) {
+            for (int i = 6; i < 9; i++) {
+                if (this.aC[i] == null)
+                    this.aC[i] = ac;
+            }
         }
     }
 
@@ -141,7 +162,8 @@ public class Player {
     }
 
     public void changeCell(Cell c){
-        this.cell = c;
+        if(c.getStatus() != -1)
+            this.cell = c;
     }
 
     public Cell getCell() {

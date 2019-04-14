@@ -1,8 +1,11 @@
 package controller;
 
 import model.*;
+import model.cards.AmmoCard;
 import model.cards.PowerUpCard;
 import model.Position;
+import model.cards.WeaponCard;
+import model.player.AmmoCube;
 import model.player.DamageToken;
 import model.player.Player;
 
@@ -117,9 +120,32 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         return false;
     }
 
-    public boolean firstActionGrab(Player p, String s){
-        if(this.gameState.equals(STARTTURN)){
+    private void giveWhatIsOnAmmoCard(Player p, AmmoCard card) {
+       if(card.ispC())
+           p.addPowerUpCard(this.grid.pickPowerUpCard());
+       for(AmmoCube cube : card.getaC())
+           p.addNewAC(cube);
+    }
+
+    private void GrabNotAdrenaline(Player p, int direction, WeaponCard wcard) {
+        this.grid.move(p, direction);
+        if(p.getCell().getStatus() == 0)
+            giveWhatIsOnAmmoCard(p, p.getCell().getA());
+        else if((p.getCell().getStatus() == 1) && wcard != null)
+            p.addWeaponCard(wcard);
             //TODO
+    }
+
+    private void GrabAdrenaline() {
+
+    }
+
+    public boolean firstActionGrab(Player p, int[] directions, WeaponCard wcard){ //directions contains where p wants to go. directions contains '0' if p doesn't want to move and only grab
+        if(this.gameState.equals(STARTTURN)){
+            if(!(p.isAdrenaline1()) && (directions.length == 1))
+                GrabNotAdrenaline(p, directions[0], wcard);
+            else return false;
+
 
             this.gameState = ACTION1;
             return true;

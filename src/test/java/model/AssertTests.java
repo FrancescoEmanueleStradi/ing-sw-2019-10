@@ -231,16 +231,16 @@ class AssertTests {
 
         assertTrue(p1.getpB().mIsEmpty());
 
-        assertEquals(3, p1.getaC().length);
+        assertEquals(9, p1.getaC().length);
         assertEquals(Colour.RED, p1.getaC()[0].getC());
-        //assertEquals(Colour.RED, p1.getaC()[1].getC());
-        //assertEquals(Colour.RED, p1.getaC()[2].getC());
-        assertEquals(Colour.BLUE, p1.getaC()[1].getC());
-        //assertEquals(Colour.BLUE, p1.getaC()[4].getC());
-        //assertEquals(Colour.BLUE, p1.getaC()[5].getC());
-        assertEquals(Colour.YELLOW, p1.getaC()[2].getC());
-        //assertEquals(Colour.YELLOW, p1.getaC()[7].getC());
-        //assertEquals(Colour.YELLOW, p1.getaC()[8].getC());
+        assertNull(p1.getaC()[1]);
+        assertNull(p1.getaC()[2]);
+        assertEquals(Colour.BLUE, p1.getaC()[3].getC());
+        assertNull(p1.getaC()[4]);
+        assertNull(p1.getaC()[5]);
+        assertEquals(Colour.YELLOW, p1.getaC()[6].getC());
+        assertNull(p1.getaC()[7]);
+        assertNull(p1.getaC()[8]);
 
         //TODO test addAC() --> need method to remove an AmmoCube from p1.aC
 

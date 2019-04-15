@@ -1,20 +1,25 @@
-package controller;
+package view;
+
+import controller.ServerInterface;
 
 import java.rmi.*;
 import java.rmi.registry.*;
 import java.rmi.server.*;
-import java.util.*;
 
 public class Server extends UnicastRemoteObject implements ServerInterface {
 
-    private String someMessage = "Hello there";
+    /*private String someMessage = "Hello there";
 
     public String getSomeMessage() {
         return someMessage;
-    }
+    }*/
 
     public Server() throws RemoteException {
         super();
+    }
+
+    public String echo(String input) throws RemoteException {
+        return "From server: " + input;
     }
 
     public static void main(String[] args) throws AlreadyBoundException, RemoteException {
@@ -24,7 +29,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
         System.out.println("Binding server to registry...");
         //Registry registry = LocateRegistry.getRegistry();
         Registry registry = LocateRegistry.createRegistry(5099);
-        registry.bind("central", centralServer);
+        registry.rebind("central_server", centralServer);
 
         System.out.println("Client may now invoke methods");
     }

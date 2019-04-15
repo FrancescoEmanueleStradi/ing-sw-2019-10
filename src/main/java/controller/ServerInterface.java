@@ -15,5 +15,6 @@ import java.rmi.*;
 
 public interface ServerInterface extends Remote {
 
-    String getSomeMessage();
+    //String getSomeMessage();
+    String echo(String input) throws RemoteException;
 }

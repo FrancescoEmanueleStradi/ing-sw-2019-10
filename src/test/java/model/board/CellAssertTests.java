@@ -1,10 +1,14 @@
 package model.board;
 
 import model.Colour;
+import model.InvalidColourException;
 import model.Position;
+import model.cards.AmmoCard;
+import model.cards.ammocards.BRR;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 class CellAssertTests {
     @Test
@@ -43,5 +47,25 @@ class CellAssertTests {
 
         assertEquals(1, cell.getP().getX());
         assertEquals(3, cell.getP().getY());
+    }
+
+    @Test
+    void CellAmmoCardTest() throws InvalidColourException  {
+        AmmoCard ammocard = new BRR();
+        int[] walls = new int[]{0, 1};
+        int[] doors = new int[]{2, 3};
+        Position pos = new Position(2, 2);
+        Cell cell = new Cell(0, Colour.BLUE, walls, doors, pos);
+
+        assertNull(cell.getA());
+        cell.setA(ammocard);
+        assertEquals(ammocard, cell.getA());
+
+        Position posRespawn = new Position(1, 0);
+        Cell respawn = new Cell(1, Colour.RED, walls, doors, posRespawn);
+
+        assertNull(respawn.getA());
+        respawn.setA(ammocard);
+        assertNull(respawn.getA());
     }
 }

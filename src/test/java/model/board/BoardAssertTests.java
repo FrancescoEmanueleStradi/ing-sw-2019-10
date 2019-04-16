@@ -2,15 +2,19 @@ package model.board;
 
 import model.Colour;
 import model.InvalidColourException;
+import model.Position;
+import model.cards.AmmoCard;
 import model.cards.WeaponCard;
-import model.cards.weaponcards.MachineGun;
+import model.cards.ammocards.PRB;
+import model.cards.ammocards.PYB;
+import model.cards.weaponcards.*;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class BoardAssertTests {
     @Test
-    void BoardTest() throws InvalidColourException {
+    void BoardCreationTest() throws InvalidColourException {
         WeaponCard w1 = new MachineGun();
         WeaponCard w2 = new MachineGun();
         WeaponCard w3 = new MachineGun();
@@ -20,7 +24,6 @@ class BoardAssertTests {
         WeaponCard w7 = new MachineGun();
         WeaponCard w8 = new MachineGun();
         WeaponCard w9 = new MachineGun();
-
 
         Board board1 = new Board(1, w1, w2, w3, w4, w5, w6, w7, w8, w9);
         Cell[][] arena1 = board1.getArena();
@@ -85,5 +88,191 @@ class BoardAssertTests {
         assertEquals(Colour.WHITE, arena4[2][1].getC());
         assertEquals(Colour.YELLOW, arena4[2][2].getC());
         assertEquals(Colour.YELLOW, arena4[2][3].getC());
+    }
+
+    @Test
+    void BoardKillTrackTest() throws InvalidColourException{
+        WeaponCard w1 = new MachineGun();
+        WeaponCard w2 = new MachineGun();
+        WeaponCard w3 = new MachineGun();
+        WeaponCard w4 = new MachineGun();
+        WeaponCard w5 = new MachineGun();
+        WeaponCard w6 = new MachineGun();
+        WeaponCard w7 = new MachineGun();
+        WeaponCard w8 = new MachineGun();
+        WeaponCard w9 = new MachineGun();
+
+        Board board = new Board(1, w1, w2, w3, w4, w5, w6, w7, w8, w9);
+
+        for(int i = 0; i < 8; i++)
+            assertEquals(0, board.getK().getSkulls()[i]);
+
+        board.substituteSkull(1);
+        assertEquals(1, board.getK().getSkulls()[0]);
+        for(int i = 1; i < 8; i++)
+            assertEquals(0, board.getK().getSkulls()[i]);
+
+        board.substituteSkull(2);
+        assertEquals(1, board.getK().getSkulls()[0]);
+        assertEquals(2, board.getK().getSkulls()[1]);
+        for(int i = 2; i < 8; i++)
+            assertEquals(0, board.getK().getSkulls()[i]);
+
+        board.substituteSkull(1);
+        assertEquals(1, board.getK().getSkulls()[0]);
+        assertEquals(2, board.getK().getSkulls()[1]);
+        assertEquals(1, board.getK().getSkulls()[2]);
+        for(int i = 3; i < 8; i++)
+            assertEquals(0, board.getK().getSkulls()[i]);
+
+        board.substituteSkull(2);
+        assertEquals(1, board.getK().getSkulls()[0]);
+        assertEquals(2, board.getK().getSkulls()[1]);
+        assertEquals(1, board.getK().getSkulls()[2]);
+        assertEquals(2, board.getK().getSkulls()[3]);
+        for(int i = 4; i < 8; i++)
+            assertEquals(0, board.getK().getSkulls()[i]);
+
+        board.substituteSkull(1);
+        assertEquals(1, board.getK().getSkulls()[0]);
+        assertEquals(2, board.getK().getSkulls()[1]);
+        assertEquals(1, board.getK().getSkulls()[2]);
+        assertEquals(2, board.getK().getSkulls()[3]);
+        assertEquals(1, board.getK().getSkulls()[4]);
+        for(int i = 5; i < 8; i++)
+            assertEquals(0, board.getK().getSkulls()[i]);
+
+        board.substituteSkull(2);
+        assertEquals(1, board.getK().getSkulls()[0]);
+        assertEquals(2, board.getK().getSkulls()[1]);
+        assertEquals(1, board.getK().getSkulls()[2]);
+        assertEquals(2, board.getK().getSkulls()[3]);
+        assertEquals(1, board.getK().getSkulls()[4]);
+        assertEquals(2, board.getK().getSkulls()[5]);
+        for(int i = 6; i < 8; i++)
+            assertEquals(0, board.getK().getSkulls()[i]);
+
+        board.substituteSkull(1);
+        assertEquals(1, board.getK().getSkulls()[0]);
+        assertEquals(2, board.getK().getSkulls()[1]);
+        assertEquals(1, board.getK().getSkulls()[2]);
+        assertEquals(2, board.getK().getSkulls()[3]);
+        assertEquals(1, board.getK().getSkulls()[4]);
+        assertEquals(2, board.getK().getSkulls()[5]);
+        assertEquals(1, board.getK().getSkulls()[6]);
+        for(int i = 7; i < 8; i++)
+            assertEquals(0, board.getK().getSkulls()[i]);
+
+        board.substituteSkull(2);
+        assertEquals(1, board.getK().getSkulls()[0]);
+        assertEquals(2, board.getK().getSkulls()[1]);
+        assertEquals(1, board.getK().getSkulls()[2]);
+        assertEquals(2, board.getK().getSkulls()[3]);
+        assertEquals(1, board.getK().getSkulls()[4]);
+        assertEquals(2, board.getK().getSkulls()[5]);
+        assertEquals(1, board.getK().getSkulls()[6]);
+        assertEquals(2, board.getK().getSkulls()[7]);
+
+        assertEquals(-1, board.substituteSkull(1));
+        assertEquals(1, board.getK().getSkulls()[0]);
+        assertEquals(2, board.getK().getSkulls()[1]);
+        assertEquals(1, board.getK().getSkulls()[2]);
+        assertEquals(2, board.getK().getSkulls()[3]);
+        assertEquals(1, board.getK().getSkulls()[4]);
+        assertEquals(2, board.getK().getSkulls()[5]);
+        assertEquals(1, board.getK().getSkulls()[6]);
+        assertEquals(2, board.getK().getSkulls()[7]);
+    }
+
+    @Test
+    void BoardWeaponSlotTest() throws InvalidColourException{
+        WeaponCard w1 = new Cyberblade();
+        WeaponCard w2 = new Electroscythe();
+        WeaponCard w3 = new Flamethrower();
+        WeaponCard w4 = new Furnace();
+        WeaponCard w5 = new GrenadeLauncher();
+        WeaponCard w6 = new Heatseeker();
+        WeaponCard w7 = new Hellion();
+        WeaponCard w8 = new LockRifle();
+        WeaponCard w9 = new MachineGun();
+
+        Board board = new Board(2, w1, w2, w3, w4, w5, w6, w7, w8, w9);
+
+        assertEquals(w1, board.getW1().getCard1());
+        assertEquals(w2, board.getW1().getCard2());
+        assertEquals(w3, board.getW1().getCard3());
+        assertEquals(w4, board.getW2().getCard1());
+        assertEquals(w5, board.getW2().getCard2());
+        assertEquals(w6, board.getW2().getCard3());
+        assertEquals(w7, board.getW3().getCard1());
+        assertEquals(w8, board.getW3().getCard2());
+        assertEquals(w9, board.getW3().getCard3());
+
+        WeaponCard neww1 = new PlasmaGun();
+        WeaponCard neww2 = new PowerGlove();
+        WeaponCard neww3 = new Railgun();
+        WeaponCard neww4 = new RocketLauncher();
+        WeaponCard neww5 = new Shockwave();
+        WeaponCard neww6 = new Shotgun();
+        WeaponCard neww7 = new Sledgehammer();
+        WeaponCard neww8 = new THOR();
+        WeaponCard neww9 = new TractorBeam();
+
+        board.getW1().setCard1(null);
+        board.changeWeaponCard(board.getW1(), neww1);
+        board.getW1().setCard2(null);
+        board.changeWeaponCard(board.getW1(), neww2);
+        board.getW1().setCard3(null);
+        board.changeWeaponCard(board.getW1(), neww3);
+        board.getW2().setCard1(null);
+        board.changeWeaponCard(board.getW2(), neww4);
+        board.getW2().setCard2(null);
+        board.changeWeaponCard(board.getW2(), neww5);
+        board.getW2().setCard3(null);
+        board.changeWeaponCard(board.getW2(), neww6);
+        board.getW3().setCard1(null);
+        board.changeWeaponCard(board.getW3(), neww7);
+        board.getW3().setCard2(null);
+        board.changeWeaponCard(board.getW3(), neww8);
+        board.getW3().setCard3(null);
+        board.changeWeaponCard(board.getW3(), neww9);
+
+        //A cell in a WeaponSlots empty = a player have picked that card. During the game, every time a player
+        //picks a card from a slot, we set that place in the slot to null and we immediately replace
+        //that null with a new WeaponCard from the deck (if available).
+
+        assertEquals(neww1, board.getW1().getCard1());
+        assertEquals(neww2, board.getW1().getCard2());
+        assertEquals(neww3, board.getW1().getCard3());
+        assertEquals(neww4, board.getW2().getCard1());
+        assertEquals(neww5, board.getW2().getCard2());
+        assertEquals(neww6, board.getW2().getCard3());
+        assertEquals(neww7, board.getW3().getCard1());
+        assertEquals(neww8, board.getW3().getCard2());
+        assertEquals(neww9, board.getW3().getCard3());
+    }
+
+    @Test
+    void BoardChangeAmmoCardTest() throws InvalidColourException {
+        WeaponCard w1 = new Cyberblade();
+        WeaponCard w2 = new Electroscythe();
+        WeaponCard w3 = new Flamethrower();
+        WeaponCard w4 = new Furnace();
+        WeaponCard w5 = new GrenadeLauncher();
+        WeaponCard w6 = new Heatseeker();
+        WeaponCard w7 = new Hellion();
+        WeaponCard w8 = new LockRifle();
+        WeaponCard w9 = new MachineGun();
+
+        Board board = new Board(3, w1, w2, w3, w4, w5, w6, w7, w8, w9);
+        Position pos = new Position(0, 1);
+        AmmoCard ammocard = new PRB();
+        AmmoCard newammocard = new PYB();
+
+        board.changeAmmoCard(pos, ammocard);
+        assertEquals(ammocard, board.getArena()[0][1].getA());
+
+        board.changeAmmoCard(pos, newammocard);
+        assertEquals(newammocard, board.getArena()[0][1].getA());
     }
 }

@@ -12,7 +12,7 @@ public abstract class WeaponCard implements Card {
     protected int numOptionalEffect;      //number of optional effects
     protected boolean alternateFireMode;   //presence of alternate fire mode: true if present --> if true, it's unnecessary to check how many optional effect are present
     protected ArrayList<String> effect = new ArrayList<>();
-    boolean reloaded;
+    boolean reloaded;   //reload the card when player buys it (and when he reloads at the end of the turn, of course)
 
 
     public String getCardName() {

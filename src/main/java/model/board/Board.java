@@ -289,13 +289,33 @@ public class Board {
         this.arena[p.getX()][p.getY()].setA(a);
     }
 
-    public void changeWeaponCard(WeaponSlot w, WeaponCard wC){
-        if(this.w1.equals(w))                               //it works in the first position
-            this.w1.setCard1(wC);
-        if(this.w2.equals(w))
-            this.w2.setCard1(wC);
-        if(this.w2.equals(w))
-            this.w2.setCard1(wC);
+    public void changeWeaponCard(WeaponSlot w, WeaponCard wC){  //replace a void slot in WeaponSlot w with WeaponCard wC
+        if(this.w1.equals(w)) {                                 //when a player pick a card from a WeaponSlot, set that to null!!
+            if(this.w1.getCard1() == null)
+                this.w1.setCard1(wC);
+            else if(this.w1.getCard2() == null)
+                this.w1.setCard2(wC);
+            else if(this.w1.getCard3() == null)
+                this.w1.setCard3(wC);
+        }
+
+        else if(this.w2.equals(w)) {
+            if(this.w2.getCard1() == null)
+                this.w2.setCard1(wC);
+            else if(this.w2.getCard2() == null)
+                this.w2.setCard2(wC);
+            else if(this.w2.getCard3() == null)
+                this.w2.setCard3(wC);
+        }
+
+        else if(this.w3.equals(w)) {
+            if(this.w3.getCard1() == null)
+                this.w3.setCard1(wC);
+            else if(this.w3.getCard2() == null)
+                this.w3.setCard2(wC);
+            else if(this.w3.getCard3() == null)
+                this.w3.setCard3(wC);
+        }
     }
 
     public int substituteSkull(int n){

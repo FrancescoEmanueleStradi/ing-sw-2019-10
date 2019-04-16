@@ -158,7 +158,7 @@ public class Grid {
           if(p.getCell().getA().ispC())
               pickPowerUpCard(p);
           for(int i = 0; i < p.getCell().getA().getaC().size(); i++)
-              p.addAC(p.getCell().getA().getaC().get(i));
+              p.addNewAC(p.getCell().getA().getaC().get(i));
     }
 
     public boolean isInTheRoom(Player p, Player p2){

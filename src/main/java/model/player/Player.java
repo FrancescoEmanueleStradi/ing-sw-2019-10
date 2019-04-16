@@ -5,6 +5,7 @@ import model.board.*;
 import model.cards.PowerUpCard;
 import model.cards.WeaponCard;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -35,6 +36,8 @@ public class Player {
         this.aC = new AmmoCube[]{new AmmoCube(Colour.RED), null, null, new AmmoCube(Colour.BLUE), null, null, new AmmoCube(Colour.YELLOW), null, null};
         wC = new LinkedList<>();
         pC = new LinkedList<>();
+        adrenaline1 = false;
+        adrenaline2 = false;
 
     }
 
@@ -68,31 +71,38 @@ public class Player {
     }
 
     public boolean checkAmmoCube(AmmoCube[] a){
-        List<AmmoCube> l1 = Arrays.asList(this.aC);
-        List<AmmoCube> l2 = Arrays.asList(a);
-        return (l1.containsAll(l2));
+        List<AmmoCube> l1 = new ArrayList<>(Arrays.asList(this.aC));    //this way the original array is not modified
+        List<AmmoCube> l2 = new ArrayList<>(Arrays.asList(a));          //this way the original array is not modified
+        int count = 0;                                                  //containsAll does not work: AmmoCubes have not the same references!
+        for(AmmoCube acPlayer : l1) {
+            for(AmmoCube aCost : l2) {
+                if((acPlayer != null) && acPlayer.getC().equals(aCost.getC())) {
+                    count++;
+                    break;
+                }
+                if(count == l2.size())
+                    return true;
+            }
+        }
+        return false;
     }
 
-    public boolean checkAmmoCubeForPay(AmmoCube[] a){           //does it work on the original one? we hope not
-        List<AmmoCube> l1 = Arrays.asList(this.aC);
-        List<AmmoCube> l2 = Arrays.asList(a);
-        l2.remove(0);
-        return (l1.containsAll(l2));
-    }
-
-    public void addAC(AmmoCube ac) {    //initialization
-
-        if (ac.getC() == Colour.RED) {
-            this.aC[0] = ac;
+    public boolean checkAmmoCubeForPay(AmmoCube[] a){
+        List<AmmoCube> l1 = new ArrayList<>(Arrays.asList(this.aC));    //this way the original array is not modified
+        List<AmmoCube> l2 = new ArrayList<>(Arrays.asList(a));          //this way the original array is not modified
+        l2.remove(0);                                             //containsAll does not work: AmmoCubes have not the same references!
+        int count = 0;
+        for(AmmoCube acPlayer : l1) {
+            for(AmmoCube aCost : l2) {
+                if((acPlayer != null) && acPlayer.getC().equals(aCost.getC())) {
+                    count++;
+                    break;
+                }
+                if(count == l2.size())
+                    return true;
+            }
         }
-
-        if (ac.getC() == Colour.BLUE) {
-            this.aC[3] = ac;
-        }
-
-        if (ac.getC() == Colour.YELLOW) {
-            this.aC[6] = ac;
-        }
+        return false;
     }
 
     public void addNewAC(AmmoCube ac) {
@@ -119,7 +129,7 @@ public class Player {
     private void removeAC(AmmoCube a){
         int i = 0;
         for(AmmoCube a1 : this.getaC()){
-            if(a1.getC().equals(a.getC())){
+            if((a1 != null) && a1.getC().equals(a.getC())){
                 this.aC[i] = null;
                 return;
             }
@@ -178,7 +188,7 @@ public class Player {
         return null;
     }
 
-    public void setCell(Cell c){
+    public void setCell(Cell c){        //only the first time, to initialize this.cell
         this.cell = new Cell(c.getStatus(), c.getC(), c.getPosWall(), c.getPosDoor(), c.getP());
     }
 

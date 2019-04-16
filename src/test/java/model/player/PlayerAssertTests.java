@@ -7,32 +7,22 @@ import model.board.Cell;
 import model.cards.PowerUpCard;
 import model.cards.WeaponCard;
 import model.cards.powerupcards.Newton;
-import model.cards.powerupcards.TagbackGrenade;
 import model.cards.powerupcards.TargetingScope;
-import model.cards.weaponcards.Electroscythe;
-import model.cards.weaponcards.Furnace;
-import model.cards.weaponcards.THOR;
+import model.cards.weaponcards.*;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerAssertTests {
     @Test
-    void PlayerTest() throws InvalidColourException {
+    void PlayerConstructorTest() throws InvalidColourException {
         Player p1 = new Player("Test", Colour.BLUE, true);
-        int[] pm = new int[]{0, 2};
-        int[] pp = new int[]{1, 3};
-        Position pos1 = new Position(0, 1);
-        Position pos2 = new Position(0, 2);
-        Cell cell1 = new Cell(1, Colour.BLUE, pm, pp, pos1);
-        Cell cell2 = new Cell(0, Colour.BLUE, pm, pp, pos2);
 
-        assertTrue(p1.isFirstPlayerCard());
-
-        p1.setScore(42);
-        assertEquals(42, p1.getScore());
-
+        assertEquals("Test", p1.getNickName());
+        assertEquals(Colour.BLUE, p1.getC());
         assertTrue(p1.getpB().mIsEmpty());
+        assertTrue(p1.isFirstPlayerCard());
+        assertEquals(0, p1.getScore());
 
         assertEquals(9, p1.getaC().length);
         assertEquals(Colour.RED, p1.getaC()[0].getC());
@@ -45,50 +35,208 @@ class PlayerAssertTests {
         assertNull(p1.getaC()[7]);
         assertNull(p1.getaC()[8]);
 
-        //TODO test addAC() --> need method to remove an AmmoCube from p1.aC
+        assertTrue(p1.getpC().isEmpty());
+        assertTrue(p1.getwC().isEmpty());
 
-        assertEquals(0, p1.getwC().size());
+        assertNull(p1.getCell());
+        assertFalse(p1.isAdrenaline1());
+        assertFalse(p1.isAdrenaline2());
+        assertFalse(p1.isDead());
+        assertFalse(p1.isOverkilled());
+    }
 
-        WeaponCard w1 = new Electroscythe();
-        WeaponCard w2 = new THOR();
-        WeaponCard w3 = new Furnace();
-        p1.addWeaponCard(w1);
-        p1.addWeaponCard(w2);
-        p1.addWeaponCard(w3);
-        assertEquals(w1, p1.getwC().get(0));
-        assertEquals(w2, p1.getwC().get(1));
-        assertEquals(w3, p1.getwC().get(2));
+    @Test
+    void PlayerAmmoCubeTest() throws InvalidColourException {
+        Player p1 = new Player("Test", Colour.BLUE, false);
 
-        p1.removeWeaponCard(w3);
-        assertEquals(2, p1.getwC().size());
-        p1.removeWeaponCard(w2);
+        AmmoCube[] price1 = new AmmoCube[]{new AmmoCube(Colour.RED), new AmmoCube(Colour.YELLOW), new AmmoCube(Colour.BLUE)};
+        AmmoCube[] price2 = new AmmoCube[]{new AmmoCube(Colour.RED), new AmmoCube(Colour.BLUE)};
+        AmmoCube[] price3 = new AmmoCube[]{new AmmoCube(Colour.RED), new AmmoCube(Colour.YELLOW), new AmmoCube(Colour.BLUE), new AmmoCube(Colour.RED)};
+        assertTrue(p1.checkAmmoCube(price1));
+        assertTrue(p1.checkAmmoCube(price2));
+        assertFalse(p1.checkAmmoCube(price3));
+        assertTrue(p1.checkAmmoCubeForPay(price3));
+
+        assertEquals(Colour.RED, price3[0].getC());     //to check if price3 did not get modified
+        assertEquals(Colour.YELLOW, price3[1].getC());
+        assertEquals(Colour.BLUE, price3[2].getC());
+        assertEquals(Colour.RED, price3[3].getC());
+
+        p1.addNewAC(new AmmoCube(Colour.RED));
+        p1.addNewAC(new AmmoCube(Colour.RED));
+        p1.addNewAC(new AmmoCube(Colour.BLUE));
+        p1.addNewAC(new AmmoCube(Colour.BLUE));
+        p1.addNewAC(new AmmoCube(Colour.YELLOW));
+        p1.addNewAC(new AmmoCube(Colour.YELLOW));
+        p1.addNewAC(new AmmoCube(Colour.RED));              //it should not be added
+        p1.addNewAC(new AmmoCube(Colour.BLUE));             //it should not be added
+        p1.addNewAC(new AmmoCube(Colour.YELLOW));           //it should not be added
+
+        assertEquals(9, p1.getaC().length);
+        assertEquals(Colour.RED, p1.getaC()[0].getC());
+        assertEquals(Colour.RED, p1.getaC()[1].getC());
+        assertEquals(Colour.RED, p1.getaC()[2].getC());
+        assertEquals(Colour.BLUE, p1.getaC()[3].getC());
+        assertEquals(Colour.BLUE, p1.getaC()[4].getC());
+        assertEquals(Colour.BLUE, p1.getaC()[5].getC());
+        assertEquals(Colour.YELLOW, p1.getaC()[6].getC());
+        assertEquals(Colour.YELLOW, p1.getaC()[7].getC());
+        assertEquals(Colour.YELLOW, p1.getaC()[8].getC());
+
+
+        p1.removeArrayAC(price1);
+        assertNull(p1.getaC()[0]);
+        assertEquals(Colour.RED, p1.getaC()[1].getC());
+        assertEquals(Colour.RED, p1.getaC()[2].getC());
+        assertNull(p1.getaC()[3]);
+        assertEquals(Colour.BLUE, p1.getaC()[4].getC());
+        assertEquals(Colour.BLUE, p1.getaC()[5].getC());
+        assertNull(p1.getaC()[6]);
+        assertEquals(Colour.YELLOW, p1.getaC()[7].getC());
+        assertEquals(Colour.YELLOW, p1.getaC()[8].getC());
+
+        p1.removeArrayAC(price2);
+        assertNull(p1.getaC()[0]);
+        assertNull(p1.getaC()[1]);
+        assertEquals(Colour.RED, p1.getaC()[2].getC());
+        assertNull(p1.getaC()[3]);
+        assertNull(p1.getaC()[4]);
+        assertEquals(Colour.BLUE, p1.getaC()[5].getC());
+        assertNull(p1.getaC()[6]);
+        assertEquals(Colour.YELLOW, p1.getaC()[7].getC());
+        assertEquals(Colour.YELLOW, p1.getaC()[8].getC());
+    }
+
+    @Test
+    void PlayerCardsTest() throws InvalidColourException {
+        Player p1 = new Player("Test", Colour.BLUE, false);
+
+        assertTrue(p1.getwC().isEmpty());
+
+        WeaponCard wc1 = new ZX2();
+        p1.addWeaponCard(wc1);
+        assertEquals(wc1, p1.getwC().get(0));
         assertEquals(1, p1.getwC().size());
-        p1.removeWeaponCard(w1);
-        assertEquals(0, p1.getwC().size());
+        assertEquals(wc1, p1.getWeaponCardObject("ZX-2"));
 
-        assertEquals(0, p1.getpC().size());
+        WeaponCard wc2 = new Whisper();
+        p1.addWeaponCard(wc2);
+        assertEquals(wc2, p1.getwC().get(1));
+        assertEquals(2, p1.getwC().size());
+        assertEquals(wc2, p1.getWeaponCardObject("Whisper"));
 
-        PowerUpCard pu1 = new Newton(Colour.YELLOW);
-        PowerUpCard pu2 = new TagbackGrenade(Colour.BLUE);
-        PowerUpCard pu3 = new TargetingScope(Colour.RED);
-        p1.addPowerUpCard(pu1);
-        p1.addPowerUpCard(pu2);
-        p1.addPowerUpCard(pu3);
-        assertEquals(pu1, p1.getpC().get(0));
-        assertEquals(pu2, p1.getpC().get(1));
-        assertEquals(pu3, p1.getpC().get(2));
+        p1.removeWeaponCard(wc1);
+        assertEquals(wc2, p1.getwC().get(0));
+        assertEquals(1, p1.getwC().size());
 
-        p1.removePowerUpCard(pu3);
-        assertEquals(2, p1.getpC().size());
-        p1.removePowerUpCard(pu2);
+        p1.removeWeaponCard(wc2);
+        assertTrue(p1.getwC().isEmpty());
+
+
+        assertTrue(p1.getpC().isEmpty());
+
+        PowerUpCard pc1 = new Newton(Colour.YELLOW);
+        p1.addPowerUpCard(pc1);
+        assertEquals(pc1, p1.getpC().get(0));
         assertEquals(1, p1.getpC().size());
-        p1.removePowerUpCard(pu1);
-        assertEquals(0, p1.getpC().size());
+        assertEquals(pc1, p1.getPowerUpCardObject("Newton"));
+
+        PowerUpCard pc2 = new TargetingScope(Colour.RED);
+        p1.addPowerUpCard(pc2);
+        assertEquals(pc2, p1.getpC().get(1));
+        assertEquals(2, p1.getpC().size());
+        assertEquals(pc2, p1.getPowerUpCardObject("Targeting Scope"));
+
+        p1.removePowerUpCard(pc1);
+        assertEquals(pc2, p1.getpC().get(0));
+        assertEquals(1, p1.getpC().size());
+
+        p1.removePowerUpCard(pc2);
+        assertTrue(p1.getwC().isEmpty());
+    }
+
+    @Test
+    void PlayerCellTest() throws InvalidColourException {
+        Player p1 = new Player("Test", Colour.RED, true);
+
+        int[] walls = new int[]{0, 2};
+        int[] doors = new int[]{1, 3};
+        Position pos1 = new Position(0, 1);
+        Position pos2 = new Position(0, 2);
+        Cell cell1 = new Cell(1, Colour.BLUE, walls, doors, pos1);
+        Cell cell2 = new Cell(0, Colour.BLUE, walls, doors, pos2);
+
+        assertNull(p1.getCell());
 
         p1.setCell(cell1);
+
         assertEquals(pos1, p1.getCell().getP());
+        assertEquals(cell1.getC(), p1.getCell().getC());
+        assertEquals(cell1.getStatus(), p1.getCell().getStatus());
+        for(int i = 0; i < walls.length; i++)
+            assertEquals(cell1.getPosWall()[i], p1.getCell().getPosWall()[i]);
+        for(int i = 0; i < doors.length; i++)
+            assertEquals(cell1.getPosDoor()[i], p1.getCell().getPosDoor()[i]);
 
         p1.changeCell(cell2);
-        assertSame(pos2, p1.getCell().getP());
+        assertEquals(pos2, p1.getCell().getP());
+        assertEquals(cell2.getC(), p1.getCell().getC());
+        assertEquals(cell2.getStatus(), p1.getCell().getStatus());
+        for(int i = 0; i < walls.length; i++)
+            assertEquals(cell2.getPosWall()[i], p1.getCell().getPosWall()[i]);
+        for(int i = 0; i < doors.length; i++)
+            assertEquals(cell2.getPosDoor()[i], p1.getCell().getPosDoor()[i]);
+    }
+
+    @Test
+    void PlayerScoreTest() throws InvalidColourException {
+        Player p1 = new Player("Test", Colour.BLACK, false);
+
+        assertEquals(0, p1.getScore());
+        p1.setScore(6);
+        assertEquals(6, p1.getScore());
+
+        p1.setScore(p1.getScore() + 6);
+        assertEquals(12, p1.getScore());
+    }
+
+    @Test
+    void PlayerAdrenalineTest() throws InvalidColourException {
+        Player p1 = new Player("Test", Colour.YELLOW, true);
+
+        assertFalse(p1.isAdrenaline1());
+        assertFalse(p1.isAdrenaline2());
+
+        p1.setTrueAdrenaline1();
+        assertTrue(p1.isAdrenaline1());
+        assertFalse(p1.isAdrenaline2());
+
+        p1.setTrueAdrenaline2();
+        assertTrue(p1.isAdrenaline1());
+        assertTrue(p1.isAdrenaline2());
+
+        p1.setFalseAdrenaline1();
+        assertFalse(p1.isAdrenaline1());
+        assertTrue(p1.isAdrenaline2());
+
+        p1.setFalseAdrenaline2();
+        assertFalse(p1.isAdrenaline1());
+        assertFalse(p1.isAdrenaline2());
+    }
+
+    @Test
+    void PlayerDeadOverkillTest() throws InvalidColourException {
+        Player p1 = new Player("Test", Colour.GREEN, true);
+
+        assertFalse(p1.isDead());
+        assertFalse(p1.isOverkilled());
+
+        p1.getpB().getDamages().addDamage(11, Colour.RED);
+
+        assertTrue(p1.isDead());
+
+        p1.getpB().getDamages().addDamage(1, Colour.RED);
+
+        assertTrue(p1.isOverkilled());
     }
 }

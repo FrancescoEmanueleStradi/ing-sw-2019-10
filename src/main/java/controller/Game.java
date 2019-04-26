@@ -124,9 +124,119 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
 
 
-   public boolean isValidShootNotAdrenaline(Player p){                //TODO switch with isValid
-       return(this.gameState.equals(STARTTURN));
-    }
+   /*public boolean isValidShootNotAdrenaline(Player p, String nameWC, List<Integer> lI, List<String> lS){                //TODO switch with isValid
+       if(this.gameState.equals(STARTTURN)){
+           switch(nameWC){                                                                                                              //TODO pay for the effect
+               case "Cyberblade":
+                   if() {
+                       return true;
+                   }
+                   break;
+               case "Electroscythe":
+                   if() {
+                       return true;
+                   }
+                   break;
+               case "Flamethrower":
+                   if() {
+                       return true;
+                   }
+               case "Furnace":
+                   if() {
+                       return true;
+                   }
+               case "Grenade Launcher":
+                   if() {
+                       return true;
+                   }
+                   break;
+               case "Heatseeker":
+                   if() {
+                       return true;
+                   }
+                   break;
+               case "Hellion":
+                   if() {
+                       return true;
+                   }
+                   break;
+               case "Lock Rifle":
+                   if() {
+                       return true;
+                   }
+                   break;
+               case "Machine Gun":
+                   if() {
+                       return true;
+                   }
+                   break;
+               case "Plasma Gun":
+                   if() {
+                       return true;
+                   }
+                   break;
+               case "Power Glove":
+                   if() {
+                       return true;
+                   }
+                   break;
+               case "Railgun":
+                   if() {
+                       return true;
+                   }
+                   break;
+               case "Rocket Launcher":
+                   if() {
+                       return true;
+                   }
+                   break;
+               case "Shockwave":
+                   if() {
+                       return true;
+                   }
+                   break;
+               case "Shotgun":
+                   if() {
+                       return true;
+                   }
+                   break;
+               case "Sledgehammer":
+                   if() {
+                       return true;
+                   }
+                   break;
+               case "T.H.O.R.":
+                   if() {
+                       return true;
+                   }
+                   break;
+               case "Tractor Beam":
+                   if() {
+                       return true;
+                   }
+                   break;
+               case "Vortex Cannon":
+                   if() {
+                       return true;
+                   }
+                   break;
+               case "Whisper":
+                   if() {
+                       return true;
+                   }
+                   break;
+               case "ZX-2":
+                   if() {
+                       return true;
+                   }
+                   break;
+
+
+           }
+
+       }
+       return false;
+    }*/
 
 
 
@@ -511,17 +621,18 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 //----------------------------------------------------------------------------------------------------
 
 
-
-
-
-    public boolean usePowerUpCard(Player p, String s){
-        if(this.gameState.equals(STARTTURN) || this.gameState.equals(ACTION1) || this.gameState.equals(ACTION2)){
-            //TODO
-
+    public boolean isValidUsePowerUpCard(Player p, String namePC){
+        if(this.gameState.equals(STARTTURN) || this.gameState.equals(ACTION1) || this.gameState.equals(ACTION2)){       //TODO condition depend on the Power-Up card
             return true;
         }
         return false;
     }
+
+
+    public void usePowerUpCard(Player p, String namePC){
+            //TODO
+
+   }
 
 
 

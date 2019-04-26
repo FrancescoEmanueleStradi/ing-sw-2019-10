@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-public class DamageTrackAssertTests {
+class DamageTrackAssertTests {
     @Test
     void DamageTrackTest() {
         DamageTrack dt = new DamageTrack();
@@ -47,5 +47,36 @@ public class DamageTrackAssertTests {
         assertNull(dt.getDT(9));
         assertNull(dt.getDT(10));
         assertNull(dt.getDT(11));
+    }
+
+    @Test
+    void ScoringTest() {
+        DamageTrack dt = new DamageTrack();
+        dt.addDamage(1, Colour.BLUE);
+        dt.addDamage(2, Colour.GREEN);
+        dt.addDamage(2, Colour.YELLOW);
+        dt.addDamage(1, Colour.BLUE);
+        dt.addDamage(1, Colour.YELLOW);
+        dt.addDamage(2, Colour.BLUE);
+        dt.addDamage(1, Colour.GREEN);
+        dt.addDamage(2, Colour.BLACK);
+
+        assertEquals(Colour.BLUE, dt.getColourPosition(0));
+        assertEquals(Colour.GREEN, dt.getColourPosition(1));
+        assertEquals(Colour.YELLOW, dt.getColourPosition(2));
+        assertEquals(Colour.BLACK, dt.getColourPosition(3));
+
+
+        DamageTrack dt1 = new DamageTrack();
+        dt1.addDamage(2, Colour.BLUE);
+        dt1.addDamage(2, Colour.YELLOW);
+        dt1.addDamage(2, Colour.GREEN);
+        dt1.addDamage(2, Colour.BLUE);
+        dt1.addDamage(2, Colour.YELLOW);
+        dt1.addDamage(2, Colour.GREEN);
+
+        assertEquals(Colour.BLUE, dt1.getColourPosition(0));
+        assertEquals(Colour.YELLOW, dt1.getColourPosition(1));
+        assertEquals(Colour.GREEN, dt1.getColourPosition(2));
     }
 }

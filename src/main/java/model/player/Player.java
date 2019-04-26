@@ -62,8 +62,12 @@ public class Player {
         return score;
     }
 
-    public void setScore(int score) {
+    public void addScore(int score) {
         this.score = score;
+    }
+
+    public void resetScore() {
+        this.score = 0;
     }
 
     public AmmoCube[] getaC() {

@@ -49,34 +49,32 @@ public class Grid {
 
     public List<String> getPlayersNickName() {
         LinkedList<String> l = new LinkedList<>();
-        for(Player p: this.getPlayers()){
+        for(Player p: this.getPlayers())
             l.add(p.getNickName());
-        }
         return l;
     }
 
     public List<Colour> getPlayersColour() {
         LinkedList<Colour> l = new LinkedList<>();
-        for(Player p: this.getPlayers()){
+        for(Player p: this.getPlayers())
             l.add(p.getC());
-        }
         return l;
     }
 
     public Player getPlayerObject(String name) {
-        for (Player p : players){
+        for (Player p : players ){
             if(p.getNickName().equals(name))
                 return p;
         }
         return null;
     }
 
-    public int getNumPlayers(){
+    public int getNumPlayers() {
         return this.players.size();
     }
 
-    public void scoringByColour(Colour c, int n){
-        for(Player p : this.players){
+    public void scoringByColour(Colour c, int n) {
+        for(Player p : this.players) {
             if(c.equals(p.getC()))
                 p.setScore(n);
         }
@@ -91,15 +89,15 @@ public class Grid {
         p1.getpB().getDamages().addDamage(numDamage, p.getC());
     }
 
-    public void clean(Player p){
+    public void clean(Player p) {
         p.getpB().getDamages().clean();
     }
 
-    public void addMark(Player p1, Player p2){
+    public void addMark(Player p1, Player p2) {
         p2.getpB().addMark(new DamageToken(p1.getC()));
     }
 
-    public void removeMarkAndAdd(Player p1, Player p2){
+    public void removeMarkAndAdd(Player p1, Player p2 ) {
         long x = p2.getpB().getMarks().stream().filter(a -> a.getC() == p1.getC()).count();
         int y = (int)x;
         this.damage(p2, p1, y);
@@ -107,24 +105,23 @@ public class Grid {
 
     }
 
-    public int distance(Player p1, Player p2){
+    public int distance(Player p1, Player p2) {
         return abs(p1.getCell().getP().getX()-p2.getCell().getP().getX()) + abs(p1.getCell().getP().getY()-p2.getCell().getP().getY());
     }
 
-    public int distance(Player p, Position pos){
+    public int distance(Player p, Position pos) {
         return abs(p.getCell().getP().getX()-pos.getX()) + abs(p.getCell().getP().getY()-pos.getY());
     }
 
-    public Cell whereAmI(Player p){
+    public Cell whereAmI(Player p) {
         return p.getCell();
     }
 
-    public void moveInMyCell(Player p, Player p2){
+    public void moveInMyCell(Player p, Player p2) {
         p2.setCell(p.getCell());
     }
 
-    public void move(Player p, int d){                                //1 up, 2 right, 3 down, 4 left
-
+    public void move(Player p, int d) {                                //1 up, 2 right, 3 down, 4 left
         int n = 0;
 
         for(int i =0; i<p.getCell().getPosWall().length; i++) {
@@ -133,49 +130,45 @@ public class Grid {
                 n=1;
             }
         }
-        if(n==0) {
-            if((d==1) && (p.getCell().getP().getX()>0)){
-                p.changeCell(board.getArena()[p.getCell().getP().getX()-1][p.getCell().getP().getY()]);
-            }
-            if((d==2) && (p.getCell().getP().getY()<3)){
-                p.changeCell(board.getArena()[p.getCell().getP().getX()][p.getCell().getP().getY()+1]);
-            }
-            if((d==3) && (p.getCell().getP().getX()<2)){
-                p.changeCell(board.getArena()[p.getCell().getP().getX()+1][p.getCell().getP().getY()]);
-            }
-            if((d==4) && (p.getCell().getP().getY()>0)){
-                p.changeCell(board.getArena()[p.getCell().getP().getX()][p.getCell().getP().getY()-1]);
-            }
-        }
 
+        if(n==0) {
+            if((d==1) && (p.getCell().getP().getX()>0))
+                p.changeCell(board.getArena()[p.getCell().getP().getX()-1][p.getCell().getP().getY()]);
+            if((d==2) && (p.getCell().getP().getY()<3))
+                p.changeCell(board.getArena()[p.getCell().getP().getX()][p.getCell().getP().getY()+1]);
+            if((d==3) && (p.getCell().getP().getX()<2))
+                p.changeCell(board.getArena()[p.getCell().getP().getX()+1][p.getCell().getP().getY()]);
+            if((d==4) && (p.getCell().getP().getY()>0))
+                p.changeCell(board.getArena()[p.getCell().getP().getX()][p.getCell().getP().getY()-1]);
+        }
     }
 
-    public void move(Player p, Position pt){
+    public void move(Player p, Position pt) {
         p.changeCell(board.getArena()[pt.getX()][pt.getY()]);
     }
 
-    public void move(Player p, int x, int y){
+    public void move(Player p, int x, int y) {
         p.changeCell(board.getArena()[x][y]);
     }
     
-    public void collectCard(Player p){
+    public void collectCard(Player p) {
           if(p.getCell().getA().ispC())
               pickPowerUpCard(p);
           for(int i = 0; i < p.getCell().getA().getaC().size(); i++)
               p.addNewAC(p.getCell().getA().getaC().get(i));
     }
 
-    public boolean isInTheRoom(Player p, Player p2){
+    public boolean isInTheRoom(Player p, Player p2) {
         return (p.getCell().getC() == p2.getCell().getC());
     }
 
-    public boolean isInTheRoom(Player p, Colour c){
+    public boolean isInTheRoom(Player p, Colour c) {
         return (p.getCell().getC() == c);
     }
 
-    public boolean isInViewZone(Player p, Player p2){
+    public boolean isInViewZone(Player p, Player p2) {
         boolean b = false;
-        for(int i=0; i<p.getCell().getPosDoor().length; i++){
+        for(int i=0; i<p.getCell().getPosDoor().length; i++) {
             if(!b) {
                 if (p.getCell().getPosDoor()[i] == 1)
                     b = isInTheRoom(p2, this.board.getArena()[p2.getCell().getP().getX() - 1][p2.getCell().getP().getY()].getC());
@@ -192,9 +185,9 @@ public class Grid {
         return (isInTheRoom(p, p2) || ((p.getCell().getPosDoor()!=null) && b));
     }
 
-    public List<Player> whoIsInTheRoom(Player p){
+    public List<Player> whoIsInTheRoom(Player p) {
         ArrayList<Player> pRoom = new ArrayList<>();
-        for(Player px : players){
+        for(Player px : players) {
             if(isInTheRoom(p, px) && p!=px)         //Does it work?
                 pRoom.add(px);
         }
@@ -210,15 +203,15 @@ public class Grid {
         return pViewZone;
     }
 
-    public void pickWeaponCard(Player p){
+    public void pickWeaponCard(Player p) {
             p.addWeaponCard(this.weaponDeck.getTopOfDeck());
     }
 
-    public WeaponCard pickWeaponCard(){
+    public WeaponCard pickWeaponCard() {
         return this.weaponDeck.getTopOfDeck();
     }
 
-    public void replaceWeaponCard(){
+    public void replaceWeaponCard() {
        if(this.board.getW1().getCard1() == null)
            this.board.getW1().setCard1(pickWeaponCard());
         if(this.board.getW1().getCard2() == null)
@@ -240,22 +233,20 @@ public class Grid {
     }
 
 
-    public void pickPowerUpCard(Player p){
+    public void pickPowerUpCard(Player p) {
         if(p.getpC().size() < 3)
             p.addPowerUpCard(this.powerUpDeck.getTopOfDeck());
     }
 
-    public PowerUpCard pickPowerUpCard(){
+    public PowerUpCard pickPowerUpCard() {
         return this.powerUpDeck.getTopOfDeck();
     }
 
-    public AmmoCard pickAmmoCard(){
+    public AmmoCard pickAmmoCard() {
         return this.ammoDeck.getTopOfDeck();
     }
 
-
-    public void setUpAmmoCard(){
-
+    public void setUpAmmoCard() {
         this.board.getArena()[0][0].setA(this.pickAmmoCard());
         this.board.getArena()[0][1].setA(this.pickAmmoCard());
         this.board.getArena()[0][2].setA(this.pickAmmoCard());
@@ -271,22 +262,22 @@ public class Grid {
 
     }
 
-    public void replaceAmmoCard(){
-        for(int i = 0; i < 3; i++){
-            for(int j = 0; j < 4; j++){
+    public void replaceAmmoCard() {
+        for(int i = 0; i < 3; i++) {
+            for(int j = 0; j < 4; j++) {
                 if(this.board.getArena()[i][j].getA() == null)              //check that when we pick up the card from the cell it will be null
                     this.board.getArena()[i][j].setA(this.pickAmmoCard());
             }
         }
     }
 
-    public void changeAmmoCard(Position p){
+    public void changeAmmoCard(Position p) {
         this.board.getArena()[p.getX()][p.getY()].setA(this.pickAmmoCard());
     }
 
-    public List<Player> whoIsDead(){
+    public List<Player> whoIsDead() {
         LinkedList<Player> l = new LinkedList<>();
-        for(Player p: this.players){
+        for(Player p: this.players) {
             if(p.isDead())
                 l.add(p);
 

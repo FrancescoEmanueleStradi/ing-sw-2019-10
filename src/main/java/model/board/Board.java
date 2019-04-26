@@ -20,7 +20,6 @@ public class Board {
         this.w3 = new WeaponSlot(3, wc7, wc8, wc9);
 
         if(this.aType == 1) {
-
             Position p = new Position(0,0);
             int[] a1 = new int[]{1,4};
             int[] b1 = new int[]{2};
@@ -78,11 +77,9 @@ public class Board {
             int[] a11 = new int[]{2,3};
             int[] b11 = new int[]{4};
             arena[2][3] = new Cell(1, Colour.YELLOW, a11, b11 , p11);
-
         }
 
         if(this.aType == 2) {
-
             Position p = new Position(0,0);
             int[] a1 = new int[]{1,4};
             int[] b1 = new int[]{3};
@@ -138,11 +135,9 @@ public class Board {
             int[] a11 = new int[]{2,3};
             int[] b11 = new int[]{4};
             arena[2][3] = new Cell(1, Colour.YELLOW, a11, b11, p11 );
-
         }
 
         if(this.aType == 3) {
-
             Position p = new Position(0,0);
             int[] a1 = new int[]{1,4};
             int[] b1 = new int[]{3};
@@ -200,7 +195,6 @@ public class Board {
             int[] a11 = new int[]{2,3};
             int[] b11 = new int[]{};
             arena[2][3] = new Cell(1, Colour.YELLOW, a11, b11 , p11);
-
         }
 
         if(this.aType == 4) {
@@ -264,8 +258,6 @@ public class Board {
             int[] a12 = new int[]{2,3};
             int[] b12 = new int[]{0};
             arena[2][3] = new Cell(1, Colour.YELLOW, a12, b12, p11 );
-
-
         }
     }
 
@@ -289,7 +281,7 @@ public class Board {
         this.arena[p.getX()][p.getY()].setA(a);
     }
 
-    public void changeWeaponCard(WeaponSlot w, WeaponCard wC){  //replace a void slot in WeaponSlot w with WeaponCard wC
+    public void changeWeaponCard(WeaponSlot w, WeaponCard wC) {  //replace a void slot in WeaponSlot w with WeaponCard wC
         if(this.w1.equals(w)) {                                 //when a player pick a card from a WeaponSlot, set that to null!!
             if(this.w1.getCard1() == null)
                 this.w1.setCard1(wC);
@@ -318,8 +310,8 @@ public class Board {
         }
     }
 
-    public int substituteSkull(int n){
-        for(int i = 0; i <this.k.getSkulls().length; i++){
+    public int substituteSkull(int n) {
+        for(int i = 0; i <this.k.getSkulls().length; i++) {
             if(this.k.getSkulls()[i] == 0) {
                 this.k.getSkulls()[i] = n;
                 return i;

@@ -7,7 +7,7 @@ public class KillTrack {
     private int[] skulls;     //0 skull, 1 damage, 2 double damage, 3 empty
     private Colour[] c;
 
-    public KillTrack(){
+    public KillTrack() {
         skulls = new int[]{0,0,0,0,0,0,0,0};
         c = new Colour[8];       //Attention: the array could be exported, we could implement methods that use indexes of the array
     }

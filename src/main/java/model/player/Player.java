@@ -87,7 +87,7 @@ public class Player {
         return false;
     }
 
-    public boolean checkAmmoCubeForPay(AmmoCube[] a){
+    /*private boolean checkAmmoCubeForPay(AmmoCube[] a){
         List<AmmoCube> l1 = new ArrayList<>(Arrays.asList(this.aC));    //this way the original array is not modified
         List<AmmoCube> l2 = new ArrayList<>(Arrays.asList(a));          //this way the original array is not modified
         l2.remove(0);                                             //containsAll does not work: AmmoCubes have not the same references!
@@ -103,7 +103,7 @@ public class Player {
             }
         }
         return false;
-    }
+    }*/
 
     public void addNewAC(AmmoCube ac) {
         if(ac.getC() == Colour.RED) {
@@ -142,6 +142,17 @@ public class Player {
             removeAC(a1);
     }
 
+    public void payWeaponCard(List<AmmoCube> lA, List<PowerUpCard> lP){
+        if(!lA.isEmpty()) {
+            for(AmmoCube a : lA)
+                this.removeAC(a);
+        }
+        if(!lP.isEmpty()) {
+            for (PowerUpCard p : lP)
+                this.pC.remove(p);
+        }
+    }
+
     public List<WeaponCard> getwC() {
         return wC;
     }
@@ -163,8 +174,9 @@ public class Player {
     }
 
     /*public boolean canPay(WeaponCard wC){
-        //TODO return (this.checkAmmoCubeForPay(wC.getReloadCost()) && )
-
+        if(this.checkAmmoCubeForPay(wC.getReloadCost()))
+            return true;
+        else if(this.checkPowerUpForPay(wC.getReloadCost());
     }*/
 
 

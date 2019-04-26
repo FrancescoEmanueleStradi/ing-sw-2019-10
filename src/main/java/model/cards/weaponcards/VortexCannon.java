@@ -29,17 +29,17 @@ public class VortexCannon extends WeaponCard {
 
     //before: let the player p choose a cell for the vortex, and a player p1 to move into the vortex (p1 must be on the vortex or 1 move away from it) and to damage it
 
-    public void applyEffect(Grid grid, Player p, Player p1, Cell vortex) {  //p1 is moved into the vortex and damaged
-        p1.setCell(vortex);
+    public void applyEffect(Grid grid, Player p, Player p1, String xVortex, String yVortex) {  //p1 is moved into the vortex and damaged
+        grid.move(p1, Integer.parseInt(xVortex), Integer.parseInt(yVortex));
         grid.damage(p, p1, 2);
     }
 
     //before: let the player p choose up to 2 other targets on the vortex or 1 move away from it
 
-    public void applySpecialEffect(Grid grid, Player p, Player p1, Player p2, Cell vortex) { //p2 can be null. p1 and p2 are moved into the vortex and damaged
-        p1.setCell(vortex);
+    public void applySpecialEffect(Grid grid, Player p, Player p1, Player p2, String xVortex, String yVortex) { //p2 can be null. p1 and p2 are moved into the vortex and damaged
+        grid.move(p1, Integer.parseInt(xVortex), Integer.parseInt(yVortex));
         if(p2 != null) {
-            p2.setCell(vortex);
+            grid.move(p2, Integer.parseInt(xVortex), Integer.parseInt(yVortex));
             grid.damage(p, p2, 1);
         }
         grid.damage(p, p1, 1);

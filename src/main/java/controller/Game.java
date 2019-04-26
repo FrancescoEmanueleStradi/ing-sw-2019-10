@@ -124,7 +124,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
 
 
-   public boolean isValidFirstActionShoot(Player p){                //TODO switch with isValid
+   public boolean isValidShootNotAdrenaline(Player p){                //TODO switch with isValid
        return(this.gameState.equals(STARTTURN));
     }
 
@@ -132,7 +132,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
 
 
-   private void firstActionShootNotAdrenaline(Player p, String nameWC, List<Integer> lI, List<String> lS){                    //is better to use a file?
+   private void shootNotAdrenaline(Player p, String nameWC, List<Integer> lI, List<String> lS){                    //is better to use a file?
         switch(nameWC){                                                                                                              //TODO pay for the effect
             case "Cyberblade":
                 int x = 0;
@@ -216,7 +216,19 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                 }
                 break;
             case "Power Glove":
-                //TODO
+                for(int i : lI) {
+                    if (lI.get(i) == 1)
+                        ((PowerGlove) p.getWeaponCardObject(nameWC)).applyEffect(this.grid, p, this.grid.getPlayerObject(lS.get(0)));
+                    if (lI.get(i) == 2) {
+                        ((PowerGlove) p.getWeaponCardObject(nameWC)).applySpecialEffectPart1(p, this.grid, lS.get(1), lS.get(2));
+                        if(lI.contains(3))
+                            ((PowerGlove) p.getWeaponCardObject(nameWC)).applySpecialEffectPart2(this.grid, p, this.grid.getPlayerObject(lS.get(3)));
+                        if(lI.contains(4))
+                            ((PowerGlove) p.getWeaponCardObject(nameWC)).applySpecialEffectPart3(p, this.grid, lS.get(4), lS.get(5));
+                        if(lI.contains(5))
+                            ((PowerGlove) p.getWeaponCardObject(nameWC)).applySpecialEffectPart4(this.grid, p, this.grid.getPlayerObject(lS.get(6)));
+                    }
+                }
                 break;
             case "Railgun":
                 if(lI.get(0) == 1)
@@ -225,7 +237,19 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                     ((Railgun) p.getWeaponCardObject(nameWC)).applySpecialEffect(this.grid, p, this.grid.getPlayerObject(lS.get(0)), this.grid.getPlayerObject(lS.get(1)));
                 break;
             case "Rocket Launcher":
-                //TODO
+                int h = 0;
+                for(int i : lI) {
+                    if (lI.get(i) == 1) {
+                        ((RocketLauncher) p.getWeaponCardObject(nameWC)).applyEffect(this.grid, p, this.grid.getPlayerObject(lS.get(0)));
+                        h = 1;
+                        if(lI.get(i+1) == 2)
+                            ((RocketLauncher) p.getWeaponCardObject(nameWC)).movePlayer(this.grid,this.grid.getPlayerObject(lS.get(0)), Integer.parseInt(lS.get(1)));
+                    }
+                    if(lI.get(i) == 3)
+                        ((RocketLauncher) p.getWeaponCardObject(nameWC)).applySpecialEffect(this.grid, p, Integer.parseInt(lS.get(2)), Integer.parseInt(lS.get(3)), Integer.parseInt(lS.get(4)));
+                    if(lI.get(i) == 4 && h == 1)
+                        ((RocketLauncher) p.getWeaponCardObject(nameWC)).applySpecialEffect2(this.grid, p);
+                }
                 break;
             case "Shockwave":
                 if(lI.get(0) == 1)
@@ -268,7 +292,11 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                     ((TractorBeam) p.getWeaponCardObject(nameWC)).applySpecialEffect(this.grid, p, this.grid.getPlayerObject(lS.get(0)));
                 break;
             case "Vortex Cannon":
-                //TODO
+                if(lI.get(0) == 1){
+                    ((VortexCannon) p.getWeaponCardObject(nameWC)).applyEffect(this.grid, p, this.grid.getPlayerObject(lS.get(0)), lS.get(1), lS.get(2));
+                    if(lI.get(1) == 2)
+                        ((VortexCannon) p.getWeaponCardObject(nameWC)).applySpecialEffect(this.grid, p, this.grid.getPlayerObject(lS.get(3)), this.grid.getPlayerObject(lS.get(4)), lS.get(5), lS.get(6));
+                }
                 break;
             case "Whisper":
                 ((Whisper) p.getWeaponCardObject(nameWC)).applyEffect(this.grid, p, this.grid.getPlayerObject(lS.get(0)));
@@ -283,17 +311,19 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
         }
 
-
-
-
-
-           this.gameState = ACTION1;
     }
 
+    private void shootAdrenaline(Player p, String nameWC, List<Integer> lI, List<String> lS, int direction){
+        this.grid.move(p, direction);
+        this.shootNotAdrenaline(p, nameWC, lI, lS);
+    }
 
-
-    public void firstActionShoot(){
-        //TODO
+    public void firstActionShoot(Player p, String nameWC, List<Integer> lI, List<String> lS, int direction){
+        if(!p.isAdrenaline1())                  //TODO 1 or 2 Adrenaline????
+            this.shootNotAdrenaline(p, nameWC, lI, lS);
+        else if (p.isAdrenaline1())
+            this.shootAdrenaline(p, nameWC, lI, lS, direction);
+        this.gameState = ACTION1;
     }
 
 //----------------------------------------------------------------------------------------------------
@@ -466,10 +496,17 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         this.gameState = ACTION2;
     }
 
+//----------------------------------------------------------------------------------------------------
 
+    //TODO public boolean isValidSecondActionShoot
 
-
-
+    public void SecondActionShoot(Player p, String nameWC, List<Integer> lI, List<String> lS, int direction){
+        if(!p.isAdrenaline1())                  //TODO 1 or 2 Adrenaline????
+            this.shootNotAdrenaline(p, nameWC, lI, lS);
+        else if (p.isAdrenaline1())
+            this.shootAdrenaline(p, nameWC, lI, lS, direction);
+        this.gameState = ACTION2;
+    }
 
 //----------------------------------------------------------------------------------------------------
 

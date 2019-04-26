@@ -78,7 +78,7 @@ public class Grid {
     public void scoringByColour(Colour c, int n){
         for(Player p : this.players){
             if(c.equals(p.getC()))
-                p.setScore(n);
+                p.addScore(n);
         }
 
     }

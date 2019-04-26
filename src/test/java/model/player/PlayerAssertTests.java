@@ -213,10 +213,10 @@ class PlayerAssertTests {
         Player p1 = new Player("Test", Colour.BLACK, false);
 
         assertEquals(0, p1.getScore());
-        p1.setScore(6);
+        p1.addScore(6);
         assertEquals(6, p1.getScore());
 
-        p1.setScore(p1.getScore() + 6);
+        p1.addScore(p1.getScore() + 6);
         assertEquals(12, p1.getScore());
     }
 

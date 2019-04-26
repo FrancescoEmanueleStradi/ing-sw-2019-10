@@ -33,26 +33,23 @@ public class MachineGun extends WeaponCard {
 
 //before applying effects: let player p selecting player(s) to attack, checking if they are visible
 
-    public void applyEffect(Grid grid, Player p, Player p1) { //primary attack if only 1 visible target is selected: player p attacks p1
-        grid.damage(p, p1, 1);
-    }
 
     public void applyEffect(Grid grid, Player p, Player p1, Player p2) { //primary attack if 2 visible targets are selected: player p attacks p1 and p2
         grid.damage(p, p1, 1);
-        grid.damage(p, p2, 1);
+        if(p2 != null)
+            grid.damage(p, p2, 1);
     }
 
     public void applySpecialEffect(Grid grid, Player p, Player p1) { //Focus Shot: player damages p1 (controller asks player p if he wants to attack p1 or p2)
         grid.damage(p, p1, 1);
     }
 
-    public void applySpecialEffect2(Grid grid, Player p, Player p1) { //Turret Tripod: player p damages the "other" player (not the one selected in Focus Shot) or a different target (same as the first applyEffect)
-        grid.damage(p, p1, 1);
-    }
 
-    public void applySpecialEffect2bis(Grid grid, Player p, Player p1, Player p2) { //Turret Tripod: player damages the "other" player and a different target (same as the second applyEffect)
+
+    public void applySpecialEffect2(Grid grid, Player p, Player p1, Player p2) { //Turret Tripod: player damages the "other" player and a different target (same as the second applyEffect)
         grid.damage(p, p1, 1);
-        grid.damage(p, p2, 1);
+        if(p2 != null)
+            grid.damage(p, p2, 1);
     }
 
     //if player p only sees 2 enemies, he can use applyEffect to damage both, and then applySpecialEffect2bis to damage both again, or applySpecialEffect2 to damage one of them

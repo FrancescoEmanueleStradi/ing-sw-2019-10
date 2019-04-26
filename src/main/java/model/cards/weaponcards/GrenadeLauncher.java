@@ -42,9 +42,9 @@ public class GrenadeLauncher extends WeaponCard {
 
     //before: let the player p choose a Cell cell he can see. PLAYER CAN DO THIS BEFORE OR AFTER THE BASIC EFFECT!
 
-    public void applySpecialEffect(Grid grid, Player p, Cell cell) {  //Extra Grenade: player p deals 1 damage to every enemy on the selected Cell cell
+    public void applySpecialEffect(Grid grid, Player p, String x, String y) {  //Extra Grenade: player p deals 1 damage to every enemy on the selected Cell cell
         for(Player enemy : grid.getPlayers()) {
-            if(enemy.getCell().equals(cell) && enemy != p)
+            if(enemy.getCell().getP().getX() == Integer.parseInt(x) && enemy.getCell().getP().getY() == Integer.parseInt(y) && enemy != p)
                 grid.damage(p, enemy, 1);
         }
     }

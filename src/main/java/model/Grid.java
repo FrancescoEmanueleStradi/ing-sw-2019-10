@@ -153,6 +153,10 @@ public class Grid {
     public void move(Player p, Position pt){
         p.changeCell(board.getArena()[pt.getX()][pt.getY()]);
     }
+
+    public void move(Player p, int x, int y){
+        p.changeCell(board.getArena()[x][y]);
+    }
     
     public void collectCard(Player p){
           if(p.getCell().getA().ispC())

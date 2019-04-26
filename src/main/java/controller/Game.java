@@ -1,11 +1,13 @@
 package controller;
 
 import model.*;
+import model.board.Cell;
 import model.board.WeaponSlot;
 import model.cards.AmmoCard;
 import model.cards.PowerUpCard;
 import model.Position;
 import model.cards.WeaponCard;
+import model.cards.weaponcards.*;
 import model.player.AmmoCube;
 import model.player.DamageToken;
 import model.player.Player;
@@ -41,7 +43,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
 
 
-
+//----------------------------------------------------------------------------------------------------
 
 
 
@@ -66,7 +68,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
 
 
-
+//----------------------------------------------------------------------------------------------------
 
 
 
@@ -109,17 +111,20 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
            if(c.equals(Colour.YELLOW))
                this.grid.move(p, new Position(2,3));
            if(c.equals(Colour.RED))
-               this.grid.move(p, new Position(1,0));
+               this.grid.move(p, new Position(1,0));            //view ask the choice
            if(c.equals(Colour.BLUE))
                this.grid.move(p, new Position(0,2));
            this.gameState = STARTTURN;
    }
-                                                            //view ask the choice
+
+
+
+   //----------------------------------------------------------------------------------------------------
 
 
 
 
-   public boolean isValidFirstActionShoot(Player p){
+   public boolean isValidFirstActionShoot(Player p){                //TODO switch with isValid
        return(this.gameState.equals(STARTTURN));
     }
 
@@ -127,9 +132,103 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
 
 
-   public void firstActionShoot(Player p){
+   private void firstActionShootNotAdrenaline(Player p, String nameWC, List<Integer> lI, List<String> lS){                    //is better to use a file?
+        switch(nameWC){                                                                                                              //TODO pay for the effect
+            case "Cyberblade":
+                int x = 0;
+                for(Integer i : lI) {
+                    if (lI.get(i) == 1) {
+                        ((Cyberblade) p.getWeaponCardObject(nameWC)).applyEffect(this.grid, p, this.grid.getPlayerObject(lS.get(0)));
+                        x = 1;
+                    }
+                    if (lI.get(i) == 2) {
+                        ((Cyberblade) p.getWeaponCardObject(nameWC)).applySpecialEffect(this.grid, p, lS.get(1), lS.get(2));
+                    }
+                    if ((x == 1) && lI.get(i) == 3)
+                        ((Cyberblade) p.getWeaponCardObject(nameWC)).applySpecialEffect2(this.grid, p , this.grid.getPlayerObject(lS.get(3)));
+                }
+                break;
+            case "Electroscythe":
+                if(lI.get(0) == 1)
+                    ((Electroscythe) p.getWeaponCardObject(nameWC)).applyEffect(this.grid, p);
+                if(lI.get(0) == 2)
+                    ((Electroscythe) p.getWeaponCardObject(nameWC)).applySpecialEffect(this.grid, p);
+                break;
+            case "Flamethrower":
+                if(lI.get(0) == 1)
+                    ((Flamethrower) p.getWeaponCardObject(nameWC)).applyEffect(this.grid, p, this.grid.getPlayerObject(lS.get(0)), this.grid.getPlayerObject(lS.get(1)));
+                if(lI.get(0) == 2)
+                    ((Flamethrower) p.getWeaponCardObject(nameWC)).applySpecialEffect(this.grid, p, lS.get(0), lS.get(1), lS.get(2), lS.get(3));
+                break;
+            case "Furnace":
+                if(lI.get(0) == 1)
+                    ((Furnace) p.getWeaponCardObject(nameWC)).applyEffect(this.grid, p, Colour.valueOf(lS.get(0)));
+                if(lI.get(0) == 2)
+                    ((Furnace) p.getWeaponCardObject(nameWC)).applySpecialEffect(this.grid, p, lS.get(0), lS.get(1));
+                break;
+            case "Grenade Launcher":
+                for(int i : lI){
+                    if(i == 1){
+                        ((GrenadeLauncher) p.getWeaponCardObject(nameWC)).applyEffect(this.grid, p, this.grid.getPlayerObject(lS.get(0)));
+                        ((GrenadeLauncher) p.getWeaponCardObject(nameWC)).moveEnemy(this.grid, this.grid.getPlayerObject(lS.get(0)), Integer.parseInt(lS.get(1)));
+                    }
+                    if(i == 2)
+                        ((GrenadeLauncher) p.getWeaponCardObject(nameWC)).applySpecialEffect(this.grid, p, lS.get(2), lS.get(3));
+                }
+                break;
+            case "Heatseeker":
+                ((Heatseeker) p.getWeaponCardObject(nameWC)).applyEffect(this.grid, p, this.grid.getPlayerObject(lS.get(0)));
+                break;
+            case "Hellion":
+                if(lI.get(0) == 1)
+                    ((Hellion) p.getWeaponCardObject(nameWC)).applyEffect(this.grid, p, this.grid.getPlayerObject(lS.get(0)));
+                if(lI.get(0) == 2)
+                    ((Hellion) p.getWeaponCardObject(nameWC)).applySpecialEffect(this.grid, p, this.grid.getPlayerObject(lS.get(0)));
+                break;
+            case "Lock Rifle":
+                int y = 0;
+                if(lI.get(0) == 1) {
+                    ((LockRifle) p.getWeaponCardObject(nameWC)).applyEffect(this.grid, p, this.grid.getPlayerObject(lS.get(0)));
+                    y = 1;
+                }
+                if(lI.get(1) == 2 && y == 1)
+                    ((LockRifle) p.getWeaponCardObject(nameWC)).applySpecialEffect(this.grid, p, this.grid.getPlayerObject(lS.get(1)));
+                break;
+            case "Machine Gun":
+                if(lI.get(0) == 1)
+                    ((MachineGun) p.getWeaponCardObject(nameWC)).applyEffect(this.grid, p, this.grid.getPlayerObject(lS.get(0)), this.grid.getPlayerObject(lS.get(1)));
+                if(lI.get(1) == 2)
+                    ((MachineGun) p.getWeaponCardObject(nameWC)).applySpecialEffect(this.grid, p, this.grid.getPlayerObject(lS.get(2)));
+                if(lI.get(2) == 3)
+                    ((MachineGun) p.getWeaponCardObject(nameWC)).applySpecialEffect2(this.grid, p,this.grid.getPlayerObject(lS.get(3)), this.grid.getPlayerObject(lS.get(4)));
+                break;
+            case "Plasma Gun":
+                break;
+            case "Power Glove":
+                break;
+            case "Railgun":
+                break;
+            case "Rocket Launcher":
+                break;
+            case "Shockwave":
+                break;
+            case "Shotgun":
+                break;
+            case "Sledgehammer":
+                break;
+            case "T.H.O.R.":
+                break;
+            case "Tractor Beam":
+                break;
+            case "Vortex Cannon":
+                break;
+            case "Whisper":
+                break;
+            case "ZX-2":
+                break;
 
-           //TODO
+
+        }
 
 
 
@@ -140,7 +239,11 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
 
 
+    public void firstActionShoot(){
+        //TODO
+    }
 
+//----------------------------------------------------------------------------------------------------
 
 
 
@@ -165,7 +268,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
 
 
-
+//----------------------------------------------------------------------------------------------------
 
 
 
@@ -265,7 +368,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
 
 
-
+//----------------------------------------------------------------------------------------------------
 
 
 
@@ -288,7 +391,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
 
 
-
+//----------------------------------------------------------------------------------------------------
 
 
 
@@ -315,7 +418,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
 
 
-
+//----------------------------------------------------------------------------------------------------
 
 
 
@@ -335,7 +438,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
 
 
-
+//----------------------------------------------------------------------------------------------------
 
 
 

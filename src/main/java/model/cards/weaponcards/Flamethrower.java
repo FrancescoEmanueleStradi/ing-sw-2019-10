@@ -37,15 +37,15 @@ public class Flamethrower extends WeaponCard {
 
     //before: let the player p choose one or two cells as above. This time, however, he does not select the player(s)
 
-    public void applySpecialEffect(Grid grid, Player p, Cell c1, Cell c2) { //Barbecue Mode: player p deals 2 damage to every enemy in the first cell c1, and 1 damage to every enemy in the second cell c2. c2 can be null
+    public void applySpecialEffect(Grid grid, Player p, String x1, String y1, String x2, String y2) { //Barbecue Mode: player p deals 2 damage to every enemy in the first cell c1, and 1 damage to every enemy in the second cell c2. c2 can be null
         for(Player enemy : grid.getPlayers()) {
-            if(enemy.getCell().equals(c1))
+            if(enemy.getCell().getP().getX() == Integer.parseInt(x1) && enemy.getCell().getP().getY() == Integer.parseInt(y1))
                 grid.damage(p, enemy, 2);
         }
 
-        if(c2 != null) {
+        if(x2 != null && y2 != null) {
             for(Player enemy : grid.getPlayers()) {
-                if(enemy.getCell().equals(c2))
+                if(enemy.getCell().getP().getX() == Integer.parseInt(x2) && enemy.getCell().getP().getY() == Integer.parseInt(y2))
                     grid.damage(p, enemy, 1);
             }
         }

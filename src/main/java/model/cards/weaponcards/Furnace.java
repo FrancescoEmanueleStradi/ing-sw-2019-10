@@ -35,9 +35,9 @@ public class Furnace extends WeaponCard {
 
     //before: let the player choose a cell one move away from him (it checks this)
 
-    public void applySpecialEffect(Grid grid, Player p, Cell cell) {    //Cozy Fire Mode: player p gives 1 damage and 1 mark to every enemy in that cell
+    public void applySpecialEffect(Grid grid, Player p, String x, String y) {    //Cozy Fire Mode: player p gives 1 damage and 1 mark to every enemy in that cell
         for(Player enemy : grid.getPlayers()) {
-            if(enemy.getCell().equals(cell)) {
+            if(enemy.getCell().getP().getX() == Integer.parseInt(x) && enemy.getCell().getP().getY() == Integer.parseInt(y)) {
                 grid.damage(p, enemy, 1);
                 grid.addMark(p, enemy);
             }

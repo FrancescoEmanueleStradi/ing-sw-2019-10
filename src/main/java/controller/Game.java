@@ -319,9 +319,9 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
     }
 
     public void firstActionShoot(Player p, String nameWC, List<Integer> lI, List<String> lS, int direction){
-        if(!p.isAdrenaline1())                  //TODO 1 or 2 Adrenaline????
+        if(!p.isAdrenaline2())
             this.shootNotAdrenaline(p, nameWC, lI, lS);
-        else if (p.isAdrenaline1())
+        else if (p.isAdrenaline2())
             this.shootAdrenaline(p, nameWC, lI, lS, direction);
         this.gameState = ACTION1;
     }
@@ -501,9 +501,9 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
     //TODO public boolean isValidSecondActionShoot
 
     public void SecondActionShoot(Player p, String nameWC, List<Integer> lI, List<String> lS, int direction){
-        if(!p.isAdrenaline1())                  //TODO 1 or 2 Adrenaline????
+        if(!p.isAdrenaline2())
             this.shootNotAdrenaline(p, nameWC, lI, lS);
-        else if (p.isAdrenaline1())
+        else if (p.isAdrenaline2())
             this.shootAdrenaline(p, nameWC, lI, lS, direction);
         this.gameState = ACTION2;
     }

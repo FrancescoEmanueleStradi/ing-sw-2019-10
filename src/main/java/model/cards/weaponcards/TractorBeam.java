@@ -28,8 +28,8 @@ public class TractorBeam extends WeaponCard {
 
     //before: let the player p choose which player p1 he wants to move and damage, letting him choose the visible cell he wants to move the enemy in
 
-    public void applyEffect(Grid grid, Player p, Player p1, Cell destCell) {    //enemy is moved to cell and damaged
-        p1.setCell(destCell);
+    public void applyEffect(Grid grid, Player p, Player p1, String x, String y) {    //enemy is moved to cell and damaged
+        grid.move(p1, Integer.parseInt(x), Integer.parseInt(y));
         grid.damage(p, p1, 1);
     }
 

@@ -39,7 +39,7 @@ public class Sledgehammer extends WeaponCard {
 
     //then (optional): if player p wants, he can move the attacked p1 0, 1, 2 cells in one direction. Player p will click the cell. ALTERNATIVE: numMoves and direction as parameters and if.
 
-    public void moveEnemy(Player p1, Cell cell) {   //Pulverize Mode (Second Part): enemy p1 is moved where player p has decided
-        p1.setCell(cell);
+    public void moveEnemy(Player p1, Grid grid, String x, String y) {   //Pulverize Mode (Second Part): enemy p1 is moved where player p has decided
+        grid.move(p1, Integer.parseInt(x), Integer.parseInt(y));
     }
 }

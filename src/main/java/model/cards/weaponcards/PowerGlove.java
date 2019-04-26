@@ -37,8 +37,8 @@ public class PowerGlove extends WeaponCard {
 
     //before Rocket Fist Mode: Player p chooses one cell to go to.
 
-    public void applySpecialEffectPart1(Player p, Cell cell1) {  //player p moves in the first cell selected
-        p.setCell(cell1);
+    public void applySpecialEffectPart1(Player p, Grid grid, String x, String y) {  //player p moves in the first cell selected
+        grid.move(p, Integer.parseInt(x), Integer.parseInt(y));
     }
 
     //Then, he can attack a player p1 there.
@@ -51,8 +51,8 @@ public class PowerGlove extends WeaponCard {
 
     //Then, if he wants, he can move again in the same direction (check if the direction is the same).
 
-    public void applySpecialEffectPart3(Player p, Cell cell2) { //player p moves in the second cell selected
-        p.setCell(cell2);
+    public void applySpecialEffectPart3(Player p, Grid grid, String x2, String y2) { //player p moves in the second cell selected
+        grid.move(p, Integer.parseInt(x2), Integer.parseInt(y2));
     }
 
     //Eventually, he can attack a player p2 there.

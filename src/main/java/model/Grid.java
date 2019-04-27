@@ -9,8 +9,10 @@ import model.player.DamageToken;
 import model.player.Player;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static java.lang.Math.abs;
 
@@ -113,6 +115,10 @@ public class Grid {
         return abs(p.getCell().getP().getX()-pos.getX()) + abs(p.getCell().getP().getY()-pos.getY());
     }
 
+    public int distance(Position pos1, Position pos2) {
+        return abs(pos1.getX()-pos2.getX()) + abs(pos1.getY()-pos2.getY());
+    }
+
     public Cell whereAmI(Player p) {
         return p.getCell();
     }
@@ -143,13 +149,38 @@ public class Grid {
         }
     }
 
+    public boolean canMove(Player p, int d) {                                //1 up, 2 right, 3 down, 4 left
+
+        for(int i =0; i<p.getCell().getPosWall().length; i++) {
+            if (p.getCell().getPosWall()[i] == d) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public void move(Player p, Position pt) {
-        p.changeCell(board.getArena()[pt.getX()][pt.getY()]);
+        p.changeCell(board.getArena()[pt.getX()][pt.getY()]);           //TODO control where we used
     }
 
     public void move(Player p, int x, int y) {
         p.changeCell(board.getArena()[x][y]);
     }
+
+    public boolean isThereAWall (Player p, Position pT){            //1 if there is a wall
+        int direction = 0;
+        if(p.getCell().getP().getX() > pT.getX())
+            direction = 1;
+        if(p.getCell().getP().getX() < pT.getX())
+            direction = 3;
+        if(p.getCell().getP().getY() > pT.getY())
+            direction = 4;
+        if(p.getCell().getP().getY() < pT.getY())
+            direction = 2;
+        return Arrays.asList(this.board.getArena()[p.getCell().getP().getX()][p.getCell().getP().getY()].getPosWall()).contains(direction);
+    }
+
+
     
     public void collectCard(Player p) {
           if(p.getCell().getA().ispC())
@@ -183,6 +214,41 @@ public class Grid {
         }
 
         return (isInTheRoom(p, p2) || ((p.getCell().getPosDoor()!=null) && b));
+    }
+
+    public boolean isInViewZone(Player p, Position pos){
+        if(this.board.getArena()[pos.getX()][pos.getY()].getC().equals(p.getCell().getC()))
+            return true;
+        for(int i=0; i<p.getCell().getPosDoor().length; i++){
+            if (p.getCell().getPosDoor()[i] == 1)
+                if(this.board.getArena()[p.getCell().getP().getX() - 1][p.getCell().getP().getY()].getC().equals(this.board.getArena()[pos.getX()][pos.getY()].getC()))
+                    return true;
+            else if (p.getCell().getPosDoor()[i] == 2)
+                if(this.board.getArena()[p.getCell().getP().getX()][p.getCell().getP().getY() + 1].getC().equals(this.board.getArena()[pos.getX()][pos.getY()].getC()))
+                    return true;
+            else if (p.getCell().getPosDoor()[i] == 3)
+                if(this.board.getArena()[p.getCell().getP().getX() + 1][p.getCell().getP().getY()].getC().equals(this.board.getArena()[pos.getX()][pos.getY()].getC()))
+                    return true;
+            else if (p.getCell().getPosDoor()[i] == 4)
+                if(this.board.getArena()[p.getCell().getP().getX()][p.getCell().getP().getY() - 1].getC().equals(this.board.getArena()[pos.getX()][pos.getY()].getC()))
+                    return true;
+        }
+        return false;
+    }
+
+    public List<Colour> colourOfOtherViewZone(Player p){
+        List<Colour> l = new LinkedList<>();
+        for(int i=0; i<p.getCell().getPosDoor().length; i++){
+            if (p.getCell().getPosDoor()[i] == 1)
+                l.add(this.board.getArena()[p.getCell().getP().getX() - 1][p.getCell().getP().getY()].getC());
+            if (p.getCell().getPosDoor()[i] == 2)
+                l.add(this.board.getArena()[p.getCell().getP().getX()][p.getCell().getP().getY() + 1].getC());
+            if (p.getCell().getPosDoor()[i] == 3)
+                l.add(this.board.getArena()[p.getCell().getP().getX() + 1][p.getCell().getP().getY()].getC());
+            if (p.getCell().getPosDoor()[i] == 4)
+                l.add(this.board.getArena()[p.getCell().getP().getX()][p.getCell().getP().getY() - 1].getC());
+        }
+        return l.stream().distinct().collect(Collectors.toList());
     }
 
     public List<Player> whoIsInTheRoom(Player p) {

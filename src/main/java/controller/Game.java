@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static controller.GameState.*;
 
@@ -124,137 +125,212 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
 
 
-   /*public boolean isValidShootNotAdrenaline(Player p, String nameWC, List<Integer> lI, List<String> lS){                //TODO switch with isValid
-       if(this.gameState.equals(STARTTURN)){
-           switch(nameWC){                                                                                                              //TODO pay for the effect
+   public boolean isValidShootNotAdrenaline(Player p, String nameWC, List<Integer> lI, List<String> lS, List<AmmoCube> lA, List<PowerUpCard> lP){
+       boolean x = false;
+       if(this.gameState.equals(STARTTURN) && p.getWeaponCardObject(nameWC).isReloaded()){
+           List<AmmoCube> l = choosePayment(lA, lP);
+           List<Colour> lC = l.stream().map(a -> a.getC()).collect(Collectors.toList());
+           switch(nameWC){
                case "Cyberblade":
-                   if() {
-                       return true;
+                   if(lI.contains(1)){
+                       if(this.grid.whereAmI(p).equals(this.grid.whereAmI(this.grid.getPlayerObject(lS.get(0)))))
+                           x = true;
+                   }
+                   if(lI.contains(2) && lI.contains(1)){
+                       x = false;
+                       if(this.grid.distance(p, new Position(Integer.parseInt(lS.get(1)), Integer.parseInt(lS.get(2)))) == 1 && !(this.grid.isThereAWall(p, new Position(Integer.parseInt(lS.get(1)), Integer.parseInt(lS.get(2))))))
+                           x = true;
+                   }
+                   if(lI.contains(3) && lI.contains(1)){
+                       x = false;
+                       if(lI.contains(1) && this.grid.whereAmI(p).equals(this.grid.whereAmI(this.grid.getPlayerObject(lS.get(3)))) && !this.grid.getPlayerObject(lS.get(3)).equals(this.grid.getPlayerObject(lS.get(0))) && lC.contains(Colour.YELLOW))
+                           x = true;
                    }
                    break;
                case "Electroscythe":
-                   if() {
-                       return true;
+                   if(lI.contains(1) && !l.contains(2)){
+                       x = true;
+                   }
+                   if(!lI.contains(1) && l.contains(2)){
+                       if(lC.contains(Colour.RED) && lC.contains(Colour.BLUE))
+                           x = true;
                    }
                    break;
                case "Flamethrower":
-                   if() {
-                       return true;
+                   if(lI.contains(1) && !l.contains(2)){
+                       if(this.grid.distance(p, this.grid.getPlayerObject(lS.get(0))) == 1 && !(this.grid.isThereAWall(p, new Position(this.grid.getPlayerObject(lS.get(0)).getCell().getP().getX(), this.grid.getPlayerObject(lS.get(0)).getCell().getP().getY())) &&
+                               (lS.size()<2 || this.grid.distance(this.grid.getPlayerObject(lS.get(0)), this.grid.getPlayerObject(lS.get(1))) == 1 && ((this.grid.getPlayerObject(lS.get(0)).getCell().getP().getX() == this.grid.getPlayerObject(lS.get(1)).getCell().getP().getX()) || (this.grid.getPlayerObject(lS.get(0)).getCell().getP().getY() == this.grid.getPlayerObject(lS.get(1)).getCell().getP().getY())) && !(this.grid.isThereAWall(this.grid.getPlayerObject(lS.get(0)), new Position(this.grid.getPlayerObject(lS.get(1)).getCell().getP().getX(), this.grid.getPlayerObject(lS.get(1)).getCell().getP().getY()))))))
+                           x = true;
                    }
+                   if(!lI.contains(1) && l.contains(2)){
+                       if(this.grid.distance(p, new Position(Integer.parseInt(lS.get(0)), Integer.parseInt(lS.get(1)))) == 1 && this.grid.distance(new Position(Integer.parseInt(lS.get(2)),Integer.parseInt(lS.get(3))), new Position(Integer.parseInt(lS.get(0)), Integer.parseInt(lS.get(1)))) == 1 && ((Integer.parseInt(lS.get(0)) == Integer.parseInt(lS.get(2))||Integer.parseInt(lS.get(1)) == Integer.parseInt(lS.get(2)))) && lC.containsAll(Arrays.asList(Colour.YELLOW, Colour.YELLOW)))
+                           x = true;
+                   }
+                   break;
                case "Furnace":
-                   if() {
-                       return true;
+                   if(lI.contains(1) && !l.contains(2)){
+                       if(!p.getCell().getC().equals(Colour.valueOf(lS.get(0))) && this.grid.colourOfOtherViewZone(p).contains(Colour.valueOf(lS.get(0))))
+                           x =true;
                    }
+                   if(!lI.contains(1) && l.contains(2)){
+                       if(this.grid.distance(p, new Position(Integer.parseInt(lS.get(0)), Integer.parseInt(lS.get(1)))) == 1)
+                           x = true;
+                   }
+                   break;
                case "Grenade Launcher":
-                   if() {
-                       return true;
+                   if(lI.contains(1)){
+                       if(this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(0))) && (Integer.parseInt(lS.get(1)) == 0 || this.grid.canMove(this.grid.getPlayerObject(lS.get(0)), Integer.parseInt(lS.get(1)))))
+                           x = true;
+                   }
+                   if(lI.contains(2) && lI.contains(1)){
+                       x = false;
+                       if(this.grid.isInViewZone(p, new Position(Integer.parseInt(lS.get(2)), Integer.parseInt(lS.get(3)))) && lC.contains(Colour.RED))
+                           x = true;
                    }
                    break;
                case "Heatseeker":
-                   if() {
-                       return true;
+                   if(lI.size() == 0) {
+                        if(!this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(0))))
+                            x = true;
                    }
                    break;
                case "Hellion":
-                   if() {
-                       return true;
+                   if(lI.contains(1) && !l.contains(2)){
+                        if(this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(0))) && !p.getCell().equals(this.grid.getPlayerObject(lS.get(0)).getCell()))  //TODO Are we sure about the meaning of this effect?
+                            x = true;
+                   }
+                   if(!lI.contains(1) && l.contains(2)){
+                        if(this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(0))) && !p.getCell().equals(this.grid.getPlayerObject(lS.get(0)).getCell()) && lC.contains(Colour.RED))   //TODO Are we sure about the meaning of this effect?
+                            x = true;
                    }
                    break;
                case "Lock Rifle":
-                   if() {
-                       return true;
+                   if(lI.contains(1)) {
+                        if(this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(0))))
+                            x = true;
+                   }
+                   if(lI.contains(2) && lI.contains(1)) {
+                        x = false;
+                        if(this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(1))) && !this.grid.getPlayerObject(lS.get(0)).equals(this.grid.getPlayerObject(lS.get(1))) && lC.contains(Colour.RED))
+                            x = true;
                    }
                    break;
                case "Machine Gun":
-                   if() {
-                       return true;
+                   if(lI.contains(1)) {
+                       if(this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(0))) && (lS.get(1) == null || this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(1)))))
+                           x = true;
+                   }
+                   if(lI.contains(2) && lI.contains(1)) {
+                       x = false;
+                       if((this.grid.getPlayerObject(lS.get(2)).equals(this.grid.getPlayerObject(lS.get(0))) || (lS.get(1)!= null && this.grid.getPlayerObject(lS.get(2)).equals(this.grid.getPlayerObject(lS.get(1))))) && lC.contains(Colour.YELLOW))
+                           x = true;
+                   }
+                   if(lI.contains(3) && lI.contains(2) && lI.contains(1)) {
+                       x = false;
+                       if(!this.grid.getPlayerObject(lS.get(3)).equals(this.grid.getPlayerObject(lS.get(2))) && (lS.get(4) == null || this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(4)))) && lC.contains(Colour.BLUE))                   //TODO attention to the fact the player can't attack the same players if he can see another player
+                           x = true;
                    }
                    break;
                case "Plasma Gun":
-                   if() {
-                       return true;
+                   if(lI.contains(1)) {
+                       if(this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(0))))
+                           x = true;
+                   }
+                   if(lI.contains(2) && lI.contains(1)){
+                       x = false;
+                       if(Integer.parseInt(lS.get(1)) < 3 && this.grid.canMove(p, Integer.parseInt(lS.get(2))) && (lS.size() < 4 || this.grid.canMove(p, Integer.parseInt(lS.get(3)))))
+                           x = true;
+                   }
+                   if(lI.contains(3) && lI.contains(1)){
+                       x = false;
+                       if(this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(0))) && (!l.contains(2)|| l.indexOf(2) > l.indexOf(3)||l.contains(2) && l.indexOf(2) < l.indexOf(3)) && lC.contains(Colour.BLUE))              /* TODO && this.grid.isInViewZone(this.grid.getPlayerObject(lS.get(0)), )*/
+                           x = true;
                    }
                    break;
                case "Power Glove":
-                   if() {
-                       return true;
+                   if(lI.contains(1) && !l.contains(2)) {
+                       if(this.grid.distance(p, this.grid.getPlayerObject(lS.get(0))) == 1 && this.grid.isInViewZone(p,this.grid.getPlayerObject(lS.get(0))))
+                           x = true;
+                   }
+                   if(!lI.contains(1) && l.contains(2)) {
+                       if(this.grid.distance(p, new Position(Integer.parseInt(lS.get(1)), Integer.parseInt(lS.get(2)))) == 1 && (!lI.contains(3)|| this.grid.getPlayerObject(lS.get(3)).getCell().getP().equals(new Position(Integer.parseInt(lS.get(1)), Integer.parseInt(lS.get(2)))))) //&& //(||))  TODO
+                           x = true;
                    }
                    break;
-               case "Railgun":
+               /*case "Railgun":
                    if() {
-                       return true;
+
                    }
                    break;
                case "Rocket Launcher":
                    if() {
-                       return true;
+
                    }
                    break;
                case "Shockwave":
                    if() {
-                       return true;
+
                    }
                    break;
                case "Shotgun":
                    if() {
-                       return true;
+
                    }
                    break;
                case "Sledgehammer":
                    if() {
-                       return true;
+
                    }
                    break;
                case "T.H.O.R.":
                    if() {
-                       return true;
+
                    }
                    break;
                case "Tractor Beam":
                    if() {
-                       return true;
+
                    }
                    break;
                case "Vortex Cannon":
                    if() {
-                       return true;
                    }
                    break;
                case "Whisper":
                    if() {
-                       return true;
+
                    }
                    break;
                case "ZX-2":
                    if() {
-                       return true;
+
                    }
                    break;
 
-
+*/
            }
 
        }
-       return false;
-    }*/
+       return x;
+    }
 
 
 
 
 
-   private void shootNotAdrenaline(Player p, String nameWC, List<Integer> lI, List<String> lS){                    //is better to use a file?
-        switch(nameWC){                                                                                                              //TODO pay for the effect
-            case "Cyberblade":
+   private void shootNotAdrenaline(Player p, String nameWC, List<Integer> lI, List<String> lS, List<AmmoCube> lA, List<PowerUpCard> lP){                    //is better to use a file?
+        switch(nameWC){
+            case "Cyberblade":                                      
                 int x = 0;
                 for(Integer i : lI) {
-                    if (lI.get(i) == 1) {
+                    if (i == 1) {
                         ((Cyberblade) p.getWeaponCardObject(nameWC)).applyEffect(this.grid, p, this.grid.getPlayerObject(lS.get(0)));
                         x = 1;
                     }
-                    if (lI.get(i) == 2) {
+                    if (i == 2) {
                         ((Cyberblade) p.getWeaponCardObject(nameWC)).applySpecialEffect(this.grid, p, lS.get(1), lS.get(2));
                     }
-                    if ((x == 1) && lI.get(i) == 3)
+                    if ((x == 1) && i == 3)
                         ((Cyberblade) p.getWeaponCardObject(nameWC)).applySpecialEffect2(this.grid, p , this.grid.getPlayerObject(lS.get(3)));
                 }
                 break;
@@ -277,10 +353,10 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                     ((Furnace) p.getWeaponCardObject(nameWC)).applySpecialEffect(this.grid, p, lS.get(0), lS.get(1));
                 break;
             case "Grenade Launcher":
-                for(int i : lI){
+                for(Integer i : lI){
                     if(i == 1){
                         ((GrenadeLauncher) p.getWeaponCardObject(nameWC)).applyEffect(this.grid, p, this.grid.getPlayerObject(lS.get(0)));
-                        ((GrenadeLauncher) p.getWeaponCardObject(nameWC)).moveEnemy(this.grid, this.grid.getPlayerObject(lS.get(0)), Integer.parseInt(lS.get(1)));
+                        ((GrenadeLauncher) p.getWeaponCardObject(nameWC)).moveEnemy(this.grid, this.grid.getPlayerObject(lS.get(0)), Integer.parseInt(lS.get(1)));          //we give 0 if the player doesn't want to move
                     }
                     if(i == 2)
                         ((GrenadeLauncher) p.getWeaponCardObject(nameWC)).applySpecialEffect(this.grid, p, lS.get(2), lS.get(3));
@@ -315,21 +391,20 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
             case "Plasma Gun":
                 int z = 0;
                 for(int i : lI){
-                    if(lI.get(i) == 1) {
+                    if(i == 1) {
                         ((PlasmaGun) p.getWeaponCardObject(nameWC)).applyEffect(this.grid, p, this.grid.getPlayerObject(lS.get(0)));
                         z = 1;
                     }
-                    if(lI.get(i) == 2)
+                    if(i == 2)
                         ((PlasmaGun) p.getWeaponCardObject(nameWC)).applySpecialEffect(this.grid, p, Integer.parseInt(lS.get(1)), Integer.parseInt(lS.get(2)), Integer.parseInt(lS.get(3)));
-                    if(lI.get(i) == 3 && z == 1)
+                    if(i == 3 && z == 1)
                         ((PlasmaGun) p.getWeaponCardObject(nameWC)).applySpecialEffect2(this.grid, p, this.grid.getPlayerObject(lS.get(0)));
                 }
                 break;
             case "Power Glove":
-                for(int i : lI) {
-                    if (lI.get(i) == 1)
+                    if (lI.get(0) == 1)
                         ((PowerGlove) p.getWeaponCardObject(nameWC)).applyEffect(this.grid, p, this.grid.getPlayerObject(lS.get(0)));
-                    if (lI.get(i) == 2) {
+                    if (lI.get(0) == 2) {
                         ((PowerGlove) p.getWeaponCardObject(nameWC)).applySpecialEffectPart1(p, this.grid, lS.get(1), lS.get(2));
                         if(lI.contains(3))
                             ((PowerGlove) p.getWeaponCardObject(nameWC)).applySpecialEffectPart2(this.grid, p, this.grid.getPlayerObject(lS.get(3)));
@@ -337,7 +412,6 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                             ((PowerGlove) p.getWeaponCardObject(nameWC)).applySpecialEffectPart3(p, this.grid, lS.get(4), lS.get(5));
                         if(lI.contains(5))
                             ((PowerGlove) p.getWeaponCardObject(nameWC)).applySpecialEffectPart4(this.grid, p, this.grid.getPlayerObject(lS.get(6)));
-                    }
                 }
                 break;
             case "Railgun":
@@ -349,15 +423,15 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
             case "Rocket Launcher":
                 int h = 0;
                 for(int i : lI) {
-                    if (lI.get(i) == 1) {
+                    if (i == 1) {
                         ((RocketLauncher) p.getWeaponCardObject(nameWC)).applyEffect(this.grid, p, this.grid.getPlayerObject(lS.get(0)));
                         h = 1;
                         if(lI.get(i+1) == 2)
                             ((RocketLauncher) p.getWeaponCardObject(nameWC)).movePlayer(this.grid,this.grid.getPlayerObject(lS.get(0)), Integer.parseInt(lS.get(1)));
                     }
-                    if(lI.get(i) == 3)
+                    if(i == 3)
                         ((RocketLauncher) p.getWeaponCardObject(nameWC)).applySpecialEffect(this.grid, p, Integer.parseInt(lS.get(2)), Integer.parseInt(lS.get(3)), Integer.parseInt(lS.get(4)));
-                    if(lI.get(i) == 4 && h == 1)
+                    if(i == 4 && h == 1)
                         ((RocketLauncher) p.getWeaponCardObject(nameWC)).applySpecialEffect2(this.grid, p);
                 }
                 break;
@@ -418,18 +492,20 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                     ((ZX2) p.getWeaponCardObject(nameWC)).applySpecialEffect(this.grid, p, this.grid.getPlayerObject(lS.get(0)), this.grid.getPlayerObject(lS.get(1)), this.grid.getPlayerObject(lS.get(2)));
                 break;
         }
+        p.getWeaponCardObject(nameWC).unload();
+        p.payWeaponCard(lA, lP);
     }
 
-    private void shootAdrenaline(Player p, String nameWC, List<Integer> lI, List<String> lS, int direction){
+    private void shootAdrenaline(Player p, String nameWC, List<Integer> lI, List<String> lS, int direction, List<AmmoCube> lA, List<PowerUpCard> lP){
         this.grid.move(p, direction);
-        this.shootNotAdrenaline(p, nameWC, lI, lS);
+        this.shootNotAdrenaline(p, nameWC, lI, lS, lA, lP);
     }
 
-    public void firstActionShoot(Player p, String nameWC, List<Integer> lI, List<String> lS, int direction){
+    public void firstActionShoot(Player p, String nameWC, List<Integer> lI, List<String> lS, int direction, List<AmmoCube> lA, List<PowerUpCard> lP){
         if(!p.isAdrenaline2())
-            this.shootNotAdrenaline(p, nameWC, lI, lS);
+            this.shootNotAdrenaline(p, nameWC, lI, lS, lA, lP);
         else if (p.isAdrenaline2())
-            this.shootAdrenaline(p, nameWC, lI, lS, direction);
+            this.shootAdrenaline(p, nameWC, lI, lS, direction, lA, lP);
         this.gameState = ACTION1;
     }
 
@@ -607,11 +683,11 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
     //TODO public boolean isValidSecondActionShoot
 
-    public void SecondActionShoot(Player p, String nameWC, List<Integer> lI, List<String> lS, int direction){
+    public void SecondActionShoot(Player p, String nameWC, List<Integer> lI, List<String> lS, int direction, List<AmmoCube> lA, List<PowerUpCard> lP){
         if(!p.isAdrenaline2())
-            this.shootNotAdrenaline(p, nameWC, lI, lS);
+            this.shootNotAdrenaline(p, nameWC, lI, lS, lA, lP);
         else if (p.isAdrenaline2())
-            this.shootAdrenaline(p, nameWC, lI, lS, direction);
+            this.shootAdrenaline(p, nameWC, lI, lS, direction, lA, lP);
         this.gameState = ACTION2;
     }
 

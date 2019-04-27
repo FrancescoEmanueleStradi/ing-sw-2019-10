@@ -405,7 +405,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                 if(lI.get(0) == 1){
                     ((VortexCannon) p.getWeaponCardObject(nameWC)).applyEffect(this.grid, p, this.grid.getPlayerObject(lS.get(0)), lS.get(1), lS.get(2));
                     if(lI.get(1) == 2)
-                        ((VortexCannon) p.getWeaponCardObject(nameWC)).applySpecialEffect(this.grid, p, this.grid.getPlayerObject(lS.get(3)), this.grid.getPlayerObject(lS.get(4)), lS.get(5), lS.get(6));
+                        ((VortexCannon) p.getWeaponCardObject(nameWC)).applySpecialEffect(this.grid, p, this.grid.getPlayerObject(lS.get(3)), this.grid.getPlayerObject(lS.get(4)));
                 }
                 break;
             case "Whisper":
@@ -417,10 +417,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                 if(lI.get(0) == 2)
                     ((ZX2) p.getWeaponCardObject(nameWC)).applySpecialEffect(this.grid, p, this.grid.getPlayerObject(lS.get(0)), this.grid.getPlayerObject(lS.get(1)), this.grid.getPlayerObject(lS.get(2)));
                 break;
-
-
         }
-
     }
 
     private void shootAdrenaline(Player p, String nameWC, List<Integer> lI, List<String> lS, int direction){

@@ -369,33 +369,66 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                            x = true;
                    }
                    break;
-               /*case "T.H.O.R.":
-                   if() {
-
+               case "T.H.O.R.":
+                   if(lI.contains(1)) {
+                       if(this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(0))))
+                           x = true;
+                       if(!x)
+                           break;
+                   }
+                   if(lI.contains(1) && lI.contains(2)) {
+                       x = false;
+                       if(this.grid.isInViewZone(this.grid.getPlayerObject(lS.get(0)), this.grid.getPlayerObject(lS.get(1))) && !this.grid.getPlayerObject(lS.get(0)).equals(this.grid.getPlayerObject(lS.get(1))) && lC.contains(Colour.BLUE))
+                           x = true;
+                       if(!x)
+                           break;
+                   }
+                   if(lI.contains(1) && lI.contains(2) && lI.contains(3)) {
+                       x = false;
+                       if(this.grid.isInViewZone(this.grid.getPlayerObject(lS.get(1)), this.grid.getPlayerObject(lS.get(2))) && !this.grid.getPlayerObject(lS.get(1)).equals(this.grid.getPlayerObject(lS.get(2))) && !this.grid.getPlayerObject(lS.get(0)).equals(this.grid.getPlayerObject(lS.get(2))) && lC.contains(Colour.BLUE))
+                           x = true;
                    }
                    break;
                case "Tractor Beam":
-                   if() {
-
+                   if(lI.contains(1) && !lI.contains(2)) {
+                       if(this.grid.distance(p, new Position(Integer.parseInt(lS.get(1)), Integer.parseInt(lS.get(2)))) < 3 && this.grid.isInViewZone(p, new Position(Integer.parseInt(lS.get(1)), Integer.parseInt(lS.get(2)))))    //TODO can't move through walls
+                            x = true;
+                   }
+                   if(!lI.contains(1) && lI.contains(2)) {
+                       if(this.grid.distance(p, this.grid.getPlayerObject(lS.get(0))) < 3 && lC.contains(Colour.RED) && lC.contains(Colour.YELLOW))
+                           x = true;
                    }
                    break;
                case "Vortex Cannon":
-                   if() {
+                   if(lI.contains(1)) {
+                       if(this.grid.isInViewZone(p, new Position(Integer.parseInt(lS.get(1)), Integer.parseInt(lS.get(2)))) && !p.getCell().getP().equals(new Position(Integer.parseInt(lS.get(1)), Integer.parseInt(lS.get(2)))) && this.grid.distance(this.grid.getPlayerObject(lS.get(0)), (new Position(Integer.parseInt(lS.get(1)), Integer.parseInt(lS.get(2))))) < 2)
+                           x = true;
+                       if(!x)
+                           break;
+                   }
+                   if(lI.contains(2) && lI.contains(1)) {
+                       x = false;
+                       if(this.grid.distance(this.grid.getPlayerObject(lS.get(3)), (new Position(Integer.parseInt(lS.get(1)), Integer.parseInt(lS.get(2))))) < 2 && this.grid.distance(this.grid.getPlayerObject(lS.get(4)), (new Position(Integer.parseInt(lS.get(1)), Integer.parseInt(lS.get(2))))) < 2 && lC.contains(Colour.RED))
+                           x = true;
                    }
                    break;
                case "Whisper":
-                   if() {
-
-                   }
+                   if(this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(0))) && this.grid.distance(p, this.grid.getPlayerObject(lS.get(0))) >= 2)
+                       x = true;
                    break;
                case "ZX-2":
-                   if() {
-
+                   if(lI.contains(1) && !lI.contains(2)) {
+                       if(this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(0))))
+                            x = true;
+                   }
+                   if(!lI.contains(1) && lI.contains(2)) {
+                       if(lS.size() == 1 && this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(0))) ||
+                               lS.size() == 2 && this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(0))) && this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(1))) && !this.grid.getPlayerObject(lS.get(0)).getCell().getC().equals(this.grid.getPlayerObject(lS.get(1)).getCell().getC()) ||
+                                lS.size() == 3 && this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(0))) && this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(1))) && this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(2))) && !this.grid.getPlayerObject(lS.get(0)).getCell().getC().equals(this.grid.getPlayerObject(lS.get(1)).getCell().getC()) && !this.grid.getPlayerObject(lS.get(1)).getCell().getC().equals(this.grid.getPlayerObject(lS.get(2)).getCell().getC()) && !this.grid.getPlayerObject(lS.get(0)).getCell().getC().equals(this.grid.getPlayerObject(lS.get(2)).getCell().getC()))
+                           x = true;
                    }
                    break;
-*/
            }
-
        }
        return x;
     }

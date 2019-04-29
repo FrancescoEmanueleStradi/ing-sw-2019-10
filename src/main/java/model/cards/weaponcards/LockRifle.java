@@ -31,6 +31,6 @@ public class LockRifle extends WeaponCard {
     }
 
     public void applySpecialEffect(Grid grid, Player p, Player p2) { //Second Lock: player p attacks p2 (visible), who is different from the p1 selected for the primary effect: the controller will check this!
-        grid.damage(p, p2, 1);
+        grid.addMark(p, p2);
     }
 }

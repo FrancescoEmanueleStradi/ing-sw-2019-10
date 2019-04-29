@@ -807,6 +807,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                     if(this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(0))))
                         x = true;
                     break;
+                //TODO
                 case "Targeting Scope" :
 
             }

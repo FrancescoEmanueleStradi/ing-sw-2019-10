@@ -24,12 +24,12 @@ public class Cyberblade extends WeaponCard {
                              "Notes: Combining all effects allows you to move onto a square and whack 2 people; or whack somebody, move, and whack somebody else; or whack 2 people and then move.\n";
     }
 
-    public String getOptionalEffect2() {
-        return optionalEffect2;
-    }
-
     public String getOptionalEffect1() {
         return optionalEffect1;
+    }
+
+    public String getOptionalEffect2() {
+        return optionalEffect2;
     }
 
     //before: let player p choose a player p1 on his cell.

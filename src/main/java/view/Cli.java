@@ -31,8 +31,11 @@ public class Cli implements View{
 
             System.out.println("Choose the type of Arena (1, 2, 3, 4): ");
             int type = in.nextInt();
-            if(this.game.isValidReceiveType(type))
-                this.game.receiveType(type);
+            while (!this.game.isValidReceiveType(type)){
+                System.out.println("Choose the type of Arena (1, 2, 3, 4): ");
+                type = in.nextInt();
+            }
+            this.game.receiveType(type);
             return;
         }
 

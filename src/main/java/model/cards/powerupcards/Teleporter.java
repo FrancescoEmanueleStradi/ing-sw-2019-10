@@ -20,7 +20,7 @@ public class Teleporter extends PowerUpCard {
 
     //before: let player p choose a Cell cell he wants to go in. He has to use this card before any player respawns at the end of p's turn.
 
-    public void applyEffect(Player p, Cell cell) {
-        p.setCell(cell);
+    public void applyEffect(Grid grid, Player p, String x, String y) {
+        grid.move(p, Integer.parseInt(x), Integer.parseInt(y));
     }
 }

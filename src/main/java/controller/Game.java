@@ -7,6 +7,10 @@ import model.cards.AmmoCard;
 import model.cards.PowerUpCard;
 import model.Position;
 import model.cards.WeaponCard;
+import model.cards.powerupcards.Newton;
+import model.cards.powerupcards.TagbackGrenade;
+import model.cards.powerupcards.TargetingScope;
+import model.cards.powerupcards.Teleporter;
 import model.cards.weaponcards.*;
 import model.player.AmmoCube;
 import model.player.DamageToken;
@@ -699,18 +703,44 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 //----------------------------------------------------------------------------------------------------
 
 
-    public boolean isValidUsePowerUpCard(Player p, String namePC){
-        if(this.gameState.equals(STARTTURN) || this.gameState.equals(ACTION1) || this.gameState.equals(ACTION2)){       //TODO condition depend on the Power-Up card
-            return true;
+    public boolean isValidUsePowerUpCard(Player p, String namePC, List<String> lS) {
+        boolean x = false;
+        if(this.gameState.equals(STARTTURN) || this.gameState.equals(ACTION1) || this.gameState.equals(ACTION2)) {
+            switch(namePC) {
+                case "Newton" :
+                    if(this.grid.canMove(this.grid.getPlayerObject(lS.get(0)), Integer.parseInt(lS.get(1))));
+                       x = true;
+                    break;
+                case "Teleporter" :
+                    x = true;
+                    break;
+                case "Tagback Grenade" :
+                    if(this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(0))))
+                        x = true;
+                    break;
+                case "Targeting Scope" :
+
+            }
+
         }
-        return false;
+        return x;
     }
 
 
-    public void usePowerUpCard(Player p, String namePC){
-            //TODO
-
-   }
+    public void usePowerUpCard(Player p, String namePC, List<String> lS) {
+        switch(namePC) {
+            case "Newton" :
+                ((Newton) p.getPowerUpCardObject(namePC)).applyEffect(this.grid, this.grid.getPlayerObject(lS.get(0)), lS.get(1), lS.get(2));
+                break;
+            case "Teleporter" :
+                ((Teleporter) p.getPowerUpCardObject(namePC)).applyEffect(this.grid, p, lS.get(0), lS.get(1));
+                break;
+            case "Tagback Grenade" :
+                ((TagbackGrenade) p.getPowerUpCardObject(namePC)).applyEffect(this.grid, p, this.grid.getPlayerObject(lS.get(0)));
+            case "Targeting Scope" :
+                ((TargetingScope) p.getPowerUpCardObject(namePC)).applyEffect(this.grid, p, this.grid.getPlayerObject(lS.get(0)));
+        }
+    }
 
 
 

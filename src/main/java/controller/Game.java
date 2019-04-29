@@ -32,7 +32,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         return this.grid.getPlayers().isEmpty();
     }
 
-   public void gameStart(String nickName, Colour c) throws InvalidColourException{
+    public void gameStart(String nickName, Colour c) throws InvalidColourException {
        if(!init) {
            init = true;
            this.grid = new Grid();
@@ -40,7 +40,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
            this.grid.addPlayer(p);               //first state
            this.gameState = START;
        }
-   }
+    }
 
 
 
@@ -49,17 +49,17 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
 
 
-   public boolean isValidAddPlayer(String nickName, Colour c){
+    public boolean isValidAddPlayer(String nickName, Colour c) {
        return ((init) && !(this.grid.getPlayersNickName().contains(nickName)) && !(this.grid.getPlayersColour().contains(c)));
-   }
-
-
-   public void addPlayer(String nickName, Colour c) throws InvalidColourException{
-           Player p = new Player(nickName, c, false);
-           this.grid.addPlayer(p);
     }
 
-    public boolean removePlayer(String nickName){
+
+    public void addPlayer(String nickName, Colour c) throws InvalidColourException {
+        Player p = new Player(nickName, c, false);
+        this.grid.addPlayer(p);
+    }
+
+    public boolean removePlayer(String nickName) {
         if(init) {
             this.grid.removePlayer(this.grid.getPlayerObject(nickName));
             return true;
@@ -74,17 +74,17 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
 
 
-    public boolean isValidReceiveType() {
-        return this.gameState.equals(START);    //also check if int type is 1, 2, 3 or 4?
+    public boolean isValidReceiveType(int type) {
+        return this.gameState.equals(START) && (type == 1 || type == 2 || type == 3 || type == 4);
     }
 
-   public void receiveType(int type){
+   public void receiveType(int type) {
         this.grid.setType(type);                 //find a condition
         this.grid.setUpAmmoCard();
         this.gameState = INITIALIZED;
    }
 
-   public List<PowerUpCard> giveTwoPUCard(String nickName){
+   public List<PowerUpCard> giveTwoPUCard(String nickName) {
         Player p = this.grid.getPlayerObject(nickName);
         if(p.getCell() == null) {
             List<PowerUpCard> l = new LinkedList<>();
@@ -96,19 +96,19 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
        return new LinkedList<>();
    }
 
-   public boolean isValidPickAndDiscard(String nickName){
+   public boolean isValidPickAndDiscard(String nickName) {
         Player p = this.grid.getPlayerObject(nickName);
         return (p.getCell() == null);
    }
 
-   public void pickAndDiscardCard(String nickName, PowerUpCard p1, PowerUpCard p2){     //p1 choose, p2 discard
+   public void pickAndDiscardCard(String nickName, PowerUpCard p1, PowerUpCard p2) {     //p1 choose, p2 discard
        Player p = this.grid.getPlayerObject(nickName);
        p.addPowerUpCard(p1);
        chooseSpawnPoint(p2.getValue().getC(), p);
    }
 
 
-   public void chooseSpawnPoint(Colour c, Player p){
+   public void chooseSpawnPoint(Colour c, Player p) {
            if(c.equals(Colour.YELLOW))
                this.grid.move(p, new Position(2,3));
            if(c.equals(Colour.RED))
@@ -125,7 +125,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
 
 
-   public boolean isValidShootNotAdrenaline(Player p, String nameWC, List<Integer> lI, List<String> lS, List<AmmoCube> lA, List<PowerUpCard> lP){
+   public boolean isValidShootNotAdrenaline(Player p, String nameWC, List<Integer> lI, List<String> lS, List<AmmoCube> lA, List<PowerUpCard> lP) {
        boolean x = false;
        if(this.gameState.equals(STARTTURN) && p.getWeaponCardObject(nameWC).isReloaded()){
            List<AmmoCube> l = choosePayment(lA, lP);
@@ -148,31 +148,31 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                    }
                    break;
                case "Electroscythe":
-                   if(lI.contains(1) && !l.contains(2)){
+                   if(lI.contains(1) && !lI.contains(2)){
                        x = true;
                    }
-                   if(!lI.contains(1) && l.contains(2)){
+                   if(!lI.contains(1) && lI.contains(2)){
                        if(lC.contains(Colour.RED) && lC.contains(Colour.BLUE))
                            x = true;
                    }
                    break;
                case "Flamethrower":
-                   if(lI.contains(1) && !l.contains(2)){
+                   if(lI.contains(1) && !lI.contains(2)){
                        if(this.grid.distance(p, this.grid.getPlayerObject(lS.get(0))) == 1 && !(this.grid.isThereAWall(p, new Position(this.grid.getPlayerObject(lS.get(0)).getCell().getP().getX(), this.grid.getPlayerObject(lS.get(0)).getCell().getP().getY())) &&
                                (lS.size()<2 || this.grid.distance(this.grid.getPlayerObject(lS.get(0)), this.grid.getPlayerObject(lS.get(1))) == 1 && ((this.grid.getPlayerObject(lS.get(0)).getCell().getP().getX() == this.grid.getPlayerObject(lS.get(1)).getCell().getP().getX()) || (this.grid.getPlayerObject(lS.get(0)).getCell().getP().getY() == this.grid.getPlayerObject(lS.get(1)).getCell().getP().getY())) && !(this.grid.isThereAWall(this.grid.getPlayerObject(lS.get(0)), new Position(this.grid.getPlayerObject(lS.get(1)).getCell().getP().getX(), this.grid.getPlayerObject(lS.get(1)).getCell().getP().getY()))))))
                            x = true;
                    }
-                   if(!lI.contains(1) && l.contains(2)){
+                   if(!lI.contains(1) && lI.contains(2)){
                        if(this.grid.distance(p, new Position(Integer.parseInt(lS.get(0)), Integer.parseInt(lS.get(1)))) == 1 && this.grid.distance(new Position(Integer.parseInt(lS.get(2)),Integer.parseInt(lS.get(3))), new Position(Integer.parseInt(lS.get(0)), Integer.parseInt(lS.get(1)))) == 1 && ((Integer.parseInt(lS.get(0)) == Integer.parseInt(lS.get(2))||Integer.parseInt(lS.get(1)) == Integer.parseInt(lS.get(2)))) && lC.containsAll(Arrays.asList(Colour.YELLOW, Colour.YELLOW)))
                            x = true;
                    }
                    break;
                case "Furnace":
-                   if(lI.contains(1) && !l.contains(2)){
+                   if(lI.contains(1) && !lI.contains(2)){
                        if(!p.getCell().getC().equals(Colour.valueOf(lS.get(0))) && this.grid.colourOfOtherViewZone(p).contains(Colour.valueOf(lS.get(0))))
                            x =true;
                    }
-                   if(!lI.contains(1) && l.contains(2)){
+                   if(!lI.contains(1) && lI.contains(2)){
                        if(this.grid.distance(p, new Position(Integer.parseInt(lS.get(0)), Integer.parseInt(lS.get(1)))) == 1)
                            x = true;
                    }
@@ -195,12 +195,12 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                    }
                    break;
                case "Hellion":
-                   if(lI.contains(1) && !l.contains(2)){
-                        if(this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(0))) && !p.getCell().equals(this.grid.getPlayerObject(lS.get(0)).getCell()))  //TODO Are we sure about the meaning of this effect?
+                   if(lI.contains(1) && !lI.contains(2)){
+                        if(this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(0))) && !p.getCell().equals(this.grid.getPlayerObject(lS.get(0)).getCell()))
                             x = true;
                    }
-                   if(!lI.contains(1) && l.contains(2)){
-                        if(this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(0))) && !p.getCell().equals(this.grid.getPlayerObject(lS.get(0)).getCell()) && lC.contains(Colour.RED))   //TODO Are we sure about the meaning of this effect?
+                   if(!lI.contains(1) && lI.contains(2)){
+                        if(this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(0))) && !p.getCell().equals(this.grid.getPlayerObject(lS.get(0)).getCell()) && lC.contains(Colour.RED))
                             x = true;
                    }
                    break;
@@ -222,12 +222,13 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                    }
                    if(lI.contains(2) && lI.contains(1)) {
                        x = false;
-                       if((this.grid.getPlayerObject(lS.get(2)).equals(this.grid.getPlayerObject(lS.get(0))) || (lS.get(1)!= null && this.grid.getPlayerObject(lS.get(2)).equals(this.grid.getPlayerObject(lS.get(1))))) && lC.contains(Colour.YELLOW))
+                       if((this.grid.getPlayerObject(lS.get(2)).equals(this.grid.getPlayerObject(lS.get(0))) || (lS.get(1)!= null && (this.grid.getPlayerObject(lS.get(2)).equals(this.grid.getPlayerObject(lS.get(1)))) || this.grid.getPlayerObject(lS.get(2)).equals(this.grid.getPlayerObject(lS.get(0))))) && lC.contains(Colour.YELLOW))
                            x = true;
                    }
+                   //TODO cover the remaining cases
                    if(lI.contains(3) && lI.contains(2) && lI.contains(1)) {
                        x = false;
-                       if(!this.grid.getPlayerObject(lS.get(3)).equals(this.grid.getPlayerObject(lS.get(2))) && (lS.get(4) == null || this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(4)))) && lC.contains(Colour.BLUE))                   //TODO attention to the fact the player can't attack the same players if he can see another player
+                       if(!this.grid.getPlayerObject(lS.get(3)).equals(this.grid.getPlayerObject(lS.get(2))) && (lS.get(4) == null || this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(4)))) && lC.contains(Colour.BLUE))
                            x = true;
                    }
                    break;
@@ -248,13 +249,17 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                    }
                    break;
                case "Power Glove":
-                   if(lI.contains(1) && !l.contains(2)) {
+                   if(lI.contains(1) && !lI.contains(2)) {
                        if(this.grid.distance(p, this.grid.getPlayerObject(lS.get(0))) == 1 && this.grid.isInViewZone(p,this.grid.getPlayerObject(lS.get(0))))
                            x = true;
                    }
-                   if(!lI.contains(1) && l.contains(2)) {
-                       if(this.grid.distance(p, new Position(Integer.parseInt(lS.get(1)), Integer.parseInt(lS.get(2)))) == 1 && (!lI.contains(3)|| this.grid.getPlayerObject(lS.get(3)).getCell().getP().equals(new Position(Integer.parseInt(lS.get(1)), Integer.parseInt(lS.get(2)))))) //&& //(||))  TODO
+                   if(!lI.contains(1) && lI.contains(2) && !lI.contains(3)) {
+                       if(this.grid.distance(p, new Position(Integer.parseInt(lS.get(1)), Integer.parseInt(lS.get(2)))) == 1 && !this.grid.isThereAWall(p, new Position(Integer.parseInt(lS.get(1)), Integer.parseInt(lS.get(2)))) && lC.contains(Colour.BLUE)) /*&& (!lI.contains(3)|| this.grid.getPlayerObject(lS.get(3)).getCell().getP().equals(new Position(Integer.parseInt(lS.get(1)), Integer.parseInt(lS.get(2))))))*/   //TODO
                            x = true;
+                   }
+                   if(!lI.contains(1) && lI.contains(2) && lI.contains(3) && !lI.contains(4)) {
+                       if(this.grid.distance(p, new Position(Integer.parseInt(lS.get(1)), Integer.parseInt(lS.get(2)))) == 1 && !this.grid.isThereAWall(p, new Position(Integer.parseInt(lS.get(1)), Integer.parseInt(lS.get(2)))) && lC.contains(Colour.BLUE)) {
+                       }
                    }
                    break;
                /*case "Railgun":

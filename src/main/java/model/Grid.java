@@ -350,4 +350,30 @@ public class Grid {
         }
         return l;
     }
+
+
+    //--------------------------------------------------------------------------------------
+
+    public Player ghostMove(Player p, List<Integer> directions) throws InvalidColourException{
+        Player ghost = new Player("?gHoSt!", p.getC(), p.isFirstPlayerCard());
+        ghost.setCell(p.getCell());
+
+        for(Integer i : directions)
+            this.move(ghost, i);
+
+        return ghost;
+    }
+
+    public boolean canGhostMove(Player p, List<Integer> directions) throws InvalidColourException {
+        Player ghost = new Player("?gHoSt!", p.getC(), p.isFirstPlayerCard());
+        ghost.setCell(p.getCell());
+        Position initialPos = ghost.getCell().getP();
+
+        for(Integer i : directions) {
+            this.move(ghost, i);
+            if(i != 0 && ghost.getCell().getP().equals(initialPos))
+                return false;
+        }
+        return true;
+    }
 }

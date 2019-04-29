@@ -705,6 +705,18 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
     public boolean isValidUsePowerUpCard(Player p, String namePC, List<String> lS) {
         boolean x = false;
+        if(!this.gameState.equals(STARTTURN) && (this.gameState.equals(ACTION1) || this.gameState.equals(ACTION2))) {
+            switch(namePC) {
+                //player p can use this only when he is being attacked, i.e. while the attacker is taking his turn
+                //TODO this should be implemented server-side
+                case "Tagback Grenade" :
+                    if(this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(0))))
+                        x = true;
+                    break;
+                case "Targeting Scope" :
+                    if()
+            }
+        }
         if(this.gameState.equals(STARTTURN) || this.gameState.equals(ACTION1) || this.gameState.equals(ACTION2)) {
             switch(namePC) {
                 case "Newton" :
@@ -714,18 +726,10 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                 case "Teleporter" :
                     x = true;
                     break;
-                case "Tagback Grenade" :
-                    if(this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(0))))
-                        x = true;
-                    break;
-                case "Targeting Scope" :
-
             }
-
         }
         return x;
     }
-
 
     public void usePowerUpCard(Player p, String namePC, List<String> lS) {
         switch(namePC) {

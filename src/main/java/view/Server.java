@@ -1,7 +1,5 @@
 package view;
 
-import controller.ServerInterface;
-
 import java.rmi.*;
 import java.rmi.registry.*;
 import java.rmi.server.*;

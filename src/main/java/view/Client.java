@@ -1,11 +1,7 @@
 package view;
 
-import controller.ServerInterface;
-
 import java.net.MalformedURLException;
 import java.rmi.*;
-import java.rmi.registry.*;
-import java.util.*;
 import javax.naming.*;
 
 public class Client {

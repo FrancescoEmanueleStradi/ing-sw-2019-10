@@ -899,7 +899,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
     public boolean isValidFirstActionGrab(String nickName, Integer[] directions, String wCardInput, String wSlotInput, List<Colour> lAInput, List<String> lPInput) throws InvalidColourException{
         Player p = this.grid.getPlayerObject(nickName);
         List<Integer> directionList = Arrays.asList(directions);
-        WeaponCard wCard = this.grid.getWeaponCardObject(p, wCardInput);
+        WeaponCard wCard = this.grid.getWeaponCardObject(wCardInput);
         List<AmmoCube> lA= new LinkedList<>();
         for(Colour c : lAInput)
             lA.add(new AmmoCube(c));
@@ -984,7 +984,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
     public boolean isValidSecondActionGrab(String nickName, Integer[] directions, String wCardInput, String wSlotInput, List<Colour> lAInput, List<String> lPInput) throws InvalidColourException{
         Player p = this.grid.getPlayerObject(nickName);
         List<Integer> directionList = Arrays.asList(directions);
-        WeaponCard wCard = this.grid.getWeaponCardObject(p, wCardInput);
+        WeaponCard wCard = this.grid.getWeaponCardObject(wCardInput);
         List<AmmoCube> lA= new LinkedList<>();
         for(Colour c : lAInput)
             lA.add(new AmmoCube(c));
@@ -1017,7 +1017,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
     public void secondActionGrab(String nickName, int[] directions, String wCardInput, List<Colour> lAInput, List<String> lPInput) throws InvalidColourException{ //directions contains where p wants to go. directions contains '0' if p doesn't want to move and only grab
         Player p = this.grid.getPlayerObject(nickName);
-        WeaponCard wCard = this.grid.getWeaponCardObject(p, wCardInput);
+        WeaponCard wCard = this.grid.getWeaponCardObject(wCardInput);
         List<AmmoCube> l= new LinkedList<>();
         for(Colour c : lAInput)
             l.add(new AmmoCube(c));
@@ -1356,7 +1356,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
     private boolean isValidFrenzyGrab(String nickName, String wCardInput, String wSlotInput, List<Colour> lAInput, List<String> lPInput) throws InvalidColourException{
         if(this.gameState == FINALFRENZY) {
         Player p = this.grid.getPlayerObject(nickName);
-        WeaponCard wCard = this.grid.getWeaponCardObject(p, wCardInput);
+        WeaponCard wCard = this.grid.getWeaponCardObject(wCardInput);
         List<AmmoCube> lA= new LinkedList<>();
         for(Colour c : lAInput)
             lA.add(new AmmoCube(c));

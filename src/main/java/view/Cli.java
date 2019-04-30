@@ -11,12 +11,13 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
-public class Cli implements View{
+public class Cli extends View{
 
     private Game game;
-    private String nickName;
+    private String nickName;                //TODO maybe nickName and colour should go in the client and not hear beacuse View must be the RMI registry
     private Colour colour;
 
+    @Override
     public void askNameAndColour() throws InvalidColourException {
         Scanner in = new Scanner(System.in);
         if (this.game.gameIsNotStarted()) {
@@ -58,7 +59,7 @@ public class Cli implements View{
         this.game.addPlayer(this.nickName, this.colour);
     }
 
-
+    @Override
     public void selectSpawnPoint() {
         Scanner in = new Scanner(System.in);
         List<PowerUpCard> l = new LinkedList<>();
@@ -76,7 +77,7 @@ public class Cli implements View{
         }
     }
 
-
+    @Override
     public void action1() {
         Scanner in = new Scanner(System.in);
         System.out.println("Choose the action you want to do (Move, Shoot, Grab): ");
@@ -108,6 +109,7 @@ public class Cli implements View{
         //TODO
     }
 
+    @Override
     public void action2() {
         Scanner in = new Scanner(System.in);
         System.out.println("Choose the action you want to do (Move, Shoot, Grab): ");
@@ -121,6 +123,7 @@ public class Cli implements View{
     }
 
 
+    @Override
     public void reload() {               //the player knows everything!
         Scanner in = new Scanner(System.in);
         int i = 0;
@@ -136,6 +139,7 @@ public class Cli implements View{
         }
     }
 
+    @Override
     public void scoring() {
         if(this.game.isValidScoring())
             this.game.scoring();
@@ -144,6 +148,7 @@ public class Cli implements View{
     }
 
 
+    @Override
     public void newSpawnPoint() {
 
         if(this.game.isValidDiscardCardForSpawnPoint() && this.game.getDeadList().contains(this.nickName)) {
@@ -157,6 +162,7 @@ public class Cli implements View{
     }
 
 
+    @Override
     public void replace() {
         if(this.game.isValidToReplace())
             this.game.replace();

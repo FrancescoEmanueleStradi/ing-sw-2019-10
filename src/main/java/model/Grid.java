@@ -272,7 +272,7 @@ public class Grid {
         return pViewZone;
     }
 
-    public WeaponCard getWeaponCardObject(Player p, String wCardName){
+    public WeaponCard getWeaponCardObject(String wCardName){
         if(board.getW1().getCard1() != null && board.getW1().getCard1().getCardName().equals(wCardName))
             return board.getW1().getCard1();
         if(board.getW1().getCard2() != null && board.getW1().getCard2().getCardName().equals(wCardName))

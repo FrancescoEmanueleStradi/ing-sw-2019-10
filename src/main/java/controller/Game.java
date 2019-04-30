@@ -372,7 +372,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                case "Rocket Launcher":
                    if(!lI.contains(3) || lI.indexOf(3) > lI.indexOf(1)) {
                        if (lI.contains(1)) {
-                           if (this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(0))) && !p.getCell().equals(this.grid.getPlayerObject(lS.get(0)).getCell()) && (!lS.contains(2) || lS.contains(2) && this.grid.canMove(p, Integer.parseInt(lS.get(1)))))
+                           if (this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(0))) && !p.getCell().equals(this.grid.getPlayerObject(lS.get(0)).getCell()) && (!lS.contains("2") || lS.contains("2") && this.grid.canMove(p, Integer.parseInt(lS.get(1)))))
                                x = true;
                            if (!x)
                                break;
@@ -410,7 +410,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                            directions.add((Integer.parseInt(lS.get(i + 3))));
                        if (lI.contains(1)) {
                            x = false;
-                           if (this.grid.isInViewZone(this.grid.ghostMove(p, directions), this.grid.getPlayerObject(lS.get(0))) && !this.grid.ghostMove(p, directions).getCell().equals(this.grid.getPlayerObject(lS.get(0)).getCell()) && (!lS.contains(2) || lS.contains(2) && this.grid.canMove(this.grid.ghostMove(p, directions), Integer.parseInt(lS.get(1))) && (Integer.parseInt(lS.get(1)) == 1 || Integer.parseInt(lS.get(1)) == 2 || Integer.parseInt(lS.get(1)) == 3 || Integer.parseInt(lS.get(1)) == 4)))
+                           if (this.grid.isInViewZone(this.grid.ghostMove(p, directions), this.grid.getPlayerObject(lS.get(0))) && !this.grid.ghostMove(p, directions).getCell().equals(this.grid.getPlayerObject(lS.get(0)).getCell()) && (!lS.contains("2") || lS.contains("2") && this.grid.canMove(this.grid.ghostMove(p, directions), Integer.parseInt(lS.get(1))) && (Integer.parseInt(lS.get(1)) == 1 || Integer.parseInt(lS.get(1)) == 2 || Integer.parseInt(lS.get(1)) == 3 || Integer.parseInt(lS.get(1)) == 4)))
                                x = true;
                            if (!x)
                                break;

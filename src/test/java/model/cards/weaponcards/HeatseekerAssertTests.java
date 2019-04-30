@@ -17,7 +17,7 @@ class HeatseekerAssertTests {
         assertEquals("Heatseeker", h.getCardName());
         assertEquals(Colour.RED, h.getReloadCost()[0].getC());
         assertEquals(Colour.RED, h.getReloadCost()[1].getC());
-        assertEquals(Colour.YELLOW, h.getReloadCost()[1].getC());
+        assertEquals(Colour.YELLOW, h.getReloadCost()[2].getC());
         assertEquals("effect: Choose 1 target you cannot see and deal 3 damage to it.\n" +
                         "Notes: Yes, this can only hit targets you cannot see.\n",
                 h.getDescription());

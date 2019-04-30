@@ -456,7 +456,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                        directions.add(Integer.parseInt(lS.get(2)));
                        if(p.getCell().equals(this.grid.getPlayerObject(lS.get(0)).getCell()) &&
                                (Integer.parseInt(lS.get(1)) == 0) || ((Integer.parseInt(lS.get(1))) == 1 && this.grid.canGhostMove(p, directions) && Integer.parseInt(lS.get(2)) == 1 || Integer.parseInt(lS.get(2)) == 2 || Integer.parseInt(lS.get(2)) == 3 || Integer.parseInt(lS.get(2)) == 4) ||
-                               (Integer.parseInt(lS.get(1)) == 2 && this.grid.canGhostMove(p, directions) && this.grid.canGhostMove(this.grid.ghostMove(p, directions), directions) && Integer.parseInt(lS.get(2)) == 1 || Integer.parseInt(lS.get(2)) == 2 || Integer.parseInt(lS.get(2)) == 3 || Integer.parseInt(lS.get(2)) == 4))
+                               (Integer.parseInt(lS.get(1)) == 2 && this.grid.canGhostMove(p, directions) && this.grid.canGhostMove(this.grid.ghostMove(p, directions), directions) && Integer.parseInt(lS.get(2)) == 1 || Integer.parseInt(lS.get(2)) == 2 || Integer.parseInt(lS.get(2)) == 3 || Integer.parseInt(lS.get(2)) == 4) && lC.contains(Colour.RED))
                            x = true;    //is the if correct?
                    }
                    break;
@@ -1131,7 +1131,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
     }
 
 
-    
+
 //-------------------------------------------------------------------------------------------------------------
     //FINAL FRENZY ACTIONS
 

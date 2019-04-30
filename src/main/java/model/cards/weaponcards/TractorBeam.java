@@ -6,6 +6,8 @@ import model.cards.WeaponCard;
 import model.player.AmmoCube;
 import model.player.Player;
 
+import java.util.List;
+
 public class TractorBeam extends WeaponCard {
 
     private String alternativeEffect = "Punisher Mode";
@@ -28,8 +30,9 @@ public class TractorBeam extends WeaponCard {
 
     //before: let the player p choose which player p1 he wants to move and damage, letting him choose the visible cell he wants to move the enemy in
 
-    public void applyEffect(Grid grid, Player p, Player p1, String x, String y) {    //enemy is moved to cell and damaged
-        grid.move(p1, Integer.parseInt(x), Integer.parseInt(y));
+    public void applyEffect(Grid grid, Player p, Player p1, List<Integer> directions) {    //enemy is moved to cell and damaged
+        for(Integer i : directions)
+            grid.move(p1, i);
         grid.damage(p, p1, 1);
     }
 

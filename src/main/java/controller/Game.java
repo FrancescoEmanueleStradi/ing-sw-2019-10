@@ -140,6 +140,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
    public void pickAndDiscardCard(String nickName, PowerUpCard p1, PowerUpCard p2) {     //p1 choose, p2 discard
        Player p = this.grid.getPlayerObject(nickName);
        p.addPowerUpCard(p1);
+       this.grid.getPowerUpDiscardPile().add(p2);
        chooseSpawnPoint(p2.getValue().getC(), p);
    }
 
@@ -715,6 +716,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         }
         p.getWeaponCardObject(nameWC).unload();
         p.payWeaponCard(lA, lP);
+        this.grid.getPowerUpDiscardPile().addAll(lP);
     }
 
     private boolean isValidShootAdrenaline(Player p, String nameWC, List<Integer> lI, List<String> lS, int direction, List<AmmoCube> lA, List<PowerUpCard> lP) throws InvalidColourException{
@@ -788,6 +790,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
            p.addPowerUpCard(this.grid.pickPowerUpCard());
        for(AmmoCube cube : card.getaC())
            p.addNewAC(cube);
+       this.grid.getAmmoDiscardPile().add(card);
     }
 
     private boolean canPay(WeaponCard w, List<AmmoCube> l){
@@ -1111,6 +1114,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
            PowerUpCard p1 = p.getPowerUpCardObject(s1);
            chooseSpawnPoint(p1.getC(), p);
            p.removePowerUpCard(p1);
+           this.grid.getPowerUpDiscardPile().add(p1);
            this.gameState = ENDTURN;
            this.deadList.clear();
     }

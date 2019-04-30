@@ -8,10 +8,7 @@ import model.cards.*;
 import model.player.DamageToken;
 import model.player.Player;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.lang.Math.abs;
@@ -22,6 +19,8 @@ public class Grid {
     private WeaponDeck weaponDeck;
     private PowerUpDeck powerUpDeck;
     private AmmoDeck ammoDeck;
+    private List<AmmoCard> ammoDiscardPile;
+    private List<PowerUpCard> powerUpDiscardPile;
 
     public Grid() throws InvalidColourException {
         this.players = new ArrayList<>();
@@ -31,6 +30,8 @@ public class Grid {
         this.powerUpDeck.startingShuffle();
         this.ammoDeck = new AmmoDeck();
         this.ammoDeck.startingShuffle();
+        this.ammoDiscardPile = new LinkedList<>();
+        this.powerUpDiscardPile = new LinkedList<>();
     }
 
     public void setType(int aType){
@@ -300,32 +301,44 @@ public class Grid {
 
 
     public void pickPowerUpCard(Player p) {
-        if(p.getpC().size() < 3)
+        if(p.getpC().size() < 3) {          //TODO can I pick one and immediately discard even if I already have 3?
+            if(powerUpDeck.getDeck().isEmpty()) {
+                Collections.shuffle(powerUpDiscardPile);
+                powerUpDeck.getDeck().addAll(powerUpDiscardPile);
+                powerUpDiscardPile.clear();
+            }
             p.addPowerUpCard(this.powerUpDeck.getTopOfDeck());
+        }
     }
 
     public PowerUpCard pickPowerUpCard() {
+        if(powerUpDeck.getDeck().isEmpty()) {
+            Collections.shuffle(powerUpDiscardPile);
+            powerUpDeck.getDeck().addAll(powerUpDiscardPile);
+            powerUpDiscardPile.clear();
+        }
         return this.powerUpDeck.getTopOfDeck();
     }
 
+    public List<PowerUpCard> getPowerUpDiscardPile() {
+        return powerUpDiscardPile;
+    }
+
     public AmmoCard pickAmmoCard() {
+        if(ammoDeck.getDeck().isEmpty()) {
+            Collections.shuffle(ammoDiscardPile);
+            ammoDeck.getDeck().addAll(ammoDiscardPile);
+            ammoDiscardPile.clear();
+        }
         return this.ammoDeck.getTopOfDeck();
     }
 
     public void setUpAmmoCard() {
-        this.board.getArena()[0][0].setA(this.pickAmmoCard());
-        this.board.getArena()[0][1].setA(this.pickAmmoCard());
-        this.board.getArena()[0][2].setA(this.pickAmmoCard());
-        this.board.getArena()[0][3].setA(this.pickAmmoCard());
-        this.board.getArena()[1][0].setA(this.pickAmmoCard());
-        this.board.getArena()[1][1].setA(this.pickAmmoCard());
-        this.board.getArena()[1][2].setA(this.pickAmmoCard());
-        this.board.getArena()[1][3].setA(this.pickAmmoCard());
-        this.board.getArena()[2][0].setA(this.pickAmmoCard());
-        this.board.getArena()[2][1].setA(this.pickAmmoCard());
-        this.board.getArena()[2][2].setA(this.pickAmmoCard());
-        this.board.getArena()[2][3].setA(this.pickAmmoCard());
-
+        for(int i = 0; i < 3; i++) {
+            for(int j = 0; j < 4; j++) {
+               this.board.getArena()[i][j].setA(this.pickAmmoCard());
+            }
+        }
     }
 
     public void replaceAmmoCard() {
@@ -339,6 +352,15 @@ public class Grid {
 
     public void changeAmmoCard(Position p) {
         this.board.getArena()[p.getX()][p.getY()].setA(this.pickAmmoCard());
+    }
+
+
+    public List<AmmoCard> getAmmoDiscardPile() {
+        return ammoDiscardPile;
+    }
+
+    public void discardShuffle() {
+        Collections.shuffle(ammoDiscardPile);
     }
 
     public List<Player> whoIsDead() {

@@ -787,7 +787,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
     private void giveWhatIsOnAmmoCard(Player p, AmmoCard card) {
        if(card.ispC())
-           p.addPowerUpCard(this.grid.pickPowerUpCard());
+           this.grid.pickPowerUpCard(p);
        for(AmmoCube cube : card.getaC())
            p.addNewAC(cube);
        this.grid.getAmmoDiscardPile().add(card);

@@ -300,8 +300,8 @@ public class Grid {
     }
 
 
-    public void pickPowerUpCard(Player p) {
-        if(p.getpC().size() < 3) {          //TODO can I pick one and immediately discard even if I already have 3?
+    public void pickPowerUpCard(Player p) {     //use this every time a player wants a PowerUpCard, except for the final "pick and discard" when he is dead
+        if(p.getpC().size() < 3) {
             if(powerUpDeck.getDeck().isEmpty()) {
                 Collections.shuffle(powerUpDiscardPile);
                 powerUpDeck.getDeck().addAll(powerUpDiscardPile);
@@ -311,7 +311,7 @@ public class Grid {
         }
     }
 
-    public PowerUpCard pickPowerUpCard() {
+    public PowerUpCard pickPowerUpCard() {      //use this for the final "pick and discard" when the player is dead
         if(powerUpDeck.getDeck().isEmpty()) {
             Collections.shuffle(powerUpDiscardPile);
             powerUpDeck.getDeck().addAll(powerUpDiscardPile);

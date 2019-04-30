@@ -4,9 +4,10 @@ import model.*;
 import model.player.AmmoCube;
 import model.Colour;
 import model.InvalidColourException;
-import model.board.Cell;
 import model.cards.PowerUpCard;
 import model.player.Player;
+
+import java.util.List;
 
 public class Newton extends PowerUpCard {
 
@@ -23,7 +24,8 @@ public class Newton extends PowerUpCard {
     //before: let player p choose a player p1 at any time of his turn, except for when p1 respawns at the end of p's turn.
     //        also let player p select a Cell cell one or two cells away from p1.
 
-    public void applyEffect(Grid grid, Player p1, String x, String y) {    //enemy is moved to cell
-        grid.move(p1, Integer.parseInt(x), Integer.parseInt(y));
+    public void applyEffect(Grid grid, Player p1, List<Integer> directions) {    //enemy is moved to cell
+        for(int i : directions)
+            grid.move(p1, i);
     }
 }

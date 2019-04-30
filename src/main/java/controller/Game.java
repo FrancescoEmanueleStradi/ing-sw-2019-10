@@ -950,7 +950,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 //----------------------------------------------------------------------------------------------------
 
 
-    public boolean isValidUsePowerUpCard(String nickName, String namePC, List<String> lS) {
+    public boolean isValidUsePowerUpCard(String nickName, String namePC, List<String> lS) throws InvalidColourException{
         Player p = this.grid.getPlayerObject(nickName);
         boolean x = false;
         if(this.gameState.equals(ACTION1) || this.gameState.equals(ACTION2)) {
@@ -969,11 +969,20 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         if(this.gameState.equals(STARTTURN) || this.gameState.equals(ACTION1) || this.gameState.equals(ACTION2)) {
             switch(namePC) {
                 case "Newton" :
-                    if(this.grid.canMove(this.grid.getPlayerObject(lS.get(0)), Integer.parseInt(lS.get(1))));
+                    List<Integer> directions = new LinkedList<>();
+                    if(lS.size() == 2)
+                        directions.add(Integer.parseInt(lS.get(1)));
+                    if(lS.size() == 3) {
+                        directions.add(Integer.parseInt(lS.get(1)));
+                        directions.add(Integer.parseInt(lS.get(2)));
+                    }
+                    if((lS.size() == 2 && this.grid.canMove(this.grid.getPlayerObject(lS.get(0)), Integer.parseInt(lS.get(1))) && (Integer.parseInt(lS.get(1)) == 1 || Integer.parseInt(lS.get(1)) == 2 || Integer.parseInt(lS.get(1)) == 3 || Integer.parseInt(lS.get(1)) == 4)) ||
+                            (lS.size() == 3 && this.grid.canGhostMove(this.grid.getPlayerObject(lS.get(0)), directions) && (Integer.parseInt(lS.get(1)) == 1 || Integer.parseInt(lS.get(1)) == 2 || Integer.parseInt(lS.get(1)) == 3 || Integer.parseInt(lS.get(1)) == 4) && (Integer.parseInt(lS.get(2)) == 1 || Integer.parseInt(lS.get(2)) == 2 || Integer.parseInt(lS.get(2)) == 3 || Integer.parseInt(lS.get(2)) == 4)));
                        x = true;
                     break;
                 case "Teleporter" :
-                    x = true;
+                    if((Integer.parseInt(lS.get(0)) >= 0 && Integer.parseInt(lS.get(0)) <= 2) && (Integer.parseInt(lS.get(1)) >= 0 && Integer.parseInt(lS.get(1)) <= 3))
+                        x = true;
                     break;
             }
         }
@@ -984,7 +993,14 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         Player p = this.grid.getPlayerObject(nickName);
         switch(namePC) {
             case "Newton" :
-                ((Newton) p.getPowerUpCardObject(namePC)).applyEffect(this.grid, this.grid.getPlayerObject(lS.get(0)), lS.get(1), lS.get(2));
+                List<Integer> directions = new LinkedList<>();
+                if(lS.size() == 2)
+                    directions.add(Integer.parseInt(lS.get(1)));
+                if(lS.size() == 3) {
+                    directions.add(Integer.parseInt(lS.get(1)));
+                    directions.add(Integer.parseInt(lS.get(2)));
+                }
+                ((Newton) p.getPowerUpCardObject(namePC)).applyEffect(this.grid, this.grid.getPlayerObject(lS.get(0)), directions);
                 break;
             case "Teleporter" :
                 ((Teleporter) p.getPowerUpCardObject(namePC)).applyEffect(this.grid, p, lS.get(0), lS.get(1));

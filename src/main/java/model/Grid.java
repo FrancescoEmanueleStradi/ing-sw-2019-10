@@ -202,13 +202,13 @@ public class Grid {
         boolean b = false;
         for(int i=0; i<p.getCell().getPosDoor().length; i++) {
             if(!b) {
-                if (p.getCell().getPosDoor()[i] == 1)
+                if (p.getCell().getPosDoor()[i] == 1 && p2.getCell().getP().getX() - 1 >= 0)
                     b = isInTheRoom(p2, this.board.getArena()[p2.getCell().getP().getX() - 1][p2.getCell().getP().getY()].getC());
-                if (p.getCell().getPosDoor()[i] == 2)
+                if (p.getCell().getPosDoor()[i] == 2 && p2.getCell().getP().getY() + 1 <= 3)
                     b = isInTheRoom(p2, this.board.getArena()[p2.getCell().getP().getX()][p2.getCell().getP().getY() + 1].getC());
-                if (p.getCell().getPosDoor()[i] == 3)
+                if (p.getCell().getPosDoor()[i] == 3 && p2.getCell().getP().getX() + 1 <= 2)
                     b = isInTheRoom(p2, this.board.getArena()[p2.getCell().getP().getX() + 1][p2.getCell().getP().getY()].getC());
-                if (p.getCell().getPosDoor()[i] == 4)
+                if (p.getCell().getPosDoor()[i] == 4 && p2.getCell().getP().getY() - 1 >= 0)
                     b = isInTheRoom(p2, this.board.getArena()[p2.getCell().getP().getX()][p2.getCell().getP().getY() - 1].getC());
 
             }
@@ -221,18 +221,22 @@ public class Grid {
         if(this.board.getArena()[pos.getX()][pos.getY()].getC().equals(p.getCell().getC()))
             return true;
         for(int i=0; i<p.getCell().getPosDoor().length; i++){
-            if (p.getCell().getPosDoor()[i] == 1)
-                if(this.board.getArena()[p.getCell().getP().getX() - 1][p.getCell().getP().getY()].getC().equals(this.board.getArena()[pos.getX()][pos.getY()].getC()))
+            if (p.getCell().getPosDoor()[i] == 1 && p.getCell().getP().getX() - 1 >= 0) {
+                if (this.board.getArena()[p.getCell().getP().getX() - 1][p.getCell().getP().getY()].getC().equals(this.board.getArena()[pos.getX()][pos.getY()].getC()))
                     return true;
-            else if (p.getCell().getPosDoor()[i] == 2)
-                if(this.board.getArena()[p.getCell().getP().getX()][p.getCell().getP().getY() + 1].getC().equals(this.board.getArena()[pos.getX()][pos.getY()].getC()))
+            }
+            else if (p.getCell().getPosDoor()[i] == 2 && p.getCell().getP().getY() + 1 <= 3) {
+                if (this.board.getArena()[p.getCell().getP().getX()][p.getCell().getP().getY() + 1].getC().equals(this.board.getArena()[pos.getX()][pos.getY()].getC()))
                     return true;
-            else if (p.getCell().getPosDoor()[i] == 3)
-                if(this.board.getArena()[p.getCell().getP().getX() + 1][p.getCell().getP().getY()].getC().equals(this.board.getArena()[pos.getX()][pos.getY()].getC()))
+            }
+            else if (p.getCell().getPosDoor()[i] == 3 && p.getCell().getP().getX() + 1 <= 2) {
+                if (this.board.getArena()[p.getCell().getP().getX() + 1][p.getCell().getP().getY()].getC().equals(this.board.getArena()[pos.getX()][pos.getY()].getC()))
                     return true;
-            else if (p.getCell().getPosDoor()[i] == 4)
-                if(this.board.getArena()[p.getCell().getP().getX()][p.getCell().getP().getY() - 1].getC().equals(this.board.getArena()[pos.getX()][pos.getY()].getC()))
+            }
+            else if (p.getCell().getPosDoor()[i] == 4 && p.getCell().getP().getY() - 1 >= 0) {
+                if (this.board.getArena()[p.getCell().getP().getX()][p.getCell().getP().getY() - 1].getC().equals(this.board.getArena()[pos.getX()][pos.getY()].getC()))
                     return true;
+            }
         }
         return false;
     }

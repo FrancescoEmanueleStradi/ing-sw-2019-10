@@ -16,6 +16,7 @@ public class Cli extends View{
     private Game game;
     private String nickName;                //TODO maybe nickName and colour should go in the client and not hear beacuse View must be the RMI registry
     private Colour colour;
+    private CLIWeaponPrompt wPrompt;
 
     @Override
     public void askNameAndColour() throws InvalidColourException {
@@ -113,23 +114,25 @@ public class Cli extends View{
         this.game.getWeaponCardLoaded(this.nickName).stream().forEach(System.out::println);
         String s = in.next();
         while(this.game.isValidCard(nickName, s)){
-            System.out.println("Error : choose one of these cards to shoot: ");
+            System.out.println("Error: choose one of these cards to shoot: ");
             this.game.getWeaponCardLoaded(this.nickName).stream().forEach(System.out::println);
             s = in.next();
         }
         System.out.println(this.game.getReloadCost(s, nickName));
         System.out.println(this.game.getDescriptionWC(s,nickName));
-        List<Integer> lI = new LinkedList<>();
+
+        /*List<Integer> lI = new LinkedList<>();
         List<String> lS = new LinkedList<>();
         List<Colour> lC = new LinkedList<>();
-        List<String> lP = new LinkedList<>();
+        List<String> lP = new LinkedList<>();*/
         int i;
         switch(s){
             case "Cyberblade":
-                System.out.println("write the number of the effect you want to use");
+                wPrompt.shootToUser1(game, nickName);
+                /*System.out.println("write the number of the effect you want to use");
                 while (in.hasNext())
                     lI.add(in.nextInt());
-                System.out.println("write the String that are useful for the card");
+                System.out.println("write the Strings that are relevant for the card");
                 while (in.hasNext())
                     lS.add(in.next());
                 System.out.println("write the Colour of Ammo Cube you want to use that you nedd for the card");
@@ -140,10 +143,63 @@ public class Cli extends View{
                 while (in.hasNext())
                     lP.add(in.next());
                 System.out.println("If you are adrenalin enter the direction of the move");
-                i = in.nextInt() ;                       //TODO nextint is a problem
+                i = in.nextInt();
+                while(!this.game.isValidFirstActionShoot(nickName, s, lI, lS, i, lC, lP)) {
+                    System.out.println("Error repeat: don't be silly ;)");
+                    System.out.println("write the number of the effect you want to use");
+                    while (in.hasNext())
+                        lI.add(in.nextInt());
+                    System.out.println("write the String that are useful for the card");
+                    while (in.hasNext())
+                        lS.add(in.next());
+                    System.out.println("write the Colour of Ammo Cube you want to use that you need for the card");
+                    while (in.hasNext())
+                        lC.add(Colour.valueOf(in.next()));
+                    this.game.getPowerUpCard(nickName).stream().forEach(System.out::println);
+                    System.out.println("write the name of the power up cards that are useful for the card");
+                    while (in.hasNext())
+                        lP.add(in.next());
+                    System.out.println("If you are adrenalin enter the direction of the move");
+                    i = in.nextInt();
+                }
+                this.game.firstActionShoot(nickName, s, lI, lS, i, lC, lP);*/
+                break;
+
+            case "Electroscythe":
+                wPrompt.shootToUser2(game, nickName);
+                /*System.out.println("write the number of the effect you want to use");
+                while (in.hasNext())
+                    lI.add(in.nextInt());
+                System.out.println("write the Colour of Ammo Cube you want to use that you nedd for the card");
+                while (in.hasNext())
+                    lC.add(Colour.valueOf(in.next()));
+                this.game.getPowerUpCard(nickName).stream().forEach(System.out::println);
+                System.out.println("write the name of the power up cards that are useful for the card");
+                while (in.hasNext())
+                    lP.add(in.next());
+                System.out.println("If you are adrenalin enter the direction of the move");
+                i = in.nextInt() ;
                 while(!this.game.isValidFirstActionShoot(nickName, s, lI, lS, i, lC, lP)){
-                System.out.println("Error repeat: don't be silly ;)");
-                System.out.println("write the number of the effect you want to use");
+                    System.out.println("Error repeat: don't be silly ;)");
+                    System.out.println("write the number of the effect you want to use");
+                    while (in.hasNext())
+                        lI.add(in.nextInt());
+                    System.out.println("write the Colour of Ammo Cube you want to use that you nedd for the card");
+                    while (in.hasNext())
+                        lC.add(Colour.valueOf(in.next()));
+                    this.game.getPowerUpCard(nickName).stream().forEach(System.out::println);
+                    System.out.println("write the name of the power up cards that are useful for the card");
+                    while (in.hasNext())
+                        lP.add(in.next());
+                    System.out.println("If you are adrenalin enter the direction of the move");
+                    i = in.nextInt() ;
+                }
+                this.game.firstActionShoot(nickName, s, lI, lS, i, lC, lP);*/
+               break;
+
+            case "Flamethrower":
+                wPrompt.shootToUser1(game, nickName);
+                /*System.out.println("write the number of the effect you want to use");
                 while (in.hasNext())
                     lI.add(in.nextInt());
                 System.out.println("write the String that are useful for the card");
@@ -158,56 +214,6 @@ public class Cli extends View{
                     lP.add(in.next());
                 System.out.println("If you are adrenalin enter the direction of the move");
                 i = in.nextInt() ;
-                }
-                this.game.firstActionShoot(nickName, s, lI, lS, i, lC, lP);
-                break;
-            case "Electroscythe":
-                System.out.println("write the number of the effect you want to use");
-                while (in.hasNext())
-                    lI.add(in.nextInt());
-                System.out.println("write the Colour of Ammo Cube you want to use that you nedd for the card");
-                while (in.hasNext())
-                    lC.add(Colour.valueOf(in.next()));
-                this.game.getPowerUpCard(nickName).stream().forEach(System.out::println);
-                System.out.println("write the name of the power up cards that are useful for the card");
-                while (in.hasNext())
-                    lP.add(in.next());
-                System.out.println("If you are adrenalin enter the direction of the move");
-                i = in.nextInt() ;                       //TODO nextint is a problem
-                while(!this.game.isValidFirstActionShoot(nickName, s, lI, lS, i, lC, lP)){
-                    System.out.println("Error repeat: don't be silly ;)");
-                    System.out.println("write the number of the effect you want to use");
-                    while (in.hasNext())
-                        lI.add(in.nextInt());
-                    System.out.println("write the Colour of Ammo Cube you want to use that you nedd for the card");
-                    while (in.hasNext())
-                        lC.add(Colour.valueOf(in.next()));
-                    this.game.getPowerUpCard(nickName).stream().forEach(System.out::println);
-                    System.out.println("write the name of the power up cards that are useful for the card");
-                    while (in.hasNext())
-                        lP.add(in.next());
-                    System.out.println("If you are adrenalin enter the direction of the move");
-                    i = in.nextInt() ;
-                }
-                this.game.firstActionShoot(nickName, s, lI, lS, i, lC, lP);
-
-               break;
-            case "Flamethrower":
-                System.out.println("write the number of the effect you want to use");
-                while (in.hasNext())
-                    lI.add(in.nextInt());
-                System.out.println("write the String that are useful for the card");
-                while (in.hasNext())
-                    lS.add(in.next());
-                System.out.println("write the Colour of Ammo Cube you want to use that you nedd for the card");
-                while (in.hasNext())
-                    lC.add(Colour.valueOf(in.next()));
-                this.game.getPowerUpCard(nickName).stream().forEach(System.out::println);
-                System.out.println("write the name of the power up cards that are useful for the card");
-                while (in.hasNext())
-                    lP.add(in.next());
-                System.out.println("If you are adrenalin enter the direction of the move");
-                i = in.nextInt() ;                       //TODO nextint is a problem
                 while(!this.game.isValidFirstActionShoot(nickName, s, lI, lS, i, lC, lP)){
                     System.out.println("Error repeat: don't be silly ;)");
                     System.out.println("write the number of the effect you want to use");
@@ -226,18 +232,19 @@ public class Cli extends View{
                     System.out.println("If you are adrenalin enter the direction of the move");
                     i = in.nextInt() ;
                 }
-                this.game.firstActionShoot(nickName, s, lI, lS, i, lC, lP);
-
+                this.game.firstActionShoot(nickName, s, lI, lS, i, lC, lP);*/
                 break;
+
             case "Furnace":
-                System.out.println("write the number of the effect you want to use");
+                wPrompt.shootToUser3(game, nickName);
+                /*System.out.println("write the number of the effect you want to use");
                 while (in.hasNext())
                     lI.add(in.nextInt());
                 System.out.println("write the String that are useful for the card");
                 while (in.hasNext())
                     lS.add(in.next());
                 System.out.println("If you are adrenalin enter the direction of the move");
-                i = in.nextInt() ;                       //TODO nextint is a problem
+                i = in.nextInt() ;
                 while(!this.game.isValidFirstActionShoot(nickName, s, lI, lS, i, lC, lP)){
                     System.out.println("Error repeat: don't be silly ;)");
                     System.out.println("write the number of the effect you want to use");
@@ -249,10 +256,12 @@ public class Cli extends View{
                     System.out.println("If you are adrenalin enter the direction of the move");
                     i = in.nextInt() ;
                 }
-                this.game.firstActionShoot(nickName, s, lI, lS, i, lC, lP);
+                this.game.firstActionShoot(nickName, s, lI, lS, i, lC, lP);*/
                 break;
+
             case "Grenade Launcher":
-                System.out.println("write the number of the effect you want to use");
+                wPrompt.shootToUser1(game, nickName);
+                /*System.out.println("write the number of the effect you want to use");
                 while (in.hasNext())
                     lI.add(in.nextInt());
                 System.out.println("write the String that are useful for the card");
@@ -266,7 +275,7 @@ public class Cli extends View{
                 while (in.hasNext())
                     lP.add(in.next());
                 System.out.println("If you are adrenalin enter the direction of the move");
-                i = in.nextInt() ;                       //TODO nextint is a problem
+                i = in.nextInt() ;
                 while(!this.game.isValidFirstActionShoot(nickName, s, lI, lS, i, lC, lP)){
                     System.out.println("Error repeat: don't be silly ;)");
                     System.out.println("write the number of the effect you want to use");
@@ -285,18 +294,19 @@ public class Cli extends View{
                     System.out.println("If you are adrenalin enter the direction of the move");
                     i = in.nextInt() ;
                 }
-                this.game.firstActionShoot(nickName, s, lI, lS, i, lC, lP);
-
+                this.game.firstActionShoot(nickName, s, lI, lS, i, lC, lP);*/
                 break;
+
             case "Heatseeker":
-                System.out.println("write the number of the effect you want to use");
+                wPrompt.shootToUser3(game, nickName);
+                /*System.out.println("write the number of the effect you want to use");
                 while (in.hasNext())
                     lI.add(in.nextInt());
                 System.out.println("write the String that are useful for the card");
                 while (in.hasNext())
                     lS.add(in.next());
                 System.out.println("If you are adrenalin enter the direction of the move");
-                i = in.nextInt() ;                       //TODO nextint is a problem
+                i = in.nextInt() ;
                 while(!this.game.isValidFirstActionShoot(nickName, s, lI, lS, i, lC, lP)){
                     System.out.println("Error repeat: don't be silly ;)");
                     System.out.println("write the number of the effect you want to use");
@@ -308,10 +318,12 @@ public class Cli extends View{
                     System.out.println("If you are adrenalin enter the direction of the move");
                     i = in.nextInt() ;
                 }
-                this.game.firstActionShoot(nickName, s, lI, lS, i, lC, lP);
+                this.game.firstActionShoot(nickName, s, lI, lS, i, lC, lP);*/
                 break;
+
             case "Hellion":
-                System.out.println("write the number of the effect you want to use");
+                wPrompt.shootToUser1(game, nickName);
+                /*System.out.println("write the number of the effect you want to use");
                 while (in.hasNext())
                     lI.add(in.nextInt());
                 System.out.println("write the String that are useful for the card");
@@ -325,7 +337,7 @@ public class Cli extends View{
                 while (in.hasNext())
                     lP.add(in.next());
                 System.out.println("If you are adrenalin enter the direction of the move");
-                i = in.nextInt() ;                       //TODO nextint is a problem
+                i = in.nextInt() ;
                 while(!this.game.isValidFirstActionShoot(nickName, s, lI, lS, i, lC, lP)){
                     System.out.println("Error repeat: don't be silly ;)");
                     System.out.println("write the number of the effect you want to use");
@@ -344,10 +356,12 @@ public class Cli extends View{
                     System.out.println("If you are adrenalin enter the direction of the move");
                     i = in.nextInt() ;
                 }
-                this.game.firstActionShoot(nickName, s, lI, lS, i, lC, lP);
+                this.game.firstActionShoot(nickName, s, lI, lS, i, lC, lP);*/
                 break;
+
             case "Lock Rifle":
-                System.out.println("write the number of the effect you want to use");
+                wPrompt.shootToUser1(game, nickName);
+                /*System.out.println("write the number of the effect you want to use");
                 while (in.hasNext())
                     lI.add(in.nextInt());
                 System.out.println("write the String that are useful for the card");
@@ -361,7 +375,7 @@ public class Cli extends View{
                 while (in.hasNext())
                     lP.add(in.next());
                 System.out.println("If you are adrenalin enter the direction of the move");
-                i = in.nextInt() ;                       //TODO nextint is a problem
+                i = in.nextInt() ;
                 while(!this.game.isValidFirstActionShoot(nickName, s, lI, lS, i, lC, lP)){
                     System.out.println("Error repeat: don't be silly ;)");
                     System.out.println("write the number of the effect you want to use");
@@ -380,10 +394,12 @@ public class Cli extends View{
                     System.out.println("If you are adrenalin enter the direction of the move");
                     i = in.nextInt() ;
                 }
-                this.game.firstActionShoot(nickName, s, lI, lS, i, lC, lP);
+                this.game.firstActionShoot(nickName, s, lI, lS, i, lC, lP);*/
                 break;
+
             case "Machine Gun":
-                System.out.println("write the number of the effect you want to use");
+                wPrompt.shootToUser1(game, nickName);
+                /*System.out.println("write the number of the effect you want to use");
                 while (in.hasNext())
                     lI.add(in.nextInt());
                 System.out.println("write the String that are useful for the card");
@@ -397,7 +413,7 @@ public class Cli extends View{
                 while (in.hasNext())
                     lP.add(in.next());
                 System.out.println("If you are adrenalin enter the direction of the move");
-                i = in.nextInt() ;                       //TODO nextint is a problem
+                i = in.nextInt() ;
                 while(!this.game.isValidFirstActionShoot(nickName, s, lI, lS, i, lC, lP)){
                     System.out.println("Error repeat: don't be silly ;)");
                     System.out.println("write the number of the effect you want to use");
@@ -416,10 +432,12 @@ public class Cli extends View{
                     System.out.println("If you are adrenalin enter the direction of the move");
                     i = in.nextInt() ;
                 }
-                this.game.firstActionShoot(nickName, s, lI, lS, i, lC, lP);
+                this.game.firstActionShoot(nickName, s, lI, lS, i, lC, lP);*/
                break;
+
             case "Plasma Gun":
-                System.out.println("write the number of the effect you want to use");
+                wPrompt.shootToUser1(game, nickName);
+                /*System.out.println("write the number of the effect you want to use");
                 while (in.hasNext())
                     lI.add(in.nextInt());
                 System.out.println("write the String that are useful for the card");
@@ -433,7 +451,7 @@ public class Cli extends View{
                 while (in.hasNext())
                     lP.add(in.next());
                 System.out.println("If you are adrenalin enter the direction of the move");
-                i = in.nextInt() ;                       //TODO nextint is a problem
+                i = in.nextInt() ;
                 while(!this.game.isValidFirstActionShoot(nickName, s, lI, lS, i, lC, lP)){
                     System.out.println("Error repeat: don't be silly ;)");
                     System.out.println("write the number of the effect you want to use");
@@ -452,11 +470,12 @@ public class Cli extends View{
                     System.out.println("If you are adrenalin enter the direction of the move");
                     i = in.nextInt() ;
                 }
-                this.game.firstActionShoot(nickName, s, lI, lS, i, lC, lP);
-
+                this.game.firstActionShoot(nickName, s, lI, lS, i, lC, lP);*/
                 break;
+
             case "Power Glove":
-                System.out.println("write the number of the effect you want to use");
+                wPrompt.shootToUser1(game, nickName);
+                /*System.out.println("write the number of the effect you want to use");
                 while (in.hasNext())
                     lI.add(in.nextInt());
                 System.out.println("write the String that are useful for the card");
@@ -470,7 +489,7 @@ public class Cli extends View{
                 while (in.hasNext())
                     lP.add(in.next());
                 System.out.println("If you are adrenalin enter the direction of the move");
-                i = in.nextInt() ;                       //TODO nextint is a problem
+                i = in.nextInt() ;
                 while(!this.game.isValidFirstActionShoot(nickName, s, lI, lS, i, lC, lP)){
                     System.out.println("Error repeat: don't be silly ;)");
                     System.out.println("write the number of the effect you want to use");
@@ -489,18 +508,19 @@ public class Cli extends View{
                     System.out.println("If you are adrenalin enter the direction of the move");
                     i = in.nextInt() ;
                 }
-                this.game.firstActionShoot(nickName, s, lI, lS, i, lC, lP);
-
+                this.game.firstActionShoot(nickName, s, lI, lS, i, lC, lP);*/
                 break;
+
             case "Railgun":
-                System.out.println("write the number of the effect you want to use");
+                wPrompt.shootToUser3(game, nickName);
+                /*System.out.println("write the number of the effect you want to use");
                 while (in.hasNext())
                     lI.add(in.nextInt());
                 System.out.println("write the String that are useful for the card");
                 while (in.hasNext())
                     lS.add(in.next());
                 System.out.println("If you are adrenalin enter the direction of the move");
-                i = in.nextInt() ;                       //TODO nextint is a problem
+                i = in.nextInt() ;
                 while(!this.game.isValidFirstActionShoot(nickName, s, lI, lS, i, lC, lP)){
                     System.out.println("Error repeat: don't be silly ;)");
                     System.out.println("write the number of the effect you want to use");
@@ -512,10 +532,12 @@ public class Cli extends View{
                     System.out.println("If you are adrenalin enter the direction of the move");
                     i = in.nextInt() ;
                 }
-                this.game.firstActionShoot(nickName, s, lI, lS, i, lC, lP);
+                this.game.firstActionShoot(nickName, s, lI, lS, i, lC, lP);*/
                 break;
+
             case "Rocket Launcher":
-                System.out.println("write the number of the effect you want to use");
+                wPrompt.shootToUser1(game, nickName);
+                /*System.out.println("write the number of the effect you want to use");
                 while (in.hasNext())
                     lI.add(in.nextInt());
                 System.out.println("write the String that are useful for the card");
@@ -529,7 +551,7 @@ public class Cli extends View{
                 while (in.hasNext())
                     lP.add(in.next());
                 System.out.println("If you are adrenalin enter the direction of the move");
-                i = in.nextInt() ;                       //TODO nextint is a problem
+                i = in.nextInt() ;
                 while(!this.game.isValidFirstActionShoot(nickName, s, lI, lS, i, lC, lP)){
                     System.out.println("Error repeat: don't be silly ;)");
                     System.out.println("write the number of the effect you want to use");
@@ -548,11 +570,12 @@ public class Cli extends View{
                     System.out.println("If you are adrenalin enter the direction of the move");
                     i = in.nextInt() ;
                 }
-                this.game.firstActionShoot(nickName, s, lI, lS, i, lC, lP);
-
+                this.game.firstActionShoot(nickName, s, lI, lS, i, lC, lP);*/
                 break;
+
             case "Shockwave":
-                System.out.println("write the number of the effect you want to use");
+                wPrompt.shootToUser1(game, nickName);
+                /*System.out.println("write the number of the effect you want to use");
                 while (in.hasNext())
                     lI.add(in.nextInt());
                 System.out.println("write the String that are useful for the card");
@@ -566,7 +589,7 @@ public class Cli extends View{
                 while (in.hasNext())
                     lP.add(in.next());
                 System.out.println("If you are adrenalin enter the direction of the move");
-                i = in.nextInt() ;                       //TODO nextint is a problem
+                i = in.nextInt() ;
                 while(!this.game.isValidFirstActionShoot(nickName, s, lI, lS, i, lC, lP)){
                     System.out.println("Error repeat: don't be silly ;)");
                     System.out.println("write the number of the effect you want to use");
@@ -585,217 +608,227 @@ public class Cli extends View{
                     System.out.println("If you are adrenalin enter the direction of the move");
                     i = in.nextInt() ;
                 }
-                this.game.firstActionShoot(nickName, s, lI, lS, i, lC, lP);
+                this.game.firstActionShoot(nickName, s, lI, lS, i, lC, lP);*/
                 break;
-            case "Shotgun":
-                System.out.println("write the number of the effect you want to use");
-                while (in.hasNext())
-                    lI.add(in.nextInt());
-                System.out.println("write the String that are useful for the card");
-                while (in.hasNext())
-                    lS.add(in.next());
-                System.out.println("If you are adrenalin enter the direction of the move");
-                i = in.nextInt() ;                       //TODO nextint is a problem
-                while(!this.game.isValidFirstActionShoot(nickName, s, lI, lS, i, lC, lP)){
-                    System.out.println("Error repeat: don't be silly ;)");
-                    System.out.println("write the number of the effect you want to use");
-                    while (in.hasNext())
-                        lI.add(in.nextInt());
-                    System.out.println("write the String that are useful for the card");
-                    while (in.hasNext())
-                        lS.add(in.next());
-                    System.out.println("If you are adrenalin enter the direction of the move");
-                    i = in.nextInt() ;
-                }
-                this.game.firstActionShoot(nickName, s, lI, lS, i, lC, lP);
-               break;
-            case "Sledgehammer":
-                System.out.println("write the number of the effect you want to use");
-                while (in.hasNext())
-                    lI.add(in.nextInt());
-                System.out.println("write the String that are useful for the card");
-                while (in.hasNext())
-                    lS.add(in.next());
-                System.out.println("write the Colour of Ammo Cube you want to use that you nedd for the card");
-                while (in.hasNext())
-                    lC.add(Colour.valueOf(in.next()));
-                this.game.getPowerUpCard(nickName).stream().forEach(System.out::println);
-                System.out.println("write the name of the power up cards that are useful for the card");
-                while (in.hasNext())
-                    lP.add(in.next());
-                System.out.println("If you are adrenalin enter the direction of the move");
-                i = in.nextInt() ;                       //TODO nextint is a problem
-                while(!this.game.isValidFirstActionShoot(nickName, s, lI, lS, i, lC, lP)){
-                    System.out.println("Error repeat: don't be silly ;)");
-                    System.out.println("write the number of the effect you want to use");
-                    while (in.hasNext())
-                        lI.add(in.nextInt());
-                    System.out.println("write the String that are useful for the card");
-                    while (in.hasNext())
-                        lS.add(in.next());
-                    System.out.println("write the Colour of Ammo Cube you want to use that you nedd for the card");
-                    while (in.hasNext())
-                        lC.add(Colour.valueOf(in.next()));
-                    this.game.getPowerUpCard(nickName).stream().forEach(System.out::println);
-                    System.out.println("write the name of the power up cards that are useful for the card");
-                    while (in.hasNext())
-                        lP.add(in.next());
-                    System.out.println("If you are adrenalin enter the direction of the move");
-                    i = in.nextInt() ;
-                }
-                this.game.firstActionShoot(nickName, s, lI, lS, i, lC, lP);
-                break;
-            case "T.H.O.R.":
-                System.out.println("write the number of the effect you want to use");
-                while (in.hasNext())
-                    lI.add(in.nextInt());
-                System.out.println("write the String that are useful for the card");
-                while (in.hasNext())
-                    lS.add(in.next());
-                System.out.println("write the Colour of Ammo Cube you want to use that you nedd for the card");
-                while (in.hasNext())
-                    lC.add(Colour.valueOf(in.next()));
-                this.game.getPowerUpCard(nickName).stream().forEach(System.out::println);
-                System.out.println("write the name of the power up cards that are useful for the card");
-                while (in.hasNext())
-                    lP.add(in.next());
-                System.out.println("If you are adrenalin enter the direction of the move");
-                i = in.nextInt() ;                       //TODO nextint is a problem
-                while(!this.game.isValidFirstActionShoot(nickName, s, lI, lS, i, lC, lP)){
-                    System.out.println("Error repeat: don't be silly ;)");
-                    System.out.println("write the number of the effect you want to use");
-                    while (in.hasNext())
-                        lI.add(in.nextInt());
-                    System.out.println("write the String that are useful for the card");
-                    while (in.hasNext())
-                        lS.add(in.next());
-                    System.out.println("write the Colour of Ammo Cube you want to use that you nedd for the card");
-                    while (in.hasNext())
-                        lC.add(Colour.valueOf(in.next()));
-                    this.game.getPowerUpCard(nickName).stream().forEach(System.out::println);
-                    System.out.println("write the name of the power up cards that are useful for the card");
-                    while (in.hasNext())
-                        lP.add(in.next());
-                    System.out.println("If you are adrenalin enter the direction of the move");
-                    i = in.nextInt() ;
-                }
-                this.game.firstActionShoot(nickName, s, lI, lS, i, lC, lP);
-                break;
-            case "Tractor Beam":
-                System.out.println("write the number of the effect you want to use");
-                while (in.hasNext())
-                    lI.add(in.nextInt());
-                System.out.println("write the String that are useful for the card");
-                while (in.hasNext())
-                    lS.add(in.next());
-                System.out.println("write the Colour of Ammo Cube you want to use that you nedd for the card");
-                while (in.hasNext())
-                    lC.add(Colour.valueOf(in.next()));
-                this.game.getPowerUpCard(nickName).stream().forEach(System.out::println);
-                System.out.println("write the name of the power up cards that are useful for the card");
-                while (in.hasNext())
-                    lP.add(in.next());
-                System.out.println("If you are adrenalin enter the direction of the move");
-                i = in.nextInt() ;                       //TODO nextint is a problem
-                while(!this.game.isValidFirstActionShoot(nickName, s, lI, lS, i, lC, lP)){
-                    System.out.println("Error repeat: don't be silly ;)");
-                    System.out.println("write the number of the effect you want to use");
-                    while (in.hasNext())
-                        lI.add(in.nextInt());
-                    System.out.println("write the String that are useful for the card");
-                    while (in.hasNext())
-                        lS.add(in.next());
-                    System.out.println("write the Colour of Ammo Cube you want to use that you nedd for the card");
-                    while (in.hasNext())
-                        lC.add(Colour.valueOf(in.next()));
-                    this.game.getPowerUpCard(nickName).stream().forEach(System.out::println);
-                    System.out.println("write the name of the power up cards that are useful for the card");
-                    while (in.hasNext())
-                        lP.add(in.next());
-                    System.out.println("If you are adrenalin enter the direction of the move");
-                    i = in.nextInt() ;
-                }
-                this.game.firstActionShoot(nickName, s, lI, lS, i, lC, lP);
-               break;
-            case "Vortex Cannon":
-                System.out.println("write the number of the effect you want to use");
-                while (in.hasNext())
-                    lI.add(in.nextInt());
-                System.out.println("write the String that are useful for the card");
-                while (in.hasNext())
-                    lS.add(in.next());
-                System.out.println("write the Colour of Ammo Cube you want to use that you nedd for the card");
-                while (in.hasNext())
-                    lC.add(Colour.valueOf(in.next()));
-                this.game.getPowerUpCard(nickName).stream().forEach(System.out::println);
-                System.out.println("write the name of the power up cards that are useful for the card");
-                while (in.hasNext())
-                    lP.add(in.next());
-                System.out.println("If you are adrenalin enter the direction of the move");
-                i = in.nextInt() ;                       //TODO nextint is a problem
-                while(!this.game.isValidFirstActionShoot(nickName, s, lI, lS, i, lC, lP)){
-                    System.out.println("Error repeat: don't be silly ;)");
-                    System.out.println("write the number of the effect you want to use");
-                    while (in.hasNext())
-                        lI.add(in.nextInt());
-                    System.out.println("write the String that are useful for the card");
-                    while (in.hasNext())
-                        lS.add(in.next());
-                    System.out.println("write the Colour of Ammo Cube you want to use that you nedd for the card");
-                    while (in.hasNext())
-                        lC.add(Colour.valueOf(in.next()));
-                    this.game.getPowerUpCard(nickName).stream().forEach(System.out::println);
-                    System.out.println("write the name of the power up cards that are useful for the card");
-                    while (in.hasNext())
-                        lP.add(in.next());
-                    System.out.println("If you are adrenalin enter the direction of the move");
-                    i = in.nextInt() ;
-                }
-                this.game.firstActionShoot(nickName, s, lI, lS, i, lC, lP);
-                break;
-            case "Whisper":
-                System.out.println("write the String that are useful for the card");
-                while (in.hasNext())
-                    lS.add(in.next());
-                System.out.println("If you are adrenalin enter the direction of the move");
-                i = in.nextInt() ;                       //TODO nextint is a problem
-                while(!this.game.isValidFirstActionShoot(nickName, s, lI, lS, i, lC, lP)){
-                    System.out.println("Error repeat: don't be silly ;)");
-                    System.out.println("write the String that are useful for the card");
-                    while (in.hasNext())
-                        lS.add(in.next());
-                    System.out.println("If you are adrenalin enter the direction of the move");
-                    i = in.nextInt() ;
-                }
-                this.game.firstActionShoot(nickName, s, lI, lS, i, lC, lP);
-                break;
-            case "ZX-2":
-                System.out.println("write the number of the effect you want to use");
-                while (in.hasNext())
-                    lI.add(in.nextInt());
-                System.out.println("write the String that are useful for the card");
-                while (in.hasNext())
-                    lS.add(in.next());
-                System.out.println("If you are adrenalin enter the direction of the move");
-                i = in.nextInt() ;                       //TODO nextint is a problem
-                while(!this.game.isValidFirstActionShoot(nickName, s, lI, lS, i, lC, lP)){
-                    System.out.println("Error repeat: don't be silly ;)");
-                    System.out.println("write the number of the effect you want to use");
-                    while (in.hasNext())
-                        lI.add(in.nextInt());
-                    System.out.println("write the String that are useful for the card");
-                    while (in.hasNext())
-                        lS.add(in.next());
-                    System.out.println("If you are adrenalin enter the direction of the move");
-                    i = in.nextInt() ;
-                }
-                this.game.firstActionShoot(nickName, s, lI, lS, i, lC, lP);
 
+            case "Shotgun":
+                wPrompt.shootToUser3(game, nickName);
+                /*System.out.println("write the number of the effect you want to use");
+                while (in.hasNext())
+                    lI.add(in.nextInt());
+                System.out.println("write the String that are useful for the card");
+                while (in.hasNext())
+                    lS.add(in.next());
+                System.out.println("If you are adrenalin enter the direction of the move");
+                i = in.nextInt() ;
+                while(!this.game.isValidFirstActionShoot(nickName, s, lI, lS, i, lC, lP)){
+                    System.out.println("Error repeat: don't be silly ;)");
+                    System.out.println("write the number of the effect you want to use");
+                    while (in.hasNext())
+                        lI.add(in.nextInt());
+                    System.out.println("write the String that are useful for the card");
+                    while (in.hasNext())
+                        lS.add(in.next());
+                    System.out.println("If you are adrenalin enter the direction of the move");
+                    i = in.nextInt() ;
+                }
+                this.game.firstActionShoot(nickName, s, lI, lS, i, lC, lP);*/
+               break;
+
+            case "Sledgehammer":
+                wPrompt.shootToUser1(game, nickName);
+                /*System.out.println("write the number of the effect you want to use");
+                while (in.hasNext())
+                    lI.add(in.nextInt());
+                System.out.println("write the String that are useful for the card");
+                while (in.hasNext())
+                    lS.add(in.next());
+                System.out.println("write the Colour of Ammo Cube you want to use that you nedd for the card");
+                while (in.hasNext())
+                    lC.add(Colour.valueOf(in.next()));
+                this.game.getPowerUpCard(nickName).stream().forEach(System.out::println);
+                System.out.println("write the name of the power up cards that are useful for the card");
+                while (in.hasNext())
+                    lP.add(in.next());
+                System.out.println("If you are adrenalin enter the direction of the move");
+                i = in.nextInt() ;
+                while(!this.game.isValidFirstActionShoot(nickName, s, lI, lS, i, lC, lP)){
+                    System.out.println("Error repeat: don't be silly ;)");
+                    System.out.println("write the number of the effect you want to use");
+                    while (in.hasNext())
+                        lI.add(in.nextInt());
+                    System.out.println("write the String that are useful for the card");
+                    while (in.hasNext())
+                        lS.add(in.next());
+                    System.out.println("write the Colour of Ammo Cube you want to use that you nedd for the card");
+                    while (in.hasNext())
+                        lC.add(Colour.valueOf(in.next()));
+                    this.game.getPowerUpCard(nickName).stream().forEach(System.out::println);
+                    System.out.println("write the name of the power up cards that are useful for the card");
+                    while (in.hasNext())
+                        lP.add(in.next());
+                    System.out.println("If you are adrenalin enter the direction of the move");
+                    i = in.nextInt() ;
+                }
+                this.game.firstActionShoot(nickName, s, lI, lS, i, lC, lP);*/
+                break;
+
+            case "T.H.O.R.":
+                wPrompt.shootToUser1(game, nickName);
+                /*System.out.println("write the number of the effect you want to use");
+                while (in.hasNext())
+                    lI.add(in.nextInt());
+                System.out.println("write the String that are useful for the card");
+                while (in.hasNext())
+                    lS.add(in.next());
+                System.out.println("write the Colour of Ammo Cube you want to use that you nedd for the card");
+                while (in.hasNext())
+                    lC.add(Colour.valueOf(in.next()));
+                this.game.getPowerUpCard(nickName).stream().forEach(System.out::println);
+                System.out.println("write the name of the power up cards that are useful for the card");
+                while (in.hasNext())
+                    lP.add(in.next());
+                System.out.println("If you are adrenalin enter the direction of the move");
+                i = in.nextInt() ;
+                while(!this.game.isValidFirstActionShoot(nickName, s, lI, lS, i, lC, lP)){
+                    System.out.println("Error repeat: don't be silly ;)");
+                    System.out.println("write the number of the effect you want to use");
+                    while (in.hasNext())
+                        lI.add(in.nextInt());
+                    System.out.println("write the String that are useful for the card");
+                    while (in.hasNext())
+                        lS.add(in.next());
+                    System.out.println("write the Colour of Ammo Cube you want to use that you nedd for the card");
+                    while (in.hasNext())
+                        lC.add(Colour.valueOf(in.next()));
+                    this.game.getPowerUpCard(nickName).stream().forEach(System.out::println);
+                    System.out.println("write the name of the power up cards that are useful for the card");
+                    while (in.hasNext())
+                        lP.add(in.next());
+                    System.out.println("If you are adrenalin enter the direction of the move");
+                    i = in.nextInt() ;
+                }
+                this.game.firstActionShoot(nickName, s, lI, lS, i, lC, lP);*/
+                break;
+
+            case "Tractor Beam":
+                wPrompt.shootToUser1(game, nickName);
+                /*System.out.println("write the number of the effect you want to use");
+                while (in.hasNext())
+                    lI.add(in.nextInt());
+                System.out.println("write the String that are useful for the card");
+                while (in.hasNext())
+                    lS.add(in.next());
+                System.out.println("write the Colour of Ammo Cube you want to use that you nedd for the card");
+                while (in.hasNext())
+                    lC.add(Colour.valueOf(in.next()));
+                this.game.getPowerUpCard(nickName).stream().forEach(System.out::println);
+                System.out.println("write the name of the power up cards that are useful for the card");
+                while (in.hasNext())
+                    lP.add(in.next());
+                System.out.println("If you are adrenalin enter the direction of the move");
+                i = in.nextInt() ;
+                while(!this.game.isValidFirstActionShoot(nickName, s, lI, lS, i, lC, lP)){
+                    System.out.println("Error repeat: don't be silly ;)");
+                    System.out.println("write the number of the effect you want to use");
+                    while (in.hasNext())
+                        lI.add(in.nextInt());
+                    System.out.println("write the String that are useful for the card");
+                    while (in.hasNext())
+                        lS.add(in.next());
+                    System.out.println("write the Colour of Ammo Cube you want to use that you nedd for the card");
+                    while (in.hasNext())
+                        lC.add(Colour.valueOf(in.next()));
+                    this.game.getPowerUpCard(nickName).stream().forEach(System.out::println);
+                    System.out.println("write the name of the power up cards that are useful for the card");
+                    while (in.hasNext())
+                        lP.add(in.next());
+                    System.out.println("If you are adrenalin enter the direction of the move");
+                    i = in.nextInt() ;
+                }
+                this.game.firstActionShoot(nickName, s, lI, lS, i, lC, lP);*/
+               break;
+
+            case "Vortex Cannon":
+                wPrompt.shootToUser1(game, nickName);
+                /*System.out.println("write the number of the effect you want to use");
+                while (in.hasNext())
+                    lI.add(in.nextInt());
+                System.out.println("write the String that are useful for the card");
+                while (in.hasNext())
+                    lS.add(in.next());
+                System.out.println("write the Colour of Ammo Cube you want to use that you nedd for the card");
+                while (in.hasNext())
+                    lC.add(Colour.valueOf(in.next()));
+                this.game.getPowerUpCard(nickName).stream().forEach(System.out::println);
+                System.out.println("write the name of the power up cards that are useful for the card");
+                while (in.hasNext())
+                    lP.add(in.next());
+                System.out.println("If you are adrenalin enter the direction of the move");
+                i = in.nextInt() ;
+                while(!this.game.isValidFirstActionShoot(nickName, s, lI, lS, i, lC, lP)){
+                    System.out.println("Error repeat: don't be silly ;)");
+                    System.out.println("write the number of the effect you want to use");
+                    while (in.hasNext())
+                        lI.add(in.nextInt());
+                    System.out.println("write the String that are useful for the card");
+                    while (in.hasNext())
+                        lS.add(in.next());
+                    System.out.println("write the Colour of Ammo Cube you want to use that you nedd for the card");
+                    while (in.hasNext())
+                        lC.add(Colour.valueOf(in.next()));
+                    this.game.getPowerUpCard(nickName).stream().forEach(System.out::println);
+                    System.out.println("write the name of the power up cards that are useful for the card");
+                    while (in.hasNext())
+                        lP.add(in.next());
+                    System.out.println("If you are adrenalin enter the direction of the move");
+                    i = in.nextInt() ;
+                }
+                this.game.firstActionShoot(nickName, s, lI, lS, i, lC, lP);*/
+                break;
+
+            case "Whisper":
+                wPrompt.shootToUser4(game, nickName);
+                /*System.out.println("write the String that are useful for the card");
+                while (in.hasNext())
+                    lS.add(in.next());
+                System.out.println("If you are adrenalin enter the direction of the move");
+                i = in.nextInt() ;
+                while(!this.game.isValidFirstActionShoot(nickName, s, lI, lS, i, lC, lP)){
+                    System.out.println("Error repeat: don't be silly ;)");
+                    System.out.println("write the String that are useful for the card");
+                    while (in.hasNext())
+                        lS.add(in.next());
+                    System.out.println("If you are adrenalin enter the direction of the move");
+                    i = in.nextInt() ;
+                }
+                this.game.firstActionShoot(nickName, s, lI, lS, i, lC, lP);*/
+                break;
+
+            case "ZX-2":
+                wPrompt.shootToUser3(game, nickName);
+                /*System.out.println("write the number of the effect you want to use");
+                while (in.hasNext())
+                    lI.add(in.nextInt());
+                System.out.println("write the String that are useful for the card");
+                while (in.hasNext())
+                    lS.add(in.next());
+                System.out.println("If you are adrenalin enter the direction of the move");
+                i = in.nextInt() ;
+                while(!this.game.isValidFirstActionShoot(nickName, s, lI, lS, i, lC, lP)){
+                    System.out.println("Error repeat: don't be silly ;)");
+                    System.out.println("write the number of the effect you want to use");
+                    while (in.hasNext())
+                        lI.add(in.nextInt());
+                    System.out.println("write the String that are useful for the card");
+                    while (in.hasNext())
+                        lS.add(in.next());
+                    System.out.println("If you are adrenalin enter the direction of the move");
+                    i = in.nextInt() ;
+                }
+                this.game.firstActionShoot(nickName, s, lI, lS, i, lC, lP);*/
                 break;
         }
-
-
-
     }
 
     private void grabFirstAction() {
@@ -836,6 +869,14 @@ public class Cli extends View{
 
     private void grabSecondAction(){
 
+    }
+
+    public Game getGame() {
+        return game;
+    }
+
+    public String getNickName() {
+        return nickName;
     }
 
     @Override

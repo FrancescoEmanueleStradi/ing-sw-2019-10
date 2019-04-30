@@ -80,6 +80,17 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         return p.getwC().stream().map(a -> a.getCardName()).collect(Collectors.toList());
     }
 
+    public List<String> getWeaponCardLoaded(String nickName){
+        Player p = this.grid.getPlayerObject(nickName);
+        return p.getwC().stream().filter(a -> a.isReloaded()).map(a -> a.getCardName()).collect(Collectors.toList());
+    }
+
+    public List<String> getWeaponCardUnloaded(String nickName){
+        Player p = this.grid.getPlayerObject(nickName);
+        return p.getwC().stream().filter(a -> !a.isReloaded()).map(a -> a.getCardName()).collect(Collectors.toList());
+    }
+
+
     public String getDescriptionWC(String s, String nickName){
         Player p = this.grid.getPlayerObject(nickName);
         WeaponCard wC = p.getWeaponCardObject(s);
@@ -159,6 +170,10 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
    //----------------------------------------------------------------------------------------------------
 
+
+    public boolean isValidCard(String nickName, String weaponCard){
+        return((this.grid.getPlayerObject(nickName).getWeaponCardObject(weaponCard)!= null && this.grid.getPlayerObject(nickName).getWeaponCardObject(weaponCard).isReloaded()));
+    }
 
 
    private boolean isValidShootNotAdrenaline(Player p, String nameWC, List<Integer> lI, List<String> lS, List<AmmoCube> lA, List<PowerUpCard> lP) throws InvalidColourException{
@@ -736,8 +751,17 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
     }
 
 
-    public boolean isValidFirstActionShoot(String nickName, String nameWC, List<Integer> lI, List<String> lS, int direction, List<AmmoCube> lA, List<PowerUpCard> lP) throws InvalidColourException{
+    public boolean isValidFirstActionShoot(String nickName, String nameWC, List<Integer> lI, List<String> lS, int direction, List<Colour> lAInput, List<String> lPInput) throws InvalidColourException{
         Player p = this.grid.getPlayerObject(nickName);
+        List<AmmoCube> lA= new LinkedList<>();
+        for(Colour c : lAInput)                             //TODO control if create AmmoCube is not a problem
+            lA.add(new AmmoCube(c));
+        List<PowerUpCard> lP= new LinkedList<>();
+        for(String s : lPInput) {
+            if (p.getPowerUpCardObject(s) == null)
+                return false;
+            lP.add(p.getPowerUpCardObject(s));
+        }
         if(this.gameState.equals(STARTTURN))
         if(!p.isAdrenaline2())
             return isValidShootNotAdrenaline(p, nameWC, lI, lS, lA, lP);
@@ -746,8 +770,14 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         return false;
     }
 
-    public void firstActionShoot(String nickName, String nameWC, List<Integer> lI, List<String> lS, int direction, List<AmmoCube> lA, List<PowerUpCard> lP){
+    public void firstActionShoot(String nickName, String nameWC, List<Integer> lI, List<String> lS, int direction, List<Colour> lAInput, List<String> lPInput) throws InvalidColourException{
         Player p = this.grid.getPlayerObject(nickName);
+        List<AmmoCube> lA= new LinkedList<>();
+        for(Colour c : lAInput)                             //TODO control if create AmmoCube is not a problem
+            lA.add(new AmmoCube(c));
+        List<PowerUpCard> lP= new LinkedList<>();
+        for(String s : lPInput)
+            lP.add(p.getPowerUpCardObject(s));
         if(!p.isAdrenaline2())
             this.shootNotAdrenaline(p, nameWC, lI, lS, lA, lP);
         else if (p.isAdrenaline2())
@@ -863,7 +893,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         return l;
     }
 
-    public boolean isValidFirstActionGrab(String nickName, int[] directions) throws InvalidColourException{
+    public boolean isValidFirstActionGrab(String nickName, int[] directions) throws InvalidColourException{         //TODO
         Player p = this.grid.getPlayerObject(nickName);
         if(this.gameState.equals(ACTION1) && (directions.length <= 2)) {
             if(!p.isAdrenaline1() && directions.length == 1 && this.grid.canMove(p, directions[0]))
@@ -877,8 +907,15 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         return false;
     }
 
-    public void firstActionGrab(String nickName, int[] directions, WeaponCard wCard, List<AmmoCube> l, List<PowerUpCard> lP){ //directions contains where p wants to go. directions contains '0' if p doesn't want to move and only grab
+    public void firstActionGrab(String nickName, int[] directions, String wCardInput, List<Colour> lAInput, List<String> lPInput) throws InvalidColourException{ //directions contains where p wants to go. directions contains '0' if p doesn't want to move and only grab
         Player p = this.grid.getPlayerObject(nickName);
+        WeaponCard wCard = this.grid.getWeaponCardObject(p, wCardInput);
+        List<AmmoCube> l= new LinkedList<>();
+        for(Colour c : lAInput)                             //TODO control if create AmmoCube is not a problem
+            l.add(new AmmoCube(c));
+        List<PowerUpCard> lP= new LinkedList<>();
+        for(String s : lPInput)
+            lP.add(p.getPowerUpCardObject(s));
         if(!(p.isAdrenaline1()))
                 grabNotAdrenaline(p, directions[0], wCard, l, lP);
 
@@ -925,7 +962,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
     public boolean isValidSecondActionGrab(String nickName, int[] directions) throws InvalidColourException{
         Player p = this.grid.getPlayerObject(nickName);
         if(this.gameState.equals(ACTION1) && (directions.length <= 2)) {
-            if(!p.isAdrenaline1() && directions.length == 1 && this.grid.canMove(p, directions[0]))
+            if(!p.isAdrenaline1() && directions.length == 1 && this.grid.canMove(p, directions[0]))             //TODO
                 return true;
             if(p.isAdrenaline1() && directions.length == 2) {
                 List<Integer> directionList = new LinkedList<>();
@@ -937,8 +974,15 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
     }
 
 
-    public void secondActionGrab(String nickName, int[] directions, WeaponCard wCard, List<AmmoCube> l, List<PowerUpCard> lP){ //directions contains where p wants to go. directions contains '0' if p doesn't want to move and only grab
+    public void secondActionGrab(String nickName, int[] directions, String wCardInput, List<Colour> lAInput, List<String> lPInput) throws InvalidColourException{ //directions contains where p wants to go. directions contains '0' if p doesn't want to move and only grab
         Player p = this.grid.getPlayerObject(nickName);
+        WeaponCard wCard = this.grid.getWeaponCardObject(p, wCardInput);
+        List<AmmoCube> l= new LinkedList<>();
+        for(Colour c : lAInput)                             //TODO control if create AmmoCube is not a problem
+            l.add(new AmmoCube(c));
+        List<PowerUpCard> lP= new LinkedList<>();
+        for(String s : lPInput)
+            lP.add(p.getPowerUpCardObject(s));
         if(!(p.isAdrenaline1()))
             grabNotAdrenaline(p, directions[0], wCard, l, lP);
 
@@ -951,8 +995,17 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
 //----------------------------------------------------------------------------------------------------
 
-    public boolean isValidSecondActionShoot(String nickName, String nameWC, List<Integer> lI, List<String> lS, int direction, List<AmmoCube> lA, List<PowerUpCard> lP) throws InvalidColourException{
+    public boolean isValidSecondActionShoot(String nickName, String nameWC, List<Integer> lI, List<String> lS, int direction, List<Colour> lAInput, List<String> lPInput) throws InvalidColourException{
         Player p = this.grid.getPlayerObject(nickName);
+        List<AmmoCube> lA= new LinkedList<>();
+        for(Colour c : lAInput)                             //TODO control if create AmmoCube is not a problem
+            lA.add(new AmmoCube(c));
+        List<PowerUpCard> lP= new LinkedList<>();
+        for(String s : lPInput) {
+            if (p.getPowerUpCardObject(s) == null)
+                return false;
+            lP.add(p.getPowerUpCardObject(s));
+        }
         if(this.gameState.equals(ACTION1))
             if(!p.isAdrenaline2())
                 return isValidShootNotAdrenaline(p, nameWC, lI, lS, lA, lP);
@@ -961,8 +1014,14 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         return false;
     }
 
-    public void secondActionShoot(String nickName, String nameWC, List<Integer> lI, List<String> lS, int direction, List<AmmoCube> lA, List<PowerUpCard> lP){
+    public void secondActionShoot(String nickName, String nameWC, List<Integer> lI, List<String> lS, int direction, List<Colour> lAInput, List<String> lPInput) throws  InvalidColourException{
         Player p = this.grid.getPlayerObject(nickName);
+        List<AmmoCube> lA= new LinkedList<>();
+        for(Colour c : lAInput)                             //TODO control if create AmmoCube is not a problem
+            lA.add(new AmmoCube(c));
+        List<PowerUpCard> lP= new LinkedList<>();
+        for(String s : lPInput)
+            lP.add(p.getPowerUpCardObject(s));
         if(!p.isAdrenaline2())
             this.shootNotAdrenaline(p, nameWC, lI, lS, lA, lP);
         else if (p.isAdrenaline2())

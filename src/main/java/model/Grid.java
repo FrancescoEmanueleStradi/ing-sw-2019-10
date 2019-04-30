@@ -274,6 +274,28 @@ public class Grid {
         return pViewZone;
     }
 
+    public WeaponCard getWeaponCardObject(Player p, String wCardName){
+        if(board.getW1().getCard1() != null && board.getW1().getCard1().getCardName().equals(wCardName))
+            return board.getW1().getCard1();
+        if(board.getW1().getCard2() != null && board.getW1().getCard2().getCardName().equals(wCardName))
+            return board.getW1().getCard2();
+        if(board.getW1().getCard3() != null && board.getW1().getCard3().getCardName().equals(wCardName))
+            return board.getW1().getCard3();
+        if(board.getW2().getCard1() != null && board.getW2().getCard1().getCardName().equals(wCardName))
+            return board.getW2().getCard1();
+        if(board.getW2().getCard2() != null && board.getW2().getCard2().getCardName().equals(wCardName))
+            return board.getW2().getCard2();
+        if(board.getW2().getCard3() != null && board.getW2().getCard3().getCardName().equals(wCardName))
+            return board.getW2().getCard3();
+        if(board.getW3().getCard1() != null && board.getW3().getCard1().getCardName().equals(wCardName))
+            return board.getW3().getCard1();
+        if(board.getW3().getCard2() != null && board.getW3().getCard2().getCardName().equals(wCardName))
+            return board.getW3().getCard2();
+        if(board.getW3().getCard3() != null && board.getW3().getCard3().getCardName().equals(wCardName))
+            return board.getW3().getCard3();
+        return null;
+    }
+
     public void pickWeaponCard(Player p) {
             p.addWeaponCard(this.weaponDeck.getTopOfDeck());
     }

@@ -191,29 +191,27 @@ public class Grid {
     }
 
     public boolean isInTheRoom(Player p, Player p2) {
-        return (p.getCell().getC() == p2.getCell().getC());
+        return (p.getCell().getC().equals(p2.getCell().getC()));
     }
 
     public boolean isInTheRoom(Player p, Colour c) {
-        return (p.getCell().getC() == c);
+        return (p.getCell().getC().equals(c));
     }
 
     public boolean isInViewZone(Player p, Player p2) {
         boolean b = false;
         for(int i=0; i<p.getCell().getPosDoor().length; i++) {
             if(!b) {
-                if (p.getCell().getPosDoor()[i] == 1 && p2.getCell().getP().getX() - 1 >= 0)
-                    b = isInTheRoom(p2, this.board.getArena()[p2.getCell().getP().getX() - 1][p2.getCell().getP().getY()].getC());
-                if (p.getCell().getPosDoor()[i] == 2 && p2.getCell().getP().getY() + 1 <= 3)
-                    b = isInTheRoom(p2, this.board.getArena()[p2.getCell().getP().getX()][p2.getCell().getP().getY() + 1].getC());
-                if (p.getCell().getPosDoor()[i] == 3 && p2.getCell().getP().getX() + 1 <= 2)
-                    b = isInTheRoom(p2, this.board.getArena()[p2.getCell().getP().getX() + 1][p2.getCell().getP().getY()].getC());
-                if (p.getCell().getPosDoor()[i] == 4 && p2.getCell().getP().getY() - 1 >= 0)
-                    b = isInTheRoom(p2, this.board.getArena()[p2.getCell().getP().getX()][p2.getCell().getP().getY() - 1].getC());
-
+                if (p.getCell().getPosDoor()[i] == 1 && p2.getCell().getP().getX() - 1 >= 0 && p2.getCell().getC().equals(this.board.getArena()[p.getCell().getP().getX() - 1][p.getCell().getP().getY()].getC()))
+                    b = true;
+                if (p.getCell().getPosDoor()[i] == 2 && p2.getCell().getP().getY() + 1 <= 3 && p2.getCell().getC().equals(this.board.getArena()[p.getCell().getP().getX()][p.getCell().getP().getY() + 1].getC()))
+                    b = true;
+                if (p.getCell().getPosDoor()[i] == 3 && p2.getCell().getP().getX() + 1 <= 2 && p2.getCell().getC().equals(this.board.getArena()[p.getCell().getP().getX() + 1][p.getCell().getP().getY()].getC()))
+                    b = true;
+                if (p.getCell().getPosDoor()[i] == 4 && p2.getCell().getP().getY() - 1 >= 0 && p2.getCell().getC().equals(this.board.getArena()[p.getCell().getP().getX()][p.getCell().getP().getY() - 1].getC()))
+                    b = true;
             }
         }
-
         return (isInTheRoom(p, p2) || ((p.getCell().getPosDoor()!=null) && b));
     }
 

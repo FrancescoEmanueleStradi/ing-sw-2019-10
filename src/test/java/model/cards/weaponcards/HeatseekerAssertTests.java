@@ -3,6 +3,7 @@ package model.cards.weaponcards;
 import model.Colour;
 import model.Grid;
 import model.InvalidColourException;
+import model.Position;
 import model.cards.WeaponCard;
 import model.player.Player;
 import org.junit.jupiter.api.Test;
@@ -36,11 +37,19 @@ class HeatseekerAssertTests {
         assertFalse(h.isReloaded());
 
         Grid grid = new Grid();
-        Player player = new Player("Myself", Colour.BLUE, true);
-        Player enemy1 = new Player("Enemy 1", Colour.GREEN, false);
+        grid.setType(1);
 
-        h.applyEffect(grid, player, enemy1);
-        assertEquals(Colour.BLUE, enemy1.getpB().getDamages().getDamageTr()[2].getC());
+        Player player = new Player("Myself", Colour.BLUE, true);
+        Position playerPos =  new Position(1,0);
+        grid.move(player, playerPos);
+
+        Player enemy = new Player("Enemy 1", Colour.GREEN, false);
+        Position enemyPos = new Position(2,3);
+        grid.move(enemy, enemyPos);
+
+        assertFalse(grid.isInViewZone(player, enemy));
+        h.applyEffect(grid, player, enemy);
+        assertEquals(Colour.BLUE, enemy.getpB().getDamages().getDamageTr()[2].getC());
 
     }
 }

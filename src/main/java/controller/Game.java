@@ -860,13 +860,23 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         return l;
     }
 
-    public boolean isValidFirstActionGrab(int[] directions){
-        return(this.gameState.equals(STARTTURN) && (directions.length <= 2));
+    public boolean isValidFirstActionGrab(String nickName, int[] directions) throws InvalidColourException{
+        Player p = this.grid.getPlayerObject(nickName);
+        if(this.gameState.equals(ACTION1) && (directions.length <= 2)) {
+            if(!p.isAdrenaline1() && directions.length == 1 && this.grid.canMove(p, directions[0]))
+                return true;
+            if(p.isAdrenaline1() && directions.length == 2) {
+                List<Integer> directionList = new LinkedList<>();
+                directionList.add(directions[0]);
+                return(this.grid.canMove(this.grid.ghostMove(p, directionList), directions[1]));
+            }
+        }
+        return false;
     }
 
     public void firstActionGrab(String nickName, int[] directions, WeaponCard wCard, List<AmmoCube> l, List<PowerUpCard> lP){ //directions contains where p wants to go. directions contains '0' if p doesn't want to move and only grab
         Player p = this.grid.getPlayerObject(nickName);
-        if(!(p.isAdrenaline1()) /*&& (directions.length == 1)*/)
+        if(!(p.isAdrenaline1()))
                 grabNotAdrenaline(p, directions[0], wCard, l, lP);
 
         if(p.isAdrenaline1()||p.isAdrenaline2()){
@@ -909,14 +919,24 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
 
 
-    public boolean isValidSecondActionGrab(int[] directions){
-        return(this.gameState.equals(ACTION1) && (directions.length <= 2));
+    public boolean isValidSecondActionGrab(String nickName, int[] directions) throws InvalidColourException{
+        Player p = this.grid.getPlayerObject(nickName);
+        if(this.gameState.equals(ACTION1) && (directions.length <= 2)) {
+            if(!p.isAdrenaline1() && directions.length == 1 && this.grid.canMove(p, directions[0]))
+                return true;
+            if(p.isAdrenaline1() && directions.length == 2) {
+                List<Integer> directionList = new LinkedList<>();
+                directionList.add(directions[0]);
+                return(this.grid.canMove(this.grid.ghostMove(p, directionList), directions[1]));
+            }
+        }
+        return false;
     }
 
 
     public void secondActionGrab(String nickName, int[] directions, WeaponCard wCard, List<AmmoCube> l, List<PowerUpCard> lP){ //directions contains where p wants to go. directions contains '0' if p doesn't want to move and only grab
         Player p = this.grid.getPlayerObject(nickName);
-        if(!(p.isAdrenaline1()) /*&& (directions.length == 1)*/)
+        if(!(p.isAdrenaline1()))
             grabNotAdrenaline(p, directions[0], wCard, l, lP);
 
         if(p.isAdrenaline1()||p.isAdrenaline2()){

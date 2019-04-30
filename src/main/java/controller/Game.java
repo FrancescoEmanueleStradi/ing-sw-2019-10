@@ -1188,4 +1188,126 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
        this.grid.replaceWeaponCard();
        this.gameState = STARTTURN;
     }
+
+
+    
+//-------------------------------------------------------------------------------------------------------------
+    //FINAL FRENZY ACTIONS
+
+    //player can do 2 actions (choosing between 1, 2, 3) if he takes his final turn before the first player
+    //player can do 1 action (choosing between 4, 5) if he is the first player, or takes his final turn after the first player
+
+    //first action available for players who take their final turn before the first player
+    //player can move up to 1 cell, reload if he wants, and then shoot
+
+    public boolean isValidFinalFrenzyAction1(String nickName, int direction, String weaponToUse, List<Integer> lI, List<String> lS, List<AmmoCube> lA, List<PowerUpCard> lP) throws  InvalidColourException{
+        Player p = this.grid.getPlayerObject(nickName);
+        return (this.gameState == FINALFRENZY && this.grid.canMove(p, direction) && this.isValidShootNotAdrenaline(p, weaponToUse, lI, lS, lA, lP) &&
+                direction >= 1 && direction <= 4);
+    }
+
+    public void finalFrenzyAction1(String nickName, int direction, List<String> weaponToReload, String weaponToUse, List<Integer> lI, List<String> lS, List<AmmoCube> lA, List<PowerUpCard> lP) {
+        Player p = this.grid.getPlayerObject(nickName);
+        if(direction != 0)
+            this.grid.move(p, direction);
+        if(!weaponToReload.isEmpty()) {
+            for(String weapon : weaponToReload)
+                this.reloadFrenzy(p, weapon);
+        }
+        this.shootNotAdrenaline(p, weaponToUse, lI, lS, lA, lP);
+    }
+
+
+    //second action available for players who take their final turn before the first player
+    //player can move up to 4 cells
+
+    public boolean isValidFinalFrenzyAction2(String nickName, List<Integer> directions) throws InvalidColourException{
+        Player p = this.grid.getPlayerObject(nickName);
+        for(Integer i : directions) {
+            if(i < 0 || i > 4)
+                return false;
+        }
+        return(this.gameState == FINALFRENZY && directions.size() <= 4 && this.grid.canGhostMove(p, directions));
+    }
+
+    public void finalFrenzyAction2(String nickName, List<Integer> directions) {
+        Player p = this.grid.getPlayerObject(nickName);
+        for(int i : directions)
+            this.grid.move(p, i);
+    }
+
+
+    //third action available for players who take their final turn before the first player
+    //player can move up to 2 cells and grab something there
+
+    public boolean isValidFinalFrenzyAction3(String nickName, List<Integer> directions) throws InvalidColourException{
+        Player p = this.grid.getPlayerObject(nickName);
+        for(Integer i : directions) {
+            if(i < 0 || i > 4)
+                return false;
+        }
+        return(this.gameState == FINALFRENZY && directions.size() <= 2 && this.grid.canGhostMove(p, directions));
+    }
+
+    public void finalFrenzyAction3(String nickName, List<Integer> directions) {
+        Player p = this.grid.getPlayerObject(nickName);
+        for(int i : directions)
+            this.grid.move(p, i);
+        //TODO: player can grab something in the cell he is at this moment: use the existing grab method but modified (he can't move anymore)
+        //modify the isValid method after completing the TO DO
+    }
+
+
+    //first action available for player who are the first player, or take their final turn after the first player
+    //player can move up to two cells, reload if he wants, and then shoot
+
+    public boolean isValidFinalFrenzyAction4(String nickName, List<Integer> directions, String weaponToUse, List<Integer> lI, List<String> lS, List<AmmoCube> lA, List<PowerUpCard> lP) throws  InvalidColourException{
+        Player p = this.grid.getPlayerObject(nickName);
+        for(Integer i : directions) {
+            if(i < 0 || i > 4)
+                return false;
+        }
+        return (this.gameState == FINALFRENZY && directions.size() <= 2 && this.grid.canGhostMove(p, directions) && this.isValidShootNotAdrenaline(p, weaponToUse, lI, lS, lA, lP));
+    }
+
+    public void finalFrenzyAction4(String nickName, List<Integer> directions, List<String> weaponToReload, String weaponToUse, List<Integer> lI, List<String> lS, List<AmmoCube> lA, List<PowerUpCard> lP) {
+        Player p = this.grid.getPlayerObject(nickName);
+        for(Integer i : directions)
+            this.grid.move(p, i);
+        if(!weaponToReload.isEmpty()) {
+            for(String weapon : weaponToReload)
+                this.reloadFrenzy(p, weapon);
+        }
+        this.shootNotAdrenaline(p, weaponToUse, lI, lS, lA, lP);
+    }
+
+    //second action available for player who are the first player, or take their final turn after the first player
+    //player can move up to three cells and grab something there
+
+    public boolean isValidFinalFrenzyAction5(String nickName, List<Integer> directions) throws InvalidColourException{
+        Player p = this.grid.getPlayerObject(nickName);
+        for(Integer i : directions) {
+            if(i < 0 || i > 4)
+                return false;
+        }
+        return(this.gameState == FINALFRENZY && directions.size() <= 3 && this.grid.canGhostMove(p, directions));
+    }
+
+    public void finalFrenzyAction5(String nickName, List<Integer> directions) {
+        Player p = this.grid.getPlayerObject(nickName);
+        for(Integer i : directions)
+            this.grid.move(p, i);
+        //TODO: player can grab something in the cell he is at this moment: use the existing grab method but modified (he can't move anymore)
+        //modify the isValid method after completing the TO DO
+    }
+
+
+    //useful methods for frenzy actions
+
+    public void reloadFrenzy(Player p, String s){
+        if(p.checkAmmoCube(p.getWeaponCardObject(s).getReloadCost())){
+            p.getWeaponCardObject(s).reload();
+            p.removeArrayAC(p.getWeaponCardObject(s).getReloadCost());
+        }
+    }
 }

@@ -216,7 +216,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                    break;
                case "Grenade Launcher":
                    if(lI.contains(1)){
-                       if(this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(0))) && (Integer.parseInt(lS.get(1)) == 0 || this.grid.canMove(this.grid.getPlayerObject(lS.get(0)), Integer.parseInt(lS.get(1)))))
+                       if(this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(0))) && (Integer.parseInt(lS.get(1)) == 0 || this.grid.canMove(this.grid.getPlayerObject(lS.get(0)), Integer.parseInt(lS.get(1))) && (Integer.parseInt(lS.get(1)) == 1 || Integer.parseInt(lS.get(1)) == 2 || Integer.parseInt(lS.get(1)) == 3 || Integer.parseInt(lS.get(1)) == 4)))
                            x = true;
                        if(!x)
                            break;
@@ -287,7 +287,13 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                        }
                        if (lI.contains(2) && lI.contains(1)) {
                            x = false;
-                           if (Integer.parseInt(lS.get(1)) < 3 && this.grid.canMove(p, Integer.parseInt(lS.get(2))) && (lS.size() < 4 || this.grid.canMove(p, Integer.parseInt(lS.get(3)))))
+                           List<Integer> directions = new LinkedList<>();
+                           if(lS.size() == 4) {
+                               directions.add(Integer.parseInt(lS.get(2)));
+                               directions.add(Integer.parseInt(lS.get(3)));
+                           }
+                           if (Integer.parseInt(lS.get(1)) < 3 && (Integer.parseInt(lS.get(2)) == 1 || Integer.parseInt(lS.get(2)) == 2 || Integer.parseInt(lS.get(2)) == 3 || Integer.parseInt(lS.get(2)) == 4) &&
+                                   (lS.size() == 3 && this.grid.canMove(p, Integer.parseInt(lS.get(2))) || lS.size() == 4 && (this.grid.canGhostMove(p, directions)) && (Integer.parseInt(lS.get(3)) == 1 || Integer.parseInt(lS.get(3)) == 2 || Integer.parseInt(lS.get(3)) == 3 || Integer.parseInt(lS.get(3)) == 4)))
                                x = true;
                        }
                        if (lI.contains(3) && lI.contains(1)) {
@@ -366,7 +372,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                case "Rocket Launcher":
                    if(!lI.contains(3) || lI.indexOf(3) > lI.indexOf(1)) {
                        if (lI.contains(1)) {
-                           if (this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(0))) && !p.getCell().equals(this.grid.getPlayerObject(lS.get(0)).getCell()) && (!l.contains(2) || l.contains(2) && this.grid.canMove(p, Integer.parseInt(lS.get(1)))))
+                           if (this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(0))) && !p.getCell().equals(this.grid.getPlayerObject(lS.get(0)).getCell()) && (!lS.contains(2) || lS.contains(2) && this.grid.canMove(p, Integer.parseInt(lS.get(1)))))
                                x = true;
                            if (!x)
                                break;
@@ -377,36 +383,44 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                            if(Integer.parseInt(lS.get(2)) == 2) {
                                directions.add(Integer.parseInt(lS.get(3)));
                            }
-                           if ((Integer.parseInt(lS.get(2)) < 2 && this.grid.canMove(p, Integer.parseInt(lS.get(3)))) || (Integer.parseInt(lS.get(2))) == 2 && this.grid.canMove(p, Integer.parseInt(lS.get(3))) && this.grid.canMove(this.grid.ghostMove(p, directions), Integer.parseInt(lS.get(4))))
+                           if ((Integer.parseInt(lS.get(2)) < 2 && this.grid.canMove(p, Integer.parseInt(lS.get(3))) && (Integer.parseInt(lS.get(3)) == 1 || Integer.parseInt(lS.get(3)) == 2 || Integer.parseInt(lS.get(3)) == 3 || Integer.parseInt(lS.get(3)) == 4)) ||
+                                   (Integer.parseInt(lS.get(2)) == 2 && this.grid.canMove(p, Integer.parseInt(lS.get(3))) && Integer.parseInt(lS.get(3)) == 1 || Integer.parseInt(lS.get(3)) == 2 || Integer.parseInt(lS.get(3)) == 3 || Integer.parseInt(lS.get(3)) == 4 && this.grid.canMove(this.grid.ghostMove(p, directions), Integer.parseInt(lS.get(4))) && (Integer.parseInt(lS.get(4)) == 1 || Integer.parseInt(lS.get(4)) == 2 || Integer.parseInt(lS.get(4)) == 3 || Integer.parseInt(lS.get(4)) == 4)) && lC.contains(Colour.BLUE))
                                x = true;
                        }
                        if (lI.contains(4) && lI.contains(1)) {
+                           x = false;
                            if (lC.contains(Colour.YELLOW))
                                x = true;
+                           if(!x)
+                               break;
                        }
                    }
                    else {
                        if (lI.contains(3) && lI.contains(1)) {
-                           x = false;
                            List<Integer> directions = new LinkedList<>();
                            if(Integer.parseInt(lS.get(2)) == 2) {
                                directions.add(Integer.parseInt(lS.get(3)));
                            }
-                           if ((Integer.parseInt(lS.get(2)) < 2 && this.grid.canMove(p, Integer.parseInt(lS.get(3)))) || (Integer.parseInt(lS.get(2))) == 2 && this.grid.canMove(p, Integer.parseInt(lS.get(3))) && this.grid.canMove(this.grid.ghostMove(p, directions), Integer.parseInt(lS.get(4))))
+                           if (((Integer.parseInt(lS.get(2)) < 2 && this.grid.canMove(p, Integer.parseInt(lS.get(3)))) && (Integer.parseInt(lS.get(3)) == 1 || Integer.parseInt(lS.get(3)) == 2 || Integer.parseInt(lS.get(3)) == 3 || Integer.parseInt(lS.get(3)) == 4)) ||
+                                   (Integer.parseInt(lS.get(2)) == 2 && this.grid.canMove(p, Integer.parseInt(lS.get(3))) && (Integer.parseInt(lS.get(3)) == 1 || Integer.parseInt(lS.get(3)) == 2 || Integer.parseInt(lS.get(3)) == 3 || Integer.parseInt(lS.get(3)) == 4) && this.grid.canMove(this.grid.ghostMove(p, directions), Integer.parseInt(lS.get(4))) && (Integer.parseInt(lS.get(4)) == 1 || Integer.parseInt(lS.get(4)) == 2 || Integer.parseInt(lS.get(4)) == 3 || Integer.parseInt(lS.get(4)) == 4)) && lC.contains(Colour.BLUE))
                                x = true;
                        }
                        List<Integer> directions = new LinkedList<>();
                        for(int i = 0; i <= Integer.parseInt(lS.get(2)); i++)
                            directions.add((Integer.parseInt(lS.get(i + 3))));
                        if (lI.contains(1)) {
-                           if (this.grid.isInViewZone(this.grid.ghostMove(p, directions), this.grid.getPlayerObject(lS.get(0))) && !this.grid.ghostMove(p, directions).getCell().equals(this.grid.getPlayerObject(lS.get(0)).getCell()) && (!l.contains(2) || l.contains(2) && this.grid.canMove(this.grid.ghostMove(p, directions), Integer.parseInt(lS.get(1)))))
+                           x = false;
+                           if (this.grid.isInViewZone(this.grid.ghostMove(p, directions), this.grid.getPlayerObject(lS.get(0))) && !this.grid.ghostMove(p, directions).getCell().equals(this.grid.getPlayerObject(lS.get(0)).getCell()) && (!lS.contains(2) || lS.contains(2) && this.grid.canMove(this.grid.ghostMove(p, directions), Integer.parseInt(lS.get(1))) && (Integer.parseInt(lS.get(1)) == 1 || Integer.parseInt(lS.get(1)) == 2 || Integer.parseInt(lS.get(1)) == 3 || Integer.parseInt(lS.get(1)) == 4)))
                                x = true;
                            if (!x)
                                break;
                        }
                        if (lI.contains(4) && lI.contains(1)) {
+                           x = false;
                            if (lC.contains(Colour.YELLOW))
                                x = true;
+                           if(!x)
+                               break;
                        }
                    }
                    break;
@@ -422,7 +436,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                    break;
                case "Shotgun":
                    if(lI.contains(1) && !lI.contains(3)) {
-                       if(p.getCell().equals(this.grid.getPlayerObject(lS.get(0)).getCell()) && (lS.size() < 2 || lS.size() == 2 && this.grid.canMove(this.grid.getPlayerObject(lS.get(0)), Integer.parseInt(lS.get(1)))))
+                       if(p.getCell().equals(this.grid.getPlayerObject(lS.get(0)).getCell()) && (lS.size() < 2 || lS.size() == 2 && this.grid.canMove(this.grid.getPlayerObject(lS.get(0)), Integer.parseInt(lS.get(1))) && Integer.parseInt(lS.get(1)) == 1 || Integer.parseInt(lS.get(1)) == 2 || Integer.parseInt(lS.get(1)) == 3 || Integer.parseInt(lS.get(1)) == 4))
                            x = true;
 
                    }
@@ -440,7 +454,8 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                        List<Integer> directions = new LinkedList<>();
                        directions.add(Integer.parseInt(lS.get(2)));
                        if(p.getCell().equals(this.grid.getPlayerObject(lS.get(0)).getCell()) &&
-                               (Integer.parseInt(lS.get(1))) == 0 || (Integer.parseInt(lS.get(1))) == 1 && this.grid.canGhostMove(p, directions) || (Integer.parseInt(lS.get(1))) == 2 && this.grid.canGhostMove(p, directions) && this.grid.canGhostMove(this.grid.ghostMove(p, directions), directions))
+                               (Integer.parseInt(lS.get(1)) == 0) || ((Integer.parseInt(lS.get(1))) == 1 && this.grid.canGhostMove(p, directions) && Integer.parseInt(lS.get(2)) == 1 || Integer.parseInt(lS.get(2)) == 2 || Integer.parseInt(lS.get(2)) == 3 || Integer.parseInt(lS.get(2)) == 4) ||
+                               (Integer.parseInt(lS.get(1)) == 2 && this.grid.canGhostMove(p, directions) && this.grid.canGhostMove(this.grid.ghostMove(p, directions), directions) && Integer.parseInt(lS.get(2)) == 1 || Integer.parseInt(lS.get(2)) == 2 || Integer.parseInt(lS.get(2)) == 3 || Integer.parseInt(lS.get(2)) == 4))
                            x = true;    //is the if correct?
                    }
                    break;
@@ -473,8 +488,8 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                            directions.add(Integer.parseInt(lS.get(1)));
                            directions.add(Integer.parseInt(lS.get(2)));
                        }
-                       if((lS.size() == 1 && this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(0))) || (lS.size() == 2) && this.grid.canGhostMove(this.grid.getPlayerObject(lS.get(0)), directions) && this.grid.isInViewZone(p, this.grid.ghostMove(this.grid.getPlayerObject(lS.get(0)), directions)) ||
-                               lS.size() == 3 && this.grid.canGhostMove(this.grid.getPlayerObject(lS.get(0)), directions) && this.grid.isInViewZone(p, this.grid.ghostMove(this.grid.getPlayerObject(lS.get(0)), directions))) && lC.contains(Colour.YELLOW) && lC.contains(Colour.RED))
+                       if((lS.size() == 1 && this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(0))) || (lS.size() == 2 && this.grid.canGhostMove(this.grid.getPlayerObject(lS.get(0)), directions) && this.grid.isInViewZone(p, this.grid.ghostMove(this.grid.getPlayerObject(lS.get(0)), directions)) && Integer.parseInt(lS.get(1)) == 1 || Integer.parseInt(lS.get(1)) == 2 || Integer.parseInt(lS.get(1)) == 3 || Integer.parseInt(lS.get(1)) == 4) ||
+                               (lS.size() == 3 && this.grid.canGhostMove(this.grid.getPlayerObject(lS.get(0)), directions) && this.grid.isInViewZone(p, this.grid.ghostMove(this.grid.getPlayerObject(lS.get(0)), directions))) && (Integer.parseInt(lS.get(1)) == 1 || Integer.parseInt(lS.get(1)) == 2 || Integer.parseInt(lS.get(1)) == 3 || Integer.parseInt(lS.get(1)) == 4) && (Integer.parseInt(lS.get(2)) == 1 || Integer.parseInt(lS.get(2)) == 2 || Integer.parseInt(lS.get(2)) == 3 || Integer.parseInt(lS.get(2)) == 4)) && lC.contains(Colour.YELLOW) && lC.contains(Colour.RED))
                             x = true;
                    }
                    if(!lI.contains(1) && lI.contains(2)) {

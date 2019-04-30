@@ -433,9 +433,10 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                    }
                    if(!lI.contains(1) && lI.contains(2)) {
                        List<Integer> directions = new LinkedList<>();
-
-                       if(p.getCell().equals(this.grid.getPlayerObject(lS.get(0)).getCell()) && Integer.parseInt(lS.get(1)) < 3 /*&& */)    //TODO finish this
-                           x = true;
+                       directions.add(Integer.parseInt(lS.get(2)));
+                       if(p.getCell().equals(this.grid.getPlayerObject(lS.get(0)).getCell()) &&
+                               (Integer.parseInt(lS.get(1))) == 0 || (Integer.parseInt(lS.get(1))) == 1 && this.grid.canGhostMove(p, directions) || (Integer.parseInt(lS.get(1))) == 2 && this.grid.canGhostMove(p, directions) && this.grid.canGhostMove(this.grid.ghostMove(p, directions), directions))
+                           x = true;    //is the if correct?
                    }
                    break;
                case "T.H.O.R.":
@@ -460,7 +461,15 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                    break;
                case "Tractor Beam":
                    if(lI.contains(1) && !lI.contains(2)) {
-                       if(this.grid.distance(p, new Position(Integer.parseInt(lS.get(1)), Integer.parseInt(lS.get(2)))) < 3 && this.grid.isInViewZone(p, new Position(Integer.parseInt(lS.get(1)), Integer.parseInt(lS.get(2)))))    //TODO can't move through walls
+                       List<Integer> directions = new LinkedList<>();
+                       if(lS.size() == 2)
+                           directions.add(Integer.parseInt(lS.get(1)));
+                       if(lS.size() == 3) {
+                           directions.add(Integer.parseInt(lS.get(1)));
+                           directions.add(Integer.parseInt(lS.get(2)));
+                       }
+                       if((lS.size() == 1 && this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(0))) || (lS.size() == 2) && this.grid.canGhostMove(this.grid.getPlayerObject(lS.get(0)), directions) && this.grid.isInViewZone(p, this.grid.ghostMove(this.grid.getPlayerObject(lS.get(0)), directions)) ||
+                               lS.size() == 3 && this.grid.canGhostMove(this.grid.getPlayerObject(lS.get(0)), directions) && this.grid.isInViewZone(p, this.grid.ghostMove(this.grid.getPlayerObject(lS.get(0)), directions))) && lC.contains(Colour.YELLOW) && lC.contains(Colour.RED))
                             x = true;
                    }
                    if(!lI.contains(1) && lI.contains(2)) {
@@ -654,8 +663,16 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                     ((THOR) p.getWeaponCardObject(nameWC)).applySpecialEffect2(this.grid, p, this.grid.getPlayerObject(lS.get(2)));
                 break;
             case "Tractor Beam":
-                if(lI.get(0) == 1)
-                    ((TractorBeam) p.getWeaponCardObject(nameWC)).applyEffect(this.grid, p, this.grid.getPlayerObject(lS.get(0)), lS.get(1), lS.get(2));
+                if(lI.get(0) == 1) {
+                    List<Integer> directions = new LinkedList<>();
+                    if(lS.size() == 2)
+                        directions.add(Integer.parseInt(lS.get(1)));
+                    if(lS.size() == 3) {
+                        directions.add(Integer.parseInt(lS.get(1)));
+                        directions.add(Integer.parseInt(lS.get(2)));
+                    }
+                    ((TractorBeam) p.getWeaponCardObject(nameWC)).applyEffect(this.grid, p, this.grid.getPlayerObject(lS.get(0)), directions);
+                }
                 if(lI.get(0) == 2)
                     ((TractorBeam) p.getWeaponCardObject(nameWC)).applySpecialEffect(this.grid, p, this.grid.getPlayerObject(lS.get(0)));
                 break;

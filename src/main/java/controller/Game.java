@@ -1449,8 +1449,17 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                 this.grid.scoringByColour(p.getpB().getDamages().getColourPosition(1), 1);
                 this.grid.scoringByColour(p.getpB().getDamages().getColourPosition(2), 1);
                 this.grid.scoringByColour(p.getpB().getDamages().getColourPosition(3), 1);
+                p.getpB().getDamages().cleanL();
             }
-            //TODO score the killtrack
         }
+        this.grid.scoringByColour(this.grid.getBoard().getK().getColourPosition(0), 8);
+        this.grid.scoringByColour(this.grid.getBoard().getK().getColourPosition(1), 6);
+        this.grid.scoringByColour(this.grid.getBoard().getK().getColourPosition(2), 4);
+        this.grid.scoringByColour(this.grid.getBoard().getK().getColourPosition(3), 2);
+        this.grid.scoringByColour(this.grid.getBoard().getK().getColourPosition(4), 1);
+        this.grid.scoringByColour(this.grid.getBoard().getK().getColourPosition(5), 1);
+        this.grid.getBoard().getK().cleanL();
+
+        this.gameState = ENDGAME;
     }
 }

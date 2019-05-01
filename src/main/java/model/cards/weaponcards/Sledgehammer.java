@@ -12,7 +12,7 @@ public class Sledgehammer extends WeaponCard {
 
     private String alternativeEffect = "Pulverize Mode";
 
-    public Sledgehammer() throws InvalidColourException {
+    public Sledgehammer() {
         super();
         this.cardName = "Sledgehammer";
         this.reloadCost = new AmmoCube[]{new AmmoCube(Colour.YELLOW)};

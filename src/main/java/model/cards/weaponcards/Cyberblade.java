@@ -11,7 +11,7 @@ public class Cyberblade extends WeaponCard {
     private String optionalEffect1 = "Shadowstep";
     private String optionalEffect2 = "Slice and Dice";
 
-    public Cyberblade() throws InvalidColourException {
+    public Cyberblade() {
         super();
         this.cardName = "Cyberblade";
         this.reloadCost = new AmmoCube[]{new AmmoCube(Colour.YELLOW), new AmmoCube(Colour.RED)};

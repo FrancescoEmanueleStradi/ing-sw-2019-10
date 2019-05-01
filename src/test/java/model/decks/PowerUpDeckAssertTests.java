@@ -1,7 +1,6 @@
 package model.decks;
 
 import model.Colour;
-import model.InvalidColourException;
 import model.cards.PowerUpCard;
 import model.cards.powerupcards.Newton;
 import org.junit.jupiter.api.Test;
@@ -10,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class PowerUpDeckAssertTests {
     @Test
-    void PowerUpDeckTest() throws InvalidColourException {
+    void PowerUpDeckTest()  {
         PowerUpDeck puDeck = new PowerUpDeck();
 
         assertEquals("Targeting Scope", puDeck.getDeck().get(0).getCardName());

@@ -8,7 +8,7 @@ import model.player.Player;
 
 public class Teleporter extends PowerUpCard {
 
-    public Teleporter(Colour c) throws InvalidColourException {
+    public Teleporter(Colour c) {
         super();
         this.cardName = "Teleporter";
         this.c = c;

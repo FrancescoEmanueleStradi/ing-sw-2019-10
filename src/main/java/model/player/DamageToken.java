@@ -6,7 +6,7 @@ public class DamageToken {
 
     private Colour c;
 
-    public DamageToken(Colour c){
+    public DamageToken(Colour c) {
         this.c = c;
     }
 

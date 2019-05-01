@@ -1,6 +1,5 @@
 package model.decks;
 
-import model.InvalidColourException;
 import model.cards.WeaponCard;
 import model.cards.weaponcards.*;
 
@@ -11,7 +10,7 @@ public class WeaponDeck extends Deck {
 
     private ArrayList<WeaponCard> deck = new ArrayList<>();
 
-    public WeaponDeck() throws InvalidColourException {
+    public WeaponDeck() {
         Cyberblade c1 = new Cyberblade();
             deck.add(c1);
         Electroscythe c2 = new Electroscythe();
@@ -64,7 +63,7 @@ public class WeaponDeck extends Deck {
         return this.deck;
     }
 
-    public void addCard(WeaponCard c){
+    public void addCard(WeaponCard c) {
         this.getDeck().add(c);
     }
 
@@ -76,5 +75,4 @@ public class WeaponDeck extends Deck {
         }
         return null;
     }
-
 }

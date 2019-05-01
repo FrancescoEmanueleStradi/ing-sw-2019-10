@@ -10,7 +10,7 @@ public class Flamethrower extends WeaponCard {
 
     private String alternativeEffect = "Barbecue Mode";
 
-    public Flamethrower() throws InvalidColourException {
+    public Flamethrower() {
         super();
         this.cardName = "Flamethrower";
         this.reloadCost = new AmmoCube[]{new AmmoCube(Colour.RED)};

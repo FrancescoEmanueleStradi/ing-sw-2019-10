@@ -7,7 +7,7 @@ import model.player.Player;
 
 public class Heatseeker extends WeaponCard {
 
-    public Heatseeker() throws InvalidColourException {
+    public Heatseeker() {
         super();
         this.cardName = "Heatseeker";
         this.reloadCost = new AmmoCube[]{new AmmoCube(Colour.RED), new AmmoCube(Colour.RED), new AmmoCube(Colour.YELLOW)};

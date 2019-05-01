@@ -21,7 +21,7 @@ public class DamageTrack {
         return damageTr;
     }
 
-    public void addDamage(int numDamage, Colour c){
+    public void addDamage(int numDamage, Colour c) {
         for(int i = 0; i < damageTr.length; i++){
             if(damageTr[i] == null && numDamage != 0) {
                 damageTr[i] = new DamageToken(c);
@@ -32,17 +32,17 @@ public class DamageTrack {
            }
     }
 
-    public DamageToken getDT(int index){
+    public DamageToken getDT(int index) {
         return this.damageTr[index];
     }
 
-    public void clean(){
+    public void clean() {
         for(int i=0; i<12; i++){
             damageTr[i] = null;
         }
     }
 
-    private int damageByColour(Colour c){
+    private int damageByColour(Colour c) {
         int n = 0;
         for(int i = 0; i < 12; i++){
             if(c.equals(this.damageTr[i].getC()))
@@ -51,7 +51,7 @@ public class DamageTrack {
         return n;
     }
 
-    private List<Colour> colours(){
+    private List<Colour> colours() {
         LinkedList<Colour> lC = new LinkedList<>();
         for(DamageToken d : this.damageTr){
             if(!lC.contains(d.getC()))
@@ -60,11 +60,11 @@ public class DamageTrack {
         return lC;
     }
 
-    public void cleanL(){
+    public void cleanL() {
         this.l.clear();
     }
 
-    private void initializeListNumColour(){
+    private void initializeListNumColour() {
         this.l = new LinkedList<>();
         for(Colour c : this.colours()){
             NumColour num = new NumColour(c);
@@ -72,7 +72,7 @@ public class DamageTrack {
         }
     }
 
-    private NumColour giveNumColour(Colour c){
+    private NumColour giveNumColour(Colour c) {
         NumColour nullColour = new NumColour(null);
         for(NumColour n : this.l){
             if(n.getC().equals(c))
@@ -81,7 +81,7 @@ public class DamageTrack {
         return nullColour;
     }
 
-    private void tie(){
+    private void tie() {
         for(int i = 0; i < this.l.size()-1; i++){
             for(int j = i+1; j < this.l.size() ; j++){
                 if(this.l.get(i).getNum() == this.l.get(j).getNum()){
@@ -96,7 +96,7 @@ public class DamageTrack {
         }
     }
 
-    private void listNumColour(){
+    private void listNumColour() {
         this.initializeListNumColour();
         for(DamageToken d : this.damageTr){
             giveNumColour(d.getC()).addNum();
@@ -104,24 +104,19 @@ public class DamageTrack {
         this.tie();
     }
 
-    private List<NumColour> getOrderedNumColour(){
+    private List<NumColour> getOrderedNumColour() {
         return this.l.stream().sorted((a, b) -> (a.colourDifference(b))).collect(Collectors.toList());
         }
 
-    private List<Colour> scoreBoard(){
+    private List<Colour> scoreBoard() {
         this.listNumColour();
         LinkedList<Colour> colour = new LinkedList<>();
         for(NumColour n : getOrderedNumColour())
             colour.add(n.getC());
         return colour;
-        }
-
-
+    }
 
     public Colour getColourPosition(int n){             //remember the clean
         return scoreBoard().get(n);
     }
-
-
-
 }

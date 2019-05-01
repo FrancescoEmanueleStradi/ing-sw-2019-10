@@ -2,14 +2,13 @@ package model.cards.ammocards;
 
 import model.player.AmmoCube;
 import model.Colour;
-import model.InvalidColourException;
 import model.cards.AmmoCard;
 
 import java.util.ArrayList;
 
-public class PBB extends AmmoCard{
+public class PBB extends AmmoCard {
 
-    public PBB() throws InvalidColourException {
+    public PBB() {
         super();
         this.aC = new ArrayList<>();
         this.aC.add(new AmmoCube(Colour.BLUE));

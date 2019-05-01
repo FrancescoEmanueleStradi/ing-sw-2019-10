@@ -2,10 +2,7 @@ package view;
 
 import controller.Game;
 import model.Colour;
-import model.InvalidColourException;
 import model.cards.PowerUpCard;
-import model.cards.WeaponCard;
-import model.player.Player;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -19,7 +16,7 @@ public class Cli extends View{
     private CLIWeaponPrompt wPrompt;
 
     @Override
-    public void askNameAndColour() throws InvalidColourException {
+    public void askNameAndColour() {
         Scanner in = new Scanner(System.in);
         if (this.game.gameIsNotStarted()) {
             System.out.println("Enter your name: ");
@@ -81,7 +78,7 @@ public class Cli extends View{
     }
 
     @Override
-    public void action1() throws InvalidColourException{
+    public void action1() {
         Scanner in = new Scanner(System.in);
         System.out.println("Choose the action you want to do (Move, Shoot, Grab): ");
         String action = in.nextLine();
@@ -108,7 +105,7 @@ public class Cli extends View{
         this.game.firstActionMove(this.nickName, l);
     }
 
-    private void shootFirstAction() throws InvalidColourException{
+    private void shootFirstAction() {
         Scanner in = new Scanner(System.in);
         System.out.println("Choose one of these cards to shoot: ");
         this.game.getWeaponCardLoaded(this.nickName).stream().forEach(System.out::println);

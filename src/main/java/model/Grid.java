@@ -22,7 +22,7 @@ public class Grid {
     private List<AmmoCard> ammoDiscardPile;
     private List<PowerUpCard> powerUpDiscardPile;
 
-    public Grid() throws InvalidColourException {
+    public Grid()  {
         this.players = new ArrayList<>();
         this.weaponDeck = new WeaponDeck();
         this.weaponDeck.startingShuffle();
@@ -400,7 +400,7 @@ public class Grid {
 
     //--------------------------------------------------------------------------------------
 
-    public Player ghostMove(Player p, List<Integer> directions) throws InvalidColourException{
+    public Player ghostMove(Player p, List<Integer> directions) {
         Player ghost = new Player("?gHoSt!", p.getC(), p.isFirstPlayerCard());
         ghost.setCell(p.getCell());
 
@@ -410,7 +410,7 @@ public class Grid {
         return ghost;
     }
 
-    public boolean canGhostMove(Player p, List<Integer> directions) throws InvalidColourException {
+    public boolean canGhostMove(Player p, List<Integer> directions)  {
         Player ghost = new Player("?gHoSt!", p.getC(), p.isFirstPlayerCard());
         ghost.setCell(p.getCell());
         Position initialPos = ghost.getCell().getP();

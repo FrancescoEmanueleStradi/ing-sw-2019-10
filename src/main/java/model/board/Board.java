@@ -277,7 +277,7 @@ public class Board {
         return w3;
     }
 
-    public void changeAmmoCard(Position p, AmmoCard a){
+    public void changeAmmoCard(Position p, AmmoCard a) {
         this.arena[p.getX()][p.getY()].setA(a);
     }
 

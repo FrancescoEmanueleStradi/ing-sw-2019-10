@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class GridAssertTests {
     @Test
-    void GridPlayersTest() throws InvalidColourException {
+    void GridPlayersTest()  {
         Grid grid = new Grid();
         assertTrue(grid.getPlayers().isEmpty());
         assertNull(grid.getPlayerObject("Player 1"));

@@ -1,7 +1,6 @@
 package model.decks;
 
 import model.Colour;
-import model.InvalidColourException;
 import model.cards.AmmoCard;
 import org.junit.jupiter.api.Test;
 
@@ -9,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class AmmoDeckAssertTests {
     @Test
-    void AmmoDeckTest() throws InvalidColourException {
+    void AmmoDeckTest()  {
         AmmoDeck aDeck = new AmmoDeck();
 
         assertEquals(36, aDeck.getDeck().size());

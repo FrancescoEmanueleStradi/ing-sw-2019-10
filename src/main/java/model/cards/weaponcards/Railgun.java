@@ -9,7 +9,7 @@ public class Railgun extends WeaponCard {
 
     private String alternativeEffect = "Piercing Mode";
 
-    public Railgun() throws InvalidColourException {
+    public Railgun() {
         super();
         this.cardName = "Railgun";
         this.reloadCost = new AmmoCube[]{new AmmoCube(Colour.YELLOW), new AmmoCube(Colour.YELLOW), new AmmoCube(Colour.BLUE)};

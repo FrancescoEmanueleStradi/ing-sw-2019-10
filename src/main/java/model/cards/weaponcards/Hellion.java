@@ -9,7 +9,7 @@ public class Hellion extends WeaponCard {
 
     private String alternativeEffect = "Nano-Tracer Mode";
 
-    public Hellion() throws InvalidColourException {
+    public Hellion() {
         super();
         this.cardName = "Hellion";
         this.reloadCost = new AmmoCube[]{new AmmoCube(Colour.RED), new AmmoCube(Colour.YELLOW)};

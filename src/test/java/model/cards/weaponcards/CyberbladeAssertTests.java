@@ -2,7 +2,6 @@ package model.cards.weaponcards;
 
 import model.Colour;
 import model.Grid;
-import model.InvalidColourException;
 import model.Position;
 import model.cards.WeaponCard;
 import model.player.Player;
@@ -12,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class CyberbladeAssertTests {
     @Test
-    void CyberbladeCorrectConstructor() throws InvalidColourException {
+    void CyberbladeCorrectConstructor()  {
         WeaponCard c = new Cyberblade();
 
         assertEquals("Cyberblade", c.getCardName());
@@ -30,7 +29,7 @@ class CyberbladeAssertTests {
     }
 
     @Test
-    void CyberbladeMethods() throws InvalidColourException {
+    void CyberbladeMethods()  {
         Cyberblade c = new Cyberblade();
 
         c.reload();

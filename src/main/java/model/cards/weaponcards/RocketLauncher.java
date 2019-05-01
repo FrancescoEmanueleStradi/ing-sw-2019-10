@@ -14,7 +14,7 @@ public class RocketLauncher extends WeaponCard {
     private Player firstEnemy;
     private Cell firstEnemyOriginalCell;
 
-    public RocketLauncher() throws InvalidColourException {
+    public RocketLauncher() {
         super();
         this.cardName = "Rocket Launcher";
         this.reloadCost = new AmmoCube[]{new AmmoCube(Colour.RED), new AmmoCube(Colour.RED)};

@@ -9,7 +9,7 @@ public class ZX2 extends WeaponCard {
 
     private String alternativeEffect = "Scanner Mode";
 
-    public ZX2() throws InvalidColourException {
+    public ZX2() {
         super();
         this.cardName = "ZX-2";
         this.reloadCost = new AmmoCube[]{new AmmoCube(Colour.YELLOW), new AmmoCube(Colour.RED)};

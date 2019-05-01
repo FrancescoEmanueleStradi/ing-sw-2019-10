@@ -7,7 +7,7 @@ import model.player.Player;
 
 public class Whisper extends WeaponCard {
 
-    public Whisper () throws InvalidColourException {
+    public Whisper () {
         super();
         this.cardName = "Whisper";
         this.reloadCost = new AmmoCube[]{new AmmoCube(Colour.BLUE), new AmmoCube(Colour.BLUE), new AmmoCube(Colour.YELLOW)};

@@ -6,12 +6,11 @@ public enum GameState {
     SHOOT("SH"), ENDTURN("ET"), RELOADED("R"), DEATH("D"), RESPAWN("RW"), FINALFRENZY("FF");
     private String abbreviation;
 
-    private GameState(String abbreviation){     //Ask professor about the private
+    private GameState(String abbreviation) {     //Ask professor about the private
         this.abbreviation = abbreviation;
     }
 
     public String getAbbreviation() {
         return abbreviation;
     }
-
 }

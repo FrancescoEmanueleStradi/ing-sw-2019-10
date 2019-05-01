@@ -2,7 +2,6 @@ package view;
 
 import controller.Game;
 import model.Colour;
-import model.InvalidColourException;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -17,7 +16,7 @@ public class CLIWeaponPrompt {
     private String promptE = "\nIf you are in Adrenaline, enter the direction of the move: ";
     private String promptErrorRetry = "\nError: retry your action\n";
 
-    public void shootToUser1(Game game, String nickName) throws InvalidColourException {
+    public void shootToUser1(Game game, String nickName) {
         Scanner in = new Scanner(System.in);
         String s = in.next();
         int i;
@@ -62,7 +61,7 @@ public class CLIWeaponPrompt {
         game.firstActionShoot(nickName, s, lI, lS, i, lC, lP);
     }
 
-   public void shootToUser2(Game game, String nickName) throws InvalidColourException {
+   public void shootToUser2(Game game, String nickName) {
        Scanner in = new Scanner(System.in);
        String s = in.next();
        int i;
@@ -101,7 +100,7 @@ public class CLIWeaponPrompt {
        game.firstActionShoot(nickName, s, lI, lS, i, lC, lP);
    }
 
-    public void shootToUser3(Game game, String nickName) throws InvalidColourException {
+    public void shootToUser3(Game game, String nickName) {
         Scanner in = new Scanner(System.in);
         String s = in.next();
         int i;
@@ -132,7 +131,7 @@ public class CLIWeaponPrompt {
         game.firstActionShoot(nickName, s, lI, lS, i, lC, lP);
     }
 
-    public void shootToUser4(Game game, String nickName) throws InvalidColourException {
+    public void shootToUser4(Game game, String nickName) {
         Scanner in = new Scanner(System.in);
         String s = in.next();
         int i;

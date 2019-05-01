@@ -1,6 +1,5 @@
 package model.board;
 
-import model.InvalidColourException;
 import model.cards.WeaponCard;
 import model.cards.weaponcards.Furnace;
 import model.cards.weaponcards.MachineGun;
@@ -12,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class WeaponSlotAssertTests {
     @Test
-    void WeaponSlotCorrectConstructor() throws InvalidColourException {
+    void WeaponSlotCorrectConstructor()  {
         WeaponCard wc1 = new MachineGun();
         WeaponCard wc2 = new MachineGun();
         WeaponCard wc3 = new MachineGun();
@@ -31,7 +30,7 @@ class WeaponSlotAssertTests {
 
 
     @Test
-    void WeaponSlotSetCard() throws InvalidColourException {
+    void WeaponSlotSetCard()  {
         WeaponCard wc1 = new MachineGun();
         WeaponCard wc2 = new MachineGun();
         WeaponCard wc3 = new MachineGun();

@@ -7,7 +7,7 @@ import model.player.Player;
 
 public class TargetingScope extends PowerUpCard {
 
-    public TargetingScope(Colour c) throws InvalidColourException {
+    public TargetingScope(Colour c) {
         super();
         this.cardName = "Targeting Scope";
         this.c = c;

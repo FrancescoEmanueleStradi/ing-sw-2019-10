@@ -9,7 +9,7 @@ public class Electroscythe extends WeaponCard {
 
     private String alternativeEffect = "Reaper Mode";
 
-    public Electroscythe() throws InvalidColourException {
+    public Electroscythe() {
         super();
         this.cardName = "Electroscythe";
         this.reloadCost = new AmmoCube[]{new AmmoCube(Colour.BLUE)};

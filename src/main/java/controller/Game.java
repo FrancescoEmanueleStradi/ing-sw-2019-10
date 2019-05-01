@@ -904,13 +904,15 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         for(Colour c : lAInput)
             lA.add(new AmmoCube(c));
         AmmoCube[] cubeArray = lA.stream().toArray(AmmoCube[]::new);
-        if(!p.checkAmmoCube(cubeArray))
+        if(!p.checkAmmoCube(cubeArray) && wCard != null)
             return false;
         List<PowerUpCard> lP= new LinkedList<>();
-        for(String s : lPInput) {
-            if (p.getPowerUpCardObject(s) == null)
-                return false;
-            lP.add(p.getPowerUpCardObject(s));
+        if(!lPInput.isEmpty()) {
+            for (String s : lPInput) {
+                if (p.getPowerUpCardObject(s) == null)
+                    return false;
+                lP.add(p.getPowerUpCardObject(s));
+            }
         }
         if(this.gameState.equals(ACTION1) && (directions.length <= 2)) {
             if(!p.isAdrenaline1() && directions.length == 1 && this.grid.canMove(p, directions[0])) {
@@ -989,13 +991,15 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         for(Colour c : lAInput)
             lA.add(new AmmoCube(c));
         AmmoCube[] cubeArray = lA.stream().toArray(AmmoCube[]::new);
-        if(!p.checkAmmoCube(cubeArray))
+        if(!p.checkAmmoCube(cubeArray) && wCard != null)
             return false;
         List<PowerUpCard> lP= new LinkedList<>();
-        for(String s : lPInput) {
-            if (p.getPowerUpCardObject(s) == null)
-                return false;
-            lP.add(p.getPowerUpCardObject(s));
+        if(!lPInput.isEmpty()) {
+            for (String s : lPInput) {
+                if (p.getPowerUpCardObject(s) == null)
+                    return false;
+                lP.add(p.getPowerUpCardObject(s));
+            }
         }
         if(this.gameState.equals(ACTION2) && (directions.length <= 2)) {
             if(!p.isAdrenaline1() && directions.length == 1 && this.grid.canMove(p, directions[0])) {
@@ -1361,13 +1365,15 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         for(Colour c : lAInput)
             lA.add(new AmmoCube(c));
         AmmoCube[] cubeArray = lA.stream().toArray(AmmoCube[]::new);
-        if(!p.checkAmmoCube(cubeArray))
+        if(!p.checkAmmoCube(cubeArray) && wCard != null)
             return false;
         List<PowerUpCard> lP= new LinkedList<>();
-        for(String s : lPInput) {
-            if (p.getPowerUpCardObject(s) == null)
-                return false;
-            lP.add(p.getPowerUpCardObject(s));
+        if(!lPInput.isEmpty()) {
+            for (String s : lPInput) {
+                if (p.getPowerUpCardObject(s) == null)
+                    return false;
+                lP.add(p.getPowerUpCardObject(s));
+            }
         }
         if(wCardInput.equals("") || (((!wCardInput.equals("") && wCard != null) && (wSlotInput.equals("1") &&p.getCell().getP().getX() == 0 &&p.getCell().getP().getY() == 2)) ||
                 (wSlotInput.equals("2") && p.getCell().getP().getX() == 2 && p.getCell().getP().getY() == 3) ||

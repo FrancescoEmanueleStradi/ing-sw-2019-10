@@ -870,7 +870,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
             wS.setCard3(wC);
     }
 
-    private void grabAdrenaline(Player p, int[] d, WeaponCard w, List<AmmoCube> lA, List<PowerUpCard> lP) {
+    private void grabAdrenaline(Player p, Integer[] d, WeaponCard w, List<AmmoCube> lA, List<PowerUpCard> lP) {
         this.grid.move(p, d[0]);
         if(d.length == 2)
             this.grid.move(p, d[1]);
@@ -930,7 +930,8 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         return false;
     }
 
-    public void firstActionGrab(String nickName, int[] directions, String wCardInput, List<Colour> lAInput, List<String> lPInput) { //directions contains where p wants to go. directions contains '0' if p doesn't want to move and only grab
+
+    public void firstActionGrab(String nickName, Integer[] directions, String wCardInput, List<Colour> lAInput, List<String> lPInput) { //directions contains where p wants to go. directions contains '0' if p doesn't want to move and only grab
         Player p = this.grid.getPlayerObject(nickName);
         WeaponCard wCard = this.grid.getWeaponCardObject(wCardInput);
         List<AmmoCube> l= new LinkedList<>();
@@ -1017,8 +1018,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         return false;
     }
 
-
-    public void secondActionGrab(String nickName, int[] directions, String wCardInput, List<Colour> lAInput, List<String> lPInput) { //directions contains where p wants to go. directions contains '0' if p doesn't want to move and only grab
+    public void secondActionGrab(String nickName, Integer[] directions, String wCardInput, List<Colour> lAInput, List<String> lPInput) { //directions contains where p wants to go. directions contains '0' if p doesn't want to move and only grab
         Player p = this.grid.getPlayerObject(nickName);
         WeaponCard wCard = this.grid.getWeaponCardObject(wCardInput);
         List<AmmoCube> l= new LinkedList<>();

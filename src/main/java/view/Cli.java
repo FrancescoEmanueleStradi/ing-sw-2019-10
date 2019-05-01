@@ -15,6 +15,15 @@ public class Cli extends View{
     private Colour colour;
     private CLIWeaponPrompt wPrompt;
 
+
+    public Game getGame() {
+        return game;
+    }
+
+    public String getNickName() {
+        return nickName;
+    }
+
     @Override
     public void askNameAndColour() {
         Scanner in = new Scanner(System.in);
@@ -121,8 +130,8 @@ public class Cli extends View{
         /*List<Integer> lI = new LinkedList<>();
         List<String> lS = new LinkedList<>();
         List<Colour> lC = new LinkedList<>();
-        List<String> lP = new LinkedList<>();*/
-        int i;
+        List<String> lP = new LinkedList<>();
+        int i;*/
         switch(s){
             case "Cyberblade":
                 wPrompt.shootToUser1(game, nickName);
@@ -829,7 +838,46 @@ public class Cli extends View{
     }
 
     private void grabFirstAction() {
-        //TODO
+        Scanner in = new Scanner(System.in);
+        Integer[] directions = null;
+        List<Integer> l = new LinkedList<>();
+        List<Colour> lC = new LinkedList<>();
+        List<String> lP = new LinkedList<>();
+        String wCard;
+        String weaponSlot = null;
+        System.out.println("Enter the direction(s) where you want to move");
+        while (in.hasNext())
+            l.add(in.nextInt());
+        System.out.println("Write the Weapon card you want to buy, if you want");
+        wCard = in.next();
+        if(!wCard.equals("")) {
+            System.out.println("Write the number of the weapon slot from which you want to buy the card:");
+            weaponSlot = in.next();
+            System.out.println("Enter the colour(s) of the required AmmoCube(s) needed for the effect:");
+            while ((in.hasNext()))
+                lC.add(Colour.valueOf(in.next()));
+            System.out.println("Enter the PowerUpCard you want to use for paying during your turn:");
+            while ((in.hasNext()))
+                lP.add(in.next());
+        }
+        while (!this.game.isValidFirstActionGrab(nickName, l.toArray(directions), wCard, weaponSlot, lC, lP)){
+            System.out.println("Enter the direction(s) where you want to move");
+            while (in.hasNext())
+                l.add(in.nextInt());
+            System.out.println("Write the Weapon card you want to buy, if you want");
+            wCard = in.next();
+            if(!wCard.equals("")) {
+                System.out.println("Write the number of the weapon slot from which you want to buy the card:");
+                weaponSlot = in.next();
+                System.out.println("Enter the colour(s) of the required AmmoCube(s) needed for the effect:");
+                while ((in.hasNext()))
+                    lC.add(Colour.valueOf(in.next()));
+                System.out.println("Enter the PowerUpCard you want to use for paying during your turn:");
+                while ((in.hasNext()))
+                    lP.add(in.next());
+            }
+        }
+        this.game.firstActionGrab(nickName, l.toArray(directions), wCard, lC, lP );
     }
 
     @Override
@@ -844,7 +892,7 @@ public class Cli extends View{
         if(action.equals("Move"))
             this.moveSecondAction();
         if(action.equals("Shoot"))
-            this.shootSecondAction();
+            this.shootSecondAction() ;
         if(action.equals("Grab"))
             this.grabSecondAction();
     }
@@ -860,21 +908,149 @@ public class Cli extends View{
         this.game.firstActionMove(this.nickName, l);
     }
 
-    private void shootSecondAction(){
+    private void shootSecondAction() throws InvalidColourException {  Scanner in = new Scanner(System.in);
+        System.out.println("Choose one of these cards to shoot: ");
+        this.game.getWeaponCardLoaded(this.nickName).stream().forEach(System.out::println);
+        String s = in.next();
+        while(this.game.isValidCard(nickName, s)){
+            System.out.println("Error: choose one of these cards to shoot: ");
+            this.game.getWeaponCardLoaded(this.nickName).stream().forEach(System.out::println);
+            s = in.next();
+        }
+        System.out.println(this.game.getReloadCost(s, nickName));
+        System.out.println(this.game.getDescriptionWC(s,nickName));
+
+        switch(s){
+            case "Cyberblade":
+                wPrompt.shoot2ToUser1(game, nickName);
+                break;
+
+            case "Electroscythe":
+                wPrompt.shoot2ToUser2(game, nickName);
+                break;
+
+            case "Flamethrower":
+                wPrompt.shoot2ToUser1(game, nickName);
+                break;
+
+            case "Furnace":
+                wPrompt.shoot2ToUser3(game, nickName);
+                break;
+
+            case "Grenade Launcher":
+                wPrompt.shoot2ToUser1(game, nickName);
+                break;
+
+            case "Heatseeker":
+                wPrompt.shoot2ToUser3(game, nickName);
+                break;
+
+            case "Hellion":
+                wPrompt.shoot2ToUser1(game, nickName);
+                break;
+
+            case "Lock Rifle":
+                wPrompt.shoot2ToUser1(game, nickName);
+                break;
+
+            case "Machine Gun":
+                wPrompt.shoot2ToUser1(game, nickName);
+                break;
+
+            case "Plasma Gun":
+                wPrompt.shoot2ToUser1(game, nickName);
+                break;
+
+            case "Power Glove":
+                wPrompt.shoot2ToUser1(game, nickName);
+                break;
+
+            case "Railgun":
+                wPrompt.shoot2ToUser3(game, nickName);
+                break;
+
+            case "Rocket Launcher":
+                wPrompt.shoot2ToUser1(game, nickName);
+                break;
+
+            case "Shockwave":
+                wPrompt.shoot2ToUser1(game, nickName);
+                break;
+
+            case "Shotgun":
+                wPrompt.shoot2ToUser3(game, nickName);
+                break;
+
+            case "Sledgehammer":
+                wPrompt.shoot2ToUser1(game, nickName);
+                break;
+
+            case "T.H.O.R.":
+                wPrompt.shoot2ToUser1(game, nickName);
+                break;
+
+            case "Tractor Beam":
+                wPrompt.shoot2ToUser1(game, nickName);
+                break;
+
+            case "Vortex Cannon":
+                wPrompt.shoot2ToUser1(game, nickName);
+                break;
+
+            case "Whisper":
+                wPrompt.shoot2ToUser4(game, nickName);
+                break;
+
+            case "ZX-2":
+                wPrompt.shoot2ToUser3(game, nickName);
+                break;
+        }
 
     }
 
     private void grabSecondAction(){
-
+        Scanner in = new Scanner(System.in);
+        Integer[] directions = null;
+        List<Integer> l = new LinkedList<>();
+        List<Colour> lC = new LinkedList<>();
+        List<String> lP = new LinkedList<>();
+        String wCard;
+        String weaponSlot = null;
+        System.out.println("Enter the direction(s) where you want to move");
+        while (in.hasNext())
+            l.add(in.nextInt());
+        System.out.println("Write the Weapon card you want to buy, if you want");
+        wCard = in.next();
+        if(!wCard.equals("")) {
+            System.out.println("Write the number of the weapon slot from which you want to buy the card:");
+            weaponSlot = in.next();
+            System.out.println("Enter the colour(s) of the required AmmoCube(s) needed for the effect:");
+            while ((in.hasNext()))
+                lC.add(Colour.valueOf(in.next()));
+            System.out.println("Enter the PowerUpCard you want to use for paying during your turn:");
+            while ((in.hasNext()))
+                lP.add(in.next());
+        }
+        while (!this.game.isValidSecondActionGrab(nickName, l.toArray(directions), wCard, weaponSlot, lC, lP)){
+            System.out.println("Enter the direction(s) where you want to move");
+            while (in.hasNext())
+                l.add(in.nextInt());
+            System.out.println("Write the Weapon card you want to buy, if you want");
+            wCard = in.next();
+            if(!wCard.equals("")) {
+                System.out.println("Write the number of the weapon slot from which you want to buy the card:");
+                weaponSlot = in.next();
+                System.out.println("Enter the colour(s) of the required AmmoCube(s) needed for the effect:");
+                while ((in.hasNext()))
+                    lC.add(Colour.valueOf(in.next()));
+                System.out.println("Enter the PowerUpCard you want to use for paying during your turn:");
+                while ((in.hasNext()))
+                    lP.add(in.next());
+            }
+        }
+        this.game.secondActionGrab(nickName, l.toArray(directions), wCard, lC, lP );
     }
 
-    public Game getGame() {
-        return game;
-    }
-
-    public String getNickName() {
-        return nickName;
-    }
 
     @Override
     public void reload() {               //the player knows everything!

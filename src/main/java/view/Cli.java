@@ -1053,6 +1053,75 @@ public class Cli extends View{
         this.game.secondActionGrab(nickName, l.toArray(directions), wCard, lC, lP );
     }
 
+    public void usePowerUpCard(){
+        Scanner in = new Scanner(System.in);
+        String namePC;
+        List<String> lS = new LinkedList<>();
+        System.out.println("Enter which power up card you want to use:");
+        this.game.getPowerUpCard(nickName).stream().forEach(System.out::println);
+        namePC = in.next();
+        switch (namePC){
+            case "Tagback Grenade":
+                System.out.println("Enter the nickname of a player you can see and that gave you damage:");
+                lS.add(in.next());
+                while(!this.game.isValidUsePowerUpCard(nickName, namePC, lS, null)){
+                    System.out.println("Error: repeat");
+                    System.out.println("Enter the nickname of a player you can see and that gave you damage:");
+                    lS.add(in.next());
+                }
+                this.game.usePowerUpCard(nickName, namePC, lS, null);
+                break;
+
+            case "Targeting Scope":
+                System.out.println("Enter the nickname of one or more players you have damaged:");
+                while(in.hasNext())
+                    lS.add(in.next());
+                System.out.println("Enter the colour of the ammo cube you want to use to pay:");
+                Colour c = Colour.valueOf(in.next());
+                while(!this.game.isValidUsePowerUpCard(nickName, namePC, lS, c)){
+                    System.out.println("Error: repeat");
+                    System.out.println("Enter the nickname of one or more players you have damaged:");
+                    while(in.hasNext())
+                        lS.add(in.next());
+                    System.out.println("Enter the colour of the ammo cube you want to use to pay:");
+                    c = Colour.valueOf(in.next());
+                }
+                this.game.usePowerUpCard(nickName, namePC, lS, c);
+                break;
+
+            case "Newton":
+                System.out.println("Enter the nickname of a player:");
+                lS.add(in.next());
+                System.out.println("write the directions where you want the enemy to go:");
+                while(in.hasNext())
+                    lS.add(in.next());
+                while(!this.game.isValidUsePowerUpCard(nickName, namePC, lS, null)){
+                    System.out.println("Error: repeat");
+                    System.out.println("Enter the nickname of a player:");
+                    lS.add(in.next());
+                    System.out.println("write the directions where you want the enemy to go:");
+                    while(in.hasNext())
+                        lS.add(in.next());
+                }
+                this.game.usePowerUpCard(nickName, namePC, lS, null);
+                break;
+
+            case "Teleporter":
+                System.out.println("Enter the coordinates of the cell you want to move:");
+                lS.add(in.next());
+                lS.add(in.next());
+                while(!this.game.isValidUsePowerUpCard(nickName, namePC, lS, null)) {
+                    System.out.println("Error: repeat");
+                    System.out.println("Enter the coordinates of the cell you want to move:");
+                    lS.add(in.next());
+                    lS.add(in.next());
+                }
+                this.game.usePowerUpCard(nickName, namePC, lS, null);
+                break;
+        }
+
+    }
+
 
     @Override
     public void reload() {               //the player knows everything!

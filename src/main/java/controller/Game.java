@@ -1,7 +1,6 @@
 package controller;
 
 import model.*;
-import model.board.Cell;
 import model.board.WeaponSlot;
 import model.cards.AmmoCard;
 import model.cards.PowerUpCard;
@@ -729,7 +728,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                 break;
         }
         p.getWeaponCardObject(nameWC).unload();
-        p.payWeaponCard(lA, lP);
+        p.payCard(lA, lP);
         this.grid.getPowerUpDiscardPile().addAll(lP);
     }
 
@@ -849,7 +848,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
             giveWhatIsOnAmmoCard(p, p.getCell().getA());
         else if((p.getCell().getStatus() == 1) && wCard != null) {
             if(canPay(wCard, choosePayment(lA, lP)))
-                p.payWeaponCard(lA, lP);
+                p.payCard(lA, lP);
         }
         if(p.getwC().size() > 3)
             this.discard = true;                    //View saved the Weapon Slot
@@ -878,7 +877,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
             giveWhatIsOnAmmoCard(p, p.getCell().getA());
         else if((p.getCell().getStatus() == 1) && w != null) {
             if(canPay(w, choosePayment(lA, lP)))
-                p.payWeaponCard(lA, lP);
+                p.payCard(lA, lP);
         }
         if(p.getwC().size() > 3)
             this.discard = true;
@@ -1079,7 +1078,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 //----------------------------------------------------------------------------------------------------
 
 
-    public boolean isValidUsePowerUpCard(String nickName, String namePC, List<String> lS) {
+    public boolean isValidUsePowerUpCard(String nickName, String namePC, List<String> lS, Colour c) {
         Player p = this.grid.getPlayerObject(nickName);
         boolean x = false;
         if(this.gameState.equals(ACTION1) || this.gameState.equals(ACTION2)) {
@@ -1090,9 +1089,10 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                     if(this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(0))))
                         x = true;
                     break;
-                //TODO
                 case "Targeting Scope" :
-
+                    if(p.checkAmmoCube(new AmmoCube[]{new AmmoCube(c)}))                //TODO this should be implemented server-side
+                        x = true;
+                    break;
             }
         }
         if(this.gameState.equals(STARTTURN) || this.gameState.equals(ACTION1) || this.gameState.equals(ACTION2)) {
@@ -1118,7 +1118,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         return x;
     }
 
-    public void usePowerUpCard(String nickName, String namePC, List<String> lS) {
+    public void usePowerUpCard(String nickName, String namePC, List<String> lS, Colour c) {
         Player p = this.grid.getPlayerObject(nickName);
         switch(namePC) {
             case "Newton" :
@@ -1136,8 +1136,15 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                 break;
             case "Tagback Grenade" :
                 ((TagbackGrenade) p.getPowerUpCardObject(namePC)).applyEffect(this.grid, p, this.grid.getPlayerObject(lS.get(0)));
+                break;
             case "Targeting Scope" :
-                ((TargetingScope) p.getPowerUpCardObject(namePC)).applyEffect(this.grid, p, this.grid.getPlayerObject(lS.get(0)));
+                for(String s : lS) {
+                    ((TargetingScope) p.getPowerUpCardObject(namePC)).applyEffect(this.grid, p, this.grid.getPlayerObject(s));
+                }
+                List<AmmoCube> lA = new LinkedList<>();
+                lA.add(new AmmoCube(c));
+                p.payCard(lA, null);
+                break;
         }
     }
 
@@ -1383,7 +1390,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
             giveWhatIsOnAmmoCard(p, p.getCell().getA());
         else if((p.getCell().getStatus() == 1) && wCard != null) {
             if(canPay(wCard, choosePayment(lA, lP)))
-                p.payWeaponCard(lA, lP);
+                p.payCard(lA, lP);
         }
         if(p.getwC().size() > 3)
             this.discard = true;                    //View saved the Weapon Slot

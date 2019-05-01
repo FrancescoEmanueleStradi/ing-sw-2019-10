@@ -265,7 +265,7 @@ class PlayerAssertTests {
         List<AmmoCube> cubes = new LinkedList<>();
         List<PowerUpCard> cards = new LinkedList<>();
 
-        p1.payWeaponCard(cubes, cards);
+        p1.payCard(cubes, cards);
 
         assertTrue(p1.getpC().isEmpty());
         assertEquals(9, p1.getaC().length);
@@ -285,7 +285,7 @@ class PlayerAssertTests {
         cubes.add(p1.getaC()[6]);
         cards.add(card1);
 
-        p1.payWeaponCard(cubes, cards);
+        p1.payCard(cubes, cards);
 
         assertEquals(9, p1.getaC().length);
         assertEquals(Colour.RED, p1.getaC()[0].getC());
@@ -301,7 +301,7 @@ class PlayerAssertTests {
         assertTrue(p1.getpC().isEmpty());
 
         cubes.add(p1.getaC()[3]);
-        p1.payWeaponCard(cubes, cards);
+        p1.payCard(cubes, cards);
 
         assertEquals(9, p1.getaC().length);
         assertEquals(Colour.RED, p1.getaC()[0].getC());

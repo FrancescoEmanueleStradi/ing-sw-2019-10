@@ -146,7 +146,7 @@ public class Player {
             removeAC(a1);
     }
 
-    public void payWeaponCard(List<AmmoCube> lA, List<PowerUpCard> lP){
+    public void payCard(List<AmmoCube> lA, List<PowerUpCard> lP){
         if(!lA.isEmpty()) {
             for(AmmoCube a : lA)
                 this.removeAC(a);

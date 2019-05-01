@@ -7,10 +7,9 @@ import model.player.Player;
 
 public class LockRifle extends WeaponCard {
 
-
     private String optionalEffect = "Second Lock";
 
-    public LockRifle() throws InvalidColourException {
+    public LockRifle() {
         super();
         this.cardName = "Lock Rifle";
         this.reloadCost = new AmmoCube[]{new AmmoCube(Colour.BLUE), new AmmoCube(Colour.BLUE)};
@@ -19,7 +18,6 @@ public class LockRifle extends WeaponCard {
         this.description = "basic effect: Deal 2 damage and 1 mark to 1 target you can see.\n" +
                              "with second lock: Deal 1 mark to a different target you can see.\n";
     }
-
 
     public String getOptionalEffect() {
         return optionalEffect;

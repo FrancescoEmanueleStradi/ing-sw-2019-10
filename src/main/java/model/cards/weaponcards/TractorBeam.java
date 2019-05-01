@@ -12,7 +12,7 @@ public class TractorBeam extends WeaponCard {
 
     private String alternativeEffect = "Punisher Mode";
 
-    public TractorBeam() throws InvalidColourException {
+    public TractorBeam() {
         super();
         this.cardName = "Tractor Beam";
         this.reloadCost = new AmmoCube[]{new AmmoCube(Colour.BLUE)};

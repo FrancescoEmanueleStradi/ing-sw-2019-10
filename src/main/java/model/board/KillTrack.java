@@ -20,7 +20,6 @@ public class KillTrack {
         return skulls;
     }
 
-
     public void setC(Colour[] c) {
         this.c = c;
     }

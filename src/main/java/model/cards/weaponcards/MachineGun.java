@@ -10,7 +10,7 @@ public class MachineGun extends WeaponCard {
     private String optionalEffect1 = "Focus Shot";
     private String optionalEffect2 = "Turret Tripod";
 
-    public MachineGun() throws InvalidColourException {
+    public MachineGun() {
         super();
         this.cardName = "Machine Gun";
         this.reloadCost = new AmmoCube[]{new AmmoCube(Colour.BLUE), new AmmoCube(Colour.RED)};

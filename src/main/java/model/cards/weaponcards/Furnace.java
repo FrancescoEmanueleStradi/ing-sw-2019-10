@@ -10,7 +10,7 @@ public class Furnace extends WeaponCard {
 
     private String alternativeEffect = "Cozy Fire Mode";
 
-    public Furnace() throws InvalidColourException {
+    public Furnace() {
         super();
         this.cardName = "Furnace";
         this.reloadCost = new AmmoCube[]{new AmmoCube(Colour.RED), new AmmoCube(Colour.BLUE)};

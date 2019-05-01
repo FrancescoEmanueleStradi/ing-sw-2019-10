@@ -3,7 +3,6 @@ package model.cards.powerupcards;
 import model.*;
 import model.player.AmmoCube;
 import model.Colour;
-import model.InvalidColourException;
 import model.cards.PowerUpCard;
 import model.player.Player;
 
@@ -11,7 +10,7 @@ import java.util.List;
 
 public class Newton extends PowerUpCard {
 
-    public Newton(Colour c) throws InvalidColourException {
+    public Newton(Colour c) {
         super();
         this.cardName = "Newton";
         this.c = c;

@@ -9,7 +9,7 @@ public class Shockwave extends WeaponCard {
 
     private String alternativeEffect = "Tsunami Mode";
 
-    public Shockwave() throws InvalidColourException {
+    public Shockwave() {
         super();
         this.cardName = "Shockwave";
         this.reloadCost = new AmmoCube[]{new AmmoCube(Colour.YELLOW)};

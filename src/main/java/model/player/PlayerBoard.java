@@ -52,7 +52,7 @@ public class PlayerBoard {
         return marks;
     }
 
-    public void addMark(DamageToken d){
+    public void addMark(DamageToken d) {
         int i = 0;
         for(DamageToken dT : this.marks) {
             if (d.getC().equals(dT.getC()))
@@ -63,7 +63,7 @@ public class PlayerBoard {
         this.marks.add(d);
     }
 
-    public void clearMark(Colour c){
+    public void clearMark(Colour c) {
         for(int i = this.marks.size() - 1; i >= 0 ; i--){
             if(this.marks.get(i).getC() == c)
                 this.marks.remove(i);

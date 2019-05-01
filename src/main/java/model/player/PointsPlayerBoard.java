@@ -7,7 +7,7 @@ public class PointsPlayerBoard {
 
     private ArrayList<Integer> points = new ArrayList<>();
 
-    public PointsPlayerBoard(){
+    public PointsPlayerBoard() {
         points.add(1);
         points.add(8);
         points.add(6);
@@ -21,14 +21,11 @@ public class PointsPlayerBoard {
         return points;
     }
 
-    public int getInt(int index){
+    public int getInt(int index) {
         return this.points.get(index);
     }
 
-
-    public void remove(){
+    public void remove() {
         this.points.remove(1);
     }
-
-
 }

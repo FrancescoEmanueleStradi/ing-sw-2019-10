@@ -1,7 +1,6 @@
 package model.board;
 
 import model.Colour;
-import model.InvalidColourException;
 import model.Position;
 import model.cards.AmmoCard;
 import model.cards.ammocards.BRR;
@@ -50,7 +49,7 @@ class CellAssertTests {
     }
 
     @Test
-    void CellAmmoCardTest() throws InvalidColourException  {
+    void CellAmmoCardTest()   {
         AmmoCard ammocard = new BRR();
         int[] walls = new int[]{0, 1};
         int[] doors = new int[]{2, 3};

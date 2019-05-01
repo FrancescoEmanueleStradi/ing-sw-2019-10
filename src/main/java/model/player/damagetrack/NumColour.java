@@ -54,7 +54,7 @@ public class NumColour {
         this.cTie = cTie;
     }
 
-    public int colourDifference(NumColour n){
+    public int colourDifference(NumColour n) {
         if(this.getNum() >= n.getNum())
             return this.getNum();
         else return n.getNum();

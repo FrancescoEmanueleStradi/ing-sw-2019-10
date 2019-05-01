@@ -2,7 +2,6 @@ package model.cards.weaponcards;
 
 import model.Colour;
 import model.Grid;
-import model.InvalidColourException;
 import model.cards.WeaponCard;
 import model.player.Player;
 import org.junit.jupiter.api.Test;
@@ -11,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class LockRifleAssertTests {
     @Test
-    void LockRifleCorrectConstructor() throws InvalidColourException {
+    void LockRifleCorrectConstructor()  {
         WeaponCard lr = new LockRifle();
 
         assertEquals("Lock Rifle", lr.getCardName());
@@ -26,7 +25,7 @@ class LockRifleAssertTests {
     }
 
     @Test
-    void LockRifleMethods() throws InvalidColourException {
+    void LockRifleMethods()  {
         LockRifle lr = new LockRifle();
 
         lr.reload();

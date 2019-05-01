@@ -13,7 +13,7 @@ public class VortexCannon extends WeaponCard {
 
     private String optionalEffect1 = "Black Hole";
 
-    public VortexCannon() throws InvalidColourException {
+    public VortexCannon() {
         super();
         this.cardName = "Vortex Cannon";
         this.reloadCost = new AmmoCube[]{new AmmoCube(Colour.RED), new AmmoCube(Colour.BLUE)};

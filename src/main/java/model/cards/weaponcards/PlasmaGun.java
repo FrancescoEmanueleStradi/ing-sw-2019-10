@@ -10,7 +10,7 @@ public class PlasmaGun extends WeaponCard {
     private String optionalEffect1 = "Phase Glide";
     private String optionalEffect2 = "Charged Shot";
 
-    public PlasmaGun() throws InvalidColourException {
+    public PlasmaGun() {
         super();
         this.cardName = "Plasma Gun";
         this.reloadCost = new AmmoCube[]{new AmmoCube(Colour.BLUE), new AmmoCube(Colour.YELLOW)};

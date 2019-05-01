@@ -1,7 +1,6 @@
 package model.decks;
 
 import model.Colour;
-import model.InvalidColourException;
 import model.cards.PowerUpCard;
 import model.cards.powerupcards.Newton;
 import model.cards.powerupcards.TagbackGrenade;
@@ -15,7 +14,7 @@ public class PowerUpDeck extends Deck {
 
     private ArrayList<PowerUpCard> deck = new ArrayList<>();
 
-    public PowerUpDeck() throws InvalidColourException {
+    public PowerUpDeck() {
         TargetingScope c1 = new TargetingScope(Colour.RED);
             deck.add(c1);
         TargetingScope c2 = new TargetingScope(Colour.RED);
@@ -77,7 +76,7 @@ public class PowerUpDeck extends Deck {
         return this.deck;
     }
 
-    public void addCard(PowerUpCard c){
+    public void addCard(PowerUpCard c) {
         this.getDeck().add(c);
     }
 
@@ -85,9 +84,5 @@ public class PowerUpDeck extends Deck {
         PowerUpCard p = this.deck.get(0);
         this.deck.remove(0);
         return p;
-    }
-
-    public void getPowerUpCardObject(String s) {
-
     }
 }

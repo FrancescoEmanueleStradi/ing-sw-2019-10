@@ -7,7 +7,7 @@ import model.player.Player;
 
 public class TagbackGrenade extends PowerUpCard {
 
-    public TagbackGrenade(Colour c) throws InvalidColourException {
+    public TagbackGrenade(Colour c) {
         super();
         this.cardName = "Tagback Grenade";
         this.c = c;

@@ -10,7 +10,7 @@ public class THOR extends WeaponCard {
     private String optionalEffect1 = "Chain Reaction";
     private String optionalEffect2 = "High Voltage";
 
-    public THOR() throws InvalidColourException {
+    public THOR() {
         super();
         this.cardName = "T.H.O.R.";
         this.reloadCost = new AmmoCube[]{new AmmoCube(Colour.BLUE), new AmmoCube(Colour.RED)};

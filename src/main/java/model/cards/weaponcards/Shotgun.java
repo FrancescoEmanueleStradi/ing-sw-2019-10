@@ -9,7 +9,7 @@ public class Shotgun extends WeaponCard {
 
     private String alternativeEffect = "Long Barrel Mode";
 
-    public Shotgun() throws InvalidColourException {
+    public Shotgun() {
         super();
         this.cardName = "Shotgun";
         this.reloadCost = new AmmoCube[]{new AmmoCube(Colour.YELLOW), new AmmoCube(Colour.YELLOW)};

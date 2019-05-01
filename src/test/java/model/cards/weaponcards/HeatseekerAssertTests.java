@@ -2,7 +2,6 @@ package model.cards.weaponcards;
 
 import model.Colour;
 import model.Grid;
-import model.InvalidColourException;
 import model.Position;
 import model.cards.WeaponCard;
 import model.player.Player;
@@ -12,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class HeatseekerAssertTests {
     @Test
-    void HeatseekerCorrectConstructor() throws InvalidColourException {
+    void HeatseekerCorrectConstructor()  {
         WeaponCard h = new Heatseeker();
 
         assertEquals("Heatseeker", h.getCardName());
@@ -28,7 +27,7 @@ class HeatseekerAssertTests {
     }
 
     @Test
-    void HeatseekerMethods() throws InvalidColourException {
+    void HeatseekerMethods()  {
         Heatseeker h = new Heatseeker();
 
         h.reload();

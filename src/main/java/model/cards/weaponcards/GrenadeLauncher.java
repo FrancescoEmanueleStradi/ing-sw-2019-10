@@ -10,7 +10,7 @@ public class GrenadeLauncher extends WeaponCard {
 
     private String optionalEffect1 = "Extra Grenade";
 
-    public GrenadeLauncher() throws InvalidColourException {
+    public GrenadeLauncher() {
         super();
         this.cardName = "Grenade Launcher";
         this.reloadCost = new AmmoCube[]{new AmmoCube(Colour.RED)};

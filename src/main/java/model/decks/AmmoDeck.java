@@ -1,6 +1,5 @@
 package model.decks;
 
-import model.InvalidColourException;
 import model.cards.AmmoCard;
 import model.cards.ammocards.*;
 
@@ -11,7 +10,7 @@ public class AmmoDeck extends Deck {
 
     private ArrayList<AmmoCard> deck = new ArrayList<>();
 
-    public AmmoDeck () throws InvalidColourException {
+    public AmmoDeck () {
         BRR c1 = new BRR();
         deck.add(c1);
         BRR c2 = new BRR();
@@ -111,7 +110,7 @@ public class AmmoDeck extends Deck {
         return a;
     }
 
-    public void addCard(AmmoCard a){                //we don't desire to shuffle
+    public void addCard(AmmoCard a) {                //we don't desire to shuffle
         deck.add(a);
     }
 }

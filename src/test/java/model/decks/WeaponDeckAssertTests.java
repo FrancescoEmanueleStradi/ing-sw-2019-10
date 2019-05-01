@@ -1,6 +1,5 @@
 package model.decks;
 
-import model.InvalidColourException;
 import model.cards.WeaponCard;
 import model.cards.weaponcards.MachineGun;
 import org.junit.jupiter.api.Test;
@@ -9,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class WeaponDeckAssertTests {
     @Test
-    void WeaponDeckTest() throws InvalidColourException {
+    void WeaponDeckTest()  {
         WeaponDeck wDeck = new WeaponDeck();
 
         assertEquals("Cyberblade", wDeck.getDeck().get(0).getCardName());

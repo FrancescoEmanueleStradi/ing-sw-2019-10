@@ -14,7 +14,6 @@ public abstract class WeaponCard implements Card {
     protected ArrayList<String> effect = new ArrayList<>();
     boolean reloaded;   //reload the card when player buys it (and when he reloads at the end of the turn, of course)
 
-
     public String getCardName() {
         return this.cardName;
     }
@@ -31,11 +30,11 @@ public abstract class WeaponCard implements Card {
         return reloaded;
     }
 
-    public void reload(){
+    public void reload() {
         this.reloaded = true;
     }
 
-    public void unload(){
+    public void unload() {
         this.reloaded = false;
     }
 
@@ -48,5 +47,4 @@ public abstract class WeaponCard implements Card {
     }
 
     //public abstract void applySpecialEffect(Grid grid, Player p1); (useful? almost every card has a different signature)
-
 }

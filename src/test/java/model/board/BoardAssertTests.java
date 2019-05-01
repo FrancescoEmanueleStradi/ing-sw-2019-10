@@ -1,7 +1,6 @@
 package model.board;
 
 import model.Colour;
-import model.InvalidColourException;
 import model.Position;
 import model.cards.AmmoCard;
 import model.cards.WeaponCard;
@@ -14,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class BoardAssertTests {
     @Test
-    void BoardCreationTest() throws InvalidColourException {
+    void BoardCreationTest()  {
         WeaponCard w1 = new MachineGun();
         WeaponCard w2 = new MachineGun();
         WeaponCard w3 = new MachineGun();
@@ -91,7 +90,7 @@ class BoardAssertTests {
     }
 
     @Test
-    void BoardKillTrackTest() throws InvalidColourException{
+    void BoardKillTrackTest() {
         WeaponCard w1 = new MachineGun();
         WeaponCard w2 = new MachineGun();
         WeaponCard w3 = new MachineGun();
@@ -185,7 +184,7 @@ class BoardAssertTests {
     }
 
     @Test
-    void BoardWeaponSlotTest() throws InvalidColourException{
+    void BoardWeaponSlotTest() {
         WeaponCard w1 = new Cyberblade();
         WeaponCard w2 = new Electroscythe();
         WeaponCard w3 = new Flamethrower();
@@ -253,7 +252,7 @@ class BoardAssertTests {
     }
 
     @Test
-    void BoardChangeAmmoCardTest() throws InvalidColourException {
+    void BoardChangeAmmoCardTest()  {
         WeaponCard w1 = new Cyberblade();
         WeaponCard w2 = new Electroscythe();
         WeaponCard w3 = new Flamethrower();

@@ -10,7 +10,7 @@ public class PowerGlove extends WeaponCard {
 
     private String alternativeEffect = "Rocket Fist Mode";
 
-    public PowerGlove() throws InvalidColourException {
+    public PowerGlove() {
         super();
         this.cardName = "Power Glove";
         this.reloadCost = new AmmoCube[]{new AmmoCube(Colour.YELLOW), new AmmoCube(Colour.BLUE)};

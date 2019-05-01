@@ -1,7 +1,6 @@
 package model.player;
 
 import model.Colour;
-import model.InvalidColourException;
 import model.Position;
 import model.board.Cell;
 import model.cards.PowerUpCard;
@@ -18,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerAssertTests {
     @Test
-    void PlayerConstructorTest() throws InvalidColourException {
+    void PlayerConstructorTest()  {
         Player p1 = new Player("Test", Colour.BLUE, true);
 
         assertEquals("Test", p1.getNickName());
@@ -49,7 +48,7 @@ class PlayerAssertTests {
     }
 
     @Test
-    void PlayerAmmoCubeTest() throws InvalidColourException {
+    void PlayerAmmoCubeTest()  {
         Player p1 = new Player("Test", Colour.BLUE, false);
 
         AmmoCube[] price1 = new AmmoCube[]{new AmmoCube(Colour.RED), new AmmoCube(Colour.YELLOW), new AmmoCube(Colour.BLUE)};
@@ -123,7 +122,7 @@ class PlayerAssertTests {
     }
 
     @Test
-    void PlayerCardsTest() throws InvalidColourException {
+    void PlayerCardsTest()  {
         Player p1 = new Player("Test", Colour.BLUE, false);
 
         assertTrue(p1.getwC().isEmpty());
@@ -173,7 +172,7 @@ class PlayerAssertTests {
     }
 
     @Test
-    void PlayerCellTest() throws InvalidColourException {
+    void PlayerCellTest()  {
         Player p1 = new Player("Test", Colour.RED, true);
 
         int[] walls = new int[]{0, 2};
@@ -209,7 +208,7 @@ class PlayerAssertTests {
     }
 
     @Test
-    void PlayerScoreTest() throws InvalidColourException {
+    void PlayerScoreTest()  {
         Player p1 = new Player("Test", Colour.BLACK, false);
 
         assertEquals(0, p1.getScore());
@@ -221,7 +220,7 @@ class PlayerAssertTests {
     }
 
     @Test
-    void PlayerAdrenalineTest() throws InvalidColourException {
+    void PlayerAdrenalineTest()  {
         Player p1 = new Player("Test", Colour.YELLOW, true);
 
         assertFalse(p1.isAdrenaline1());
@@ -245,7 +244,7 @@ class PlayerAssertTests {
     }
 
     @Test
-    void PlayerDeadOverkillTest() throws InvalidColourException {
+    void PlayerDeadOverkillTest()  {
         Player p1 = new Player("Test", Colour.GREEN, true);
 
         assertFalse(p1.isDead());
@@ -261,7 +260,7 @@ class PlayerAssertTests {
     }
 
     @Test
-    void PlayerPaymentTest() throws InvalidColourException {
+    void PlayerPaymentTest()  {
         Player p1 = new Player("Test", Colour.BLACK, true);
         List<AmmoCube> cubes = new LinkedList<>();
         List<PowerUpCard> cards = new LinkedList<>();

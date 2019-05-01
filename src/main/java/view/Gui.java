@@ -1,11 +1,9 @@
 package view;
 
-import model.InvalidColourException;
-
 public class Gui extends View{
 
     @Override
-    public void askNameAndColour() throws InvalidColourException{
+    public void askNameAndColour() {
         //TODO
     }
 

@@ -11,7 +11,6 @@ public class Cell {
     private int[] posDoor;              //1 up, 2 right, 3 down, 4 left
     private AmmoCard a;
 
-
     public Cell(int r, Position p) {   //r = -1
         this.status = r;
         this.p = p;
@@ -38,7 +37,6 @@ public class Cell {
     public Position getP() {
         return p;
     }
-
 
     public int[] getPosWall() {
         return posWall;

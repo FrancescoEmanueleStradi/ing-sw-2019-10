@@ -931,7 +931,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         return false;
     }
 
-    public void firstActionGrab(String nickName, int[] directions, String wCardInput, String wSlotInput, List<Colour> lAInput, List<String> lPInput) throws InvalidColourException{ //directions contains where p wants to go. directions contains '0' if p doesn't want to move and only grab
+    public void firstActionGrab(String nickName, int[] directions, String wCardInput, List<Colour> lAInput, List<String> lPInput) throws InvalidColourException{ //directions contains where p wants to go. directions contains '0' if p doesn't want to move and only grab
         Player p = this.grid.getPlayerObject(nickName);
         WeaponCard wCard = this.grid.getWeaponCardObject(wCardInput);
         List<AmmoCube> l= new LinkedList<>();

@@ -1108,7 +1108,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                        x = true;
                     break;
                 case "Teleporter" :
-                    if((Integer.parseInt(lS.get(0)) >= 0 && Integer.parseInt(lS.get(0)) <= 2) && (Integer.parseInt(lS.get(1)) >= 0 && Integer.parseInt(lS.get(1)) <= 3))
+                    if(this.grid.getBoard().getArena()[Integer.parseInt(lS.get(0))][Integer.parseInt(lS.get(1))].getStatus() != -1)
                         x = true;
                     break;
             }

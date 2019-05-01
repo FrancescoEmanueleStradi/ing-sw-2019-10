@@ -864,6 +864,7 @@ public class Cli extends View{
                 lP.add(in.next());
         }
         while (!this.game.isValidFirstActionGrab(nickName, l.toArray(directions), wCard, weaponSlot, lC, lP)){
+            System.out.println("Error: repeat");
             System.out.println("Enter the direction(s) where you want to move");
             while (in.hasNext())
                 l.add(in.nextInt());
@@ -1035,6 +1036,7 @@ public class Cli extends View{
                 lP.add(in.next());
         }
         while (!this.game.isValidSecondActionGrab(nickName, l.toArray(directions), wCard, weaponSlot, lC, lP)){
+            System.out.println("Error: repeat");
             System.out.println("Enter the direction(s) where you want to move");
             while (in.hasNext())
                 l.add(in.nextInt());

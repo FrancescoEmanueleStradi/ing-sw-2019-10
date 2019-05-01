@@ -324,4 +324,8 @@ public class Board {
     public Cell[][] getArena() {
         return arena;
     }
+
+    public int getaType() {
+        return aType;
+    }
 }

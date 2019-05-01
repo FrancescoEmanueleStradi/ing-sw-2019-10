@@ -1,5 +1,6 @@
 package model;
 
+import model.board.Board;
 import model.player.Player;
 import org.junit.jupiter.api.Test;
 
@@ -63,5 +64,18 @@ class GridAssertTests {
 
         assertEquals(1, grid.getNumPlayers());
         assertNull(grid.getPlayerObject("Player 2"));
+
+        grid.setType(1);
+        assertTrue(grid.getBoard().getaType() == 1);
+
+        grid.damage(p1, p2, 3);
+        grid.damage(p2, p1, 1);
+        assertEquals(Colour.YELLOW, p2.getpB().getDamages().getDamageTr()[1].getC());
+        assertEquals(Colour.BLUE, p1.getpB().getDamages().getDamageTr()[0].getC());
+        grid.addMark(p2, p1);
+        assertEquals(p1.getpB().getMarks().size(), 1);
+        grid.removeMarkAndAdd(p1, p2);
+        assertEquals(Colour.BLUE, p1.getpB().getDamages().getDamageTr()[1].getC());
+        assertEquals(p1.getpB().getMarks().size(), 0);
     }
 }

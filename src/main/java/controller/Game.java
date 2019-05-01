@@ -224,7 +224,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                case "Furnace":
                    if(lI.contains(1) && !lI.contains(2)){
                        if(!p.getCell().getC().equals(Colour.valueOf(lS.get(0))) && this.grid.colourOfOtherViewZone(p).contains(Colour.valueOf(lS.get(0))))
-                           x =true;
+                           x = true;
                    }
                    if(!lI.contains(1) && lI.contains(2)){
                        if(this.grid.distance(p, new Position(Integer.parseInt(lS.get(0)), Integer.parseInt(lS.get(1)))) == 1)

@@ -81,7 +81,6 @@ public class Grid {
             if(c.equals(p.getC()))
                 p.addScore(n);
         }
-
     }
 
     public Board getBoard() {
@@ -101,10 +100,10 @@ public class Grid {
     }
 
     public void removeMarkAndAdd(Player p1, Player p2 ) {
-        long x = p2.getpB().getMarks().stream().filter(a -> a.getC() == p1.getC()).count();
+        long x = p1.getpB().getMarks().stream().filter(a -> a.getC() == p2.getC()).count();
         int y = (int)x;
         this.damage(p2, p1, y);
-        p2.getpB().clearMark(p2.getC());
+        p1.getpB().clearMark(p2.getC());
 
     }
 

@@ -24,6 +24,7 @@ public class Player {
     private Cell cell;
     private boolean adrenaline1;
     private boolean adrenaline2;
+    private int turnFinalFrenzy;        //0 if your final frenzy turn is before the first player, 1 if you are the first player, 2 if you play after
 
     public Player(String name,Colour c, boolean f)  {
 
@@ -72,6 +73,14 @@ public class Player {
 
     public AmmoCube[] getaC() {
         return aC;
+    }
+
+    public int getTurnFinalFrenzy() {
+        return turnFinalFrenzy;
+    }
+
+    public void setTurnFinalFrenzy(int turnFinalFrenzy) {
+        this.turnFinalFrenzy = turnFinalFrenzy;
     }
 
     public boolean checkAmmoCube(AmmoCube[] a){

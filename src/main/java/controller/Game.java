@@ -25,6 +25,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
     private Grid grid;
     private boolean discard = false;
     private List<String> deadList = new LinkedList<>();
+    private boolean finalFrenzy = false;
 
     public boolean gameIsNotStarted() {
         return this.grid.getPlayers().isEmpty();
@@ -35,9 +36,16 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
            init = true;
            this.grid = new Grid();
            Player p = new Player(nickName, c, true);
+           p.setTurnFinalFrenzy(1);
            this.grid.addPlayer(p);               //first state
            this.gameState = START;
        }
+    }
+
+    public void changeTurnFinalFrenzy(String nickName, int turn) {      //TODO attention to the server
+        Player p = this.grid.getPlayerObject(nickName);
+        if(!p.isFirstPlayerCard())
+            p.setTurnFinalFrenzy(turn);
     }
 
 
@@ -1204,7 +1212,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
             p.getpB().getDamages().cleanL();
             c++;
             if(c == 2)
-                this.grid.scoringByColour(p.getpB().getDamages().getDamageTr()[10].getC(),1);        //Double Kill
+                this.grid.scoringByColour(p.getpB().getDamages().getDamageTr()[10].getC(),1);        //Double Kill  //TODO attention to powerupcard: another player can kill you
             this.death(p);
             this.gameState = DEATH;
         }
@@ -1236,6 +1244,8 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
     public void replace() {
        this.grid.replaceAmmoCard();
        this.grid.replaceWeaponCard();
+       if(this.grid.getBoard().getK().getSkulls()[7] != 0)
+           finalFrenzy = true;
        this.gameState = STARTTURN;
     }
 
@@ -1247,12 +1257,29 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
     //player can do 2 actions (choosing between 1, 2, 3) if he takes his final turn before the first player
     //player can do 1 action (choosing between 4, 5) if he is the first player, or takes his final turn after the first player
 
+    public boolean isValidFinalFrenzyAction(String nickName, List<String> lS) {
+        if(this.gameState == STARTTURN && finalFrenzy == true) {
+            Player p = this.grid.getPlayerObject(nickName);
+            if (p.getTurnFinalFrenzy() == 0 && lS.size() == 2) {
+                for (String s : lS) {
+                    if (s.equals("1") || s.equals("2") || s.equals("3"))
+                        return true;
+                }
+            }
+            if (p.getTurnFinalFrenzy() != 0 && lS.size() == 1) {
+                if (lS.get(0).equals("4") || lS.get(0).equals("5"))
+                    return true;
+            }
+        }
+        return false;
+    }
+
     //first action available for players who take their final turn before the first player
     //player can move up to 1 cell, reload if he wants, and then shoot
 
     public boolean isValidFinalFrenzyAction1(String nickName, int direction, String weaponToUse, List<Integer> lI, List<String> lS, List<AmmoCube> lA, List<PowerUpCard> lP) {
         Player p = this.grid.getPlayerObject(nickName);
-        return (this.gameState == FINALFRENZY && this.grid.canMove(p, direction) && this.isValidShootNotAdrenaline(p, weaponToUse, lI, lS, lA, lP) &&
+        return (finalFrenzy == true && this.grid.canMove(p, direction) && this.isValidShootNotAdrenaline(p, weaponToUse, lI, lS, lA, lP) &&
                 direction >= 1 && direction <= 4);
     }
 
@@ -1276,7 +1303,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
             if(i < 0 || i > 4)
                 return false;
         }
-        return(this.gameState == FINALFRENZY && directions.size() <= 4 && this.grid.canGhostMove(p, directions));
+        return(finalFrenzy == true && directions.size() <= 4 && this.grid.canGhostMove(p, directions));
     }
 
     public void finalFrenzyAction2(String nickName, List<Integer> directions) {
@@ -1294,7 +1321,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
             if(i < 0 || i > 4)
                 return false;
         }
-        return(this.gameState == FINALFRENZY && directions.size() <= 2 && this.grid.canGhostMove(p, directions) && isValidFrenzyGrab(nickName, wCardInput, wSlotInput, lAInput, lPInput));
+        return(finalFrenzy == true && directions.size() <= 2 && this.grid.canGhostMove(p, directions) && isValidFrenzyGrab(nickName, wCardInput, wSlotInput, lAInput, lPInput));
     }
 
     public void finalFrenzyAction3(String nickName, List<Integer> directions, WeaponCard wCard, List<AmmoCube> lA, List<PowerUpCard> lP) {
@@ -1314,7 +1341,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
             if(i < 0 || i > 4)
                 return false;
         }
-        return (this.gameState == FINALFRENZY && directions.size() <= 2 && this.grid.canGhostMove(p, directions) && this.isValidShootNotAdrenaline(p, weaponToUse, lI, lS, lA, lP));
+        return (finalFrenzy == true && directions.size() <= 2 && this.grid.canGhostMove(p, directions) && this.isValidShootNotAdrenaline(p, weaponToUse, lI, lS, lA, lP));
     }
 
     public void finalFrenzyAction4(String nickName, List<Integer> directions, List<String> weaponToReload, String weaponToUse, List<Integer> lI, List<String> lS, List<AmmoCube> lA, List<PowerUpCard> lP) {
@@ -1337,7 +1364,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
             if(i < 0 || i > 4)
                 return false;
         }
-        return(this.gameState == FINALFRENZY && directions.size() <= 3 && this.grid.canGhostMove(p, directions) && isValidFrenzyGrab(nickName, wCardInput, wSlotInput, lAInput, lPInput));
+        return(finalFrenzy == true && directions.size() <= 3 && this.grid.canGhostMove(p, directions) && isValidFrenzyGrab(nickName, wCardInput, wSlotInput, lAInput, lPInput));
     }
 
     public void finalFrenzyAction5(String nickName, List<Integer> directions, WeaponCard wCard, List<AmmoCube> lA, List<PowerUpCard> lP) {
@@ -1358,7 +1385,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
     }
 
     private boolean isValidFrenzyGrab(String nickName, String wCardInput, String wSlotInput, List<Colour> lAInput, List<String> lPInput) {
-        if(this.gameState == FINALFRENZY) {
+        if(finalFrenzy == true) {
         Player p = this.grid.getPlayerObject(nickName);
         WeaponCard wCard = this.grid.getWeaponCardObject(wCardInput);
         List<AmmoCube> lA= new LinkedList<>();
@@ -1392,5 +1419,39 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         }
         if(p.getwC().size() > 3)
             this.discard = true;                    //View saved the Weapon Slot
+    }
+
+    public void endTurnFinalFrenzy() {
+        this.gameState = ENDTURN;
+    }
+
+    public void finalFrenzyTurnScoring() {
+        int c = 0;
+        for(Player p : this.grid.whoIsDead()) {
+            this.deadList.add(p.getNickName());
+            this.grid.scoringByColour(p.getpB().getDamages().getColourPosition(0), 2);
+            this.grid.scoringByColour(p.getpB().getDamages().getColourPosition(1), 1);
+            this.grid.scoringByColour(p.getpB().getDamages().getColourPosition(2), 1);
+            this.grid.scoringByColour(p.getpB().getDamages().getColourPosition(3), 1);
+            p.getpB().getDamages().cleanL();
+            c++;
+            if(c == 2)
+                this.grid.scoringByColour(p.getpB().getDamages().getDamageTr()[10].getC(),1);        //Double Kill
+            p.changeCell(null);
+            p.getpB().getDamages().clean();
+        }
+        this.gameState = STARTTURN;
+    }
+
+    public void finalScoring() {
+        for(Player p : this.grid.getPlayers()) {
+            if(p.getpB().getDamages().getDamageTr()[0] == null) {
+                this.grid.scoringByColour(p.getpB().getDamages().getColourPosition(0), 2);
+                this.grid.scoringByColour(p.getpB().getDamages().getColourPosition(1), 1);
+                this.grid.scoringByColour(p.getpB().getDamages().getColourPosition(2), 1);
+                this.grid.scoringByColour(p.getpB().getDamages().getColourPosition(3), 1);
+            }
+            //TODO score the killtrack
+        }
     }
 }

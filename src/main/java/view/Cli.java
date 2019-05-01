@@ -909,7 +909,7 @@ public class Cli extends View{
         this.game.firstActionMove(this.nickName, l);
     }
 
-    private void shootSecondAction() throws InvalidColourException {  Scanner in = new Scanner(System.in);
+    private void shootSecondAction() {  Scanner in = new Scanner(System.in);
         System.out.println("Choose one of these cards to shoot: ");
         this.game.getWeaponCardLoaded(this.nickName).stream().forEach(System.out::println);
         String s = in.next();

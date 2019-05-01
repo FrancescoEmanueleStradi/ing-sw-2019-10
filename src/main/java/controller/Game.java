@@ -904,13 +904,13 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         Player p = this.grid.getPlayerObject(nickName);
         List<Integer> directionList = Arrays.asList(directions);
         WeaponCard wCard = this.grid.getWeaponCardObject(wCardInput);
-        List<AmmoCube> lA= new LinkedList<>();
+        List<AmmoCube> lA = new LinkedList<>();
         for(Colour c : lAInput)
             lA.add(new AmmoCube(c));
         AmmoCube[] cubeArray = lA.stream().toArray(AmmoCube[]::new);
         if(!p.checkAmmoCube(cubeArray) && wCard != null)
             return false;
-        List<PowerUpCard> lP= new LinkedList<>();
+        List<PowerUpCard> lP = new LinkedList<>();
         if(!lPInput.isEmpty()) {
             for (String s : lPInput) {
                 if (p.getPowerUpCardObject(s) == null)
@@ -939,7 +939,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
     public void firstActionGrab(String nickName, Integer[] directions, String wCardInput, List<Colour> lAInput, List<String> lPInput) { //directions contains where p wants to go. directions contains '0' if p doesn't want to move and only grab
         Player p = this.grid.getPlayerObject(nickName);
         WeaponCard wCard = this.grid.getWeaponCardObject(wCardInput);
-        List<AmmoCube> l= new LinkedList<>();
+        List<AmmoCube> l = new LinkedList<>();
         for(Colour c : lAInput)
             l.add(new AmmoCube(c));
         List<PowerUpCard> lP= new LinkedList<>();
@@ -951,7 +951,6 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         if(p.isAdrenaline1()||p.isAdrenaline2()){
                 grabAdrenaline(p, directions, wCard, l, lP);
         }
-
         this.gameState = ACTION1;
     }
 

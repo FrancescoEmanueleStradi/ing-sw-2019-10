@@ -89,7 +89,7 @@ public class Cli extends View{
     @Override
     public void action1() {
         Scanner in = new Scanner(System.in);
-        System.out.println("---------FIRST ACTION---------");
+        System.out.println("---------START FIRST ACTION---------");
         System.out.println("Choose the action you want to do (Move, Shoot, Grab):");
         String action = in.nextLine();
         while (!(action.equals("Move") || action.equals("Shoot") || action.equals("Grab"))){
@@ -223,7 +223,7 @@ public class Cli extends View{
         List<String> lP = new LinkedList<>();
         String wCard;
         String weaponSlot = null;
-        System.out.println("Enter the direction where you want to move, or 0 if you want to remain in your cell:");
+        System.out.println("Enter the direction(s) where you want to move, or 0 if you want to remain in your cell:");
         while (in.hasNext())
             l.add(in.nextInt());
         System.out.println("Enter the WeaponCard you want to buy, if you want:");
@@ -231,7 +231,7 @@ public class Cli extends View{
         if(!wCard.equals("")) {
             System.out.println("Enter the number of the WeaponSlot from which you want to buy the card:");
             weaponSlot = in.next();
-            System.out.println("Enter the colour(s) of the required AmmoCube(s) ");
+            System.out.println("Enter the colour(s) of the required AmmoCube(s) to buy the card, if necessary");
             while ((in.hasNext()))
                 lC.add(Colour.valueOf(in.next()));
             System.out.println("Enter the PowerUpCard you want to use for paying during your turn:");
@@ -248,7 +248,7 @@ public class Cli extends View{
             if(!wCard.equals("")) {
                 System.out.println("Enter the number of the WeaponSlot from which you want to buy the card:");
                 weaponSlot = in.next();
-                System.out.println("Enter the colour(s) of the required AmmoCube(s) needed for the effect:");
+                System.out.println("Enter the colour(s) of the required AmmoCube(s) to buy the card, if necessary");
                 while ((in.hasNext()))
                     lC.add(Colour.valueOf(in.next()));
                 System.out.println("Enter the PowerUpCard you want to use for paying during your turn:");
@@ -261,6 +261,7 @@ public class Cli extends View{
 
     @Override
     public void action2() {
+        System.out.println("---------START SECOND ACTION---------");
         Scanner in = new Scanner(System.in);
         System.out.println("Choose the action you want to do (Move, Shoot, Grab):");
         String action = in.nextLine();
@@ -292,7 +293,7 @@ public class Cli extends View{
         System.out.println("Choose one of these cards to shoot: ");
         this.game.getWeaponCardLoaded(this.nickName).stream().forEach(System.out::println);
         String s = in.next();
-        while(this.game.isValidCard(nickName, s)){
+        while(!this.game.isValidCard(nickName, s)){
             System.out.println("Error: choose one of these cards to shoot: ");
             this.game.getWeaponCardLoaded(this.nickName).stream().forEach(System.out::println);
             s = in.next();
@@ -300,7 +301,7 @@ public class Cli extends View{
         System.out.println(this.game.getReloadCost(s, nickName));
         System.out.println(this.game.getDescriptionWC(s,nickName));
 
-        switch(s){
+        switch(s) {
             case "Cyberblade":
                 wPrompt.shoot2ToUser1(game, nickName);
                 break;
@@ -395,15 +396,15 @@ public class Cli extends View{
         List<String> lP = new LinkedList<>();
         String wCard;
         String weaponSlot = null;
-        System.out.println("Enter the direction(s) where you want to move");
+        System.out.println("Enter the direction(s) where you want to move, or 0 if you want to remain in your cell:");
         while (in.hasNext())
             l.add(in.nextInt());
-        System.out.println("Write the Weapon card you want to buy, if you want");
+        System.out.println("Enter the WeaponCard you want to buy, if you want:");
         wCard = in.next();
         if(!wCard.equals("")) {
-            System.out.println("Write the number of the weapon slot from which you want to buy the card:");
+            System.out.println("Enter the number of the WeaponSlot from which you want to buy the card:");
             weaponSlot = in.next();
-            System.out.println("Enter the colour(s) of the required AmmoCube(s) needed for the effect:");
+            System.out.println("Enter the colour(s) of the required AmmoCube(s) to buy the card, if necessary:");
             while ((in.hasNext()))
                 lC.add(Colour.valueOf(in.next()));
             System.out.println("Enter the PowerUpCard you want to use for paying during your turn:");
@@ -412,15 +413,15 @@ public class Cli extends View{
         }
         while (!this.game.isValidSecondActionGrab(nickName, l.toArray(directions), wCard, weaponSlot, lC, lP)){
             System.out.println("Error: repeat");
-            System.out.println("Enter the direction(s) where you want to move");
+            System.out.println("Enter the direction(s) where you want to move, or 0 if you want to remain in your cell:");
             while (in.hasNext())
                 l.add(in.nextInt());
-            System.out.println("Write the Weapon card you want to buy, if you want");
+            System.out.println("Write the Weapon card you want to buy, if you want:");
             wCard = in.next();
             if(!wCard.equals("")) {
-                System.out.println("Write the number of the weapon slot from which you want to buy the card:");
+                System.out.println("Write the number of the WeaponSlot from which you want to buy the card:");
                 weaponSlot = in.next();
-                System.out.println("Enter the colour(s) of the required AmmoCube(s) needed for the effect:");
+                System.out.println("Enter the colour(s) of the required AmmoCube(s) to buy the card, if necessary:");
                 while ((in.hasNext()))
                     lC.add(Colour.valueOf(in.next()));
                 System.out.println("Enter the PowerUpCard you want to use for paying during your turn:");
@@ -435,7 +436,7 @@ public class Cli extends View{
         Scanner in = new Scanner(System.in);
         String namePC;
         List<String> lS = new LinkedList<>();
-        System.out.println("Enter which power up card you want to use:");
+        System.out.println("Enter which PowerUpCard you want to use:");
         this.game.getPowerUpCard(nickName).stream().forEach(System.out::println);
         namePC = in.next();
         switch (namePC){
@@ -443,7 +444,7 @@ public class Cli extends View{
                 System.out.println("Enter the nickname of a player you can see and that gave you damage:");
                 lS.add(in.next());
                 while(!this.game.isValidUsePowerUpCard(nickName, namePC, lS, null)){
-                    System.out.println("Error: repeat");
+                    System.out.println("Error: retry");
                     System.out.println("Enter the nickname of a player you can see and that gave you damage:");
                     lS.add(in.next());
                 }
@@ -454,14 +455,14 @@ public class Cli extends View{
                 System.out.println("Enter the nickname of one or more players you have damaged:");
                 while(in.hasNext())
                     lS.add(in.next());
-                System.out.println("Enter the colour of the ammo cube you want to use to pay:");
+                System.out.println("Enter the colour of the AmmoCube you want to use to pay:");
                 Colour c = Colour.valueOf(in.next());
                 while(!this.game.isValidUsePowerUpCard(nickName, namePC, lS, c)){
-                    System.out.println("Error: repeat");
+                    System.out.println("Error: retry");
                     System.out.println("Enter the nickname of one or more players you have damaged:");
                     while(in.hasNext())
                         lS.add(in.next());
-                    System.out.println("Enter the colour of the ammo cube you want to use to pay:");
+                    System.out.println("Enter the colour of the AmmoCube you want to use to pay:");
                     c = Colour.valueOf(in.next());
                 }
                 this.game.usePowerUpCard(nickName, namePC, lS, c);
@@ -470,11 +471,11 @@ public class Cli extends View{
             case "Newton":
                 System.out.println("Enter the nickname of a player:");
                 lS.add(in.next());
-                System.out.println("write the directions where you want the enemy to go:");
+                System.out.println("Enter the direction(s) where you want the enemy to go:");
                 while(in.hasNext())
                     lS.add(in.next());
                 while(!this.game.isValidUsePowerUpCard(nickName, namePC, lS, null)){
-                    System.out.println("Error: repeat");
+                    System.out.println("Error: retryt");
                     System.out.println("Enter the nickname of a player:");
                     lS.add(in.next());
                     System.out.println("write the directions where you want the enemy to go:");
@@ -485,11 +486,11 @@ public class Cli extends View{
                 break;
 
             case "Teleporter":
-                System.out.println("Enter the coordinates of the cell you want to move:");
+                System.out.println("Enter the coordinates of the cell you want to move (x y):");
                 lS.add(in.next());
                 lS.add(in.next());
                 while(!this.game.isValidUsePowerUpCard(nickName, namePC, lS, null)) {
-                    System.out.println("Error: repeat");
+                    System.out.println("Error: retry");
                     System.out.println("Enter the coordinates of the cell you want to move:");
                     lS.add(in.next());
                     lS.add(in.next());

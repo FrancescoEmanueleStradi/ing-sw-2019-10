@@ -9,12 +9,12 @@ import java.util.Scanner;
 
 public class CLIWeaponPrompt {
 
-    private String promptA = "\nEnter the number of the effect you want to use: ";
-    private String promptB = "\nEnter the relevant strings for the card: ";
-    private String promptC = "\nEnter the colour(s) of the required AmmoCube(s) needed for the effect: ";
-    private String promptD = "\nEnter the PowerUpCard you want to use for paying during your turn: ";
-    private String promptE = "\nIf you are in Adrenaline, enter the direction of the move: ";
-    private String promptErrorRetry = "\nError: retry your action\n";
+    private String promptA = "Enter the number of the effect you want to use:";
+    private String promptB = "Enter the relevant strings for the card:";
+    private String promptC = "Enter the colour(s) of the required AmmoCube(s) needed for the effect:";
+    private String promptD = "Enter the PowerUpCard you want to use for paying during your turn:";
+    private String promptE = "If you are in Adrenaline, enter the direction of the move:";
+    private String promptErrorRetry = "Error: retry your action";
 
     public void shootToUser1(Game game, String nickName) {
         Scanner in = new Scanner(System.in);

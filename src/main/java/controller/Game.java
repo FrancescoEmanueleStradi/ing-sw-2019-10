@@ -1,16 +1,10 @@
 package controller;
 
 import model.*;
-import model.board.Cell;
 import model.board.WeaponSlot;
-import model.cards.AmmoCard;
-import model.cards.PowerUpCard;
+import model.cards.*;
 import model.Position;
-import model.cards.WeaponCard;
-import model.cards.powerupcards.Newton;
-import model.cards.powerupcards.TagbackGrenade;
-import model.cards.powerupcards.TargetingScope;
-import model.cards.powerupcards.Teleporter;
+import model.cards.powerupcards.*;
 import model.cards.weaponcards.*;
 import model.player.AmmoCube;
 import model.player.DamageToken;
@@ -171,7 +165,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
 
     public boolean isValidCard(String nickName, String weaponCard) {
-        return((this.grid.getPlayerObject(nickName).getWeaponCardObject(weaponCard)!= null && this.grid.getPlayerObject(nickName).getWeaponCardObject(weaponCard).isReloaded()));
+        return this.grid.getPlayerObject(nickName).getWeaponCardObject(weaponCard)!= null && this.grid.getPlayerObject(nickName).getWeaponCardObject(weaponCard).isReloaded();
     }
 
 
@@ -243,7 +237,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                    }
                    break;
                case "Heatseeker":
-                   if(lI.size() == 0) {
+                   if(lI.isEmpty()) {
                         if(!this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(0))))
                             x = true;
                    }
@@ -541,6 +535,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                            x = true;
                    }
                    break;
+               default: x = false;
            }
        }
        return x;
@@ -727,6 +722,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                 if(lI.get(0) == 2)
                     ((ZX2) p.getWeaponCardObject(nameWC)).applySpecialEffect(this.grid, p, this.grid.getPlayerObject(lS.get(0)), this.grid.getPlayerObject(lS.get(1)), this.grid.getPlayerObject(lS.get(2)));
                 break;
+
         }
         p.getWeaponCardObject(nameWC).unload();
         p.payWeaponCard(lA, lP);
@@ -764,11 +760,12 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                 return false;
             lP.add(p.getPowerUpCardObject(s));
         }
-        if(this.gameState.equals(STARTTURN))
-        if(!p.isAdrenaline2())
-            return isValidShootNotAdrenaline(p, nameWC, lI, lS, lA, lP);
-        else if(p.isAdrenaline2())
-            return isValidShootAdrenaline(p, nameWC, lI, lS, direction, lA, lP);
+        if(this.gameState.equals(STARTTURN)) {
+            if (!p.isAdrenaline2())
+                return isValidShootNotAdrenaline(p, nameWC, lI, lS, lA, lP);
+            else if (p.isAdrenaline2())
+                return isValidShootAdrenaline(p, nameWC, lI, lS, direction, lA, lP);
+        }
         return false;
     }
 

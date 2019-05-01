@@ -28,41 +28,37 @@ public class Cli extends View{
     public void askNameAndColour() {
         Scanner in = new Scanner(System.in);
         if (this.game.gameIsNotStarted()) {
-            System.out.println("Enter your name: ");
+            System.out.println("WELCOME");
+            System.out.println("Enter your name:");
             this.nickName = in.nextLine();
-
-            System.out.println("Enter your colour (YELLOW, BLUE, GREEN, PURPLE, BLACK): ");
+            System.out.println("Enter your colour (YELLOW, BLUE, GREEN, PURPLE, BLACK):");
             String stringColour = in.nextLine();
             this.colour = Colour.valueOf(stringColour);
-
             this.game.gameStart(nickName, colour);
-
-            System.out.println("Choose the type of Arena (1, 2, 3, 4): ");
+            System.out.println("Choose the type of arena (1, 2, 3, 4):");
             int type = in.nextInt();
-            while (!this.game.isValidReceiveType(type)){
-                System.out.println("Choose the type of Arena (1, 2, 3, 4): ");
+            while(!this.game.isValidReceiveType(type)){
+                System.out.println("Error: retry");
+                System.out.println("Choose the type of arena (1, 2, 3, 4):");
                 type = in.nextInt();
             }
             this.game.receiveType(type);
+            System.out.println("---------GENERATING ARENA...---------");
             return;
         }
-
-        System.out.println("Enter your name: ");
+        System.out.println("---------WAITING FOR PLAYERS TO JOIN---------");
+        System.out.println("Enter your name:");
         this.nickName = in.nextLine();
-
-        System.out.println("Enter your colour: ");
+        System.out.println("Enter your colour:");
         String stringColour = in.nextLine();
         this.colour = Colour.valueOf(stringColour);
-
         while(!this.game.isValidAddPlayer(this.nickName, this.colour)){
-            System.out.println("Enter your name: ");
+            System.out.println("Enter your name:");
             this.nickName = in.nextLine();
-
-            System.out.println("Enter your colour: ");
+            System.out.println("Enter your colour:");
             String stringColour1 = in.nextLine();
             this.colour = Colour.valueOf(stringColour1);
         }
-
         this.game.addPlayer(this.nickName, this.colour);
     }
 
@@ -74,10 +70,14 @@ public class Cli extends View{
             System.out.println(p.getCardName());
             l.add(p);
         }
-        System.out.println("Enter the name of the card you want to choose; you will discard the other one");
+        System.out.println("---------SPAWN POINT SELECT---------");
+        System.out.println("Enter the name of the card you want to keep; you will discard the other one corresponding to the " +
+                "colour of your spawn point");
         String p1 = in.nextLine();
-        while(this.game.isValidPickAndDiscard(this.nickName)) {
-            System.out.println("Enter the name of the card you want to choose; you will discard the other one");
+        while(!this.game.isValidPickAndDiscard(this.nickName)) {
+            System.out.println("Error: retry");
+            System.out.println("Enter the name of the card you want to keep; you will discard the other one corresponding to the " +
+                    "colour of your spawn point");
             p1 = in.nextLine();
         }
             if(l.get(0).getCardName().equals(p1))
@@ -89,17 +89,18 @@ public class Cli extends View{
     @Override
     public void action1() {
         Scanner in = new Scanner(System.in);
-        System.out.println("Choose the action you want to do (Move, Shoot, Grab): ");
+        System.out.println("---------FIRST ACTION---------");
+        System.out.println("Choose the action you want to do (Move, Shoot, Grab):");
         String action = in.nextLine();
         while (!(action.equals("Move") || action.equals("Shoot") || action.equals("Grab"))){
-            System.out.println("Choose the action you want to do (Move, Shoot, Grab): ");
+            System.out.println("Choose the action you want to do (Move, Shoot, Grab):");
             action = in.nextLine();
         }
-        if(action.equals("Move"))
+        if(action.equals("Move") || action.equals("move"))
             this.moveFirstAction();
-        if(action.equals("Shoot"))
+        if(action.equals("Shoot") || action.equals("shoot"))
             this.shootFirstAction();
-        if(action.equals("Grab"))
+        if(action.equals("Grab") || action.equals("grab"))
             this.grabFirstAction();
     }
 
@@ -116,11 +117,11 @@ public class Cli extends View{
 
     private void shootFirstAction() {
         Scanner in = new Scanner(System.in);
-        System.out.println("Choose one of these cards to shoot: ");
+        System.out.println("Choose one of these cards to shoot:");
         this.game.getWeaponCardLoaded(this.nickName).stream().forEach(System.out::println);
         String s = in.next();
-        while(this.game.isValidCard(nickName, s)){
-            System.out.println("Error: choose one of these cards to shoot: ");
+        while(!this.game.isValidCard(nickName, s)){
+            System.out.println("Error: choose one of these cards to shoot:");
             this.game.getWeaponCardLoaded(this.nickName).stream().forEach(System.out::println);
             s = in.next();
         }
@@ -222,15 +223,15 @@ public class Cli extends View{
         List<String> lP = new LinkedList<>();
         String wCard;
         String weaponSlot = null;
-        System.out.println("Enter the direction(s) where you want to move");
+        System.out.println("Enter the direction where you want to move, or 0 if you want to remain in your cell:");
         while (in.hasNext())
             l.add(in.nextInt());
-        System.out.println("Write the Weapon card you want to buy, if you want");
+        System.out.println("Enter the WeaponCard you want to buy, if you want:");
         wCard = in.next();
         if(!wCard.equals("")) {
-            System.out.println("Write the number of the weapon slot from which you want to buy the card:");
+            System.out.println("Enter the number of the WeaponSlot from which you want to buy the card:");
             weaponSlot = in.next();
-            System.out.println("Enter the colour(s) of the required AmmoCube(s) needed for the effect:");
+            System.out.println("Enter the colour(s) of the required AmmoCube(s) ");
             while ((in.hasNext()))
                 lC.add(Colour.valueOf(in.next()));
             System.out.println("Enter the PowerUpCard you want to use for paying during your turn:");
@@ -238,14 +239,14 @@ public class Cli extends View{
                 lP.add(in.next());
         }
         while (!this.game.isValidFirstActionGrab(nickName, l.toArray(directions), wCard, weaponSlot, lC, lP)){
-            System.out.println("Error: repeat");
+            System.out.println("Error: retry");
             System.out.println("Enter the direction(s) where you want to move");
             while (in.hasNext())
                 l.add(in.nextInt());
-            System.out.println("Write the Weapon card you want to buy, if you want");
+            System.out.println("Enter the WeaponCard you want to buy, if you want:");
             wCard = in.next();
             if(!wCard.equals("")) {
-                System.out.println("Write the number of the weapon slot from which you want to buy the card:");
+                System.out.println("Enter the number of the WeaponSlot from which you want to buy the card:");
                 weaponSlot = in.next();
                 System.out.println("Enter the colour(s) of the required AmmoCube(s) needed for the effect:");
                 while ((in.hasNext()))
@@ -261,17 +262,17 @@ public class Cli extends View{
     @Override
     public void action2() {
         Scanner in = new Scanner(System.in);
-        System.out.println("Choose the action you want to do (Move, Shoot, Grab): ");
+        System.out.println("Choose the action you want to do (Move, Shoot, Grab):");
         String action = in.nextLine();
         while (!(action.equals("Move") || action.equals("Shoot") || action.equals("Grab"))){
-            System.out.println("Choose the action you want to do (Move, Shoot, Grab): ");
+            System.out.println("Choose the action you want to do (Move, Shoot, Grab):");
             action = in.nextLine();
         }
-        if(action.equals("Move"))
+        if(action.equals("Move") || action.equals("move"))
             this.moveSecondAction();
-        if(action.equals("Shoot"))
+        if(action.equals("Shoot") || action.equals("shoot"))
             this.shootSecondAction() ;
-        if(action.equals("Grab"))
+        if(action.equals("Grab") || action.equals("grab"))
             this.grabSecondAction();
     }
 
@@ -386,7 +387,7 @@ public class Cli extends View{
         }
     }
 
-    private void grabSecondAction(){
+    private void grabSecondAction() {
         Scanner in = new Scanner(System.in);
         Integer[] directions = null;
         List<Integer> l = new LinkedList<>();
@@ -430,8 +431,7 @@ public class Cli extends View{
         this.game.secondActionGrab(nickName, l.toArray(directions), wCard, lC, lP );
     }
 
-
-    public void usePowerUpCard(){
+    public void usePowerUpCard() {
         Scanner in = new Scanner(System.in);
         String namePC;
         List<String> lS = new LinkedList<>();
@@ -499,7 +499,6 @@ public class Cli extends View{
         }
 
     }
-
     
     @Override
     public void reload() {               //the player knows everything!
@@ -528,13 +527,12 @@ public class Cli extends View{
 
     @Override
     public void newSpawnPoint() {
-
         if(this.game.getDeadList().contains(this.nickName)) {
-            System.out.println("Enter the PowerUp card you want to discard: ");
+            System.out.println("Enter the PowerUp card you want to discard:");
             Scanner in = new Scanner(System.in);
             String s = in.nextLine();
             while(!this.game.isValidDiscardCardForSpawnPoint()){
-                System.out.println("Enter the PowerUp card you want to discard: ");
+                System.out.println("Enter the PowerUp card you want to discard:");
                 s = in.nextLine();
             }
                     this.game.discardCardForSpawnPoint(this.nickName, s);

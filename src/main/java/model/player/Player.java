@@ -15,7 +15,6 @@ public class Player {
     private String nickName;
     private Colour c;
     private PlayerBoard pB;
-    private Figure fig;
     private boolean firstPlayerCard;            //0 is not the first player, 1 is
     private int score;
     private AmmoCube[] aC;                  //from 0 to 9; maximum 3 for each colour
@@ -26,12 +25,11 @@ public class Player {
     private boolean adrenaline2;
     private int turnFinalFrenzy;        //0 if your final frenzy turn is before the first player, 1 if you are the first player, 2 if you play after
 
-    public Player(String name,Colour c, boolean f)  {
+    public Player(String name, Colour c, boolean f)  {
 
         this.nickName = name;
         this.c = c;
         this.pB = new PlayerBoard();
-        this.fig = new Figure(c);
         this.firstPlayerCard = f;
         this.score = 0;
         this.aC = new AmmoCube[]{new AmmoCube(Colour.RED), null, null, new AmmoCube(Colour.BLUE), null, null, new AmmoCube(Colour.YELLOW), null, null};
@@ -53,7 +51,6 @@ public class Player {
     public PlayerBoard getpB() {
         return pB;
     }
-
 
     public boolean isFirstPlayerCard() {
         return firstPlayerCard;

@@ -70,12 +70,16 @@ class GridAssertTests {
 
         grid.damage(p1, p2, 3);
         grid.damage(p2, p1, 1);
+        grid.addMark(p2, p1);
         assertEquals(Colour.YELLOW, p2.getpB().getDamages().getDamageTr()[1].getC());
         assertEquals(Colour.BLUE, p1.getpB().getDamages().getDamageTr()[0].getC());
-        grid.addMark(p2, p1);
         assertEquals(p1.getpB().getMarks().size(), 1);
-        grid.removeMarkAndAdd(p1, p2);
-        assertEquals(Colour.BLUE, p1.getpB().getDamages().getDamageTr()[1].getC());
+
+        grid.damage(p2, p1, 2);
+        assertEquals(Colour.BLUE, p1.getpB().getDamages().getDamageTr()[3].getC());
         assertEquals(p1.getpB().getMarks().size(), 0);
+
+        grid.clean(p2);
+        assertNull(p2.getpB().getDamages().getDamageTr()[0]);
     }
 }

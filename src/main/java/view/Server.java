@@ -15,12 +15,6 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
     static private List<Integer> players;
     static private List<Integer> playersTakingTheirTurn;        //position n --> game n
 
-    /*private String someMessage = "Hello there";
-
-    public String getSomeMessage() {
-        return someMessage;
-    }*/
-
     public Server() throws RemoteException {
         super();
     }
@@ -29,34 +23,34 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
         return "From server: " + input;
     }
 
-    public static void main(String[] args) throws AlreadyBoundException, RemoteException {
+    public static void main(String[] args) throws RemoteException {
         System.out.println("Generating server...");
         Server centralServer = new Server();
 
         System.out.println("Binding server to registry...");
         Registry registry = LocateRegistry.createRegistry(5099);
-        registry = LocateRegistry.getRegistry();
+        //registry = LocateRegistry.getRegistry();
         registry.rebind("central_server", centralServer);
 
         System.out.println("Client may now invoke methods");
         games = new LinkedList<>();
         players = new LinkedList<>();
         playersTakingTheirTurn = new LinkedList<>();            //TODO methods in the controller to notify the server
-
-
     }
 
-    public boolean isMyTurn(int game, int identifier) throws RemoteException{
+    public boolean isMyTurn(int game, int identifier) throws RemoteException {
         return(playersTakingTheirTurn.get(game) == identifier);
     }
-    public boolean isNotFinalFrenzy(int game) throws RemoteException{
+
+    public boolean isNotFinalFrenzy(int game) throws RemoteException {
         return !games.get(game).isFinalFrenzy();
     }
-    public boolean gameIsFinished(int game) throws RemoteException{
+
+    public boolean gameIsFinished(int game) throws RemoteException {
         return games.get(game).getGameState() == GameState.ENDALLTURN;
     }
 
-    public void finishTurn(int game) throws RemoteException{
+    public void finishTurn(int game) throws RemoteException {
         if(games.get(game).getPlayers().size() < playersTakingTheirTurn.get(game))
             playersTakingTheirTurn.add(game, playersTakingTheirTurn.get(game)+1);
         else playersTakingTheirTurn.add(game, 0);

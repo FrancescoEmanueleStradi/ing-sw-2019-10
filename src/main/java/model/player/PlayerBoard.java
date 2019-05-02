@@ -13,7 +13,6 @@ public class PlayerBoard {
     private ArrayList<DamageToken> marks;
 
     public PlayerBoard() {
-        //this.actions = new Actions();
         this.damages = new DamageTrack();
         this.points = new PointsPlayerBoard();
         this.marks = new ArrayList<>();

@@ -21,11 +21,17 @@ import static controller.GameState.*;
 public class Game {                                 //Cli or Gui -- Rmi or Socket
 
     private GameState gameState;
+    private  int numGame;
     private boolean init = false;
     private Grid grid;
     private boolean discard = false;
     private List<String> deadList = new LinkedList<>();
     private boolean finalFrenzy = false;
+
+
+    public GameState getGameState() {
+        return gameState;
+    }
 
     public boolean gameIsNotStarted() {
         return this.grid.getPlayers().isEmpty();
@@ -1257,6 +1263,11 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
     //player can do 2 actions (choosing between 1, 2, 3) if he takes his final turn before the first player
     //player can do 1 action (choosing between 4, 5) if he is the first player, or takes his final turn after the first player
+
+
+    public boolean isFinalFrenzy() {
+        return finalFrenzy;
+    }
 
     public boolean isValidFinalFrenzyAction(String nickName, List<String> lS) {
         if(this.gameState == STARTTURN && finalFrenzy) {

@@ -9,7 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
-public class Cli extends View{
+public class Cli implements View{
 
     private Game game;
     private String nickName;                //TODO maybe nickName and colour should go in the client and not hear beacuse View must be the RMI registry
@@ -433,6 +433,14 @@ public class Cli extends View{
         this.game.secondActionGrab(nickName, l.toArray(directions), wCard, lC, lP );
     }
 
+    @Override
+    public boolean doYouWantToUsePUC(){
+        Scanner in = new Scanner(System.in);
+        System.out.println("Do you want to use the power up card now?");
+        return (in.next() == "Yes" || in.next() == "yes");
+    }
+
+    @Override
     public void usePowerUpCard() {
         Scanner in = new Scanner(System.in);
         String namePC;
@@ -552,7 +560,7 @@ public class Cli extends View{
     }
 
 
-
+    @Override
     public void finalFrenzyTurn(){
         Scanner in = new Scanner(System.in);
         List<String> l = new LinkedList<>();
@@ -775,12 +783,13 @@ public class Cli extends View{
         this.game.finalFrenzyTurnScoring();
     }
 
+    @Override
     public void endFinalFrenzy(){
         this.game.endTurnFinalFrenzy();
         System.out.println("We are calculating the result");
     }
 
-
+    @Override
     public void finalScoring(){
         this.game.finalScoring();
         System.out.println("FINAL SCORE");

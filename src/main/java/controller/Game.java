@@ -643,16 +643,16 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                 }
                 break;
             case "Power Glove":
-                    if (lI.get(0) == 1)
-                        ((PowerGlove) p.getWeaponCardObject(nameWC)).applyEffect(this.grid, p, this.grid.getPlayerObject(lS.get(0)));
-                    if (lI.get(0) == 2) {
-                        ((PowerGlove) p.getWeaponCardObject(nameWC)).applySpecialEffectPart1(p, this.grid, lS.get(1), lS.get(2));
-                        if(lI.contains(3))
-                            ((PowerGlove) p.getWeaponCardObject(nameWC)).applySpecialEffectPart2(this.grid, p, this.grid.getPlayerObject(lS.get(3)));
-                        if(lI.contains(4))
-                            ((PowerGlove) p.getWeaponCardObject(nameWC)).applySpecialEffectPart3(p, this.grid, lS.get(4), lS.get(5));
-                        if(lI.contains(5))
-                            ((PowerGlove) p.getWeaponCardObject(nameWC)).applySpecialEffectPart4(this.grid, p, this.grid.getPlayerObject(lS.get(6)));
+                if (lI.get(0) == 1)
+                    ((PowerGlove) p.getWeaponCardObject(nameWC)).applyEffect(this.grid, p, this.grid.getPlayerObject(lS.get(0)));
+                if (lI.get(0) == 2) {
+                    ((PowerGlove) p.getWeaponCardObject(nameWC)).applySpecialEffectPart1(p, this.grid, lS.get(1), lS.get(2));
+                    if(lI.contains(3))
+                        ((PowerGlove) p.getWeaponCardObject(nameWC)).applySpecialEffectPart2(this.grid, p, this.grid.getPlayerObject(lS.get(3)));
+                    if(lI.contains(4))
+                        ((PowerGlove) p.getWeaponCardObject(nameWC)).applySpecialEffectPart3(p, this.grid, lS.get(4), lS.get(5));
+                    if(lI.contains(5))
+                        ((PowerGlove) p.getWeaponCardObject(nameWC)).applySpecialEffectPart4(this.grid, p, this.grid.getPlayerObject(lS.get(6)));
                 }
                 break;
             case "Railgun":
@@ -743,6 +743,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         p.getWeaponCardObject(nameWC).unload();
         p.payCard(lA, lP);
         this.grid.getPowerUpDiscardPile().addAll(lP);
+
     }
 
     private boolean isValidShootAdrenaline(Player p, String nameWC, List<Integer> lI, List<String> lS, int direction, List<AmmoCube> lA, List<PowerUpCard> lP) {

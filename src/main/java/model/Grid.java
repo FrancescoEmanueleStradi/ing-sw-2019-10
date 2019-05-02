@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 import static java.lang.Math.abs;
 
 public class Grid {
+
     private ArrayList<Player> players;
     private Board board;
     private WeaponDeck weaponDeck;
@@ -88,6 +89,7 @@ public class Grid {
     }
 
     public void damage(Player p, Player p1, int numDamage) { //p attacks, p1 is attacked
+        removeMarkAndAdd(p1, p);
         p1.getpB().getDamages().addDamage(numDamage, p.getC());
     }
 
@@ -99,12 +101,14 @@ public class Grid {
         p2.getpB().addMark(new DamageToken(p1.getC()));
     }
 
-    public void removeMarkAndAdd(Player p1, Player p2 ) {
+    public void removeMarkAndAdd(Player p1, Player p2) {
         long x = p1.getpB().getMarks().stream().filter(a -> a.getC() == p2.getC()).count();
-        int y = (int)x;
-        this.damage(p2, p1, y);
-        p1.getpB().clearMark(p2.getC());
-
+        if (x > 0) {
+            int y = (int) x;
+            p1.getpB().getDamages().addDamage(y, p2.getC());
+            p1.getpB().clearMark(p2.getC());
+        }
+        else return;
     }
 
     public int distance(Player p1, Player p2) {
@@ -180,8 +184,6 @@ public class Grid {
         return Arrays.asList(this.board.getArena()[p.getCell().getP().getX()][p.getCell().getP().getY()].getPosWall()).contains(direction);
     }
 
-
-    
     public void collectCard(Player p) {
           if(p.getCell().getA().ispC())
               pickPowerUpCard(p);
@@ -193,9 +195,9 @@ public class Grid {
         return (p.getCell().getC().equals(p2.getCell().getC()));
     }
 
-    public boolean isInTheRoom(Player p, Colour c) {
+    /*public boolean isInTheRoom(Player p, Colour c) {
         return (p.getCell().getC().equals(c));
-    }
+    }*/
 
     public boolean isInViewZone(Player p, Player p2) {
         boolean b = false;
@@ -218,20 +220,20 @@ public class Grid {
         if(this.board.getArena()[pos.getX()][pos.getY()].getC().equals(p.getCell().getC()))
             return true;
         for(int i=0; i<p.getCell().getPosDoor().length; i++){
-            if (p.getCell().getPosDoor()[i] == 1 && p.getCell().getP().getX() - 1 >= 0) {
-                if (this.board.getArena()[p.getCell().getP().getX() - 1][p.getCell().getP().getY()].getC().equals(this.board.getArena()[pos.getX()][pos.getY()].getC()))
+            if (p.getCell().getPosDoor()[i] == 1 && p.getCell().getP().getX() - 1 >= 0 &&
+                    this.board.getArena()[p.getCell().getP().getX() - 1][p.getCell().getP().getY()].getC().equals(this.board.getArena()[pos.getX()][pos.getY()].getC())) {
                     return true;
             }
-            else if (p.getCell().getPosDoor()[i] == 2 && p.getCell().getP().getY() + 1 <= 3) {
-                if (this.board.getArena()[p.getCell().getP().getX()][p.getCell().getP().getY() + 1].getC().equals(this.board.getArena()[pos.getX()][pos.getY()].getC()))
+            if (p.getCell().getPosDoor()[i] == 2 && p.getCell().getP().getY() + 1 <= 3 &&
+                     this.board.getArena()[p.getCell().getP().getX()][p.getCell().getP().getY() + 1].getC().equals(this.board.getArena()[pos.getX()][pos.getY()].getC())) {
+                     return true;
+            }
+            if (p.getCell().getPosDoor()[i] == 3 && p.getCell().getP().getX() + 1 <= 2 &&
+                    this.board.getArena()[p.getCell().getP().getX() + 1][p.getCell().getP().getY()].getC().equals(this.board.getArena()[pos.getX()][pos.getY()].getC())) {
                     return true;
             }
-            else if (p.getCell().getPosDoor()[i] == 3 && p.getCell().getP().getX() + 1 <= 2) {
-                if (this.board.getArena()[p.getCell().getP().getX() + 1][p.getCell().getP().getY()].getC().equals(this.board.getArena()[pos.getX()][pos.getY()].getC()))
-                    return true;
-            }
-            else if (p.getCell().getPosDoor()[i] == 4 && p.getCell().getP().getY() - 1 >= 0) {
-                if (this.board.getArena()[p.getCell().getP().getX()][p.getCell().getP().getY() - 1].getC().equals(this.board.getArena()[pos.getX()][pos.getY()].getC()))
+            if (p.getCell().getPosDoor()[i] == 4 && p.getCell().getP().getY() - 1 >= 0 &&
+                    this.board.getArena()[p.getCell().getP().getX()][p.getCell().getP().getY() - 1].getC().equals(this.board.getArena()[pos.getX()][pos.getY()].getC())) {
                     return true;
             }
         }
@@ -293,17 +295,17 @@ public class Grid {
         return null;
     }
 
-    public void pickWeaponCard(Player p) {
+    /*public void pickWeaponCard(Player p) {
             p.addWeaponCard(this.weaponDeck.getTopOfDeck());
-    }
+    }*/
 
     public WeaponCard pickWeaponCard() {
         return this.weaponDeck.getTopOfDeck();
     }
 
     public void replaceWeaponCard() {
-       if(this.board.getW1().getCard1() == null)
-           this.board.getW1().setCard1(pickWeaponCard());
+        if(this.board.getW1().getCard1() == null)
+            this.board.getW1().setCard1(pickWeaponCard());
         if(this.board.getW1().getCard2() == null)
             this.board.getW1().setCard2(pickWeaponCard());
         if(this.board.getW1().getCard3() == null)
@@ -373,17 +375,8 @@ public class Grid {
         }
     }
 
-    public void changeAmmoCard(Position p) {
-        this.board.getArena()[p.getX()][p.getY()].setA(this.pickAmmoCard());
-    }
-
-
     public List<AmmoCard> getAmmoDiscardPile() {
         return ammoDiscardPile;
-    }
-
-    public void discardShuffle() {
-        Collections.shuffle(ammoDiscardPile);
     }
 
     public List<Player> whoIsDead() {

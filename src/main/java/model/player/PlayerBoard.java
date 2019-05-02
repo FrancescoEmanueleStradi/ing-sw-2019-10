@@ -8,7 +8,6 @@ import java.util.List;
 
 public class PlayerBoard {
 
-    //private Actions actions;
     private DamageTrack damages;
     private PointsPlayerBoard points;
     private ArrayList<DamageToken> marks;
@@ -19,14 +18,6 @@ public class PlayerBoard {
         this.points = new PointsPlayerBoard();
         this.marks = new ArrayList<>();
     }
-
-    /*public Actions getActions() {
-        return actions;
-    }
-
-    public void setActions(Actions actions) {
-        this.actions = actions;
-    }*/
 
     public DamageTrack getDamages() {
         return damages;

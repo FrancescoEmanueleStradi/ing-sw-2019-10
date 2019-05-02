@@ -97,7 +97,7 @@ public class KillTrack {
         return this.l.stream().sorted((a, b) -> (a.colourDifference(b))).collect(Collectors.toList());
     }
 
-    private List<Colour> scoreBoard() {
+    public List<Colour> scoreBoard() {
         this.listNumColour();
         LinkedList<Colour> colour = new LinkedList<>();
         for(NumColour n : getOrderedNumColour())

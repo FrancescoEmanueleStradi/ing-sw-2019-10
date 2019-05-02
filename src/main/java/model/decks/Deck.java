@@ -3,9 +3,9 @@ package model.decks;
 import java.util.Collections;
 import java.util.List;
 
-public abstract class Deck {
+public interface Deck {
 
-    public void shuffleDeck(List deck) {
+    public default void shuffleDeck(List deck) {
         Collections.shuffle(deck);
     }
 

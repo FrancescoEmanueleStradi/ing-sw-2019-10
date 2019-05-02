@@ -108,7 +108,6 @@ public class Grid {
             p1.getpB().getDamages().addDamage(y, p2.getC());
             p1.getpB().clearMark(p2.getC());
         }
-        else return;
     }
 
     public int distance(Player p1, Player p2) {
@@ -135,8 +134,7 @@ public class Grid {
         int n = 0;
 
         for(int i =0; i<p.getCell().getPosWall().length; i++) {
-            if (p.getCell().getPosWall()[i] == d) {
-                //System.out.println("you can't move");
+            if (p.getCell().getPosWall()[i] == d) {                     //player can't move
                 n=1;
             }
         }

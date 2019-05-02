@@ -10,7 +10,7 @@ import model.cards.powerupcards.Teleporter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PowerUpDeck extends Deck {
+public class PowerUpDeck implements Deck {
 
     private ArrayList<PowerUpCard> deck = new ArrayList<>();
 

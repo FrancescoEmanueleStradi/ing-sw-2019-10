@@ -6,7 +6,7 @@ import model.cards.ammocards.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AmmoDeck extends Deck {
+public class AmmoDeck implements Deck {
 
     private ArrayList<AmmoCard> deck = new ArrayList<>();
 

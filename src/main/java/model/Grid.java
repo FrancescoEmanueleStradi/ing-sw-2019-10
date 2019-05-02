@@ -412,4 +412,14 @@ public class Grid {
         }
         return true;
     }
+
+    public WeaponSlot getWeaponSlotObject(String s){
+        if(s.equals("1"))
+            return this.board.getW1();
+        if(s.equals("2"))
+            return this.board.getW2();
+        if(s.equals("3"))
+            return this.board.getW3();
+       return null;
+    }
 }

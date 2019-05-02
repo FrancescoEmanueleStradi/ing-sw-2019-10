@@ -66,7 +66,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
     }
 
 
-    public void addPlayer(String nickName, Colour c) {
+    public synchronized void addPlayer(String nickName, Colour c) {
         Player p = new Player(nickName, c, false);
         this.grid.addPlayer(p);
     }
@@ -79,7 +79,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         return false;
     }
 
-    public List<String> getPlayers() {
+    public synchronized List<String> getPlayers() {
         return this.grid.getPlayers().stream().map(a -> a.getNickName()).collect(Collectors.toList());
     }
 
@@ -140,7 +140,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         this.gameState = INITIALIZED;
    }
 
-   public List<PowerUpCard> giveTwoPUCard(String nickName) {
+   public synchronized List<PowerUpCard> giveTwoPUCard(String nickName) {
         Player p = this.grid.getPlayerObject(nickName);
         if(p.getCell() == null) {
             List<PowerUpCard> l = new LinkedList<>();
@@ -157,7 +157,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         return (p.getCell() == null);
    }
 
-   public void pickAndDiscardCard(String nickName, PowerUpCard p1, PowerUpCard p2) {     //p1 choose, p2 discard
+   public synchronized void pickAndDiscardCard(String nickName, PowerUpCard p1, PowerUpCard p2) {     //p1 choose, p2 discard
        Player p = this.grid.getPlayerObject(nickName);
        p.addPowerUpCard(p1);
        this.grid.getPowerUpDiscardPile().add(p2);
@@ -165,7 +165,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
    }
 
 
-   private void chooseSpawnPoint(Colour c, Player p) {
+   private synchronized void chooseSpawnPoint(Colour c, Player p) {
        if(c.equals(Colour.YELLOW))
            this.grid.move(p, new Position(2,3));
        if(c.equals(Colour.RED))
@@ -786,7 +786,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         return false;
     }
 
-    public void firstActionShoot(String nickName, String nameWC, List<Integer> lI, List<String> lS, int direction, List<Colour> lAInput, List<String> lPInput) {
+    public synchronized void firstActionShoot(String nickName, String nameWC, List<Integer> lI, List<String> lS, int direction, List<Colour> lAInput, List<String> lPInput) {
         Player p = this.grid.getPlayerObject(nickName);
         List<AmmoCube> lA= new LinkedList<>();
         for(Colour c : lAInput)
@@ -816,7 +816,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         return (this.gameState.equals(STARTTURN) && (directions.size() < 4) && (!directions.isEmpty()));
    }
 
-    public void firstActionMove(String nickName, List<Integer> directions){ //player p moves 1,2,3 cells: directions contains every direction from cell to cell
+    public synchronized void firstActionMove(String nickName, List<Integer> directions){ //player p moves 1,2,3 cells: directions contains every direction from cell to cell
                 Player p = this.grid.getPlayerObject(nickName);
                 move(p, directions);
                 this.gameState = ACTION1;
@@ -862,15 +862,23 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         if(p.getCell().getStatus() == 0)
             giveWhatIsOnAmmoCard(p, p.getCell().getA());
         else if((p.getCell().getStatus() == 1) && wCard != null) {
-            if(canPay(wCard, choosePayment(lA, lP)))
+            if(canPay(wCard, choosePayment(lA, lP))) {
                 p.payCard(lA, lP);
+                p.getwC().add(wCard);
+            }
         }
         if(p.getwC().size() > 3)
-            this.discard = true;                    //View saved the Weapon Slot
+            this.discard = true;
     }
 
-    public void discardWeaponCard(String nickName, WeaponSlot wS, WeaponCard wC) {
+    public boolean isDiscard() {
+        return discard;
+    }
+
+    public void discardWeaponCard(String nickName, String wSInput, String wCInput) {
        Player p = this.grid.getPlayerObject(nickName);
+       WeaponCard wC = p.getWeaponCardObject(wCInput);
+       WeaponSlot wS = this.grid.getWeaponSlotObject(wSInput);
        p.removeWeaponCard(wC);
        if(wS.getCard1() == null){
            wS.setCard1(wC);
@@ -891,8 +899,10 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         if(p.getCell().getStatus() == 0)
             giveWhatIsOnAmmoCard(p, p.getCell().getA());
         else if((p.getCell().getStatus() == 1) && w != null) {
-            if(canPay(w, choosePayment(lA, lP)))
+            if(canPay(w, choosePayment(lA, lP))) {
                 p.payCard(lA, lP);
+                p.getwC().add(w);
+            }
         }
         if(p.getwC().size() > 3)
             this.discard = true;
@@ -945,7 +955,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
     }
 
 
-    public void firstActionGrab(String nickName, Integer[] directions, String wCardInput, List<Colour> lAInput, List<String> lPInput) { //directions contains where p wants to go. directions contains '0' if p doesn't want to move and only grab
+    public synchronized void firstActionGrab(String nickName, Integer[] directions, String wCardInput, List<Colour> lAInput, List<String> lPInput) { //directions contains where p wants to go. directions contains '0' if p doesn't want to move and only grab
         Player p = this.grid.getPlayerObject(nickName);
         WeaponCard wCard = this.grid.getWeaponCardObject(wCardInput);
         List<AmmoCube> l = new LinkedList<>();
@@ -980,7 +990,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
 
 
-    public void secondActionMove(String nickName, List<Integer> directions ){ //player p moves 1,2,3 cells: directions contains every direction from cell to cell
+    public synchronized void secondActionMove(String nickName, List<Integer> directions ){ //player p moves 1,2,3 cells: directions contains every direction from cell to cell
         Player p = this.grid.getPlayerObject(nickName);
         move(p, directions);
         this.gameState = ACTION2;
@@ -1031,7 +1041,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         return false;
     }
 
-    public void secondActionGrab(String nickName, Integer[] directions, String wCardInput, List<Colour> lAInput, List<String> lPInput) { //directions contains where p wants to go. directions contains '0' if p doesn't want to move and only grab
+    public synchronized void secondActionGrab(String nickName, Integer[] directions, String wCardInput, List<Colour> lAInput, List<String> lPInput) { //directions contains where p wants to go. directions contains '0' if p doesn't want to move and only grab
         Player p = this.grid.getPlayerObject(nickName);
         WeaponCard wCard = this.grid.getWeaponCardObject(wCardInput);
         List<AmmoCube> l= new LinkedList<>();
@@ -1074,7 +1084,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         return false;
     }
 
-    public void secondActionShoot(String nickName, String nameWC, List<Integer> lI, List<String> lS, int direction, List<Colour> lAInput, List<String> lPInput) {
+    public synchronized void secondActionShoot(String nickName, String nameWC, List<Integer> lI, List<String> lS, int direction, List<Colour> lAInput, List<String> lPInput) {
         Player p = this.grid.getPlayerObject(nickName);
         List<AmmoCube> lA= new LinkedList<>();
         for(Colour c : lAInput)
@@ -1132,7 +1142,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         return x;
     }
 
-    public void usePowerUpCard(String nickName, String namePC, List<String> lS, Colour c) {
+    public synchronized void usePowerUpCard(String nickName, String namePC, List<String> lS, Colour c) {
         Player p = this.grid.getPlayerObject(nickName);
         switch(namePC) {
             case "Newton" :
@@ -1177,7 +1187,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         return this.gameState.equals(ACTION2);
     }
 
-    public void reload(String nickName, String s, int end) {  // end is 1 if the player has finished to reload
+    public synchronized void reload(String nickName, String s, int end) {  // end is 1 if the player has finished to reload
            Player p = this.grid.getPlayerObject(nickName);
            if(p.checkAmmoCube(p.getWeaponCardObject(s).getReloadCost())){
                 p.getWeaponCardObject(s).reload();
@@ -1210,7 +1220,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         return this.gameState.equals(RELOADED) && (this.grid.whoIsDead()!=null);
     }
 
-    public void scoring() {
+    public synchronized void scoring() {
         int c = 0;
         for(Player p : this.grid.whoIsDead()) {
             this.deadList.add(p.getNickName());
@@ -1235,7 +1245,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         return this.gameState == DEATH;
     }
 
-    public void discardCardForSpawnPoint(String nickName, String s1) {      //Attention to the view
+    public synchronized void discardCardForSpawnPoint(String nickName, String s1) {      //Attention to the view
         Player p = this.grid.getPlayerObject(nickName);
         PowerUpCard p1 = p.getPowerUpCardObject(s1);
         chooseSpawnPoint(p1.getC(), p);
@@ -1249,7 +1259,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         return this.gameState == ENDTURN;
     }
 
-    public void replace() {
+    public synchronized void replace() {
        this.grid.replaceAmmoCard();
        this.grid.replaceWeaponCard();
        if(this.grid.getBoard().getK().getSkulls()[7] != 0)
@@ -1311,7 +1321,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
     }
 
-    public void finalFrenzyAction1(String nickName, int direction, List<String> weaponToReload, String weaponToUse, List<Integer> lI, List<String> lS, List<Colour> lAInput, List<String> lPInput) {
+    public synchronized void finalFrenzyAction1(String nickName, int direction, List<String> weaponToReload, String weaponToUse, List<Integer> lI, List<String> lS, List<Colour> lAInput, List<String> lPInput) {
         Player p = this.grid.getPlayerObject(nickName);
         List<AmmoCube> lA = new LinkedList<>();
         for (Colour c : lAInput)
@@ -1343,7 +1353,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         return(finalFrenzy && directions.size() <= 4 && this.grid.canGhostMove(p, directions));
     }
 
-    public void finalFrenzyAction2(String nickName, List<Integer> directions) {
+    public synchronized void finalFrenzyAction2(String nickName, List<Integer> directions) {
         Player p = this.grid.getPlayerObject(nickName);
         for(int i : directions)
             this.grid.move(p, i);
@@ -1362,7 +1372,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         return(finalFrenzy && directions.size() <= 2 && this.grid.canGhostMove(p, directions) && isValidFrenzyGrab(nickName, wCardInput, wSlotInput, lAInput, lPInput));
     }
 
-    public void finalFrenzyAction3(String nickName, List<Integer> directions, String wCardInput, List<Colour> lAInput, List<String> lPInput) {
+    public synchronized void finalFrenzyAction3(String nickName, List<Integer> directions, String wCardInput, List<Colour> lAInput, List<String> lPInput) {
         Player p = this.grid.getPlayerObject(nickName);
         WeaponCard wCard = this.grid.getWeaponCardObject(wCardInput);
         List<AmmoCube> lA = new LinkedList<>();
@@ -1405,7 +1415,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         return (finalFrenzy && directions.size() <= 2 && this.grid.canGhostMove(p, directions) && this.isValidShootNotAdrenaline(p, weaponToUse, lI, lS, lA, lP));
     }
 
-    public void finalFrenzyAction4(String nickName, List<Integer> directions, List<String> weaponToReload, String weaponToUse, List<Integer> lI, List<String> lS, List<Colour> lAInput, List<String> lPInput) {
+    public synchronized void finalFrenzyAction4(String nickName, List<Integer> directions, List<String> weaponToReload, String weaponToUse, List<Integer> lI, List<String> lS, List<Colour> lAInput, List<String> lPInput) {
         Player p = this.grid.getPlayerObject(nickName);
         List<AmmoCube> lA = new LinkedList<>();
         for (Colour c : lAInput)
@@ -1436,7 +1446,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         return(finalFrenzy && directions.size() <= 3 && this.grid.canGhostMove(p, directions) && isValidFrenzyGrab(nickName, wCardInput, wSlotInput, lAInput, lPInput));
     }
 
-    public void finalFrenzyAction5(String nickName, List<Integer> directions, String wCardInput, List<Colour> lAInput, List<String> lPInput) {
+    public synchronized void finalFrenzyAction5(String nickName, List<Integer> directions, String wCardInput, List<Colour> lAInput, List<String> lPInput) {
         Player p = this.grid.getPlayerObject(nickName);
         WeaponCard wCard = this.grid.getWeaponCardObject(wCardInput);
         List<AmmoCube> lA = new LinkedList<>();
@@ -1500,7 +1510,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
     }
 
 
-    public void finalFrenzyTurnScoring() {
+    public synchronized void finalFrenzyTurnScoring() {
         int c = 0;
         for(Player p : this.grid.whoIsDead()) {
             this.deadList.add(p.getNickName());
@@ -1522,11 +1532,11 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         this.gameState = STARTTURN;
     }
 
-    public void endTurnFinalFrenzy() {
+    public synchronized void endTurnFinalFrenzy() {
         this.gameState = ENDALLTURN;
     }
 
-    public void finalScoring() {
+    public synchronized void finalScoring() {
         if (this.gameState == ENDALLTURN) {
             for (Player p : this.grid.getPlayers()) {
                 if (p.getpB().getDamages().getDamageTr()[0] == null) {

@@ -258,6 +258,11 @@ public class Cli implements View{
             }
         }
         this.game.firstActionGrab(nickName, l.toArray(directions), wCard, lC, lP );
+        if(this.game.isDiscard()) {
+            System.out.println("Choose the weapon card you want to discard");
+            String wCDiscard = in.next();
+            this.game.discardWeaponCard(nickName, weaponSlot, wCDiscard);
+        }
     }
 
     @Override
@@ -286,7 +291,7 @@ public class Cli implements View{
             while (in.hasNext())
                 l.add(in.nextInt());
         }
-        this.game.firstActionMove(this.nickName, l);
+        this.game.secondActionMove(this.nickName, l);
     }
 
     private void shootSecondAction() {
@@ -431,6 +436,11 @@ public class Cli implements View{
             }
         }
         this.game.secondActionGrab(nickName, l.toArray(directions), wCard, lC, lP );
+        if(this.game.isDiscard()) {
+            System.out.println("Choose the weapon card you want to discard");
+            String wCDiscard = in.next();
+            this.game.discardWeaponCard(nickName, weaponSlot, wCDiscard);
+        }
     }
 
     @Override
@@ -448,6 +458,7 @@ public class Cli implements View{
         System.out.println("Enter which PowerUpCard you want to use:");
         this.game.getPowerUpCard(nickName).stream().forEach(System.out::println);
         namePC = in.next();
+        this.game.getDescriptionPUC(namePC, nickName);
         switch (namePC){
             case "Tagback Grenade":
                 System.out.println("Enter the nickname of a player you can see and that gave you damage:");

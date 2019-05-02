@@ -437,7 +437,7 @@ public class Cli implements View{
     public boolean doYouWantToUsePUC(){
         Scanner in = new Scanner(System.in);
         System.out.println("Do you want to use the power up card now?");
-        return (in.next() == "Yes" || in.next() == "yes");
+        return (in.next().equals("Yes") || in.next().equals("yes"));
     }
 
     @Override

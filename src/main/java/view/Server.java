@@ -43,6 +43,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
         players = new LinkedList<>();
         playersTakingTheirTurn = new LinkedList<>();            //TODO methods in the controller to notify the server
 
+
     }
 
     public boolean isMyTurn(int game, int identifier) throws RemoteException{
@@ -53,5 +54,11 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
     }
     public boolean gameIsFinished(int game) throws RemoteException{
         return games.get(game).getGameState() == GameState.ENDALLTURN;
+    }
+
+    public void finishTurn(int game) throws RemoteException{
+        if(games.get(game).getPlayers().size() < playersTakingTheirTurn.get(game))
+            playersTakingTheirTurn.add(game, playersTakingTheirTurn.get(game)+1);
+        else playersTakingTheirTurn.add(game, 0);
     }
 }

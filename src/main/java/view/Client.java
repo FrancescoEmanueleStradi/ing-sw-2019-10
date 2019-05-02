@@ -30,6 +30,8 @@ public class Client {
         }
 
         view.askNameAndColour();
+        //centralServer.setGame();
+        //identifier = centralServer.receiveIdentifier;
         view.selectSpawnPoint();
         while (centralServer.isMyTurn(game, identifier)) {
             if (centralServer.isNotFinalFrenzy(game)) {
@@ -45,13 +47,14 @@ public class Client {
                 view.scoring();
                 view.newSpawnPoint();
                 view.replace();
+                centralServer.finishTurn(game);
             }
             else {
                 view.finalFrenzyTurn();                       //TODO
-                view.endFinalFrenzy();
+                centralServer.finishTurn(game);
             }
         }
-
+        view.endFinalFrenzy();                  //TODO
         if(centralServer.gameIsFinished(game)){
             view.finalScoring();
         }

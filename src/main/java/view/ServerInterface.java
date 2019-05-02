@@ -20,4 +20,5 @@ public interface ServerInterface extends Remote {
     boolean isMyTurn(int game, int identifier) throws RemoteException;
     boolean isNotFinalFrenzy(int game) throws RemoteException;
     boolean gameIsFinished(int game) throws RemoteException;
+    void finishTurn(int game) throws RemoteException;
 }

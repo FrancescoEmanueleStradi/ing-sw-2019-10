@@ -1,12 +1,9 @@
 package model.cards.weaponcards;
 
 import model.*;
-import model.board.Cell;
 import model.cards.WeaponCard;
 import model.player.AmmoCube;
 import model.player.Player;
-
-import java.util.List;
 
 public class Sledgehammer extends WeaponCard {
 

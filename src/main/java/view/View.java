@@ -16,7 +16,6 @@ public interface View extends Remote {
     void scoring()throws RemoteException;
     void newSpawnPoint()throws RemoteException;
     void replace()throws RemoteException;
-    boolean isFinalFrenzy() throws RemoteException;
     void finalFrenzyTurn()throws RemoteException;
     void endFinalFrenzy()throws RemoteException;
     void finalScoring()throws RemoteException;

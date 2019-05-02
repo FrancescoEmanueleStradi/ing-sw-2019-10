@@ -21,11 +21,17 @@ import static controller.GameState.*;
 public class Game {                                 //Cli or Gui -- Rmi or Socket
 
     private GameState gameState;
+    private  int numGame;
     private boolean init = false;
     private Grid grid;
     private boolean discard = false;
     private List<String> deadList = new LinkedList<>();
     private boolean finalFrenzy = false;
+
+
+    public GameState getGameState() {
+        return gameState;
+    }
 
     public boolean gameIsNotStarted() {
         return this.grid.getPlayers().isEmpty();
@@ -1210,7 +1216,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
             this.deadList.add(p.getNickName());
             this.grid.scoringByColour(p.getpB().getDamages().getDamageTr()[0].getC(), 1);
             for(int i = 1; i < p.getpB().getPoints().getPoints().size(); i++)
-                this.grid.scoringByColour(p.getpB().getDamages().getColourPosition(i-1), p.getpB().getPoints().getInt(i));
+                this.grid.scoringByColour(p.getpB().getDamages().getColourPosition(i-1), p.getpB().getPoints().getInt(i));  //TODO test: is the for cycle ok or we have to do ifs as in final frenzy?
             p.getpB().getDamages().cleanL();
             c++;
             if(c == 2)
@@ -1258,6 +1264,11 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
     //player can do 2 actions (choosing between 1, 2, 3) if he takes his final turn before the first player
     //player can do 1 action (choosing between 4, 5) if he is the first player, or takes his final turn after the first player
+
+
+    public boolean isFinalFrenzy() {
+        return finalFrenzy;
+    }
 
     public boolean isValidFinalFrenzyAction(String nickName, List<String> lS) {
         if(this.gameState == STARTTURN && finalFrenzy) {
@@ -1493,10 +1504,14 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         int c = 0;
         for(Player p : this.grid.whoIsDead()) {
             this.deadList.add(p.getNickName());
-            this.grid.scoringByColour(p.getpB().getDamages().getColourPosition(0), 2);
-            this.grid.scoringByColour(p.getpB().getDamages().getColourPosition(1), 1);
-            this.grid.scoringByColour(p.getpB().getDamages().getColourPosition(2), 1);
-            this.grid.scoringByColour(p.getpB().getDamages().getColourPosition(3), 1);
+            if(p.getpB().getDamages().scoreBoard().size() >= 1)
+                this.grid.scoringByColour(p.getpB().getDamages().getColourPosition(0), 2);
+            if(p.getpB().getDamages().scoreBoard().size() >= 2)
+                this.grid.scoringByColour(p.getpB().getDamages().getColourPosition(1), 1);
+            if(p.getpB().getDamages().scoreBoard().size() >= 3)
+                this.grid.scoringByColour(p.getpB().getDamages().getColourPosition(2), 1);
+            if(p.getpB().getDamages().scoreBoard().size() >= 4)
+                this.grid.scoringByColour(p.getpB().getDamages().getColourPosition(3), 1);
             p.getpB().getDamages().cleanL();
             c++;
             if(c == 2)
@@ -1515,19 +1530,29 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         if (this.gameState == ENDALLTURN) {
             for (Player p : this.grid.getPlayers()) {
                 if (p.getpB().getDamages().getDamageTr()[0] == null) {
-                    this.grid.scoringByColour(p.getpB().getDamages().getColourPosition(0), 2);
-                    this.grid.scoringByColour(p.getpB().getDamages().getColourPosition(1), 1);
-                    this.grid.scoringByColour(p.getpB().getDamages().getColourPosition(2), 1);
-                    this.grid.scoringByColour(p.getpB().getDamages().getColourPosition(3), 1);
+                    if(p.getpB().getDamages().scoreBoard().size() >= 1)
+                        this.grid.scoringByColour(p.getpB().getDamages().getColourPosition(0), 2);
+                    if(p.getpB().getDamages().scoreBoard().size() >= 2)
+                        this.grid.scoringByColour(p.getpB().getDamages().getColourPosition(1), 1);
+                    if(p.getpB().getDamages().scoreBoard().size() >= 3)
+                        this.grid.scoringByColour(p.getpB().getDamages().getColourPosition(2), 1);
+                    if(p.getpB().getDamages().scoreBoard().size() >= 4)
+                        this.grid.scoringByColour(p.getpB().getDamages().getColourPosition(3), 1);
                     p.getpB().getDamages().cleanL();
                 }
             }
-            this.grid.scoringByColour(this.grid.getBoard().getK().getColourPosition(0), 8);
-            this.grid.scoringByColour(this.grid.getBoard().getK().getColourPosition(1), 6);
-            this.grid.scoringByColour(this.grid.getBoard().getK().getColourPosition(2), 4);
-            this.grid.scoringByColour(this.grid.getBoard().getK().getColourPosition(3), 2);
-            this.grid.scoringByColour(this.grid.getBoard().getK().getColourPosition(4), 1);
-            this.grid.scoringByColour(this.grid.getBoard().getK().getColourPosition(5), 1);
+            if(this.grid.getBoard().getK().scoreBoard().size() >= 1)
+                this.grid.scoringByColour(this.grid.getBoard().getK().getColourPosition(0), 8);
+            if(this.grid.getBoard().getK().scoreBoard().size() >= 2)
+                this.grid.scoringByColour(this.grid.getBoard().getK().getColourPosition(1), 6);
+            if(this.grid.getBoard().getK().scoreBoard().size() >= 3)
+                this.grid.scoringByColour(this.grid.getBoard().getK().getColourPosition(2), 4);
+            if(this.grid.getBoard().getK().scoreBoard().size() >= 4)
+                this.grid.scoringByColour(this.grid.getBoard().getK().getColourPosition(3), 2);
+            if(this.grid.getBoard().getK().scoreBoard().size() >= 5)
+                this.grid.scoringByColour(this.grid.getBoard().getK().getColourPosition(4), 1);
+            if(this.grid.getBoard().getK().scoreBoard().size() >= 6)
+                this.grid.scoringByColour(this.grid.getBoard().getK().getColourPosition(5), 1);
             this.grid.getBoard().getK().cleanL();
 
             this.gameState = ENDGAME;

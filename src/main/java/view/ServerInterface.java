@@ -17,4 +17,7 @@ public interface ServerInterface extends Remote {
 
     //String getSomeMessage();
     String echo(String input) throws RemoteException;
+    boolean isMyTurn(int game, int identifier) throws RemoteException;
+    boolean isNotFinalFrenzy(int game) throws RemoteException;
+    boolean gameIsFinished(int game) throws RemoteException;
 }

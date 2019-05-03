@@ -12,7 +12,7 @@ import java.util.List;
 public class Server extends UnicastRemoteObject implements ServerInterface {
 
     static private List<Game> games;
-    static private List<Integer> players;
+    static private List<List<Integer>> players;
     static private List<Integer> playersTakingTheirTurn;        //position n --> game n
 
     public Server() throws RemoteException {
@@ -55,4 +55,8 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
             playersTakingTheirTurn.add(game, playersTakingTheirTurn.get(game)+1);
         else playersTakingTheirTurn.add(game, 0);
     }
+
+    /* We should insert here methods who take parameters from the view end give them to the controller, returning the boolean (only for the
+    IsValidMethod) to the Cli/Gui
+     */
 }

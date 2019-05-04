@@ -43,7 +43,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
     }
 
     public int setGame(int numGame) throws RemoteException{
-        if (games.size()<= numGame)
+        if (games.size() < numGame)
             return numGame;
         else{
             games.add(numGame, new Game());

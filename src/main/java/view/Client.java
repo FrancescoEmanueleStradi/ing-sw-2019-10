@@ -20,7 +20,7 @@ public class Client {
 
         Scanner in = new Scanner(System.in);
         System.out.println("Enter the number of the game you want to Play:" +
-                "there are" + centralServer.getGames()+ "games now");
+                "there are " + centralServer.getGames()+ " games now");
         game = centralServer.setGame(in.nextInt()-1);
         identifier = centralServer.receiveIdentifier(game);
         System.out.println("Do you want to use CLI or GUI?");

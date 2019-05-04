@@ -19,7 +19,7 @@ public class Client {
         System.out.println("Client --> " + centralServer.echo("Hello there!"));
 
         Scanner in = new Scanner(System.in);
-        System.out.println("Enter the number of the game you want to Play:" +
+        System.out.println("Enter the number of the game you want to play: " +
                 "there are " + centralServer.getGames()+ " games now");
         game = centralServer.setGame(in.nextInt()-1);
         identifier = centralServer.receiveIdentifier(game);

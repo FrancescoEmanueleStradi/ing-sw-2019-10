@@ -12,7 +12,7 @@ import java.util.List;
 public class Server extends UnicastRemoteObject implements ServerInterface {
 
     static private List<Game> games;
-    static private List<List<Integer>> players;
+    static private List<List<View>> views;
     static private List<Integer> playersTakingTheirTurn;        //position n --> game n
 
     public Server() throws RemoteException {
@@ -34,8 +34,33 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
 
         System.out.println("Client may now invoke methods");
         games = new LinkedList<>();
-        players = new LinkedList<>();
+        views = new LinkedList<>();
         playersTakingTheirTurn = new LinkedList<>();            //TODO methods in the controller to notify the server
+    }
+
+    public int getGames(){
+        return games.size();
+    }
+
+    public int setGame(int numGame) throws RemoteException{
+        if (games.size()<= numGame)
+            return numGame;
+        else{
+            games.add(numGame, new Game());
+            return numGame;
+        }
+    }
+
+    public int receiveIdentifier(int game) throws RemoteException{
+        return views.get(game).size();                  //It should be correct
+    }
+
+    public void setCli(int game, int identifier) throws RemoteException{
+        views.get(game).add(identifier, new Cli());
+    }
+
+    public void setGui(int game, int identifier) throws RemoteException{
+        views.get(game).add(identifier, new Gui());
     }
 
     public boolean isMyTurn(int game, int identifier) throws RemoteException {
@@ -54,6 +79,46 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
         if(games.get(game).getPlayers().size() < playersTakingTheirTurn.get(game))
             playersTakingTheirTurn.add(game, playersTakingTheirTurn.get(game)+1);
         else playersTakingTheirTurn.add(game, 0);
+    }
+
+    public void messageAskNameAndColour(int game, int identifier) throws RemoteException{        //TODO just a doubt, does view print on the right terminal?
+        views.get(game).get(identifier).askNameAndColour();
+    }
+    public void messageSelectSpawnPoint(int game, int identifier)throws RemoteException{
+        views.get(game).get(identifier).selectSpawnPoint();
+    }
+    public boolean messageDoYouWantToUsePUC(int game, int identifier)throws RemoteException{
+        return views.get(game).get(identifier).doYouWantToUsePUC();
+    }
+    public void messageUsePowerUpCard(int game, int identifier)throws RemoteException{
+        views.get(game).get(identifier).usePowerUpCard();
+    }
+    public void messageAction1(int game, int identifier)throws RemoteException{
+        views.get(game).get(identifier).action1();
+    }
+    public void messageAction2(int game, int identifier)throws RemoteException{
+        views.get(game).get(identifier).action2();
+    }
+    public void messageReload(int game, int identifier)throws RemoteException{
+        views.get(game).get(identifier).reload();
+    }
+    public void messageScoring(int game, int identifier)throws RemoteException{
+        views.get(game).get(identifier).scoring();
+    }
+    public void messageNewSpawnPoint(int game, int identifier)throws RemoteException{
+        views.get(game).get(identifier).newSpawnPoint();
+    }
+    public void messageReplace(int game, int identifier)throws RemoteException{
+        views.get(game).get(identifier).replace();
+    }
+    public void messageFinalFrenzyTurn(int game, int identifier)throws RemoteException{
+        views.get(game).get(identifier).finalFrenzyTurn();
+    }
+    public void messageEndFinalFrenzy(int game, int identifier)throws RemoteException{
+        views.get(game).get(identifier).endFinalFrenzy();
+    }
+    public void messageFinalScoring(int game, int identifier)throws RemoteException{
+        views.get(game).get(identifier).finalScoring();
     }
 
     /* We should insert here methods who take parameters from the view end give them to the controller, returning the boolean (only for the

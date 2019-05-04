@@ -32,7 +32,7 @@ public class Cli implements View{
     @Override
     public void askNameAndColour() {
         Scanner in = new Scanner(System.in);
-        if (this.game.gameIsNotStarted()) {                     //TODO link this game to the game in the server, and problem with NullPointerException
+        if (this.game.gameIsNotStarted()) {
             System.out.println("Enter your name:");
             this.nickName = in.nextLine();
             System.out.println("Enter your colour (YELLOW, BLUE, GREEN, PURPLE, BLACK):");

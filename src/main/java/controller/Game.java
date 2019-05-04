@@ -23,7 +23,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
     private GameState gameState;
     private  int numGame;
     private boolean init = false;
-    private Grid grid;
+    private Grid grid = new Grid();
     private boolean discard = false;
     private List<String> deadList = new LinkedList<>();
     private boolean finalFrenzy = false;
@@ -40,7 +40,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
     public void gameStart(String nickName, Colour c) {
        if(!init) {
            init = true;
-           this.grid = new Grid();
+           //this.grid = new Grid();
            Player p = new Player(nickName, c, true);
            p.setTurnFinalFrenzy(1);
            this.grid.addPlayer(p);               //first state

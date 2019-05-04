@@ -401,6 +401,8 @@ public class Grid {
             this.move(ghost, i);
             if(i != 0 && ghost.getCell().getP().equals(initialPos))
                 return false;
+            else
+                initialPos = ghost.getCell().getP();
         }
         return true;
     }

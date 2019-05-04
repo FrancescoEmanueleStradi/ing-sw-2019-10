@@ -1,14 +1,19 @@
 package model;
 
 import model.board.Cell;
+import model.cards.PowerUpCard;
+import model.cards.WeaponCard;
 import model.player.Player;
 import org.junit.jupiter.api.Test;
+
+import java.util.LinkedList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class GridAssertTests {
     @Test
-    void GridPlayersTest()  {
+    void GridPlayersTest() {
         Grid grid = new Grid();
         assertTrue(grid.getPlayers().isEmpty());
         assertNull(grid.getPlayerObject("Player 1"));
@@ -81,6 +86,16 @@ class GridAssertTests {
 
         grid.clean(p2);
         assertNull(p2.getpB().getDamages().getDamageTr()[0]);
+
+
+        Player p3 = new Player("Player 3", Colour.GREEN, false);
+        grid.addPlayer(p2);
+        grid.damage(p3, p1, 11);
+        assertEquals(1, grid.whoIsDead().size());
+        assertEquals(p1, grid.whoIsDead().get(0));
+        grid.damage(p3, p2, 11);
+        assertEquals(2, grid.whoIsDead().size());
+        assertEquals(p2, grid.whoIsDead().get(1));
     }
 
     @Test
@@ -240,5 +255,147 @@ class GridAssertTests {
         assertEquals(2, grid.colourOfOtherViewZone(p3).size());
         assertTrue(grid.colourOfOtherViewZone(p3).contains(Colour.RED));
         assertTrue(grid.colourOfOtherViewZone(p3).contains(Colour.PURPLE));
+    }
+
+    @Test
+    void GridWeaponCardMethodsTest() {
+        Grid grid = new Grid();
+        grid.setType(2);
+
+        assertNotNull(grid.getBoard().getW1().getCard1());
+        assertNotNull(grid.getBoard().getW1().getCard2());
+        assertNotNull(grid.getBoard().getW1().getCard3());
+        assertNotNull(grid.getBoard().getW2().getCard1());
+        assertNotNull(grid.getBoard().getW2().getCard2());
+        assertNotNull(grid.getBoard().getW2().getCard3());
+        assertNotNull(grid.getBoard().getW3().getCard1());
+        assertNotNull(grid.getBoard().getW3().getCard2());
+        assertNotNull(grid.getBoard().getW3().getCard3());
+
+        grid.getBoard().getW1().setCard2(null);
+        grid.getBoard().getW2().setCard3(null);
+        grid.getBoard().getW3().setCard1(null);
+
+        assertNotNull(grid.getBoard().getW1().getCard1());
+        assertNull(grid.getBoard().getW1().getCard2());
+        assertNotNull(grid.getBoard().getW1().getCard3());
+        assertNotNull(grid.getBoard().getW2().getCard1());
+        assertNotNull(grid.getBoard().getW2().getCard2());
+        assertNull(grid.getBoard().getW2().getCard3());
+        assertNull(grid.getBoard().getW3().getCard1());
+        assertNotNull(grid.getBoard().getW3().getCard2());
+        assertNotNull(grid.getBoard().getW3().getCard3());
+
+        grid.replaceWeaponCard();
+
+        assertNotNull(grid.getBoard().getW1().getCard1());
+        assertNotNull(grid.getBoard().getW1().getCard2());
+        assertNotNull(grid.getBoard().getW1().getCard3());
+        assertNotNull(grid.getBoard().getW2().getCard1());
+        assertNotNull(grid.getBoard().getW2().getCard2());
+        assertNotNull(grid.getBoard().getW2().getCard3());
+        assertNotNull(grid.getBoard().getW3().getCard1());
+        assertNotNull(grid.getBoard().getW3().getCard2());
+        assertNotNull(grid.getBoard().getW3().getCard3());
+
+
+        WeaponCard wc1 = grid.getBoard().getW1().getCard2();
+        String sWc1 = grid.getBoard().getW1().getCard2().getCardName();
+        WeaponCard wc2 = grid.getBoard().getW2().getCard3();
+        String sWc2 = grid.getBoard().getW2().getCard3().getCardName();
+        WeaponCard wc3 = grid.getBoard().getW3().getCard1();
+        String sWc3 = grid.getBoard().getW3().getCard1().getCardName();
+
+        assertEquals(wc1, grid.getWeaponCardObject(sWc1));
+        assertEquals(wc2, grid.getWeaponCardObject(sWc2));
+        assertEquals(wc3, grid.getWeaponCardObject(sWc3));
+
+
+        assertEquals(grid.getBoard().getW1(), grid.getWeaponSlotObject("1"));
+        assertEquals(grid.getBoard().getW2(), grid.getWeaponSlotObject("2"));
+        assertEquals(grid.getBoard().getW3(), grid.getWeaponSlotObject("3"));
+    }
+
+    @Test
+    void GridPowerUpCardMethodsTest() {
+        Grid grid = new Grid();
+        grid.setType(3);
+        Player p = new Player("Player", Colour.BLUE, true);
+
+        grid.pickPowerUpCard(p);
+        grid.pickPowerUpCard(p);
+        grid.pickPowerUpCard(p);
+        grid.pickPowerUpCard(p);
+
+        assertEquals(3, p.getpC().size());
+
+        PowerUpCard pUC = grid.pickPowerUpCard();
+        p.addPowerUpCard(pUC);
+
+        assertEquals(4, p.getpC().size());
+        assertEquals(pUC, p.getpC().get(3));
+    }
+
+    @Test
+    void GridAmmoCardMethodsTest() {
+        Grid grid = new Grid();
+        grid.setType(4);
+
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 4; j++) {
+                assertNull(grid.getBoard().getArena()[i][j].getA());
+            }
+        }
+
+        grid.setUpAmmoCard();
+
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 4; j++) {
+                if (grid.getBoard().getArena()[i][j].getStatus() == 0)
+                    assertNotNull(grid.getBoard().getArena()[i][j].getA());
+            }
+        }
+
+        grid.getBoard().getArena()[0][0].setA(null);
+
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 4; j++) {
+                if (grid.getBoard().getArena()[i][j].getStatus() == 0 && i != 0 && j != 0)
+                    assertNotNull(grid.getBoard().getArena()[i][j].getA());
+            }
+        }
+
+        grid.replaceAmmoCard();
+
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 4; j++) {
+                if (grid.getBoard().getArena()[i][j].getStatus() == 0)
+                    assertNotNull(grid.getBoard().getArena()[i][j].getA());
+            }
+        }
+    }
+
+    @Test
+    void GridGhostMoveTest() {
+        Grid grid = new Grid();
+        Player p1 = new Player("Player 1", Colour.BLUE, true);
+        grid.setType(1);
+        p1.changeCell(grid.getBoard().getArena()[1][0]);
+
+        List<Integer> directions = new LinkedList<>();
+        directions.add(1);                                  //p1 moves one cell up
+        directions.add(2);                                  //p1 moves one cell right
+        directions.add(3);                                  //p1 moves one cell down
+        directions.add(4);                                  //p1 want to move one cell left, but he can't
+
+        assertFalse(grid.canGhostMove(p1, directions));
+        assertEquals(grid.getBoard().getArena()[1][0], p1.getCell());   //p1 didn't move
+
+        directions.remove(3);                           //remove last direction, as it's not valid
+
+        assertTrue(grid.canGhostMove(p1, directions));
+        assertEquals(grid.getBoard().getArena()[1][0], p1.getCell());   //p1 didn't move
+        Player ghost = grid.ghostMove(p1, directions);                  //now p1's ghost player moves
+        assertEquals(grid.getBoard().getArena()[1][1], ghost.getCell());//ghost has moved to [1][1]
     }
 }

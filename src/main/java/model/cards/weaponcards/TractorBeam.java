@@ -39,7 +39,7 @@ public class TractorBeam extends WeaponCard {
     //before: let the player choose which player p1 he wants to move and damage: controller checks if the distance is 0, 1 or 2, but player p don't necessarily have to see the enemy
 
     public void applySpecialEffect(Grid grid, Player p, Player p1) {    //enemy is moved to p and damaged
-        p1.setCell(p.getCell());
+        p1.changeCell(p.getCell());
         grid.damage(p, p1, 3);
     }
 }

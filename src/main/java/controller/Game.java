@@ -751,7 +751,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
             return false;
         else {
             Player future = new Player("?fUtUrE!", p.getC(), p.isFirstPlayerCard());
-            future.setCell(p.getCell());
+            future.changeCell(p.getCell());
             this.grid.move(future, direction);
             return this.isValidShootNotAdrenaline(future, nameWC, lI, lS, lA, lP);
         }

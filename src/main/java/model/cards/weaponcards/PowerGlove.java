@@ -28,7 +28,7 @@ public class PowerGlove extends WeaponCard {
     //before: let player p choose a target p1 in a cell exactly one move away from him.
 
     public void applyEffect(Grid grid, Player p, Player p1) {   //player p moves in the same cell as the selected p1, deals him 1 damage and 2 marks
-        p.setCell(p1.getCell());
+        p.changeCell(p1.getCell());
         grid.damage(p, p1, 1);
         grid.addMark(p, p1);
         grid.addMark(p, p1);

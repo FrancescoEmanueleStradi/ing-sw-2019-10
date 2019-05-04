@@ -61,7 +61,7 @@ public class Player {
     }
 
     public void addScore(int score) {
-        this.score = score;
+        this.score = this.score + score;
     }
 
     public AmmoCube[] getaC() {
@@ -181,9 +181,9 @@ public class Player {
         return null;
     }
 
-    public void setCell(Cell c){        //only the first time, to initialize this.cell
+    /*public void setCell(Cell c){        //use changeCell because this create a new Cell and it is not correct to do that
         this.cell = new Cell(c.getStatus(), c.getC(), c.getPosWall(), c.getPosDoor(), c.getP());
-    }
+    }*/
 
     public void changeCell(Cell c){
         if(c.getStatus() != -1)

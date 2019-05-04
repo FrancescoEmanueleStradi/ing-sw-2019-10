@@ -186,8 +186,8 @@ class PlayerAssertTests {
 
         assertNull(p1.getCell());
 
-        p1.setCell(cell1);
-        p1.changeCell(fake);
+        p1.changeCell(cell1);
+        p1.changeCell(fake);    //this should not change the cell because 'fake' cell does not exist in the board
 
         assertEquals(pos1, p1.getCell().getP());
         assertEquals(cell1.getC(), p1.getCell().getC());
@@ -215,8 +215,8 @@ class PlayerAssertTests {
         p1.addScore(6);
         assertEquals(6, p1.getScore());
 
-        p1.addScore(p1.getScore() + 6);
-        assertEquals(12, p1.getScore());
+        p1.addScore(7);
+        assertEquals(13, p1.getScore());
     }
 
     @Test

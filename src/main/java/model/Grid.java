@@ -127,7 +127,7 @@ public class Grid {
     }
 
     public void moveInMyCell(Player p, Player p2) {
-        p2.setCell(p.getCell());
+        p2.changeCell(p.getCell());
     }
 
     public void move(Player p, int d) {                                //1 up, 2 right, 3 down, 4 left
@@ -169,7 +169,7 @@ public class Grid {
         p.changeCell(board.getArena()[x][y]);
     }
 
-    public boolean isThereAWall (Player p, Position pT){            //1 if there is a wall
+    public boolean isThereAWall (Player p, Position pT){            //1 if there is a wall between p and pT
         int direction = 0;
         if(p.getCell().getP().getX() > pT.getX())
             direction = 1;
@@ -179,7 +179,10 @@ public class Grid {
             direction = 4;
         if(p.getCell().getP().getY() < pT.getY())
             direction = 2;
-        return Arrays.asList(this.board.getArena()[p.getCell().getP().getX()][p.getCell().getP().getY()].getPosWall()).contains(direction);
+        List<Integer> listPosWalls = new LinkedList<>();        //need to do this because cell.posWalls is int[] and list.contains checks for Integer
+        for(int i : this.board.getArena()[p.getCell().getP().getX()][p.getCell().getP().getY()].getPosWall())
+            listPosWalls.add(i);
+        return listPosWalls.contains(direction);
     }
 
     public void collectCard(Player p) {
@@ -392,7 +395,7 @@ public class Grid {
 
     public Player ghostMove(Player p, List<Integer> directions) {
         Player ghost = new Player("?gHoSt!", p.getC(), p.isFirstPlayerCard());
-        ghost.setCell(p.getCell());
+        ghost.changeCell(p.getCell());
 
         for(Integer i : directions)
             this.move(ghost, i);
@@ -402,7 +405,7 @@ public class Grid {
 
     public boolean canGhostMove(Player p, List<Integer> directions)  {
         Player ghost = new Player("?gHoSt!", p.getC(), p.isFirstPlayerCard());
-        ghost.setCell(p.getCell());
+        ghost.changeCell(p.getCell());
         Position initialPos = ghost.getCell().getP();
 
         for(Integer i : directions) {

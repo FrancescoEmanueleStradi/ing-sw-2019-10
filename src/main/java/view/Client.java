@@ -29,7 +29,23 @@ public class Client {
                 centralServer.setCli(game, identifier);
                 //view = new Cli();
                 break;
+            case "Cli":
+                centralServer.setCli(game, identifier);
+                //view = new Cli();
+                break;
+            case "cli":
+                centralServer.setCli(game, identifier);
+                //view = new Cli();
+                break;
             case "GUI":
+                centralServer.setGui(game, identifier);
+                //view = new Gui();
+                break;
+            case "Gui":
+                centralServer.setGui(game, identifier);
+                //view = new Gui();
+                break;
+            case "gui":
                 centralServer.setGui(game, identifier);
                 //view = new Gui();
                 break;

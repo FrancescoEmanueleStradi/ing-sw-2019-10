@@ -1,7 +1,10 @@
 package view;
 
+import controller.Game;
+
 public interface View  {
 
+    void setGame(Game game);
     void askNameAndColour();
     void selectSpawnPoint();
     void action1();

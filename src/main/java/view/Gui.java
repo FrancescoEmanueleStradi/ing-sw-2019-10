@@ -1,6 +1,15 @@
 package view;
 
+import controller.Game;
+
 public class Gui implements View{
+
+    private Game game;
+
+    @Override
+    public void setGame(Game game){
+        //TODO
+    }
 
     @Override
     public void askNameAndColour() {

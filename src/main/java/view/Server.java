@@ -58,6 +58,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
 
     public void setCli(int game, int identifier) throws RemoteException{
         views.get(game).add(identifier, new Cli());
+        views.get(game).get(identifier).setGame(games.get(identifier));         //TODO this could be a problem!!!!!!!
     }
 
     public void setGui(int game, int identifier) throws RemoteException{

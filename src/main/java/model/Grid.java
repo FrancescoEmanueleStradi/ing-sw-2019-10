@@ -173,11 +173,11 @@ public class Grid {
         int direction = 0;
         if(p.getCell().getP().getX() > pT.getX())
             direction = 1;
-        if(p.getCell().getP().getX() < pT.getX())
+        else if(p.getCell().getP().getX() < pT.getX())
             direction = 3;
-        if(p.getCell().getP().getY() > pT.getY())
+        else if(p.getCell().getP().getY() > pT.getY())
             direction = 4;
-        if(p.getCell().getP().getY() < pT.getY())
+        else if(p.getCell().getP().getY() < pT.getY())
             direction = 2;
         List<Integer> listPosWalls = new LinkedList<>();        //need to do this because cell.posWalls is int[] and list.contains checks for Integer
         for(int i : this.board.getArena()[p.getCell().getP().getX()][p.getCell().getP().getY()].getPosWall())
@@ -203,54 +203,43 @@ public class Grid {
     public boolean isInViewZone(Player p, Player p2) {
         boolean b = false;
         for(int i=0; i<p.getCell().getPosDoor().length; i++) {
-            if(!b) {
-                if (p.getCell().getPosDoor()[i] == 1 && p2.getCell().getP().getX() - 1 >= 0 && p2.getCell().getC().equals(this.board.getArena()[p.getCell().getP().getX() - 1][p.getCell().getP().getY()].getC()))
-                    b = true;
-                if (p.getCell().getPosDoor()[i] == 2 && p2.getCell().getP().getY() + 1 <= 3 && p2.getCell().getC().equals(this.board.getArena()[p.getCell().getP().getX()][p.getCell().getP().getY() + 1].getC()))
-                    b = true;
-                if (p.getCell().getPosDoor()[i] == 3 && p2.getCell().getP().getX() + 1 <= 2 && p2.getCell().getC().equals(this.board.getArena()[p.getCell().getP().getX() + 1][p.getCell().getP().getY()].getC()))
-                    b = true;
-                if (p.getCell().getPosDoor()[i] == 4 && p2.getCell().getP().getY() - 1 >= 0 && p2.getCell().getC().equals(this.board.getArena()[p.getCell().getP().getX()][p.getCell().getP().getY() - 1].getC()))
+                if ((!b) && ((p.getCell().getPosDoor()[i] == 1 && p.getCell().getP().getX() - 1 >= 0 && p2.getCell().getC().equals(this.board.getArena()[p.getCell().getP().getX() - 1][p.getCell().getP().getY()].getC())) ||
+                        (p.getCell().getPosDoor()[i] == 2 && p.getCell().getP().getY() + 1 <= 3 && p2.getCell().getC().equals(this.board.getArena()[p.getCell().getP().getX()][p.getCell().getP().getY() + 1].getC())) ||
+                        (p.getCell().getPosDoor()[i] == 3 && p.getCell().getP().getX() + 1 <= 2 && p2.getCell().getC().equals(this.board.getArena()[p.getCell().getP().getX() + 1][p.getCell().getP().getY()].getC())) ||
+                        p.getCell().getPosDoor()[i] == 4 && p.getCell().getP().getY() - 1 >= 0 && p2.getCell().getC().equals(this.board.getArena()[p.getCell().getP().getX()][p.getCell().getP().getY() - 1].getC())))
                     b = true;
             }
-        }
         return (isInTheRoom(p, p2) || ((p.getCell().getPosDoor()!=null) && b));
     }
 
     public boolean isInViewZone(Player p, Position pos){
         if(this.board.getArena()[pos.getX()][pos.getY()].getC().equals(p.getCell().getC()))
             return true;
-        for(int i=0; i<p.getCell().getPosDoor().length; i++){
-            if (p.getCell().getPosDoor()[i] == 1 && p.getCell().getP().getX() - 1 >= 0 &&
-                    this.board.getArena()[p.getCell().getP().getX() - 1][p.getCell().getP().getY()].getC().equals(this.board.getArena()[pos.getX()][pos.getY()].getC())) {
+        for(int i=0; i<p.getCell().getPosDoor().length; i++)
+            if ((p.getCell().getPosDoor()[i] == 1 && p.getCell().getP().getX() - 1 >= 0 &&
+                    this.board.getArena()[p.getCell().getP().getX() - 1][p.getCell().getP().getY()].getC().equals(this.board.getArena()[pos.getX()][pos.getY()].getC())) ||
+                    (p.getCell().getPosDoor()[i] == 2 && p.getCell().getP().getY() + 1 <= 3 &&
+                            this.board.getArena()[p.getCell().getP().getX()][p.getCell().getP().getY() + 1].getC().equals(this.board.getArena()[pos.getX()][pos.getY()].getC())) ||
+                    (p.getCell().getPosDoor()[i] == 3 && p.getCell().getP().getX() + 1 <= 2 &&
+                            this.board.getArena()[p.getCell().getP().getX() + 1][p.getCell().getP().getY()].getC().equals(this.board.getArena()[pos.getX()][pos.getY()].getC())) ||
+                    (p.getCell().getPosDoor()[i] == 4 && p.getCell().getP().getY() - 1 >= 0 &&
+                            this.board.getArena()[p.getCell().getP().getX()][p.getCell().getP().getY() - 1].getC().equals(this.board.getArena()[pos.getX()][pos.getY()].getC())))
                     return true;
-            }
-            if (p.getCell().getPosDoor()[i] == 2 && p.getCell().getP().getY() + 1 <= 3 &&
-                     this.board.getArena()[p.getCell().getP().getX()][p.getCell().getP().getY() + 1].getC().equals(this.board.getArena()[pos.getX()][pos.getY()].getC())) {
-                     return true;
-            }
-            if (p.getCell().getPosDoor()[i] == 3 && p.getCell().getP().getX() + 1 <= 2 &&
-                    this.board.getArena()[p.getCell().getP().getX() + 1][p.getCell().getP().getY()].getC().equals(this.board.getArena()[pos.getX()][pos.getY()].getC())) {
-                    return true;
-            }
-            if (p.getCell().getPosDoor()[i] == 4 && p.getCell().getP().getY() - 1 >= 0 &&
-                    this.board.getArena()[p.getCell().getP().getX()][p.getCell().getP().getY() - 1].getC().equals(this.board.getArena()[pos.getX()][pos.getY()].getC())) {
-                    return true;
-            }
-        }
         return false;
     }
 
+    //returns a list of the colours of the rooms which are in the view zone of player p,
+    //except for the colour of the room player p is in
     public List<Colour> colourOfOtherViewZone(Player p){
         List<Colour> l = new LinkedList<>();
         for(int i=0; i<p.getCell().getPosDoor().length; i++){
             if (p.getCell().getPosDoor()[i] == 1)
                 l.add(this.board.getArena()[p.getCell().getP().getX() - 1][p.getCell().getP().getY()].getC());
-            if (p.getCell().getPosDoor()[i] == 2)
+            else if (p.getCell().getPosDoor()[i] == 2)
                 l.add(this.board.getArena()[p.getCell().getP().getX()][p.getCell().getP().getY() + 1].getC());
-            if (p.getCell().getPosDoor()[i] == 3)
+            else if (p.getCell().getPosDoor()[i] == 3)
                 l.add(this.board.getArena()[p.getCell().getP().getX() + 1][p.getCell().getP().getY()].getC());
-            if (p.getCell().getPosDoor()[i] == 4)
+            else if (p.getCell().getPosDoor()[i] == 4)
                 l.add(this.board.getArena()[p.getCell().getP().getX()][p.getCell().getP().getY() - 1].getC());
         }
         return l.stream().distinct().collect(Collectors.toList());
@@ -259,7 +248,7 @@ public class Grid {
     public List<Player> whoIsInTheRoom(Player p) {
         ArrayList<Player> pRoom = new ArrayList<>();
         for(Player px : players) {
-            if(isInTheRoom(p, px) && p!=px)         //Does it work?
+            if(isInTheRoom(p, px) && p!=px)
                 pRoom.add(px);
         }
         return pRoom;
@@ -268,7 +257,7 @@ public class Grid {
     public List<Player> whoIsInTheViewZone(Player p) {
         ArrayList<Player> pViewZone = new ArrayList<>();
         for (Player px : players) {
-            if (isInViewZone(p, px) && p != px)         //Does it work?
+            if (isInViewZone(p, px) && p != px)
                 pViewZone.add(px);
         }
         return pViewZone;

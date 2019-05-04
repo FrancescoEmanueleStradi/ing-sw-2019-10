@@ -178,4 +178,67 @@ class GridAssertTests {
         grid.move(p1, 4);                       //this should move p1 one cell left (to c3) through a corridor
         assertEquals(c3, grid.whereAmI(p1));
     }
+
+    @Test
+    void ViewZoneRoomTest() {
+        Grid grid = new Grid();
+        grid.setType(1);
+        Player p1 = new Player("Player 1", Colour.BLUE, true);
+        Player p2 = new Player("Player 2", Colour.YELLOW, false);
+        Player p3 = new Player("Player 3", Colour.GREEN, false);
+
+        grid.addPlayer(p1);
+        grid.addPlayer(p2);
+        grid.addPlayer(p3);
+
+        p1.changeCell(grid.getBoard().getArena()[0][0]);
+        p2.changeCell(grid.getBoard().getArena()[1][0]);
+        p3.changeCell(grid.getBoard().getArena()[0][1]);
+        //p1 is in the same cell as p2, and he can see p3. p2 can not see p3 but p3 can see p2
+
+        assertTrue(grid.isInTheRoom(p1, p2));
+        assertTrue(grid.isInTheRoom(p2, p1));
+        assertFalse(grid.isInTheRoom(p1, p3));
+        assertFalse(grid.isInTheRoom(p3, p1));
+        assertFalse(grid.isInTheRoom(p2, p3));
+        assertFalse(grid.isInTheRoom(p3, p2));
+
+        assertTrue(grid.isInViewZone(p1, p2));
+        assertTrue(grid.isInViewZone(p2, p1));
+        assertTrue(grid.isInViewZone(p1, p3));
+        assertTrue(grid.isInViewZone(p3, p1));
+        assertFalse(grid.isInViewZone(p2, p3));
+        assertTrue(grid.isInViewZone(p3, p2));
+
+        assertTrue(grid.isInViewZone(p1, p2.getCell().getP()));
+        assertTrue(grid.isInViewZone(p2, p1.getCell().getP()));
+        assertTrue(grid.isInViewZone(p1, p3.getCell().getP()));
+        assertTrue(grid.isInViewZone(p3, p1.getCell().getP()));
+        assertFalse(grid.isInViewZone(p2, p3.getCell().getP()));
+        assertTrue(grid.isInViewZone(p3, p2.getCell().getP()));
+
+
+        assertTrue(grid.whoIsInTheRoom(p1).contains(p2));
+        assertTrue(grid.whoIsInTheRoom(p2).contains(p1));
+        assertFalse(grid.whoIsInTheRoom(p1).contains(p3));
+        assertFalse(grid.whoIsInTheRoom(p3).contains(p1));
+        assertFalse(grid.whoIsInTheRoom(p2).contains(p3));
+        assertFalse(grid.whoIsInTheRoom(p3).contains(p2));
+
+        assertTrue(grid.whoIsInTheViewZone(p1).contains(p2));
+        assertTrue(grid.whoIsInTheViewZone(p1).contains(p3));
+        assertTrue(grid.whoIsInTheViewZone(p2).contains(p1));
+        assertTrue(grid.whoIsInTheViewZone(p3).contains(p1));
+        assertFalse(grid.whoIsInTheViewZone(p2).contains(p3));
+        assertTrue(grid.whoIsInTheViewZone(p3).contains(p2));
+
+
+        assertEquals(1, grid.colourOfOtherViewZone(p1).size());
+        assertTrue(grid.colourOfOtherViewZone(p1).contains(Colour.BLUE));
+        assertEquals(1, grid.colourOfOtherViewZone(p2).size());
+        assertTrue(grid.colourOfOtherViewZone(p2).contains(Colour.WHITE));
+        assertEquals(2, grid.colourOfOtherViewZone(p3).size());
+        assertTrue(grid.colourOfOtherViewZone(p3).contains(Colour.RED));
+        assertTrue(grid.colourOfOtherViewZone(p3).contains(Colour.PURPLE));
+    }
 }

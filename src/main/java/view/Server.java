@@ -48,6 +48,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
         else{
             games.add(numGame, new Game());
             views.add(numGame, new LinkedList<>());
+            playersTakingTheirTurn.add(numGame, 1);
             return numGame;
         }
     }
@@ -80,7 +81,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
     public void finishTurn(int game) throws RemoteException {
         if(games.get(game).getPlayers().size() < playersTakingTheirTurn.get(game))
             playersTakingTheirTurn.add(game, playersTakingTheirTurn.get(game)+1);
-        else playersTakingTheirTurn.add(game, 0);
+        else playersTakingTheirTurn.add(game, 1);
     }
 
     public void messageAskNameAndColour(int game, int identifier) throws RemoteException{        //TODO just a doubt, does view print on the right terminal?

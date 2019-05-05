@@ -316,4 +316,13 @@ class PlayerAssertTests {
 
         assertTrue(p1.getpC().isEmpty());
     }
+
+    @Test
+    void PlayerFinalFrenzyTest() {
+        Player p1 = new Player("Player", Colour.YELLOW, true);
+        p1.setTurnFinalFrenzy(0);
+        assertEquals(0, p1.getTurnFinalFrenzy());
+        p1.setTurnFinalFrenzy(1);
+        assertEquals(1, p1.getTurnFinalFrenzy());
+    }
 }

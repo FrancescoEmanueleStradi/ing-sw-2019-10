@@ -94,23 +94,32 @@ public class Player {
     }
 
     public void addNewAC(AmmoCube ac) {
-        if(ac.getC() == Colour.RED) {
-            for (int i = 0; i < 3; i++) {
-                if (this.aC[i] == null)
-                    this.aC[i] = ac;
-            }
+        if(ac.getC() == Colour.RED)
+            this.addNewACRED(ac);
+        else if(ac.getC() == Colour.BLUE)
+            this.addNewACBLUE(ac);
+        else if(ac.getC() == Colour.YELLOW)
+            this.addNewACYELLOW(ac);
+    }
+
+    private void addNewACRED(AmmoCube ac) {
+        for (int i = 0; i < 3; i++) {
+            if (this.aC[i] == null)
+                this.aC[i] = ac;
         }
-        else if(ac.getC() == Colour.BLUE) {
-            for (int i = 3; i < 6; i++) {
-                if (this.aC[i] == null)
-                    this.aC[i] = ac;
-            }
+    }
+
+    private void addNewACBLUE(AmmoCube ac) {
+        for (int i = 3; i < 6; i++) {
+            if (this.aC[i] == null)
+                this.aC[i] = ac;
         }
-        else if(ac.getC() == Colour.YELLOW) {
-            for (int i = 6; i < 9; i++) {
-                if (this.aC[i] == null)
-                    this.aC[i] = ac;
-            }
+    }
+
+    private void addNewACYELLOW(AmmoCube ac) {
+        for (int i = 6; i < 9; i++) {
+            if (this.aC[i] == null)
+                this.aC[i] = ac;
         }
     }
 
@@ -180,10 +189,6 @@ public class Player {
         }
         return null;
     }
-
-    /*public void setCell(Cell c){        //use changeCell because this create a new Cell and it is not correct to do that
-        this.cell = new Cell(c.getStatus(), c.getC(), c.getPosWall(), c.getPosDoor(), c.getP());
-    }*/
 
     public void changeCell(Cell c){
         if(c.getStatus() != -1)

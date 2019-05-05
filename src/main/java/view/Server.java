@@ -46,7 +46,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
         if (games.size() < numGame)
             return numGame;
         else{
-            games.add(numGame, new Game());
+            games.add(numGame, new Game());             //TODO add a game even if it shouldn't
             views.add(numGame, new LinkedList<>());
             playersTakingTheirTurn.add(numGame, 1);
             return numGame;
@@ -64,6 +64,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
 
     public void setGui(int game, int identifier) throws RemoteException{
         views.get(game).add(identifier, new Gui());
+        views.get(game).get(identifier).setGame(games.get(identifier));         //TODO this could be a problem!!!!!!!
     }
 
     public boolean isMyTurn(int game, int identifier) throws RemoteException {

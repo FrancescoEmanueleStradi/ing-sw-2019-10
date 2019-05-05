@@ -57,6 +57,7 @@ public class Cli implements View{
         String stringColour = in.nextLine();
         this.colour = Colour.valueOf(stringColour);
         while(!this.game.isValidAddPlayer(this.nickName, this.colour)){
+            System.out.println("Error: retry");
             System.out.println("Enter your name:");
             this.nickName = in.nextLine();
             System.out.println("Enter your colour:");

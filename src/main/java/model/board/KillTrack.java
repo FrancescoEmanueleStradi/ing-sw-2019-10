@@ -3,10 +3,8 @@ package model.board;
 import model.Colour;
 import model.player.damagetrack.NumColour;
 
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class KillTrack {
 

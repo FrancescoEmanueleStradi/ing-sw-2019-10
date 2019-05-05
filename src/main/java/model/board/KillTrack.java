@@ -1,7 +1,6 @@
 package model.board;
 
 import model.Colour;
-import model.player.DamageToken;
 import model.player.damagetrack.NumColour;
 
 import java.util.LinkedList;
@@ -40,9 +39,9 @@ public class KillTrack {
 
     private List<Colour> colours() {
         LinkedList<Colour> lC = new LinkedList<>();
-        for(Colour c : this.getC()){
-            if(!lC.contains(c))
-                lC.add(c);
+        for(Colour colour : this.getC()){
+            if(!lC.contains(colour))
+                lC.add(colour);
         }
         return lC;
     }
@@ -53,8 +52,8 @@ public class KillTrack {
 
     private void initializeListNumColour() {
         this.l = new LinkedList<>();
-        for(Colour c : this.colours()){
-            NumColour num = new NumColour(c);
+        for(Colour colour : this.colours()){
+            NumColour num = new NumColour(colour);
             this.l.add(num);
         }
     }

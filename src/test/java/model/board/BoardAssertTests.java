@@ -24,7 +24,11 @@ class BoardAssertTests {
         WeaponCard w8 = new MachineGun();
         WeaponCard w9 = new MachineGun();
 
-        Board board1 = new Board(1, w1, w2, w3, w4, w5, w6, w7, w8, w9);
+        WeaponSlot ws1 = new WeaponSlot(1, w1, w2, w3);
+        WeaponSlot ws2 = new WeaponSlot(2, w4, w5, w6);
+        WeaponSlot ws3 = new WeaponSlot(3, w7, w8, w9);
+
+        Board board1 = new Board(1, ws1, ws2, ws3);
         Cell[][] arena1 = board1.getArena();
 
         assertEquals(Colour.RED, arena1[0][0].getC());
@@ -40,7 +44,7 @@ class BoardAssertTests {
         assertEquals(Colour.WHITE, arena1[2][2].getC());
         assertEquals(Colour.YELLOW, arena1[2][3].getC());
 
-        Board board2 = new Board(2, w1, w2, w3, w4, w5, w6, w7, w8, w9);
+        Board board2 = new Board(2, ws1, ws2, ws3);
         Cell[][] arena2 = board2.getArena();
 
         assertEquals(Colour.BLUE, arena2[0][0].getC());
@@ -56,7 +60,7 @@ class BoardAssertTests {
         assertEquals(Colour.WHITE, arena2[2][2].getC());
         assertEquals(Colour.YELLOW, arena2[2][3].getC());
 
-        Board board3 = new Board(3, w1, w2, w3, w4, w5, w6, w7, w8, w9);
+        Board board3 = new Board(3, ws1, ws2, ws3);
         Cell[][] arena3 = board3.getArena();
 
         assertEquals(Colour.BLUE, arena3[0][0].getC());
@@ -72,7 +76,7 @@ class BoardAssertTests {
         assertEquals(Colour.YELLOW, arena3[2][2].getC());
         assertEquals(Colour.YELLOW, arena3[2][3].getC());
 
-        Board board4 = new Board(4, w1, w2, w3, w4, w5, w6, w7, w8, w9);
+        Board board4 = new Board(4, ws1, ws2, ws3);
         Cell[][] arena4 = board4.getArena();
 
         assertEquals(Colour.RED, arena4[0][0].getC());
@@ -101,7 +105,11 @@ class BoardAssertTests {
         WeaponCard w8 = new MachineGun();
         WeaponCard w9 = new MachineGun();
 
-        Board board = new Board(1, w1, w2, w3, w4, w5, w6, w7, w8, w9);
+        WeaponSlot ws1 = new WeaponSlot(1, w1, w2, w3);
+        WeaponSlot ws2 = new WeaponSlot(2, w4, w5, w6);
+        WeaponSlot ws3 = new WeaponSlot(3, w7, w8, w9);
+
+        Board board = new Board(1, ws1, ws2, ws3);
 
         for(int i = 0; i < 8; i++)
             assertEquals(0, board.getK().getSkulls()[i]);
@@ -195,7 +203,11 @@ class BoardAssertTests {
         WeaponCard w8 = new LockRifle();
         WeaponCard w9 = new MachineGun();
 
-        Board board = new Board(2, w1, w2, w3, w4, w5, w6, w7, w8, w9);
+        WeaponSlot ws1 = new WeaponSlot(1, w1, w2, w3);
+        WeaponSlot ws2 = new WeaponSlot(2, w4, w5, w6);
+        WeaponSlot ws3 = new WeaponSlot(3, w7, w8, w9);
+
+        Board board = new Board(2, ws1, ws2, ws3);
 
         assertEquals(w1, board.getW1().getCard1());
         assertEquals(w2, board.getW1().getCard2());
@@ -263,7 +275,11 @@ class BoardAssertTests {
         WeaponCard w8 = new LockRifle();
         WeaponCard w9 = new MachineGun();
 
-        Board board = new Board(3, w1, w2, w3, w4, w5, w6, w7, w8, w9);
+        WeaponSlot ws1 = new WeaponSlot(1, w1, w2, w3);
+        WeaponSlot ws2 = new WeaponSlot(2, w4, w5, w6);
+        WeaponSlot ws3 = new WeaponSlot(3, w7, w8, w9);
+
+        Board board = new Board(3, ws1, ws2, ws3);
         Position pos = new Position(0, 1);
         AmmoCard ammocard = new PRB();
         AmmoCard newammocard = new PYB();

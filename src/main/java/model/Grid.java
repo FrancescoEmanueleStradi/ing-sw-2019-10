@@ -36,7 +36,10 @@ public class Grid {
     }
 
     public void setType(int aType){
-        this.board = new Board(aType, pickWeaponCard(), pickWeaponCard(), pickWeaponCard(), pickWeaponCard(), pickWeaponCard(), pickWeaponCard(), pickWeaponCard(), pickWeaponCard(), pickWeaponCard());
+        WeaponSlot ws1 = new WeaponSlot(1, pickWeaponCard(), pickWeaponCard(), pickWeaponCard());
+        WeaponSlot ws2 = new WeaponSlot(2, pickWeaponCard(), pickWeaponCard(), pickWeaponCard());
+        WeaponSlot ws3 = new WeaponSlot(3, pickWeaponCard(), pickWeaponCard(), pickWeaponCard());
+        this.board = new Board(aType, ws1, ws2, ws3);
     }
 
     public void addPlayer(Player p){

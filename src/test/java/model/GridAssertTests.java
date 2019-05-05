@@ -397,5 +397,6 @@ class GridAssertTests {
         assertEquals(grid.getBoard().getArena()[1][0], p1.getCell());   //p1 didn't move
         Player ghost = grid.ghostMove(p1, directions);                  //now p1's ghost player moves
         assertEquals(grid.getBoard().getArena()[1][1], ghost.getCell());//ghost has moved to [1][1]
+        assertEquals(grid.getBoard().getArena()[1][0], p1.getCell());   //p1 didn't move
     }
 }

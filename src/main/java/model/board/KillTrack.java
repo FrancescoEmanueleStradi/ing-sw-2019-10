@@ -3,6 +3,7 @@ package model.board;
 import model.Colour;
 import model.player.damagetrack.NumColour;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -93,7 +94,9 @@ public class KillTrack {
     }
 
     private List<NumColour> getOrderedNumColour() {
-        return this.l.stream().sorted((a, b) -> (a.colourDifference(b))).collect(Collectors.toList());
+        l.sort((numColour1, numColour2) -> numColour2.getNum() - numColour1.getNum());
+        return l;
+        //return this.l.stream().sorted((a, b) -> (a.colourDifference(b))).collect(Collectors.toList()); //this is wrong!
     }
 
     public List<Colour> scoreBoard() {

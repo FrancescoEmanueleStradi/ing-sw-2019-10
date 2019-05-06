@@ -124,8 +124,8 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
         games.get(game).pickAndDiscardCard(nick, p1, p2);
     }
 
-    public boolean messageIsValidFirstActionMove(int game, List<Integer> d) {
-        return games.get(game).isValidFirstActionMove(d);
+    public boolean messageIsValidFirstActionMove(int game, String nick, List<Integer> d) {
+        return games.get(game).isValidFirstActionMove(nick, d);
     }
 
 

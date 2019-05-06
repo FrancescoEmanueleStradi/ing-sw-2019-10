@@ -40,11 +40,11 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
         playersTakingTheirTurn = new LinkedList<>();            //TODO methods in the controller to notify the server
     }
 
-    public int getGames(){
+    public int getGames() throws RemoteException {
         return games.size();
     }
 
-    public int setGame(int numGame) throws RemoteException{
+    public int setGame(int numGame) throws RemoteException {
         if (games.size() < numGame)
             return numGame;
         else{
@@ -88,233 +88,233 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
     }
 
 
-    public boolean messageGameIsNotStarted(int game) {
+    public boolean messageGameIsNotStarted(int game) throws RemoteException {
         return games.get(game).gameIsNotStarted();
     }
 
-    public void messageGameStart(int game, String nick, Colour c) {
+    public void messageGameStart(int game, String nick, Colour c) throws RemoteException {
         games.get(game).gameStart(nick,c);
     }
 
-    public boolean messageIsValidReceiveType(int game, int type) {
+    public boolean messageIsValidReceiveType(int game, int type) throws RemoteException {
         return games.get(game).isValidReceiveType(type);
     }
 
-    public void messageReceiveType(int game, int type) {
+    public void messageReceiveType(int game, int type) throws RemoteException {
         games.get(game).receiveType(type);
     }
 
-    public boolean messageIsValidAddPlayer(int game, String nick, Colour c) {
+    public boolean messageIsValidAddPlayer(int game, String nick, Colour c) throws RemoteException {
         return games.get(game).isValidAddPlayer(nick, c);
     }
 
-    public void messageAddPlayer(int game, String nick, Colour c) {
+    public void messageAddPlayer(int game, String nick, Colour c) throws RemoteException {
         games.get(game).addPlayer(nick, c);
 
     }
-    public List<PowerUpCard> messageGiveTwoPUCard(int game, String nick) {
+    public List<PowerUpCard> messageGiveTwoPUCard(int game, String nick) throws RemoteException {
         return games.get(game).giveTwoPUCard(nick);
     }
 
-    public boolean messageIsValidPickAndDiscard(int game, String nick) {
+    public boolean messageIsValidPickAndDiscard(int game, String nick) throws RemoteException {
         return games.get(game).isValidPickAndDiscard(nick);
     }
-    public void messagePickAndDiscardCard(int game, String nick, PowerUpCard p1, PowerUpCard p2) {
+    public void messagePickAndDiscardCard(int game, String nick, PowerUpCard p1, PowerUpCard p2) throws RemoteException {
         games.get(game).pickAndDiscardCard(nick, p1, p2);
     }
 
-    public boolean messageIsValidFirstActionShoot(int game, String nick, String wC, List<Integer> lI, List<String> lS, int d, List<Colour> lC, List<String> lP) {
+    public boolean messageIsValidFirstActionShoot(int game, String nick, String wC, List<Integer> lI, List<String> lS, int d, List<Colour> lC, List<String> lP) throws RemoteException {
         return games.get(game).isValidFirstActionShoot(nick, wC, lI, lS, d, lC, lP);
     }
 
-    public void messageFirstActionShoot(int game, String nick, String wC, List<Integer> lI, List<String> lS, int d, List<Colour> lC, List<String> lP) {
+    public void messageFirstActionShoot(int game, String nick, String wC, List<Integer> lI, List<String> lS, int d, List<Colour> lC, List<String> lP) throws RemoteException {
         games.get(game).firstActionShoot(nick, wC, lI, lS, d, lC, lP);
     }
 
-    public boolean messageIsValidFirstActionMove(int game, String nick, List<Integer> d) {
+    public boolean messageIsValidFirstActionMove(int game, String nick, List<Integer> d) throws RemoteException {
         return games.get(game).isValidFirstActionMove(nick, d);
     }
 
 
-    public void messageFirstActionMove(int game, String nick, List<Integer> d) {
+    public void messageFirstActionMove(int game, String nick, List<Integer> d) throws RemoteException {
         games.get(game).firstActionMove(nick, d);
     }
 
 
-    public List<String> messageGetWeaponCardLoaded(int game, String nick) {
+    public List<String> messageGetWeaponCardLoaded(int game, String nick) throws RemoteException {
         return games.get(game).getWeaponCardLoaded(nick);
     }
-    public boolean messageIsValidCard(int game, String nick, String weaponCard) {
+    public boolean messageIsValidCard(int game, String nick, String weaponCard) throws RemoteException {
         return games.get(game).isValidCard(nick, weaponCard);
     }
 
-    public List<Colour> messageGetReloadCost(int game, String s, String nick) {
+    public List<Colour> messageGetReloadCost(int game, String s, String nick) throws RemoteException {
         return games.get(game).getReloadCost(s, nick);
     }
 
-    public String messageGetDescriptionWC(int game, String s, String nick) {
+    public String messageGetDescriptionWC(int game, String s, String nick) throws RemoteException {
         return games.get(game).getDescriptionWC(s, nick);
     }
 
-    public boolean messageIsValidFirstActionGrab(int game, String nick, Integer[] d, String wC, String wS, List<Colour> lA, List<String> lP) {
+    public boolean messageIsValidFirstActionGrab(int game, String nick, Integer[] d, String wC, String wS, List<Colour> lA, List<String> lP) throws RemoteException {
         return games.get(game).isValidFirstActionGrab(nick, d, wC, wS,lA, lP);
     }
-    public void messageFirstActionGrab(int game, String nick, Integer[] d, String wC, List<Colour> lC, List<String> lP) {
+    public void messageFirstActionGrab(int game, String nick, Integer[] d, String wC, List<Colour> lC, List<String> lP) throws RemoteException {
         games.get(game).firstActionGrab(nick, d, wC, lC, lP);
     }
 
-    public boolean messageIsDiscard(int game) {
+    public boolean messageIsDiscard(int game) throws RemoteException {
         return games.get(game).isDiscard();
     }
 
-    public void messageDiscardWeaponCard(int game, String nick, String wS, String wC) {
+    public void messageDiscardWeaponCard(int game, String nick, String wS, String wC) throws RemoteException {
         games.get(game).discardWeaponCard(nick, wS, wC);
     }
 
-    public boolean messageIsValidSecondActionShoot(int game, String nick, String wC, List<Integer> lI, List<String> lS, int d, List<Colour> lC, List<String> lP) {
+    public boolean messageIsValidSecondActionShoot(int game, String nick, String wC, List<Integer> lI, List<String> lS, int d, List<Colour> lC, List<String> lP) throws RemoteException {
         return games.get(game).isValidSecondActionShoot(nick, wC, lI, lS, d, lC, lP);
     }
 
-    public void messageSecondActionShoot(int game, String nick, String wC, List<Integer> lI, List<String> lS, int d, List<Colour> lC, List<String> lP) {
+    public void messageSecondActionShoot(int game, String nick, String wC, List<Integer> lI, List<String> lS, int d, List<Colour> lC, List<String> lP) throws RemoteException {
         games.get(game).secondActionShoot(nick, wC, lI, lS, d, lC, lP);
     }
 
-    public boolean messageIsValidSecondActionMove(int game, List<Integer> d) {
+    public boolean messageIsValidSecondActionMove(int game, List<Integer> d) throws RemoteException {
         return games.get(game).isValidSecondActionMove(d);
     }
 
-    public void messageSecondActionMove(int game, String nick, List<Integer> d) {
+    public void messageSecondActionMove(int game, String nick, List<Integer> d) throws RemoteException {
         games.get(game).secondActionMove(nick, d);
     }
 
-    public boolean messageIsValidSecondActionGrab(int game, String nick, Integer[] d, String wC, String wS, List<Colour> lA, List<String> lP) {
+    public boolean messageIsValidSecondActionGrab(int game, String nick, Integer[] d, String wC, String wS, List<Colour> lA, List<String> lP) throws RemoteException {
         return games.get(game).isValidFirstActionGrab(nick, d, wC, wS, lA, lP);
     }
 
-    public void messageSecondActionGrab(int game, String nick, Integer[] d, String wC, List<Colour> lC, List<String> lP) {
+    public void messageSecondActionGrab(int game, String nick, Integer[] d, String wC, List<Colour> lC, List<String> lP) throws RemoteException {
         games.get(game).secondActionGrab(nick, d, wC, lC, lP);
 
     }
-    public List<String> messageGetPowerUpCard(int game, String nick) {
+    public List<String> messageGetPowerUpCard(int game, String nick) throws RemoteException {
         return games.get(game).getPowerUpCard(nick);
     }
 
-    public String messageGetDescriptionPUC(int game, String pC, String nick) {
+    public String messageGetDescriptionPUC(int game, String pC, String nick) throws RemoteException {
         return games.get(game).getDescriptionPUC(pC, nick);
     }
 
-    public boolean messageIsValidUsePowerUpCard(int game, String nick, String pC, List<String> l, Colour c) {
+    public boolean messageIsValidUsePowerUpCard(int game, String nick, String pC, List<String> l, Colour c) throws RemoteException {
         return games.get(game).isValidUsePowerUpCard(nick, pC, l, c);
     }
 
 
-    public void messageUsePowerUpCard(int game, String nick, String pC, List<String> l, Colour c) {
+    public void messageUsePowerUpCard(int game, String nick, String pC, List<String> l, Colour c) throws RemoteException {
         games.get(game).usePowerUpCard(nick, pC, l, c);
     }
 
-    public List<String> messageGetWeaponCardUnloaded(int game, String nick) {
+    public List<String> messageGetWeaponCardUnloaded(int game, String nick) throws RemoteException {
         return games.get(game).getWeaponCardUnloaded(nick);
     }
 
-    public boolean messageIsValidReload(int game) {
+    public boolean messageIsValidReload(int game) throws RemoteException {
         return games.get(game).isValidReload();
     }
 
-    public void messageReload(int game, String nick, String s, int end) {
+    public void messageReload(int game, String nick, String s, int end) throws RemoteException {
         games.get(game).reload(nick, s, end);
 
     }
-    public boolean messageIsValidScoring(int game) {
+    public boolean messageIsValidScoring(int game) throws RemoteException {
         return games.get(game).isValidScoring();
     }
 
-    public void messageScoring(int game) {
+    public void messageScoring(int game) throws RemoteException {
         games.get(game).scoring();
     }
 
-    public List<String> messageGetDeadList(int game) {
+    public List<String> messageGetDeadList(int game) throws RemoteException {
         return games.get(game).getDeadList();
     }
 
-    public boolean messageIsValidDiscardCardForSpawnPoint(int game) {
+    public boolean messageIsValidDiscardCardForSpawnPoint(int game) throws RemoteException {
         return games.get(game).isValidDiscardCardForSpawnPoint();
     }
 
-    public void messageDiscardCardForSpawnPoint(int game, String nick, String s) {
+    public void messageDiscardCardForSpawnPoint(int game, String nick, String s) throws RemoteException {
         games.get(game).discardCardForSpawnPoint(nick, s);
     }
 
-    public boolean messageIsValidToReplace(int game) {
+    public boolean messageIsValidToReplace(int game) throws RemoteException {
         return games.get(game).isValidToReplace();
     }
 
-    public void messageReplace(int game) {
+    public void messageReplace(int game) throws RemoteException {
         games.get(game).replace();;
 
     }
-    public boolean messageIsValidFinalFrenzyAction(int game, String nick, List<String> l) {
+    public boolean messageIsValidFinalFrenzyAction(int game, String nick, List<String> l) throws RemoteException {
         return games.get(game).isValidFinalFrenzyAction(nick, l);
     }
 
-    public List<String> messageGetWeaponCard(int game, String nick) {
+    public List<String> messageGetWeaponCard(int game, String nick) throws RemoteException {
         return games.get(game).getWeaponCard(nick);
     }
 
-    public boolean messageIsValidFinalFrenzyAction1(int game, String nick, int d, String wC, List<Integer> lI, List<String> lS, List<Colour> lC, List<String> lP) {
+    public boolean messageIsValidFinalFrenzyAction1(int game, String nick, int d, String wC, List<Integer> lI, List<String> lS, List<Colour> lC, List<String> lP) throws RemoteException {
         return games.get(game).isValidFinalFrenzyAction1(nick, d, wC, lI, lS, lC, lP);
     }
 
-    public void messageFinalFrenzyAction1(int game, String nick, int d, List<String> lW, String wC, List<Integer> lI, List<String> lS, List<Colour> lC, List<String> lP) {
+    public void messageFinalFrenzyAction1(int game, String nick, int d, List<String> lW, String wC, List<Integer> lI, List<String> lS, List<Colour> lC, List<String> lP) throws RemoteException {
         games.get(game).finalFrenzyAction1(nick, d, lW, wC, lI, lS, lC, lP);
     }
 
-    public boolean messageIsValidFinalFrenzyAction2(int game, String nick, List<Integer> d) {
+    public boolean messageIsValidFinalFrenzyAction2(int game, String nick, List<Integer> d) throws RemoteException {
         return games.get(game).isValidFinalFrenzyAction2(nick, d);
     }
 
-    public void messageFinalFrenzyAction2(int game, String nick, List<Integer> d) {
+    public void messageFinalFrenzyAction2(int game, String nick, List<Integer> d) throws RemoteException {
         games.get(game).finalFrenzyAction2(nick, d);
     }
-    public boolean messageIsValidFinalFrenzyAction3(int game, String nick, List<Integer> d, String wC, String wS, List<Colour> lC, List<String> lP) {
+    public boolean messageIsValidFinalFrenzyAction3(int game, String nick, List<Integer> d, String wC, String wS, List<Colour> lC, List<String> lP) throws RemoteException {
        return games.get(game).isValidFinalFrenzyAction3(nick, d, wC, wS, lC, lP);
     }
 
-    public void messageFinalFrenzyAction3(int game, String nick, List<Integer> d, String wC, List<Colour> lC, List<String> lP) {
+    public void messageFinalFrenzyAction3(int game, String nick, List<Integer> d, String wC, List<Colour> lC, List<String> lP) throws RemoteException {
         games.get(game).finalFrenzyAction3(nick, d, wC, lC, lP);
 
     }
-    public boolean messageIsValidFinalFrenzyAction4(int game, String nick, List<Integer> d, String wC, List<Integer> lI, List<String> lS, List<Colour> lC, List<String> lP) {
+    public boolean messageIsValidFinalFrenzyAction4(int game, String nick, List<Integer> d, String wC, List<Integer> lI, List<String> lS, List<Colour> lC, List<String> lP) throws RemoteException {
         return games.get(game).isValidFinalFrenzyAction4(nick, d, wC, lI, lS, lC, lP);
     }
 
-    public void messageFinalFrenzyAction4(int game, String nick, List<Integer> d, List<String> lW, String wC, List<Integer> lI, List<String> lS, List<Colour> lC, List<String> lP) {
+    public void messageFinalFrenzyAction4(int game, String nick, List<Integer> d, List<String> lW, String wC, List<Integer> lI, List<String> lS, List<Colour> lC, List<String> lP) throws RemoteException {
         games.get(game).finalFrenzyAction4(nick, d, lW, wC, lI, lS, lC, lP);
 
     }
-    public boolean messageIsValidFinalFrenzyAction5(int game, String nick, List<Integer> d, String wC, String wS, List<Colour> lC, List<String> lS) {
+    public boolean messageIsValidFinalFrenzyAction5(int game, String nick, List<Integer> d, String wC, String wS, List<Colour> lC, List<String> lS) throws RemoteException {
         return games.get(game).isValidFinalFrenzyAction5(nick, d, wC, wS, lC, lS);
     }
 
-    public void messageFinalFrenzyAction5(int game, String nick, List<Integer> d, String wC, List<Colour> lC, List<String> lP) {
+    public void messageFinalFrenzyAction5(int game, String nick, List<Integer> d, String wC, List<Colour> lC, List<String> lP) throws RemoteException {
         games.get(game).finalFrenzyAction5(nick, d, wC, lC, lP);
 
     }
-    public void messageFinalFrenzyTurnScoring(int game) {
+    public void messageFinalFrenzyTurnScoring(int game) throws RemoteException {
         games.get(game).finalFrenzyTurnScoring();
 
     }
-    public void messageEndTurnFinalFrenzy(int game) {
+    public void messageEndTurnFinalFrenzy(int game) throws RemoteException {
         games.get(game).endTurnFinalFrenzy();
 
     }
-    public void messageFinalScoring(int game) {
+    public void messageFinalScoring(int game) throws RemoteException {
         games.get(game).finalScoring();
 
     }
-    public  List<String> messageGetPlayers(int game) {
+    public  List<String> messageGetPlayers(int game) throws RemoteException {
         return games.get(game).getPlayers();
     }
-    public List<Integer> messageGetScore(int game) {
+    public List<Integer> messageGetScore(int game) throws RemoteException {
         return games.get(game).getScore();
     }
 

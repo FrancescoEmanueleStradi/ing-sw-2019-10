@@ -124,11 +124,11 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
     }
 
     public boolean messageIsValidFirstActionShoot(int game, String nick, String wC, List<Integer> lI, List<String> lS, int d, List<Colour> lC, List<String> lP) {
-
+        return games.get(game).isValidFirstActionShoot(nick, wC, lI, lS, d, lC, lP);
     }
 
     public void messageFirstActionShoot(int game, String nick, String wC, List<Integer> lI, List<String> lS, int d, List<Colour> lC, List<String> lP) {
-
+        games.get(game).firstActionShoot(nick, wC, lI, lS, d, lC, lP);
     }
 
     public boolean messageIsValidFirstActionMove(int game, String nick, List<Integer> d) {
@@ -172,11 +172,11 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
     }
 
     public boolean messageIsValidSecondActionShoot(int game, String nick, String wC, List<Integer> lI, List<String> lS, int d, List<Colour> lC, List<String> lP) {
-
+        return games.get(game).isValidSecondActionShoot(nick, wC, lI, lS, d, lC, lP);
     }
 
     public void messageSecondActionShoot(int game, String nick, String wC, List<Integer> lI, List<String> lS, int d, List<Colour> lC, List<String> lP) {
-
+        games.get(game).secondActionShoot(nick, wC, lI, lS, d, lC, lP);
     }
 
     public boolean messageIsValidSecondActionMove(int game, List<Integer> d) {

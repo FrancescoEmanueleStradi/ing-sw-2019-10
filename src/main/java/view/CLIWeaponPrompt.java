@@ -16,7 +16,7 @@ public class CLIWeaponPrompt {
     private String promptE = "If you are in Adrenaline, enter the direction of the move:";
     private String promptErrorRetry = "Error: retry your action";
 
-    public void shootToUser1(Game game, String nickName) {
+    public void shootToUser1(Server server, String nickName) {
         Scanner in = new Scanner(System.in);
         String s = in.next();
         int i;
@@ -34,13 +34,13 @@ public class CLIWeaponPrompt {
         System.out.println(promptC);
         while (in.hasNext())
             lC.add(Colour.valueOf(in.next()));
-        game.getPowerUpCard(nickName).stream().forEach(System.out::println);
+        server.messageGetPowerUpCard(nickName).stream().forEach(System.out::println);
         System.out.println(promptD);
         while (in.hasNext())
             lP.add(in.next());
         System.out.println(promptE);
         i = in.nextInt();                       //TODO nextint is a problem
-        while(!game.isValidFirstActionShoot(nickName, s, lI, lS, i, lC, lP)) {
+        while(!server.messageIsValidFirstActionShoot(nickName, s, lI, lS, i, lC, lP)) {
             System.out.println(promptErrorRetry);
             System.out.println(promptA);
             while (in.hasNext())
@@ -51,17 +51,17 @@ public class CLIWeaponPrompt {
             System.out.println(promptC);
             while (in.hasNext())
                 lC.add(Colour.valueOf(in.next()));
-            game.getPowerUpCard(nickName).stream().forEach(System.out::println);
+            server.messageGetPowerUpCard(nickName).stream().forEach(System.out::println);
             System.out.println(promptD);
             while (in.hasNext())
                 lP.add(in.next());
             System.out.println(promptE);
             i = in.nextInt();
         }
-        game.firstActionShoot(nickName, s, lI, lS, i, lC, lP);
+        server.messageFirstActionShoot(nickName, s, lI, lS, i, lC, lP);
     }
 
-    public void shoot2ToUser1(Game game, String nickName) {
+    public void shoot2ToUser1(Server server, String nickName) {
         Scanner in = new Scanner(System.in);
         String s = in.next();
         int i;
@@ -79,13 +79,13 @@ public class CLIWeaponPrompt {
         System.out.println(promptC);
         while (in.hasNext())
             lC.add(Colour.valueOf(in.next()));
-        game.getPowerUpCard(nickName).stream().forEach(System.out::println);
+        server.messageGetPowerUpCard(nickName).stream().forEach(System.out::println);
         System.out.println(promptD);
         while (in.hasNext())
             lP.add(in.next());
         System.out.println(promptE);
         i = in.nextInt();                       //TODO nextint is a problem
-        while (!game.isValidSecondActionShoot(nickName, s, lI, lS, i, lC, lP)) {
+        while (!server.messageIsValidSecondActionShoot(nickName, s, lI, lS, i, lC, lP)) {
             System.out.println(promptErrorRetry);
             System.out.println(promptA);
             while (in.hasNext())
@@ -96,17 +96,17 @@ public class CLIWeaponPrompt {
             System.out.println(promptC);
             while (in.hasNext())
                 lC.add(Colour.valueOf(in.next()));
-            game.getPowerUpCard(nickName).stream().forEach(System.out::println);
+            server.messageGetPowerUpCard(nickName).stream().forEach(System.out::println);
             System.out.println(promptD);
             while (in.hasNext())
                 lP.add(in.next());
             System.out.println(promptE);
             i = in.nextInt();
         }
-        game.secondActionShoot(nickName, s, lI, lS, i, lC, lP);
+        server.messageSecondActionShoot(nickName, s, lI, lS, i, lC, lP);
     }
 
-   public void shootToUser2(Game game, String nickName) {
+   public void shootToUser2(Server server, String nickName) {
        Scanner in = new Scanner(System.in);
        String s = in.next();
        int i;
@@ -121,13 +121,13 @@ public class CLIWeaponPrompt {
        System.out.println(promptC);
        while (in.hasNext())
            lC.add(Colour.valueOf(in.next()));
-       game.getPowerUpCard(nickName).stream().forEach(System.out::println);
+       server.messageGetPowerUpCard(nickName).stream().forEach(System.out::println);
        System.out.println(promptD);
        while (in.hasNext())
            lP.add(in.next());
        System.out.println(promptE);
        i = in.nextInt() ;                       //TODO nextint is a problem
-       while(game.isValidFirstActionShoot(nickName, s, lI, lS, i, lC, lP)){
+       while(server.messageIsValidFirstActionShoot(nickName, s, lI, lS, i, lC, lP)){
            System.out.println(promptErrorRetry);
            System.out.println(promptA);
            while (in.hasNext())
@@ -135,17 +135,17 @@ public class CLIWeaponPrompt {
            System.out.println(promptC);
            while (in.hasNext())
                lC.add(Colour.valueOf(in.next()));
-           game.getPowerUpCard(nickName).stream().forEach(System.out::println);
+           server.messageGetPowerUpCard(nickName).stream().forEach(System.out::println);
            System.out.println(promptD);
            while (in.hasNext())
                lP.add(in.next());
            System.out.println(promptE);
            i = in.nextInt() ;
        }
-       game.firstActionShoot(nickName, s, lI, lS, i, lC, lP);
+       server.messageFirstActionShoot(nickName, s, lI, lS, i, lC, lP);
    }
 
-    public void shoot2ToUser2(Game game, String nickName) {
+    public void shoot2ToUser2(Server server, String nickName) {
         Scanner in = new Scanner(System.in);
         String s = in.next();
         int i;
@@ -160,13 +160,13 @@ public class CLIWeaponPrompt {
         System.out.println(promptC);
         while (in.hasNext())
             lC.add(Colour.valueOf(in.next()));
-        game.getPowerUpCard(nickName).stream().forEach(System.out::println);
+        server.messagegetPowerUpCard(nickName).stream().forEach(System.out::println);
         System.out.println(promptD);
         while (in.hasNext())
             lP.add(in.next());
         System.out.println(promptE);
         i = in.nextInt() ;                       //TODO nextint is a problem
-        while(game.isValidSecondActionShoot(nickName, s, lI, lS, i, lC, lP)){
+        while(server.messageisValidSecondActionShoot(nickName, s, lI, lS, i, lC, lP)){
             System.out.println(promptErrorRetry);
             System.out.println(promptA);
             while (in.hasNext())
@@ -174,17 +174,17 @@ public class CLIWeaponPrompt {
             System.out.println(promptC);
             while (in.hasNext())
                 lC.add(Colour.valueOf(in.next()));
-            game.getPowerUpCard(nickName).stream().forEach(System.out::println);
+            server.messagegetPowerUpCard(nickName).stream().forEach(System.out::println);
             System.out.println(promptD);
             while (in.hasNext())
                 lP.add(in.next());
             System.out.println(promptE);
             i = in.nextInt() ;
         }
-        game.secondActionShoot(nickName, s, lI, lS, i, lC, lP);
+        server.messageSecondActionShoot(nickName, s, lI, lS, i, lC, lP);
     }
 
-    public void shootToUser3(Game game, String nickName) {
+    public void shootToUser3(Server server, String nickName) {
         Scanner in = new Scanner(System.in);
         String s = in.next();
         int i;
@@ -201,7 +201,7 @@ public class CLIWeaponPrompt {
             lS.add(in.next());
         System.out.println(promptE);
         i = in.nextInt() ;                       //TODO nextint is a problem
-        while(!game.isValidFirstActionShoot(nickName, s, lI, lS, i, lC, lP)){
+        while(!server.messageisValidFirstActionShoot(nickName, s, lI, lS, i, lC, lP)){
             System.out.println(promptErrorRetry);
             System.out.println(promptA);
             while (in.hasNext())
@@ -212,10 +212,10 @@ public class CLIWeaponPrompt {
             System.out.println(promptE);
             i = in.nextInt() ;
         }
-        game.firstActionShoot(nickName, s, lI, lS, i, lC, lP);
+        server.messageFirstActionShoot(nickName, s, lI, lS, i, lC, lP);
     }
 
-    public void shoot2ToUser3(Game game, String nickName) {
+    public void shoot2ToUser3(Server server, String nickName) {
         Scanner in = new Scanner(System.in);
         String s = in.next();
         int i;
@@ -232,7 +232,7 @@ public class CLIWeaponPrompt {
             lS.add(in.next());
         System.out.println(promptE);
         i = in.nextInt() ;                       //TODO nextint is a problem
-        while(!game.isValidSecondActionShoot(nickName, s, lI, lS, i, lC, lP)){
+        while(!server.messageisValidSecondActionShoot(nickName, s, lI, lS, i, lC, lP)){
             System.out.println(promptErrorRetry);
             System.out.println(promptA);
             while (in.hasNext())
@@ -243,10 +243,10 @@ public class CLIWeaponPrompt {
             System.out.println(promptE);
             i = in.nextInt() ;
         }
-        game.secondActionShoot(nickName, s, lI, lS, i, lC, lP);
+        server.messageSecondActionShoot(nickName, s, lI, lS, i, lC, lP);
     }
 
-    public void shootToUser4(Game game, String nickName) {
+    public void shootToUser4(Server server, String nickName) {
         Scanner in = new Scanner(System.in);
         String s = in.next();
         int i;
@@ -260,7 +260,7 @@ public class CLIWeaponPrompt {
             lS.add(in.next());
         System.out.println(promptE);
         i = in.nextInt() ;                       //TODO nextint is a problem
-        while(!game.isValidFirstActionShoot(nickName, s, lI, lS, i, lC, lP)){
+        while(!server.messageisValidFirstActionShoot(nickName, s, lI, lS, i, lC, lP)){
             System.out.println(promptErrorRetry);
             System.out.println(promptB);
             while (in.hasNext())
@@ -268,10 +268,10 @@ public class CLIWeaponPrompt {
             System.out.println(promptE);
             i = in.nextInt() ;
         }
-        game.firstActionShoot(nickName, s, lI, lS, i, lC, lP);
+        server.messageFirstActionShoot(nickName, s, lI, lS, i, lC, lP);
     }
 
-    public void shoot2ToUser4(Game game, String nickName) {
+    public void shoot2ToUser4(Server server, String nickName) {
         Scanner in = new Scanner(System.in);
         String s = in.next();
         int i;
@@ -285,7 +285,7 @@ public class CLIWeaponPrompt {
             lS.add(in.next());
         System.out.println(promptE);
         i = in.nextInt() ;                       //TODO nextint is a problem
-        while(!game.isValidSecondActionShoot(nickName, s, lI, lS, i, lC, lP)){
+        while(!server.messageisValidSecondActionShoot(nickName, s, lI, lS, i, lC, lP)){
             System.out.println(promptErrorRetry);
             System.out.println(promptB);
             while (in.hasNext())
@@ -293,6 +293,6 @@ public class CLIWeaponPrompt {
             System.out.println(promptE);
             i = in.nextInt() ;
         }
-        game.secondActionShoot(nickName, s, lI, lS, i, lC, lP);
+        server.messageSecondActionShoot(nickName, s, lI, lS, i, lC, lP);
     }
 }

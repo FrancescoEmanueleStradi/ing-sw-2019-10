@@ -120,7 +120,7 @@ public class Cli implements View{
     private void moveFirstAction() {
         Scanner in = new Scanner(System.in);
         List<Integer> l = new LinkedList<>();
-        while(!this.server.messageIsValidFirstActionMove(game, l)) {
+        while(!this.server.messageIsValidFirstActionMove(game, nickName, l)) {
             System.out.println("Choose the sequence of movement you want to do");
             while (in.hasNext())
                 l.add(in.nextInt());
@@ -560,7 +560,7 @@ public class Cli implements View{
 
     @Override
     public void newSpawnPoint() {
-        if(this.server.messageGetDeadList().contains(game, this.nickName)) {
+        if(this.server.messageGetDeadList(game).contains(this.nickName)) {
             System.out.println("Enter the PowerUp card you want to discard:");
             Scanner in = new Scanner(System.in);
             String s = in.nextLine();
@@ -725,11 +725,11 @@ public class Cli implements View{
                     List<Integer> list3 = new LinkedList<>();
                     while(in.hasNext())
                         list3.add(in.nextInt());
-                    System.out.println("Write the card(s) you want to reload:"+this.server.messageGetWeaponCardUnloaded(nickName));
+                    System.out.println("Write the card(s) you want to reload:"+this.server.messageGetWeaponCardUnloaded(game, nickName));
                     List<String> lW2 = new LinkedList<>();
                     while (in.hasNext())
                         lW2.add(in.next());
-                    System.out.println("Write the card you want to use:"+this.server.messageGetWeaponCard(nickName));
+                    System.out.println("Write the card you want to use:"+this.server.messageGetWeaponCard(game, nickName));
                     String wC2 = in.next();
                     List<Integer> lI2 = new LinkedList<>();
                     List<String> lS2 = new LinkedList<>();

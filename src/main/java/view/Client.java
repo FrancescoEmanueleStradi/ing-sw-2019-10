@@ -10,8 +10,8 @@ import javax.naming.*;
 public class Client {
 
     private static View view;
-    static private int game;
-    static private int identifier;
+    private static int game;
+    private static int identifier;
 
     public static void main(String[] args) throws NamingException, RemoteException, AlreadyBoundException, NotBoundException, MalformedURLException {
         //Registry registry = LocateRegistry.getRegistry();
@@ -51,6 +51,7 @@ public class Client {
                 break;
         }
         view.setServer(centralServer);
+        view.setGame(game);
 
         view.askNameAndColour();
         //centralServer.messageAskNameAndColour(game, identifier);        //TODO IT PRINTS ON THE SERVER TERMINAL

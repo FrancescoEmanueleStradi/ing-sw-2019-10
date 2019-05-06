@@ -43,7 +43,7 @@ public interface ServerInterface extends Remote {
     void messagePickAndDiscardCard(int game, String nick, PowerUpCard p1, PowerUpCard p2);
     boolean messageIsValidFirstActionShoot(int game, String nick, String wC, List<Integer> lI, List<String> lS, int d, List<Colour> lC, List<String> lP);
     void messageFirstActionShoot(int game, String nick, String wC, List<Integer> lI, List<String> lS, int d, List<Colour> lC, List<String> lP);
-    boolean messageIsValidFirstActionMove(int game, List<Integer> d);
+    boolean messageIsValidFirstActionMove(int game, String nick, List<Integer> d);
     void messageFirstActionMove(int game, String nick, List<Integer> d);
     List<String> messageGetWeaponCardLoaded(int game, String nick);
     boolean messageIsValidCard(int game, String nick, String weaponCard);

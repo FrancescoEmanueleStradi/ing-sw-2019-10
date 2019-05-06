@@ -2,6 +2,8 @@ package view;
 
 import controller.Game;
 import controller.GameState;
+import model.Colour;
+import model.cards.PowerUpCard;
 
 import java.rmi.*;
 import java.rmi.registry.*;
@@ -85,47 +87,175 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
         else playersTakingTheirTurn.add(game, 1);
     }
 
-    public void messageAskNameAndColour(int game, int identifier) throws RemoteException{        //TODO just a doubt, does view print on the right terminal?
-        views.get(game).get(identifier).askNameAndColour();
-    }
-    public void messageSelectSpawnPoint(int game, int identifier)throws RemoteException{
-        views.get(game).get(identifier).selectSpawnPoint();
-    }
-    public boolean messageDoYouWantToUsePUC(int game, int identifier)throws RemoteException{
-        return views.get(game).get(identifier).doYouWantToUsePUC();
-    }
-    public void messageUsePowerUpCard(int game, int identifier)throws RemoteException{
-        views.get(game).get(identifier).usePowerUpCard();
-    }
-    public void messageAction1(int game, int identifier)throws RemoteException{
-        views.get(game).get(identifier).action1();
-    }
-    public void messageAction2(int game, int identifier)throws RemoteException{
-        views.get(game).get(identifier).action2();
-    }
-    public void messageReload(int game, int identifier)throws RemoteException{
-        views.get(game).get(identifier).reload();
-    }
-    public void messageScoring(int game, int identifier)throws RemoteException{
-        views.get(game).get(identifier).scoring();
-    }
-    public void messageNewSpawnPoint(int game, int identifier)throws RemoteException{
-        views.get(game).get(identifier).newSpawnPoint();
-    }
-    public void messageReplace(int game, int identifier)throws RemoteException{
-        views.get(game).get(identifier).replace();
-    }
-    public void messageFinalFrenzyTurn(int game, int identifier)throws RemoteException{
-        views.get(game).get(identifier).finalFrenzyTurn();
-    }
-    public void messageEndFinalFrenzy(int game, int identifier)throws RemoteException{
-        views.get(game).get(identifier).endFinalFrenzy();
-    }
-    public void messageFinalScoring(int game, int identifier)throws RemoteException{
-        views.get(game).get(identifier).finalScoring();
+
+    public boolean messageGameIsNotStarted() {
+
     }
 
-    /* We should insert methods who take parameters from the view end give them to the controller, returning the boolean (only for the
+    public void messageGameStart(String nick, Colour c) {
+
+    }
+
+    public boolean messageIsValidReceiveType(int type) {
+
+    }
+
+    public void messageReceiveType(int type) {
+
+    }
+    public boolean messageIsValidAddPlayer(String nick, Colour c) {
+
+    }
+    public void messageAddPlayer(String nick, Colour c) {
+
+    }
+    public List<PowerUpCard> messageGiveTwoPUCard(String nick) {
+
+    }
+    public boolean messageIsValidPickAndDiscard(String nick) {
+
+    }
+    public void messagePickAndDiscardCard(String nick, PowerUpCard p1, PowerUpCard p2) {
+
+    }
+    public boolean messageIsValidFirstActionMove(List<Integer> d) {
+
+    }
+    public void messageFirstActionMove(String nick, List<Integer> d) {
+
+    }
+    public List<String> messageGetWeaponCardLoaded(String nick) {
+
+
+    }
+    public boolean messageIsValidCard(String nick, String weaponCard) {
+
+    }
+    public List<Colour> messageGetReloadCost(String s, String nick) {
+
+    }
+    public String messageGetDescriptionWC(String s, String nick) {
+
+    }
+    public boolean messageIsValidFirstActionGrab(String nick, Integer[] d, String wC, String wS, List<Colour> lA, List<String> lP) {
+
+    }
+    public void messageFirstActionGrab(String nick, Integer[] d, String wC, List<Colour> lC, List<String> lP) {
+
+    }
+    public boolean messageIsDiscard() {
+
+    }
+    public void messageDiscardWeaponCard(String nick, String wS, String wC) {
+
+    }
+    public boolean messageIsValidSecondActionMove(List<Integer> d) {
+
+    }
+    public void messageSecondActionMove(String nick, List<Integer> d) {
+
+    }
+    public boolean messageIsValidSecondActionGrab(String nick, Integer[] d, String wC, String wS, List<Colour> lA, List<String> lP) {
+
+    }
+    public void messageSecondActionGrab(String nick, Integer[] d, String wC, List<Colour> lC, List<String> lP) {
+
+    }
+    public List<String> messageGetPowerUpCard(String nick) {
+
+    }
+    public String messageGetDescriptionPUC(String pC, String nick) {
+
+    }
+    public boolean messageIsValidUsePowerUpCard(String nick, String pC, List<String> l, Colour c) {
+
+    }
+    public void messageUsePowerUpCard(String nick, String pC, List<String> l, Colour c) {
+
+    }
+    public List<String> messageGetWeaponCardUnloaded(String nick) {
+
+    }
+    public boolean messageIsValidReload() {
+
+    }
+    public void messageReload(String nick, String s, int end) {
+
+    }
+    public boolean messageIsValidScoring() {
+
+    }
+    public void messageScoring() {
+
+    }
+    public List<String> messageGetDeadList() {
+
+    }
+    public boolean messageIsValidDiscardCardForSpawnPoint() {
+
+    }
+    public void messageDiscardCardForSpawnPoint(String nick, String s) {
+
+    }
+    public boolean messageIsValidToReplace() {
+
+    }
+    public void messageReplace() {
+
+    }
+    public boolean messageIsValidFinalFrenzyAction(String nick, List<String> l) {
+
+    }
+    public List<String> messageGetWeaponCard(String nick) {
+
+    }
+    public boolean messageIsValidFinalFrenzyAction1(String nick, int d, String wC, List<Integer> lI, List<String> lS, List<Colour> lC, List<String> lP) {
+
+    }
+    public void messageFinalFrenzyAction1(String nick, int d, List<String> lW, String wC, List<Integer> lI, List<String> lS, List<Colour> lC, List<String> lP) {
+
+    }
+    public boolean messageIsValidFinalFrenzyAction2(String nick, List<Integer> d) {
+
+    }
+    public void messageFinalFrenzyAction2(String nick, List<Integer> d) {
+
+    }
+    public boolean messageIsValidFinalFrenzyAction3(String nick, List<Integer> d, String wC, String wS, List<Colour> lC, List<String> lP) {
+
+    }
+    public void messageFinalFrenzyAction3(String nick, List<Integer> d, String wC, List<Colour> lC, List<String> lP) {
+
+    }
+    public boolean messageIsValidFinalFrenzyAction4(String nick, List<Integer> d, String wC, List<Integer> lI, List<String> lS, List<Colour> lC, List<String> lP) {
+
+    }
+    public void messageFinalFrenzyAction4(String nick, List<Integer> d, List<String> lW, String wC, List<Integer> lI, List<String> lS, List<Colour> lC, List<String> lP) {
+
+    }
+    public boolean messageIsValidFinalFrenzyAction5(String nick, List<Integer> d, String wC, String wS, List<Colour> lC, List<String> lS) {
+
+    }
+    public void messageFinalFrenzyAction5(String nick, List<Integer> d, String wC, List<Colour> lC, List<String> lP) {
+
+    }
+    public void messageFinalFrenzyTurnScoring() {
+
+    }
+    public void messageEndTurnFinalFrenzy() {
+
+    }
+    public void messageFinalScoring() {
+
+    }
+    public  List<String> messageGetPlayers() {
+
+    }
+    public List<Integer> messageGetScore() {
+
+    }
+
+    /* We should insert methods who take parameters from the view end give them to the controller, returning the public boolean (only for the
     IsValidMethod) to the Cli/Gui
      */
 }

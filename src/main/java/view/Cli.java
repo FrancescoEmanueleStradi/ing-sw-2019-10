@@ -12,7 +12,7 @@ import java.util.Scanner;
 public class Cli implements View{
 
     private Game game;
-    private String nickName;                //TODO maybe nickName and colour should go in the client and not hear beacuse View must be the RMI registry
+    private String nickName;                //TODO maybe nickName and colour should go in the client and not here because View must be the RMI registry
     private Colour colour;
     private CLIWeaponPrompt wPrompt;
 

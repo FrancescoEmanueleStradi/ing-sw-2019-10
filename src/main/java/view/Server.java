@@ -125,7 +125,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
         views.get(game).get(identifier).finalScoring();
     }
 
-    /* We should insert here methods who take parameters from the view end give them to the controller, returning the boolean (only for the
+    /* We should insert methods who take parameters from the view end give them to the controller, returning the boolean (only for the
     IsValidMethod) to the Cli/Gui
      */
 }

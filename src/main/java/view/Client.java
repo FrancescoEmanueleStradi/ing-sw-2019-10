@@ -14,7 +14,7 @@ public class Client {
     static private int identifier;
 
     public static void main(String[] args) throws NamingException, RemoteException, AlreadyBoundException, NotBoundException, MalformedURLException {
-        Registry registry = LocateRegistry.getRegistry();
+        //Registry registry = LocateRegistry.getRegistry();
         ServerInterface centralServer = (ServerInterface) Naming.lookup("rmi://localhost:5099/central_server");
         System.out.println("Client --> " + centralServer.echo("Hello there!"));
 
@@ -97,8 +97,5 @@ public class Client {
             //view.finalScoring();
             centralServer.messageFinalScoring(game, identifier);
         }
-
-
     }
-
 }

@@ -5,6 +5,12 @@ import controller.Game;
 public class Gui implements View{
 
     private Game game;
+    private ServerInterface server;
+
+    @Override
+    public void setServer(ServerInterface server) {
+        this.server = server;
+    }
 
     @Override
     public void setGame(Game game){

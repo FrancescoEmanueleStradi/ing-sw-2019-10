@@ -5,6 +5,7 @@ import model.Colour;
 import model.cards.PowerUpCard;
 import model.cards.WeaponCard;
 
+import java.rmi.RemoteException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
@@ -12,10 +13,14 @@ import java.util.Scanner;
 public class Cli implements View{
 
     private Game game;
+    private ServerInterface server;
     private String nickName;                //TODO maybe nickName and colour should go in the client and not here because View must be the RMI registry
     private Colour colour;
     private CLIWeaponPrompt wPrompt;
 
+    public void ciao() throws RemoteException {
+        server.isMyTurn(1,1 ) ;
+    }
 
     public Game getGame() {
         return game;
@@ -27,6 +32,11 @@ public class Cli implements View{
 
     public String getNickName() {
         return nickName;
+    }
+
+    @Override
+    public void setServer(ServerInterface server) {
+        this.server = server;
     }
 
     @Override

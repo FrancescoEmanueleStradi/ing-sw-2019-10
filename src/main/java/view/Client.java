@@ -9,7 +9,7 @@ import javax.naming.*;
 
 public class Client {
 
-    //private static View view;
+    private static View view;
     static private int game;
     static private int identifier;
 
@@ -34,8 +34,8 @@ public class Client {
                 //view = new Cli();
                 break;
             case "cli":
-                centralServer.setCli(game, identifier);
-                //view = new Cli();
+                //centralServer.setCli(game, identifier);
+                view = new Cli();
                 break;
             case "GUI":
                 centralServer.setGui(game, identifier);
@@ -50,6 +50,7 @@ public class Client {
                 //view = new Gui();
                 break;
         }
+        view.setServer(centralServer);
 
         //view.askNameAndColour();
         centralServer.messageAskNameAndColour(game, identifier);        //TODO IT PRINTS ON THE SERVER TERMINAL

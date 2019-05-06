@@ -4,6 +4,7 @@ import controller.Game;
 
 public interface View  {
 
+    void setServer(ServerInterface server);
     void setGame(Game game);
     void askNameAndColour();
     void selectSpawnPoint();

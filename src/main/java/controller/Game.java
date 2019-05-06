@@ -300,8 +300,8 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                    }
                    if(lI.size() > 2 && lI.get(0) == 1 && lI.get(1) == 2 && lI.get(2) == 3) { //very difficult
                        x = false;
-                       if(lS.get(1).equals("") || (!lS.get(1).equals("") && !this.grid.getPlayerObject(lS.get(3)).equals(this.grid.getPlayerObject(lS.get(2)))) || (!lS.get(1).equals("") && !this.grid.getPlayerObject(lS.get(3)).equals(this.grid.getPlayerObject(lS.get(0))) && !this.grid.getPlayerObject(lS.get(3)).equals(this.grid.getPlayerObject(lS.get(1))) && !this.grid.getPlayerObject(lS.get(3)).equals(this.grid.getPlayerObject(lS.get(2))) && this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(3)))) ||
-                               (!lS.get(1).equals("") && !this.grid.getPlayerObject(lS.get(3)).equals(this.grid.getPlayerObject(lS.get(2))) && (this.grid.getPlayerObject(lS.get(3)).equals(this.grid.getPlayerObject(lS.get(0))) || this.grid.getPlayerObject(lS.get(3)).equals(this.grid.getPlayerObject(lS.get(1)))) && !this.grid.getPlayerObject(lS.get(4)).equals(this.grid.getPlayerObject(lS.get(0))) && !this.grid.getPlayerObject(lS.get(4)).equals(this.grid.getPlayerObject(lS.get(1))) && !this.grid.getPlayerObject(lS.get(4)).equals(this.grid.getPlayerObject(lS.get(2))) && !this.grid.getPlayerObject(lS.get(4)).equals(this.grid.getPlayerObject(lS.get(3))) && this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(4)))) && lC.contains(Colour.BLUE))
+                       if((lS.get(1).equals("") || (!lS.get(1).equals("") && !this.grid.getPlayerObject(lS.get(3)).equals(this.grid.getPlayerObject(lS.get(2)))) || (!lS.get(1).equals("") && !this.grid.getPlayerObject(lS.get(3)).equals(this.grid.getPlayerObject(lS.get(0))) && !this.grid.getPlayerObject(lS.get(3)).equals(this.grid.getPlayerObject(lS.get(1))) && !this.grid.getPlayerObject(lS.get(3)).equals(this.grid.getPlayerObject(lS.get(2))) && this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(3)))) ||
+                               (!lS.get(1).equals("") && !this.grid.getPlayerObject(lS.get(3)).equals(this.grid.getPlayerObject(lS.get(2))) && (this.grid.getPlayerObject(lS.get(3)).equals(this.grid.getPlayerObject(lS.get(0))) || this.grid.getPlayerObject(lS.get(3)).equals(this.grid.getPlayerObject(lS.get(1)))) && !this.grid.getPlayerObject(lS.get(4)).equals(this.grid.getPlayerObject(lS.get(0))) && !this.grid.getPlayerObject(lS.get(4)).equals(this.grid.getPlayerObject(lS.get(1))) && !this.grid.getPlayerObject(lS.get(4)).equals(this.grid.getPlayerObject(lS.get(2))) && !this.grid.getPlayerObject(lS.get(4)).equals(this.grid.getPlayerObject(lS.get(3))) && this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(4))))) && lC.contains(Colour.BLUE))
                            x = true;
                    }
                    break;
@@ -1025,11 +1025,13 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         List<Integer> directionList = Arrays.asList(directions);
         WeaponCard wCard = this.grid.getWeaponCardObject(wCardInput);
         List<AmmoCube> lA= new LinkedList<>();
-        for(Colour c : lAInput)
-            lA.add(new AmmoCube(c));
-        AmmoCube[] cubeArray = lA.stream().toArray(AmmoCube[]::new);
-        if(!p.checkAmmoCube(cubeArray) && wCard != null)
-            return false;
+        if(!lAInput.isEmpty()) {
+            for (Colour c : lAInput)
+                lA.add(new AmmoCube(c));
+            AmmoCube[] cubeArray = lA.stream().toArray(AmmoCube[]::new);
+            if (!p.checkAmmoCube(cubeArray) && wCard != null)
+                return false;
+        }
         List<PowerUpCard> lP= new LinkedList<>();
         if(!lPInput.isEmpty()) {
             for (String s : lPInput) {
@@ -1132,11 +1134,11 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                 //player p can use this only when he is being attacked, i.e. while the attacker is taking his turn
                 //TODO this should be implemented server-side
                 case "Tagback Grenade" :
-                    if(this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(0))))
+                    if(p.getPowerUpCardObject(namePC) != null && this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(0))))
                         x = true;
                     break;
                 case "Targeting Scope" :
-                    if(p.checkAmmoCube(new AmmoCube[]{new AmmoCube(c)}))                //TODO this should be implemented server-side
+                    if(p.getPowerUpCardObject(namePC) != null && p.checkAmmoCube(new AmmoCube[]{new AmmoCube(c)}))                //TODO this should be implemented server-side
                         x = true;
                     break;
             }
@@ -1151,12 +1153,12 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                         directions.add(Integer.parseInt(lS.get(1)));
                         directions.add(Integer.parseInt(lS.get(2)));
                     }
-                    if((lS.size() == 2 && this.grid.canMove(this.grid.getPlayerObject(lS.get(0)), Integer.parseInt(lS.get(1))) && (Integer.parseInt(lS.get(1)) == 1 || Integer.parseInt(lS.get(1)) == 2 || Integer.parseInt(lS.get(1)) == 3 || Integer.parseInt(lS.get(1)) == 4)) ||
+                    if(p.getPowerUpCardObject(namePC) != null && (lS.size() == 2 && this.grid.canMove(this.grid.getPlayerObject(lS.get(0)), Integer.parseInt(lS.get(1))) && (Integer.parseInt(lS.get(1)) == 1 || Integer.parseInt(lS.get(1)) == 2 || Integer.parseInt(lS.get(1)) == 3 || Integer.parseInt(lS.get(1)) == 4)) ||
                             (lS.size() == 3 && this.grid.canGhostMove(this.grid.getPlayerObject(lS.get(0)), directions) && (Integer.parseInt(lS.get(1)) == 1 || Integer.parseInt(lS.get(1)) == 2 || Integer.parseInt(lS.get(1)) == 3 || Integer.parseInt(lS.get(1)) == 4) && (Integer.parseInt(lS.get(2)) == 1 || Integer.parseInt(lS.get(2)) == 2 || Integer.parseInt(lS.get(2)) == 3 || Integer.parseInt(lS.get(2)) == 4)));
                        x = true;
                     break;
                 case "Teleporter" :
-                    if(this.grid.getBoard().getArena()[Integer.parseInt(lS.get(0))][Integer.parseInt(lS.get(1))].getStatus() != -1)
+                    if(p.getPowerUpCardObject(namePC) != null && this.grid.getBoard().getArena()[Integer.parseInt(lS.get(0))][Integer.parseInt(lS.get(1))].getStatus() != -1)
                         x = true;
                     break;
             }
@@ -1189,7 +1191,8 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                 }
                 List<AmmoCube> lA = new LinkedList<>();
                 lA.add(new AmmoCube(c));
-                p.payCard(lA, null);
+                List<PowerUpCard> lP = new LinkedList<>();
+                p.payCard(lA, lP);
                 break;
         }
     }

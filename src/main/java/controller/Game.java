@@ -28,6 +28,9 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
     private List<String> deadList = new LinkedList<>();
     private boolean finalFrenzy = false;
 
+    public Grid getGrid() {
+        return grid;            //to use only for tests!!
+    }
 
     public GameState getGameState() {
         return gameState;
@@ -167,11 +170,11 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
    private synchronized void chooseSpawnPoint(Colour c, Player p) {
        if(c.equals(Colour.YELLOW))
-           this.grid.move(p, new Position(2,3));
+           p.changeCell(this.grid.getBoard().getArena()[2][3]);
        if(c.equals(Colour.RED))
-           this.grid.move(p, new Position(1,0));            //view ask the choice
+           p.changeCell(this.grid.getBoard().getArena()[1][0]);            //view ask the choice
        if(c.equals(Colour.BLUE))
-           this.grid.move(p, new Position(0,2));
+           p.changeCell(this.grid.getBoard().getArena()[0][2]);
        this.gameState = STARTTURN;
    }
 

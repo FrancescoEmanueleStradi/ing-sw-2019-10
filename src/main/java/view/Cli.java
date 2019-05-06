@@ -601,6 +601,8 @@ public class Cli implements View{
         for(String s : l){
             switch (s) {
                 case "1":
+                    if(doYouWantToUsePUC())
+                        usePowerUpCard();
                     System.out.println("write the direction you want to move");
                     int i = in.nextInt();
                     System.out.println("Write the card(s) you want to reload:"+this.server.messageGetWeaponCardUnloaded(nickName));
@@ -650,9 +652,13 @@ public class Cli implements View{
                             lP.add(in.next());
                     }
                     this.server.messageFinalFrenzyAction1(nickName, i, lW, wC, lI, lS, lC, lP);
+                    if(doYouWantToUsePUC())
+                        usePowerUpCard();
                     break;
 
                 case "2":
+                    if(doYouWantToUsePUC())
+                        usePowerUpCard();
                     System.out.println("write the direction(s) you want to move");
                     List<Integer> list = new LinkedList<>();
                     while(in.hasNext())
@@ -663,10 +669,14 @@ public class Cli implements View{
                          while (in.hasNext())
                              list.add(in.nextInt());
                      }
-                     this.server.messageFinalFrenzyAction2(nickName, list);
-                     break;
+                    this.server.messageFinalFrenzyAction2(nickName, list);
+                    if(doYouWantToUsePUC())
+                        usePowerUpCard();
+                    break;
 
                 case "3":
+                    if(doYouWantToUsePUC())
+                        usePowerUpCard();
                     List<Integer> list2 = new LinkedList<>();
                     List<Colour> lC2 = new LinkedList<>();
                     List<String> lP2 = new LinkedList<>();
@@ -706,9 +716,13 @@ public class Cli implements View{
                         }
                     }
                     this.server.messageFinalFrenzyAction3(nickName, list2, wCard, lC2, lP2);
+                    if(doYouWantToUsePUC())
+                        usePowerUpCard();
                     break;
 
                 case "4":
+                    if(doYouWantToUsePUC())
+                        usePowerUpCard();
                     System.out.println("write the direction(s) you want to move");
                     List<Integer> list3 = new LinkedList<>();
                     while(in.hasNext())
@@ -761,9 +775,13 @@ public class Cli implements View{
                             lP3.add(in.next());
                     }
                     this.server.messageFinalFrenzyAction4(nickName, list3, lW2, wC2, lI2, lS2, lC3, lP3);
+                    if(doYouWantToUsePUC())
+                        usePowerUpCard();
                     break;
 
                 case "5":
+                    if(doYouWantToUsePUC())
+                        usePowerUpCard();
                     weaponSlot = null;
                     List<Colour> lC4= new LinkedList<>();
                     List<String> lP4= new LinkedList<>();
@@ -802,6 +820,8 @@ public class Cli implements View{
                         }
                     }
                     this.server.messageFinalFrenzyAction5(nickName, list4, wCard, lC4, lP4);
+                    if(doYouWantToUsePUC())
+                        usePowerUpCard();
                     break;
             }
         }

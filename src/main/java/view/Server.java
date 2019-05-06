@@ -56,18 +56,17 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
     }
 
     public int receiveIdentifier(int game) throws RemoteException{
-        //TODO return views.get(game).size();                  //It should be correct
-        return 1;
+        return games.get(game).getPlayers().size();                                      //It should be correct
     }
 
     /*public void setCli(int game, int identifier) throws RemoteException{
         views.get(game).add(identifier, new Cli());
-        views.get(game).get(identifier).setGame(games.get(identifier));         //TODO this could be a problem!!!!!!!
+        views.get(game).get(identifier).setGame(games.get(identifier));
     }
 
     public void setGui(int game, int identifier) throws RemoteException{
         views.get(game).add(identifier, new Gui());
-        views.get(game).get(identifier).setGame(games.get(identifier));         //TODO this could be a problem!!!!!!!
+        views.get(game).get(identifier).setGame(games.get(identifier));
     }*/
 
     public boolean isMyTurn(int game, int identifier) throws RemoteException {

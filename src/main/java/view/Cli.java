@@ -18,9 +18,6 @@ public class Cli implements View{
     private Colour colour;
     private CLIWeaponPrompt wPrompt;
 
-    public void ciao() throws RemoteException {
-        server.isMyTurn(1,1 ) ;
-    }
 
     public Game getGame() {
         return game;

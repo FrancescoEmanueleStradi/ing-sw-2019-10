@@ -2,6 +2,8 @@ package view;
 
 import controller.Game;
 
+import java.rmi.RemoteException;
+
 public class Gui implements View{
 
     private Game game;

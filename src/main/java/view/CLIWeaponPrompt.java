@@ -160,7 +160,7 @@ public class CLIWeaponPrompt {
         System.out.println(promptC);
         while (in.hasNext())
             lC.add(Colour.valueOf(in.next()));
-        server.messagegetPowerUpCard(nickName).stream().forEach(System.out::println);
+        server.messageGetPowerUpCard(nickName).stream().forEach(System.out::println);
         System.out.println(promptD);
         while (in.hasNext())
             lP.add(in.next());
@@ -174,7 +174,7 @@ public class CLIWeaponPrompt {
             System.out.println(promptC);
             while (in.hasNext())
                 lC.add(Colour.valueOf(in.next()));
-            server.messagegetPowerUpCard(nickName).stream().forEach(System.out::println);
+            server.messageGetPowerUpCard(nickName).stream().forEach(System.out::println);
             System.out.println(promptD);
             while (in.hasNext())
                 lP.add(in.next());

@@ -5,7 +5,9 @@ import model.cards.PowerUpCard;
 import model.player.AmmoCube;
 import model.player.Player;
 
-public class Teleporter extends PowerUpCard {
+import java.io.Serializable;
+
+public class Teleporter extends PowerUpCard implements Serializable {
 
     public Teleporter(Colour c) {
         super();

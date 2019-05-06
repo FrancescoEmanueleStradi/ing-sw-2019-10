@@ -5,7 +5,9 @@ import model.cards.PowerUpCard;
 import model.player.AmmoCube;
 import model.player.Player;
 
-public class TargetingScope extends PowerUpCard {
+import java.io.Serializable;
+
+public class TargetingScope extends PowerUpCard implements Serializable {
 
     public TargetingScope(Colour c) {
         super();

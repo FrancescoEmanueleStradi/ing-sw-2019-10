@@ -3,7 +3,9 @@ package model.cards;
 import model.player.AmmoCube;
 import model.Colour;
 
-public abstract class PowerUpCard implements Card {
+import java.io.Serializable;
+
+public abstract class PowerUpCard implements Card, Serializable {
 
     protected String cardName;
     protected Colour c;         //useful? Maybe AmmoCube value is enough

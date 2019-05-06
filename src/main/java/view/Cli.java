@@ -38,7 +38,7 @@ public class Cli implements View{
     }
 
     @Override
-    public void askNameAndColour() {
+    public void askNameAndColour() throws RemoteException{
         Scanner in = new Scanner(System.in);
         if (this.server.messageGameIsNotStarted(game)) {
             System.out.println("Enter your name:");
@@ -76,7 +76,7 @@ public class Cli implements View{
     }
 
     @Override
-    public void selectSpawnPoint() {
+    public void selectSpawnPoint() throws RemoteException{
         Scanner in = new Scanner(System.in);
         List<PowerUpCard> l = new LinkedList<>();
         for(PowerUpCard p : this.server.messageGiveTwoPUCard(game, this.nickName)){
@@ -100,7 +100,7 @@ public class Cli implements View{
     }
 
     @Override
-    public void action1() {
+    public void action1() throws RemoteException{
         Scanner in = new Scanner(System.in);
         System.out.println("---------START FIRST ACTION---------");
         System.out.println("Choose the action you want to do (Move, Shoot, Grab):");
@@ -117,7 +117,7 @@ public class Cli implements View{
             this.grabFirstAction();
     }
 
-    private void moveFirstAction() {
+    private void moveFirstAction() throws RemoteException{
         Scanner in = new Scanner(System.in);
         List<Integer> l = new LinkedList<>();
         while(!this.server.messageIsValidFirstActionMove(game, nickName, l)) {
@@ -128,7 +128,7 @@ public class Cli implements View{
         this.server.messageFirstActionMove(game, this.nickName, l);
     }
 
-    private void shootFirstAction() {
+    private void shootFirstAction() throws RemoteException{
         Scanner in = new Scanner(System.in);
         System.out.println("Choose one of these cards to shoot:");
         this.server.messageGetWeaponCardLoaded(game, this.nickName).stream().forEach(System.out::println);
@@ -228,7 +228,7 @@ public class Cli implements View{
         }
     }
 
-    private void grabFirstAction() {
+    private void grabFirstAction() throws RemoteException{
         Scanner in = new Scanner(System.in);
         Integer[] directions = null;
         List<Integer> l = new LinkedList<>();
@@ -278,7 +278,7 @@ public class Cli implements View{
     }
 
     @Override
-    public void action2() {
+    public void action2() throws RemoteException{
         System.out.println("---------START SECOND ACTION---------");
         Scanner in = new Scanner(System.in);
         System.out.println("Choose the action you want to do (Move, Shoot, Grab):");
@@ -295,7 +295,7 @@ public class Cli implements View{
             this.grabSecondAction();
     }
 
-    private void moveSecondAction() {
+    private void moveSecondAction() throws RemoteException{
         Scanner in = new Scanner(System.in);
         List<Integer> l = new LinkedList<>();
         while(!this.server.messageIsValidSecondActionMove(game, l)) {
@@ -306,7 +306,7 @@ public class Cli implements View{
         this.server.messageSecondActionMove(game, this.nickName, l);
     }
 
-    private void shootSecondAction() {
+    private void shootSecondAction() throws RemoteException{
         Scanner in = new Scanner(System.in);
         System.out.println("Choose one of these cards to shoot: ");
         this.server.messageGetWeaponCardLoaded(game, this.nickName).stream().forEach(System.out::println);
@@ -406,7 +406,7 @@ public class Cli implements View{
         }
     }
 
-    private void grabSecondAction() {
+    private void grabSecondAction() throws RemoteException{
         Scanner in = new Scanner(System.in);
         Integer[] directions = null;
         List<Integer> l = new LinkedList<>();
@@ -463,7 +463,7 @@ public class Cli implements View{
     }
 
     @Override
-    public void usePowerUpCard() {
+    public void usePowerUpCard() throws RemoteException{
         Scanner in = new Scanner(System.in);
         String namePC;
         List<String> lS = new LinkedList<>();
@@ -534,7 +534,7 @@ public class Cli implements View{
     }
     
     @Override
-    public void reload() {               //the player knows everything!
+    public void reload() throws RemoteException{               //the player knows everything!
         Scanner in = new Scanner(System.in);
         this.server.messageGetWeaponCardUnloaded(game, this.nickName).stream().forEach(System.out::println);
         int i = 0;
@@ -551,7 +551,7 @@ public class Cli implements View{
     }
 
     @Override
-    public void scoring() {
+    public void scoring() throws RemoteException{
         if(this.server.messageIsValidScoring(game))
             this.server.messageScoring(game);
         else
@@ -559,7 +559,7 @@ public class Cli implements View{
     }
 
     @Override
-    public void newSpawnPoint() {
+    public void newSpawnPoint() throws RemoteException{
         if(this.server.messageGetDeadList(game).contains(this.nickName)) {
             System.out.println("Enter the PowerUp card you want to discard:");
             Scanner in = new Scanner(System.in);
@@ -575,7 +575,7 @@ public class Cli implements View{
     }
 
     @Override
-    public void replace() {
+    public void replace() throws RemoteException{
         if(this.server.messageIsValidToReplace(game))
             this.server.messageReplace(game);
         else
@@ -584,7 +584,7 @@ public class Cli implements View{
 
 
     @Override
-    public void finalFrenzyTurn(){
+    public void finalFrenzyTurn()throws RemoteException{
         Scanner in = new Scanner(System.in);
         List<String> l = new LinkedList<>();
         System.out.println("This is the final turn. final frenzy mode:\nchoose the moves you want to do according to the fact you are before or after the player who started the game");
@@ -827,13 +827,13 @@ public class Cli implements View{
     }
 
     @Override
-    public void endFinalFrenzy(){
+    public void endFinalFrenzy()throws RemoteException{
         this.server.messageEndTurnFinalFrenzy(game);
         System.out.println("We are calculating the result");
     }
 
     @Override
-    public void finalScoring(){
+    public void finalScoring()throws RemoteException{
         this.server.messageFinalScoring(game);
         System.out.println("FINAL SCORE");
         this.server.messageGetPlayers(game).stream().forEach(System.out::print);

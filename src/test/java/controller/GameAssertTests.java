@@ -40,13 +40,22 @@ class GameAssertTests {
         assertTrue(game.getPlayers().contains("Player 1"));
         assertTrue(game.getPlayers().contains("Player 2"));
 
+        game.addPlayer("Player 3", Colour.GREEN);
+        Player p3 = game.getGrid().getPlayerObject("Player 3");
+
+        assertEquals(3, game.getPlayers().size());
+        assertTrue(game.getPlayers().contains("Player 1"));
+        assertTrue(game.getPlayers().contains("Player 2"));
+        assertTrue(game.getPlayers().contains("Player 3"));
+
         assertTrue(game.isValidReceiveType(1));
         game.receiveType(1);
         assertEquals(1, grid.getBoard().getaType());
         assertEquals(GameState.INITIALIZED, game.getGameState());
 
         List<PowerUpCard> list = game.giveTwoPUCard("Player 1");
-        System.out.print("PowerUpCard picked from the deck for Player 1: \n"+list);
+        System.out.print("PowerUpCard picked from the deck for Player 1: " + list.get(0).getCardName() + " coloured " + list.get(0).getC() + ", and " + list.get(1).getCardName() + " coloured " + list.get(1).getC());
+        System.out.print("\nDetails (Player 1): " + list);
         game.pickAndDiscardCard("Player 1", list.get(0), list.get(1));
         assertEquals(GameState.STARTTURN, game.getGameState());
         assertEquals(1, p1.getpC().size());
@@ -62,7 +71,8 @@ class GameAssertTests {
             assertEquals(p1.getCell(), grid.getBoard().getArena()[0][2]);
 
         List<PowerUpCard> list2 = game.giveTwoPUCard("Player 2");
-        System.out.print("\nPowerUpCard picked from the deck for Player 2: \n"+list2);
+        System.out.print("\nPowerUpCard picked from the deck for Player 2: " + list2.get(0).getCardName() + " coloured " + list2.get(0).getC() + ", and " + list2.get(1).getCardName() + " coloured " + list2.get(1).getC());
+        System.out.print("\nDetails (Player 2): " + list2);
         game.pickAndDiscardCard("Player 2", list2.get(1), list2.get(0));
         assertEquals(GameState.STARTTURN, game.getGameState());
         assertEquals(1, p2.getpC().size());
@@ -77,9 +87,25 @@ class GameAssertTests {
         else if(list2.get(0).getC().equals(Colour.BLUE))
             assertEquals(p2.getCell(), grid.getBoard().getArena()[0][2]);
 
+        List<PowerUpCard> list3 = game.giveTwoPUCard("Player 3");
+        System.out.print("\nPowerUpCard picked from the deck for Player 3: " + list3.get(0).getCardName() + " coloured " + list3.get(0).getC() + ", and " + list3.get(1).getCardName() + " coloured " + list3.get(1).getC());
+        System.out.print("\nDetails (Player 3): " + list3);
+        game.pickAndDiscardCard("Player 3", list3.get(0), list3.get(1));
+        assertEquals(GameState.STARTTURN, game.getGameState());
+        assertEquals(1, p3.getpC().size());
+        assertEquals(list3.get(0), p3.getpC().get(0));
+        assertEquals(3, grid.getPowerUpDiscardPile().size());
+        assertEquals(list3.get(1), grid.getPowerUpDiscardPile().get(2));
 
-        //ACTIONS
-        //Action 1: Move
+        if(list3.get(1).getC().equals(Colour.YELLOW))
+            assertEquals(p3.getCell(), grid.getBoard().getArena()[2][3]);
+        else if(list3.get(1).getC().equals(Colour.RED))
+            assertEquals(p3.getCell(), grid.getBoard().getArena()[1][0]);
+        else if(list3.get(1).getC().equals(Colour.BLUE))
+            assertEquals(p3.getCell(), grid.getBoard().getArena()[0][2]);
+
+
+        //First Action: Move
 
         List<Integer> directions = new LinkedList<>();
         assertFalse(game.isValidFirstActionMove(p1.getNickName(), directions));
@@ -122,11 +148,11 @@ class GameAssertTests {
 
         assertEquals(GameState.ACTION1, game.getGameState());
 
-
-        //Action 2: Shoot
+        //Second Action: Shoot
 
         p1.changeCell(game.getGrid().getBoard().getArena()[0][2]);
         p2.changeCell(game.getGrid().getBoard().getArena()[1][1]);
+        p3.changeCell(game.getGrid().getBoard().getArena()[1][2]);
 
         WeaponCard machineGun = new MachineGun();
         assertFalse(game.isValidCard("Player 1", "Machine Gun"));
@@ -137,12 +163,23 @@ class GameAssertTests {
 
         List<Integer> lI = new LinkedList<>();
         lI.add(1);
+        lI.add(2);
+        lI.add(3);
         List<String> lS = new LinkedList<>();
+        lS.add("Player 2");
+        lS.add("Player 3");
+        lS.add("Player 3");
         lS.add("Player 2");
         lS.add("");
         List<Colour> lA = new LinkedList<>();
+        lA.add(Colour.valueOf("YELLOW"));
         List<String> lP = new LinkedList<>();
 
         assertTrue(game.isValidSecondActionShoot("Player 1", "Machine Gun", lI, lS, 0, lA, lP));
+        game.secondActionShoot("Player 1", "Machine Gun", lI, lS, 0, lA, lP);
+        assertEquals(Colour.BLUE, p2.getpB().getDamages().getDamageTr()[0].getC());
+        assertEquals(Colour.BLUE, p3.getpB().getDamages().getDamageTr()[0].getC());
+        assertEquals(Colour.BLUE, p3.getpB().getDamages().getDamageTr()[1].getC());
+        assertEquals(Colour.BLUE, p2.getpB().getDamages().getDamageTr()[1].getC());
     }
 }

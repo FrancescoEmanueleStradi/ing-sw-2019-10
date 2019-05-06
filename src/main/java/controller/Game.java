@@ -285,20 +285,20 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                    }
                    break;
                case "Machine Gun":
-                   if(lI.contains(1)) {
+                   if(!lI.isEmpty() && lI.get(0) == 1) {
                        if(this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(0))) && (lS.get(1).equals("") || this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(1)))))
                            x = true;
                        if(!x)
                            break;
                    }
-                   if(lI.contains(2) && lI.contains(1)) {
+                   if(lI.size() > 1 && lI.get(0) == 1 && lI.get(1) == 2) {
                        x = false;
                        if((this.grid.getPlayerObject(lS.get(2)).equals(this.grid.getPlayerObject(lS.get(0))) || (!lS.get(1).equals("") && (this.grid.getPlayerObject(lS.get(2)).equals(this.grid.getPlayerObject(lS.get(1)))) || this.grid.getPlayerObject(lS.get(2)).equals(this.grid.getPlayerObject(lS.get(0))))) && lC.contains(Colour.YELLOW))
                            x = true;
                        if(!x)
                            break;
                    }
-                   if(lI.contains(3) && lI.contains(2) && lI.contains(1)) { //very difficult
+                   if(lI.size() > 2 && lI.get(0) == 1 && lI.get(1) == 2 && lI.get(2) == 3) { //very difficult
                        x = false;
                        if(lS.get(1).equals("") || (!lS.get(1).equals("") && !this.grid.getPlayerObject(lS.get(3)).equals(this.grid.getPlayerObject(lS.get(2)))) || (!lS.get(1).equals("") && !this.grid.getPlayerObject(lS.get(3)).equals(this.grid.getPlayerObject(lS.get(0))) && !this.grid.getPlayerObject(lS.get(3)).equals(this.grid.getPlayerObject(lS.get(1))) && !this.grid.getPlayerObject(lS.get(3)).equals(this.grid.getPlayerObject(lS.get(2))) && this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(3)))) ||
                                (!lS.get(1).equals("") && !this.grid.getPlayerObject(lS.get(3)).equals(this.grid.getPlayerObject(lS.get(2))) && (this.grid.getPlayerObject(lS.get(3)).equals(this.grid.getPlayerObject(lS.get(0))) || this.grid.getPlayerObject(lS.get(3)).equals(this.grid.getPlayerObject(lS.get(1)))) && !this.grid.getPlayerObject(lS.get(4)).equals(this.grid.getPlayerObject(lS.get(0))) && !this.grid.getPlayerObject(lS.get(4)).equals(this.grid.getPlayerObject(lS.get(1))) && !this.grid.getPlayerObject(lS.get(4)).equals(this.grid.getPlayerObject(lS.get(2))) && !this.grid.getPlayerObject(lS.get(4)).equals(this.grid.getPlayerObject(lS.get(3))) && this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(4)))) && lC.contains(Colour.BLUE))
@@ -627,9 +627,9 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
             case "Machine Gun":
                 if(lI.get(0) == 1)
                     ((MachineGun) p.getWeaponCardObject(nameWC)).applyEffect(this.grid, p, this.grid.getPlayerObject(lS.get(0)), this.grid.getPlayerObject(lS.get(1)));
-                if(lI.get(1) == 2)
+                if(lI.size() > 1 && lI.get(1) == 2)
                     ((MachineGun) p.getWeaponCardObject(nameWC)).applySpecialEffect(this.grid, p, this.grid.getPlayerObject(lS.get(2)));
-                if(lI.get(2) == 3)
+                if(lI.size() == 3 && lI.get(2) == 3)
                     ((MachineGun) p.getWeaponCardObject(nameWC)).applyEffect(this.grid, p,this.grid.getPlayerObject(lS.get(3)), this.grid.getPlayerObject(lS.get(4)));
                 break;
             case "Plasma Gun":

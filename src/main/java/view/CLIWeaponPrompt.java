@@ -16,7 +16,7 @@ public class CLIWeaponPrompt {
     private String promptE = "If you are in Adrenaline, enter the direction of the move:";
     private String promptErrorRetry = "Error: retry your action";
 
-    public void shootToUser1(Server server, String nickName) {
+    public void shootToUser1(ServerInterface server, String nickName) {
         Scanner in = new Scanner(System.in);
         String s = in.next();
         int i;
@@ -61,7 +61,7 @@ public class CLIWeaponPrompt {
         server.messageFirstActionShoot(nickName, s, lI, lS, i, lC, lP);
     }
 
-    public void shoot2ToUser1(Server server, String nickName) {
+    public void shoot2ToUser1(ServerInterface server, String nickName) {
         Scanner in = new Scanner(System.in);
         String s = in.next();
         int i;
@@ -106,7 +106,7 @@ public class CLIWeaponPrompt {
         server.messageSecondActionShoot(nickName, s, lI, lS, i, lC, lP);
     }
 
-   public void shootToUser2(Server server, String nickName) {
+   public void shootToUser2(ServerInterface server, String nickName) {
        Scanner in = new Scanner(System.in);
        String s = in.next();
        int i;
@@ -145,7 +145,7 @@ public class CLIWeaponPrompt {
        server.messageFirstActionShoot(nickName, s, lI, lS, i, lC, lP);
    }
 
-    public void shoot2ToUser2(Server server, String nickName) {
+    public void shoot2ToUser2(ServerInterface server, String nickName) {
         Scanner in = new Scanner(System.in);
         String s = in.next();
         int i;
@@ -184,7 +184,7 @@ public class CLIWeaponPrompt {
         server.messageSecondActionShoot(nickName, s, lI, lS, i, lC, lP);
     }
 
-    public void shootToUser3(Server server, String nickName) {
+    public void shootToUser3(ServerInterface server, String nickName) {
         Scanner in = new Scanner(System.in);
         String s = in.next();
         int i;
@@ -215,7 +215,7 @@ public class CLIWeaponPrompt {
         server.messageFirstActionShoot(nickName, s, lI, lS, i, lC, lP);
     }
 
-    public void shoot2ToUser3(Server server, String nickName) {
+    public void shoot2ToUser3(ServerInterface server, String nickName) {
         Scanner in = new Scanner(System.in);
         String s = in.next();
         int i;
@@ -246,7 +246,7 @@ public class CLIWeaponPrompt {
         server.messageSecondActionShoot(nickName, s, lI, lS, i, lC, lP);
     }
 
-    public void shootToUser4(Server server, String nickName) {
+    public void shootToUser4(ServerInterface server, String nickName) {
         Scanner in = new Scanner(System.in);
         String s = in.next();
         int i;
@@ -271,7 +271,7 @@ public class CLIWeaponPrompt {
         server.messageFirstActionShoot(nickName, s, lI, lS, i, lC, lP);
     }
 
-    public void shoot2ToUser4(Server server, String nickName) {
+    public void shoot2ToUser4(ServerInterface server, String nickName) {
         Scanner in = new Scanner(System.in);
         String s = in.next();
         int i;

@@ -1,4 +1,5 @@
 public class temp {
+    //Cli
     /*@Override
     public void askNameAndColour() {
         Scanner in = new Scanner(System.in);
@@ -786,4 +787,60 @@ public class temp {
     }
 }
 */
+
+    //Server
+    /*public void messageAskNameAndColour(int game, int identifier) throws RemoteException{        // just a doubt, does view print on the right terminal?
+        views.get(game).get(identifier).askNameAndColour();
+    }
+    public void messageSelectSpawnPoint(int game, int identifier)throws RemoteException{
+        views.get(game).get(identifier).selectSpawnPoint();
+    }
+    public boolean messageDoYouWantToUsePUC(int game, int identifier)throws RemoteException{
+        return views.get(game).get(identifier).doYouWantToUsePUC();
+    }
+    public void messageUsePowerUpCard(int game, int identifier)throws RemoteException{
+        views.get(game).get(identifier).usePowerUpCard();
+    }
+    public void messageAction1(int game, int identifier)throws RemoteException{
+        views.get(game).get(identifier).action1();
+    }
+    public void messageAction2(int game, int identifier)throws RemoteException{
+        views.get(game).get(identifier).action2();
+    }
+    public void messageReload(int game, int identifier)throws RemoteException{
+        views.get(game).get(identifier).reload();
+    }
+    public void messageScoring(int game, int identifier)throws RemoteException{
+        views.get(game).get(identifier).scoring();
+    }
+    public void messageNewSpawnPoint(int game, int identifier)throws RemoteException{
+        views.get(game).get(identifier).newSpawnPoint();
+    }
+    public void messageReplace(int game, int identifier)throws RemoteException{
+        views.get(game).get(identifier).replace();
+    }
+    public void messageFinalFrenzyTurn(int game, int identifier)throws RemoteException{
+        views.get(game).get(identifier).finalFrenzyTurn();
+    }
+    public void messageEndFinalFrenzy(int game, int identifier)throws RemoteException{
+        views.get(game).get(identifier).endFinalFrenzy();
+    }
+    public void messageFinalScoring(int game, int identifier)throws RemoteException{
+        views.get(game).get(identifier).finalScoring();
+    }*/
+
+    //ServerInterface
+    /*void messageAskNameAndColour(int game, int identifier) throws RemoteException;
+    void messageSelectSpawnPoint(int game, int identifier)throws RemoteException;
+    boolean messageDoYouWantToUsePUC(int game, int identifier)throws RemoteException;
+    void messageUsePowerUpCard(int game, int identifier)throws RemoteException;
+    void messageAction1(int game, int identifier)throws RemoteException;
+    void messageAction2(int game, int identifier)throws RemoteException;
+    void messageReload(int game, int identifier)throws RemoteException;
+    void messageScoring(int game, int identifier)throws RemoteException;
+    void messageNewSpawnPoint(int game, int identifier)throws RemoteException;
+    void messageReplace(int game, int identifier)throws RemoteException;
+    void messageFinalFrenzyTurn(int game, int identifier)throws RemoteException;
+    void messageEndFinalFrenzy(int game, int identifier)throws RemoteException;
+    void messageFinalScoring(int game, int identifier)throws RemoteException;*/
 }

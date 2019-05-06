@@ -271,7 +271,7 @@ public class Cli implements View{
                     lP.add(in.next());
             }
         }
-        this.server.messageFirstActionGrab(nickName, l.toArray(directions), wCard, lC, lP );
+        this.server.messageFirstActionGrab(nickName, l.toArray(directions), wCard, lC, lP);
         if(this.server.messageIsDiscard()) {
             System.out.println("Choose the weapon card you want to discard");
             String wCDiscard = in.next();

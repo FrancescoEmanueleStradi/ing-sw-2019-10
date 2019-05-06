@@ -85,7 +85,7 @@ public class Client {
                     centralServer.messageReplace(game, identifier);
                     centralServer.finishTurn(game);
                 } else {
-                    //view.finalFrenzyTurn();                       //TODO
+                    //view.finalFrenzyTurn();
                     centralServer.messageFinalFrenzyTurn(game, identifier);
                     centralServer.finishTurn(game);
                     break;              //TODO is it now the client has to break?

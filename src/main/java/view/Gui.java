@@ -6,7 +6,7 @@ import java.rmi.RemoteException;
 
 public class Gui implements View{
 
-    private Game game;
+    private int game;
     private ServerInterface server;
 
     @Override
@@ -15,7 +15,7 @@ public class Gui implements View{
     }
 
     @Override
-    public void setGame(Game game){
+    public void setGame(int game){
         //TODO
     }
 

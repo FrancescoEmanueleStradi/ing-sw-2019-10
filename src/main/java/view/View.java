@@ -7,7 +7,7 @@ import java.rmi.RemoteException;
 public interface View  {
 
     void setServer(ServerInterface server);
-    void setGame(Game game);
+    void setGame(int game);
     void askNameAndColour();
     void selectSpawnPoint();
     void action1();

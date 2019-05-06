@@ -14,7 +14,7 @@ import java.util.List;
 public class Server extends UnicastRemoteObject implements ServerInterface {
 
     static private List<Game> games;
-    static private List<List<View>> views;
+    //static private List<List<View>> views;
     static private List<Integer> playersTakingTheirTurn;        //position n --> game n
 
     public Server() throws RemoteException {
@@ -36,7 +36,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
 
         System.out.println("Client may now invoke methods");
         games = new LinkedList<>();
-        views = new LinkedList<>();
+        //views = new LinkedList<>();
         playersTakingTheirTurn = new LinkedList<>();            //TODO methods in the controller to notify the server
     }
 
@@ -49,17 +49,18 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
             return numGame;
         else{
             games.add(numGame, new Game());             //TODO add a game even if it shouldn't
-            views.add(numGame, new LinkedList<>());
+            //views.add(numGame, new LinkedList<>());
             playersTakingTheirTurn.add(numGame, 1);
             return numGame;
         }
     }
 
     public int receiveIdentifier(int game) throws RemoteException{
-        return views.get(game).size();                  //It should be correct
+        //TODO return views.get(game).size();                  //It should be correct
+        return 1;
     }
 
-    public void setCli(int game, int identifier) throws RemoteException{
+    /*public void setCli(int game, int identifier) throws RemoteException{
         views.get(game).add(identifier, new Cli());
         views.get(game).get(identifier).setGame(games.get(identifier));         //TODO this could be a problem!!!!!!!
     }
@@ -67,7 +68,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
     public void setGui(int game, int identifier) throws RemoteException{
         views.get(game).add(identifier, new Gui());
         views.get(game).get(identifier).setGame(games.get(identifier));         //TODO this could be a problem!!!!!!!
-    }
+    }*/
 
     public boolean isMyTurn(int game, int identifier) throws RemoteException {
         return(playersTakingTheirTurn.get(game) == identifier);
@@ -88,170 +89,218 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
     }
 
 
-    public boolean messageGameIsNotStarted() {
-        return false;
+    public boolean messageGameIsNotStarted(int game) {
+        return games.get(game).gameIsNotStarted();
     }
 
-    public void messageGameStart(String nick, Colour c) {
-
+    public void messageGameStart(int game, String nick, Colour c) {
+        games.get(game).gameStart(nick,c);
     }
 
-    public boolean messageIsValidReceiveType(int type) {
-        return false;
+    public boolean messageIsValidReceiveType(int game, int type) {
+        return games.get(game).isValidReceiveType(type);
     }
 
-    public void messageReceiveType(int type) {
+    public void messageReceiveType(int game, int type) {
+        games.get(game).receiveType(type);
+    }
+
+    public boolean messageIsValidAddPlayer(int game, String nick, Colour c) {
+        return games.get(game).isValidAddPlayer(nick, c);
+    }
+
+    public void messageAddPlayer(int game, String nick, Colour c) {
+        games.get(game).addPlayer(nick, c);
 
     }
-    public boolean messageIsValidAddPlayer(String nick, Colour c) {
-        return false;
+    public List<PowerUpCard> messageGiveTwoPUCard(int game, String nick) {
+        return games.get(game).giveTwoPUCard(nick);
     }
-    public void messageAddPlayer(String nick, Colour c) {
+
+    public boolean messageIsValidPickAndDiscard(int game, String nick) {
+        return games.get(game).isValidPickAndDiscard(nick);
+    }
+    public void messagePickAndDiscardCard(int game, String nick, PowerUpCard p1, PowerUpCard p2) {
+        games.get(game).pickAndDiscardCard(nick, p1, p2);
+    }
+
+    public boolean messageIsValidFirstActionMove(int game, List<Integer> d) {
+        return games.get(game).isValidFirstActionMove(d);
+    }
+
+
+    public void messageFirstActionMove(int game, String nick, List<Integer> d) {
+        games.get(game).firstActionMove(nick, d);
+    }
+
+
+    public List<String> messageGetWeaponCardLoaded(int game, String nick) {
+        return games.get(game).getWeaponCardLoaded(nick);
+    }
+    public boolean messageIsValidCard(int game, String nick, String weaponCard) {
+        return games.get(game).isValidCard(nick, weaponCard);
+    }
+
+    public List<Colour> messageGetReloadCost(int game, String s, String nick) {
+        return games.get(game).getReloadCost(s, nick);
+    }
+
+    public String messageGetDescriptionWC(int game, String s, String nick) {
+        return games.get(game).getDescriptionWC(s, nick);
+    }
+
+    public boolean messageIsValidFirstActionGrab(int game, String nick, Integer[] d, String wC, String wS, List<Colour> lA, List<String> lP) {
+        return games.get(game).isValidFirstActionGrab(nick, d, wC, wS,lA, lP);
+    }
+    public void messageFirstActionGrab(int game, String nick, Integer[] d, String wC, List<Colour> lC, List<String> lP) {
+        games.get(game).firstActionGrab(nick, d, wC, lC, lP);
+    }
+
+    public boolean messageIsDiscard(int game) {
+        return games.get(game).isDiscard();
+    }
+
+    public void messageDiscardWeaponCard(int game, String nick, String wS, String wC) {
+        games.get(game).discardWeaponCard(nick, wS, wC);
+    }
+
+    public boolean messageIsValidSecondActionMove(int game, List<Integer> d) {
+        return games.get(game).isValidSecondActionMove(d);
+    }
+
+    public void messageSecondActionMove(int game, String nick, List<Integer> d) {
+        games.get(game).secondActionMove(nick, d);
+    }
+
+    public boolean messageIsValidSecondActionGrab(int game, String nick, Integer[] d, String wC, String wS, List<Colour> lA, List<String> lP) {
+        return games.get(game).isValidFirstActionGrab(nick, d, wC, wS, lA, lP);
+    }
+
+    public void messageSecondActionGrab(int game, String nick, Integer[] d, String wC, List<Colour> lC, List<String> lP) {
+        games.get(game).secondActionGrab(nick, d, wC, lC, lP);
 
     }
-    public List<PowerUpCard> messageGiveTwoPUCard(String nick) {
-        return new LinkedList<>();
+    public List<String> messageGetPowerUpCard(int game, String nick) {
+        return games.get(game).getPowerUpCard(nick);
     }
-    public boolean messageIsValidPickAndDiscard(String nick) {
-        return false;
+
+    public String messageGetDescriptionPUC(int game, String pC, String nick) {
+        return games.get(game).getDescriptionPUC(pC, nick);
     }
-    public void messagePickAndDiscardCard(String nick, PowerUpCard p1, PowerUpCard p2) {
+
+    public boolean messageIsValidUsePowerUpCard(int game, String nick, String pC, List<String> l, Colour c) {
+        return games.get(game).isValidUsePowerUpCard(nick, pC, l, c);
+    }
+
+
+    public void messageUsePowerUpCard(int game, String nick, String pC, List<String> l, Colour c) {
+        games.get(game).usePowerUpCard(nick, pC, l, c);
+    }
+
+    public List<String> messageGetWeaponCardUnloaded(int game, String nick) {
+        return games.get(game).getWeaponCardUnloaded(nick);
+    }
+
+    public boolean messageIsValidReload(int game) {
+        return games.get(game).isValidReload();
+    }
+
+    public void messageReload(int game, String nick, String s, int end) {
+        games.get(game).reload(nick, s, end);
 
     }
-    public boolean messageIsValidFirstActionMove(List<Integer> d) {
-        return false;
+    public boolean messageIsValidScoring(int game) {
+        return games.get(game).isValidScoring();
     }
-    public void messageFirstActionMove(String nick, List<Integer> d) {
+
+    public void messageScoring(int game) {
+        games.get(game).scoring();
+    }
+
+    public List<String> messageGetDeadList(int game) {
+        return games.get(game).getDeadList();
+    }
+
+    public boolean messageIsValidDiscardCardForSpawnPoint(int game) {
+        return games.get(game).isValidDiscardCardForSpawnPoint();
+    }
+
+    public void messageDiscardCardForSpawnPoint(int game, String nick, String s) {
+        games.get(game).discardCardForSpawnPoint(nick, s);
+    }
+
+    public boolean messageIsValidToReplace(int game) {
+        return games.get(game).isValidToReplace();
+    }
+
+    public void messageReplace(int game) {
+        games.get(game).replace();;
 
     }
-    public List<String> messageGetWeaponCardLoaded(String nick) {
-        return new LinkedList<>();
+    public boolean messageIsValidFinalFrenzyAction(int game, String nick, List<String> l) {
+        return games.get(game).isValidFinalFrenzyAction(nick, l);
     }
-    public boolean messageIsValidCard(String nick, String weaponCard) {
-        return false;
+
+    public List<String> messageGetWeaponCard(int game, String nick) {
+        return games.get(game).getWeaponCard(nick);
     }
-    public List<Colour> messageGetReloadCost(String s, String nick) {
-        return new LinkedList<>();
+
+    public boolean messageIsValidFinalFrenzyAction1(int game, String nick, int d, String wC, List<Integer> lI, List<String> lS, List<Colour> lC, List<String> lP) {
+        return games.get(game).isValidFinalFrenzyAction1(nick, d, wC, lI, lS, lC, lP);
     }
-    public String messageGetDescriptionWC(String s, String nick) {
-        return "1";
+
+    public void messageFinalFrenzyAction1(int game, String nick, int d, List<String> lW, String wC, List<Integer> lI, List<String> lS, List<Colour> lC, List<String> lP) {
+        games.get(game).finalFrenzyAction1(nick, d, lW, wC, lI, lS, lC, lP);
     }
-    public boolean messageIsValidFirstActionGrab(String nick, Integer[] d, String wC, String wS, List<Colour> lA, List<String> lP) {
-        return false;
+
+    public boolean messageIsValidFinalFrenzyAction2(int game, String nick, List<Integer> d) {
+        return games.get(game).isValidFinalFrenzyAction2(nick, d);
     }
-    public void messageFirstActionGrab(String nick, Integer[] d, String wC, List<Colour> lC, List<String> lP) {
+
+    public void messageFinalFrenzyAction2(int game, String nick, List<Integer> d) {
+        games.get(game).finalFrenzyAction2(nick, d);
+    }
+    public boolean messageIsValidFinalFrenzyAction3(int game, String nick, List<Integer> d, String wC, String wS, List<Colour> lC, List<String> lP) {
+       return games.get(game).isValidFinalFrenzyAction3(nick, d, wC, wS, lC, lP);
+    }
+
+    public void messageFinalFrenzyAction3(int game, String nick, List<Integer> d, String wC, List<Colour> lC, List<String> lP) {
+        games.get(game).finalFrenzyAction3(nick, d, wC, lC, lP);
 
     }
-    public boolean messageIsDiscard() {
-        return false;
+    public boolean messageIsValidFinalFrenzyAction4(int game, String nick, List<Integer> d, String wC, List<Integer> lI, List<String> lS, List<Colour> lC, List<String> lP) {
+        return games.get(game).isValidFinalFrenzyAction4(nick, d, wC, lI, lS, lC, lP);
     }
-    public void messageDiscardWeaponCard(String nick, String wS, String wC) {
+
+    public void messageFinalFrenzyAction4(int game, String nick, List<Integer> d, List<String> lW, String wC, List<Integer> lI, List<String> lS, List<Colour> lC, List<String> lP) {
+        games.get(game).finalFrenzyAction4(nick, d, lW, wC, lI, lS, lC, lP);
 
     }
-    public boolean messageIsValidSecondActionMove(List<Integer> d) {
-        return false;
+    public boolean messageIsValidFinalFrenzyAction5(int game, String nick, List<Integer> d, String wC, String wS, List<Colour> lC, List<String> lS) {
+        return games.get(game).isValidFinalFrenzyAction5(nick, d, wC, wS, lC, lS);
     }
-    public void messageSecondActionMove(String nick, List<Integer> d) {
+
+    public void messageFinalFrenzyAction5(int game, String nick, List<Integer> d, String wC, List<Colour> lC, List<String> lP) {
+        games.get(game).finalFrenzyAction5(nick, d, wC, lC, lP);
 
     }
-    public boolean messageIsValidSecondActionGrab(String nick, Integer[] d, String wC, String wS, List<Colour> lA, List<String> lP) {
-        return false;
-    }
-    public void messageSecondActionGrab(String nick, Integer[] d, String wC, List<Colour> lC, List<String> lP) {
+    public void messageFinalFrenzyTurnScoring(int game) {
+        games.get(game).finalFrenzyTurnScoring();
 
     }
-    public List<String> messageGetPowerUpCard(String nick) {
-        return new LinkedList<>();
-    }
-    public String messageGetDescriptionPUC(String pC, String nick) {
-        return "1";
-    }
-    public boolean messageIsValidUsePowerUpCard(String nick, String pC, List<String> l, Colour c) {
-        return false;
-    }
-    public void messageUsePowerUpCard(String nick, String pC, List<String> l, Colour c) {
+    public void messageEndTurnFinalFrenzy(int game) {
+        games.get(game).endTurnFinalFrenzy();
 
     }
-    public List<String> messageGetWeaponCardUnloaded(String nick) {
-        return new LinkedList<>();
-    }
-    public boolean messageIsValidReload() {
-        return false;
-    }
-    public void messageReload(String nick, String s, int end) {
+    public void messageFinalScoring(int game) {
+        games.get(game).finalScoring();
 
     }
-    public boolean messageIsValidScoring() {
-        return false;
+    public  List<String> messageGetPlayers(int game) {
+        return games.get(game).getPlayers();
     }
-    public void messageScoring() {
-
-    }
-    public List<String> messageGetDeadList() {
-        return new LinkedList<>();
-    }
-    public boolean messageIsValidDiscardCardForSpawnPoint() {
-        return false;
-    }
-    public void messageDiscardCardForSpawnPoint(String nick, String s) {
-
-    }
-    public boolean messageIsValidToReplace() {
-        return false;
-    }
-    public void messageReplace() {
-
-    }
-    public boolean messageIsValidFinalFrenzyAction(String nick, List<String> l) {
-        return false;
-    }
-    public List<String> messageGetWeaponCard(String nick) {
-        return new LinkedList<>();
-    }
-    public boolean messageIsValidFinalFrenzyAction1(String nick, int d, String wC, List<Integer> lI, List<String> lS, List<Colour> lC, List<String> lP) {
-        return false;
-    }
-    public void messageFinalFrenzyAction1(String nick, int d, List<String> lW, String wC, List<Integer> lI, List<String> lS, List<Colour> lC, List<String> lP) {
-
-    }
-    public boolean messageIsValidFinalFrenzyAction2(String nick, List<Integer> d) {
-        return false;
-    }
-    public void messageFinalFrenzyAction2(String nick, List<Integer> d) {
-
-    }
-    public boolean messageIsValidFinalFrenzyAction3(String nick, List<Integer> d, String wC, String wS, List<Colour> lC, List<String> lP) {
-        return false;
-    }
-    public void messageFinalFrenzyAction3(String nick, List<Integer> d, String wC, List<Colour> lC, List<String> lP) {
-
-    }
-    public boolean messageIsValidFinalFrenzyAction4(String nick, List<Integer> d, String wC, List<Integer> lI, List<String> lS, List<Colour> lC, List<String> lP) {
-        return false;
-    }
-    public void messageFinalFrenzyAction4(String nick, List<Integer> d, List<String> lW, String wC, List<Integer> lI, List<String> lS, List<Colour> lC, List<String> lP) {
-
-    }
-    public boolean messageIsValidFinalFrenzyAction5(String nick, List<Integer> d, String wC, String wS, List<Colour> lC, List<String> lS) {
-        return false;
-    }
-    public void messageFinalFrenzyAction5(String nick, List<Integer> d, String wC, List<Colour> lC, List<String> lP) {
-
-    }
-    public void messageFinalFrenzyTurnScoring() {
-
-    }
-    public void messageEndTurnFinalFrenzy() {
-
-    }
-    public void messageFinalScoring() {
-
-    }
-    public  List<String> messageGetPlayers() {
-        return new LinkedList<>();
-    }
-    public List<Integer> messageGetScore() {
-        return new LinkedList<>();
+    public List<Integer> messageGetScore(int game) {
+        return games.get(game).getScore();
     }
 
     /* We should insert methods who take parameters from the view end give them to the controller, returning the public boolean (only for the

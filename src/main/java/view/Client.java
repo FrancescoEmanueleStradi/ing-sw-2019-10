@@ -92,11 +92,11 @@ public class Client {
                 }
             }
         }
-        //view.endFinalFrenzy();                  //TODO
-        centralServer.messageEndFinalFrenzy(game, identifier);
+        view.endFinalFrenzy();
+        //centralServer.messageEndFinalFrenzy(game, identifier);
         if(centralServer.gameIsFinished(game)){
-            //view.finalScoring();
-            centralServer.messageFinalScoring(game, identifier);
+            view.finalScoring();
+            //centralServer.messageFinalScoring(game, identifier);
         }
     }
 }

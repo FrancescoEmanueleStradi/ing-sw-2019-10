@@ -89,7 +89,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
 
 
     public boolean messageGameIsNotStarted() {
-
+        return false;
     }
 
     public void messageGameStart(String nick, Colour c) {
@@ -97,144 +97,143 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
     }
 
     public boolean messageIsValidReceiveType(int type) {
-
+        return false;
     }
 
     public void messageReceiveType(int type) {
 
     }
     public boolean messageIsValidAddPlayer(String nick, Colour c) {
-
+        return false;
     }
     public void messageAddPlayer(String nick, Colour c) {
 
     }
     public List<PowerUpCard> messageGiveTwoPUCard(String nick) {
-
+        return new LinkedList<>();
     }
     public boolean messageIsValidPickAndDiscard(String nick) {
-
+        return false;
     }
     public void messagePickAndDiscardCard(String nick, PowerUpCard p1, PowerUpCard p2) {
 
     }
     public boolean messageIsValidFirstActionMove(List<Integer> d) {
-
+        return false;
     }
     public void messageFirstActionMove(String nick, List<Integer> d) {
 
     }
     public List<String> messageGetWeaponCardLoaded(String nick) {
-
-
+        return new LinkedList<>();
     }
     public boolean messageIsValidCard(String nick, String weaponCard) {
-
+        return false;
     }
     public List<Colour> messageGetReloadCost(String s, String nick) {
-
+        return new LinkedList<>();
     }
     public String messageGetDescriptionWC(String s, String nick) {
-
+        return "1";
     }
     public boolean messageIsValidFirstActionGrab(String nick, Integer[] d, String wC, String wS, List<Colour> lA, List<String> lP) {
-
+        return false;
     }
     public void messageFirstActionGrab(String nick, Integer[] d, String wC, List<Colour> lC, List<String> lP) {
 
     }
     public boolean messageIsDiscard() {
-
+        return false;
     }
     public void messageDiscardWeaponCard(String nick, String wS, String wC) {
 
     }
     public boolean messageIsValidSecondActionMove(List<Integer> d) {
-
+        return false;
     }
     public void messageSecondActionMove(String nick, List<Integer> d) {
 
     }
     public boolean messageIsValidSecondActionGrab(String nick, Integer[] d, String wC, String wS, List<Colour> lA, List<String> lP) {
-
+        return false;
     }
     public void messageSecondActionGrab(String nick, Integer[] d, String wC, List<Colour> lC, List<String> lP) {
 
     }
     public List<String> messageGetPowerUpCard(String nick) {
-
+        return new LinkedList<>();
     }
     public String messageGetDescriptionPUC(String pC, String nick) {
-
+        return "1";
     }
     public boolean messageIsValidUsePowerUpCard(String nick, String pC, List<String> l, Colour c) {
-
+        return false;
     }
     public void messageUsePowerUpCard(String nick, String pC, List<String> l, Colour c) {
 
     }
     public List<String> messageGetWeaponCardUnloaded(String nick) {
-
+        return new LinkedList<>();
     }
     public boolean messageIsValidReload() {
-
+        return false;
     }
     public void messageReload(String nick, String s, int end) {
 
     }
     public boolean messageIsValidScoring() {
-
+        return false;
     }
     public void messageScoring() {
 
     }
     public List<String> messageGetDeadList() {
-
+        return new LinkedList<>();
     }
     public boolean messageIsValidDiscardCardForSpawnPoint() {
-
+        return false;
     }
     public void messageDiscardCardForSpawnPoint(String nick, String s) {
 
     }
     public boolean messageIsValidToReplace() {
-
+        return false;
     }
     public void messageReplace() {
 
     }
     public boolean messageIsValidFinalFrenzyAction(String nick, List<String> l) {
-
+        return false;
     }
     public List<String> messageGetWeaponCard(String nick) {
-
+        return new LinkedList<>();
     }
     public boolean messageIsValidFinalFrenzyAction1(String nick, int d, String wC, List<Integer> lI, List<String> lS, List<Colour> lC, List<String> lP) {
-
+        return false;
     }
     public void messageFinalFrenzyAction1(String nick, int d, List<String> lW, String wC, List<Integer> lI, List<String> lS, List<Colour> lC, List<String> lP) {
 
     }
     public boolean messageIsValidFinalFrenzyAction2(String nick, List<Integer> d) {
-
+        return false;
     }
     public void messageFinalFrenzyAction2(String nick, List<Integer> d) {
 
     }
     public boolean messageIsValidFinalFrenzyAction3(String nick, List<Integer> d, String wC, String wS, List<Colour> lC, List<String> lP) {
-
+        return false;
     }
     public void messageFinalFrenzyAction3(String nick, List<Integer> d, String wC, List<Colour> lC, List<String> lP) {
 
     }
     public boolean messageIsValidFinalFrenzyAction4(String nick, List<Integer> d, String wC, List<Integer> lI, List<String> lS, List<Colour> lC, List<String> lP) {
-
+        return false;
     }
     public void messageFinalFrenzyAction4(String nick, List<Integer> d, List<String> lW, String wC, List<Integer> lI, List<String> lS, List<Colour> lC, List<String> lP) {
 
     }
     public boolean messageIsValidFinalFrenzyAction5(String nick, List<Integer> d, String wC, String wS, List<Colour> lC, List<String> lS) {
-
+        return false;
     }
     public void messageFinalFrenzyAction5(String nick, List<Integer> d, String wC, List<Colour> lC, List<String> lP) {
 
@@ -249,10 +248,10 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
 
     }
     public  List<String> messageGetPlayers() {
-
+        return new LinkedList<>();
     }
     public List<Integer> messageGetScore() {
-
+        return new LinkedList<>();
     }
 
     /* We should insert methods who take parameters from the view end give them to the controller, returning the public boolean (only for the

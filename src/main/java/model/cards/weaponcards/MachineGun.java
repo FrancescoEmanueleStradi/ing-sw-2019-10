@@ -43,12 +43,6 @@ public class MachineGun extends WeaponCard {
         grid.damage(p, p1, 1);
     }
 
-    public void applySpecialEffect2(Grid grid, Player p, Player p1, Player p2) { //Turret Tripod: player damages the "other" player and a different target (same as the second applyEffect)
-        grid.damage(p, p1, 1);
-        if(p2 != null)
-            grid.damage(p, p2, 1);
-    }
-
     //if player p only sees 2 enemies, he can use applyEffect to damage both, and then applySpecialEffect2bis to damage both again, or applySpecialEffect2 to damage one of them
     //maybe reuse the methods? Controller checks how many players and chooses one out of only 2 methods.
 }

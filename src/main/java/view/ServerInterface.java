@@ -41,6 +41,8 @@ public interface ServerInterface extends Remote {
     List<PowerUpCard> messageGiveTwoPUCard(int game, String nick);
     boolean messageIsValidPickAndDiscard(int game, String nick);
     void messagePickAndDiscardCard(int game, String nick, PowerUpCard p1, PowerUpCard p2);
+    boolean messageIsValidFirstActionShoot(int game, String nick, String wC, List<Integer> lI, List<String> lS, int d, List<Colour> lC, List<String> lP);
+    void messageFirstActionShoot(int game, String nick, String wC, List<Integer> lI, List<String> lS, int d, List<Colour> lC, List<String> lP);
     boolean messageIsValidFirstActionMove(int game, List<Integer> d);
     void messageFirstActionMove(int game, String nick, List<Integer> d);
     List<String> messageGetWeaponCardLoaded(int game, String nick);
@@ -51,6 +53,8 @@ public interface ServerInterface extends Remote {
     void messageFirstActionGrab(int game, String nick, Integer[] d, String wC, List<Colour> lC, List<String> lP);
     boolean messageIsDiscard(int game);
     void messageDiscardWeaponCard(int game, String nick, String wS, String wC);
+    boolean messageIsValidSecondActionShoot(int game, String nick, String wC, List<Integer> lI, List<String> lS, int d, List<Colour> lC, List<String> lP);
+    void messageSecondActionShoot(int game, String nick, String wC, List<Integer> lI, List<String> lS, int d, List<Colour> lC, List<String> lP);
     boolean messageIsValidSecondActionMove(int game, List<Integer> d);
     void messageSecondActionMove(int game, String nick, List<Integer> d);
     boolean messageIsValidSecondActionGrab(int game, String nick, Integer[] d, String wC, String wS, List<Colour> lA, List<String> lP);

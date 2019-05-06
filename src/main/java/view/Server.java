@@ -124,6 +124,14 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
         games.get(game).pickAndDiscardCard(nick, p1, p2);
     }
 
+    public boolean messageIsValidFirstActionShoot(int game, String nick, String wC, List<Integer> lI, List<String> lS, int d, List<Colour> lC, List<String> lP) {
+
+    }
+
+    public void messageFirstActionShoot(int game, String nick, String wC, List<Integer> lI, List<String> lS, int d, List<Colour> lC, List<String> lP) {
+
+    }
+
     public boolean messageIsValidFirstActionMove(int game, String nick, List<Integer> d) {
         return games.get(game).isValidFirstActionMove(nick, d);
     }
@@ -162,6 +170,14 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
 
     public void messageDiscardWeaponCard(int game, String nick, String wS, String wC) {
         games.get(game).discardWeaponCard(nick, wS, wC);
+    }
+
+    public boolean messageIsValidSecondActionShoot(int game, String nick, String wC, List<Integer> lI, List<String> lS, int d, List<Colour> lC, List<String> lP) {
+
+    }
+
+    public void messageSecondActionShoot(int game, String nick, String wC, List<Integer> lI, List<String> lS, int d, List<Colour> lC, List<String> lP) {
+
     }
 
     public boolean messageIsValidSecondActionMove(int game, List<Integer> d) {

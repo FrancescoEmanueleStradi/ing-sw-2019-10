@@ -26,68 +26,68 @@ public class Client {
         System.out.println("Do you want to use CLI or GUI?");
         switch (in.next()) {
             case "CLI":
-                centralServer.setCli(game, identifier);
-                //view = new Cli();
+                //centralServer.setCli(game, identifier);
+                view = new Cli();
                 break;
             case "Cli":
-                centralServer.setCli(game, identifier);
-                //view = new Cli();
+                //centralServer.setCli(game, identifier);
+                view = new Cli();
                 break;
             case "cli":
                 //centralServer.setCli(game, identifier);
                 view = new Cli();
                 break;
             case "GUI":
-                centralServer.setGui(game, identifier);
-                //view = new Gui();
+                //centralServer.setGui(game, identifier);
+                view = new Gui();
                 break;
             case "Gui":
-                centralServer.setGui(game, identifier);
-                //view = new Gui();
+                //centralServer.setGui(game, identifier);
+                view = new Gui();
                 break;
             case "gui":
-                centralServer.setGui(game, identifier);
-                //view = new Gui();
+                //centralServer.setGui(game, identifier);
+                view = new Gui();
                 break;
         }
         view.setServer(centralServer);
 
-        //view.askNameAndColour();
-        centralServer.messageAskNameAndColour(game, identifier);        //TODO IT PRINTS ON THE SERVER TERMINAL
-        //view.selectSpawnPoint();
-        centralServer.messageSelectSpawnPoint(game, identifier);
+        view.askNameAndColour();
+        //centralServer.messageAskNameAndColour(game, identifier);        //TODO IT PRINTS ON THE SERVER TERMINAL
+        view.selectSpawnPoint();
+        //centralServer.messageSelectSpawnPoint(game, identifier);
         while (true) {
             if (centralServer.isMyTurn(game, identifier)) {
                 if (centralServer.isNotFinalFrenzy(game)) {
-                    //if(view.doYouWantToUsePUC())                //TODO Control if in this part of the game the player can use the power up card?
-                    if (centralServer.messageDoYouWantToUsePUC(game, identifier))
-                        //view.usePowerUpCard();
-                        centralServer.messageUsePowerUpCard(game, identifier);
-                    //view.action1();
-                    centralServer.messageAction1(game, identifier);
-                    //if(view.doYouWantToUsePUC())
-                    if (centralServer.messageDoYouWantToUsePUC(game, identifier))
-                        //view.usePowerUpCard();
-                        centralServer.messageUsePowerUpCard(game, identifier);
-                    //view.action2();
-                    centralServer.messageAction2(game, identifier);
-                    //if(view.doYouWantToUsePUC())
-                    if (centralServer.messageDoYouWantToUsePUC(game, identifier))
-                        //view.usePowerUpCard();
-                        centralServer.messageUsePowerUpCard(game, identifier);
-                    //view.reload();
-                    centralServer.messageReload(game, identifier);
-                    //view.scoring();
-                    centralServer.messageScoring(game, identifier);
-                    //view.newSpawnPoint();
-                    centralServer.messageNewSpawnPoint(game, identifier);
-                    //view.replace();
-                    centralServer.messageReplace(game, identifier);
-                    centralServer.finishTurn(game);
+                    if(view.doYouWantToUsePUC())                //TODO Control if in this part of the game the player can use the power up card?
+                    //if (centralServer.messageDoYouWantToUsePUC(game, identifier))
+                        view.usePowerUpCard();
+                        //centralServer.messageUsePowerUpCard(game, identifier);
+                    view.action1();
+                    //centralServer.messageAction1(game, identifier);
+                    if(view.doYouWantToUsePUC())
+                    //if (centralServer.messageDoYouWantToUsePUC(game, identifier))
+                        view.usePowerUpCard();
+                        //centralServer.messageUsePowerUpCard(game, identifier);
+                    view.action2();
+                    //centralServer.messageAction2(game, identifier);
+                    if(view.doYouWantToUsePUC())
+                    //if (centralServer.messageDoYouWantToUsePUC(game, identifier))
+                        view.usePowerUpCard();
+                        //centralServer.messageUsePowerUpCard(game, identifier);
+                    view.reload();
+                    //centralServer.messageReload(game, identifier);
+                    view.scoring();
+                    //centralServer.messageScoring(game, identifier);
+                    view.newSpawnPoint();
+                    //centralServer.messageNewSpawnPoint(game, identifier);
+                    view.replace();
+                    //centralServer.messageReplace(game, identifier);
+                    //centralServer.finishTurn(game);
                 } else {
-                    //view.finalFrenzyTurn();
-                    centralServer.messageFinalFrenzyTurn(game, identifier);
-                    centralServer.finishTurn(game);
+                    view.finalFrenzyTurn();                       //TODO
+                    //centralServer.messageFinalFrenzyTurn(game, identifier);
+                    //centralServer.finishTurn(game);
                     break;              //TODO is it now the client has to break?
                 }
             }

@@ -25,7 +25,7 @@ public class Cli implements View{
 
     @Override
     public void setGame(int  game) {
-
+        this.game = game;
     }
 
     public String getNickName() {

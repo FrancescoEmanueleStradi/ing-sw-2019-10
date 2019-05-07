@@ -1208,16 +1208,15 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
 
 
-    public boolean isValidReload() {
-        return this.gameState.equals(ACTION2);
+    public boolean isValidReload(String nickName, String s) {
+        Player p = this.grid.getPlayerObject(nickName);
+        return (p.checkAmmoCube(p.getWeaponCardObject(s).getReloadCost()) && this.gameState.equals(ACTION2));
     }
 
     public synchronized void reload(String nickName, String s, int end) {  // end is 1 if the player has finished to reload
            Player p = this.grid.getPlayerObject(nickName);
-           if(p.checkAmmoCube(p.getWeaponCardObject(s).getReloadCost())){
-                p.getWeaponCardObject(s).reload();
-                p.removeArrayAC(p.getWeaponCardObject(s).getReloadCost());
-           }
+           p.getWeaponCardObject(s).reload();
+           p.removeArrayAC(p.getWeaponCardObject(s).getReloadCost());
            if(end == 1)
                this.gameState = RELOADED;
     }

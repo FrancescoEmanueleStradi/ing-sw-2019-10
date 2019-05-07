@@ -64,7 +64,7 @@ public interface ServerInterface extends Remote {
     boolean messageIsValidUsePowerUpCard(int game, String nick, String pC, List<String> l, Colour c) throws RemoteException;
     void messageUsePowerUpCard(int game, String nick, String pC, List<String> l, Colour c) throws RemoteException;
     List<String> messageGetWeaponCardUnloaded(int game, String nick) throws RemoteException;
-    boolean messageIsValidReload(int game) throws RemoteException;
+    boolean messageIsValidReload(int game, String nick, String s) throws RemoteException;
     void messageReload(int game, String nick, String s, int end) throws RemoteException;
     boolean messageIsValidScoring(int game) throws RemoteException;
     void messageScoring(int game) throws RemoteException;

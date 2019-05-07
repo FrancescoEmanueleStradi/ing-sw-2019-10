@@ -104,22 +104,28 @@ public class Player {
 
     private void addNewACRED(AmmoCube ac) {
         for (int i = 0; i < 3; i++) {
-            if (this.aC[i] == null)
+            if (this.aC[i] == null) {
                 this.aC[i] = ac;
+                break;
+            }
         }
     }
 
     private void addNewACBLUE(AmmoCube ac) {
         for (int i = 3; i < 6; i++) {
-            if (this.aC[i] == null)
+            if (this.aC[i] == null) {
                 this.aC[i] = ac;
+                break;
+            }
         }
     }
 
     private void addNewACYELLOW(AmmoCube ac) {
         for (int i = 6; i < 9; i++) {
-            if (this.aC[i] == null)
+            if (this.aC[i] == null) {
                 this.aC[i] = ac;
+                break;
+            }
         }
     }
 

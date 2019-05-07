@@ -186,12 +186,15 @@ class GameAssertTests {
 
         assertEquals(GameState.ACTION2, game.getGameState());
         assertFalse(machineGun.isReloaded());
-        for(AmmoCube ac : p1.getaC()) {
-            if(ac != null) {
-                assertNotEquals(Colour.BLUE, ac.getC());
-                assertNotEquals(Colour.YELLOW, ac.getC());
-            }
-        }
+        assertNotNull(p1.getaC()[0]);
+        assertNull(p1.getaC()[1]);
+        assertNull(p1.getaC()[2]);
+        assertNull(p1.getaC()[3]);
+        assertNull(p1.getaC()[4]);
+        assertNull(p1.getaC()[5]);
+        assertNull(p1.getaC()[6]);
+        assertNull(p1.getaC()[7]);
+        assertNull(p1.getaC()[8]);
 
         lI.clear();
         lS.clear();
@@ -203,7 +206,7 @@ class GameAssertTests {
             game.usePowerUpCard("Player 2", "Tagback Grenade", lS, null);
             assertEquals(Colour.YELLOW, p1.getpB().getMarks().get(0).getC());
         }
-        else if(p1.getpC().get(0).getCardName().equals("Targeting Scope")) {
+        /*else if(p1.getpC().get(0).getCardName().equals("Targeting Scope")) {
             lS.add("Player 2");
             assertTrue(game.isValidUsePowerUpCard("Player 1", "Targeting Scope", lS, Colour.valueOf("RED")));
             game.usePowerUpCard("Player 1", "Targeting Scope", lS, Colour.valueOf("RED"));
@@ -212,7 +215,7 @@ class GameAssertTests {
                 if(ac != null)
                     assertNotEquals(Colour.RED, ac.getC());
             }
-        }
+        }*/
         else if(p1.getpC().get(0).getCardName().equals("Newton")) {
             lS.add("Player 3");
             lS.add("2");
@@ -228,5 +231,28 @@ class GameAssertTests {
             game.usePowerUpCard("Player 1", "Teleporter", lS, null);
             assertEquals(game.getGrid().getBoard().getArena()[2][1], p1.getCell());
         }
+
+        assertFalse(game.isValidReload("Player 1", "Machine Gun"));
+        p1.addNewAC(new AmmoCube(Colour.BLUE));
+        assertNotNull(p1.getaC()[0]);
+        assertNull(p1.getaC()[1]);
+        assertNull(p1.getaC()[2]);
+        assertNotNull(p1.getaC()[3]);
+        assertNull(p1.getaC()[4]);
+        assertNull(p1.getaC()[5]);
+        assertNull(p1.getaC()[6]);
+        assertNull(p1.getaC()[7]);
+        assertNull(p1.getaC()[8]);
+
+
+        assertFalse(p1.getwC().get(0).isReloaded());
+        assertTrue(game.isValidReload("Player 1", "Machine Gun"));
+        game.reload("Player 1", "Machine Gun", 1);
+        assertTrue(p1.getwC().get(0).isReloaded());
+        for(AmmoCube ac : p1.getaC()) {
+            assertNull(ac);
+        }
+
+        assertEquals(GameState.RELOADED, game.getGameState());
     }
 }

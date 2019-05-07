@@ -543,7 +543,7 @@ public class Cli implements View{
             String s = in.nextLine();
             System.out.println("Enter 0 if you want to reload another card, otherwise 1");
             i = in.nextInt();
-            if(this.server.messageIsValidReload(game))
+            if(this.server.messageIsValidReload(game, this.nickName, s))
                 this.server.messageReload(game, this.nickName, s, i);
             else
                 System.out.println("You can't reload now: pay attention to the rules! (you can find the manual inside the box)");

@@ -216,8 +216,8 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
         return games.get(game).getWeaponCardUnloaded(nick);
     }
 
-    public boolean messageIsValidReload(int game) throws RemoteException {
-        return games.get(game).isValidReload();
+    public boolean messageIsValidReload(int game, String nick, String s) throws RemoteException {
+        return games.get(game).isValidReload(nick, s);
     }
 
     public void messageReload(int game, String nick, String s, int end) throws RemoteException {

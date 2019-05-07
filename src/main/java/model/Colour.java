@@ -1,6 +1,8 @@
 package model;
 
-public enum Colour {
+import java.io.Serializable;
+
+public enum Colour implements Serializable {
 
     PURPLE("P"), YELLOW("Y"), RED("R"), WHITE("W"), BLUE("B"), GREEN("G"), BLACK("BK");
     private String abbreviation;

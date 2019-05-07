@@ -2,7 +2,9 @@ package model.player;
 
 import model.Colour;
 
-public class AmmoCube {
+import java.io.Serializable;
+
+public class AmmoCube implements Serializable {
 
     private Colour c;
 

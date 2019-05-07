@@ -38,17 +38,17 @@ public interface ServerInterface extends Remote {
     void messageReceiveType(int game, int type) throws RemoteException;
     boolean messageIsValidAddPlayer(int game, String nick, Colour c) throws RemoteException;
     void messageAddPlayer(int game, String nick, Colour c) throws RemoteException;
-    List<PowerUpCard> messageGiveTwoPUCard(int game, String nick) throws RemoteException;
+    List<PowerUpCard> messageGiveTwoPUCard(int game, String nick) throws RemoteException;       //TODO Problem
     boolean messageIsValidPickAndDiscard(int game, String nick) throws RemoteException;
     void messagePickAndDiscardCard(int game, String nick, PowerUpCard p1, PowerUpCard p2) throws RemoteException;
     boolean messageIsValidFirstActionShoot(int game, String nick, String wC, List<Integer> lI, List<String> lS, int d, List<Colour> lC, List<String> lP) throws RemoteException;
     void messageFirstActionShoot(int game, String nick, String wC, List<Integer> lI, List<String> lS, int d, List<Colour> lC, List<String> lP) throws RemoteException;
     boolean messageIsValidFirstActionMove(int game, String nick, List<Integer> d) throws RemoteException;
     void messageFirstActionMove(int game, String nick, List<Integer> d) throws RemoteException;
-    List<String> messageGetWeaponCardLoaded(int game, String nick) throws RemoteException;
+    List<String> messageGetWeaponCardLoaded(int game, String nick) throws RemoteException;      //TODO Problem
     boolean messageIsValidCard(int game, String nick, String weaponCard) throws RemoteException;
-    List<Colour> messageGetReloadCost(int game, String s, String nick) throws RemoteException;
-    String messageGetDescriptionWC(int game, String s, String nick) throws RemoteException;
+    List<Colour> messageGetReloadCost(int game, String s, String nick) throws RemoteException;      //TODO Problem
+    String messageGetDescriptionWC(int game, String s, String nick) throws RemoteException;     //TODO Problem
     boolean messageIsValidFirstActionGrab(int game, String nick, Integer[] d, String wC, String wS, List<Colour> lA, List<String> lP) throws RemoteException;
     void messageFirstActionGrab(int game, String nick, Integer[] d, String wC, List<Colour> lC, List<String> lP) throws RemoteException;
     boolean messageIsDiscard(int game) throws RemoteException;
@@ -59,22 +59,22 @@ public interface ServerInterface extends Remote {
     void messageSecondActionMove(int game, String nick, List<Integer> d) throws RemoteException;
     boolean messageIsValidSecondActionGrab(int game, String nick, Integer[] d, String wC, String wS, List<Colour> lA, List<String> lP) throws RemoteException;
     void messageSecondActionGrab(int game, String nick, Integer[] d, String wC, List<Colour> lC, List<String> lP) throws RemoteException;
-    List<String> messageGetPowerUpCard(int game, String nick) throws RemoteException;
-    String messageGetDescriptionPUC(int game, String pC, String nick) throws RemoteException;
+    List<String> messageGetPowerUpCard(int game, String nick) throws RemoteException;       //TODO Problem
+    String messageGetDescriptionPUC(int game, String pC, String nick) throws RemoteException;       //TODO Problem
     boolean messageIsValidUsePowerUpCard(int game, String nick, String pC, List<String> l, Colour c) throws RemoteException;
     void messageUsePowerUpCard(int game, String nick, String pC, List<String> l, Colour c) throws RemoteException;
-    List<String> messageGetWeaponCardUnloaded(int game, String nick) throws RemoteException;
+    List<String> messageGetWeaponCardUnloaded(int game, String nick) throws RemoteException;        //TODO Problem
     boolean messageIsValidReload(int game, String nick, String s) throws RemoteException;
     void messageReload(int game, String nick, String s, int end) throws RemoteException;
     boolean messageIsValidScoring(int game) throws RemoteException;
     void messageScoring(int game) throws RemoteException;
-    List<String> messageGetDeadList(int game) throws RemoteException;
+    List<String> messageGetDeadList(int game) throws RemoteException;       //TODO Problem
     boolean messageIsValidDiscardCardForSpawnPoint(int game) throws RemoteException;
     void messageDiscardCardForSpawnPoint(int game, String nick, String s) throws RemoteException;
     boolean messageIsValidToReplace(int game) throws RemoteException;
     void messageReplace(int game) throws RemoteException;
     boolean messageIsValidFinalFrenzyAction(int game, String nick, List<String> l) throws RemoteException;
-    List<String> messageGetWeaponCard(int game, String nick) throws RemoteException;
+    List<String> messageGetWeaponCard(int game, String nick) throws RemoteException;        //TODO Problem
     boolean messageIsValidFinalFrenzyAction1(int game, String nick, int d, String wC, List<Integer> lI, List<String> lS, List<Colour> lC, List<String> lP) throws RemoteException;
     void messageFinalFrenzyAction1(int game, String nick, int d, List<String> lW, String wC, List<Integer> lI, List<String> lS, List<Colour> lC, List<String> lP) throws RemoteException;
     boolean messageIsValidFinalFrenzyAction2(int game, String nick, List<Integer> d) throws RemoteException;
@@ -88,6 +88,6 @@ public interface ServerInterface extends Remote {
     void messageFinalFrenzyTurnScoring(int game) throws RemoteException;
     void messageEndTurnFinalFrenzy(int game) throws RemoteException;
     void messageFinalScoring(int game) throws RemoteException;
-    List<String> messageGetPlayers(int game) throws RemoteException;
-    List<Integer> messageGetScore(int game) throws RemoteException;
+    List<String> messageGetPlayers(int game) throws RemoteException;        //TODO Problem
+    List<Integer> messageGetScore(int game) throws RemoteException;     //TODO Problem
 }

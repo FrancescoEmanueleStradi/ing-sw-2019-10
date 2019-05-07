@@ -23,6 +23,7 @@ public class Client {
                 "there are " + centralServer.getGames()+ " games now");
         game = centralServer.setGame(in.nextInt()-1);
         identifier = centralServer.receiveIdentifier(game);
+        System.out.println("Your identifier is:"+identifier);
         System.out.println("Do you want to use CLI or GUI?");
         switch (in.next()) {
             case "CLI":

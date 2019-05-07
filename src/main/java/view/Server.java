@@ -310,11 +310,12 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
     }
     public synchronized void messageFinalScoring(int game) throws RemoteException {
         games.get(game).finalScoring();
-
     }
+
     public  synchronized List<String> messageGetPlayers(int game) throws RemoteException {
         return games.get(game).getPlayers();
     }
+
     public synchronized List<Integer> messageGetScore(int game) throws RemoteException {
         return games.get(game).getScore();
     }

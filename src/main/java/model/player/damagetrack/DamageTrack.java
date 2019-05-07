@@ -53,7 +53,7 @@ public class DamageTrack {
     private List<Colour> colours() {
         LinkedList<Colour> lC = new LinkedList<>();
         for(DamageToken d : this.damageTr){
-            if(!lC.contains(d.getC()))
+            if(d != null && !lC.contains(d.getC()))
                 lC.add(d.getC());
         }
         return lC;
@@ -98,7 +98,8 @@ public class DamageTrack {
     private void listNumColour() {
         this.initializeListNumColour();
         for(DamageToken d : this.damageTr){
-            giveNumColour(d.getC()).addNum();
+            if(d != null)
+                giveNumColour(d.getC()).addNum();
         }
         this.tie();
     }

@@ -201,6 +201,9 @@ class GameAssertTests {
         assertNull(p1.getaC()[7]);
         assertNull(p1.getaC()[8]);
 
+
+        //Use PowerUpCards
+
         lI.clear();
         lS.clear();
         lA.clear();
@@ -248,6 +251,9 @@ class GameAssertTests {
 
         lS.clear();
 
+
+        //Reloading
+
         assertFalse(game.isValidReload("Player 1", "Machine Gun"));
         p1.addNewAC(new AmmoCube(Colour.BLUE));
         p1.addNewAC(new AmmoCube(Colour.RED));
@@ -273,19 +279,26 @@ class GameAssertTests {
         assertEquals(GameState.RELOADED, game.getGameState());
 
 
-        game.getGrid().damage(p1, p2, 10);
+        //Scoring
+
+        game.getGrid().damage(p3, p2, 1);
+        game.getGrid().damage(p1, p2, 9);
+        game.getGrid().damage(p1, p3, 9);
+
         assertEquals(2, p1.getpB().getMarks().size());
         assertEquals(p2.getC(), p1.getpB().getMarks().get(0).getC());
         assertEquals(p2.getC(), p1.getpB().getMarks().get(1).getC());
 
         assertTrue(game.isValidScoring());
         game.scoring();
-        assertEquals(1, game.getDeadList().size());
-        assertEquals("Player 2", game.getDeadList().get(0));
-        assertEquals(9, p1.getScore());
+        assertEquals(2, game.getDeadList().size());
+        assertTrue(game.getDeadList().contains(p2.getNickName()));
+        assertTrue(game.getDeadList().contains(p3.getNickName()));
+        assertEquals(19, p1.getScore());
+        assertEquals(6, p3.getScore());
 
         assertEquals(2, game.getGrid().getBoard().getK().getSkulls()[0]);
-        assertEquals(0, game.getGrid().getBoard().getK().getSkulls()[1]);
+        assertEquals(1, game.getGrid().getBoard().getK().getSkulls()[1]);
         assertEquals(0, game.getGrid().getBoard().getK().getSkulls()[2]);
         assertEquals(0, game.getGrid().getBoard().getK().getSkulls()[3]);
         assertEquals(0, game.getGrid().getBoard().getK().getSkulls()[4]);
@@ -293,14 +306,24 @@ class GameAssertTests {
         assertEquals(0, game.getGrid().getBoard().getK().getSkulls()[6]);
         assertEquals(0, game.getGrid().getBoard().getK().getSkulls()[7]);
         assertEquals(p1.getC(), game.getGrid().getBoard().getK().getC()[0]);
+        assertEquals(p1.getC(), game.getGrid().getBoard().getK().getC()[1]);
 
         assertEquals(6, p2.getpB().getPoints().getPoints().size());
+        assertEquals(6, p3.getpB().getPoints().getPoints().size());
 
-        for(int i = 0; i < 12; i++)
+        for(int i = 0; i < 12; i++) {
             assertNull(p2.getpB().getDamages().getDamageTr()[i]);
+            assertNull(p3.getpB().getDamages().getDamageTr()[i]);
+        }
 
         assertEquals(3, p2.getpC().size());
+        assertEquals(2, p3.getpC().size());
 
         assertEquals(GameState.DEATH, game.getGameState());
+
+
+        //Discard card for new spawn point
+
+        
     }
 }

@@ -234,6 +234,7 @@ public class Cli implements View{
         List<Integer> l = new LinkedList<>();
         List<Colour> lC = new LinkedList<>();
         List<String> lP = new LinkedList<>();
+        List<String> lPC = new LinkedList<>();
         String wCard;
         String weaponSlot = null;
         System.out.println("Enter the direction(s) where you want to move, or 0 if you want to remain in your cell:");
@@ -250,8 +251,11 @@ public class Cli implements View{
             System.out.println("Enter the PowerUpCard you want to use for paying during your turn:");
             while ((in.hasNext()))
                 lP.add(in.next());
+            System.out.println("Enter the colour of the PowerUpCard you want to use for paying during your turn:");
+            while ((in.hasNext()))
+                lPC.add(in.next());
         }
-        while (!this.server.messageIsValidFirstActionGrab(game, nickName, l.toArray(directions), wCard, weaponSlot, lC, lP)){
+        while (!this.server.messageIsValidFirstActionGrab(game, nickName, l.toArray(directions), wCard, weaponSlot, lC, lP, lPC)){
             System.out.println("Error: retry");
             System.out.println("Enter the direction(s) where you want to move");
             while (in.hasNext())
@@ -267,9 +271,12 @@ public class Cli implements View{
                 System.out.println("Enter the PowerUpCard you want to use for paying during your turn:");
                 while ((in.hasNext()))
                     lP.add(in.next());
+                System.out.println("Enter the colour of the PowerUpCard you want to use for paying during your turn:");
+                while ((in.hasNext()))
+                    lPC.add(in.next());
             }
         }
-        this.server.messageFirstActionGrab(game, nickName, l.toArray(directions), wCard, lC, lP);
+        this.server.messageFirstActionGrab(game, nickName, l.toArray(directions), wCard, lC, lP, lPC);
         if(this.server.messageIsDiscard(game)) {
             System.out.println("Choose the weapon card you want to discard");
             String wCDiscard = in.next();
@@ -412,6 +419,7 @@ public class Cli implements View{
         List<Integer> l = new LinkedList<>();
         List<Colour> lC = new LinkedList<>();
         List<String> lP = new LinkedList<>();
+        List<String> lPC = new LinkedList<>();
         String wCard;
         String weaponSlot = null;
         System.out.println("Enter the direction(s) where you want to move, or 0 if you want to remain in your cell:");
@@ -428,8 +436,11 @@ public class Cli implements View{
             System.out.println("Enter the PowerUpCard you want to use for paying during your turn:");
             while ((in.hasNext()))
                 lP.add(in.next());
+            System.out.println("Enter the colour of the PowerUpCard you want to use for paying during your turn:");
+            while ((in.hasNext()))
+                lPC.add(in.next());
         }
-        while (!this.server.messageIsValidSecondActionGrab(game, nickName, l.toArray(directions), wCard, weaponSlot, lC, lP)){
+        while (!this.server.messageIsValidSecondActionGrab(game, nickName, l.toArray(directions), wCard, weaponSlot, lC, lP, lPC)){
             System.out.println("Error: repeat");
             System.out.println("Enter the direction(s) where you want to move, or 0 if you want to remain in your cell:");
             while (in.hasNext())
@@ -445,9 +456,12 @@ public class Cli implements View{
                 System.out.println("Enter the PowerUpCard you want to use for paying during your turn:");
                 while ((in.hasNext()))
                     lP.add(in.next());
+                System.out.println("Enter the colour of the PowerUpCard you want to use for paying during your turn:");
+                while ((in.hasNext()))
+                    lPC.add(in.next());
             }
         }
-        this.server.messageSecondActionGrab(game, nickName, l.toArray(directions), wCard, lC, lP );
+        this.server.messageSecondActionGrab(game, nickName, l.toArray(directions), wCard, lC, lP, lPC);
         if(this.server.messageIsDiscard(game)) {
             System.out.println("Choose the weapon card you want to discard");
             String wCDiscard = in.next();
@@ -466,21 +480,24 @@ public class Cli implements View{
     public void usePowerUpCard() throws RemoteException{
         Scanner in = new Scanner(System.in);
         String namePC;
+        String colourPC;
         List<String> lS = new LinkedList<>();
         System.out.println("Enter which PowerUpCard you want to use:");
         this.server.messageGetPowerUpCard(game, nickName).stream().forEach(System.out::println);
         namePC = in.next();
-        this.server.messageGetDescriptionPUC(game, namePC, nickName);
+        System.out.println("Enter the colour of the PowerUpCard:");
+        colourPC = in.next();
+        this.server.messageGetDescriptionPUC(game, namePC, colourPC, nickName);
         switch (namePC){
             case "Tagback Grenade":
                 System.out.println("Enter the nickname of a player you can see and that gave you damage:");
                 lS.add(in.next());
-                while(!this.server.messageIsValidUsePowerUpCard(game, nickName, namePC, lS, null)){
+                while(!this.server.messageIsValidUsePowerUpCard(game, nickName, namePC, colourPC, lS, null)){
                     System.out.println("Error: retry");
                     System.out.println("Enter the nickname of a player you can see and that gave you damage:");
                     lS.add(in.next());
                 }
-                this.server.messageUsePowerUpCard(game, nickName, namePC, lS, null);
+                this.server.messageUsePowerUpCard(game, nickName, namePC, colourPC, lS, null);
                 break;
 
             case "Targeting Scope":
@@ -489,7 +506,7 @@ public class Cli implements View{
                     lS.add(in.next());
                 System.out.println("Enter the colour of the AmmoCube you want to use to pay:");
                 Colour c = Colour.valueOf(in.next());
-                while(!this.server.messageIsValidUsePowerUpCard(game, nickName, namePC, lS, c)){
+                while(!this.server.messageIsValidUsePowerUpCard(game, nickName, namePC, colourPC, lS, c)){
                     System.out.println("Error: retry");
                     System.out.println("Enter the nickname of one or more players you have damaged:");
                     while(in.hasNext())
@@ -497,7 +514,7 @@ public class Cli implements View{
                     System.out.println("Enter the colour of the AmmoCube you want to use to pay:");
                     c = Colour.valueOf(in.next());
                 }
-                this.server.messageUsePowerUpCard(game, nickName, namePC, lS, c);
+                this.server.messageUsePowerUpCard(game, nickName, namePC, colourPC, lS, c);
                 break;
 
             case "Newton":
@@ -506,7 +523,7 @@ public class Cli implements View{
                 System.out.println("Enter the direction(s) where you want the enemy to go:");
                 while(in.hasNext())
                     lS.add(in.next());
-                while(!this.server.messageIsValidUsePowerUpCard(game, nickName, namePC, lS, null)){
+                while(!this.server.messageIsValidUsePowerUpCard(game, nickName, namePC, colourPC, lS, null)){
                     System.out.println("Error: retryt");
                     System.out.println("Enter the nickname of a player:");
                     lS.add(in.next());
@@ -514,20 +531,20 @@ public class Cli implements View{
                     while(in.hasNext())
                         lS.add(in.next());
                 }
-                this.server.messageUsePowerUpCard(game, nickName, namePC, lS, null);
+                this.server.messageUsePowerUpCard(game, nickName, namePC, colourPC, lS, null);
                 break;
 
             case "Teleporter":
                 System.out.println("Enter the coordinates of the cell you want to move (x y):");
                 lS.add(in.next());
                 lS.add(in.next());
-                while(!this.server.messageIsValidUsePowerUpCard(game, nickName, namePC, lS, null)) {
+                while(!this.server.messageIsValidUsePowerUpCard(game, nickName, namePC, colourPC, lS, null)) {
                     System.out.println("Error: retry");
                     System.out.println("Enter the coordinates of the cell you want to move:");
                     lS.add(in.next());
                     lS.add(in.next());
                 }
-                this.server.messageUsePowerUpCard(game, nickName, namePC, lS, null);
+                this.server.messageUsePowerUpCard(game, nickName, namePC, colourPC, lS, null);
                 break;
         }
 
@@ -564,11 +581,15 @@ public class Cli implements View{
             System.out.println("Enter the PowerUp card you want to discard:");
             Scanner in = new Scanner(System.in);
             String s = in.nextLine();
-            while(!this.server.messageIsValidDiscardCardForSpawnPoint(game, this.nickName, s)){
+            System.out.println("Enter the colour of the PowerUp:");
+            String c = in.nextLine();
+            while(!this.server.messageIsValidDiscardCardForSpawnPoint(game, this.nickName, s, c)){
                 System.out.println("Enter the PowerUp card you want to discard:");
                 s = in.nextLine();
+                System.out.println("Enter the colour of the PowerUp:");
+                c = in.nextLine();
             }
-                    this.server.messageDiscardCardForSpawnPoint(game, this.nickName, s);
+                    this.server.messageDiscardCardForSpawnPoint(game, this.nickName, s, c);
         }
         else
             System.out.println("What are you doing, man?");
@@ -613,6 +634,7 @@ public class Cli implements View{
                     List<String> lS = new LinkedList<>();
                     List<Colour> lC = new LinkedList<>();
                     List<String> lP = new LinkedList<>();
+                    List<String> lPC = new LinkedList<>();
                     System.out.println("Enter the number of the effect you want to use:");
                     while (in.hasNext())
                         lI.add(in.nextInt());
@@ -626,7 +648,10 @@ public class Cli implements View{
                     System.out.println("Enter the PowerUpCard you want to use for paying during your turn:");
                     while (in.hasNext())
                         lP.add(in.next());
-                    while(!this.server.messageIsValidFinalFrenzyAction1(game, nickName, i, wC, lI, lS, lC, lP)){
+                    System.out.println("Enter the colour of the PowerUpCard you want to use for paying during your turn:");
+                    while (in.hasNext())
+                        lPC.add(in.next());
+                    while(!this.server.messageIsValidFinalFrenzyAction1(game, nickName, i, wC, lI, lS, lC, lP, lPC)){
                         System.out.println("Error: repeat");
                         System.out.println("write the direction you want to move");
                         i = in.nextInt();
@@ -648,8 +673,11 @@ public class Cli implements View{
                         System.out.println("Enter the PowerUpCard you want to use for paying during your turn:");
                         while (in.hasNext())
                             lP.add(in.next());
+                        System.out.println("Enter the colour of the PowerUpCard you want to use for paying during your turn:");
+                        while (in.hasNext())
+                            lPC.add(in.next());
                     }
-                    this.server.messageFinalFrenzyAction1(game, nickName, i, lW, wC, lI, lS, lC, lP);
+                    this.server.messageFinalFrenzyAction1(game, nickName, i, lW, wC, lI, lS, lC, lP, lPC);
                     if(doYouWantToUsePUC())
                         usePowerUpCard();
                     break;
@@ -678,6 +706,7 @@ public class Cli implements View{
                     List<Integer> list2 = new LinkedList<>();
                     List<Colour> lC2 = new LinkedList<>();
                     List<String> lP2 = new LinkedList<>();
+                    List<String> lPC2 = new LinkedList<>();
                     String wCard;
                     String weaponSlot = null;
                     System.out.println("write the direction(s) you want to move");
@@ -694,8 +723,11 @@ public class Cli implements View{
                         System.out.println("Enter the PowerUpCard you want to use for paying during your turn:");
                         while ((in.hasNext()))
                             lP2.add(in.next());
+                        System.out.println("Enter the colour of the PowerUpCard you want to use for paying during your turn:");
+                        while ((in.hasNext()))
+                            lPC2.add(in.next());
                     }
-                    while(!this.server.messageIsValidFinalFrenzyAction3(game, nickName, list2, wCard, weaponSlot, lC2, lP2)){
+                    while(!this.server.messageIsValidFinalFrenzyAction3(game, nickName, list2, wCard, weaponSlot, lC2, lP2, lPC2)){
                         System.out.println("Error: repeat");
                         System.out.println("write the direction(s) you want to move");
                         while(in.hasNext())
@@ -711,9 +743,12 @@ public class Cli implements View{
                             System.out.println("Enter the PowerUpCard you want to use for paying during your turn:");
                             while ((in.hasNext()))
                                 lP2.add(in.next());
+                            System.out.println("Enter the colour of the PowerUpCard you want to use for paying during your turn:");
+                            while ((in.hasNext()))
+                                lPC2.add(in.next());
                         }
                     }
-                    this.server.messageFinalFrenzyAction3(game, nickName, list2, wCard, lC2, lP2);
+                    this.server.messageFinalFrenzyAction3(game, nickName, list2, wCard, lC2, lP2, lPC2);
                     if(doYouWantToUsePUC())
                         usePowerUpCard();
                     break;
@@ -735,6 +770,7 @@ public class Cli implements View{
                     List<String> lS2 = new LinkedList<>();
                     List<Colour> lC3 = new LinkedList<>();
                     List<String> lP3 = new LinkedList<>();
+                    List<String> lPC3 = new LinkedList<>();
                     System.out.println("Enter the number of the effect you want to use:");
                     while (in.hasNext())
                         lI2.add(in.nextInt());
@@ -748,7 +784,10 @@ public class Cli implements View{
                     System.out.println("Enter the PowerUpCard you want to use for paying during your turn:");
                     while (in.hasNext())
                         lP3.add(in.next());
-                    while(!this.server.messageIsValidFinalFrenzyAction4(game, nickName, list3, wC2, lI2, lS2, lC3, lP3)) {
+                    System.out.println("Enter the colour of the PowerUpCard you want to use for paying during your turn:");
+                    while ((in.hasNext()))
+                        lPC3.add(in.next());
+                    while(!this.server.messageIsValidFinalFrenzyAction4(game, nickName, list3, wC2, lI2, lS2, lC3, lP3, lPC3)) {
                         System.out.println("Error: repeat");
                         System.out.println("write the direction(s) you want to move");
                         while (in.hasNext())
@@ -771,8 +810,11 @@ public class Cli implements View{
                         System.out.println("Enter the PowerUpCard you want to use for paying during your turn:");
                         while (in.hasNext())
                             lP3.add(in.next());
+                        System.out.println("Enter the colour of the PowerUpCard you want to use for paying during your turn:");
+                        while ((in.hasNext()))
+                            lPC3.add(in.next());
                     }
-                    this.server.messageFinalFrenzyAction4(game, nickName, list3, lW2, wC2, lI2, lS2, lC3, lP3);
+                    this.server.messageFinalFrenzyAction4(game, nickName, list3, lW2, wC2, lI2, lS2, lC3, lP3, lPC3);
                     if(doYouWantToUsePUC())
                         usePowerUpCard();
                     break;
@@ -783,6 +825,7 @@ public class Cli implements View{
                     weaponSlot = null;
                     List<Colour> lC4= new LinkedList<>();
                     List<String> lP4= new LinkedList<>();
+                    List<String> lPC4 = new LinkedList<>();
                     System.out.println("write the direction(s) you want to move");
                     List<Integer> list4 = new LinkedList<>();
                     while(in.hasNext())
@@ -798,8 +841,11 @@ public class Cli implements View{
                         System.out.println("Enter the PowerUpCard you want to use for paying during your turn:");
                         while ((in.hasNext()))
                             lP4.add(in.next());
+                        System.out.println("Enter the colour of the PowerUpCard you want to use for paying during your turn:");
+                        while ((in.hasNext()))
+                            lPC4.add(in.next());
                     }
-                    while(!this.server.messageIsValidFinalFrenzyAction5(game, nickName, list4, wCard, weaponSlot, lC4, lP4)){
+                    while(!this.server.messageIsValidFinalFrenzyAction5(game, nickName, list4, wCard, weaponSlot, lC4, lP4, lPC4)){
                         System.out.println("Error: repeat");
                         System.out.println("write the direction(s) you want to move");
                         while(in.hasNext())
@@ -815,9 +861,12 @@ public class Cli implements View{
                             System.out.println("Enter the PowerUpCard you want to use for paying during your turn:");
                             while ((in.hasNext()))
                                 lP4.add(in.next());
+                            System.out.println("Enter the colour of the PowerUpCard you want to use for paying during your turn:");
+                            while ((in.hasNext()))
+                                lPC4.add(in.next());
                         }
                     }
-                    this.server.messageFinalFrenzyAction5(game, nickName, list4, wCard, lC4, lP4);
+                    this.server.messageFinalFrenzyAction5(game, nickName, list4, wCard, lC4, lP4, lPC4);
                     if(doYouWantToUsePUC())
                         usePowerUpCard();
                     break;

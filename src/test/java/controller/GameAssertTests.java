@@ -181,9 +181,10 @@ class GameAssertTests {
         lA.add(Colour.valueOf("YELLOW"));
         lA.add(Colour.valueOf("BLUE"));
         List<String> lP = new LinkedList<>();
+        List<String> lPC = new LinkedList<>();
 
-        assertTrue(game.isValidSecondActionShoot("Player 1", "Machine Gun", lI, lS, 0, lA, lP));
-        game.secondActionShoot("Player 1", "Machine Gun", lI, lS, 0, lA, lP);
+        assertTrue(game.isValidSecondActionShoot("Player 1", "Machine Gun", lI, lS, 0, lA, lP, lPC));
+        game.secondActionShoot("Player 1", "Machine Gun", lI, lS, 0, lA, lP, lPC);
         assertEquals(Colour.BLUE, p2.getpB().getDamages().getDamageTr()[0].getC());
         assertEquals(Colour.BLUE, p3.getpB().getDamages().getDamageTr()[0].getC());
         assertEquals(Colour.BLUE, p3.getpB().getDamages().getDamageTr()[1].getC());
@@ -211,8 +212,8 @@ class GameAssertTests {
         PowerUpCard tagbackGrenade = new TagbackGrenade(Colour.BLUE);
         p2.addPowerUpCard(tagbackGrenade);
         lS.add("Player 1");
-        assertTrue(game.isValidUsePowerUpCard("Player 2", "Tagback Grenade", lS, null));
-        game.usePowerUpCard("Player 2", "Tagback Grenade", lS, null);
+        assertTrue(game.isValidUsePowerUpCard("Player 2", "Tagback Grenade", "BLUE", lS, null));
+        game.usePowerUpCard("Player 2", "Tagback Grenade", "BLUE", lS, null);
         assertEquals(Colour.YELLOW, p1.getpB().getMarks().get(0).getC());
 
         lS.clear();
@@ -220,8 +221,8 @@ class GameAssertTests {
         PowerUpCard targetingScope = new TargetingScope(Colour.RED);
         p1.addPowerUpCard(targetingScope);
         lS.add("Player 2");
-        assertTrue(game.isValidUsePowerUpCard("Player 1", "Targeting Scope", lS, Colour.valueOf("RED")));
-        game.usePowerUpCard("Player 1", "Targeting Scope", lS, Colour.valueOf("RED"));
+        assertTrue(game.isValidUsePowerUpCard("Player 1", "Targeting Scope", "RED", lS, Colour.valueOf("RED")));
+        game.usePowerUpCard("Player 1", "Targeting Scope", "RED", lS, Colour.valueOf("RED"));
         assertEquals(Colour.BLUE, p2.getpB().getDamages().getDamageTr()[2].getC());
         for(AmmoCube ac : p1.getaC()) {
             if(ac != null)
@@ -235,8 +236,8 @@ class GameAssertTests {
         lS.add("Player 3");
         lS.add("4");
         lS.add("3");
-        assertTrue(game.isValidUsePowerUpCard("Player 1", "Newton", lS, null));
-        game.usePowerUpCard("Player 1", "Newton", lS, null);
+        assertTrue(game.isValidUsePowerUpCard("Player 1", "Newton", "YELLOW", lS, null));
+        game.usePowerUpCard("Player 1", "Newton", "YELLOW", lS, null);
         assertEquals(game.getGrid().getBoard().getArena()[2][1], p3.getCell());
 
         lS.clear();
@@ -245,8 +246,8 @@ class GameAssertTests {
         p1.addPowerUpCard(teleporter);
         lS.add("1");
         lS.add("1");
-        assertTrue(game.isValidUsePowerUpCard("Player 1", "Teleporter", lS, null));
-        game.usePowerUpCard("Player 1", "Teleporter", lS, null);
+        assertTrue(game.isValidUsePowerUpCard("Player 1", "Teleporter", "BLUE", lS, null));
+        game.usePowerUpCard("Player 1", "Teleporter", "BLUE", lS, null);
         assertEquals(game.getGrid().getBoard().getArena()[1][1], p1.getCell());
 
         lS.clear();
@@ -327,8 +328,8 @@ class GameAssertTests {
         PowerUpCard targetingScope2 = new TargetingScope(Colour.BLUE);
 
         p2.addPowerUpCard(targetingScope2);
-        assertTrue(game.isValidDiscardCardForSpawnPoint("Player 2", "Targeting Scope"));
-        game.discardCardForSpawnPoint("Player 2", "Targeting Scope");
+        assertTrue(game.isValidDiscardCardForSpawnPoint("Player 2", "Targeting Scope", "BLUE"));
+        game.discardCardForSpawnPoint("Player 2", "Targeting Scope", "BLUE");
         assertEquals(p2.getCell(), grid.getBoard().getArena()[1][0]);
         assertFalse(p2.getpC().contains(targetingScope));
         assertEquals(1, game.getGrid().getPowerUpDiscardPile().size());

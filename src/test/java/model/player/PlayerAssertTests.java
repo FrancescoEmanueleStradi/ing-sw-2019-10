@@ -149,19 +149,19 @@ class PlayerAssertTests {
 
 
         assertTrue(p1.getpC().isEmpty());
-        assertNull(p1.getPowerUpCardObject("Newton"));
+        assertNull(p1.getPowerUpCardObject("Newton", Colour.valueOf("YELLOW")));
 
         PowerUpCard pc1 = new Newton(Colour.YELLOW);
         p1.addPowerUpCard(pc1);
         assertEquals(pc1, p1.getpC().get(0));
         assertEquals(1, p1.getpC().size());
-        assertEquals(pc1, p1.getPowerUpCardObject("Newton"));
+        assertEquals(pc1, p1.getPowerUpCardObject("Newton", Colour.valueOf("YELLOW")));
 
         PowerUpCard pc2 = new TargetingScope(Colour.RED);
         p1.addPowerUpCard(pc2);
         assertEquals(pc2, p1.getpC().get(1));
         assertEquals(2, p1.getpC().size());
-        assertEquals(pc2, p1.getPowerUpCardObject("Targeting Scope"));
+        assertEquals(pc2, p1.getPowerUpCardObject("Targeting Scope", Colour.valueOf("YELLOW")));
 
         p1.removePowerUpCard(pc1);
         assertEquals(pc2, p1.getpC().get(0));

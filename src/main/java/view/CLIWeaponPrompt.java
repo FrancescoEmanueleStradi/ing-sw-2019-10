@@ -14,6 +14,7 @@ public class CLIWeaponPrompt {
     private String promptB = "Enter the relevant strings for the card:";
     private String promptC = "Enter the colour(s) of the required AmmoCube(s) needed for the effect:";
     private String promptD = "Enter the PowerUpCard you want to use for paying during your turn:";
+    private String promptCOL = "Enter the colour of the PowerUpCard:";
     private String promptE = "If you are in Adrenaline, enter the direction of the move:";
     private String promptErrorRetry = "Error: retry your action";
 
@@ -25,6 +26,7 @@ public class CLIWeaponPrompt {
         List<String> lS = new LinkedList<>();
         List<Colour> lC = new LinkedList<>();
         List<String> lP = new LinkedList<>();
+        List<String> lPC = new LinkedList<>();
 
         System.out.println(promptA);
         while (in.hasNext())
@@ -39,9 +41,12 @@ public class CLIWeaponPrompt {
         System.out.println(promptD);
         while (in.hasNext())
             lP.add(in.next());
+        System.out.println(promptCOL);
+        while (in.hasNext())
+            lPC.add(in.next());
         System.out.println(promptE);
         i = in.nextInt();                       //TODO nextint is a problem
-        while(!server.messageIsValidFirstActionShoot(game, nickName, s, lI, lS, i, lC, lP)) {
+        while(!server.messageIsValidFirstActionShoot(game, nickName, s, lI, lS, i, lC, lP, lPC)) {
             System.out.println(promptErrorRetry);
             System.out.println(promptA);
             while (in.hasNext())
@@ -56,10 +61,13 @@ public class CLIWeaponPrompt {
             System.out.println(promptD);
             while (in.hasNext())
                 lP.add(in.next());
+            System.out.println(promptCOL);
+            while (in.hasNext())
+                lPC.add(in.next());
             System.out.println(promptE);
             i = in.nextInt();
         }
-        server.messageFirstActionShoot(game, nickName, s, lI, lS, i, lC, lP);
+        server.messageFirstActionShoot(game, nickName, s, lI, lS, i, lC, lP, lPC);
     }
 
     public void shoot2ToUser1(int game, ServerInterface server, String nickName) throws RemoteException{
@@ -70,6 +78,7 @@ public class CLIWeaponPrompt {
         List<String> lS = new LinkedList<>();
         List<Colour> lC = new LinkedList<>();
         List<String> lP = new LinkedList<>();
+        List<String> lPC = new LinkedList<>();
 
         System.out.println(promptA);
         while (in.hasNext())
@@ -84,9 +93,12 @@ public class CLIWeaponPrompt {
         System.out.println(promptD);
         while (in.hasNext())
             lP.add(in.next());
+        System.out.println(promptCOL);
+        while (in.hasNext())
+            lPC.add(in.next());
         System.out.println(promptE);
         i = in.nextInt();                       //TODO nextint is a problem
-        while (!server.messageIsValidSecondActionShoot(game, nickName, s, lI, lS, i, lC, lP)) {
+        while (!server.messageIsValidSecondActionShoot(game, nickName, s, lI, lS, i, lC, lP, lPC)) {
             System.out.println(promptErrorRetry);
             System.out.println(promptA);
             while (in.hasNext())
@@ -101,10 +113,13 @@ public class CLIWeaponPrompt {
             System.out.println(promptD);
             while (in.hasNext())
                 lP.add(in.next());
+            System.out.println(promptCOL);
+            while (in.hasNext())
+                lPC.add(in.next());
             System.out.println(promptE);
             i = in.nextInt();
         }
-        server.messageSecondActionShoot(game, nickName, s, lI, lS, i, lC, lP);
+        server.messageSecondActionShoot(game, nickName, s, lI, lS, i, lC, lP, lPC);
     }
 
    public void shootToUser2(int game, ServerInterface server, String nickName) throws RemoteException{
@@ -115,6 +130,7 @@ public class CLIWeaponPrompt {
        List<String> lS = new LinkedList<>();
        List<Colour> lC = new LinkedList<>();
        List<String> lP = new LinkedList<>();
+       List<String> lPC = new LinkedList<>();
 
        System.out.println(promptA);
        while (in.hasNext())
@@ -126,9 +142,12 @@ public class CLIWeaponPrompt {
        System.out.println(promptD);
        while (in.hasNext())
            lP.add(in.next());
+       System.out.println(promptCOL);
+       while (in.hasNext())
+           lPC.add(in.next());
        System.out.println(promptE);
        i = in.nextInt() ;                       //TODO nextint is a problem
-       while(server.messageIsValidFirstActionShoot(game, nickName, s, lI, lS, i, lC, lP)){
+       while(server.messageIsValidFirstActionShoot(game, nickName, s, lI, lS, i, lC, lP, lPC)){
            System.out.println(promptErrorRetry);
            System.out.println(promptA);
            while (in.hasNext())
@@ -140,10 +159,13 @@ public class CLIWeaponPrompt {
            System.out.println(promptD);
            while (in.hasNext())
                lP.add(in.next());
+           System.out.println(promptCOL);
+           while (in.hasNext())
+               lPC.add(in.next());
            System.out.println(promptE);
            i = in.nextInt() ;
        }
-       server.messageFirstActionShoot(game, nickName, s, lI, lS, i, lC, lP);
+       server.messageFirstActionShoot(game, nickName, s, lI, lS, i, lC, lP, lPC);
    }
 
     public void shoot2ToUser2(int game, ServerInterface server, String nickName) throws RemoteException{
@@ -154,6 +176,7 @@ public class CLIWeaponPrompt {
         List<String> lS = new LinkedList<>();
         List<Colour> lC = new LinkedList<>();
         List<String> lP = new LinkedList<>();
+        List<String> lPC = new LinkedList<>();
 
         System.out.println(promptA);
         while (in.hasNext())
@@ -165,9 +188,12 @@ public class CLIWeaponPrompt {
         System.out.println(promptD);
         while (in.hasNext())
             lP.add(in.next());
+        System.out.println(promptCOL);
+        while (in.hasNext())
+            lPC.add(in.next());
         System.out.println(promptE);
         i = in.nextInt() ;                       //TODO nextint is a problem
-        while(server.messageIsValidSecondActionShoot(game, nickName, s, lI, lS, i, lC, lP)){
+        while(server.messageIsValidSecondActionShoot(game, nickName, s, lI, lS, i, lC, lP, lPC)){
             System.out.println(promptErrorRetry);
             System.out.println(promptA);
             while (in.hasNext())
@@ -179,10 +205,13 @@ public class CLIWeaponPrompt {
             System.out.println(promptD);
             while (in.hasNext())
                 lP.add(in.next());
+            System.out.println(promptCOL);
+            while (in.hasNext())
+                lPC.add(in.next());
             System.out.println(promptE);
             i = in.nextInt() ;
         }
-        server.messageSecondActionShoot(game, nickName, s, lI, lS, i, lC, lP);
+        server.messageSecondActionShoot(game, nickName, s, lI, lS, i, lC, lP, lPC);
     }
 
     public void shootToUser3(int game, ServerInterface server, String nickName) throws RemoteException{
@@ -193,6 +222,7 @@ public class CLIWeaponPrompt {
         List<String> lS = new LinkedList<>();
         List<Colour> lC = new LinkedList<>();
         List<String> lP = new LinkedList<>();
+        List<String> lPC = new LinkedList<>();
 
         System.out.println(promptA);
         while (in.hasNext())
@@ -202,7 +232,7 @@ public class CLIWeaponPrompt {
             lS.add(in.next());
         System.out.println(promptE);
         i = in.nextInt() ;                       //TODO nextint is a problem
-        while(!server.messageIsValidFirstActionShoot(game, nickName, s, lI, lS, i, lC, lP)){
+        while(!server.messageIsValidFirstActionShoot(game, nickName, s, lI, lS, i, lC, lP, lPC)){
             System.out.println(promptErrorRetry);
             System.out.println(promptA);
             while (in.hasNext())
@@ -213,7 +243,7 @@ public class CLIWeaponPrompt {
             System.out.println(promptE);
             i = in.nextInt() ;
         }
-        server.messageFirstActionShoot(game, nickName, s, lI, lS, i, lC, lP);
+        server.messageFirstActionShoot(game, nickName, s, lI, lS, i, lC, lP, lPC);
     }
 
     public void shoot2ToUser3(int game, ServerInterface server, String nickName) throws RemoteException{
@@ -224,6 +254,7 @@ public class CLIWeaponPrompt {
         List<String> lS = new LinkedList<>();
         List<Colour> lC = new LinkedList<>();
         List<String> lP = new LinkedList<>();
+        List<String> lPC = new LinkedList<>();
 
         System.out.println(promptA);
         while (in.hasNext())
@@ -233,7 +264,7 @@ public class CLIWeaponPrompt {
             lS.add(in.next());
         System.out.println(promptE);
         i = in.nextInt() ;                       //TODO nextint is a problem
-        while(!server.messageIsValidSecondActionShoot(game, nickName, s, lI, lS, i, lC, lP)){
+        while(!server.messageIsValidSecondActionShoot(game, nickName, s, lI, lS, i, lC, lP, lPC)){
             System.out.println(promptErrorRetry);
             System.out.println(promptA);
             while (in.hasNext())
@@ -244,7 +275,7 @@ public class CLIWeaponPrompt {
             System.out.println(promptE);
             i = in.nextInt() ;
         }
-        server.messageSecondActionShoot(game, nickName, s, lI, lS, i, lC, lP);
+        server.messageSecondActionShoot(game, nickName, s, lI, lS, i, lC, lP, lPC);
     }
 
     public void shootToUser4(int game, ServerInterface server, String nickName) throws RemoteException{
@@ -255,13 +286,14 @@ public class CLIWeaponPrompt {
         List<String> lS = new LinkedList<>();
         List<Colour> lC = new LinkedList<>();
         List<String> lP = new LinkedList<>();
+        List<String> lPC = new LinkedList<>();
 
         System.out.println(promptB);
         while (in.hasNext())
             lS.add(in.next());
         System.out.println(promptE);
         i = in.nextInt() ;                       //TODO nextint is a problem
-        while(!server.messageIsValidFirstActionShoot(game, nickName, s, lI, lS, i, lC, lP)){
+        while(!server.messageIsValidFirstActionShoot(game, nickName, s, lI, lS, i, lC, lP, lPC)){
             System.out.println(promptErrorRetry);
             System.out.println(promptB);
             while (in.hasNext())
@@ -269,7 +301,7 @@ public class CLIWeaponPrompt {
             System.out.println(promptE);
             i = in.nextInt() ;
         }
-        server.messageFirstActionShoot(game, nickName, s, lI, lS, i, lC, lP);
+        server.messageFirstActionShoot(game, nickName, s, lI, lS, i, lC, lP, lPC);
     }
 
     public void shoot2ToUser4(int game, ServerInterface server, String nickName) throws RemoteException{
@@ -280,13 +312,14 @@ public class CLIWeaponPrompt {
         List<String> lS = new LinkedList<>();
         List<Colour> lC = new LinkedList<>();
         List<String> lP = new LinkedList<>();
+        List<String> lPC = new LinkedList<>();
 
         System.out.println(promptB);
         while (in.hasNext())
             lS.add(in.next());
         System.out.println(promptE);
         i = in.nextInt() ;                       //TODO nextint is a problem
-        while(!server.messageIsValidSecondActionShoot(game, nickName, s, lI, lS, i, lC, lP)){
+        while(!server.messageIsValidSecondActionShoot(game, nickName, s, lI, lS, i, lC, lP, lPC)){
             System.out.println(promptErrorRetry);
             System.out.println(promptB);
             while (in.hasNext())
@@ -294,6 +327,6 @@ public class CLIWeaponPrompt {
             System.out.println(promptE);
             i = in.nextInt() ;
         }
-        server.messageSecondActionShoot(game, nickName, s, lI, lS, i, lC, lP);
+        server.messageSecondActionShoot(game, nickName, s, lI, lS, i, lC, lP, lPC);
     }
 }

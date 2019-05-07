@@ -170,7 +170,7 @@ class GridAssertTests {
         Cell c2 = grid.getBoard().getArena()[1][2];
         Cell c3 = grid.getBoard().getArena()[1][1];
 
-        p1.changeCell(grid.getBoard().getArena()[0][2]);
+        p1.changeCell(c1);
         assertEquals(c1, grid.whereAmI(p1));
 
         assertFalse(grid.canMove(p1, 1));

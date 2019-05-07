@@ -4,6 +4,10 @@ import model.Colour;
 import model.Grid;
 import model.cards.PowerUpCard;
 import model.cards.WeaponCard;
+import model.cards.powerupcards.Newton;
+import model.cards.powerupcards.TagbackGrenade;
+import model.cards.powerupcards.TargetingScope;
+import model.cards.powerupcards.Teleporter;
 import model.cards.weaponcards.MachineGun;
 import model.player.AmmoCube;
 import model.player.Player;
@@ -200,40 +204,52 @@ class GameAssertTests {
         lS.clear();
         lA.clear();
 
-        if(p2.getpC().get(0).getCardName().equals("Tagback Grenade")) {
-            lS.add("Player 1");
-            assertTrue(game.isValidUsePowerUpCard("Player 2", "Tagback Grenade", lS, null));
-            game.usePowerUpCard("Player 2", "Tagback Grenade", lS, null);
-            assertEquals(Colour.YELLOW, p1.getpB().getMarks().get(0).getC());
+        PowerUpCard tagbackGrenade = new TagbackGrenade(Colour.BLUE);
+        p2.addPowerUpCard(tagbackGrenade);
+        lS.add("Player 1");
+        assertTrue(game.isValidUsePowerUpCard("Player 2", "Tagback Grenade", lS, null));
+        game.usePowerUpCard("Player 2", "Tagback Grenade", lS, null);
+        assertEquals(Colour.YELLOW, p1.getpB().getMarks().get(0).getC());
+
+        lS.clear();
+
+        PowerUpCard targetingScope = new TargetingScope(Colour.RED);
+        p1.addPowerUpCard(targetingScope);
+        lS.add("Player 2");
+        assertTrue(game.isValidUsePowerUpCard("Player 1", "Targeting Scope", lS, Colour.valueOf("RED")));
+        game.usePowerUpCard("Player 1", "Targeting Scope", lS, Colour.valueOf("RED"));
+        assertEquals(Colour.BLUE, p2.getpB().getDamages().getDamageTr()[2].getC());
+        for(AmmoCube ac : p1.getaC()) {
+            if(ac != null)
+                assertNotEquals(Colour.RED, ac.getC());
         }
-        /*else if(p1.getpC().get(0).getCardName().equals("Targeting Scope")) {
-            lS.add("Player 2");
-            assertTrue(game.isValidUsePowerUpCard("Player 1", "Targeting Scope", lS, Colour.valueOf("RED")));
-            game.usePowerUpCard("Player 1", "Targeting Scope", lS, Colour.valueOf("RED"));
-            assertEquals(Colour.BLUE, p2.getpB().getDamages().getDamageTr()[2].getC());
-            for(AmmoCube ac : p1.getaC()) {
-                if(ac != null)
-                    assertNotEquals(Colour.RED, ac.getC());
-            }
-        }*/
-        else if(p1.getpC().get(0).getCardName().equals("Newton")) {
-            lS.add("Player 3");
-            lS.add("2");
-            lS.add("3");
-            assertTrue(game.isValidUsePowerUpCard("Player 1", "Newton", lS, null));
-            game.usePowerUpCard("Player 1", "Newton", lS, null);
-            assertEquals(game.getGrid().getBoard().getArena()[2][3], p3.getCell());
-        }
-        else if(p1.getpC().get(0).getCardName().equals("Teleporter")) {
-            lS.add("2");
-            lS.add("1");
-            assertTrue(game.isValidUsePowerUpCard("Player 1", "Teleporter", lS, null));
-            game.usePowerUpCard("Player 1", "Teleporter", lS, null);
-            assertEquals(game.getGrid().getBoard().getArena()[2][1], p1.getCell());
-        }
+
+        lS.clear();
+
+        PowerUpCard newton = new Newton(Colour.YELLOW);
+        p1.addPowerUpCard(newton);
+        lS.add("Player 3");
+        lS.add("4");
+        lS.add("3");
+        assertTrue(game.isValidUsePowerUpCard("Player 1", "Newton", lS, null));
+        game.usePowerUpCard("Player 1", "Newton", lS, null);
+        assertEquals(game.getGrid().getBoard().getArena()[2][1], p3.getCell());
+
+        lS.clear();
+
+        PowerUpCard teleporter = new Teleporter(Colour.BLUE);
+        p1.addPowerUpCard(teleporter);
+        lS.add("1");
+        lS.add("1");
+        assertTrue(game.isValidUsePowerUpCard("Player 1", "Teleporter", lS, null));
+        game.usePowerUpCard("Player 1", "Teleporter", lS, null);
+        assertEquals(game.getGrid().getBoard().getArena()[1][1], p1.getCell());
+
+        lS.clear();
 
         assertFalse(game.isValidReload("Player 1", "Machine Gun"));
         p1.addNewAC(new AmmoCube(Colour.BLUE));
+        p1.addNewAC(new AmmoCube(Colour.RED));
         assertNotNull(p1.getaC()[0]);
         assertNull(p1.getaC()[1]);
         assertNull(p1.getaC()[2]);

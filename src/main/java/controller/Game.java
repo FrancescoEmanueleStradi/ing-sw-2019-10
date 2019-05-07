@@ -1147,15 +1147,18 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
             switch(namePC) {
                 case "Newton" :
                     List<Integer> directions = new LinkedList<>();
-                    if(lS.size() == 2)
-                        directions.add(Integer.parseInt(lS.get(1)));
-                    if(lS.size() == 3) {
+                    if(lS.size() == 2) {
+                        if(p.getPowerUpCardObject(namePC) != null && this.grid.canMove(this.grid.getPlayerObject(lS.get(0)), Integer.parseInt(lS.get(1))) &&
+                                (Integer.parseInt(lS.get(1)) == 1 || Integer.parseInt(lS.get(1)) == 2 || Integer.parseInt(lS.get(1)) == 3 || Integer.parseInt(lS.get(1)) == 4))
+                            x = true;
+                    }
+                    else if(lS.size() == 3) {
                         directions.add(Integer.parseInt(lS.get(1)));
                         directions.add(Integer.parseInt(lS.get(2)));
+                        if(p.getPowerUpCardObject(namePC) != null && this.grid.canGhostMove(this.grid.getPlayerObject(lS.get(0)), directions) &&
+                                (Integer.parseInt(lS.get(1)) == 1 || Integer.parseInt(lS.get(1)) == 2 || Integer.parseInt(lS.get(1)) == 3 || Integer.parseInt(lS.get(1)) == 4) && (Integer.parseInt(lS.get(2)) == 1 || Integer.parseInt(lS.get(2)) == 2 || Integer.parseInt(lS.get(2)) == 3 || Integer.parseInt(lS.get(2)) == 4))
+                            x = true;
                     }
-                    if(p.getPowerUpCardObject(namePC) != null && (lS.size() == 2 && this.grid.canMove(this.grid.getPlayerObject(lS.get(0)), Integer.parseInt(lS.get(1))) && (Integer.parseInt(lS.get(1)) == 1 || Integer.parseInt(lS.get(1)) == 2 || Integer.parseInt(lS.get(1)) == 3 || Integer.parseInt(lS.get(1)) == 4)) ||
-                            (lS.size() == 3 && this.grid.canGhostMove(this.grid.getPlayerObject(lS.get(0)), directions) && (Integer.parseInt(lS.get(1)) == 1 || Integer.parseInt(lS.get(1)) == 2 || Integer.parseInt(lS.get(1)) == 3 || Integer.parseInt(lS.get(1)) == 4) && (Integer.parseInt(lS.get(2)) == 1 || Integer.parseInt(lS.get(2)) == 2 || Integer.parseInt(lS.get(2)) == 3 || Integer.parseInt(lS.get(2)) == 4)));
-                       x = true;
                     break;
                 case "Teleporter" :
                     if(p.getPowerUpCardObject(namePC) != null && this.grid.getBoard().getArena()[Integer.parseInt(lS.get(0))][Integer.parseInt(lS.get(1))].getStatus() != -1)

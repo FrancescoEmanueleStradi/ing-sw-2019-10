@@ -47,11 +47,11 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
     }
 
     public synchronized int setGame(int numGame) throws RemoteException {
-        if (games.isEmpty() || games.size() < numGame){
+        if (games.isEmpty() || games.size() <= numGame){
             games.add(numGame, new Game());                  //TODO add a game even if it shouldn't
             //views.add(numGame, new LinkedList<>());
             playersTakingTheirTurn.add(numGame, 1);
-            players.add(0, numGame);
+            players.add(numGame, 0);
         }
         return numGame;
     }

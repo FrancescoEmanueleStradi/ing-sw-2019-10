@@ -324,6 +324,17 @@ class GameAssertTests {
 
         //Discard card for new spawn point
 
+        PowerUpCard targetingScope2 = new TargetingScope(Colour.BLUE);
 
+        p2.addPowerUpCard(targetingScope2);
+        assertTrue(game.isValidDiscardCardForSpawnPoint("Player 2", "Targeting Scope"));
+        game.discardCardForSpawnPoint("Player 2", "Targeting Scope");
+        assertEquals(p2.getCell(), grid.getBoard().getArena()[1][0]);
+        assertFalse(p2.getpC().contains(targetingScope));
+        assertEquals(1, game.getGrid().getPowerUpDiscardPile().size());
+        assertTrue(game.getGrid().getPowerUpDiscardPile().contains(targetingScope));
+
+        assertEquals(GameState.ENDTURN, game.getGameState());
+        assertTrue(game.getDeadList().isEmpty());
     }
 }

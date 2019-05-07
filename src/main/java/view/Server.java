@@ -51,6 +51,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
             games.add(numGame, new Game());                  //TODO add a game even if it shouldn't
             //views.add(numGame, new LinkedList<>());
             playersTakingTheirTurn.add(numGame, 1);
+            players.add(0, numGame);
         }
         return numGame;
     }

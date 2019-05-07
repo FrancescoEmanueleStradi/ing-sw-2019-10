@@ -19,7 +19,7 @@ public class Cli implements View{
     private CLIWeaponPrompt wPrompt;
 
 
-    public int getGame() {
+    public int getGame() {              //for the test
         return game;
     }
 
@@ -28,9 +28,9 @@ public class Cli implements View{
         this.game = game;
     }
 
-    public String getNickName() {
+    /*public String getNickName() {
         return nickName;
-    }
+    }*/
 
     @Override
     public void setServer(ServerInterface server) {

@@ -54,13 +54,13 @@ public class Client {
         view.setGame(game);
 
         view.askNameAndColour();
-        //centralServer.messageAskNameAndColour(game, identifier);        //TODO IT PRINTS ON THE SERVER TERMINAL
+        //centralServer.messageAskNameAndColour(game, identifier);
         view.selectSpawnPoint();
         //centralServer.messageSelectSpawnPoint(game, identifier);
         while (true) {
             if (centralServer.isMyTurn(game, identifier)) {
                 if (centralServer.isNotFinalFrenzy(game)) {
-                    if(view.doYouWantToUsePUC())                //TODO Control if in this part of the game the player can use the power up card?
+                    if(view.doYouWantToUsePUC())
                     //if (centralServer.messageDoYouWantToUsePUC(game, identifier))
                         view.usePowerUpCard();
                         //centralServer.messageUsePowerUpCard(game, identifier);
@@ -86,7 +86,7 @@ public class Client {
                     //centralServer.messageReplace(game, identifier);
                     centralServer.finishTurn(game);
                 } else {
-                    view.finalFrenzyTurn();                       //TODO
+                    view.finalFrenzyTurn();
                     //centralServer.messageFinalFrenzyTurn(game, identifier);
                     centralServer.finishTurn(game);
                     break;              //TODO is it now the client has to break?

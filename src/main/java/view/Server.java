@@ -14,6 +14,7 @@ import java.util.List;
 public class Server extends UnicastRemoteObject implements ServerInterface {
 
     static private List<Game> games;
+    static private List<Integer> players;           //for each game the number of players
     //static private List<List<View>> views;
     static private List<Integer> playersTakingTheirTurn;        //position n --> game n
 
@@ -36,6 +37,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
 
         System.out.println("Client may now invoke methods");
         games = new LinkedList<>();
+        players = new LinkedList<>();
         //views = new LinkedList<>();
         playersTakingTheirTurn = new LinkedList<>();            //TODO methods in the controller to notify the server
     }
@@ -45,7 +47,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
     }
 
     public synchronized int setGame(int numGame) throws RemoteException {
-        if (games.isEmpty() || games.size() > numGame){
+        if (games.isEmpty() || games.size() < numGame){
             games.add(numGame, new Game());                  //TODO add a game even if it shouldn't
             //views.add(numGame, new LinkedList<>());
             playersTakingTheirTurn.add(numGame, 1);
@@ -54,7 +56,8 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
     }
 
     public synchronized int receiveIdentifier(int game) throws RemoteException{
-        return games.get(game).getPlayers().size()+1;
+        players.add(game, players.get(game)+1);
+        return players.get(game);
     }
 
     /*public void setCli(int game, int identifier) throws RemoteException{

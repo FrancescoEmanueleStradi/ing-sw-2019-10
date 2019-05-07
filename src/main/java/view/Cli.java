@@ -14,7 +14,7 @@ public class Cli implements View{
 
     private int game;
     private ServerInterface server;
-    private String nickName;                //TODO maybe nickName and colour should go in the client and not here because View must be the RMI registry
+    private String nickName;
     private Colour colour;
     private CLIWeaponPrompt wPrompt;
 

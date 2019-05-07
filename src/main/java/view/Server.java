@@ -188,7 +188,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
     }
 
     public boolean messageIsValidSecondActionGrab(int game, String nick, Integer[] d, String wC, String wS, List<Colour> lA, List<String> lP) throws RemoteException {
-        return games.get(game).isValidFirstActionGrab(nick, d, wC, wS, lA, lP);
+        return games.get(game).isValidSecondActionGrab(nick, d, wC, wS, lA, lP);
     }
 
     public void messageSecondActionGrab(int game, String nick, Integer[] d, String wC, List<Colour> lC, List<String> lP) throws RemoteException {

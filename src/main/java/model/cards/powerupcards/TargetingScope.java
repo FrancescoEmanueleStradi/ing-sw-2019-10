@@ -7,7 +7,7 @@ import model.player.Player;
 
 import java.io.Serializable;
 
-public class TargetingScope extends PowerUpCard implements Serializable {
+public class TargetingScope extends PowerUpCard {
 
     public TargetingScope(Colour c) {
         super();

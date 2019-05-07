@@ -234,8 +234,8 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
         return games.get(game).getDeadList();
     }
 
-    public synchronized boolean messageIsValidDiscardCardForSpawnPoint(int game) throws RemoteException {
-        return games.get(game).isValidDiscardCardForSpawnPoint();
+    public synchronized boolean messageIsValidDiscardCardForSpawnPoint(int game, String nick, String s) throws RemoteException {
+        return games.get(game).isValidDiscardCardForSpawnPoint(nick, s);
     }
 
     public synchronized void messageDiscardCardForSpawnPoint(int game, String nick, String s) throws RemoteException {

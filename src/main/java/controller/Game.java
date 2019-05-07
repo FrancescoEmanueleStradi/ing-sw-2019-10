@@ -1278,8 +1278,9 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         return deadList;
     }
 
-    public boolean isValidDiscardCardForSpawnPoint() {
-        return this.gameState == DEATH;
+    public boolean isValidDiscardCardForSpawnPoint(String nickName, String s1) {
+        Player p = this.grid.getPlayerObject(nickName);
+        return (this.gameState == DEATH && p.getPowerUpCardObject(s1) != null);
     }
 
     public synchronized void discardCardForSpawnPoint(String nickName, String s1) {      //Attention to the view

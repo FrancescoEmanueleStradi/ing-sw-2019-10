@@ -69,7 +69,7 @@ public interface ServerInterface extends Remote {
     boolean messageIsValidScoring(int game) throws RemoteException;
     void messageScoring(int game) throws RemoteException;
     List<String> messageGetDeadList(int game) throws RemoteException;       //TODO Problem
-    boolean messageIsValidDiscardCardForSpawnPoint(int game) throws RemoteException;
+    boolean messageIsValidDiscardCardForSpawnPoint(int game, String nick, String s) throws RemoteException;
     void messageDiscardCardForSpawnPoint(int game, String nick, String s) throws RemoteException;
     boolean messageIsValidToReplace(int game) throws RemoteException;
     void messageReplace(int game) throws RemoteException;

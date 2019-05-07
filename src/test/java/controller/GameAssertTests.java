@@ -324,6 +324,6 @@ class GameAssertTests {
 
         //Discard card for new spawn point
 
-        
+
     }
 }

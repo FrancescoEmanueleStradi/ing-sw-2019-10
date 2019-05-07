@@ -84,11 +84,11 @@ public class Client {
                     //centralServer.messageNewSpawnPoint(game, identifier);
                     view.replace();
                     //centralServer.messageReplace(game, identifier);
-                    //centralServer.finishTurn(game);
+                    centralServer.finishTurn(game);
                 } else {
                     view.finalFrenzyTurn();                       //TODO
                     //centralServer.messageFinalFrenzyTurn(game, identifier);
-                    //centralServer.finishTurn(game);
+                    centralServer.finishTurn(game);
                     break;              //TODO is it now the client has to break?
                 }
             }

@@ -1252,8 +1252,18 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         for(Player p : this.grid.whoIsDead()) {
             this.deadList.add(p.getNickName());
             this.grid.scoringByColour(p.getpB().getDamages().getDamageTr()[0].getC(), 1);
-            for(int i = 1; i < p.getpB().getPoints().getPoints().size(); i++)
-                this.grid.scoringByColour(p.getpB().getDamages().getColourPosition(i-1), p.getpB().getPoints().getInt(i));  //TODO test: is the for cycle ok or we have to do ifs as in final frenzy?
+            if(!p.getpB().getDamages().scoreBoard().isEmpty())
+                this.grid.scoringByColour(p.getpB().getDamages().getColourPosition(0), p.getpB().getPoints().getInt(1));
+            if(p.getpB().getDamages().scoreBoard().size() >= 2)
+                this.grid.scoringByColour(p.getpB().getDamages().getColourPosition(1), p.getpB().getPoints().getInt(2));
+            if(p.getpB().getDamages().scoreBoard().size() >= 3)
+                this.grid.scoringByColour(p.getpB().getDamages().getColourPosition(2), p.getpB().getPoints().getInt(3));
+            if(p.getpB().getDamages().scoreBoard().size() >= 4)
+                this.grid.scoringByColour(p.getpB().getDamages().getColourPosition(3), p.getpB().getPoints().getInt(4));
+            if(p.getpB().getDamages().scoreBoard().size() >= 5)
+                this.grid.scoringByColour(p.getpB().getDamages().getColourPosition(4), p.getpB().getPoints().getInt(5));
+            if(p.getpB().getDamages().scoreBoard().size() >= 6)
+                this.grid.scoringByColour(p.getpB().getDamages().getColourPosition(5), p.getpB().getPoints().getInt(6));
             p.getpB().getDamages().cleanL();
             c++;
             if(c == 2)
@@ -1581,7 +1591,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                     p.getpB().getDamages().cleanL();
                 }
             }
-            if(this.grid.getBoard().getK().scoreBoard().size() >= 1)
+            if(!this.grid.getBoard().getK().scoreBoard().isEmpty())
                 this.grid.scoringByColour(this.grid.getBoard().getK().getColourPosition(0), 8);
             if(this.grid.getBoard().getK().scoreBoard().size() >= 2)
                 this.grid.scoringByColour(this.grid.getBoard().getK().getColourPosition(1), 6);

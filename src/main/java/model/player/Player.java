@@ -197,8 +197,10 @@ public class Player {
     }
 
     public void changeCell(Cell c){
-        if(c.getStatus() != -1)
+        if(c != null && c.getStatus() != -1)
             this.cell = c;
+        else if(c == null)
+            this.cell = null;
     }
 
     public Cell getCell() {

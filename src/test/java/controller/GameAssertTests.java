@@ -58,6 +58,7 @@ class GameAssertTests {
         assertEquals(1, grid.getBoard().getaType());
         assertEquals(GameState.INITIALIZED, game.getGameState());
 
+
         List<PowerUpCard> list = game.giveTwoPUCard("Player 1");
         System.out.print("PowerUpCard picked from the deck for Player 1: " + list.get(0).getCardName() + " coloured " + list.get(0).getC() + ", and " + list.get(1).getCardName() + " coloured " + list.get(1).getC());
         System.out.print("\nDetails (Player 1): " + list);
@@ -270,5 +271,36 @@ class GameAssertTests {
         }
 
         assertEquals(GameState.RELOADED, game.getGameState());
+
+
+        game.getGrid().damage(p1, p2, 10);
+        assertEquals(2, p1.getpB().getMarks().size());
+        assertEquals(p2.getC(), p1.getpB().getMarks().get(0).getC());
+        assertEquals(p2.getC(), p1.getpB().getMarks().get(1).getC());
+
+        assertTrue(game.isValidScoring());
+        game.scoring();
+        assertEquals(1, game.getDeadList().size());
+        assertEquals("Player 2", game.getDeadList().get(0));
+        assertEquals(9, p1.getScore());
+
+        assertEquals(2, game.getGrid().getBoard().getK().getSkulls()[0]);
+        assertEquals(0, game.getGrid().getBoard().getK().getSkulls()[1]);
+        assertEquals(0, game.getGrid().getBoard().getK().getSkulls()[2]);
+        assertEquals(0, game.getGrid().getBoard().getK().getSkulls()[3]);
+        assertEquals(0, game.getGrid().getBoard().getK().getSkulls()[4]);
+        assertEquals(0, game.getGrid().getBoard().getK().getSkulls()[5]);
+        assertEquals(0, game.getGrid().getBoard().getK().getSkulls()[6]);
+        assertEquals(0, game.getGrid().getBoard().getK().getSkulls()[7]);
+        assertEquals(p1.getC(), game.getGrid().getBoard().getK().getC()[0]);
+
+        assertEquals(6, p2.getpB().getPoints().getPoints().size());
+
+        for(int i = 0; i < 12; i++)
+            assertNull(p2.getpB().getDamages().getDamageTr()[i]);
+
+        assertEquals(3, p2.getpC().size());
+
+        assertEquals(GameState.DEATH, game.getGameState());
     }
 }

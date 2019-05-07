@@ -94,6 +94,8 @@ public class Grid {
     public void damage(Player p, Player p1, int numDamage) { //p attacks, p1 is attacked
         removeMarkAndAdd(p1, p);
         p1.getpB().getDamages().addDamage(numDamage, p.getC());
+        if(p1.getpB().getDamages().getDamageTr()[11] != null)
+            p.getpB().addMark(new DamageToken(p1.getC()));
     }
 
     public void clean(Player p) {

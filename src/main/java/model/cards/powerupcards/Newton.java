@@ -6,7 +6,6 @@ import model.Colour;
 import model.cards.PowerUpCard;
 import model.player.Player;
 
-import java.io.Serializable;
 import java.util.List;
 
 public class Newton extends PowerUpCard  {

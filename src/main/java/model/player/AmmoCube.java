@@ -2,8 +2,6 @@ package model.player;
 
 import model.Colour;
 
-import java.io.Serializable;
-
 public class AmmoCube {
 
     private Colour c;

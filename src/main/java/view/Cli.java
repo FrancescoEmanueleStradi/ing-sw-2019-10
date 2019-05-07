@@ -564,7 +564,7 @@ public class Cli implements View{
             System.out.println("Enter the PowerUp card you want to discard:");
             Scanner in = new Scanner(System.in);
             String s = in.nextLine();
-            while(!this.server.messageIsValidDiscardCardForSpawnPoint(game)){
+            while(!this.server.messageIsValidDiscardCardForSpawnPoint(game, this.nickName, s)){
                 System.out.println("Enter the PowerUp card you want to discard:");
                 s = in.nextLine();
             }

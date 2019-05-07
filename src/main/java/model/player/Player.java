@@ -188,9 +188,9 @@ public class Player {
         this.pC.remove(p);
     }
 
-    public PowerUpCard getPowerUpCardObject(String s){
+    public PowerUpCard getPowerUpCardObject(String s, Colour colour){
         for (PowerUpCard p: this.pC){
-            if(p.getCardName().equals(s))
+            if(p.getCardName().equals(s) && p.getC().equals(colour))
                 return p;
         }
         return null;

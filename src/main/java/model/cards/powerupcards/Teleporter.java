@@ -7,7 +7,7 @@ import model.player.Player;
 
 import java.io.Serializable;
 
-public class Teleporter extends PowerUpCard implements Serializable {
+public class Teleporter extends PowerUpCard {
 
     public Teleporter(Colour c) {
         super();

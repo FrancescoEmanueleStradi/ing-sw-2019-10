@@ -7,7 +7,7 @@ import model.player.Player;
 
 import java.io.Serializable;
 
-public class TagbackGrenade extends PowerUpCard implements Serializable {
+public class TagbackGrenade extends PowerUpCard {
 
     public TagbackGrenade(Colour c) {
         super();

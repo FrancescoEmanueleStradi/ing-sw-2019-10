@@ -4,7 +4,7 @@ import model.Colour;
 
 import java.io.Serializable;
 
-public class AmmoCube implements Serializable {
+public class AmmoCube {
 
     private Colour c;
 

@@ -16,7 +16,6 @@ class CyberbladeAssertTests {
 
         assertEquals("Cyberblade", c.getCardName());
         assertEquals(Colour.YELLOW, c.getReloadCost()[0].getC());
-        assertEquals(Colour.RED, c.getReloadCost()[1].getC());
         assertEquals("basic effect: Deal 2 damage to 1 target on your square.\n" +
                 "with shadowstep: Move 1 square before or after the basic effect.\n" +
                 "with slice and dice: Deal 2 damage to a different target on your square.\n" +

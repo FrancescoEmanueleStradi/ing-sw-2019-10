@@ -118,11 +118,11 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
         return games.get(game).giveTwoPUCard(nick);
     }
 
-    public synchronized boolean messageIsValidPickAndDiscard(int game, String nick) throws RemoteException {
-        return games.get(game).isValidPickAndDiscard(nick);
+    public synchronized boolean messageIsValidPickAndDiscard(int game, String nick, String p1, String c1) throws RemoteException {
+        return games.get(game).isValidPickAndDiscard(nick, p1, c1);
     }
-    public synchronized void messagePickAndDiscardCard(int game, String nick, String p1, String c1, String p2, String c2) throws RemoteException {
-        games.get(game).pickAndDiscardCard(nick, p1, c1, p2, c2);
+    public synchronized void messagePickAndDiscardCard(int game, String nick, String p1, String c1) throws RemoteException {
+        games.get(game).pickAndDiscardCard(nick, p1, c1);
     }
 
     public synchronized boolean messageIsValidFirstActionShoot(int game, String nick, String wC, List<Integer> lI, List<String> lS, int d, List<Colour> lC, List<String> lP, List<String> lPC) throws RemoteException {

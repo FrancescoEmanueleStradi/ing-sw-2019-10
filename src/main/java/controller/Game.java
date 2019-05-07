@@ -27,6 +27,9 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
     private boolean discard = false;
     private List<String> deadList = new LinkedList<>();
     private boolean finalFrenzy = false;
+    private PowerUpCard pUC1;
+    private PowerUpCard pUC2;
+    private int cardToPickAfterDeath;
 
     public Grid getGrid() {
         return grid;            //to use only for tests!!
@@ -148,30 +151,36 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         Player p = this.grid.getPlayerObject(nickName);
         if(p.getCell() == null) {
             List<String> l = new LinkedList<>();
-            PowerUpCard p1 = this.grid.pickPowerUpCard();
-            PowerUpCard p2 = this.grid.pickPowerUpCard();
-            l.add(p1.getCardName());
-            l.add(p1.getC().getAbbreviation());
-            l.add(p2.getCardName());
-            l.add(p2.getC().getAbbreviation());
+            pUC1 = this.grid.pickPowerUpCard();
+            pUC2 = this.grid.pickPowerUpCard();
+            l.add(pUC1.getCardName());
+            l.add(pUC1.getC().getAbbreviation());
+            l.add(pUC2.getCardName());
+            l.add(pUC2.getC().getAbbreviation());
             return l;
         }
                                             //View control -> empty list
        return new LinkedList<>();
    }
 
-   public boolean isValidPickAndDiscard(String nickName) {  //TODO add checks
+   public boolean isValidPickAndDiscard(String nickName, String p1, String c1) {
         Player p = this.grid.getPlayerObject(nickName);
-        return (p.getCell() == null);
+        return (p.getCell() == null &&
+                (p1.equals(pUC1.getCardName()) && Colour.valueOf(c1).equals(pUC1.getC()) || p1.equals(pUC2.getCardName()) && Colour.valueOf(c1).equals(pUC2.getC())));
    }
 
-   public synchronized void pickAndDiscardCard(String nickName, String p1, String c1, String p2, String c2) {     //p1 choose, p2 discard
+   public synchronized void pickAndDiscardCard(String nickName, String p1, String c1) {     //p1 and c1 name and colour of the chosen card
        Player p = this.grid.getPlayerObject(nickName);
-       PowerUpCard pUC1 = this.grid.getPowerUpCardObject(p1, Colour.valueOf(c1));
-       PowerUpCard pUC2 = this.grid.getPowerUpCardObject(p2, Colour.valueOf(c2));
-       p.addPowerUpCard(pUC1);
-       this.grid.getPowerUpDiscardPile().add(pUC2);
-       chooseSpawnPoint(pUC2.getC(), p);
+       if(p1.equals(pUC1.getCardName()) && Colour.valueOf(c1).equals(pUC1.getC())) {
+           p.addPowerUpCard(pUC1);
+           this.grid.getPowerUpDiscardPile().add(pUC2);
+           chooseSpawnPoint(pUC2.getC(), p);
+       }
+       else if(p1.equals(pUC2.getCardName()) && Colour.valueOf(c1).equals(pUC2.getC())) {
+           p.addPowerUpCard(pUC2);
+           this.grid.getPowerUpDiscardPile().add(pUC1);
+           chooseSpawnPoint(pUC1.getC(), p);
+       }
    }
 
 
@@ -1209,6 +1218,8 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                 p.payCard(lA, lP);
                 break;
         }
+        p.removePowerUpCard(p.getPowerUpCardObject(namePC, Colour.valueOf(colourPC)));
+        this.grid.getPowerUpDiscardPile().add(p.getPowerUpCardObject(namePC, Colour.valueOf(colourPC)));
     }
 
 
@@ -1250,8 +1261,8 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         if(p.getpB().getPoints().getPoints().size()>1)
             p.getpB().getPoints().remove();
         p.getpB().getDamages().clean();
-        p.addPowerUpCard(this.grid.pickPowerUpCard());
-
+        p.addPowerUpCard(this.grid.getPowerUpDeck().getDeck().get(cardToPickAfterDeath));
+        cardToPickAfterDeath++;     //TODO attention to this int, also used below at line 1313
     }
 
     public boolean isValidScoring() {
@@ -1260,6 +1271,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
     public synchronized void scoring() {
         int c = 0;
+        cardToPickAfterDeath = 0;
         for(Player p : this.grid.whoIsDead()) {
             this.deadList.add(p.getNickName());
             this.grid.scoringByColour(p.getpB().getDamages().getDamageTr()[0].getC(), 1);
@@ -1299,6 +1311,8 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         PowerUpCard p1 = p.getPowerUpCardObject(s1, Colour.valueOf(c1));
         chooseSpawnPoint(p1.getC(), p);
         p.removePowerUpCard(p1);
+        this.grid.getPowerUpDeck().getDeck().remove(cardToPickAfterDeath);
+        cardToPickAfterDeath--;
         this.grid.getPowerUpDiscardPile().add(p1);
         this.gameState = ENDTURN;
         this.deadList.clear();

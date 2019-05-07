@@ -86,19 +86,19 @@ public class Cli implements View{
                 "colour of your spawn point");
         String p1 = in.nextLine();
         System.out.println("Enter the colour of that card: ");
-        String c2 = in.nextLine();
-        while(!this.server.messageIsValidPickAndDiscard(game, this.nickName)) {
+        String c1 = in.nextLine();
+        while(!this.server.messageIsValidPickAndDiscard(game, this.nickName, p1, c1)) {
             System.out.println("Error: retry");
             System.out.println("Enter the name of the card you want to keep; you will discard the other one corresponding to the " +
                     "colour of your spawn point");
             p1 = in.nextLine();
             System.out.println("Enter the colour of that card: ");
-            c2 = in.nextLine();
+            c1 = in.nextLine();
         }
-            if(l.get(0).equals(p1) && l.get(1).equals(c2))
-                this.server.messagePickAndDiscardCard(game, this.nickName, l.get(0), l.get(1), l.get(2), l.get(3));
+            if(l.get(0).equals(p1) && l.get(1).equals(c1))
+                this.server.messagePickAndDiscardCard(game, this.nickName, l.get(0), l.get(1));
             else
-                this.server.messagePickAndDiscardCard(game, this.nickName, l.get(2), l.get(3), l.get(0), l.get(1));
+                this.server.messagePickAndDiscardCard(game, this.nickName, l.get(2), l.get(3));
     }
 
     @Override

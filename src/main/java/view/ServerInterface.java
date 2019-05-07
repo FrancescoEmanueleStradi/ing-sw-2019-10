@@ -38,9 +38,9 @@ public interface ServerInterface extends Remote {
     void messageReceiveType(int game, int type) throws RemoteException;
     boolean messageIsValidAddPlayer(int game, String nick, Colour c) throws RemoteException;
     void messageAddPlayer(int game, String nick, Colour c) throws RemoteException;
-    List<PowerUpCard> messageGiveTwoPUCard(int game, String nick) throws RemoteException;       //TODO Problem
+    List<String> messageGiveTwoPUCard(int game, String nick) throws RemoteException;       //TODO Problem
     boolean messageIsValidPickAndDiscard(int game, String nick) throws RemoteException;
-    void messagePickAndDiscardCard(int game, String nick, PowerUpCard p1, PowerUpCard p2) throws RemoteException;
+    void messagePickAndDiscardCard(int game, String nick, String p1, String c1, String p2, String c2) throws RemoteException;
     boolean messageIsValidFirstActionShoot(int game, String nick, String wC, List<Integer> lI, List<String> lS, int d, List<Colour> lC, List<String> lP, List<String> lPC) throws RemoteException;
     void messageFirstActionShoot(int game, String nick, String wC, List<Integer> lI, List<String> lS, int d, List<Colour> lC, List<String> lP, List<String> lPC) throws RemoteException;
     boolean messageIsValidFirstActionMove(int game, String nick, List<Integer> d) throws RemoteException;

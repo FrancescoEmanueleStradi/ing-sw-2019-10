@@ -78,25 +78,27 @@ public class Cli implements View{
     @Override
     public void selectSpawnPoint() throws RemoteException{
         Scanner in = new Scanner(System.in);
-        List<PowerUpCard> l = new LinkedList<>();
-        for(PowerUpCard p : this.server.messageGiveTwoPUCard(game, this.nickName)){
-            System.out.println(p.getCardName());
-            l.add(p);
-        }
+        List<String> l = this.server.messageGiveTwoPUCard(game, this.nickName);
+        System.out.println(l.get(0) + " coloured " + l.get(1));
+        System.out.println(l.get(2) + " coloured " + l.get(3));
         System.out.println("---------SPAWN POINT SELECT---------");
         System.out.println("Enter the name of the card you want to keep; you will discard the other one corresponding to the " +
                 "colour of your spawn point");
         String p1 = in.nextLine();
+        System.out.println("Enter the colour of that card: ");
+        String c2 = in.nextLine();
         while(!this.server.messageIsValidPickAndDiscard(game, this.nickName)) {
             System.out.println("Error: retry");
             System.out.println("Enter the name of the card you want to keep; you will discard the other one corresponding to the " +
                     "colour of your spawn point");
             p1 = in.nextLine();
+            System.out.println("Enter the colour of that card: ");
+            c2 = in.nextLine();
         }
-            if(l.get(0).getCardName().equals(p1))
-                this.server.messagePickAndDiscardCard(game, this.nickName, l.get(0), l.get(1));
+            if(l.get(0).equals(p1) && l.get(1).equals(c2))
+                this.server.messagePickAndDiscardCard(game, this.nickName, l.get(0), l.get(1), l.get(2), l.get(3));
             else
-                this.server.messagePickAndDiscardCard(game, this.nickName, l.get(1), l.get(0));
+                this.server.messagePickAndDiscardCard(game, this.nickName, l.get(2), l.get(3), l.get(0), l.get(1));
     }
 
     @Override

@@ -144,28 +144,34 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         this.gameState = INITIALIZED;
    }
 
-   public synchronized List<PowerUpCard> giveTwoPUCard(String nickName) {
+   public synchronized List<String> giveTwoPUCard(String nickName) {
         Player p = this.grid.getPlayerObject(nickName);
         if(p.getCell() == null) {
-            List<PowerUpCard> l = new LinkedList<>();
-            l.add(this.grid.pickPowerUpCard());
-            l.add(this.grid.pickPowerUpCard());
+            List<String> l = new LinkedList<>();
+            PowerUpCard p1 = this.grid.pickPowerUpCard();
+            PowerUpCard p2 = this.grid.pickPowerUpCard();
+            l.add(p1.getCardName());
+            l.add(p1.getC().getAbbreviation());
+            l.add(p2.getCardName());
+            l.add(p2.getC().getAbbreviation());
             return l;
         }
                                             //View control -> empty list
        return new LinkedList<>();
    }
 
-   public boolean isValidPickAndDiscard(String nickName) {
+   public boolean isValidPickAndDiscard(String nickName) {  //TODO add checks
         Player p = this.grid.getPlayerObject(nickName);
         return (p.getCell() == null);
    }
 
-   public synchronized void pickAndDiscardCard(String nickName, PowerUpCard p1, PowerUpCard p2) {     //p1 choose, p2 discard
+   public synchronized void pickAndDiscardCard(String nickName, String p1, String c1, String p2, String c2) {     //p1 choose, p2 discard
        Player p = this.grid.getPlayerObject(nickName);
-       p.addPowerUpCard(p1);
-       this.grid.getPowerUpDiscardPile().add(p2);
-       chooseSpawnPoint(p2.getValue().getC(), p);
+       PowerUpCard pUC1 = this.grid.getPowerUpCardObject(p1, Colour.valueOf(c1));
+       PowerUpCard pUC2 = this.grid.getPowerUpCardObject(p2, Colour.valueOf(c2));
+       p.addPowerUpCard(pUC1);
+       this.grid.getPowerUpDiscardPile().add(pUC2);
+       chooseSpawnPoint(pUC2.getC(), p);
    }
 
 

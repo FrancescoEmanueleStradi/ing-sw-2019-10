@@ -10,17 +10,17 @@ import java.util.Scanner;
 
 public class CLIWeaponPrompt {
 
-    private String promptA = "Enter the number of the effect you want to use:";
+    private String promptA = "Enter the number(s) of the effect(s) you want to use:";
     private String promptB = "Enter the relevant strings for the card:";
     private String promptC = "Enter the colour(s) of the required AmmoCube(s) needed for the effect:";
     private String promptD = "Enter the PowerUpCard you want to use for paying during your turn:";
     private String promptCOL = "Enter the colour of the PowerUpCard:";
     private String promptE = "If you are in Adrenaline, enter the direction of the move:";
-    private String promptErrorRetry = "Error: retry your action";
+    private String promptErrorRetry = "Error: please retry";
 
-    public void shootToUser1(int game, ServerInterface server, String nickName) throws RemoteException {
+    public void shootToUser1(int game, ServerInterface server, String nickName, String s) throws RemoteException {
         Scanner in = new Scanner(System.in);
-        String s = in.next();
+        //String s = in.next();
         int i;
         List<Integer> lI = new LinkedList<>();
         List<String> lS = new LinkedList<>();

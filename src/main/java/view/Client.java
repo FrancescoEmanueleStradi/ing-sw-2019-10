@@ -40,20 +40,12 @@ public class Client {
         System.out.println("Do you want to use CLI or GUI?");
         switch (in.next()) {
             case "CLI":
-                view = new Cli();
-                break;
             case "Cli":
-                view = new Cli();
-                break;
             case "cli":
                 view = new Cli();
                 break;
             case "GUI":
-                view = new Gui();
-                break;
             case "Gui":
-                view = new Gui();
-                break;
             case "gui":
                 view = new Gui();
                 break;

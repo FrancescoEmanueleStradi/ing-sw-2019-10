@@ -43,9 +43,9 @@ public class Cli implements View{
         if (this.server.messageGameIsNotStarted(game)) {
             System.out.println("Enter your name:");
             this.nickName = in.nextLine();
-            System.out.println("Enter your colour (YELLOW, BLUE, GREEN, PURPLE, BLACK):");
-            String stringColour = in.nextLine();
-            this.colour = Colour.valueOf(stringColour);
+            System.out.println("Enter your colour in all caps (YELLOW, BLUE, GREEN, PURPLE, BLACK):");
+            String s1 = in.nextLine();
+            this.colour = Colour.valueOf(s1);
             this.server.messageGameStart(game, nickName, colour);
             System.out.println("Choose the type of arena (1, 2, 3, 4):");
             int type = in.nextInt();
@@ -55,22 +55,25 @@ public class Cli implements View{
                 type = in.nextInt();
             }
             this.server.messageReceiveType(game, type);
-            System.out.println("---------GENERATING ARENA...---------");
+            System.out.println("\n---------GENERATING ARENA...---------\n");
             return;
         }
-        System.out.println("---------WAITING FOR PLAYERS TO JOIN---------");
-        System.out.println("Enter your name:");
+        System.out.println("\n---------WAITING FOR PLAYERS TO JOIN---------\n");
+        /*System.out.println("Enter your name:");
         this.nickName = in.nextLine();
         System.out.println("Enter your colour in all caps:");
         String stringColour = in.nextLine();
-        this.colour = Colour.valueOf(stringColour);
-        while(!this.server.messageIsValidAddPlayer(game, this.nickName, this.colour)){
-            System.out.println("Error: please retry");
+        this.colour = Colour.valueOf(stringColour);*/
+        while (true) {
             System.out.println("Enter your name:");
             this.nickName = in.nextLine();
-            System.out.println("Enter your colour in all caps:");
-            String stringColour1 = in.nextLine();
-            this.colour = Colour.valueOf(stringColour1);
+            System.out.println("Enter your colour in all caps (YELLOW, BLUE, GREEN, PURPLE, BLACK):");
+            String s2 = in.nextLine();
+            this.colour = Colour.valueOf(s2);
+            if (this.server.messageIsValidAddPlayer(game, this.nickName, this.colour))
+                break;
+            else
+                System.out.println("Error: please retry");
         }
         this.server.messageAddPlayer(game, this.nickName, this.colour);
     }
@@ -79,9 +82,10 @@ public class Cli implements View{
     public void selectSpawnPoint() throws RemoteException{
         Scanner in = new Scanner(System.in);
         List<String> l = this.server.messageGiveTwoPUCard(game, this.nickName);
+        System.out.println("The following are " + this.nickName +"'s starting PowerUpCards");
         System.out.println(l.get(0) + " coloured " + l.get(1));
         System.out.println(l.get(2) + " coloured " + l.get(3));
-        System.out.println("---------SPAWN POINT SELECT---------");
+        System.out.println("\n---------SPAWN POINT SELECT---------\n");
         System.out.println("Enter the name of the card you want to keep; you will discard the other one corresponding to the " +
                 "colour of your spawn point");
         String p1 = in.nextLine();
@@ -104,7 +108,7 @@ public class Cli implements View{
     @Override
     public void action1() throws RemoteException{
         Scanner in = new Scanner(System.in);
-        System.out.println("---------START FIRST ACTION---------");
+        System.out.println("\n---------START OF " + this.nickName + "'s FIRST ACTION---------\n");
         System.out.println("Choose the action you want to do (Move, Shoot, Grab):");
         String action = in.nextLine();
         while (!(action.equals("Move") || action.equals("Shoot") || action.equals("Grab"))){
@@ -330,7 +334,7 @@ public class Cli implements View{
 
     @Override
     public void action2() throws RemoteException{
-        System.out.println("---------START SECOND ACTION---------");
+        System.out.println("---------START OF " + this.nickName + "'s SECOND ACTION---------");
         Scanner in = new Scanner(System.in);
         System.out.println("Choose the action you want to do (Move, Shoot, Grab):");
         String action = in.nextLine();
@@ -643,8 +647,10 @@ public class Cli implements View{
         this.server.messageGetWeaponCardUnloaded(game, this.nickName).stream().forEach(System.out::println);
         int i = 0;
         while(i == 0){
-            System.out.println("Choose the weapon card you want to reload");
+            System.out.println("Choose the weapon card you want to reload, or 'end' if you don't need/want to");
             String s = in.nextLine();
+            if (s.equals("end"))
+                break;
             System.out.println("Enter 0 if you want to reload another card, otherwise 1");
             i = in.nextInt();
             if(this.server.messageIsValidReload(game, this.nickName, s))

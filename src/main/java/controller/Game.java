@@ -241,7 +241,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                            (lS.size()<2 || this.grid.distance(this.grid.getPlayerObject(lS.get(0)), this.grid.getPlayerObject(lS.get(1))) == 1 && ((this.grid.getPlayerObject(lS.get(0)).getCell().getP().getX() == this.grid.getPlayerObject(lS.get(1)).getCell().getP().getX()) || (this.grid.getPlayerObject(lS.get(0)).getCell().getP().getY() == this.grid.getPlayerObject(lS.get(1)).getCell().getP().getY())) && !(this.grid.isThereAWall(this.grid.getPlayerObject(lS.get(0)), new Position(this.grid.getPlayerObject(lS.get(1)).getCell().getP().getX(), this.grid.getPlayerObject(lS.get(1)).getCell().getP().getY()))))))
                            x = true;
                    if(!lI.contains(1) && lI.contains(2) &&
-                           this.grid.distance(p, new Position(Integer.parseInt(lS.get(0)), Integer.parseInt(lS.get(1)))) == 1 && this.grid.distance(new Position(Integer.parseInt(lS.get(2)),Integer.parseInt(lS.get(3))), new Position(Integer.parseInt(lS.get(0)), Integer.parseInt(lS.get(1)))) == 1 && ((Integer.parseInt(lS.get(0)) == Integer.parseInt(lS.get(2))||Integer.parseInt(lS.get(1)) == Integer.parseInt(lS.get(2)))) && lC.containsAll(Arrays.asList(Colour.YELLOW, Colour.YELLOW)))
+                           this.grid.distance(p, new Position(Integer.parseInt(lS.get(0)), Integer.parseInt(lS.get(1)))) == 1 && this.grid.distance(new Position(Integer.parseInt(lS.get(2)),Integer.parseInt(lS.get(3))), new Position(Integer.parseInt(lS.get(0)), Integer.parseInt(lS.get(1)))) == 1 && (Integer.parseInt(lS.get(0)) == Integer.parseInt(lS.get(2))||Integer.parseInt(lS.get(1)) == Integer.parseInt(lS.get(2))) && lC.containsAll(Arrays.asList(Colour.YELLOW, Colour.YELLOW)))
                            x = true;
                    break;
                case "Furnace":
@@ -813,10 +813,6 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
    public boolean isValidFirstActionMove(String nickName, List<Integer> directions) {
         Player p = this.grid.getPlayerObject(nickName);
-        /*for(int i : directions){
-            if(i > 0 && i < 5)
-                return false;
-        }*/
         return (this.gameState.equals(STARTTURN) && (directions.size() < 4) && (!directions.isEmpty()) && grid.canGhostMove(p, directions));
    }
 
@@ -1146,11 +1142,10 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                             x = true;
                     }
                 }
-                else if(namePC.equals("Teleporter")) {
-                    if (p.getPowerUpCardObject(namePC, Colour.valueOf(colourPC)) != null && this.grid.getBoard().getArena()[Integer.parseInt(lS.get(0))][Integer.parseInt(lS.get(1))].getStatus() != -1)
+                else if(namePC.equals("Teleporter") &&
+                        (p.getPowerUpCardObject(namePC, Colour.valueOf(colourPC)) != null && this.grid.getBoard().getArena()[Integer.parseInt(lS.get(0))][Integer.parseInt(lS.get(1))].getStatus() != -1))
                         x = true;
                 }
-            }
         return x;
     }
 

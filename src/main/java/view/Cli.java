@@ -50,7 +50,7 @@ public class Cli implements View{
             System.out.println("Choose the type of arena (1, 2, 3, 4):");
             int type = in.nextInt();
             while(!this.server.messageIsValidReceiveType(game, type)){
-                System.out.println("Error: retry");
+                System.out.println("Error: please retry");
                 System.out.println("Choose the type of arena (1, 2, 3, 4):");
                 type = in.nextInt();
             }
@@ -61,14 +61,14 @@ public class Cli implements View{
         System.out.println("---------WAITING FOR PLAYERS TO JOIN---------");
         System.out.println("Enter your name:");
         this.nickName = in.nextLine();
-        System.out.println("Enter your colour:");
+        System.out.println("Enter your colour in all caps:");
         String stringColour = in.nextLine();
         this.colour = Colour.valueOf(stringColour);
         while(!this.server.messageIsValidAddPlayer(game, this.nickName, this.colour)){
-            System.out.println("Error: retry");
+            System.out.println("Error: please retry");
             System.out.println("Enter your name:");
             this.nickName = in.nextLine();
-            System.out.println("Enter your colour:");
+            System.out.println("Enter your colour in all caps:");
             String stringColour1 = in.nextLine();
             this.colour = Colour.valueOf(stringColour1);
         }
@@ -88,7 +88,7 @@ public class Cli implements View{
         System.out.println("Enter the colour of that card: ");
         String c1 = in.nextLine();
         while(!this.server.messageIsValidPickAndDiscard(game, this.nickName, p1, c1)) {
-            System.out.println("Error: retry");
+            System.out.println("Error: please retry");
             System.out.println("Enter the name of the card you want to keep; you will discard the other one corresponding to the " +
                     "colour of your spawn point");
             p1 = in.nextLine();
@@ -251,26 +251,56 @@ public class Cli implements View{
         List<String> lPC = new LinkedList<>();
         String wCard;
         String weaponSlot = null;
-        System.out.println("Enter the direction(s) where you want to move, or 0 if you want to remain in your cell:");
-        while (in.hasNext())
-            l.add(in.nextInt());
-        System.out.println("Enter the WeaponCard you want to buy, if you want:");
-        wCard = in.next();
-        if(!wCard.equals("")) {
-            System.out.println("Enter the number of the WeaponSlot from which you want to buy the card:");
-            weaponSlot = in.next();
-            System.out.println("Enter the colour(s) of the required AmmoCube(s) to buy the card, if necessary");
-            while ((in.hasNext()))
-                lC.add(Colour.valueOf(in.next()));
-            System.out.println("Enter the PowerUpCard you want to use for paying during your turn:");
-            while ((in.hasNext()))
-                lP.add(in.next());
-            System.out.println("Enter the colour of the PowerUpCard you want to use for paying during your turn:");
-            while ((in.hasNext()))
-                lPC.add(in.next());
+        while (true) {
+            System.out.println("If you wish to grab whatever is in your cell, enter 0\n" +
+                    "Otherwise, enter the sequence of movements you want to do, one integer at a time: only one is permitted\n" +
+                    "if you haven't unlocked the Adrenaline move, up to two otherwise\n" +
+                    "1 = north, 2 = east, 3 = south, 4 = west\n" +
+                    "Press any letter char to finish");
+            while (in.hasNextInt())
+                l.add(in.nextInt());
+            //TODO method that displays the cards in a weapon slot of the player's choice; should be in a while() so as to let the player inspect all of them
+            System.out.println("If it is a WeaponCard you wish to buy, enter its name");
+            wCard = in.next();
+            if (!wCard.equals("")) {
+                System.out.println("Enter the number of the WeaponSlot from which you want to buy the card:");
+                weaponSlot = in.next();
+                System.out.println("Enter the colour(s), in order and in all caps, of the required AmmoCube(s) to buy the card,\n" +
+                        "or 0 if not necessary");
+                while (in.hasNext()) {
+                    String a = in.next();
+                    if (a.equals("0"))
+                        break;
+                    else
+                        lC.add(Colour.valueOf(a));
+                }
+                System.out.println("Enter the PowerUpCard(s) you want to use to pay during your turn, or 0 if not necessary");
+                while (in.hasNext()) {
+                    String p = in.next();
+                    if (p.equals("0"))
+                        break;
+                    else
+                        lP.add(p);
+                }
+                System.out.println("Enter the colour(s) of the PowerUpCard(s) you want to use to pay during your turn, or 0 if not necessary");
+                while (in.hasNext()) {
+                    String c = in.next();
+                    if (c.equals("0"))
+                        lPC.add(c);
+                }
+            }
+            if (this.server.messageIsValidFirstActionGrab(game, nickName, l.toArray(directions), wCard, weaponSlot, lC, lP, lPC))
+                break;
+            else {
+
+                l.clear();
+                lC.clear();
+                lP.clear();
+                lPC.clear();
+            }
         }
-        while (!this.server.messageIsValidFirstActionGrab(game, nickName, l.toArray(directions), wCard, weaponSlot, lC, lP, lPC)){
-            System.out.println("Error: retry");
+        /*while (!this.server.messageIsValidFirstActionGrab(game, nickName, l.toArray(directions), wCard, weaponSlot, lC, lP, lPC)){
+            System.out.println("Error: please retry");
             System.out.println("Enter the direction(s) where you want to move");
             while (in.hasNext())
                 l.add(in.nextInt());
@@ -282,17 +312,17 @@ public class Cli implements View{
                 System.out.println("Enter the colour(s) of the required AmmoCube(s) to buy the card, if necessary");
                 while ((in.hasNext()))
                     lC.add(Colour.valueOf(in.next()));
-                System.out.println("Enter the PowerUpCard you want to use for paying during your turn:");
+                System.out.println("Enter the PowerUpCard you want to use to pay during your turn:");
                 while ((in.hasNext()))
                     lP.add(in.next());
                 System.out.println("Enter the colour of the PowerUpCard you want to use for paying during your turn:");
                 while ((in.hasNext()))
                     lPC.add(in.next());
             }
-        }
+        }*/
         this.server.messageFirstActionGrab(game, nickName, l.toArray(directions), wCard, lC, lP, lPC);
         if(this.server.messageIsDiscard(game)) {
-            System.out.println("Choose the weapon card you want to discard");
+            System.out.println("Enter the WeaponCard you want to discard");
             String wCDiscard = in.next();
             this.server.messageDiscardWeaponCard(game, nickName, weaponSlot, wCDiscard);
         }
@@ -448,27 +478,55 @@ public class Cli implements View{
         List<String> lPC = new LinkedList<>();
         String wCard;
         String weaponSlot = null;
-        System.out.println("Enter the direction(s) you want to move before grabbing, or 0 if you want to remain in your cell.\n" +
-                "Note that you may move one extra square if you've unlocked the Adrenaline move.");
-
-        //while (in.hasNext())
-           // l.add(in.nextInt());
-        System.out.println("Enter the WeaponCard you want to buy, if you want:");
-        wCard = in.next();
-        if(!wCard.equals("")) {
-            System.out.println("Enter the number of the WeaponSlot from which you want to buy the card:");
-            weaponSlot = in.next();
-            System.out.println("Enter the colour(s) of the required AmmoCube(s) to buy the card, if necessary:");
-            while ((in.hasNext()))
-                lC.add(Colour.valueOf(in.next()));
-            System.out.println("Enter the PowerUpCard you want to use for paying during your turn:");
-            while ((in.hasNext()))
-                lP.add(in.next());
-            System.out.println("Enter the colour of the PowerUpCard you want to use for paying during your turn:");
-            while ((in.hasNext()))
-                lPC.add(in.next());
+        while (true) {
+            System.out.println("If you wish to grab whatever is in your cell, enter 0\n" +
+                    "Otherwise, enter the sequence of movements you want to do, one integer at a time: only one is permitted\n" +
+                    "if you haven't unlocked the Adrenaline move, up to two otherwise\n" +
+                    "1 = north, 2 = east, 3 = south, 4 = west\n" +
+                    "Press any letter char to finish");
+            while (in.hasNextInt())
+                l.add(in.nextInt());
+            //TODO method that displays the cards in a weapon slot of the player's choice; should be in a while() so as to let the player inspect all of them
+            System.out.println("If it is a WeaponCard you wish to buy, enter its name");
+            wCard = in.next();
+            if (!wCard.equals("")) {
+                System.out.println("Enter the number of the WeaponSlot from which you want to buy the card:");
+                weaponSlot = in.next();
+                System.out.println("Enter the colour(s), in order and in all caps, of the required AmmoCube(s) to buy the card,\n" +
+                        "or 0 if not necessary");
+                while (in.hasNext()) {
+                    String a = in.next();
+                    if (a.equals("0"))
+                        break;
+                    else
+                        lC.add(Colour.valueOf(a));
+                }
+                System.out.println("Enter the PowerUpCard(s) you want to use to pay during your turn, or 0 if not necessary");
+                while (in.hasNext()) {
+                    String p = in.next();
+                    if (p.equals("0"))
+                        break;
+                    else
+                        lP.add(p);
+                }
+                System.out.println("Enter the colour(s) of the PowerUpCard(s) you want to use to pay during your turn, or 0 if not necessary");
+                while (in.hasNext()) {
+                    String c = in.next();
+                    if (c.equals("0"))
+                        lPC.add(c);
+                }
+                if (this.server.messageIsValidSecondActionGrab(game, nickName, l.toArray(directions), wCard, weaponSlot, lC, lP, lPC))
+                    break;
+                else {
+                    System.out.println("Error: please retry");
+                    l.clear();
+                    lC.clear();
+                    lP.clear();
+                    lPC.clear();
+                }
+            }
         }
-        while (!this.server.messageIsValidSecondActionGrab(game, nickName, l.toArray(directions), wCard, weaponSlot, lC, lP, lPC)){
+        /*while (!this.server.messageIsValidSecondActionGrab(game, nickName, l.toArray(directions), wCard, weaponSlot, lC, lP, lPC)){
             System.out.println("Error: repeat");
             System.out.println("Enter the direction(s) where you want to move, or 0 if you want to remain in your cell:");
             while (in.hasNext())
@@ -488,10 +546,10 @@ public class Cli implements View{
                 while ((in.hasNext()))
                     lPC.add(in.next());
             }
-        }
+        }*/
         this.server.messageSecondActionGrab(game, nickName, l.toArray(directions), wCard, lC, lP, lPC);
         if(this.server.messageIsDiscard(game)) {
-            System.out.println("Choose the weapon card you want to discard");
+            System.out.println("Enter the WeaponCard you want to discard");
             String wCDiscard = in.next();
             this.server.messageDiscardWeaponCard(game, nickName, weaponSlot, wCDiscard);
         }
@@ -522,7 +580,7 @@ public class Cli implements View{
                 System.out.println("Enter the nickname of a player you can see and that gave you damage:");
                 lS.add(in.next());
                 while(!this.server.messageIsValidUsePowerUpCard(game, nickName, namePC, colourPC, lS, null)){
-                    System.out.println("Error: retry");
+                    System.out.println("Error: please retry");
                     System.out.println("Enter the nickname of a player you can see and that gave you damage:");
                     lS.add(in.next());
                 }
@@ -536,7 +594,7 @@ public class Cli implements View{
                 System.out.println("Enter the colour of the AmmoCube you want to use to pay:");
                 Colour c = Colour.valueOf(in.next());
                 while(!this.server.messageIsValidUsePowerUpCard(game, nickName, namePC, colourPC, lS, c)){
-                    System.out.println("Error: retry");
+                    System.out.println("Error: please retry");
                     System.out.println("Enter the nickname of one or more players you have damaged:");
                     while(in.hasNext())
                         lS.add(in.next());
@@ -553,7 +611,7 @@ public class Cli implements View{
                 while(in.hasNext())
                     lS.add(in.next());
                 while(!this.server.messageIsValidUsePowerUpCard(game, nickName, namePC, colourPC, lS, null)){
-                    System.out.println("Error: retryt");
+                    System.out.println("Error: please retryt");
                     System.out.println("Enter the nickname of a player:");
                     lS.add(in.next());
                     System.out.println("write the directions where you want the enemy to go:");
@@ -568,7 +626,7 @@ public class Cli implements View{
                 lS.add(in.next());
                 lS.add(in.next());
                 while(!this.server.messageIsValidUsePowerUpCard(game, nickName, namePC, colourPC, lS, null)) {
-                    System.out.println("Error: retry");
+                    System.out.println("Error: please retry");
                     System.out.println("Enter the coordinates of the cell you want to move:");
                     lS.add(in.next());
                     lS.add(in.next());

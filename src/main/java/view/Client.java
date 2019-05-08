@@ -21,7 +21,12 @@ public class Client {
         Scanner in = new Scanner(System.in);
         System.out.println("Enter the number of the game you want to play: " +
                 "there are " + centralServer.getGames()+ " games now");
-        game = centralServer.setGame(in.nextInt()-1);
+        int g = in.nextInt()-1;
+        while(centralServer.tooMany(g)) {
+            System.out.println("Too many people on this game, choose another one:");
+            g = in.nextInt()-1;
+        }
+        game = centralServer.setGame(g);
         System.out.println("Wait for five players to connect, if time will be out you will start even with three or four players");
         identifier = centralServer.receiveIdentifier(game);
 

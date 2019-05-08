@@ -64,7 +64,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
     }
 
     public synchronized boolean tooMany(int game) throws RemoteException{
-        return (players.get(game) > 5);
+        return (!players.isEmpty() && players.get(game) == 5);
     }
 
     public synchronized boolean stopGame(int game) throws RemoteException{
@@ -80,7 +80,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
                 canStartList.add(game, true);
                 notifyAll();                //TODO does it wake up the wait?
             }
-        }
+       }
         if(players.get(game) == 3) {                // TODO collision
             wait(30000);
             while(players.get(game) < 3)

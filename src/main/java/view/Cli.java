@@ -17,6 +17,7 @@ public class Cli implements View {
     private String nickName;
     private Colour colour;
     private CLIWeaponPrompt wPrompt;
+    private String errorRetry;
 
 
     public int getGame() {              //for the test
@@ -56,7 +57,7 @@ public class Cli implements View {
                 if (this.server.messageIsValidReceiveType(game, type))
                     break;
                 else
-                    System.out.println("Error: please retry");
+                    System.out.println(errorRetry);
             }
             this.server.messageReceiveType(game, type);
             System.out.println("\n---------GENERATING ARENA...---------\n");
@@ -77,7 +78,7 @@ public class Cli implements View {
             if (this.server.messageIsValidAddPlayer(game, this.nickName, this.colour))
                 break;
             else
-                System.out.println("Error: please retry");
+                System.out.println(errorRetry);
         }
         this.server.messageAddPlayer(game, this.nickName, this.colour);
     }
@@ -106,7 +107,7 @@ public class Cli implements View {
             if (this.server.messageIsValidPickAndDiscard(game, this.nickName, p, c))
                 break;
             else
-                System.out.println("Error: please retry");
+                System.out.println(errorRetry);
         }
             if (l.get(0).equals(p) && l.get(1).equals(c))
                 this.server.messagePickAndDiscardCard(game, this.nickName, l.get(0), l.get(1));
@@ -128,7 +129,7 @@ public class Cli implements View {
                     || action.equals("move") || action.equals("shoot") || action.equals("grab")))
                 break;
             else
-                System.out.println("Error: please retry");
+                System.out.println(errorRetry);
         }
         if (action.equals("Move") || action.equals("move"))
             this.moveFirstAction();
@@ -151,7 +152,7 @@ public class Cli implements View {
                 break;
             }
             else if (n == 0 && !this.server.messageIsValidFirstActionMove(game, nickName, l)) {
-                System.out.println("Invalid sequence of moves, retry");
+                System.out.println(errorRetry);
                 l.clear();
             }
             else {
@@ -305,13 +306,15 @@ public class Cli implements View {
                 while (in.hasNext()) {
                     String c = in.next();
                     if (c.equals("0"))
+                        break;
+                    else
                         lPC.add(c);
                 }
             }
             if (this.server.messageIsValidFirstActionGrab(game, nickName, l.toArray(directions), wCard, weaponSlot, lC, lP, lPC))
                 break;
             else {
-                System.out.println("Error: please retry");
+                System.out.println(errorRetry);
                 l.clear();
                 lC.clear();
                 lP.clear();
@@ -319,7 +322,7 @@ public class Cli implements View {
             }
         }
         /*while (!this.server.messageIsValidFirstActionGrab(game, nickName, l.toArray(directions), wCard, weaponSlot, lC, lP, lPC)){
-            System.out.println("Error: please retry");
+            System.out.println(errorRetry);
             System.out.println("Enter the direction(s) where you want to move");
             while (in.hasNext())
                 l.add(in.nextInt());
@@ -378,7 +381,7 @@ public class Cli implements View {
                 break;
             }
             else if (n == 0 && !this.server.messageIsValidSecondActionMove(game, nickName, l)) {
-                System.out.println("Invalid sequence of moves, retry");
+                System.out.println(errorRetry);
                 l.clear();
             }
             else {
@@ -532,12 +535,14 @@ public class Cli implements View {
                 while (in.hasNext()) {
                     String c = in.next();
                     if (c.equals("0"))
+                        break;
+                    else
                         lPC.add(c);
                 }
                 if (this.server.messageIsValidSecondActionGrab(game, nickName, l.toArray(directions), wCard, weaponSlot, lC, lP, lPC))
                     break;
                 else {
-                    System.out.println("Error: please retry");
+                    System.out.println(errorRetry);
                     l.clear();
                     lC.clear();
                     lP.clear();
@@ -599,7 +604,7 @@ public class Cli implements View {
                 System.out.println("Enter the nickname of a player you can see and that gave you damage:");
                 lS.add(in.next());
                 while(!this.server.messageIsValidUsePowerUpCard(game, nickName, namePC, colourPC, lS, null)){
-                    System.out.println("Error: please retry");
+                    System.out.println(errorRetry);
                     System.out.println("Enter the nickname of a player you can see and that gave you damage:");
                     lS.add(in.next());
                 }
@@ -613,7 +618,7 @@ public class Cli implements View {
                 System.out.println("Enter the colour of the AmmoCube you want to use to pay:");
                 Colour c = Colour.valueOf(in.next());
                 while(!this.server.messageIsValidUsePowerUpCard(game, nickName, namePC, colourPC, lS, c)){
-                    System.out.println("Error: please retry");
+                    System.out.println(errorRetry);
                     System.out.println("Enter the nickname of one or more players you have damaged:");
                     while(in.hasNext())
                         lS.add(in.next());
@@ -645,7 +650,7 @@ public class Cli implements View {
                 lS.add(in.next());
                 lS.add(in.next());
                 while(!this.server.messageIsValidUsePowerUpCard(game, nickName, namePC, colourPC, lS, null)) {
-                    System.out.println("Error: please retry");
+                    System.out.println(errorRetry);
                     System.out.println("Enter the coordinates of the cell you want to move:");
                     lS.add(in.next());
                     lS.add(in.next());

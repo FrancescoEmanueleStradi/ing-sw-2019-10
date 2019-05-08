@@ -2,8 +2,7 @@ package view;
 
 import controller.Game;
 import controller.GameState;
-import model.Colour;
-import model.cards.PowerUpCard;
+import model.Colour;;
 
 import java.rmi.*;
 import java.rmi.registry.*;
@@ -11,10 +10,12 @@ import java.rmi.server.*;
 import java.util.LinkedList;
 import java.util.List;
 
+
 public class Server extends UnicastRemoteObject implements ServerInterface {
 
     static private List<Game> games;
     static private List<Integer> players;           //for each game the number of players
+    static private List<Boolean> canStartList;
     //static private List<List<View>> views;
     static private List<Integer> playersTakingTheirTurn;        //position n --> game n
 
@@ -39,6 +40,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
         games = new LinkedList<>();
         players = new LinkedList<>();
         //views = new LinkedList<>();
+        canStartList = new LinkedList<>();
         playersTakingTheirTurn = new LinkedList<>();            //TODO methods in the controller to notify the server
     }
 
@@ -52,13 +54,40 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
             //views.add(numGame, new LinkedList<>());
             playersTakingTheirTurn.add(numGame, 1);
             players.add(numGame, 0);
+            canStartList.add(numGame, false);
         }
         return numGame;
     }
 
-    public synchronized int receiveIdentifier(int game) throws RemoteException{
-        players.add(game, players.get(game)+1);
-        return players.get(game);
+    public synchronized boolean canStart(int game) throws RemoteException{
+        return canStartList.get(game);
+    }
+
+    public synchronized boolean tooMany(int game) throws RemoteException{
+        return (!players.isEmpty() && players.get(game) == 5);
+    }
+
+    public synchronized boolean stopGame(int game) throws RemoteException{
+        return (players.get(game) < 3);
+    }
+
+    public int receiveIdentifier(int game) throws RemoteException, InterruptedException{
+        int identifier;
+        synchronized (players) {
+            players.add(game, players.get(game) + 1);
+            identifier = players.get(game);
+            if (players.get(game) == 5) {
+                canStartList.add(game, true);
+                notifyAll();                //TODO does it wake up the wait?
+            }
+       }
+        if(players.get(game) == 3) {                // TODO collision
+            wait(30000);
+            while(players.get(game) < 3)
+                wait(30000);
+            canStartList.add(game, true);
+        }
+        return identifier;
     }
 
     /*public void setCli(int game, int identifier) throws RemoteException{
@@ -80,6 +109,8 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
     }
 
     public synchronized boolean gameIsFinished(int game) throws RemoteException {
+        if(players.get(game) < 3)
+            return true;
         return games.get(game).getGameState() == GameState.ENDALLTURN;
     }
 

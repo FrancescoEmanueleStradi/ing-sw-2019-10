@@ -71,23 +71,24 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
         return (players.get(game) < 3);
     }
 
-    public int receiveIdentifier(int game) throws RemoteException, InterruptedException{
+    public synchronized int receiveIdentifier(int game) throws RemoteException {
         int identifier;
-        synchronized (players) {
-            players.add(game, players.get(game) + 1);
-            identifier = players.get(game);
-            if (players.get(game) == 5) {
-                canStartList.add(game, true);
-                notifyAll();                //TODO does it wake up the wait?
-            }
-       }
+        players.add(game, players.get(game) + 1);
+        identifier = players.get(game);
+        return identifier;
+    }
+
+    public synchronized void mergeGroup(int game) throws RemoteException, InterruptedException {
+        if (players.get(game) == 5) {
+            canStartList.add(game, true);
+            notifyAll();                //TODO does it wake up the wait?
+        }
         if(players.get(game) == 3) {                // TODO collision
             wait(30000);
             while(players.get(game) < 3)
                 wait(30000);
             canStartList.add(game, true);
         }
-        return identifier;
     }
 
     /*public void setCli(int game, int identifier) throws RemoteException{

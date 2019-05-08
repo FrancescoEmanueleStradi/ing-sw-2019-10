@@ -26,7 +26,8 @@ public interface ServerInterface extends Remote {
     boolean canStart(int game) throws RemoteException;
     boolean tooMany(int game) throws RemoteException;
     boolean stopGame(int game) throws RemoteException;
-    int receiveIdentifier(int game) throws RemoteException, InterruptedException;
+    int receiveIdentifier(int game) throws RemoteException;
+    void mergeGroup(int game) throws RemoteException, InterruptedException;
     //void setCli(int game, int identifier) throws RemoteException;
     //void setGui(int game, int identifier) throws RemoteException;
     boolean isMyTurn(int game, int identifier) throws RemoteException;

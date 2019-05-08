@@ -29,6 +29,7 @@ public class Client {
         game = centralServer.setGame(g);
         System.out.println("Wait for five players to connect, if time will be out you will start even with three or four players");
         identifier = centralServer.receiveIdentifier(game);
+        centralServer.mergeGroup(game);
 
         while(true){
             if(centralServer.canStart(game))

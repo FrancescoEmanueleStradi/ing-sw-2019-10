@@ -17,7 +17,7 @@ public class Cli implements View {
     private String nickName;
     private Colour colour;
     private CLIWeaponPrompt wPrompt;
-    private String errorRetry;
+    private String errorRetry = "Error: please retry";
 
 
     public int getGame() {              //for the test

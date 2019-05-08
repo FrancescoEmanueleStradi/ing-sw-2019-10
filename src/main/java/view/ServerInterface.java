@@ -20,7 +20,6 @@ import java.util.List;
 
 public interface ServerInterface extends Remote {
 
-    //String getSomeMessage() throws RemoteException;
     String echo(String input) throws RemoteException;
     int getGames() throws RemoteException;
     int setGame(int game) throws RemoteException;

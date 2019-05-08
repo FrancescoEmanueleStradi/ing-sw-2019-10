@@ -30,7 +30,7 @@ class GameAssertTests {
         game.gameStart("Player 1", Colour.BLUE);
         assertEquals(GameState.START, game.getGameState());
 
-        Player p1 = game.getGrid().getPlayerObject("Player 1");
+        Player p1 = grid.getPlayerObject("Player 1");
         assertEquals(Colour.BLUE, p1.getC());
         assertEquals("Player 1", p1.getNickName());
 
@@ -39,14 +39,14 @@ class GameAssertTests {
         assertFalse(game.isValidAddPlayer("Player 1", Colour.BLUE));
 
         game.addPlayer("Player 2", Colour.YELLOW);
-        Player p2 = game.getGrid().getPlayerObject("Player 2");
+        Player p2 = grid.getPlayerObject("Player 2");
 
         assertEquals(2, game.getPlayers().size());
         assertTrue(game.getPlayers().contains("Player 1"));
         assertTrue(game.getPlayers().contains("Player 2"));
 
         game.addPlayer("Player 3", Colour.GREEN);
-        Player p3 = game.getGrid().getPlayerObject("Player 3");
+        Player p3 = grid.getPlayerObject("Player 3");
 
         assertEquals(3, game.getPlayers().size());
         assertTrue(game.getPlayers().contains("Player 1"));
@@ -121,22 +121,16 @@ class GameAssertTests {
 
         List<Integer> directions = new LinkedList<>();
         assertFalse(game.isValidFirstActionMove(p1.getNickName(), directions));
-        directions.add(1);
-        directions.add(2);
-        directions.add(3);
-        directions.add(4);
-        assertFalse(game.isValidFirstActionMove(p1.getNickName(), directions));
-        directions.clear();
-        directions.add(1);
-        directions.add(0);
-        directions.add(4);
-        assertFalse(game.isValidFirstActionMove(p1.getNickName(), directions));
-        directions.clear();
 
         int x = p1.getCell().getP().getX();
         int y = p1.getCell().getP().getY();
 
         if((p1.getCell() == grid.getBoard().getArena()[2][3]) || (p1.getCell() == grid.getBoard().getArena()[1][0])) {
+            directions.add(1);
+            directions.add(2);
+            directions.add(1);
+            assertFalse(game.isValidFirstActionMove(p1.getNickName(), directions));
+            directions.clear();
             directions.add(1);
             game.firstActionMove("Player 1", directions);
             assertEquals(x - 1, p1.getCell().getP().getX());
@@ -147,6 +141,11 @@ class GameAssertTests {
             assertFalse(game.isValidFirstActionMove(p1.getNickName(), directions));
         }
         else if(p1.getCell() == grid.getBoard().getArena()[0][2]) {
+            directions.add(3);
+            directions.add(4);
+            directions.add(4);
+            assertFalse(game.isValidFirstActionMove(p1.getNickName(), directions));
+            directions.clear();
             directions.add(3);
             directions.add(4);
             game.firstActionMove("Player 1", directions);
@@ -162,9 +161,9 @@ class GameAssertTests {
 
         //Second Action: Shoot
 
-        p1.changeCell(game.getGrid().getBoard().getArena()[0][2]);
-        p2.changeCell(game.getGrid().getBoard().getArena()[1][1]);
-        p3.changeCell(game.getGrid().getBoard().getArena()[1][2]);
+        p1.changeCell(grid.getBoard().getArena()[0][2]);
+        p2.changeCell(grid.getBoard().getArena()[1][1]);
+        p3.changeCell(grid.getBoard().getArena()[1][2]);
 
         WeaponCard machineGun = new MachineGun();
         assertFalse(game.isValidCard("Player 1", "Machine Gun"));
@@ -225,7 +224,7 @@ class GameAssertTests {
         game.usePowerUpCard("Player 2", "Tagback Grenade", "BLUE", lS, null);
         assertEquals(Colour.YELLOW, p1.getpB().getMarks().get(0).getC());
         assertFalse(p2.getpC().contains(tagbackGrenade));
-        assertEquals(4, game.getGrid().getPowerUpDiscardPile().size());
+        assertEquals(4, grid.getPowerUpDiscardPile().size());
 
         lS.clear();
 
@@ -240,7 +239,7 @@ class GameAssertTests {
                 assertNotEquals(Colour.RED, ac.getC());
         }
         assertFalse(p1.getpC().contains(targetingScope));
-        assertEquals(5, game.getGrid().getPowerUpDiscardPile().size());
+        assertEquals(5, grid.getPowerUpDiscardPile().size());
 
         lS.clear();
 
@@ -251,9 +250,9 @@ class GameAssertTests {
         lS.add("3");
         assertTrue(game.isValidUsePowerUpCard("Player 1", "Newton", "YELLOW", lS, null));
         game.usePowerUpCard("Player 1", "Newton", "YELLOW", lS, null);
-        assertEquals(game.getGrid().getBoard().getArena()[2][1], p3.getCell());
+        assertEquals(grid.getBoard().getArena()[2][1], p3.getCell());
         assertFalse(p1.getpC().contains(newton));
-        assertEquals(6, game.getGrid().getPowerUpDiscardPile().size());
+        assertEquals(6, grid.getPowerUpDiscardPile().size());
 
         lS.clear();
 
@@ -263,9 +262,9 @@ class GameAssertTests {
         lS.add("1");
         assertTrue(game.isValidUsePowerUpCard("Player 1", "Teleporter", "BLUE", lS, null));
         game.usePowerUpCard("Player 1", "Teleporter", "BLUE", lS, null);
-        assertEquals(game.getGrid().getBoard().getArena()[1][1], p1.getCell());
+        assertEquals(grid.getBoard().getArena()[1][1], p1.getCell());
         assertFalse(p1.getpC().contains(teleporter));
-        assertEquals(7, game.getGrid().getPowerUpDiscardPile().size());
+        assertEquals(7, grid.getPowerUpDiscardPile().size());
 
         lS.clear();
 
@@ -299,9 +298,9 @@ class GameAssertTests {
 
         //Scoring
 
-        game.getGrid().damage(p3, p2, 1);
-        game.getGrid().damage(p1, p2, 9);
-        game.getGrid().damage(p1, p3, 9);
+        grid.damage(p3, p2, 1);
+        grid.damage(p1, p2, 9);
+        grid.damage(p1, p3, 9);
 
         assertEquals(2, p1.getpB().getMarks().size());
         assertEquals(p2.getC(), p1.getpB().getMarks().get(0).getC());
@@ -315,16 +314,16 @@ class GameAssertTests {
         assertEquals(19, p1.getScore());
         assertEquals(6, p3.getScore());
 
-        assertEquals(2, game.getGrid().getBoard().getK().getSkulls()[0]);
-        assertEquals(1, game.getGrid().getBoard().getK().getSkulls()[1]);
-        assertEquals(0, game.getGrid().getBoard().getK().getSkulls()[2]);
-        assertEquals(0, game.getGrid().getBoard().getK().getSkulls()[3]);
-        assertEquals(0, game.getGrid().getBoard().getK().getSkulls()[4]);
-        assertEquals(0, game.getGrid().getBoard().getK().getSkulls()[5]);
-        assertEquals(0, game.getGrid().getBoard().getK().getSkulls()[6]);
-        assertEquals(0, game.getGrid().getBoard().getK().getSkulls()[7]);
-        assertEquals(p1.getC(), game.getGrid().getBoard().getK().getC()[0]);
-        assertEquals(p1.getC(), game.getGrid().getBoard().getK().getC()[1]);
+        assertEquals(2, grid.getBoard().getK().getSkulls()[0]);
+        assertEquals(1, grid.getBoard().getK().getSkulls()[1]);
+        assertEquals(0, grid.getBoard().getK().getSkulls()[2]);
+        assertEquals(0, grid.getBoard().getK().getSkulls()[3]);
+        assertEquals(0, grid.getBoard().getK().getSkulls()[4]);
+        assertEquals(0, grid.getBoard().getK().getSkulls()[5]);
+        assertEquals(0, grid.getBoard().getK().getSkulls()[6]);
+        assertEquals(0, grid.getBoard().getK().getSkulls()[7]);
+        assertEquals(p1.getC(), grid.getBoard().getK().getC()[0]);
+        assertEquals(p1.getC(), grid.getBoard().getK().getC()[1]);
 
         assertEquals(6, p2.getpB().getPoints().getPoints().size());
         assertEquals(6, p3.getpB().getPoints().getPoints().size());
@@ -342,6 +341,9 @@ class GameAssertTests {
 
         //Discard card for new spawn point
 
+        p2.getpC().clear();
+        p3.getpC().clear();
+
         PowerUpCard targetingScope2 = new TargetingScope(Colour.BLUE);
 
         p2.addPowerUpCard(targetingScope2);
@@ -349,8 +351,22 @@ class GameAssertTests {
         game.discardCardForSpawnPoint("Player 2", "Targeting Scope", "BLUE");
         assertEquals(p2.getCell(), grid.getBoard().getArena()[0][2]);
         assertFalse(p2.getpC().contains(targetingScope));
-        assertEquals(8, game.getGrid().getPowerUpDiscardPile().size());
-        assertTrue(game.getGrid().getPowerUpDiscardPile().contains(targetingScope2));
+        assertEquals(8, grid.getPowerUpDiscardPile().size());
+        assertTrue(grid.getPowerUpDiscardPile().contains(targetingScope2));
+
+        assertEquals(GameState.DEATH, game.getGameState());
+        assertEquals(1, game.getDeadList().size());
+        assertTrue(game.getDeadList().contains(p3.getNickName()));
+
+
+        PowerUpCard tagbackGrenade2 = new TagbackGrenade(Colour.RED);
+        p3.addPowerUpCard(tagbackGrenade2);
+        assertTrue(game.isValidDiscardCardForSpawnPoint("Player 3", "Tagback Grenade", "RED"));
+        game.discardCardForSpawnPoint("Player 3", "Tagback Grenade", "RED");
+        assertEquals(p3.getCell(), grid.getBoard().getArena()[1][0]);
+        assertFalse(p3.getpC().contains(tagbackGrenade2));
+        assertEquals(9, grid.getPowerUpDiscardPile().size());
+        assertTrue(grid.getPowerUpDiscardPile().contains(tagbackGrenade2));
 
         assertEquals(GameState.ENDTURN, game.getGameState());
         assertTrue(game.getDeadList().isEmpty());

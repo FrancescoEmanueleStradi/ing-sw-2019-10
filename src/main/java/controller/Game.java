@@ -21,7 +21,7 @@ import static controller.GameState.*;
 public class Game {                                 //Cli or Gui -- Rmi or Socket
 
     private GameState gameState;
-    private  int numGame;
+    private int numGame;
     private boolean init = false;
     private Grid grid = new Grid();
     private boolean discard = false;
@@ -191,7 +191,8 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
            p.changeCell(this.grid.getBoard().getArena()[1][0]);            //view ask the choice
        if(c.equals(Colour.BLUE))
            p.changeCell(this.grid.getBoard().getArena()[0][2]);
-       this.gameState = STARTTURN;
+       if(this.gameState == INITIALIZED)
+           this.gameState = STARTTURN;
    }
 
 
@@ -1221,7 +1222,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
             p.getpB().getPoints().remove();
         p.getpB().getDamages().clean();
         p.addPowerUpCard(this.grid.getPowerUpDeck().getDeck().get(cardToPickAfterDeath));
-        cardToPickAfterDeath++;     //TODO attention to this int, also used below at line 1313
+        cardToPickAfterDeath++;     //TODO attention to this int, also used below
     }
 
     public boolean isValidScoring() {
@@ -1273,8 +1274,9 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         this.grid.getPowerUpDeck().getDeck().remove(cardToPickAfterDeath);
         cardToPickAfterDeath--;
         this.grid.getPowerUpDiscardPile().add(p1);
-        this.gameState = ENDTURN;
-        this.deadList.clear();
+        this.deadList.remove(nickName);
+        if(this.deadList.isEmpty())
+            this.gameState = ENDTURN;
     }
 
     public boolean isValidToReplace() {

@@ -24,7 +24,10 @@ public interface ServerInterface extends Remote {
     String echo(String input) throws RemoteException;
     int getGames() throws RemoteException;
     int setGame(int game) throws RemoteException;
-    int receiveIdentifier(int game) throws RemoteException;
+    boolean canStart(int game) throws RemoteException;
+    boolean tooMany(int game) throws RemoteException;
+    boolean stopGame(int game) throws RemoteException;
+    int receiveIdentifier(int game) throws RemoteException, InterruptedException;
     //void setCli(int game, int identifier) throws RemoteException;
     //void setGui(int game, int identifier) throws RemoteException;
     boolean isMyTurn(int game, int identifier) throws RemoteException;

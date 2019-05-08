@@ -832,17 +832,17 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
    public boolean isValidFirstActionMove(String nickName, List<Integer> directions) {
         Player p = this.grid.getPlayerObject(nickName);
-        for(int i : directions){
+        /*for(int i : directions){
             if(i > 0 && i < 5)
                 return false;
-        }
+        }*/
         return (this.gameState.equals(STARTTURN) && (directions.size() < 4) && (!directions.isEmpty()) && grid.canGhostMove(p, directions));
    }
 
     public synchronized void firstActionMove(String nickName, List<Integer> directions){ //player p moves 1,2,3 cells: directions contains every direction from cell to cell
-                Player p = this.grid.getPlayerObject(nickName);
-                move(p, directions);
-                this.gameState = ACTION1;
+        Player p = this.grid.getPlayerObject(nickName);
+        move(p, directions);
+        this.gameState = ACTION1;
     }
 
 
@@ -1009,8 +1009,9 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
 
 
-    public boolean isValidSecondActionMove(List<Integer> directions) {
-        return (this.gameState.equals(ACTION1) && (directions.size() < 4) && (!directions.isEmpty()));
+    public boolean isValidSecondActionMove(String nickName, List<Integer> directions) {
+        Player p = this.grid.getPlayerObject(nickName);
+        return (this.gameState.equals(ACTION1) && (directions.size() < 4) && (!directions.isEmpty()) && grid.canGhostMove(p, directions));
     }
 
 

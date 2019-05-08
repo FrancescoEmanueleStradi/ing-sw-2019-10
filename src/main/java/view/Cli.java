@@ -122,10 +122,22 @@ public class Cli implements View{
     private void moveFirstAction() throws RemoteException{
         Scanner in = new Scanner(System.in);
         List<Integer> l = new LinkedList<>();
-        while(!this.server.messageIsValidFirstActionMove(game, nickName, l)) {
-            System.out.println("Choose the sequence of movement you want to do");
-            while (in.hasNext())
-                l.add(in.nextInt());
+        System.out.println("Enter the sequence of movements you want to do, one integer at a time, up to 3\n" +
+                "1 = north, 2 = east, 3 = south, 4 = west\n" +
+                "Press 0 to finish");
+        while(true) {
+            System.out.println("Next int:");
+            int n = in.nextInt();
+            if (n == 0 && this.server.messageIsValidFirstActionMove(game, nickName, l)) {
+                break;
+            }
+            else if (n == 0 && !this.server.messageIsValidFirstActionMove(game, nickName, l)) {
+                System.out.println("Invalid sequence of moves, retry");
+                l.clear();
+            }
+            else {
+                l.add(n);
+            }
         }
         this.server.messageFirstActionMove(game, this.nickName, l);
     }
@@ -307,10 +319,22 @@ public class Cli implements View{
     private void moveSecondAction() throws RemoteException{
         Scanner in = new Scanner(System.in);
         List<Integer> l = new LinkedList<>();
-        while(!this.server.messageIsValidSecondActionMove(game, l)) {
-            System.out.println("Choose the sequence of movement you want to do");
-            while (in.hasNext())
-                l.add(in.nextInt());
+        System.out.println("Enter the sequence of movements you want to do, one integer at a time, up to 3\n" +
+                "1 = north, 2 = east, 3 = south, 4 = west\n" +
+                "Press 0 to finish");
+        while(true) {
+            System.out.println("Next int:");
+            int n = in.nextInt();
+            if (n == 0 && this.server.messageIsValidSecondActionMove(game, nickName, l)) {
+                break;
+            }
+            else if (n == 0 && !this.server.messageIsValidSecondActionMove(game, nickName, l)) {
+                System.out.println("Invalid sequence of moves, retry");
+                l.clear();
+            }
+            else {
+                l.add(n);
+            }
         }
         this.server.messageSecondActionMove(game, this.nickName, l);
     }
@@ -424,9 +448,11 @@ public class Cli implements View{
         List<String> lPC = new LinkedList<>();
         String wCard;
         String weaponSlot = null;
-        System.out.println("Enter the direction(s) where you want to move, or 0 if you want to remain in your cell:");
-        while (in.hasNext())
-            l.add(in.nextInt());
+        System.out.println("Enter the direction(s) you want to move before grabbing, or 0 if you want to remain in your cell.\n" +
+                "Note that you may move one extra square if you've unlocked the Adrenaline move.");
+
+        //while (in.hasNext())
+           // l.add(in.nextInt());
         System.out.println("Enter the WeaponCard you want to buy, if you want:");
         wCard = in.next();
         if(!wCard.equals("")) {

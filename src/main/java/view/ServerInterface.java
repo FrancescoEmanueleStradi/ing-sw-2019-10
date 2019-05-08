@@ -55,7 +55,7 @@ public interface ServerInterface extends Remote {
     void messageDiscardWeaponCard(int game, String nick, String wS, String wC) throws RemoteException;
     boolean messageIsValidSecondActionShoot(int game, String nick, String wC, List<Integer> lI, List<String> lS, int d, List<Colour> lC, List<String> lP, List<String> lPC) throws RemoteException;
     void messageSecondActionShoot(int game, String nick, String wC, List<Integer> lI, List<String> lS, int d, List<Colour> lC, List<String> lP, List<String> lPC) throws RemoteException;
-    boolean messageIsValidSecondActionMove(int game, List<Integer> d) throws RemoteException;
+    boolean messageIsValidSecondActionMove(int game, String nick, List<Integer> d) throws RemoteException;
     void messageSecondActionMove(int game, String nick, List<Integer> d) throws RemoteException;
     boolean messageIsValidSecondActionGrab(int game, String nick, Integer[] d, String wC, String wS, List<Colour> lA, List<String> lP, List<String> lPC) throws RemoteException;
     void messageSecondActionGrab(int game, String nick, Integer[] d, String wC, List<Colour> lC, List<String> lP, List<String> lPC) throws RemoteException;

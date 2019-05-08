@@ -181,8 +181,8 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
         games.get(game).secondActionShoot(nick, wC, lI, lS, d, lC, lP, lPC);
     }
 
-    public synchronized boolean messageIsValidSecondActionMove(int game, List<Integer> d) throws RemoteException {
-        return games.get(game).isValidSecondActionMove(d);
+    public synchronized boolean messageIsValidSecondActionMove(int game, String nick, List<Integer> d) throws RemoteException {
+        return games.get(game).isValidSecondActionMove(nick, d);
     }
 
     public synchronized void messageSecondActionMove(int game, String nick, List<Integer> d) throws RemoteException {

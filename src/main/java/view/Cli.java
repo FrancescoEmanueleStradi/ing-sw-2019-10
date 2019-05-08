@@ -10,7 +10,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
-public class Cli implements View{
+public class Cli implements View {
 
     private int game;
     private ServerInterface server;
@@ -24,7 +24,7 @@ public class Cli implements View{
     }
 
     @Override
-    public void setGame(int  game) {
+    public void setGame(int game) {
         this.game = game;
     }
 
@@ -40,6 +40,7 @@ public class Cli implements View{
     @Override
     public void askNameAndColour() throws RemoteException{
         Scanner in = new Scanner(System.in);
+        int type;
         if (this.server.messageGameIsNotStarted(game)) {
             System.out.println("Enter your name:");
             this.nickName = in.nextLine();
@@ -47,12 +48,15 @@ public class Cli implements View{
             String s1 = in.nextLine();
             this.colour = Colour.valueOf(s1);
             this.server.messageGameStart(game, nickName, colour);
-            System.out.println("Choose the type of arena (1, 2, 3, 4):");
-            int type = in.nextInt();
-            while(!this.server.messageIsValidReceiveType(game, type)){
-                System.out.println("Error: please retry");
+            /*System.out.println("Choose the type of arena (1, 2, 3, 4):");
+            int type = in.nextInt();*/
+            while (true) {
                 System.out.println("Choose the type of arena (1, 2, 3, 4):");
                 type = in.nextInt();
+                if (this.server.messageIsValidReceiveType(game, type))
+                    break;
+                else
+                    System.out.println("Error: please retry");
             }
             this.server.messageReceiveType(game, type);
             System.out.println("\n---------GENERATING ARENA...---------\n");
@@ -82,24 +86,29 @@ public class Cli implements View{
     public void selectSpawnPoint() throws RemoteException{
         Scanner in = new Scanner(System.in);
         List<String> l = this.server.messageGiveTwoPUCard(game, this.nickName);
+        String p;
+        String c;
         System.out.println("The following are " + this.nickName +"'s starting PowerUpCards");
         System.out.println(l.get(0) + " coloured " + l.get(1));
         System.out.println(l.get(2) + " coloured " + l.get(3));
         System.out.println("\n---------SPAWN POINT SELECT---------\n");
-        System.out.println("Enter the name of the card you want to keep; you will discard the other one corresponding to the " +
+        /*System.out.println("Enter the name of the card you want to keep; you will discard the other one corresponding to the " +
                 "colour of your spawn point");
         String p1 = in.nextLine();
         System.out.println("Enter the colour of that card: ");
-        String c1 = in.nextLine();
-        while(!this.server.messageIsValidPickAndDiscard(game, this.nickName, p1, c1)) {
-            System.out.println("Error: please retry");
+        String c1 = in.nextLine();*/
+        while (true) {
             System.out.println("Enter the name of the card you want to keep; you will discard the other one corresponding to the " +
                     "colour of your spawn point");
-            p1 = in.nextLine();
-            System.out.println("Enter the colour of that card: ");
-            c1 = in.nextLine();
+            p = in.nextLine();
+            System.out.println("Enter the colour of that card:");
+            c = in.nextLine();
+            if (this.server.messageIsValidPickAndDiscard(game, this.nickName, p, c))
+                break;
+            else
+                System.out.println("Error: please retry");
         }
-            if(l.get(0).equals(p1) && l.get(1).equals(c1))
+            if (l.get(0).equals(p) && l.get(1).equals(c))
                 this.server.messagePickAndDiscardCard(game, this.nickName, l.get(0), l.get(1));
             else
                 this.server.messagePickAndDiscardCard(game, this.nickName, l.get(2), l.get(3));
@@ -108,18 +117,24 @@ public class Cli implements View{
     @Override
     public void action1() throws RemoteException{
         Scanner in = new Scanner(System.in);
+        String action;
         System.out.println("\n---------START OF " + this.nickName + "'s FIRST ACTION---------\n");
-        System.out.println("Choose the action you want to do (Move, Shoot, Grab):");
-        String action = in.nextLine();
-        while (!(action.equals("Move") || action.equals("Shoot") || action.equals("Grab"))){
+        /*System.out.println("Choose the action you want to do (Move, Shoot, Grab):");
+        String action = in.nextLine();*/
+        while (true) {
             System.out.println("Choose the action you want to do (Move, Shoot, Grab):");
             action = in.nextLine();
+            if ((action.equals("Move") || action.equals("Shoot") || action.equals("Grab")
+                    || action.equals("move") || action.equals("shoot") || action.equals("grab")))
+                break;
+            else
+                System.out.println("Error: please retry");
         }
-        if(action.equals("Move") || action.equals("move"))
+        if (action.equals("Move") || action.equals("move"))
             this.moveFirstAction();
-        if(action.equals("Shoot") || action.equals("shoot"))
+        if (action.equals("Shoot") || action.equals("shoot"))
             this.shootFirstAction();
-        if(action.equals("Grab") || action.equals("grab"))
+        if (action.equals("Grab") || action.equals("grab"))
             this.grabFirstAction();
     }
 
@@ -296,7 +311,7 @@ public class Cli implements View{
             if (this.server.messageIsValidFirstActionGrab(game, nickName, l.toArray(directions), wCard, weaponSlot, lC, lP, lPC))
                 break;
             else {
-
+                System.out.println("Error: please retry");
                 l.clear();
                 lC.clear();
                 lP.clear();

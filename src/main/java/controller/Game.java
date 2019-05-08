@@ -21,7 +21,7 @@ import static controller.GameState.*;
 public class Game {                                 //Cli or Gui -- Rmi or Socket
 
     private GameState gameState;
-    private  int numGame;
+    private int numGame;
     private boolean init = false;
     private Grid grid = new Grid();
     private boolean discard = false;
@@ -1222,7 +1222,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
             p.getpB().getPoints().remove();
         p.getpB().getDamages().clean();
         p.addPowerUpCard(this.grid.getPowerUpDeck().getDeck().get(cardToPickAfterDeath));
-        cardToPickAfterDeath++;     //TODO attention to this int, also used below at line 1313
+        cardToPickAfterDeath++;     //TODO attention to this int, also used below
     }
 
     public boolean isValidScoring() {

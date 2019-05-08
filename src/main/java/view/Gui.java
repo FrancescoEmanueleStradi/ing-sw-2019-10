@@ -1,6 +1,7 @@
 package view;
 
 import controller.Game;
+import model.Colour;
 
 import java.rmi.RemoteException;
 
@@ -8,6 +9,8 @@ public class Gui implements View{
 
     private int game;
     private ServerInterface server;
+    private String nickName;
+    private Colour colour;
 
     @Override
     public void setServer(ServerInterface server) {
@@ -16,7 +19,7 @@ public class Gui implements View{
 
     @Override
     public void setGame(int game){
-        //TODO
+        this.game = game;
     }
 
     @Override

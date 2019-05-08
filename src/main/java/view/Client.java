@@ -90,7 +90,7 @@ public class Client {
                     view.finalFrenzyTurn();
                     //centralServer.messageFinalFrenzyTurn(game, identifier);
                     centralServer.finishTurn(game);
-                    break;              //TODO is it now the client has to break?
+                    break;              //TODO is it now that the client has to break?
                 }
             }
         }

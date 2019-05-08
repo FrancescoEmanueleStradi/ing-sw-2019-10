@@ -10,7 +10,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
-public class Cli implements View{
+public class Cli implements View {
 
     private int game;
     private ServerInterface server;
@@ -24,7 +24,7 @@ public class Cli implements View{
     }
 
     @Override
-    public void setGame(int  game) {
+    public void setGame(int game) {
         this.game = game;
     }
 

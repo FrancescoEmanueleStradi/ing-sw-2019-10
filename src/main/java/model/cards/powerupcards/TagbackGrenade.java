@@ -5,8 +5,6 @@ import model.cards.PowerUpCard;
 import model.player.AmmoCube;
 import model.player.Player;
 
-import java.io.Serializable;
-
 public class TagbackGrenade extends PowerUpCard {
 
     public TagbackGrenade(Colour c) {

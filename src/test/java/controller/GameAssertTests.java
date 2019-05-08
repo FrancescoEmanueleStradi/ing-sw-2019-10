@@ -58,16 +58,18 @@ class GameAssertTests {
         assertEquals(1, grid.getBoard().getaType());
         assertEquals(GameState.INITIALIZED, game.getGameState());
 
-    /*
+
         List<String> list = game.giveTwoPUCard("Player 1");
         System.out.print("PowerUpCard picked from the deck for Player 1: " + list.get(0) + " coloured " + list.get(1) + ", and " + list.get(2) + " coloured " + list.get(3));
-        System.out.print("\nDetails (Player 1): " + list);
-        game.pickAndDiscardCard("Player 1", list.get(0), list.get(1), list.get(2), list.get(3));
+        assertTrue(game.isValidPickAndDiscard("Player 1", list.get(0), list.get(1)));
+        game.pickAndDiscardCard("Player 1", list.get(0), list.get(1));
         assertEquals(GameState.STARTTURN, game.getGameState());
         assertEquals(1, p1.getpC().size());
         assertEquals(list.get(0), p1.getpC().get(0).getCardName());
+        assertEquals(Colour.valueOf(list.get(1)), p1.getpC().get(0).getC());
         assertEquals(1, grid.getPowerUpDiscardPile().size());
         assertEquals(list.get(2), grid.getPowerUpDiscardPile().get(0).getCardName());
+        assertEquals(Colour.valueOf(list.get(3)), grid.getPowerUpDiscardPile().get(0).getC());
 
         if(Colour.valueOf(list.get(3)).equals(Colour.YELLOW))
             assertEquals(p1.getCell(), grid.getBoard().getArena()[2][3]);
@@ -78,13 +80,15 @@ class GameAssertTests {
 
         List<String> list2 = game.giveTwoPUCard("Player 2");
         System.out.print("\nPowerUpCard picked from the deck for Player 2: " + list2.get(0) + " coloured " + list2.get(1) + ", and " + list2.get(2) + " coloured " + list2.get(3));
-        System.out.print("\nDetails (Player 2): " + list2);
-        game.pickAndDiscardCard("Player 2", list2.get(2), list2.get(3), list2.get(0), list2.get(1));
+        assertTrue(game.isValidPickAndDiscard("Player 2", list2.get(2), list2.get(3)));
+        game.pickAndDiscardCard("Player 2", list2.get(2), list2.get(3));
         assertEquals(GameState.STARTTURN, game.getGameState());
         assertEquals(1, p2.getpC().size());
-        //assertEquals(list2.get(2), p2.getpC().get(0).getCardName());
+        assertEquals(list2.get(2), p2.getpC().get(0).getCardName());
+        assertEquals(Colour.valueOf(list2.get(3)), p2.getpC().get(0).getC());
         assertEquals(2, grid.getPowerUpDiscardPile().size());
         assertEquals(list2.get(0), grid.getPowerUpDiscardPile().get(1).getCardName());
+        assertEquals(Colour.valueOf(list2.get(1)), grid.getPowerUpDiscardPile().get(1).getC());
 
         if(Colour.valueOf(list2.get(1)).equals(Colour.YELLOW))
             assertEquals(p2.getCell(), grid.getBoard().getArena()[2][3]);
@@ -95,13 +99,15 @@ class GameAssertTests {
 
         List<String> list3 = game.giveTwoPUCard("Player 3");
         System.out.print("\nPowerUpCard picked from the deck for Player 3: " + list3.get(0) + " coloured " + list3.get(1) + ", and " + list3.get(2) + " coloured " + list3.get(3));
-        System.out.print("\nDetails (Player 3): " + list3);
-        game.pickAndDiscardCard("Player 3", list3.get(0), list3.get(1), list3.get(2), list3.get(3));
+        assertTrue(game.isValidPickAndDiscard("Player 3", list3.get(0), list3.get(1)));
+        game.pickAndDiscardCard("Player 3", list3.get(0), list3.get(1));
         assertEquals(GameState.STARTTURN, game.getGameState());
         assertEquals(1, p3.getpC().size());
         assertEquals(list3.get(0), p3.getpC().get(0).getCardName());
+        assertEquals(Colour.valueOf(list3.get(1)), p3.getpC().get(0).getC());
         assertEquals(3, grid.getPowerUpDiscardPile().size());
         assertEquals(list3.get(2), grid.getPowerUpDiscardPile().get(2).getCardName());
+        assertEquals(Colour.valueOf(list3.get(3)), grid.getPowerUpDiscardPile().get(2).getC());
 
         if(Colour.valueOf(list3.get(3)).equals(Colour.YELLOW))
             assertEquals(p3.getCell(), grid.getBoard().getArena()[2][3]);
@@ -208,13 +214,18 @@ class GameAssertTests {
         lI.clear();
         lS.clear();
         lA.clear();
+        p1.getpC().clear();
+        p2.getpC().clear();
+        p3.getpC().clear();
 
         PowerUpCard tagbackGrenade = new TagbackGrenade(Colour.BLUE);
         p2.addPowerUpCard(tagbackGrenade);
         lS.add("Player 1");
-        //assertTrue(game.isValidUsePowerUpCard("Player 2", "Tagback Grenade", "BLUE", lS, null));
+        assertTrue(game.isValidUsePowerUpCard("Player 2", "Tagback Grenade", "BLUE", lS, null));
         game.usePowerUpCard("Player 2", "Tagback Grenade", "BLUE", lS, null);
         assertEquals(Colour.YELLOW, p1.getpB().getMarks().get(0).getC());
+        assertFalse(p2.getpC().contains(tagbackGrenade));
+        assertEquals(4, game.getGrid().getPowerUpDiscardPile().size());
 
         lS.clear();
 
@@ -228,6 +239,8 @@ class GameAssertTests {
             if(ac != null)
                 assertNotEquals(Colour.RED, ac.getC());
         }
+        assertFalse(p1.getpC().contains(targetingScope));
+        assertEquals(5, game.getGrid().getPowerUpDiscardPile().size());
 
         lS.clear();
 
@@ -239,6 +252,8 @@ class GameAssertTests {
         assertTrue(game.isValidUsePowerUpCard("Player 1", "Newton", "YELLOW", lS, null));
         game.usePowerUpCard("Player 1", "Newton", "YELLOW", lS, null);
         assertEquals(game.getGrid().getBoard().getArena()[2][1], p3.getCell());
+        assertFalse(p1.getpC().contains(newton));
+        assertEquals(6, game.getGrid().getPowerUpDiscardPile().size());
 
         lS.clear();
 
@@ -249,6 +264,8 @@ class GameAssertTests {
         assertTrue(game.isValidUsePowerUpCard("Player 1", "Teleporter", "BLUE", lS, null));
         game.usePowerUpCard("Player 1", "Teleporter", "BLUE", lS, null);
         assertEquals(game.getGrid().getBoard().getArena()[1][1], p1.getCell());
+        assertFalse(p1.getpC().contains(teleporter));
+        assertEquals(7, game.getGrid().getPowerUpDiscardPile().size());
 
         lS.clear();
 
@@ -317,8 +334,8 @@ class GameAssertTests {
             assertNull(p3.getpB().getDamages().getDamageTr()[i]);
         }
 
-        assertEquals(3, p2.getpC().size());
-        assertEquals(2, p3.getpC().size());
+        assertEquals(1, p2.getpC().size());
+        assertEquals(1, p3.getpC().size());
 
         assertEquals(GameState.DEATH, game.getGameState());
 
@@ -332,12 +349,10 @@ class GameAssertTests {
         game.discardCardForSpawnPoint("Player 2", "Targeting Scope", "BLUE");
         assertEquals(p2.getCell(), grid.getBoard().getArena()[0][2]);
         assertFalse(p2.getpC().contains(targetingScope));
-        assertEquals(4, game.getGrid().getPowerUpDiscardPile().size());
+        assertEquals(8, game.getGrid().getPowerUpDiscardPile().size());
         assertTrue(game.getGrid().getPowerUpDiscardPile().contains(targetingScope2));
 
         assertEquals(GameState.ENDTURN, game.getGameState());
         assertTrue(game.getDeadList().isEmpty());
-        
-     */
     }
 }

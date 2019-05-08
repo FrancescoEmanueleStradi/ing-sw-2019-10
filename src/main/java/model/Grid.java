@@ -374,6 +374,10 @@ public class Grid {
         return ammoDiscardPile;
     }
 
+    public PowerUpDeck getPowerUpDeck() {
+        return powerUpDeck;
+    }
+
     public List<Player> whoIsDead() {
         LinkedList<Player> l = new LinkedList<>();
         for(Player p: this.players) {
@@ -420,13 +424,5 @@ public class Grid {
         if(s.equals("3"))
             return this.board.getW3();
        return null;
-    }
-
-    public PowerUpCard getPowerUpCardObject(String s, Colour c) {
-        for(int i = 0; i < powerUpDeck.getDeck().size(); i++) {
-            if(powerUpDeck.getDeck().get(i).getCardName().equals(s) && powerUpDeck.getDeck().get(i).getC().equals(c))
-                return powerUpDeck.getDeck().get(i);
-        }
-        return null;
     }
 }

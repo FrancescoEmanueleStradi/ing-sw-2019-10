@@ -191,7 +191,8 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
            p.changeCell(this.grid.getBoard().getArena()[1][0]);            //view ask the choice
        if(c.equals(Colour.BLUE))
            p.changeCell(this.grid.getBoard().getArena()[0][2]);
-       this.gameState = STARTTURN;
+       if(this.gameState == INITIALIZED)
+           this.gameState = STARTTURN;
    }
 
 
@@ -1273,8 +1274,9 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         this.grid.getPowerUpDeck().getDeck().remove(cardToPickAfterDeath);
         cardToPickAfterDeath--;
         this.grid.getPowerUpDiscardPile().add(p1);
-        this.gameState = ENDTURN;
-        this.deadList.clear();
+        this.deadList.remove(nickName);
+        if(this.deadList.isEmpty())
+            this.gameState = ENDTURN;
     }
 
     public boolean isValidToReplace() {

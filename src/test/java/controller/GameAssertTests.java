@@ -2,8 +2,10 @@ package controller;
 
 import model.Colour;
 import model.Grid;
+import model.cards.AmmoCard;
 import model.cards.PowerUpCard;
 import model.cards.WeaponCard;
+import model.cards.ammocards.RBB;
 import model.cards.powerupcards.Newton;
 import model.cards.powerupcards.TagbackGrenade;
 import model.cards.powerupcards.TargetingScope;
@@ -20,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class GameAssertTests {
     @Test
-    void GameStartTest() {
+    void GameStartMoveShootEndTest() {
         Game game = new Game();
         Grid grid = game.getGrid();
 
@@ -370,5 +372,106 @@ class GameAssertTests {
 
         assertEquals(GameState.ENDTURN, game.getGameState());
         assertTrue(game.getDeadList().isEmpty());
+
+
+        //Replace
+
+        assertTrue(game.isValidToReplace());
+        game.replace();
+        for(int i = 0; i < 3; i++) {
+            for(int j = 0; j < 4; j++) {
+                if(grid.getBoard().getArena()[i][j].getStatus() == 0)
+                    assertNotNull(grid.getBoard().getArena()[i][j].getA());
+            }
+        }
+        assertNotNull(grid.getBoard().getW1().getCard1());
+        assertNotNull(grid.getBoard().getW1().getCard2());
+        assertNotNull(grid.getBoard().getW1().getCard3());
+        assertNotNull(grid.getBoard().getW2().getCard1());
+        assertNotNull(grid.getBoard().getW2().getCard2());
+        assertNotNull(grid.getBoard().getW2().getCard3());
+        assertNotNull(grid.getBoard().getW3().getCard1());
+        assertNotNull(grid.getBoard().getW3().getCard2());
+        assertNotNull(grid.getBoard().getW3().getCard3());
+
+        assertFalse(game.isFinalFrenzy());
+        assertEquals(GameState.STARTTURN, game.getGameState());
+
+
+        //Final Frenzy
+
+        game.getGrid().getBoard().getK().setSkulls(new int[]{1, 2, 2, 1, 1, 2, 1, 1});
+        game.replace();
+        assertTrue(game.isFinalFrenzy());
+
+        lS.clear();
+        p1.setTurnFinalFrenzy(0);
+        lS.add("1");
+        lS.add("2");
+        assertTrue(game.isValidFinalFrenzyAction(p1.getNickName(), lS));
+
+        lS.clear();
+        p2.setTurnFinalFrenzy(1);
+        lS.add("4");
+        assertTrue(game.isValidFinalFrenzyAction(p2.getNickName(), lS));
+
+        lS.clear();
+        p3.setTurnFinalFrenzy(1);
+        lS.add("1");
+        lS.add("3");
+        assertFalse(game.isValidFinalFrenzyAction(p3.getNickName(), lS));
+    }
+
+    @Test
+    void GameGrabShootTest() {
+        Game game = new Game();
+        Grid grid = game.getGrid();
+
+        game.gameStart("Player 1", Colour.BLUE);
+        Player p1 = grid.getPlayerObject("Player 1");
+
+        game.addPlayer("Player 2", Colour.YELLOW);
+        Player p2 = grid.getPlayerObject("Player 2");
+
+        game.addPlayer("Player 3", Colour.GREEN);
+        Player p3 = grid.getPlayerObject("Player 3");
+
+        game.receiveType(1);
+
+        List<String> list = game.giveTwoPUCard("Player 1");
+        System.out.print("PowerUpCard picked from the deck for Player 1: " + list.get(0) + " coloured " + list.get(1) + ", and " + list.get(2) + " coloured " + list.get(3));
+        game.pickAndDiscardCard("Player 1", list.get(0), list.get(1));
+
+        List<String> list2 = game.giveTwoPUCard("Player 2");
+        System.out.print("\nPowerUpCard picked from the deck for Player 2: " + list2.get(0) + " coloured " + list2.get(1) + ", and " + list2.get(2) + " coloured " + list2.get(3));
+        game.pickAndDiscardCard("Player 2", list2.get(2), list2.get(3));
+
+        //Initialization finished
+        //First Action: Grab
+
+        p1.changeCell(grid.getBoard().getArena()[1][0]);
+        p2.changeCell(grid.getBoard().getArena()[0][2]);
+
+        AmmoCard ammocard1 = new RBB();
+        grid.getBoard().getArena()[2][0].setA(ammocard1);
+
+
+        Integer[] directions1 = new Integer[1];
+        directions1[0] = 3;
+        List<Colour> lA = new LinkedList<>();
+        List<String> lP = new LinkedList<>();
+        List<String> lPColourInput = new LinkedList<>();
+        assertTrue(game.isValidFirstActionGrab(p1.getNickName(), directions1, "", "", lA, lP, lPColourInput));
+        game.firstActionGrab(p1.getNickName(), directions1, "", lA, lP, lPColourInput);
+
+        assertNotNull(p1.getaC()[0]);
+        assertNotNull(p1.getaC()[1]);
+        assertNull(p1.getaC()[2]);
+        assertNotNull(p1.getaC()[3]);
+        assertNotNull(p1.getaC()[4]);
+        assertNotNull(p1.getaC()[5]);
+        assertNotNull(p1.getaC()[6]);
+        assertNull(p1.getaC()[7]);
+        assertNull(p1.getaC()[8]);
     }
 }

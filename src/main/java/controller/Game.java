@@ -759,7 +759,8 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         if(!lAInput.isEmpty()) {
             for (Colour c : lAInput)
                 lA.add(new AmmoCube(c));
-            AmmoCube[] cubeArray = lA.stream().toArray(AmmoCube[]::new);
+            AmmoCube[] cubeArray = new AmmoCube[lA.size()];
+            lA.toArray(cubeArray);
             if (!p.checkAmmoCube(cubeArray))
                 return false;
         }
@@ -925,11 +926,14 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         List<Integer> directionList = Arrays.asList(directions);
         WeaponCard wCard = this.grid.getWeaponCardObject(wCardInput);
         List<AmmoCube> lA = new LinkedList<>();
-        for(Colour c : lAInput)
-            lA.add(new AmmoCube(c));
-        AmmoCube[] cubeArray = lA.stream().toArray(AmmoCube[]::new);
-        if(!p.checkAmmoCube(cubeArray) && wCard != null)
-            return false;
+        if(!lAInput.isEmpty()) {
+            for (Colour c : lAInput)
+                lA.add(new AmmoCube(c));
+            AmmoCube[] cubeArray = new AmmoCube[lA.size()];
+            lA.toArray(cubeArray);
+            if (!p.checkAmmoCube(cubeArray) && wCard != null)
+                return false;
+        }
         List<PowerUpCard> lP = new LinkedList<>();
         if(!lPInput.isEmpty()) {
             for (int i = 0; i < lPInput.size(); i++) {
@@ -938,7 +942,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                 lP.add(p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))));
             }
         }
-        if(this.gameState.equals(ACTION1) && (directions.length <= 2)) {
+        if(this.gameState.equals(STARTTURN) && (directions.length <= 2)) {
             if(!p.isAdrenaline1() && directions.length == 1 && this.grid.canMove(p, directions[0]) &&
                     (wCardInput.equals("") || ((!wCardInput.equals("") && wCard != null) && ((wSlotInput.equals("1") && (this.grid.ghostMove(p, directionList).getCell().getP().getX() == 0 && this.grid.ghostMove(p, directionList).getCell().getP().getY() == 2)) ||
                         (wSlotInput.equals("2") && (this.grid.ghostMove(p, directionList).getCell().getP().getX() == 2 && this.grid.ghostMove(p, directionList).getCell().getP().getY() == 3)) ||
@@ -1014,7 +1018,8 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         if(!lAInput.isEmpty()) {
             for (Colour c : lAInput)
                 lA.add(new AmmoCube(c));
-            AmmoCube[] cubeArray = lA.stream().toArray(AmmoCube[]::new);
+            AmmoCube[] cubeArray = new AmmoCube[lA.size()];
+            lA.toArray(cubeArray);
             if (!p.checkAmmoCube(cubeArray) && wCard != null)
                 return false;
         }
@@ -1026,7 +1031,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                 lP.add(p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))));
             }
         }
-        if(this.gameState.equals(ACTION2) && (directions.length <= 2)) {
+        if(this.gameState.equals(ACTION1) && (directions.length <= 2)) {
             if(!p.isAdrenaline1() && directions.length == 1 && this.grid.canMove(p, directions[0]) &&
                     (wCardInput.equals("") || ((!wCardInput.equals("") && wCard != null) && ((wSlotInput.equals("1") && (this.grid.ghostMove(p, directionList).getCell().getP().getX() == 0 && this.grid.ghostMove(p, directionList).getCell().getP().getY() == 2)) ||
                         (wSlotInput.equals("2") && (this.grid.ghostMove(p, directionList).getCell().getP().getX() == 2 && this.grid.ghostMove(p, directionList).getCell().getP().getY() == 3)) ||
@@ -1068,7 +1073,8 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         if(!lAInput.isEmpty()) {
             for (Colour c : lAInput)
                 lA.add(new AmmoCube(c));
-            AmmoCube[] cubeArray = lA.stream().toArray(AmmoCube[]::new);
+            AmmoCube[] cubeArray = new AmmoCube[lA.size()];
+            lA.toArray(cubeArray);
             if (!p.checkAmmoCube(cubeArray))
                 return false;
         }
@@ -1313,9 +1319,8 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                         return true;
                 }
             }
-            if (p.getTurnFinalFrenzy() != 0 && lS.size() == 1 &&
-                    (lS.get(0).equals("4") || lS.get(0).equals("5")))
-                    return true;
+            else return (p.getTurnFinalFrenzy() != 0 && lS.size() == 1 &&
+                    (lS.get(0).equals("4") || lS.get(0).equals("5")));
         }
         return false;
     }
@@ -1326,11 +1331,14 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
     public boolean isValidFinalFrenzyAction1(String nickName, int direction, String weaponToUse, List<Integer> lI, List<String> lS, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) {
         Player p = this.grid.getPlayerObject(nickName);
         List<AmmoCube> lA = new LinkedList<>();
-        for (Colour c : lAInput)
-            lA.add(new AmmoCube(c));
-        AmmoCube[] cubeArray = lA.stream().toArray(AmmoCube[]::new);
-        if (!p.checkAmmoCube(cubeArray) && !weaponToUse.equals(""))
-            return false;
+        if(!lAInput.isEmpty()) {
+            for (Colour c : lAInput)
+                lA.add(new AmmoCube(c));
+            AmmoCube[] cubeArray = new AmmoCube[lA.size()];
+            lA.toArray(cubeArray);
+            if (!p.checkAmmoCube(cubeArray) && !weaponToUse.equals(""))
+                return false;
+        }
         List<PowerUpCard> lP = new LinkedList<>();
         if(!lPInput.isEmpty()) {
             for (int i = 0; i < lPInput.size(); i++) {
@@ -1429,7 +1437,8 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         if(!lAInput.isEmpty()) {
             for (Colour c : lAInput)
                 lA.add(new AmmoCube(c));
-            AmmoCube[] cubeArray = lA.stream().toArray(AmmoCube[]::new);
+            AmmoCube[] cubeArray = new AmmoCube[lA.size()];
+            lA.toArray(cubeArray);
             if (!p.checkAmmoCube(cubeArray) && !weaponToUse.equals(""))
                 return false;
         }
@@ -1518,10 +1527,11 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         Player p = this.grid.getPlayerObject(nickName);
         WeaponCard wCard = this.grid.getWeaponCardObject(wCardInput);
         List<AmmoCube> lA= new LinkedList<>();
-        if(!lA.isEmpty()) {
+        if(!lAInput.isEmpty()) {
             for (Colour c : lAInput)
                 lA.add(new AmmoCube(c));
-            AmmoCube[] cubeArray = lA.stream().toArray(AmmoCube[]::new);
+            AmmoCube[] cubeArray = new AmmoCube[lA.size()];
+            lA.toArray(cubeArray);
             if (!p.checkAmmoCube(cubeArray) && wCard != null)
                 return false;
         }

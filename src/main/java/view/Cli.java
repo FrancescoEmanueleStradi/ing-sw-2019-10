@@ -177,112 +177,87 @@ public class Cli implements View {
         //TODO fix remaining shootToUser
         switch(s){
             case "Cyberblade":
-            case "cyberblade":
                 wPrompt.shootToUser1(game, server, nickName, s);
                 break;
 
             case "Electroscythe":
-            case "electroscythe":
-                wPrompt.shootToUser2(game, server, nickName);
+                wPrompt.shootToUser2(game, server, nickName, s);
                 break;
 
             case "Flamethrower":
-            case "flamethrower":
                 wPrompt.shootToUser1(game, server, nickName, s);
                 break;
 
             case "Furnace":
-            case "furnace":
-                wPrompt.shootToUser3(game, server, nickName);
+                wPrompt.shootToUser3(game, server, nickName, s);
                 break;
 
             case "Grenade Launcher":
-            case "grenade launcher":
                 wPrompt.shootToUser1(game, server, nickName, s);
                 break;
 
             case "Heatseeker":
-            case "heatseeker":
-                wPrompt.shootToUser3(game, server, nickName);
+                wPrompt.shootToUser3(game, server, nickName, s);
                 break;
 
             case "Hellion":
-            case "hellion":
                 wPrompt.shootToUser1(game, server, nickName, s);
                 break;
 
             case "Lock Rifle":
-            case "lock rifle":
                 wPrompt.shootToUser1(game, server, nickName, s);
                 break;
 
             case "Machine Gun":
-            case "machine gun":
                 wPrompt.shootToUser1(game, server, nickName, s);
                 break;
 
             case "Plasma Gun":
-            case "plasma gun":
                 wPrompt.shootToUser1(game, server, nickName, s);
                 break;
 
             case "Power Glove":
-            case "power glove":
                 wPrompt.shootToUser1(game, server, nickName, s);
                 break;
 
             case "Railgun":
-            case "railgun":
-                wPrompt.shootToUser3(game, server, nickName);
+                wPrompt.shootToUser3(game, server, nickName, s);
                 break;
 
             case "Rocket Launcher":
-            case "rocket launcher":
                 wPrompt.shootToUser1(game, server, nickName, s);
                 break;
 
             case "Shockwave":
-            case "shockwave":
                 wPrompt.shootToUser1(game, server, nickName, s);
                 break;
 
             case "Shotgun":
-            case "shotgun":
-                wPrompt.shootToUser3(game, server, nickName);
+                wPrompt.shootToUser3(game, server, nickName, s);
                break;
 
             case "Sledgehammer":
-            case "sledgehammer":
                 wPrompt.shootToUser1(game, server, nickName, s);
                 break;
 
             case "T.H.O.R.":
-            case "t.h.o.r.":
-            case "THOR":
-            case "thor":
                 wPrompt.shootToUser1(game, server, nickName, s);
                 break;
 
             case "Tractor Beam":
-            case "tractor beam":
                 wPrompt.shootToUser1(game, server, nickName, s);
                 break;
 
             case "Vortex Cannon":
-            case "vortex cannon":
                 wPrompt.shootToUser1(game, server, nickName, s);
                 break;
 
             case "Whisper":
-            case "whisper":
-                wPrompt.shootToUser4(game, server, nickName);
+                wPrompt.shootToUser4(game, server, nickName, s);
                 break;
 
             case "ZX-2":
-            case "zx-2":
-            case "ZX2":
-            case "zx2":
-                wPrompt.shootToUser3(game, server, nickName);
+                wPrompt.shootToUser3(game, server, nickName, s);
                 break;
         }
     }
@@ -437,112 +412,87 @@ public class Cli implements View {
 
         switch(s){
             case "Cyberblade":
-            case "cyberblade":
-                wPrompt.shoot2ToUser1(game, server, nickName);
+                wPrompt.shoot2ToUser1(game, server, nickName, s);
                 break;
 
             case "Electroscythe":
-            case "electroscythe":
-                wPrompt.shoot2ToUser2(game, server, nickName);
+                wPrompt.shoot2ToUser2(game, server, nickName, s);
                 break;
 
             case "Flamethrower":
-            case "flamethrower":
-                wPrompt.shoot2ToUser1(game, server, nickName);
+                wPrompt.shoot2ToUser1(game, server, nickName, s);
                 break;
 
             case "Furnace":
-            case "furnace":
-                wPrompt.shoot2ToUser3(game, server, nickName);
+                wPrompt.shoot2ToUser3(game, server, nickName, s);
                 break;
 
             case "Grenade Launcher":
-            case "grenade launcher":
-                wPrompt.shoot2ToUser1(game, server, nickName);
+                wPrompt.shoot2ToUser1(game, server, nickName, s);
                 break;
 
             case "Heatseeker":
-            case "heatseeker":
-                wPrompt.shoot2ToUser3(game, server, nickName);
+                wPrompt.shoot2ToUser3(game, server, nickName, s);
                 break;
 
             case "Hellion":
-            case "hellion":
-                wPrompt.shoot2ToUser1(game, server, nickName);
+                wPrompt.shoot2ToUser1(game, server, nickName, s);
                 break;
 
             case "Lock Rifle":
-            case "lock rifle":
-                wPrompt.shoot2ToUser1(game, server, nickName);
+                wPrompt.shoot2ToUser1(game, server, nickName, s);
                 break;
 
             case "Machine Gun":
-            case "machine gun":
-                wPrompt.shoot2ToUser1(game, server, nickName);
+                wPrompt.shoot2ToUser1(game, server, nickName, s);
                 break;
 
             case "Plasma Gun":
-            case "plasma gun":
-                wPrompt.shoot2ToUser1(game, server, nickName);
+                wPrompt.shoot2ToUser1(game, server, nickName, s);
                 break;
 
             case "Power Glove":
-            case "power glove":
-                wPrompt.shoot2ToUser1(game, server, nickName);
+                wPrompt.shoot2ToUser1(game, server, nickName, s);
                 break;
 
             case "Railgun":
-            case "railgun":
-                wPrompt.shoot2ToUser3(game, server, nickName);
+                wPrompt.shoot2ToUser3(game, server, nickName, s);
                 break;
 
             case "Rocket Launcher":
-            case "rocket launcher":
-                wPrompt.shoot2ToUser1(game, server, nickName);
+                wPrompt.shoot2ToUser1(game, server, nickName, s);
                 break;
 
             case "Shockwave":
-            case "shockwave":
-                wPrompt.shoot2ToUser1(game, server, nickName);
+                wPrompt.shoot2ToUser1(game, server, nickName, s);
                 break;
 
             case "Shotgun":
-            case "shotgun":
-                wPrompt.shoot2ToUser3(game, server, nickName);
+                wPrompt.shoot2ToUser3(game, server, nickName, s);
                 break;
 
             case "Sledgehammer":
-            case "sledgehammer":
-                wPrompt.shoot2ToUser1(game, server, nickName);
+                wPrompt.shoot2ToUser1(game, server, nickName, s);
                 break;
 
             case "T.H.O.R.":
-            case "t.h.o.r.":
-            case "THOR":
-            case "thor":
-                wPrompt.shoot2ToUser1(game, server, nickName);
+                wPrompt.shoot2ToUser1(game, server, nickName, s);
                 break;
 
             case "Tractor Beam":
-            case "tractor beam":
-                wPrompt.shoot2ToUser1(game, server, nickName);
+                wPrompt.shoot2ToUser1(game, server, nickName, s);
                 break;
 
             case "Vortex Cannon":
-            case "vortex cannon":
-                wPrompt.shoot2ToUser1(game, server, nickName);
+                wPrompt.shoot2ToUser1(game, server, nickName, s);
                 break;
 
             case "Whisper":
-            case "whisper":
-                wPrompt.shoot2ToUser4(game, server, nickName);
+                wPrompt.shoot2ToUser4(game, server, nickName, s);
                 break;
 
             case "ZX-2":
-            case "zx-2":
-            case "ZX2":
-            case "zx2":
-                wPrompt.shoot2ToUser3(game, server, nickName);
+                wPrompt.shoot2ToUser3(game, server, nickName, s);
                 break;
         }
     }

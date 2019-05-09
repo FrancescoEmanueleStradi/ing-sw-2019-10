@@ -39,9 +39,8 @@ public class CLI implements View {
     }
 
     @Override
-    public void askNameAndColour() throws RemoteException{
+    public void askNameAndColour() throws RemoteException {
         Scanner in = new Scanner(System.in);
-        int type;
         if (this.server.messageGameIsNotStarted(game)) {
             System.out.println("Enter your name:");
             this.nickName = in.nextLine();
@@ -49,27 +48,35 @@ public class CLI implements View {
             String s1 = in.nextLine();
             this.colour = Colour.valueOf(s1);
             this.server.messageGameStart(game, nickName, colour);
-            /*System.out.println("Choose the type of arena (1, 2, 3, 4):");
-            int type = in.nextInt();*/
-            while (true) {
+            System.out.println("Choose the type of arena (1, 2, 3, 4):");
+            int type = in.nextInt();
+            /*while (true) {
                 System.out.println("Choose the type of arena (1, 2, 3, 4):");
                 type = in.nextInt();
                 if (this.server.messageIsValidReceiveType(game, type))
                     break;
                 else
                     System.out.println(errorRetry);
-            }
+            }*/
             this.server.messageReceiveType(game, type);
             System.out.println("\n---------GENERATING ARENA...---------\n");
             return;
         }
         System.out.println("\n---------WAITING FOR PLAYERS TO JOIN---------\n");
-        /*System.out.println("Enter your name:");
+        System.out.println("Enter your name:");
         this.nickName = in.nextLine();
-        System.out.println("Enter your colour in all caps:");
-        String stringColour = in.nextLine();
-        this.colour = Colour.valueOf(stringColour);*/
-        while (true) {
+        System.out.println("Enter your colour in all caps (YELLOW, BLUE, GREEN, PURPLE, BLACK):");
+        String s2 = in.nextLine();
+        this.colour = Colour.valueOf(s2);
+        while (!this.server.messageIsValidAddPlayer(game, this.nickName, this.colour)) {
+            System.out.println(errorRetry);
+            System.out.println("Enter your name:");
+            this.nickName = in.nextLine();
+            System.out.println("Enter your colour in all caps (YELLOW, BLUE, GREEN, PURPLE, BLACK):");
+            s2 = in.nextLine();
+            this.colour = Colour.valueOf(s2);
+        }
+        /*while (true) {
             System.out.println("Enter your name:");
             this.nickName = in.nextLine();
             System.out.println("Enter your colour in all caps (YELLOW, BLUE, GREEN, PURPLE, BLACK):");
@@ -79,7 +86,7 @@ public class CLI implements View {
                 break;
             else
                 System.out.println(errorRetry);
-        }
+        }*/
         this.server.messageAddPlayer(game, this.nickName, this.colour);
     }
 

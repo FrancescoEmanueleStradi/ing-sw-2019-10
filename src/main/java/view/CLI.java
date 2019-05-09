@@ -10,7 +10,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
-public class Cli implements View {
+public class CLI implements View {
 
     private int game;
     private ServerInterface server;

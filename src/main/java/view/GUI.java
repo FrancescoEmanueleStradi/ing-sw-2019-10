@@ -5,7 +5,7 @@ import model.Colour;
 
 import java.rmi.RemoteException;
 
-public class Gui implements View{
+public class GUI implements View{
 
     private int game;
     private ServerInterface server;

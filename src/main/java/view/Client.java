@@ -2,8 +2,6 @@ package view;
 
 import java.net.MalformedURLException;
 import java.rmi.*;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
 import java.util.Scanner;
 import javax.naming.*;
 
@@ -42,12 +40,12 @@ public class Client {
             case "CLI":
             case "Cli":
             case "cli":
-                view = new Cli();
+                view = new CLI();
                 break;
             case "GUI":
             case "Gui":
             case "gui":
-                view = new Gui();
+                view = new GUI();
                 break;
         }
         view.setServer(centralServer);

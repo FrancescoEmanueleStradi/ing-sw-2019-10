@@ -1,6 +1,5 @@
 package view;
 
-import controller.Game;
 import model.Colour;
 
 import java.rmi.RemoteException;
@@ -10,23 +9,84 @@ import java.util.Scanner;
 
 public class CLIWeaponPrompt {
 
-    private String promptA = "Enter the number(s) of the effect(s) you want to use\n" +
+    private String enterEffect = "Enter the number(s) of the effect(s) you want to use\n" +
             "Press any letter char to finish";
-    private String promptB = "Enter the relevant strings for the card\n" +
+    private String enterRelevantString = "Enter the relevant strings for the card\n" +
             "0 to finish";
-    private String promptC = "Enter the colour(s) of the required AmmoCube(s) needed for the effect\n" +
+    private String enterAmmoColour = "Enter the colour(s) of the required AmmoCube(s) needed for the effect\n" +
             "0 to finish";
-    private String promptD = "Enter the PowerUpCard(s) you want to use for paying during your turn\n" +
+    private String enterPowerUp = "Enter the PowerUpCard(s) you want to use for paying during your turn\n" +
             "0 to finish";
-    private String promptCOL = "Enter the colour(s) of the PowerUpCard(s)\n" +
+    private String enterPowerUpColour = "Enter the colour(s) of the PowerUpCard(s)\n" +
             "0 to finish";
-    private String promptE = "If you are in Adrenaline, enter the direction of the move:";
+    private String enterAdrenalineDir = "If you are in Adrenaline, enter the direction of the move:";
     private String promptErrorRetry = "Error: please retry";
+
+    public List<Integer> enterEffect(Scanner in, List<Integer> l) throws RemoteException {
+        int effect;
+        System.out.println(enterEffect);
+        while (in.hasNextInt()) {
+            effect = in.nextInt();
+            l.add(effect);
+        }
+        return l;
+    }
+
+    public List<String> enterRelevantString(Scanner in, List<String> l) throws RemoteException {
+        String str;
+        System.out.println(enterRelevantString);
+        while (true) {
+            str = in.next();
+            if (str.equals("0")) {
+                break;
+            } else
+                l.add(str);
+        }
+        return l;
+    }
+
+    public List<Colour> enterAmmoColour(Scanner in, List<Colour> l) throws RemoteException {
+        String colour;
+        System.out.println(enterAmmoColour);
+        while (true) {
+            colour = in.next();
+            if (colour.equals("0")) {
+                break;
+            } else
+                l.add(Colour.valueOf(colour));
+        }
+        return l;
+    }
+
+    public List<String> enterPowerUp(Scanner in, List<String> l) throws RemoteException {
+        String pUC;
+        System.out.println(enterPowerUp);
+        while (true) {
+            pUC = in.next();
+            if (pUC.equals("0")) {
+                break;
+            } else
+                l.add(pUC);
+        }
+        return l;
+    }
+
+    public List<String> enterPowerUpColour(Scanner in, List<String> l) throws RemoteException {
+        String colour;
+        System.out.println(enterPowerUpColour);
+        while (true) {
+            colour = in.next();
+            if (colour.equals("0")) {
+                break;
+            } else
+                l.add(colour);
+        }
+        return l;
+    }
 
     public void shootToUser1(int game, ServerInterface server, String nickName, String s) throws RemoteException {
         Scanner in = new Scanner(System.in);
-        int e, i;
-        String str, a, p, c;
+        int i;
         List<Integer> lI = new LinkedList<>();
         List<String> lS = new LinkedList<>();
         List<Colour> lC = new LinkedList<>();
@@ -34,45 +94,50 @@ public class CLIWeaponPrompt {
         List<String> lPC = new LinkedList<>();
 
         while (true) {
-            System.out.println(promptA);
+            this.enterEffect(in, lI);
+            /*System.out.println(enterEffect);
             while (in.hasNextInt()) {
                 e = in.nextInt();
                 lI.add(e);
-            }
-            System.out.println(promptB);
+            }*/
+            this.enterRelevantString(in, lS);
+            /*System.out.println(enterRelevantString);
             while (true) {
                 str = in.next();
                 if (str.equals("0")) {
                     break;
                 } else
                     lS.add(str);
-            }
-            System.out.println(promptC);
+            }*/
+            this.enterAmmoColour(in, lC);
+            /*System.out.println(enterAmmoColour);
             while (true) {
                 a = in.next();
                 if (a.equals("0")) {
                     break;
                 } else
                     lC.add(Colour.valueOf(a));
-            }
+            }*/
             server.messageGetPowerUpCard(game, nickName).stream().forEach(System.out::println);
-            System.out.println(promptD);
+            this.enterPowerUp(in, lP);
+            /*System.out.println(enterPowerUp);
             while (true) {
                 p = in.next();
                 if (p.equals("0")) {
                     break;
                 } else
                     lP.add(p);
-            }
-            System.out.println(promptCOL);
+            }*/
+            this.enterPowerUpColour(in, lPC);
+            /*System.out.println(enterPowerUpColour);
             while (true) {
                 c = in.next();
                 if (c.equals("0")) {
                     break;
                 } else
                     lPC.add(c);
-            }
-            System.out.println(promptE);
+            }*/
+            System.out.println(enterAdrenalineDir);
             i = in.nextInt(); //TODO nextint is a problem
             if (server.messageIsValidFirstActionShoot(game, nickName, s, lI, lS, i, lC, lP, lPC))
                 break;
@@ -99,12 +164,12 @@ public class CLIWeaponPrompt {
         List<String> lPC = new LinkedList<>();
 
         while (true) {
-            System.out.println(promptA);
+            System.out.println(enterEffect);
             while (in.hasNextInt()) {
                 e = in.nextInt();
                 lI.add(e);
             }
-            System.out.println(promptB);
+            System.out.println(enterRelevantString);
             while (true) {
                 str = in.next();
                 if (str.equals("0")) {
@@ -112,7 +177,7 @@ public class CLIWeaponPrompt {
                 } else
                     lS.add(str);
             }
-            System.out.println(promptC);
+            System.out.println(enterAmmoColour);
             while (true) {
                 a = in.next();
                 if (a.equals("0")) {
@@ -121,7 +186,7 @@ public class CLIWeaponPrompt {
                     lC.add(Colour.valueOf(a));
             }
             server.messageGetPowerUpCard(game, nickName).stream().forEach(System.out::println);
-            System.out.println(promptD);
+            System.out.println(enterPowerUp);
             while (true) {
                 p = in.next();
                 if (p.equals("0")) {
@@ -129,7 +194,7 @@ public class CLIWeaponPrompt {
                 } else
                     lP.add(p);
             }
-            System.out.println(promptCOL);
+            System.out.println(enterPowerUpColour);
             while (true) {
                 c = in.next();
                 if (c.equals("0")) {
@@ -137,7 +202,7 @@ public class CLIWeaponPrompt {
                 } else
                     lPC.add(c);
             }
-            System.out.println(promptE);
+            System.out.println(enterAdrenalineDir);
             i = in.nextInt(); //TODO nextint is a problem
             if (server.messageIsValidSecondActionShoot(game, nickName, s, lI, lS, i, lC, lP, lPC))
                 break;
@@ -164,12 +229,12 @@ public class CLIWeaponPrompt {
        List<String> lPC = new LinkedList<>();
 
        while (true) {
-           System.out.println(promptA);
+           System.out.println(enterEffect);
            while (in.hasNextInt()) {
                e = in.nextInt();
                lI.add(e);
            }
-           System.out.println(promptC);
+           System.out.println(enterAmmoColour);
            while (true) {
                a = in.next();
                if (a.equals("0")) {
@@ -178,7 +243,7 @@ public class CLIWeaponPrompt {
                    lC.add(Colour.valueOf(a));
            }
            server.messageGetPowerUpCard(game, nickName).stream().forEach(System.out::println);
-           System.out.println(promptD);
+           System.out.println(enterPowerUp);
            while (true) {
                p = in.next();
                if (p.equals("0")) {
@@ -186,7 +251,7 @@ public class CLIWeaponPrompt {
                } else
                    lP.add(p);
            }
-           System.out.println(promptCOL);
+           System.out.println(enterPowerUpColour);
            while (true) {
                c = in.next();
                if (c.equals("0")) {
@@ -194,7 +259,7 @@ public class CLIWeaponPrompt {
                } else
                    lPC.add(c);
            }
-           System.out.println(promptE);
+           System.out.println(enterAdrenalineDir);
            i = in.nextInt(); //TODO nextint is a problem
            if (server.messageIsValidFirstActionShoot(game, nickName, s, lI, lS, i, lC, lP, lPC))
                break;
@@ -220,12 +285,12 @@ public class CLIWeaponPrompt {
         List<String> lPC = new LinkedList<>();
 
         while (true) {
-            System.out.println(promptA);
+            System.out.println(enterEffect);
             while (in.hasNextInt()) {
                 e = in.nextInt();
                 lI.add(e);
             }
-            System.out.println(promptC);
+            System.out.println(enterAmmoColour);
             while (true) {
                 a = in.next();
                 if (a.equals("0")) {
@@ -234,7 +299,7 @@ public class CLIWeaponPrompt {
                     lC.add(Colour.valueOf(a));
             }
             server.messageGetPowerUpCard(game, nickName).stream().forEach(System.out::println);
-            System.out.println(promptD);
+            System.out.println(enterPowerUp);
             while (true) {
                 p = in.next();
                 if (p.equals("0")) {
@@ -242,7 +307,7 @@ public class CLIWeaponPrompt {
                 } else
                     lP.add(p);
             }
-            System.out.println(promptCOL);
+            System.out.println(enterPowerUpColour);
             while (true) {
                 c = in.next();
                 if (c.equals("0")) {
@@ -250,7 +315,7 @@ public class CLIWeaponPrompt {
                 } else
                     lPC.add(c);
             }
-            System.out.println(promptE);
+            System.out.println(enterAdrenalineDir);
             i = in.nextInt(); //TODO nextint is a problem
             if (server.messageIsValidSecondActionShoot(game, nickName, s, lI, lS, i, lC, lP, lPC))
                 break;
@@ -276,12 +341,12 @@ public class CLIWeaponPrompt {
         List<String> lPC = new LinkedList<>();
 
         while (true) {
-            System.out.println(promptA);
+            System.out.println(enterEffect);
             while (in.hasNextInt()) {
                 e = in.nextInt();
                 lI.add(e);
             }
-            System.out.println(promptB);
+            System.out.println(enterRelevantString);
             while (true) {
                 str = in.next();
                 if (str.equals("0")) {
@@ -289,7 +354,7 @@ public class CLIWeaponPrompt {
                 } else
                     lS.add(str);
             }
-            System.out.println(promptE);
+            System.out.println(enterAdrenalineDir);
             i = in.nextInt(); //TODO nextint is a problem
             if (server.messageIsValidFirstActionShoot(game, nickName, s, lI, lS, i, lC, lP, lPC))
                 break;
@@ -313,12 +378,12 @@ public class CLIWeaponPrompt {
         List<String> lPC = new LinkedList<>();
 
         while (true) {
-            System.out.println(promptA);
+            System.out.println(enterEffect);
             while (in.hasNextInt()) {
                 e = in.nextInt();
                 lI.add(e);
             }
-            System.out.println(promptB);
+            System.out.println(enterRelevantString);
             while (true) {
                 str = in.next();
                 if (str.equals("0")) {
@@ -326,7 +391,7 @@ public class CLIWeaponPrompt {
                 } else
                     lS.add(str);
             }
-            System.out.println(promptE);
+            System.out.println(enterAdrenalineDir);
             i = in.nextInt(); //TODO nextint is a problem
             if (server.messageIsValidSecondActionShoot(game, nickName, s, lI, lS, i, lC, lP, lPC))
                 break;
@@ -350,7 +415,7 @@ public class CLIWeaponPrompt {
         List<String> lPC = new LinkedList<>();
 
         while (true) {
-            System.out.println(promptB);
+            System.out.println(enterRelevantString);
             while (true) {
                 str = in.next();
                 if (str.equals("0")) {
@@ -358,7 +423,7 @@ public class CLIWeaponPrompt {
                 } else
                     lS.add(str);
             }
-            System.out.println(promptE);
+            System.out.println(enterAdrenalineDir);
             i = in.nextInt(); //TODO nextint is a problem
             if (server.messageIsValidFirstActionShoot(game, nickName, s, lI, lS, i, lC, lP, lPC))
                 break;
@@ -382,7 +447,7 @@ public class CLIWeaponPrompt {
         List<String> lPC = new LinkedList<>();
 
         while (true) {
-            System.out.println(promptB);
+            System.out.println(enterRelevantString);
             while (true) {
                 str = in.next();
                 if (str.equals("0")) {
@@ -390,7 +455,7 @@ public class CLIWeaponPrompt {
                 } else
                     lS.add(str);
             }
-            System.out.println(promptE);
+            System.out.println(enterAdrenalineDir);
             i = in.nextInt(); //TODO nextint is a problem
             if (server.messageIsValidSecondActionShoot(game, nickName, s, lI, lS, i, lC, lP, lPC))
                 break;

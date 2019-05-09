@@ -1,4 +1,4 @@
-public class temp {
+//public class temp {
     //Cli
     /*@Override
     public void askNameAndColour() {
@@ -843,4 +843,4 @@ public class temp {
     void messageFinalFrenzyTurn(int game, int identifier)throws RemoteException;
     void messageEndFinalFrenzy(int game, int identifier)throws RemoteException;
     void messageFinalScoring(int game, int identifier)throws RemoteException;*/
-}
+//}

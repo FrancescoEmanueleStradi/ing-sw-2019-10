@@ -22,71 +22,10 @@ public class CLIWeaponPrompt {
     private String enterAdrenalineDir = "If you are in Adrenaline, enter the direction of the move:";
     private String promptErrorRetry = "Error: please retry";
 
-    public List<Integer> enterEffect(Scanner in, List<Integer> l) throws RemoteException {
-        int effect;
-        System.out.println(enterEffect);
-        while (in.hasNextInt()) {
-            effect = in.nextInt();
-            l.add(effect);
-        }
-        return l;
-    }
-
-    public List<String> enterRelevantString(Scanner in, List<String> l) throws RemoteException {
-        String str;
-        System.out.println(enterRelevantString);
-        while (true) {
-            str = in.next();
-            if (str.equals("0")) {
-                break;
-            } else
-                l.add(str);
-        }
-        return l;
-    }
-
-    public List<Colour> enterAmmoColour(Scanner in, List<Colour> l) throws RemoteException {
-        String colour;
-        System.out.println(enterAmmoColour);
-        while (true) {
-            colour = in.next();
-            if (colour.equals("0")) {
-                break;
-            } else
-                l.add(Colour.valueOf(colour));
-        }
-        return l;
-    }
-
-    public List<String> enterPowerUp(Scanner in, List<String> l) throws RemoteException {
-        String pUC;
-        System.out.println(enterPowerUp);
-        while (true) {
-            pUC = in.next();
-            if (pUC.equals("0")) {
-                break;
-            } else
-                l.add(pUC);
-        }
-        return l;
-    }
-
-    public List<String> enterPowerUpColour(Scanner in, List<String> l) throws RemoteException {
-        String colour;
-        System.out.println(enterPowerUpColour);
-        while (true) {
-            colour = in.next();
-            if (colour.equals("0")) {
-                break;
-            } else
-                l.add(colour);
-        }
-        return l;
-    }
-
     public void shootToUser1(int game, ServerInterface server, String nickName, String s) throws RemoteException {
         Scanner in = new Scanner(System.in);
-        int i;
+        int e, i;
+        String str, a, p, c;
         List<Integer> lI = new LinkedList<>();
         List<String> lS = new LinkedList<>();
         List<Colour> lC = new LinkedList<>();
@@ -94,49 +33,44 @@ public class CLIWeaponPrompt {
         List<String> lPC = new LinkedList<>();
 
         while (true) {
-            this.enterEffect(in, lI);
-            /*System.out.println(enterEffect);
+            System.out.println(enterEffect);
             while (in.hasNextInt()) {
                 e = in.nextInt();
                 lI.add(e);
-            }*/
-            this.enterRelevantString(in, lS);
-            /*System.out.println(enterRelevantString);
+            }
+            System.out.println(enterRelevantString);
             while (true) {
                 str = in.next();
                 if (str.equals("0")) {
                     break;
                 } else
                     lS.add(str);
-            }*/
-            this.enterAmmoColour(in, lC);
-            /*System.out.println(enterAmmoColour);
+            }
+            System.out.println(enterAmmoColour);
             while (true) {
                 a = in.next();
                 if (a.equals("0")) {
                     break;
                 } else
                     lC.add(Colour.valueOf(a));
-            }*/
+            }
             server.messageGetPowerUpCard(game, nickName).stream().forEach(System.out::println);
-            this.enterPowerUp(in, lP);
-            /*System.out.println(enterPowerUp);
+            System.out.println(enterPowerUp);
             while (true) {
                 p = in.next();
                 if (p.equals("0")) {
                     break;
                 } else
                     lP.add(p);
-            }*/
-            this.enterPowerUpColour(in, lPC);
-            /*System.out.println(enterPowerUpColour);
+            }
+            System.out.println(enterPowerUpColour);
             while (true) {
                 c = in.next();
                 if (c.equals("0")) {
                     break;
                 } else
                     lPC.add(c);
-            }*/
+            }
             System.out.println(enterAdrenalineDir);
             i = in.nextInt(); //TODO nextint is a problem
             if (server.messageIsValidFirstActionShoot(game, nickName, s, lI, lS, i, lC, lP, lPC))
@@ -468,3 +402,65 @@ public class CLIWeaponPrompt {
         server.messageSecondActionShoot(game, nickName, s, lI, lS, i, lC, lP, lPC);
     }
 }
+
+/*public List<Integer> enterEffect(Scanner in, List<Integer> l) throws RemoteException {
+        int effect;
+        System.out.println(enterEffect);
+        while (in.hasNextInt()) {
+            effect = in.nextInt();
+            l.add(effect);
+        }
+        return l;
+    }
+
+    public List<String> enterRelevantString(Scanner in, List<String> l) throws RemoteException {
+        String str;
+        System.out.println(enterRelevantString);
+        while (true) {
+            str = in.next();
+            if (str.equals("0")) {
+                break;
+            } else
+                l.add(str);
+        }
+        return l;
+    }
+
+    public List<Colour> enterAmmoColour(Scanner in, List<Colour> l) throws RemoteException {
+        String colour;
+        System.out.println(enterAmmoColour);
+        while (true) {
+            colour = in.next();
+            if (colour.equals("0")) {
+                break;
+            } else
+                l.add(Colour.valueOf(colour));
+        }
+        return l;
+    }
+
+    public List<String> enterPowerUp(Scanner in, List<String> l) throws RemoteException {
+        String pUC;
+        System.out.println(enterPowerUp);
+        while (true) {
+            pUC = in.next();
+            if (pUC.equals("0")) {
+                break;
+            } else
+                l.add(pUC);
+        }
+        return l;
+    }
+
+    public List<String> enterPowerUpColour(Scanner in, List<String> l) throws RemoteException {
+        String colour;
+        System.out.println(enterPowerUpColour);
+        while (true) {
+            colour = in.next();
+            if (colour.equals("0")) {
+                break;
+            } else
+                l.add(colour);
+        }
+        return l;
+    }*/

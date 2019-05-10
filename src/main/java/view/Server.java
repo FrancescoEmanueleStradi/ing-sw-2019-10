@@ -2,7 +2,7 @@ package view;
 
 import controller.Game;
 import controller.GameState;
-import model.Colour;;
+import model.Colour;
 
 import java.rmi.*;
 import java.rmi.registry.*;
@@ -13,11 +13,11 @@ import java.util.List;
 
 public class Server extends UnicastRemoteObject implements ServerInterface {
 
-    static private List<Game> games;
-    static private List<Integer> players;           //for each game the number of players
-    static private List<Boolean> canStartList;
+    private static List<Game> games;
+    private static List<Integer> players;           //for each game the number of players
+    private static List<Boolean> canStartList;
     //static private List<List<View>> views;
-    static private List<Integer> playersTakingTheirTurn;        //position n --> game n
+    private static List<Integer> playersTakingTheirTurn;        //position n --> game n
 
     public Server() throws RemoteException {
         super();

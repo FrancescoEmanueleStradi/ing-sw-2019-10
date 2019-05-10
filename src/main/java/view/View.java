@@ -1,7 +1,5 @@
 package view;
 
-import controller.Game;
-
 import java.rmi.RemoteException;
 
 public interface View  {

@@ -21,7 +21,6 @@ import static controller.GameState.*;
 public class Game {                                 //Cli or Gui -- Rmi or Socket
 
     private GameState gameState;
-    private int numGame;
     private boolean init = false;
     private Grid grid = new Grid();
     private boolean discard = false;
@@ -46,7 +45,6 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
     public void gameStart(String nickName, Colour c) {
        if(!init) {
            init = true;
-           //this.grid = new Grid();
            Player p = new Player(nickName, c, true);
            p.setTurnFinalFrenzy(1);
            this.grid.addPlayer(p);               //first state
@@ -86,22 +84,22 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
     }
 
     public synchronized List<String> getPlayers() {
-        return this.grid.getPlayers().stream().map(a -> a.getNickName()).collect(Collectors.toList());
+        return this.grid.getPlayers().stream().map(Player::getNickName).collect(Collectors.toList());
     }
 
     public List<String> getWeaponCard(String nickName) {
         Player p = this.grid.getPlayerObject(nickName);
-        return p.getwC().stream().map(a -> a.getCardName()).collect(Collectors.toList());
+        return p.getwC().stream().map(WeaponCard::getCardName).collect(Collectors.toList());
     }
 
     public List<String> getWeaponCardLoaded(String nickName){
         Player p = this.grid.getPlayerObject(nickName);
-        return p.getwC().stream().filter(a -> a.isReloaded()).map(a -> a.getCardName()).collect(Collectors.toList());
+        return p.getwC().stream().filter(WeaponCard::isReloaded).map(WeaponCard::getCardName).collect(Collectors.toList());
     }
 
     public List<String> getWeaponCardUnloaded(String nickName) {
         Player p = this.grid.getPlayerObject(nickName);
-        return p.getwC().stream().filter(a -> !a.isReloaded()).map(a -> a.getCardName()).collect(Collectors.toList());
+        return p.getwC().stream().filter(a -> !a.isReloaded()).map(WeaponCard::getCardName).collect(Collectors.toList());
     }
 
     public String getDescriptionWC(String s, String nickName) {
@@ -113,12 +111,12 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
     public List<Colour> getReloadCost(String s, String nickName) {
         Player p = this.grid.getPlayerObject(nickName);
         WeaponCard wC = p.getWeaponCardObject(s);
-        return Arrays.stream(wC.getReloadCost()).map(a -> a.getC()).collect(Collectors.toList());
+        return Arrays.stream(wC.getReloadCost()).map(AmmoCube::getC).collect(Collectors.toList());
     }
 
     public List<String> getPowerUpCard(String nickName) {
         Player p = this.grid.getPlayerObject(nickName);
-        return p.getpC().stream().map(a -> a.getCardName()).collect(Collectors.toList());
+        return p.getpC().stream().map(PowerUpCard::getCardName).collect(Collectors.toList());
     }
 
     public String getDescriptionPUC(String s, String colour, String nickName) {
@@ -129,7 +127,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
     }
 
     public List<Integer> getScore(){
-        return this.grid.getPlayers().stream().map(a -> a.getScore()).collect(Collectors.toList());
+        return this.grid.getPlayers().stream().map(Player::getScore).collect(Collectors.toList());
     }
 
 //----------------------------------------------------------------------------------------------------
@@ -137,11 +135,11 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
 
 
-    public boolean isValidReceiveType(int type) {
+    public synchronized boolean isValidReceiveType(int type) {
         return this.gameState.equals(START) && (type == 1 || type == 2 || type == 3 || type == 4);
     }
 
-   public void receiveType(int type) {
+   public synchronized void receiveType(int type) {
         this.grid.setType(type);                 //find a condition
         this.grid.setUpAmmoCard();
         this.gameState = INITIALIZED;
@@ -163,7 +161,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
        return new LinkedList<>();
    }
 
-   public boolean isValidPickAndDiscard(String nickName, String p1, String c1) {
+   public synchronized boolean isValidPickAndDiscard(String nickName, String p1, String c1) {
         Player p = this.grid.getPlayerObject(nickName);
         return (p.getCell() == null &&
                 (p1.equals(pUC1.getCardName()) && Colour.valueOf(c1).equals(pUC1.getC()) || p1.equals(pUC2.getCardName()) && Colour.valueOf(c1).equals(pUC2.getC())));
@@ -209,7 +207,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
        boolean x = false;
        if(p.getWeaponCardObject(nameWC).isReloaded()){
            List<AmmoCube> l = choosePayment(lA, lP);
-           List<Colour> lC = l.stream().map(a -> a.getC()).collect(Collectors.toList());
+           List<Colour> lC = l.stream().map(AmmoCube::getC).collect(Collectors.toList());
            switch(nameWC){
                case "Cyberblade":
                    if(lI.contains(1)){
@@ -775,7 +773,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         if(this.gameState.equals(STARTTURN)) {
             if (!p.isAdrenaline2())
                 return isValidShootNotAdrenaline(p, nameWC, lI, lS, lA, lP);
-            else if (p.isAdrenaline2())
+            else
                 return isValidShootAdrenaline(p, nameWC, lI, lS, direction, lA, lP);
         }
         return false;
@@ -795,7 +793,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         }
         if(!p.isAdrenaline2())
             this.shootNotAdrenaline(p, nameWC, lI, lS, lA, lP);
-        else if (p.isAdrenaline2())
+        else
             this.shootAdrenaline(p, nameWC, lI, lS, direction, lA, lP);
         this.gameState = ACTION1;
     }
@@ -805,8 +803,8 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
 
    private void move(Player p, List<Integer> directions) {
-       for(int i = 0; i < directions.size(); i++) {
-           this.grid.move(p, directions.get(i));    //view will tell player if there's a wall
+       for(Integer i : directions) {
+           this.grid.move(p, i);    //view will tell player if there's a wall
        }
    }
 
@@ -1085,7 +1083,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         if(this.gameState.equals(ACTION1))
             if(!p.isAdrenaline2())
                 return isValidShootNotAdrenaline(p, nameWC, lI, lS, lA, lP);
-            else if(p.isAdrenaline2())
+            else
                 return isValidShootAdrenaline(p, nameWC, lI, lS, direction, lA, lP);
         return false;
     }
@@ -1104,7 +1102,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         }
         if(!p.isAdrenaline2())
             this.shootNotAdrenaline(p, nameWC, lI, lS, lA, lP);
-        else if (p.isAdrenaline2())
+        else
             this.shootAdrenaline(p, nameWC, lI, lS, direction, lA, lP);
         this.gameState = ACTION2;
     }

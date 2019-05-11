@@ -34,6 +34,13 @@ public interface ServerInterface extends Remote {
     boolean isNotFinalFrenzy(int game) throws RemoteException;
     boolean gameIsFinished(int game) throws RemoteException;
     void finishTurn(int game) throws RemoteException;
+    void manageDisconnection(int game, int identifier, String nickName) throws RemoteException;
+    boolean isThereDisconnection(int game) throws RemoteException;
+    int disconnected(int game) throws RemoteException, InterruptedException;
+    boolean isASuspendedIdentifier(int game, int identifier) throws RemoteException;
+    void manageReconnection(int game, int identifier) throws RemoteException;
+    String getSuspendedName(int game, int identifier) throws RemoteException;
+    Colour getSuspendedColour(int game, String nickName) throws RemoteException;
 
     boolean messageGameIsNotStarted(int game) throws RemoteException;
     void messageGameStart(int game, String nick, Colour c) throws RemoteException;

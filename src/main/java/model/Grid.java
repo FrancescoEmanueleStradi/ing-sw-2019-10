@@ -61,6 +61,14 @@ public class Grid {
         return l;
     }
 
+    public Colour getPlayerColour(String name){
+        for(Player p: this.getPlayers()){
+            if(p.getNickName().equals(name))
+                return p.getC();
+        }
+        return null;
+    }
+
     public List<Colour> getPlayersColour() {
         LinkedList<Colour> l = new LinkedList<>();
         for(Player p: this.getPlayers())

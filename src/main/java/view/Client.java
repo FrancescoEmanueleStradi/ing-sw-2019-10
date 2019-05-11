@@ -20,69 +20,108 @@ public class Client {
         System.out.println("Enter the number of the game you want to play: " +
                 "there are " + centralServer.getGames()+ " games now");
         int g = in.nextInt()-1;
-        while(centralServer.tooMany(g)) {
-            System.out.println("Too many people on this game, choose another one:");
-            g = in.nextInt()-1;
+        System.out.println("Are you a new Player?");
+        String n = in.next();
+        if(n.equals("yes") || n.equals("Yes") || n.equals("YES")){
+            System.out.println("Enter you old identifier:");
+            identifier = in.nextInt();
+            while(!centralServer.isASuspendedIdentifier(g, identifier)){
+                System.out.println("Enter you old identifier:");
+                identifier = in.nextInt();
+            }
+            centralServer.manageReconnection(g,identifier);
+            System.out.println("Your identifier is:" + identifier);
+            System.out.println("Do you want to use CLI or GUI?");
+            switch (in.next()) {
+                case "CLI":
+                case "Cli":
+                case "cli":
+                    view = new CLI();
+                    break;
+                case "GUI":
+                case "Gui":
+                case "gui":
+                    view = new GUI();
+                    break;
+            }
+            game = centralServer.setGame(g);
+            view.setServer(centralServer);
+            view.setGame(game);
+            view.setInformation(identifier);
         }
-        game = centralServer.setGame(g);
-        System.out.println("Wait for five players to connect, if time will be out you will start even with three or four players");
-        identifier = centralServer.receiveIdentifier(game);
-        centralServer.mergeGroup(game);
+        else {
+            while (centralServer.tooMany(g)) {
+                System.out.println("Too many people on this game, choose another one:");
+                g = in.nextInt() - 1;
+            }
 
-        while(true){
-            if(centralServer.canStart(game))
-                break;
+            game = centralServer.setGame(g);
+            System.out.println("Wait for five players to connect, if time will be out you will start even with three or four players");
+            identifier = centralServer.receiveIdentifier(game);
+            centralServer.mergeGroup(game);
+
+            while (true) {
+                if (centralServer.canStart(game))
+                    break;
+            }
+
+
+            System.out.println("Your identifier is:" + identifier);
+            System.out.println("Do you want to use CLI or GUI?");
+            switch (in.next()) {
+                case "CLI":
+                case "Cli":
+                case "cli":
+                    view = new CLI();
+                    break;
+                case "GUI":
+                case "Gui":
+                case "gui":
+                    view = new GUI();
+                    break;
+            }
+            view.setServer(centralServer);
+            view.setGame(game);
+
+            view.askNameAndColour();
+            view.selectSpawnPoint();
         }
-
-        System.out.println("Your identifier is:"+identifier);
-        System.out.println("Do you want to use CLI or GUI?");
-        switch (in.next()) {
-            case "CLI":
-            case "Cli":
-            case "cli":
-                view = new CLI();
-                break;
-            case "GUI":
-            case "Gui":
-            case "gui":
-                view = new GUI();
-                break;
-        }
-        view.setServer(centralServer);
-        view.setGame(game);
-
-        view.askNameAndColour();
-        view.selectSpawnPoint();
-        while (true) {
-            if(centralServer.stopGame(game))
-                break;
-            if (centralServer.isMyTurn(game, identifier)) {
-                if (centralServer.isNotFinalFrenzy(game)) {
-                    if(view.doYouWantToUsePUC())
-                        view.usePowerUpCard();
-                    view.action1();
-                    if(view.doYouWantToUsePUC())
-                        view.usePowerUpCard();
-                    view.action2();
-                    if(view.doYouWantToUsePUC())
-                        view.usePowerUpCard();
-                    view.reload();
-                    view.scoring();
-                    view.newSpawnPoint();               //TODO it must be asked to every player
-                    view.replace();
-                    centralServer.finishTurn(game);
-                    if(centralServer.stopGame(game))
-                        break;
-                } else {
-                    view.finalFrenzyTurn();
-                    centralServer.finishTurn(game);
-                    break;              //TODO is it now that the client has to break?
+        try {
+            while (true) {
+                if(centralServer.isThereDisconnection(game))
+                    view.disconnected();
+                if (centralServer.stopGame(game))
+                    break;
+                if (centralServer.isMyTurn(game, identifier)) {
+                    if (centralServer.isNotFinalFrenzy(game)) {
+                        if (view.doYouWantToUsePUC())
+                            view.usePowerUpCard();
+                        view.action1();
+                        if (view.doYouWantToUsePUC())
+                            view.usePowerUpCard();
+                        view.action2();
+                        if (view.doYouWantToUsePUC())
+                            view.usePowerUpCard();
+                        view.reload();
+                        view.scoring();
+                        view.newSpawnPoint();               //TODO it must be asked to every player
+                        view.replace();
+                        centralServer.finishTurn(game);
+                        if (centralServer.stopGame(game))
+                            break;
+                    } else {
+                        view.finalFrenzyTurn();
+                        centralServer.finishTurn(game);
+                        break;              //TODO is it now that the client has to break?
+                    }
                 }
             }
-        }
-        view.endFinalFrenzy();
-        if(centralServer.gameIsFinished(game)){
-            view.finalScoring();
+            view.endFinalFrenzy();
+            if (centralServer.gameIsFinished(game)) {
+                view.finalScoring();
+            }
+        }catch (RemoteException e){                                     //TODO is it correct?
+            centralServer.manageDisconnection(game, identifier, view.getNickName());
         }
     }
 }

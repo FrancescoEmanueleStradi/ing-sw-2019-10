@@ -18,6 +18,9 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
     private static List<Boolean> canStartList;
     //static private List<List<View>> views;
     private static List<Integer> playersTakingTheirTurn;        //position n --> game n
+    private static List<LinkedList<Integer>>  suspendedIdentifier;
+    private static List<LinkedList<String>> suspendedName;                      //TODO test to understand if these are initialized and insert condition !isEmpty in if statements
+    private static List<Boolean> disconnection;
 
     public Server() throws RemoteException {
         super();
@@ -41,7 +44,10 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
         players = new LinkedList<>();
         //views = new LinkedList<>();
         canStartList = new LinkedList<>();
-        playersTakingTheirTurn = new LinkedList<>();            //TODO methods in the controller to notify the server
+        playersTakingTheirTurn = new LinkedList<>();
+        suspendedIdentifier = new LinkedList<>();
+        suspendedName = new LinkedList<>();
+        disconnection = new LinkedList<>();
     }
 
     public synchronized int getGames() throws RemoteException {
@@ -50,11 +56,12 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
 
     public synchronized int setGame(int numGame) throws RemoteException {
         if (games.isEmpty() || games.size() <= numGame){
-            games.add(numGame, new Game());                  //TODO add a game even if it shouldn't
+            games.add(numGame, new Game());
             //views.add(numGame, new LinkedList<>());
             playersTakingTheirTurn.add(numGame, 1);
             players.add(numGame, 0);
             canStartList.add(numGame, false);
+            disconnection.add(numGame, false);
         }
         return numGame;
     }
@@ -68,7 +75,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
     }
 
     public synchronized boolean stopGame(int game) throws RemoteException{
-        return (players.get(game) < 3);
+        return (players.get(game)-suspendedIdentifier.get(game).size() < 3);
     }
 
     public synchronized int receiveIdentifier(int game) throws RemoteException {
@@ -81,7 +88,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
     public synchronized void mergeGroup(int game) throws RemoteException, InterruptedException {
         if (players.get(game) == 5) {
             canStartList.add(game, true);
-            notifyAll();                //TODO does it wake up the wait?
+            notifyAll();
         }
         if(players.get(game) == 3) {                // TODO collision
             wait(30000);
@@ -110,17 +117,53 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
     }
 
     public synchronized boolean gameIsFinished(int game) throws RemoteException {
-        if(players.get(game) < 3)
+        if(players.get(game)-suspendedIdentifier.get(game).size() < 3)
             return true;
         return games.get(game).getGameState() == GameState.ENDALLTURN;
     }
 
     public synchronized void finishTurn(int game) throws RemoteException {
-        if(games.get(game).getPlayers().size() < playersTakingTheirTurn.get(game))
-            playersTakingTheirTurn.add(game, playersTakingTheirTurn.get(game)+1);
-        else playersTakingTheirTurn.add(game, 1);
+        do {
+            if (games.get(game).getPlayers().size() < playersTakingTheirTurn.get(game))
+                playersTakingTheirTurn.add(game, playersTakingTheirTurn.get(game) + 1);
+            else playersTakingTheirTurn.add(game, 1);
+        }while(suspendedIdentifier.get(game).contains(playersTakingTheirTurn.get(game)));
     }
 
+    public void manageDisconnection(int game, int identifier, String nickName) throws RemoteException{
+        suspendedIdentifier.get(game).add(identifier, identifier);                //TODO is suspended already initialized?
+        suspendedName.get(game).add(identifier, nickName);
+        disconnection.add(game, true);
+    }
+
+    public boolean isThereDisconnection(int game) throws RemoteException{
+        return disconnection.get(game);
+    }
+
+    public int disconnected(int game) throws RemoteException, InterruptedException{
+        int disconnected = suspendedIdentifier.get(game).get(suspendedIdentifier.size()-1);                     //TODO is it the right index?
+        wait(5000);                                                                     //TODO to make every player get the message
+        disconnection.add(game, false);
+        return disconnected;
+    }
+
+    public boolean isASuspendedIdentifier(int game, int identifier) throws RemoteException{
+        return suspendedIdentifier.get(game).contains(identifier);
+    }
+
+    public void manageReconnection(int game, int identifier) throws RemoteException{
+        suspendedIdentifier.get(game).remove(identifier);
+    }
+
+    public String getSuspendedName(int game, int identifier) throws RemoteException{
+        String s = suspendedName.get(game).get(identifier);
+        suspendedName.get(game).remove(s);
+        return s;
+    }
+
+    public Colour getSuspendedColour(int game, String nickName) throws RemoteException{
+        return games.get(game).getColour(nickName);
+    }
 
     public synchronized boolean messageGameIsNotStarted(int game) throws RemoteException {
         return games.get(game).gameIsNotStarted();

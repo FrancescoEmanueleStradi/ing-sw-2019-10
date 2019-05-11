@@ -29,13 +29,25 @@ public class CLI implements View {
         this.game = game;
     }
 
-    /*public String getNickName() {
+    @Override
+    public String getNickName() {
         return nickName;
-    }*/
+    }
 
     @Override
     public void setServer(ServerInterface server) {
         this.server = server;
+    }
+
+    @Override
+    public void setInformation(int identifier) throws RemoteException{
+        this.nickName = server.getSuspendedName(game, identifier);
+        this.colour = server.getSuspendedColour(game, this.nickName);
+    }
+
+    @Override
+    public void disconnected() throws RemoteException, InterruptedException{
+        System.out.println("Player number" + this.server.disconnected(game) + "is disconnected");
     }
 
     @Override
@@ -58,6 +70,11 @@ public class CLI implements View {
                 else
                     System.out.println(errorRetry);
             }*/
+            while (!this.server.messageIsValidReceiveType(game, type)){
+                System.out.println(errorRetry);
+                System.out.println("Choose the type of arena (1, 2, 3, 4):");
+                type = in.nextInt();
+            }
             this.server.messageReceiveType(game, type);
             System.out.println("\n---------GENERATING ARENA...---------\n");
             return;

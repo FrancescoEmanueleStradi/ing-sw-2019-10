@@ -60,6 +60,9 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 //----------------------------------------------------------------------------------------------------
 
 
+    public Colour getColour(String nickName){
+        return this.getColour(nickName);
+    }
 
 
     public boolean isValidAddPlayer(String nickName, Colour c) {

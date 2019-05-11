@@ -23,6 +23,22 @@ public class GUI implements View{
     }
 
     @Override
+    public String getNickName() {
+        return nickName;
+    }
+
+    @Override
+    public void setInformation(int identifier) throws RemoteException{
+        this.nickName = server.getSuspendedName(game, identifier);
+        this.colour = server.getSuspendedColour(game, this.nickName);
+    }
+
+    @Override
+    public void disconnected() throws RemoteException, InterruptedException{
+        //TODO
+    }
+
+    @Override
     public void askNameAndColour() {
         //TODO
     }

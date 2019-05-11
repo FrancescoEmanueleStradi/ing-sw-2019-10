@@ -6,6 +6,9 @@ public interface View  {
 
     void setServer(ServerInterface server)throws RemoteException;
     void setGame(int game)throws RemoteException;
+    String getNickName() throws RemoteException;
+    void setInformation(int identifier) throws RemoteException;
+    void disconnected() throws RemoteException, InterruptedException;
     void askNameAndColour()throws RemoteException;
     void selectSpawnPoint()throws RemoteException;
     void action1()throws RemoteException;

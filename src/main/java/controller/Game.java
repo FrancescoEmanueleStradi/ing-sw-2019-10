@@ -151,6 +151,8 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
             List<String> l = new LinkedList<>();
             pUC1 = this.grid.pickPowerUpCard();
             pUC2 = this.grid.pickPowerUpCard();
+            p.addPowerUpCard(pUC1);
+            p.addPowerUpCard(pUC2);
             l.add(pUC1.getCardName());
             l.add(pUC1.getC().getAbbreviation());
             l.add(pUC2.getCardName());
@@ -167,15 +169,15 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                 (p1.equals(pUC1.getCardName()) && Colour.valueOf(c1).equals(pUC1.getC()) || p1.equals(pUC2.getCardName()) && Colour.valueOf(c1).equals(pUC2.getC())));
    }
 
-   public synchronized void pickAndDiscardCard(String nickName, String p1, String c1) {     //p1 and c1 name and colour of the chosen card
+   public synchronized void pickAndDiscardCard(String nickName, String p1, String c1) {     //p1 and c1 name and colour of the card the player want to keep
        Player p = this.grid.getPlayerObject(nickName);
        if(p1.equals(pUC1.getCardName()) && Colour.valueOf(c1).equals(pUC1.getC())) {
-           p.addPowerUpCard(pUC1);
+           p.removePowerUpCard(pUC2);
            this.grid.getPowerUpDiscardPile().add(pUC2);
            chooseSpawnPoint(pUC2.getC(), p);
        }
        else if(p1.equals(pUC2.getCardName()) && Colour.valueOf(c1).equals(pUC2.getC())) {
-           p.addPowerUpCard(pUC2);
+           p.removePowerUpCard(pUC1);
            this.grid.getPowerUpDiscardPile().add(pUC1);
            chooseSpawnPoint(pUC1.getC(), p);
        }

@@ -212,22 +212,22 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                    List<Integer> move2 = new LinkedList<>();
                    if(!lS.get(1).isEmpty())
                        move2.add(Integer.parseInt(lS.get(1)));
-                   if(lI.size() == 1 && lI.get(0).equals(1) &&
+                   if(lI.size() == 1 && lI.get(0).equals(1) && !lS.isEmpty() &&
                            (p.getCell().equals(this.grid.getPlayerObject(lS.get(0)).getCell())))
                            x = true;
-                   else if(lI.size() == 2 && lI.contains(1) && lI.contains(2)) {
+                   else if(lI.size() == 2 && lI.contains(1) && lI.contains(2) && lS.size() > 1) {
                        if((Integer.parseInt(lS.get(1)) == 1 || Integer.parseInt(lS.get(1)) == 2 || Integer.parseInt(lS.get(1)) == 3 || Integer.parseInt(lS.get(1)) == 4) && this.grid.canGhostMove(p, move2) &&
                                (lI.indexOf(2) > lI.indexOf(1) && p.getCell().equals(this.grid.getPlayerObject(lS.get(0)).getCell()) ||
                                lI.indexOf(2) < lI.indexOf(1) && this.grid.ghostMove(p, move2).getCell().equals(this.grid.getPlayerObject(lS.get(0)).getCell())))
                            x = true;
                    }
-                   else if(lI.size() == 2 && lI.contains(1) && lI.contains(3)) {
+                   else if(lI.size() == 2 && lI.contains(1) && lI.contains(3) && lS.size() > 2) {
                        if (p.getCell().equals(this.grid.getPlayerObject(lS.get(0)).getCell()) &&
                                p.getCell().equals(this.grid.getPlayerObject(lS.get(2)).getCell()) &&
                                !this.grid.getPlayerObject(lS.get(0)).equals(this.grid.getPlayerObject(lS.get(2))) && lC.contains(Colour.YELLOW))
                            x = true;
                    }
-                   else if(lI.size() == 3 && ((lI.indexOf(2) == 0 && (Integer.parseInt(lS.get(1)) == 1 || Integer.parseInt(lS.get(1)) == 2 || Integer.parseInt(lS.get(1)) == 3 || Integer.parseInt(lS.get(1)) == 4) && this.grid.canGhostMove(p, move2) &&
+                   else if(lI.size() == 3 && lS.size() > 2 && ((lI.indexOf(2) == 0 && (Integer.parseInt(lS.get(1)) == 1 || Integer.parseInt(lS.get(1)) == 2 || Integer.parseInt(lS.get(1)) == 3 || Integer.parseInt(lS.get(1)) == 4) && this.grid.canGhostMove(p, move2) &&
                                this.grid.ghostMove(p, move2).getCell().equals(this.grid.getPlayerObject(lS.get(0)).getCell()) && this.grid.ghostMove(p, move2).getCell().equals(this.grid.getPlayerObject(lS.get(2)).getCell()) && !this.grid.getPlayerObject(lS.get(0)).equals(this.grid.getPlayerObject(lS.get(2)))) ||
                                (lI.indexOf(2) == 1 && lI.indexOf(1) < lI.indexOf(3) && p.getCell().equals(this.grid.getPlayerObject(lS.get(0)).getCell()) && this.grid.ghostMove(p, move2).getCell().equals(this.grid.getPlayerObject(lS.get(2)).getCell())) ||
                                (lI.indexOf(2) == 1 && lI.indexOf(1) > lI.indexOf(3) && p.getCell().equals(this.grid.getPlayerObject(lS.get(2)).getCell()) && this.grid.ghostMove(p, move2).getCell().equals(this.grid.getPlayerObject(lS.get(0)).getCell())) ||
@@ -293,26 +293,22 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                             x = true;
                    }
                    break;
-               case "Machine Gun":
-                   if(!lI.isEmpty() && lI.get(0) == 1) {
-                       if(this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(0))) && (lS.get(1).equals("") || this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(1)))))
-                           x = true;
-                       if(!x)
-                           break;
-                   }
-                   if(lI.size() > 1 && lI.get(0) == 1 && lI.get(1) == 2) {
-                       x = false;
-                       if((this.grid.getPlayerObject(lS.get(2)).equals(this.grid.getPlayerObject(lS.get(0))) || (!lS.get(1).equals("") && (this.grid.getPlayerObject(lS.get(2)).equals(this.grid.getPlayerObject(lS.get(1)))) || this.grid.getPlayerObject(lS.get(2)).equals(this.grid.getPlayerObject(lS.get(0))))) && lC.contains(Colour.YELLOW))
-                           x = true;
-                       if(!x)
-                           break;
-                   }
-                   if(lI.size() > 2 && lI.get(0) == 1 && lI.get(1) == 2 && lI.get(2) == 3) { //very difficult
-                       x = false;
-                       if((lS.get(1).equals("") || (!lS.get(1).equals("") && !this.grid.getPlayerObject(lS.get(3)).equals(this.grid.getPlayerObject(lS.get(2)))) || (!lS.get(1).equals("") && !this.grid.getPlayerObject(lS.get(3)).equals(this.grid.getPlayerObject(lS.get(0))) && !this.grid.getPlayerObject(lS.get(3)).equals(this.grid.getPlayerObject(lS.get(1))) && !this.grid.getPlayerObject(lS.get(3)).equals(this.grid.getPlayerObject(lS.get(2))) && this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(3)))) ||
-                               (!lS.get(1).equals("") && !this.grid.getPlayerObject(lS.get(3)).equals(this.grid.getPlayerObject(lS.get(2))) && (this.grid.getPlayerObject(lS.get(3)).equals(this.grid.getPlayerObject(lS.get(0))) || this.grid.getPlayerObject(lS.get(3)).equals(this.grid.getPlayerObject(lS.get(1)))) && !this.grid.getPlayerObject(lS.get(4)).equals(this.grid.getPlayerObject(lS.get(0))) && !this.grid.getPlayerObject(lS.get(4)).equals(this.grid.getPlayerObject(lS.get(1))) && !this.grid.getPlayerObject(lS.get(4)).equals(this.grid.getPlayerObject(lS.get(2))) && !this.grid.getPlayerObject(lS.get(4)).equals(this.grid.getPlayerObject(lS.get(3))) && this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(4))))) && lC.contains(Colour.BLUE))
+               case "Machine Gun":      //if player wants to use Turret Tripod (3) he must use the basic effect AND Focus Shot before that
+                   if(lI.size() == 1 && lI.get(0) == 1 && !lS.isEmpty()) {
+                       if(this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(0))) && (lS.get(1).isEmpty() || this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(1)))))
                            x = true;
                    }
+                   else if(lI.size() == 2 && lI.get(0) == 1 && lI.get(1) == 2 && lS.size() > 2) {
+                       if(this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(0))) && ((lS.get(1).isEmpty() && this.grid.getPlayerObject(lS.get(2)).equals(this.grid.getPlayerObject(lS.get(0)))) ||
+                               (!lS.get(1).isEmpty() && this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(1))) && (this.grid.getPlayerObject(lS.get(2)).equals(this.grid.getPlayerObject(lS.get(0))) || this.grid.getPlayerObject(lS.get(2)).equals(this.grid.getPlayerObject(lS.get(1)))))) && lC.contains(Colour.YELLOW))
+                           x = true;
+                   }
+                   else if(lI.size() == 3 && lI.get(0) == 1 && lI.get(1) == 2 && lI.get(2) == 3 && lS.size() > 4 &&
+                           (this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(0))) && ((lS.get(1).isEmpty() && this.grid.getPlayerObject(lS.get(2)).equals(this.grid.getPlayerObject(lS.get(0)))) ||
+                               (!lS.get(1).isEmpty() && this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(1))) && (this.grid.getPlayerObject(lS.get(2)).equals(this.grid.getPlayerObject(lS.get(0))) || this.grid.getPlayerObject(lS.get(2)).equals(this.grid.getPlayerObject(lS.get(1)))))) &&
+                               !this.grid.getPlayerObject(lS.get(3)).equals(this.grid.getPlayerObject(lS.get(2))) && (lS.get(4).isEmpty() || (!this.grid.getPlayerObject(lS.get(4)).equals(this.grid.getPlayerObject(lS.get(0))) && (lS.get(1).isEmpty() || !this.grid.getPlayerObject(lS.get(4)).equals(this.grid.getPlayerObject(lS.get(1)))))) &&
+                               (lS.get(4).isEmpty() || this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(4))) && !this.grid.getPlayerObject(lS.get(4)).equals(this.grid.getPlayerObject(lS.get(3)))) && lC.contains(Colour.YELLOW) && lC.contains(Colour.BLUE)))
+                           x = true;
                    break;
                case "Plasma Gun":
                    if((!lI.contains(2) || (lI.indexOf(2) > lI.indexOf(1)))) {
@@ -920,7 +916,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         List<AmmoCube> l = new LinkedList<>();
         if(!lA.isEmpty())
             l.addAll(lA);
-        if(!lA.isEmpty()) {
+        if(!lP.isEmpty()) {
             for (PowerUpCard p : lP)
                 l.add(p.getValue());
         }

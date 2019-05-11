@@ -482,15 +482,24 @@ class GameAssertTests {
 
         grid.damage(p1, p3, 6);     //now p3 has unlocked Adrenaline 2
         p3.changeCell(grid.getBoard().getArena()[0][0]);
-        p1.changeCell(grid.getBoard().getArena()[0][1]);
+        p1.changeCell(grid.getBoard().getArena()[0][2]);
+        p2.changeCell(grid.getBoard().getArena()[0][2]);
 
         WeaponCard cyberblade = new Cyberblade();
         p3.addWeaponCard(cyberblade);
+        cyberblade.reload();
 
         List<Integer> lI = new LinkedList<>();
+        lI.add(2);
+        lI.add(1);
+        lI.add(3);
         List<String> lS = new LinkedList<>();
+        lS.add("Player 1");
+        lS.add("2");
+        lS.add("Player 2");
 
+        lA.add(Colour.valueOf("YELLOW"));
 
-        //assertTrue(game.isValidSecondActionShoot("Player 3", "Cyberblade", lI, lS, 2, lA, lP, lPColourInput));
+        assertTrue(game.isValidSecondActionShoot("Player 3", "Cyberblade", lI, lS, 2, lA, lP, lPColourInput));
     }
 }

@@ -209,30 +209,30 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
            List<Colour> lC = l.stream().map(AmmoCube::getC).collect(Collectors.toList());
            switch(nameWC){
                case "Cyberblade":
-                   if(lI.contains(1)){
-                       if(this.grid.whereAmI(p).equals(this.grid.whereAmI(this.grid.getPlayerObject(lS.get(0)))))
+                   List<Integer> move2 = new LinkedList<>();
+                   if(!lS.get(1).isEmpty())
+                       move2.add(Integer.parseInt(lS.get(1)));
+                   if(lI.size() == 1 && lI.get(0).equals(1) &&
+                           (p.getCell().equals(this.grid.getPlayerObject(lS.get(0)).getCell())))
                            x = true;
-                       if(!x)
-                           break;
-                   }
-                   if(lI.contains(2) && lI.contains(1)){
-                       x = false;
-                       List<Integer> movement = new LinkedList<>();
-                       movement.add(Integer.parseInt(lS.get(1)));
-                       if((Integer.parseInt(lS.get(1)) == 1 || Integer.parseInt(lS.get(1)) == 2 || Integer.parseInt(lS.get(1)) == 3 || Integer.parseInt(lS.get(1)) == 4) &&
-                               !(this.grid.canMove(p, Integer.parseInt(lS.get(1)))) &&
-                               (lI.indexOf(2) > lI.indexOf(1) && this.grid.whereAmI(p).equals(this.grid.whereAmI(this.grid.getPlayerObject(lS.get(0)))) || lI.indexOf(2) < lI.indexOf(1) && this.grid.whereAmI(this.grid.ghostMove(p, movement)).equals(this.grid.whereAmI(this.grid.getPlayerObject(lS.get(0))))))
+                   else if(lI.size() == 2 && lI.contains(1) && lI.contains(2)) {
+                       if((Integer.parseInt(lS.get(1)) == 1 || Integer.parseInt(lS.get(1)) == 2 || Integer.parseInt(lS.get(1)) == 3 || Integer.parseInt(lS.get(1)) == 4) && this.grid.canGhostMove(p, move2) &&
+                               (lI.indexOf(2) > lI.indexOf(1) && p.getCell().equals(this.grid.getPlayerObject(lS.get(0)).getCell()) ||
+                               lI.indexOf(2) < lI.indexOf(1) && this.grid.ghostMove(p, move2).getCell().equals(this.grid.getPlayerObject(lS.get(0)).getCell())))
                            x = true;
                    }
-                   if(lI.contains(3) && lI.contains(1)){
-                       x = false;
-                       List<Integer> movement = new LinkedList<>();
-                       movement.add(Integer.parseInt(lS.get(1)));
-                       if((lI.contains(2) && lI.indexOf(2) > lI.indexOf(3) && this.grid.whereAmI(p).equals(this.grid.whereAmI(this.grid.getPlayerObject(lS.get(3)))) ||
-                               lI.contains(2) && lI.indexOf(2) < lI.indexOf(3) && this.grid.whereAmI(this.grid.ghostMove(p, movement)).equals(this.grid.whereAmI(this.grid.getPlayerObject(lS.get(3))))) &&
-                               !this.grid.getPlayerObject(lS.get(3)).equals(this.grid.getPlayerObject(lS.get(0))) && lC.contains(Colour.YELLOW))
+                   else if(lI.size() == 2 && lI.contains(1) && lI.contains(3)) {
+                       if (p.getCell().equals(this.grid.getPlayerObject(lS.get(0)).getCell()) &&
+                               p.getCell().equals(this.grid.getPlayerObject(lS.get(2)).getCell()) &&
+                               !this.grid.getPlayerObject(lS.get(0)).equals(this.grid.getPlayerObject(lS.get(2))) && lC.contains(Colour.YELLOW))
                            x = true;
                    }
+                   else if(lI.size() == 3 && ((lI.indexOf(2) == 0 && (Integer.parseInt(lS.get(1)) == 1 || Integer.parseInt(lS.get(1)) == 2 || Integer.parseInt(lS.get(1)) == 3 || Integer.parseInt(lS.get(1)) == 4) && this.grid.canGhostMove(p, move2) &&
+                               this.grid.ghostMove(p, move2).getCell().equals(this.grid.getPlayerObject(lS.get(0)).getCell()) && this.grid.ghostMove(p, move2).getCell().equals(this.grid.getPlayerObject(lS.get(2)).getCell()) && !this.grid.getPlayerObject(lS.get(0)).equals(this.grid.getPlayerObject(lS.get(2)))) ||
+                               (lI.indexOf(2) == 1 && lI.indexOf(1) < lI.indexOf(3) && p.getCell().equals(this.grid.getPlayerObject(lS.get(0)).getCell()) && this.grid.ghostMove(p, move2).getCell().equals(this.grid.getPlayerObject(lS.get(2)).getCell())) ||
+                               (lI.indexOf(2) == 1 && lI.indexOf(1) > lI.indexOf(3) && p.getCell().equals(this.grid.getPlayerObject(lS.get(2)).getCell()) && this.grid.ghostMove(p, move2).getCell().equals(this.grid.getPlayerObject(lS.get(0)).getCell())) ||
+                               (lI.indexOf(2) == 2 && p.getCell().equals(this.grid.getPlayerObject(lS.get(0)).getCell()) && p.getCell().equals(this.grid.getPlayerObject(lS.get(2)).getCell()) && !this.grid.getPlayerObject(lS.get(0)).equals(this.grid.getPlayerObject(lS.get(2)))) && lC.contains(Colour.YELLOW)))
+                           x = true;
                    break;
                case "Electroscythe":
                    if(lI.contains(1) && !lI.contains(2))
@@ -747,6 +747,8 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         else {
             Player future = new Player("?fUtUrE!", p.getC(), p.isFirstPlayerCard());
             future.changeCell(p.getCell());
+            for(WeaponCard w : p.getwC())
+                future.addWeaponCard(w);
             this.grid.move(future, direction);
             return this.isValidShootNotAdrenaline(future, nameWC, lI, lS, lA, lP);
         }

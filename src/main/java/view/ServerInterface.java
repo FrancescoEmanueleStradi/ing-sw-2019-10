@@ -52,16 +52,16 @@ public interface ServerInterface extends Remote {
     boolean messageIsValidCard(int game, String nick, String weaponCard) throws RemoteException;
     List<Colour> messageGetReloadCost(int game, String s, String nick) throws RemoteException;      //TODO Problem
     String messageGetDescriptionWC(int game, String s, String nick) throws RemoteException;
-    boolean messageIsValidFirstActionGrab(int game, String nick, Integer[] d, String wC, String wS, List<Colour> lA, List<String> lP, List<String> lPC) throws RemoteException;
-    void messageFirstActionGrab(int game, String nick, Integer[] d, String wC, List<Colour> lC, List<String> lP, List<String> lPC) throws RemoteException;
+    boolean messageIsValidFirstActionGrab(int game, String nick, List<Integer> d, String wC, String wS, List<Colour> lA, List<String> lP, List<String> lPC) throws RemoteException;
+    void messageFirstActionGrab(int game, String nick, List<Integer> d, String wC, List<Colour> lC, List<String> lP, List<String> lPC) throws RemoteException;
     boolean messageIsDiscard(int game) throws RemoteException;
     void messageDiscardWeaponCard(int game, String nick, String wS, String wC) throws RemoteException;
     boolean messageIsValidSecondActionShoot(int game, String nick, String wC, List<Integer> lI, List<String> lS, int d, List<Colour> lC, List<String> lP, List<String> lPC) throws RemoteException;
     void messageSecondActionShoot(int game, String nick, String wC, List<Integer> lI, List<String> lS, int d, List<Colour> lC, List<String> lP, List<String> lPC) throws RemoteException;
     boolean messageIsValidSecondActionMove(int game, String nick, List<Integer> d) throws RemoteException;
     void messageSecondActionMove(int game, String nick, List<Integer> d) throws RemoteException;
-    boolean messageIsValidSecondActionGrab(int game, String nick, Integer[] d, String wC, String wS, List<Colour> lA, List<String> lP, List<String> lPC) throws RemoteException;
-    void messageSecondActionGrab(int game, String nick, Integer[] d, String wC, List<Colour> lC, List<String> lP, List<String> lPC) throws RemoteException;
+    boolean messageIsValidSecondActionGrab(int game, String nick, List<Integer> d, String wC, String wS, List<Colour> lA, List<String> lP, List<String> lPC) throws RemoteException;
+    void messageSecondActionGrab(int game, String nick, List<Integer> d, String wC, List<Colour> lC, List<String> lP, List<String> lPC) throws RemoteException;
     List<String> messageGetPowerUpCard(int game, String nick) throws RemoteException;
     String messageGetDescriptionPUC(int game, String pC, String col, String nick) throws RemoteException;
     boolean messageIsValidUsePowerUpCard(int game, String nick, String pC, String col, List<String> l,Colour c) throws RemoteException;

@@ -457,8 +457,10 @@ class GameAssertTests {
         grid.getBoard().getArena()[2][0].setA(ammoCard1);
 
 
-        Integer[] directions1 = new Integer[1];
-        directions1[0] = 3;
+        //Integer[] directions1 = new Integer[1];
+        //directions1[0] = 3;
+        List<Integer> directions1 = new LinkedList<>();
+        directions1.add(3);
         List<Colour> lA = new LinkedList<>();
         List<String> lP = new LinkedList<>();
         List<String> lPColourInput = new LinkedList<>();

@@ -235,18 +235,18 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                            x = true;
                    break;
                case "Electroscythe":
-                   if(lI.contains(1) && !lI.contains(2))
+                   if(lI.size() == 1 && (lI.contains(1) && !lI.contains(2)) ||
+                           (!lI.contains(1) && lI.contains(2) && lC.containsAll(Arrays.asList(Colour.RED, Colour.BLUE))))
                        x = true;
-                   if(!lI.contains(1) && lI.contains(2) && lC.contains(Colour.RED) && lC.contains(Colour.BLUE))
-                           x = true;
                    break;
                case "Flamethrower":
-                   if(lI.contains(1) && !lI.contains(2) &&
-                           this.grid.distance(p, this.grid.getPlayerObject(lS.get(0))) == 1 && !(this.grid.isThereAWall(p, new Position(this.grid.getPlayerObject(lS.get(0)).getCell().getP().getX(), this.grid.getPlayerObject(lS.get(0)).getCell().getP().getY())) &&
-                           (lS.size()<2 || this.grid.distance(this.grid.getPlayerObject(lS.get(0)), this.grid.getPlayerObject(lS.get(1))) == 1 && ((this.grid.getPlayerObject(lS.get(0)).getCell().getP().getX() == this.grid.getPlayerObject(lS.get(1)).getCell().getP().getX()) || (this.grid.getPlayerObject(lS.get(0)).getCell().getP().getY() == this.grid.getPlayerObject(lS.get(1)).getCell().getP().getY())) && !(this.grid.isThereAWall(this.grid.getPlayerObject(lS.get(0)), new Position(this.grid.getPlayerObject(lS.get(1)).getCell().getP().getX(), this.grid.getPlayerObject(lS.get(1)).getCell().getP().getY()))))))
-                           x = true;
-                   if(!lI.contains(1) && lI.contains(2) &&
-                           this.grid.distance(p, new Position(Integer.parseInt(lS.get(0)), Integer.parseInt(lS.get(1)))) == 1 && this.grid.distance(new Position(Integer.parseInt(lS.get(2)),Integer.parseInt(lS.get(3))), new Position(Integer.parseInt(lS.get(0)), Integer.parseInt(lS.get(1)))) == 1 && (Integer.parseInt(lS.get(0)) == Integer.parseInt(lS.get(2))||Integer.parseInt(lS.get(1)) == Integer.parseInt(lS.get(2))) && lC.containsAll(Arrays.asList(Colour.YELLOW, Colour.YELLOW)))
+                   if(lI.size() == 1 && (lI.contains(1) && !lI.contains(2) &&
+                           this.grid.distance(p, this.grid.getPlayerObject(lS.get(0))) == 1 && !(this.grid.isThereAWall(p, this.grid.getPlayerObject(lS.get(0)).getCell().getP())) &&
+                           (lS.get(1).isEmpty() || this.grid.distance(this.grid.getPlayerObject(lS.get(0)), this.grid.getPlayerObject(lS.get(1))) == 1 && ((this.grid.getPlayerObject(lS.get(0)).getCell().getP().getX() == this.grid.getPlayerObject(lS.get(1)).getCell().getP().getX()) || (this.grid.getPlayerObject(lS.get(0)).getCell().getP().getY() == this.grid.getPlayerObject(lS.get(1)).getCell().getP().getY())) &&
+                                   !(this.grid.isThereAWall(this.grid.getPlayerObject(lS.get(0)), this.grid.getPlayerObject(lS.get(1)).getCell().getP())))) ||
+                   (!lI.contains(1) && lI.contains(2) &&
+                           this.grid.distance(p, new Position(Integer.parseInt(lS.get(0)), Integer.parseInt(lS.get(1)))) == 1 && this.grid.distance(new Position(Integer.parseInt(lS.get(2)),Integer.parseInt(lS.get(3))), new Position(Integer.parseInt(lS.get(0)), Integer.parseInt(lS.get(1)))) == 1 &&
+                           (Integer.parseInt(lS.get(0)) == Integer.parseInt(lS.get(2)) || Integer.parseInt(lS.get(1)) == Integer.parseInt(lS.get(2))) && lC.containsAll(Arrays.asList(Colour.YELLOW, Colour.YELLOW))))
                            x = true;
                    break;
                case "Furnace":
@@ -307,7 +307,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                            (this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(0))) && ((lS.get(1).isEmpty() && this.grid.getPlayerObject(lS.get(2)).equals(this.grid.getPlayerObject(lS.get(0)))) ||
                                (!lS.get(1).isEmpty() && this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(1))) && (this.grid.getPlayerObject(lS.get(2)).equals(this.grid.getPlayerObject(lS.get(0))) || this.grid.getPlayerObject(lS.get(2)).equals(this.grid.getPlayerObject(lS.get(1)))))) &&
                                !this.grid.getPlayerObject(lS.get(3)).equals(this.grid.getPlayerObject(lS.get(2))) && (lS.get(4).isEmpty() || (!this.grid.getPlayerObject(lS.get(4)).equals(this.grid.getPlayerObject(lS.get(0))) && (lS.get(1).isEmpty() || !this.grid.getPlayerObject(lS.get(4)).equals(this.grid.getPlayerObject(lS.get(1)))))) &&
-                               (lS.get(4).isEmpty() || this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(4))) && !this.grid.getPlayerObject(lS.get(4)).equals(this.grid.getPlayerObject(lS.get(3)))) && lC.contains(Colour.YELLOW) && lC.contains(Colour.BLUE)))
+                               (lS.get(4).isEmpty() || this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(4))) && !this.grid.getPlayerObject(lS.get(4)).equals(this.grid.getPlayerObject(lS.get(3)))) && lC.containsAll(Arrays.asList(Colour.YELLOW, Colour.BLUE))))
                            x = true;
                    break;
                case "Plasma Gun":

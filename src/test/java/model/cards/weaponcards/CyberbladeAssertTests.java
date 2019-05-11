@@ -43,17 +43,14 @@ class CyberbladeAssertTests {
         grid.setType(1);
 
         Player player = new Player("Myself", Colour.YELLOW, true);
-        Position oldPos = new Position(0,1);
-        grid.move(player, oldPos);
+        player.changeCell(grid.getBoard().getArena()[0][1]);
 
         Player enemy1 = new Player("Enemy 1", Colour.BLACK, false);
         c.applyEffect(grid, player, enemy1);
         assertEquals(Colour.YELLOW, enemy1.getpB().getDamages().getDamageTr()[1].getC());
 
-        String x = "0";
-        String y = "2";
-        c.applySpecialEffect(grid, player, x, y);
-        assertTrue(grid.distance(player, oldPos) == 1);
+        c.applySpecialEffect(grid, player, "2");
+        assertEquals(grid.getBoard().getArena()[0][2], player.getCell());
 
         Player enemy2 = new Player("Enemy 2", Colour.RED, false);
         Position enemyPos = new Position(0,2);

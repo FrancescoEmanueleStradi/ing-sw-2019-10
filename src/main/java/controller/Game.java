@@ -10,10 +10,7 @@ import model.player.AmmoCube;
 import model.player.DamageToken;
 import model.player.Player;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static controller.GameState.*;
@@ -220,12 +217,20 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                    }
                    if(lI.contains(2) && lI.contains(1)){
                        x = false;
-                       if(this.grid.distance(p, new Position(Integer.parseInt(lS.get(1)), Integer.parseInt(lS.get(2)))) == 1 && !(this.grid.isThereAWall(p, new Position(Integer.parseInt(lS.get(1)), Integer.parseInt(lS.get(2))))))
+                       List<Integer> movement = new LinkedList<>();
+                       movement.add(Integer.parseInt(lS.get(1)));
+                       if((Integer.parseInt(lS.get(1)) == 1 || Integer.parseInt(lS.get(1)) == 2 || Integer.parseInt(lS.get(1)) == 3 || Integer.parseInt(lS.get(1)) == 4) &&
+                               !(this.grid.canMove(p, Integer.parseInt(lS.get(1)))) &&
+                               (lI.indexOf(2) > lI.indexOf(1) && this.grid.whereAmI(p).equals(this.grid.whereAmI(this.grid.getPlayerObject(lS.get(0)))) || lI.indexOf(2) < lI.indexOf(1) && this.grid.whereAmI(this.grid.ghostMove(p, movement)).equals(this.grid.whereAmI(this.grid.getPlayerObject(lS.get(0))))))
                            x = true;
                    }
                    if(lI.contains(3) && lI.contains(1)){
                        x = false;
-                       if(lI.contains(1) && this.grid.whereAmI(p).equals(this.grid.whereAmI(this.grid.getPlayerObject(lS.get(3)))) && !this.grid.getPlayerObject(lS.get(3)).equals(this.grid.getPlayerObject(lS.get(0))) && lC.contains(Colour.YELLOW))
+                       List<Integer> movement = new LinkedList<>();
+                       movement.add(Integer.parseInt(lS.get(1)));
+                       if((lI.contains(2) && lI.indexOf(2) > lI.indexOf(3) && this.grid.whereAmI(p).equals(this.grid.whereAmI(this.grid.getPlayerObject(lS.get(3)))) ||
+                               lI.contains(2) && lI.indexOf(2) < lI.indexOf(3) && this.grid.whereAmI(this.grid.ghostMove(p, movement)).equals(this.grid.whereAmI(this.grid.getPlayerObject(lS.get(3))))) &&
+                               !this.grid.getPlayerObject(lS.get(3)).equals(this.grid.getPlayerObject(lS.get(0))) && lC.contains(Colour.YELLOW))
                            x = true;
                    }
                    break;
@@ -557,10 +562,10 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                         x = 1;
                     }
                     if (i == 2) {
-                        ((Cyberblade) p.getWeaponCardObject(nameWC)).applySpecialEffect(this.grid, p, lS.get(1), lS.get(2));
+                        ((Cyberblade) p.getWeaponCardObject(nameWC)).applySpecialEffect(this.grid, p, lS.get(1));
                     }
                     if ((x == 1) && i == 3)
-                        ((Cyberblade) p.getWeaponCardObject(nameWC)).applySpecialEffect2(this.grid, p , this.grid.getPlayerObject(lS.get(3)));
+                        ((Cyberblade) p.getWeaponCardObject(nameWC)).applySpecialEffect2(this.grid, p , this.grid.getPlayerObject(lS.get(2)));
                 }
                 break;
             case "Electroscythe":
@@ -755,6 +760,9 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
     public boolean isValidFirstActionShoot(String nickName, String nameWC, List<Integer> lI, List<String> lS, int direction, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) {
         Player p = this.grid.getPlayerObject(nickName);
+        Set<Integer> lIset = new HashSet<>(lI);
+        if(lIset.size() < lI.size())                //to check if there are repetitions in lI, which means that player wants to apply the same effect multiple times
+            return false;
         List<AmmoCube> lA= new LinkedList<>();
         if(!lAInput.isEmpty()) {
             for (Colour c : lAInput)
@@ -940,12 +948,12 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         }
         if(this.gameState.equals(STARTTURN) && (directions.length <= 2)) {
             if(!p.isAdrenaline1() && directions.length == 1 && this.grid.canMove(p, directions[0]) &&
-                    (wCardInput.equals("") || ((!wCardInput.equals("") && wCard != null) && ((wSlotInput.equals("1") && (this.grid.ghostMove(p, directionList).getCell().getP().getX() == 0 && this.grid.ghostMove(p, directionList).getCell().getP().getY() == 2)) ||
+                    (wCardInput.equals("") && wSlotInput.equals("") || ((!wCardInput.equals("") && wCard != null) && ((wSlotInput.equals("1") && (this.grid.ghostMove(p, directionList).getCell().getP().getX() == 0 && this.grid.ghostMove(p, directionList).getCell().getP().getY() == 2)) ||
                         (wSlotInput.equals("2") && (this.grid.ghostMove(p, directionList).getCell().getP().getX() == 2 && this.grid.ghostMove(p, directionList).getCell().getP().getY() == 3)) ||
                         (wSlotInput.equals("3") && (this.grid.ghostMove(p, directionList).getCell().getP().getX() == 1 && this.grid.ghostMove(p, directionList).getCell().getP().getY() == 0))))))
                     return true;
             if(p.isAdrenaline1() && directions.length == 2 && this.grid.canGhostMove(p, directionList) &&
-                    (wCardInput.equals("") || ((!wCardInput.equals("") && wCard != null) && ((wSlotInput.equals("1") && (this.grid.ghostMove(p, directionList).getCell().getP().getX() == 0 && this.grid.ghostMove(p, directionList).getCell().getP().getY() == 2)) ||
+                    (wCardInput.equals("") && wSlotInput.equals("") || ((!wCardInput.equals("") && wCard != null) && ((wSlotInput.equals("1") && (this.grid.ghostMove(p, directionList).getCell().getP().getX() == 0 && this.grid.ghostMove(p, directionList).getCell().getP().getY() == 2)) ||
                         (wSlotInput.equals("2") && (this.grid.ghostMove(p, directionList).getCell().getP().getX() == 2 && this.grid.ghostMove(p, directionList).getCell().getP().getY() == 3)) ||
                         (wSlotInput.equals("3") && (this.grid.ghostMove(p, directionList).getCell().getP().getX() == 1 && this.grid.ghostMove(p, directionList).getCell().getP().getY() == 0))))))
                     return true;
@@ -1065,6 +1073,9 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
     public boolean isValidSecondActionShoot(String nickName, String nameWC, List<Integer> lI, List<String> lS, int direction, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) {
         Player p = this.grid.getPlayerObject(nickName);
+        Set<Integer> lIset = new HashSet<>(lI);
+        if(lIset.size() < lI.size())                //to check if there are repetitions in lI, which means that player wants to apply the same effect multiple times
+            return false;
         List<AmmoCube> lA = new LinkedList<>();
         if(!lAInput.isEmpty()) {
             for (Colour c : lAInput)

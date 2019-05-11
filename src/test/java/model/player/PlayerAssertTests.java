@@ -225,22 +225,6 @@ class PlayerAssertTests {
 
         assertFalse(p1.isAdrenaline1());
         assertFalse(p1.isAdrenaline2());
-
-        p1.setTrueAdrenaline1();
-        assertTrue(p1.isAdrenaline1());
-        assertFalse(p1.isAdrenaline2());
-
-        p1.setTrueAdrenaline2();
-        assertTrue(p1.isAdrenaline1());
-        assertTrue(p1.isAdrenaline2());
-
-        p1.setFalseAdrenaline1();
-        assertFalse(p1.isAdrenaline1());
-        assertTrue(p1.isAdrenaline2());
-
-        p1.setFalseAdrenaline2();
-        assertFalse(p1.isAdrenaline1());
-        assertFalse(p1.isAdrenaline2());
     }
 
     @Test

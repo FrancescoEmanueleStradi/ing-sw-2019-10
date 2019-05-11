@@ -208,27 +208,11 @@ public class Player {
     }
 
     public boolean isAdrenaline1() {
-        return adrenaline1;
-    }
-
-    public void setTrueAdrenaline1() {
-        this.adrenaline1 = true;
-    }
-
-    public void setFalseAdrenaline1() {
-        this.adrenaline1 = false;
+        return (this.pB.getDamages().getDamageTr()[2]!=null);
     }
 
     public boolean isAdrenaline2() {
-        return adrenaline2;
-    }
-
-    public void setTrueAdrenaline2() {
-        this.adrenaline2 = true;
-    }
-
-    public void setFalseAdrenaline2() {
-        this.adrenaline2 = false;
+        return (this.pB.getDamages().getDamageTr()[5]!=null);
     }
 
     public boolean isDead(){

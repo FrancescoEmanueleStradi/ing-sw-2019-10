@@ -10,6 +10,7 @@ import model.cards.powerupcards.Newton;
 import model.cards.powerupcards.TagbackGrenade;
 import model.cards.powerupcards.TargetingScope;
 import model.cards.powerupcards.Teleporter;
+import model.cards.weaponcards.Cyberblade;
 import model.cards.weaponcards.MachineGun;
 import model.player.AmmoCube;
 import model.player.Player;
@@ -452,8 +453,8 @@ class GameAssertTests {
         p1.changeCell(grid.getBoard().getArena()[1][0]);
         p2.changeCell(grid.getBoard().getArena()[0][2]);
 
-        AmmoCard ammocard1 = new RBB();
-        grid.getBoard().getArena()[2][0].setA(ammocard1);
+        AmmoCard ammoCard1 = new RBB();
+        grid.getBoard().getArena()[2][0].setA(ammoCard1);
 
 
         Integer[] directions1 = new Integer[1];
@@ -473,5 +474,23 @@ class GameAssertTests {
         assertNotNull(p1.getaC()[6]);
         assertNull(p1.getaC()[7]);
         assertNull(p1.getaC()[8]);
+
+        assertEquals(GameState.ACTION1, game.getGameState());
+
+
+        //Second Action: Shoot with Adrenaline
+
+        grid.damage(p1, p3, 6);     //now p3 has unlocked Adrenaline 2
+        p3.changeCell(grid.getBoard().getArena()[0][0]);
+        p1.changeCell(grid.getBoard().getArena()[0][1]);
+
+        WeaponCard cyberblade = new Cyberblade();
+        p3.addWeaponCard(cyberblade);
+
+        List<Integer> lI = new LinkedList<>();
+        List<String> lS = new LinkedList<>();
+
+
+        //assertTrue(game.isValidSecondActionShoot("Player 3", "Cyberblade", lI, lS, 2, lA, lP, lPColourInput));
     }
 }

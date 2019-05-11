@@ -39,8 +39,8 @@ public class Cyberblade extends WeaponCard {
 
     //before: This Special Effect can be done before or after the other effects. Let player p choose a cell he wants to go to.
 
-    public void applySpecialEffect(Grid grid, Player p, String x, String y) {   //Shadowstep: player p moves in the chosen cell
-        grid.move(p, Integer.parseInt(x), Integer.parseInt(y));
+    public void applySpecialEffect(Grid grid, Player p, String direction) {   //Shadowstep: player p moves in the chosen cell
+        grid.move(p, Integer.parseInt(direction));
     }
 
     //before: let player p choose a different target p2 than p1. p2 must be on the same cell of p.

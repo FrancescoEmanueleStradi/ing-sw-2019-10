@@ -899,10 +899,10 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
             wS.setCard3(wC);
     }
 
-    private void grabAdrenaline(Player p, Integer[] d, WeaponCard w, List<AmmoCube> lA, List<PowerUpCard> lP) {
-        this.grid.move(p, d[0]);
-        if(d.length == 2)
-            this.grid.move(p, d[1]);
+    private void grabAdrenaline(Player p, List<Integer> d, WeaponCard w, List<AmmoCube> lA, List<PowerUpCard> lP) {
+        this.grid.move(p, d.get(0));
+        if(d.size() == 2)
+            this.grid.move(p, d.get(1));
         if(p.getCell().getStatus() == 0)
             giveWhatIsOnAmmoCard(p, p.getCell().getA());
         else if((p.getCell().getStatus() == 1) && w != null && (canPay(w, choosePayment(lA, lP)))) {
@@ -925,7 +925,42 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         return l;
     }
 
-    public boolean isValidFirstActionGrab(String nickName, Integer[] directions, String wCardInput, String wSlotInput, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) {
+    public boolean isValidFirstActionGrab(String nickName, List<Integer> directionList, String wCardInput, String wSlotInput, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) {
+        Player p = this.grid.getPlayerObject(nickName);
+        WeaponCard wCard = this.grid.getWeaponCardObject(wCardInput);
+        List<AmmoCube> lA = new LinkedList<>();
+        if(!lAInput.isEmpty()) {
+            for (Colour c : lAInput)
+                lA.add(new AmmoCube(c));
+            AmmoCube[] cubeArray = new AmmoCube[lA.size()];
+            lA.toArray(cubeArray);
+            if (!p.checkAmmoCube(cubeArray) && wCard != null)
+                return false;
+        }
+        List<PowerUpCard> lP = new LinkedList<>();
+        if(!lPInput.isEmpty()) {
+            for (int i = 0; i < lPInput.size(); i++) {
+                if (p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))) == null)
+                    return false;
+                lP.add(p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))));
+            }
+        }
+        if(this.gameState.equals(STARTTURN) && (directionList.size() <= 2)) {
+            if(!p.isAdrenaline1() && directionList.size() == 1 && this.grid.canMove(p, directionList.get(0)) &&
+                    (wCardInput.equals("") && wSlotInput.equals("") || ((!wCardInput.equals("") && wCard != null) && ((wSlotInput.equals("1") && (this.grid.ghostMove(p, directionList).getCell().getP().getX() == 0 && this.grid.ghostMove(p, directionList).getCell().getP().getY() == 2)) ||
+                            (wSlotInput.equals("2") && (this.grid.ghostMove(p, directionList).getCell().getP().getX() == 2 && this.grid.ghostMove(p, directionList).getCell().getP().getY() == 3)) ||
+                            (wSlotInput.equals("3") && (this.grid.ghostMove(p, directionList).getCell().getP().getX() == 1 && this.grid.ghostMove(p, directionList).getCell().getP().getY() == 0))))))
+                return true;
+            if(p.isAdrenaline1() && directionList.size() == 2 && this.grid.canGhostMove(p, directionList) &&
+                    (wCardInput.equals("") && wSlotInput.equals("") || ((!wCardInput.equals("") && wCard != null) && ((wSlotInput.equals("1") && (this.grid.ghostMove(p, directionList).getCell().getP().getX() == 0 && this.grid.ghostMove(p, directionList).getCell().getP().getY() == 2)) ||
+                            (wSlotInput.equals("2") && (this.grid.ghostMove(p, directionList).getCell().getP().getX() == 2 && this.grid.ghostMove(p, directionList).getCell().getP().getY() == 3)) ||
+                            (wSlotInput.equals("3") && (this.grid.ghostMove(p, directionList).getCell().getP().getX() == 1 && this.grid.ghostMove(p, directionList).getCell().getP().getY() == 0))))))
+                return true;
+        }
+        return false;
+    }
+
+    /*public boolean isValidFirstActionGrab(String nickName, Integer[] directions, String wCardInput, String wSlotInput, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) {
         Player p = this.grid.getPlayerObject(nickName);
         List<Integer> directionList = Arrays.asList(directions);
         WeaponCard wCard = this.grid.getWeaponCardObject(wCardInput);
@@ -959,10 +994,10 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                     return true;
         }
         return false;
-    }
+    }*/
 
 
-    public synchronized void firstActionGrab(String nickName, Integer[] directions, String wCardInput, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) { //directions contains where p wants to go. directions contains '0' if p doesn't want to move and only grab
+    public synchronized void firstActionGrab(String nickName, List<Integer> directions, String wCardInput, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) { //directions contains where p wants to go. directions contains '0' if p doesn't want to move and only grab
         Player p = this.grid.getPlayerObject(nickName);
         WeaponCard wCard = this.grid.getWeaponCardObject(wCardInput);
         List<AmmoCube> l = new LinkedList<>();
@@ -972,13 +1007,31 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         for(int i = 0; i < lPInput.size(); i++)
             lP.add(p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))));
         if(!(p.isAdrenaline1()))
-                grabNotAdrenaline(p, directions[0], wCard, l, lP);
+                grabNotAdrenaline(p, directions.get(0), wCard, l, lP);
 
         if(p.isAdrenaline1()||p.isAdrenaline2()){
                 grabAdrenaline(p, directions, wCard, l, lP);
         }
         this.gameState = ACTION1;
     }
+
+    /*public synchronized void firstActionGrab(String nickName, Integer[] directions, String wCardInput, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) { //directions contains where p wants to go. directions contains '0' if p doesn't want to move and only grab
+        Player p = this.grid.getPlayerObject(nickName);
+        WeaponCard wCard = this.grid.getWeaponCardObject(wCardInput);
+        List<AmmoCube> l = new LinkedList<>();
+        for(Colour c : lAInput)
+            l.add(new AmmoCube(c));
+        List<PowerUpCard> lP= new LinkedList<>();
+        for(int i = 0; i < lPInput.size(); i++)
+            lP.add(p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))));
+        if(!(p.isAdrenaline1()))
+            grabNotAdrenaline(p, directions[0], wCard, l, lP);
+
+        if(p.isAdrenaline1()||p.isAdrenaline2()){
+            grabAdrenaline(p, directions, wCard, l, lP);
+        }
+        this.gameState = ACTION1;
+    }*/
 
 
 
@@ -1014,9 +1067,8 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
 
 
-    public boolean isValidSecondActionGrab(String nickName, Integer[] directions, String wCardInput, String wSlotInput, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) {
+    public boolean isValidSecondActionGrab(String nickName, List<Integer> directionList, String wCardInput, String wSlotInput, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) {
         Player p = this.grid.getPlayerObject(nickName);
-        List<Integer> directionList = Arrays.asList(directions);
         WeaponCard wCard = this.grid.getWeaponCardObject(wCardInput);
         List<AmmoCube> lA= new LinkedList<>();
         if(!lAInput.isEmpty()) {
@@ -1035,13 +1087,13 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                 lP.add(p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))));
             }
         }
-        if(this.gameState.equals(ACTION1) && (directions.length <= 2)) {
-            if(!p.isAdrenaline1() && directions.length == 1 && this.grid.canMove(p, directions[0]) &&
+        if(this.gameState.equals(ACTION1) && (directionList.size() <= 2)) {
+            if(!p.isAdrenaline1() && directionList.size() == 1 && this.grid.canMove(p, directionList.get(0)) &&
                     (wCardInput.equals("") || ((!wCardInput.equals("") && wCard != null) && ((wSlotInput.equals("1") && (this.grid.ghostMove(p, directionList).getCell().getP().getX() == 0 && this.grid.ghostMove(p, directionList).getCell().getP().getY() == 2)) ||
                         (wSlotInput.equals("2") && (this.grid.ghostMove(p, directionList).getCell().getP().getX() == 2 && this.grid.ghostMove(p, directionList).getCell().getP().getY() == 3)) ||
                         (wSlotInput.equals("3") && (this.grid.ghostMove(p, directionList).getCell().getP().getX() == 1 && this.grid.ghostMove(p, directionList).getCell().getP().getY() == 0))))))
                     return true;
-            if(p.isAdrenaline1() && directions.length == 2 && this.grid.canGhostMove(p, directionList) &&
+            if(p.isAdrenaline1() && directionList.size() == 2 && this.grid.canGhostMove(p, directionList) &&
                     (wCardInput.equals("") || ((!wCardInput.equals("") && wCard != null) && ((wSlotInput.equals("1") && (this.grid.ghostMove(p, directionList).getCell().getP().getX() == 0 && this.grid.ghostMove(p, directionList).getCell().getP().getY() == 2)) ||
                         (wSlotInput.equals("2") && (this.grid.ghostMove(p, directionList).getCell().getP().getX() == 2 && this.grid.ghostMove(p, directionList).getCell().getP().getY() == 3)) ||
                         (wSlotInput.equals("3") && (this.grid.ghostMove(p, directionList).getCell().getP().getX() == 1 && this.grid.ghostMove(p, directionList).getCell().getP().getY() == 0))))))
@@ -1050,7 +1102,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         return false;
     }
 
-    public synchronized void secondActionGrab(String nickName, Integer[] directions, String wCardInput, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) { //directions contains where p wants to go. directions contains '0' if p doesn't want to move and only grab
+    public synchronized void secondActionGrab(String nickName, List<Integer> directions, String wCardInput, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) { //directions contains where p wants to go. directions contains '0' if p doesn't want to move and only grab
         Player p = this.grid.getPlayerObject(nickName);
         WeaponCard wCard = this.grid.getWeaponCardObject(wCardInput);
         List<AmmoCube> l= new LinkedList<>();
@@ -1060,7 +1112,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         for(int i = 0; i < lPInput.size(); i++)
             lP.add(p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))));
         if(!(p.isAdrenaline1()))
-            grabNotAdrenaline(p, directions[0], wCard, l, lP);
+            grabNotAdrenaline(p, directions.get(0), wCard, l, lP);
 
         if(p.isAdrenaline1()||p.isAdrenaline2()){
             grabAdrenaline(p, directions, wCard, l, lP);

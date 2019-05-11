@@ -190,10 +190,10 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
         return games.get(game).getDescriptionWC(s, nick);
     }
 
-    public synchronized boolean messageIsValidFirstActionGrab(int game, String nick, Integer[] d, String wC, String wS, List<Colour> lA, List<String> lP, List<String> lPC) throws RemoteException {
+    public synchronized boolean messageIsValidFirstActionGrab(int game, String nick, List<Integer> d, String wC, String wS, List<Colour> lA, List<String> lP, List<String> lPC) throws RemoteException {
         return games.get(game).isValidFirstActionGrab(nick, d, wC, wS,lA, lP, lPC);
     }
-    public synchronized void messageFirstActionGrab(int game, String nick, Integer[] d, String wC, List<Colour> lC, List<String> lP, List<String> lPC) throws RemoteException {
+    public synchronized void messageFirstActionGrab(int game, String nick, List<Integer> d, String wC, List<Colour> lC, List<String> lP, List<String> lPC) throws RemoteException {
         games.get(game).firstActionGrab(nick, d, wC, lC, lP, lPC);
     }
 
@@ -221,11 +221,11 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
         games.get(game).secondActionMove(nick, d);
     }
 
-    public synchronized boolean messageIsValidSecondActionGrab(int game, String nick, Integer[] d, String wC, String wS, List<Colour> lA, List<String> lP, List<String> lPC) throws RemoteException {
+    public synchronized boolean messageIsValidSecondActionGrab(int game, String nick, List<Integer> d, String wC, String wS, List<Colour> lA, List<String> lP, List<String> lPC) throws RemoteException {
         return games.get(game).isValidSecondActionGrab(nick, d, wC, wS, lA, lP, lPC);
     }
 
-    public synchronized void messageSecondActionGrab(int game, String nick, Integer[] d, String wC, List<Colour> lC, List<String> lP, List<String> lPC) throws RemoteException {
+    public synchronized void messageSecondActionGrab(int game, String nick, List<Integer> d, String wC, List<Colour> lC, List<String> lP, List<String> lPC) throws RemoteException {
         games.get(game).secondActionGrab(nick, d, wC, lC, lP, lPC);
 
     }

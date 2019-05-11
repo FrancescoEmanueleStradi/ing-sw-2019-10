@@ -187,7 +187,7 @@ public class CLI implements View {
         switch(s){
             case "Cyberblade":
                 System.out.println(inputReminder +
-                        "basic effect: target in your cell\nshadowstep: coordinates of cell you want to move to 1 square away\n" +
+                        "basic effect: target in your cell\nshadowstep: direction you want to move to\n" +
                         "slice and dice: different target in your cell [1 yellow]");
                 wPrompt.shootToUser1(game, server, nickName, s);
                 break;
@@ -332,8 +332,9 @@ public class CLI implements View {
 
     private void grabFirstAction() throws RemoteException{
         Scanner in = new Scanner(System.in);
-        Integer[] directions = null;  //TODO this causes null pointer error; alternatives?
-        List<Integer> l = new LinkedList<>();
+        //Integer[] directions = null;
+        //List<Integer> l = new LinkedList<>();
+        List<Integer> lD = new LinkedList<>();
         List<Colour> lC = new LinkedList<>();
         List<String> lP = new LinkedList<>();
         List<String> lPC = new LinkedList<>();
@@ -347,7 +348,7 @@ public class CLI implements View {
                     "1 = north, 2 = east, 3 = south, 4 = west\n" +
                     "Press any letter char to finish");
             while (in.hasNextInt())
-                l.add(in.nextInt());
+                lD.add(in.nextInt());
             //TODO method that displays the cards in a weapon slot of the player's choice; should be in a while() so as to let the player inspect all of them
             System.out.println("Do you want to buy a weapon card instead of grabbing ammo? (Yes/yes/y)");
             confirm = in.next();
@@ -382,11 +383,12 @@ public class CLI implements View {
                         lPC.add(c);
                 }
             }
-            if (this.server.messageIsValidFirstActionGrab(game, nickName, l.toArray(directions), wCard, weaponSlot, lC, lP, lPC))
+            //if (this.server.messageIsValidFirstActionGrab(game, nickName, l.toArray(directions), wCard, weaponSlot, lC, lP, lPC))
+            if (this.server.messageIsValidFirstActionGrab(game, nickName, lD, wCard, weaponSlot, lC, lP, lPC))
                 break;
             else {
                 System.out.println(errorRetry);
-                l.clear();
+                lD.clear();
                 lC.clear();
                 lP.clear();
                 lPC.clear();
@@ -413,7 +415,7 @@ public class CLI implements View {
                     lPC.add(in.next());
             }
         }*/
-        this.server.messageFirstActionGrab(game, nickName, l.toArray(directions), wCard, lC, lP, lPC);
+        this.server.messageFirstActionGrab(game, nickName, lD, wCard, lC, lP, lPC);
         if(this.server.messageIsDiscard(game)) {
             System.out.println("Enter the WeaponCard you want to discard");
             String wCDiscard = in.next();
@@ -570,27 +572,30 @@ public class CLI implements View {
     }
 
     private void grabSecondAction() throws RemoteException{
-        //TODO update with grabFirstAction lines if it works
         Scanner in = new Scanner(System.in);
-        Integer[] directions = null;
-        List<Integer> l = new LinkedList<>();
+        //Integer[] directions = null;
+        //List<Integer> l = new LinkedList<>();
+        List<Integer> lD = new LinkedList<>();
         List<Colour> lC = new LinkedList<>();
         List<String> lP = new LinkedList<>();
         List<String> lPC = new LinkedList<>();
-        String wCard;
-        String weaponSlot = null;
+        String wCard = "";
+        String weaponSlot = "";
+        String confirm;
         while (true) {
             System.out.println("If you wish to grab whatever is in your cell, enter 0\n" +
-                    "Otherwise, enter the sequence of movements you want to do, one integer at a time: only one is permitted\n" +
+                    "Otherwise, enter the sequence of movements you want to do, one integer at a time: only one is permitted" +
                     "if you haven't unlocked the Adrenaline move, up to two otherwise\n" +
                     "1 = north, 2 = east, 3 = south, 4 = west\n" +
                     "Press any letter char to finish");
             while (in.hasNextInt())
-                l.add(in.nextInt());
+                lD.add(in.nextInt());
             //TODO method that displays the cards in a weapon slot of the player's choice; should be in a while() so as to let the player inspect all of them
-            System.out.println("If it is a WeaponCard you wish to buy, enter its name");
-            wCard = in.next();
-            if (!wCard.equals("")) {
+            System.out.println("Do you want to buy a weapon card instead of grabbing ammo? (Yes/yes/y)");
+            confirm = in.next();
+            if (confirm.equals("Yes") || confirm.equals("yes") || confirm.equals("y")) {
+                System.out.println("Enter the name of the WeaponCard you wish to buy:");
+                wCard = in.next();
                 System.out.println("Enter the number of the WeaponSlot from which you want to buy the card:");
                 weaponSlot = in.next();
                 System.out.println("Enter the colour(s), in order and in all caps, of the required AmmoCube(s) to buy the card,\n" +
@@ -618,15 +623,16 @@ public class CLI implements View {
                     else
                         lPC.add(c);
                 }
-                if (this.server.messageIsValidSecondActionGrab(game, nickName, l.toArray(directions), wCard, weaponSlot, lC, lP, lPC))
-                    break;
-                else {
-                    System.out.println(errorRetry);
-                    l.clear();
-                    lC.clear();
-                    lP.clear();
-                    lPC.clear();
-                }
+            }
+            //if (this.server.messageIsValidFirstActionGrab(game, nickName, l.toArray(directions), wCard, weaponSlot, lC, lP, lPC))
+            if (this.server.messageIsValidSecondActionGrab(game, nickName, lD, wCard, weaponSlot, lC, lP, lPC))
+                break;
+            else {
+                System.out.println(errorRetry);
+                lD.clear();
+                lC.clear();
+                lP.clear();
+                lPC.clear();
             }
         }
         /*while (!this.server.messageIsValidSecondActionGrab(game, nickName, l.toArray(directions), wCard, weaponSlot, lC, lP, lPC)){
@@ -650,7 +656,7 @@ public class CLI implements View {
                     lPC.add(in.next());
             }
         }*/
-        this.server.messageSecondActionGrab(game, nickName, l.toArray(directions), wCard, lC, lP, lPC);
+        this.server.messageSecondActionGrab(game, nickName, lD, wCard, lC, lP, lPC);
         if(this.server.messageIsDiscard(game)) {
             System.out.println("Enter the WeaponCard you want to discard");
             String wCDiscard = in.next();

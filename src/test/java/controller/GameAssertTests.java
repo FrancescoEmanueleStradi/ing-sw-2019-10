@@ -457,8 +457,10 @@ class GameAssertTests {
         grid.getBoard().getArena()[2][0].setA(ammoCard1);
 
 
-        Integer[] directions1 = new Integer[1];
-        directions1[0] = 3;
+        //Integer[] directions1 = new Integer[1];
+        //directions1[0] = 3;
+        List<Integer> directions1 = new LinkedList<>();
+        directions1.add(3);
         List<Colour> lA = new LinkedList<>();
         List<String> lP = new LinkedList<>();
         List<String> lPColourInput = new LinkedList<>();
@@ -482,15 +484,32 @@ class GameAssertTests {
 
         grid.damage(p1, p3, 6);     //now p3 has unlocked Adrenaline 2
         p3.changeCell(grid.getBoard().getArena()[0][0]);
-        p1.changeCell(grid.getBoard().getArena()[0][1]);
+        p1.changeCell(grid.getBoard().getArena()[0][2]);
+        p2.changeCell(grid.getBoard().getArena()[0][2]);
 
         WeaponCard cyberblade = new Cyberblade();
         p3.addWeaponCard(cyberblade);
+        cyberblade.reload();
+        PowerUpCard newton = new Newton(Colour.YELLOW);
+        p3.addPowerUpCard(newton);
 
         List<Integer> lI = new LinkedList<>();
+        lI.add(2);
+        lI.add(1);
+        lI.add(3);
         List<String> lS = new LinkedList<>();
+        lS.add("Player 1");
+        lS.add("2");
+        lS.add("Player 2");
 
+        lP.add("Newton");
+        lPColourInput.add("YELLOW");
 
-        //assertTrue(game.isValidSecondActionShoot("Player 3", "Cyberblade", lI, lS, 2, lA, lP, lPColourInput));
+        assertTrue(game.isValidSecondActionShoot("Player 3", "Cyberblade", lI, lS, 2, lA, lP, lPColourInput));
+        game.secondActionShoot("Player 3", "Cyberblade", lI, lS, 2, lA, lP, lPColourInput);
+        assertEquals(p3.getC(), p1.getpB().getDamages().getDamageTr()[0].getC());
+        assertEquals(p3.getC(), p1.getpB().getDamages().getDamageTr()[1].getC());
+        assertEquals(p3.getC(), p2.getpB().getDamages().getDamageTr()[0].getC());
+        assertEquals(p3.getC(), p2.getpB().getDamages().getDamageTr()[1].getC());
     }
 }

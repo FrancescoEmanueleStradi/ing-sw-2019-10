@@ -212,44 +212,44 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
            List<Colour> lC = l.stream().map(AmmoCube::getC).collect(Collectors.toList());
            switch(nameWC){
                case "Cyberblade":
-                   if(lI.contains(1)){
-                       if(this.grid.whereAmI(p).equals(this.grid.whereAmI(this.grid.getPlayerObject(lS.get(0)))))
+                   List<Integer> move2 = new LinkedList<>();
+                   if(!lS.get(1).isEmpty())
+                       move2.add(Integer.parseInt(lS.get(1)));
+                   if(lI.size() == 1 && lI.get(0).equals(1) && !lS.isEmpty() &&
+                           (p.getCell().equals(this.grid.getPlayerObject(lS.get(0)).getCell())))
                            x = true;
-                       if(!x)
-                           break;
-                   }
-                   if(lI.contains(2) && lI.contains(1)){
-                       x = false;
-                       List<Integer> movement = new LinkedList<>();
-                       movement.add(Integer.parseInt(lS.get(1)));
-                       if((Integer.parseInt(lS.get(1)) == 1 || Integer.parseInt(lS.get(1)) == 2 || Integer.parseInt(lS.get(1)) == 3 || Integer.parseInt(lS.get(1)) == 4) &&
-                               !(this.grid.canMove(p, Integer.parseInt(lS.get(1)))) &&
-                               (lI.indexOf(2) > lI.indexOf(1) && this.grid.whereAmI(p).equals(this.grid.whereAmI(this.grid.getPlayerObject(lS.get(0)))) || lI.indexOf(2) < lI.indexOf(1) && this.grid.whereAmI(this.grid.ghostMove(p, movement)).equals(this.grid.whereAmI(this.grid.getPlayerObject(lS.get(0))))))
+                   else if(lI.size() == 2 && lI.contains(1) && lI.contains(2) && lS.size() > 1) {
+                       if((Integer.parseInt(lS.get(1)) == 1 || Integer.parseInt(lS.get(1)) == 2 || Integer.parseInt(lS.get(1)) == 3 || Integer.parseInt(lS.get(1)) == 4) && this.grid.canGhostMove(p, move2) &&
+                               (lI.indexOf(2) > lI.indexOf(1) && p.getCell().equals(this.grid.getPlayerObject(lS.get(0)).getCell()) ||
+                               lI.indexOf(2) < lI.indexOf(1) && this.grid.ghostMove(p, move2).getCell().equals(this.grid.getPlayerObject(lS.get(0)).getCell())))
                            x = true;
                    }
-                   if(lI.contains(3) && lI.contains(1)){
-                       x = false;
-                       List<Integer> movement = new LinkedList<>();
-                       movement.add(Integer.parseInt(lS.get(1)));
-                       if((lI.contains(2) && lI.indexOf(2) > lI.indexOf(3) && this.grid.whereAmI(p).equals(this.grid.whereAmI(this.grid.getPlayerObject(lS.get(3)))) ||
-                               lI.contains(2) && lI.indexOf(2) < lI.indexOf(3) && this.grid.whereAmI(this.grid.ghostMove(p, movement)).equals(this.grid.whereAmI(this.grid.getPlayerObject(lS.get(3))))) &&
-                               !this.grid.getPlayerObject(lS.get(3)).equals(this.grid.getPlayerObject(lS.get(0))) && lC.contains(Colour.YELLOW))
+                   else if(lI.size() == 2 && lI.contains(1) && lI.contains(3) && lS.size() > 2) {
+                       if (p.getCell().equals(this.grid.getPlayerObject(lS.get(0)).getCell()) &&
+                               p.getCell().equals(this.grid.getPlayerObject(lS.get(2)).getCell()) &&
+                               !this.grid.getPlayerObject(lS.get(0)).equals(this.grid.getPlayerObject(lS.get(2))) && lC.contains(Colour.YELLOW))
                            x = true;
                    }
+                   else if(lI.size() == 3 && lS.size() > 2 && ((lI.indexOf(2) == 0 && (Integer.parseInt(lS.get(1)) == 1 || Integer.parseInt(lS.get(1)) == 2 || Integer.parseInt(lS.get(1)) == 3 || Integer.parseInt(lS.get(1)) == 4) && this.grid.canGhostMove(p, move2) &&
+                               this.grid.ghostMove(p, move2).getCell().equals(this.grid.getPlayerObject(lS.get(0)).getCell()) && this.grid.ghostMove(p, move2).getCell().equals(this.grid.getPlayerObject(lS.get(2)).getCell()) && !this.grid.getPlayerObject(lS.get(0)).equals(this.grid.getPlayerObject(lS.get(2)))) ||
+                               (lI.indexOf(2) == 1 && lI.indexOf(1) < lI.indexOf(3) && p.getCell().equals(this.grid.getPlayerObject(lS.get(0)).getCell()) && this.grid.ghostMove(p, move2).getCell().equals(this.grid.getPlayerObject(lS.get(2)).getCell())) ||
+                               (lI.indexOf(2) == 1 && lI.indexOf(1) > lI.indexOf(3) && p.getCell().equals(this.grid.getPlayerObject(lS.get(2)).getCell()) && this.grid.ghostMove(p, move2).getCell().equals(this.grid.getPlayerObject(lS.get(0)).getCell())) ||
+                               (lI.indexOf(2) == 2 && p.getCell().equals(this.grid.getPlayerObject(lS.get(0)).getCell()) && p.getCell().equals(this.grid.getPlayerObject(lS.get(2)).getCell()) && !this.grid.getPlayerObject(lS.get(0)).equals(this.grid.getPlayerObject(lS.get(2)))) && lC.contains(Colour.YELLOW)))
+                           x = true;
                    break;
                case "Electroscythe":
-                   if(lI.contains(1) && !lI.contains(2))
+                   if(lI.size() == 1 && (lI.contains(1) && !lI.contains(2)) ||
+                           (!lI.contains(1) && lI.contains(2) && lC.containsAll(Arrays.asList(Colour.RED, Colour.BLUE))))
                        x = true;
-                   if(!lI.contains(1) && lI.contains(2) && lC.contains(Colour.RED) && lC.contains(Colour.BLUE))
-                           x = true;
                    break;
                case "Flamethrower":
-                   if(lI.contains(1) && !lI.contains(2) &&
-                           this.grid.distance(p, this.grid.getPlayerObject(lS.get(0))) == 1 && !(this.grid.isThereAWall(p, new Position(this.grid.getPlayerObject(lS.get(0)).getCell().getP().getX(), this.grid.getPlayerObject(lS.get(0)).getCell().getP().getY())) &&
-                           (lS.size()<2 || this.grid.distance(this.grid.getPlayerObject(lS.get(0)), this.grid.getPlayerObject(lS.get(1))) == 1 && ((this.grid.getPlayerObject(lS.get(0)).getCell().getP().getX() == this.grid.getPlayerObject(lS.get(1)).getCell().getP().getX()) || (this.grid.getPlayerObject(lS.get(0)).getCell().getP().getY() == this.grid.getPlayerObject(lS.get(1)).getCell().getP().getY())) && !(this.grid.isThereAWall(this.grid.getPlayerObject(lS.get(0)), new Position(this.grid.getPlayerObject(lS.get(1)).getCell().getP().getX(), this.grid.getPlayerObject(lS.get(1)).getCell().getP().getY()))))))
-                           x = true;
-                   if(!lI.contains(1) && lI.contains(2) &&
-                           this.grid.distance(p, new Position(Integer.parseInt(lS.get(0)), Integer.parseInt(lS.get(1)))) == 1 && this.grid.distance(new Position(Integer.parseInt(lS.get(2)),Integer.parseInt(lS.get(3))), new Position(Integer.parseInt(lS.get(0)), Integer.parseInt(lS.get(1)))) == 1 && (Integer.parseInt(lS.get(0)) == Integer.parseInt(lS.get(2))||Integer.parseInt(lS.get(1)) == Integer.parseInt(lS.get(2))) && lC.containsAll(Arrays.asList(Colour.YELLOW, Colour.YELLOW)))
+                   if(lI.size() == 1 && (lI.contains(1) && !lI.contains(2) &&
+                           this.grid.distance(p, this.grid.getPlayerObject(lS.get(0))) == 1 && !(this.grid.isThereAWall(p, this.grid.getPlayerObject(lS.get(0)).getCell().getP())) &&
+                           (lS.get(1).isEmpty() || this.grid.distance(this.grid.getPlayerObject(lS.get(0)), this.grid.getPlayerObject(lS.get(1))) == 1 && ((this.grid.getPlayerObject(lS.get(0)).getCell().getP().getX() == this.grid.getPlayerObject(lS.get(1)).getCell().getP().getX()) || (this.grid.getPlayerObject(lS.get(0)).getCell().getP().getY() == this.grid.getPlayerObject(lS.get(1)).getCell().getP().getY())) &&
+                                   !(this.grid.isThereAWall(this.grid.getPlayerObject(lS.get(0)), this.grid.getPlayerObject(lS.get(1)).getCell().getP())))) ||
+                   (!lI.contains(1) && lI.contains(2) &&
+                           this.grid.distance(p, new Position(Integer.parseInt(lS.get(0)), Integer.parseInt(lS.get(1)))) == 1 && this.grid.distance(new Position(Integer.parseInt(lS.get(2)),Integer.parseInt(lS.get(3))), new Position(Integer.parseInt(lS.get(0)), Integer.parseInt(lS.get(1)))) == 1 &&
+                           (Integer.parseInt(lS.get(0)) == Integer.parseInt(lS.get(2)) || Integer.parseInt(lS.get(1)) == Integer.parseInt(lS.get(2))) && lC.containsAll(Arrays.asList(Colour.YELLOW, Colour.YELLOW))))
                            x = true;
                    break;
                case "Furnace":
@@ -296,26 +296,22 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                             x = true;
                    }
                    break;
-               case "Machine Gun":
-                   if(!lI.isEmpty() && lI.get(0) == 1) {
-                       if(this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(0))) && (lS.get(1).equals("") || this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(1)))))
-                           x = true;
-                       if(!x)
-                           break;
-                   }
-                   if(lI.size() > 1 && lI.get(0) == 1 && lI.get(1) == 2) {
-                       x = false;
-                       if((this.grid.getPlayerObject(lS.get(2)).equals(this.grid.getPlayerObject(lS.get(0))) || (!lS.get(1).equals("") && (this.grid.getPlayerObject(lS.get(2)).equals(this.grid.getPlayerObject(lS.get(1)))) || this.grid.getPlayerObject(lS.get(2)).equals(this.grid.getPlayerObject(lS.get(0))))) && lC.contains(Colour.YELLOW))
-                           x = true;
-                       if(!x)
-                           break;
-                   }
-                   if(lI.size() > 2 && lI.get(0) == 1 && lI.get(1) == 2 && lI.get(2) == 3) { //very difficult
-                       x = false;
-                       if((lS.get(1).equals("") || (!lS.get(1).equals("") && !this.grid.getPlayerObject(lS.get(3)).equals(this.grid.getPlayerObject(lS.get(2)))) || (!lS.get(1).equals("") && !this.grid.getPlayerObject(lS.get(3)).equals(this.grid.getPlayerObject(lS.get(0))) && !this.grid.getPlayerObject(lS.get(3)).equals(this.grid.getPlayerObject(lS.get(1))) && !this.grid.getPlayerObject(lS.get(3)).equals(this.grid.getPlayerObject(lS.get(2))) && this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(3)))) ||
-                               (!lS.get(1).equals("") && !this.grid.getPlayerObject(lS.get(3)).equals(this.grid.getPlayerObject(lS.get(2))) && (this.grid.getPlayerObject(lS.get(3)).equals(this.grid.getPlayerObject(lS.get(0))) || this.grid.getPlayerObject(lS.get(3)).equals(this.grid.getPlayerObject(lS.get(1)))) && !this.grid.getPlayerObject(lS.get(4)).equals(this.grid.getPlayerObject(lS.get(0))) && !this.grid.getPlayerObject(lS.get(4)).equals(this.grid.getPlayerObject(lS.get(1))) && !this.grid.getPlayerObject(lS.get(4)).equals(this.grid.getPlayerObject(lS.get(2))) && !this.grid.getPlayerObject(lS.get(4)).equals(this.grid.getPlayerObject(lS.get(3))) && this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(4))))) && lC.contains(Colour.BLUE))
+               case "Machine Gun":      //if player wants to use Turret Tripod (3) he must use the basic effect AND Focus Shot before that
+                   if(lI.size() == 1 && lI.get(0) == 1 && !lS.isEmpty()) {
+                       if(this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(0))) && (lS.get(1).isEmpty() || this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(1)))))
                            x = true;
                    }
+                   else if(lI.size() == 2 && lI.get(0) == 1 && lI.get(1) == 2 && lS.size() > 2) {
+                       if(this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(0))) && ((lS.get(1).isEmpty() && this.grid.getPlayerObject(lS.get(2)).equals(this.grid.getPlayerObject(lS.get(0)))) ||
+                               (!lS.get(1).isEmpty() && this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(1))) && (this.grid.getPlayerObject(lS.get(2)).equals(this.grid.getPlayerObject(lS.get(0))) || this.grid.getPlayerObject(lS.get(2)).equals(this.grid.getPlayerObject(lS.get(1)))))) && lC.contains(Colour.YELLOW))
+                           x = true;
+                   }
+                   else if(lI.size() == 3 && lI.get(0) == 1 && lI.get(1) == 2 && lI.get(2) == 3 && lS.size() > 4 &&
+                           (this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(0))) && ((lS.get(1).isEmpty() && this.grid.getPlayerObject(lS.get(2)).equals(this.grid.getPlayerObject(lS.get(0)))) ||
+                               (!lS.get(1).isEmpty() && this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(1))) && (this.grid.getPlayerObject(lS.get(2)).equals(this.grid.getPlayerObject(lS.get(0))) || this.grid.getPlayerObject(lS.get(2)).equals(this.grid.getPlayerObject(lS.get(1)))))) &&
+                               !this.grid.getPlayerObject(lS.get(3)).equals(this.grid.getPlayerObject(lS.get(2))) && (lS.get(4).isEmpty() || (!this.grid.getPlayerObject(lS.get(4)).equals(this.grid.getPlayerObject(lS.get(0))) && (lS.get(1).isEmpty() || !this.grid.getPlayerObject(lS.get(4)).equals(this.grid.getPlayerObject(lS.get(1)))))) &&
+                               (lS.get(4).isEmpty() || this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(4))) && !this.grid.getPlayerObject(lS.get(4)).equals(this.grid.getPlayerObject(lS.get(3)))) && lC.containsAll(Arrays.asList(Colour.YELLOW, Colour.BLUE))))
+                           x = true;
                    break;
                case "Plasma Gun":
                    if((!lI.contains(2) || (lI.indexOf(2) > lI.indexOf(1)))) {
@@ -750,6 +746,8 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         else {
             Player future = new Player("?fUtUrE!", p.getC(), p.isFirstPlayerCard());
             future.changeCell(p.getCell());
+            for(WeaponCard w : p.getwC())
+                future.addWeaponCard(w);
             this.grid.move(future, direction);
             return this.isValidShootNotAdrenaline(future, nameWC, lI, lS, lA, lP);
         }
@@ -902,10 +900,10 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
             wS.setCard3(wC);
     }
 
-    private void grabAdrenaline(Player p, Integer[] d, WeaponCard w, List<AmmoCube> lA, List<PowerUpCard> lP) {
-        this.grid.move(p, d[0]);
-        if(d.length == 2)
-            this.grid.move(p, d[1]);
+    private void grabAdrenaline(Player p, List<Integer> d, WeaponCard w, List<AmmoCube> lA, List<PowerUpCard> lP) {
+        this.grid.move(p, d.get(0));
+        if(d.size() == 2)
+            this.grid.move(p, d.get(1));
         if(p.getCell().getStatus() == 0)
             giveWhatIsOnAmmoCard(p, p.getCell().getA());
         else if((p.getCell().getStatus() == 1) && w != null && (canPay(w, choosePayment(lA, lP)))) {
@@ -921,14 +919,49 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         List<AmmoCube> l = new LinkedList<>();
         if(!lA.isEmpty())
             l.addAll(lA);
-        if(!lA.isEmpty()) {
+        if(!lP.isEmpty()) {
             for (PowerUpCard p : lP)
                 l.add(p.getValue());
         }
         return l;
     }
 
-    public boolean isValidFirstActionGrab(String nickName, Integer[] directions, String wCardInput, String wSlotInput, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) {
+    public boolean isValidFirstActionGrab(String nickName, List<Integer> directionList, String wCardInput, String wSlotInput, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) {
+        Player p = this.grid.getPlayerObject(nickName);
+        WeaponCard wCard = this.grid.getWeaponCardObject(wCardInput);
+        List<AmmoCube> lA = new LinkedList<>();
+        if(!lAInput.isEmpty()) {
+            for (Colour c : lAInput)
+                lA.add(new AmmoCube(c));
+            AmmoCube[] cubeArray = new AmmoCube[lA.size()];
+            lA.toArray(cubeArray);
+            if (!p.checkAmmoCube(cubeArray) && wCard != null)
+                return false;
+        }
+        List<PowerUpCard> lP = new LinkedList<>();
+        if(!lPInput.isEmpty()) {
+            for (int i = 0; i < lPInput.size(); i++) {
+                if (p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))) == null)
+                    return false;
+                lP.add(p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))));
+            }
+        }
+        if(this.gameState.equals(STARTTURN) && (directionList.size() <= 2)) {
+            if(!p.isAdrenaline1() && directionList.size() == 1 && this.grid.canMove(p, directionList.get(0)) &&
+                    (wCardInput.equals("") && wSlotInput.equals("") || ((!wCardInput.equals("") && wCard != null) && ((wSlotInput.equals("1") && (this.grid.ghostMove(p, directionList).getCell().getP().getX() == 0 && this.grid.ghostMove(p, directionList).getCell().getP().getY() == 2)) ||
+                            (wSlotInput.equals("2") && (this.grid.ghostMove(p, directionList).getCell().getP().getX() == 2 && this.grid.ghostMove(p, directionList).getCell().getP().getY() == 3)) ||
+                            (wSlotInput.equals("3") && (this.grid.ghostMove(p, directionList).getCell().getP().getX() == 1 && this.grid.ghostMove(p, directionList).getCell().getP().getY() == 0))))))
+                return true;
+            if(p.isAdrenaline1() && directionList.size() == 2 && this.grid.canGhostMove(p, directionList) &&
+                    (wCardInput.equals("") && wSlotInput.equals("") || ((!wCardInput.equals("") && wCard != null) && ((wSlotInput.equals("1") && (this.grid.ghostMove(p, directionList).getCell().getP().getX() == 0 && this.grid.ghostMove(p, directionList).getCell().getP().getY() == 2)) ||
+                            (wSlotInput.equals("2") && (this.grid.ghostMove(p, directionList).getCell().getP().getX() == 2 && this.grid.ghostMove(p, directionList).getCell().getP().getY() == 3)) ||
+                            (wSlotInput.equals("3") && (this.grid.ghostMove(p, directionList).getCell().getP().getX() == 1 && this.grid.ghostMove(p, directionList).getCell().getP().getY() == 0))))))
+                return true;
+        }
+        return false;
+    }
+
+    /*public boolean isValidFirstActionGrab(String nickName, Integer[] directions, String wCardInput, String wSlotInput, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) {
         Player p = this.grid.getPlayerObject(nickName);
         List<Integer> directionList = Arrays.asList(directions);
         WeaponCard wCard = this.grid.getWeaponCardObject(wCardInput);
@@ -962,10 +995,10 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                     return true;
         }
         return false;
-    }
+    }*/
 
 
-    public synchronized void firstActionGrab(String nickName, Integer[] directions, String wCardInput, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) { //directions contains where p wants to go. directions contains '0' if p doesn't want to move and only grab
+    public synchronized void firstActionGrab(String nickName, List<Integer> directions, String wCardInput, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) { //directions contains where p wants to go. directions contains '0' if p doesn't want to move and only grab
         Player p = this.grid.getPlayerObject(nickName);
         WeaponCard wCard = this.grid.getWeaponCardObject(wCardInput);
         List<AmmoCube> l = new LinkedList<>();
@@ -975,13 +1008,31 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         for(int i = 0; i < lPInput.size(); i++)
             lP.add(p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))));
         if(!(p.isAdrenaline1()))
-                grabNotAdrenaline(p, directions[0], wCard, l, lP);
+                grabNotAdrenaline(p, directions.get(0), wCard, l, lP);
 
         if(p.isAdrenaline1()||p.isAdrenaline2()){
                 grabAdrenaline(p, directions, wCard, l, lP);
         }
         this.gameState = ACTION1;
     }
+
+    /*public synchronized void firstActionGrab(String nickName, Integer[] directions, String wCardInput, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) { //directions contains where p wants to go. directions contains '0' if p doesn't want to move and only grab
+        Player p = this.grid.getPlayerObject(nickName);
+        WeaponCard wCard = this.grid.getWeaponCardObject(wCardInput);
+        List<AmmoCube> l = new LinkedList<>();
+        for(Colour c : lAInput)
+            l.add(new AmmoCube(c));
+        List<PowerUpCard> lP= new LinkedList<>();
+        for(int i = 0; i < lPInput.size(); i++)
+            lP.add(p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))));
+        if(!(p.isAdrenaline1()))
+            grabNotAdrenaline(p, directions[0], wCard, l, lP);
+
+        if(p.isAdrenaline1()||p.isAdrenaline2()){
+            grabAdrenaline(p, directions, wCard, l, lP);
+        }
+        this.gameState = ACTION1;
+    }*/
 
 
 
@@ -1017,9 +1068,8 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
 
 
-    public boolean isValidSecondActionGrab(String nickName, Integer[] directions, String wCardInput, String wSlotInput, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) {
+    public boolean isValidSecondActionGrab(String nickName, List<Integer> directionList, String wCardInput, String wSlotInput, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) {
         Player p = this.grid.getPlayerObject(nickName);
-        List<Integer> directionList = Arrays.asList(directions);
         WeaponCard wCard = this.grid.getWeaponCardObject(wCardInput);
         List<AmmoCube> lA= new LinkedList<>();
         if(!lAInput.isEmpty()) {
@@ -1038,13 +1088,13 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                 lP.add(p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))));
             }
         }
-        if(this.gameState.equals(ACTION1) && (directions.length <= 2)) {
-            if(!p.isAdrenaline1() && directions.length == 1 && this.grid.canMove(p, directions[0]) &&
+        if(this.gameState.equals(ACTION1) && (directionList.size() <= 2)) {
+            if(!p.isAdrenaline1() && directionList.size() == 1 && this.grid.canMove(p, directionList.get(0)) &&
                     (wCardInput.equals("") || ((!wCardInput.equals("") && wCard != null) && ((wSlotInput.equals("1") && (this.grid.ghostMove(p, directionList).getCell().getP().getX() == 0 && this.grid.ghostMove(p, directionList).getCell().getP().getY() == 2)) ||
                         (wSlotInput.equals("2") && (this.grid.ghostMove(p, directionList).getCell().getP().getX() == 2 && this.grid.ghostMove(p, directionList).getCell().getP().getY() == 3)) ||
                         (wSlotInput.equals("3") && (this.grid.ghostMove(p, directionList).getCell().getP().getX() == 1 && this.grid.ghostMove(p, directionList).getCell().getP().getY() == 0))))))
                     return true;
-            if(p.isAdrenaline1() && directions.length == 2 && this.grid.canGhostMove(p, directionList) &&
+            if(p.isAdrenaline1() && directionList.size() == 2 && this.grid.canGhostMove(p, directionList) &&
                     (wCardInput.equals("") || ((!wCardInput.equals("") && wCard != null) && ((wSlotInput.equals("1") && (this.grid.ghostMove(p, directionList).getCell().getP().getX() == 0 && this.grid.ghostMove(p, directionList).getCell().getP().getY() == 2)) ||
                         (wSlotInput.equals("2") && (this.grid.ghostMove(p, directionList).getCell().getP().getX() == 2 && this.grid.ghostMove(p, directionList).getCell().getP().getY() == 3)) ||
                         (wSlotInput.equals("3") && (this.grid.ghostMove(p, directionList).getCell().getP().getX() == 1 && this.grid.ghostMove(p, directionList).getCell().getP().getY() == 0))))))
@@ -1053,7 +1103,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         return false;
     }
 
-    public synchronized void secondActionGrab(String nickName, Integer[] directions, String wCardInput, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) { //directions contains where p wants to go. directions contains '0' if p doesn't want to move and only grab
+    public synchronized void secondActionGrab(String nickName, List<Integer> directions, String wCardInput, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) { //directions contains where p wants to go. directions contains '0' if p doesn't want to move and only grab
         Player p = this.grid.getPlayerObject(nickName);
         WeaponCard wCard = this.grid.getWeaponCardObject(wCardInput);
         List<AmmoCube> l= new LinkedList<>();
@@ -1063,7 +1113,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         for(int i = 0; i < lPInput.size(); i++)
             lP.add(p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))));
         if(!(p.isAdrenaline1()))
-            grabNotAdrenaline(p, directions[0], wCard, l, lP);
+            grabNotAdrenaline(p, directions.get(0), wCard, l, lP);
 
         if(p.isAdrenaline1()||p.isAdrenaline2()){
             grabAdrenaline(p, directions, wCard, l, lP);

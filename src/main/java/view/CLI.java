@@ -332,25 +332,28 @@ public class CLI implements View {
 
     private void grabFirstAction() throws RemoteException{
         Scanner in = new Scanner(System.in);
-        Integer[] directions = null;
+        Integer[] directions = null;  //TODO this causes null pointer error; alternatives?
         List<Integer> l = new LinkedList<>();
         List<Colour> lC = new LinkedList<>();
         List<String> lP = new LinkedList<>();
         List<String> lPC = new LinkedList<>();
-        String wCard;
-        String weaponSlot = null;
+        String wCard = "";
+        String weaponSlot = "";
+        String confirm;
         while (true) {
             System.out.println("If you wish to grab whatever is in your cell, enter 0\n" +
-                    "Otherwise, enter the sequence of movements you want to do, one integer at a time: only one is permitted\n" +
+                    "Otherwise, enter the sequence of movements you want to do, one integer at a time: only one is permitted" +
                     "if you haven't unlocked the Adrenaline move, up to two otherwise\n" +
                     "1 = north, 2 = east, 3 = south, 4 = west\n" +
                     "Press any letter char to finish");
             while (in.hasNextInt())
                 l.add(in.nextInt());
             //TODO method that displays the cards in a weapon slot of the player's choice; should be in a while() so as to let the player inspect all of them
-            System.out.println("If it is a WeaponCard you wish to buy, enter its name");
-            wCard = in.next();
-            if (!wCard.equals("")) {
+            System.out.println("Do you want to buy a weapon card instead of grabbing ammo? (Yes/yes/y)");
+            confirm = in.next();
+            if (confirm.equals("Yes") || confirm.equals("yes") || confirm.equals("y")) {
+                System.out.println("Enter the name of the WeaponCard you wish to buy:");
+                wCard = in.next();
                 System.out.println("Enter the number of the WeaponSlot from which you want to buy the card:");
                 weaponSlot = in.next();
                 System.out.println("Enter the colour(s), in order and in all caps, of the required AmmoCube(s) to buy the card,\n" +
@@ -466,6 +469,7 @@ public class CLI implements View {
     }
 
     private void shootSecondAction() throws RemoteException{
+        //TODO update with lines from shootFirstAction
         Scanner in = new Scanner(System.in);
         System.out.println("Choose one of these cards to shoot: ");
         this.server.messageGetWeaponCardLoaded(game, this.nickName).stream().forEach(System.out::println);
@@ -566,6 +570,7 @@ public class CLI implements View {
     }
 
     private void grabSecondAction() throws RemoteException{
+        //TODO update with grabFirstAction lines if it works
         Scanner in = new Scanner(System.in);
         Integer[] directions = null;
         List<Integer> l = new LinkedList<>();

@@ -189,8 +189,8 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
         games.get(game).addPlayer(nick, c);
     }
 
-    public synchronized List<String> messageGiveTwoPUCard(int game, String nick) throws RemoteException {
-        return games.get(game).giveTwoPUCard(nick);
+    public synchronized void messageGiveTwoPUCard(int game, String nick) throws RemoteException {
+        games.get(game).giveTwoPUCard(nick);
     }
 
     public synchronized List<String> messageCheckWeaponSlotContents(int game, int n) throws RemoteException {
@@ -279,6 +279,10 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
 
     public synchronized List<String> messageGetPowerUpCard(int game, String nick) throws RemoteException {
         return games.get(game).getPowerUpCard(nick);
+    }
+
+    public synchronized List<String> messageGetPowerUpCardColour(int game, String nickName) throws RemoteException {
+        return games.get(game).getPowerUpCardColour(nickName);
     }
 
     public synchronized String messageGetDescriptionPUC(int game, String pC, String col, String nick) throws RemoteException {

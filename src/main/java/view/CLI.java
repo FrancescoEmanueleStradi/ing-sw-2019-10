@@ -110,12 +110,12 @@ public class CLI implements View {
     @Override
     public void selectSpawnPoint() throws RemoteException{
         Scanner in = new Scanner(System.in);
-        List<String> l = this.server.messageGiveTwoPUCard(game, this.nickName);
+        this.server.messageGiveTwoPUCard(game, this.nickName);
         String p;
         String c;
         System.out.println("The following are " + this.nickName +"'s starting PowerUpCards");
-        System.out.println(l.get(0) + " coloured " + l.get(1));
-        System.out.println(l.get(2) + " coloured " + l.get(3));
+        System.out.println(this.server.messageGetPowerUpCard(game, this.nickName).get(0) + " coloured " + this.server.messageGetPowerUpCardColour(game, this.nickName).get(0));
+        System.out.println(this.server.messageGetPowerUpCard(game, this.nickName).get(1) + " coloured " + this.server.messageGetPowerUpCardColour(game, this.nickName).get(1));
         System.out.println("\n---------SPAWN POINT SELECT---------\n");
         /*System.out.println("Enter the name of the card you want to keep; you will discard the other one corresponding to the " +
                 "colour of your spawn point");
@@ -133,10 +133,10 @@ public class CLI implements View {
             else
                 System.out.println(errorRetry);
         }
-            if (l.get(0).equals(p) && l.get(1).equals(c))
-                this.server.messagePickAndDiscardCard(game, this.nickName, l.get(0), l.get(1));
+            if (this.server.messageGetPowerUpCard(game, this.nickName).get(0).equals(p) && this.server.messageGetPowerUpCardColour(game, this.nickName).get(0).equals(c))
+                this.server.messagePickAndDiscardCard(game, this.nickName, this.server.messageGetPowerUpCard(game, this.nickName).get(0), this.server.messageGetPowerUpCardColour(game, this.nickName).get(0));
             else
-                this.server.messagePickAndDiscardCard(game, this.nickName, l.get(2), l.get(3));
+                this.server.messagePickAndDiscardCard(game, this.nickName, this.server.messageGetPowerUpCard(game, this.nickName).get(1), this.server.messageGetPowerUpCard(game, this.nickName).get(1));
     }
 
     @Override

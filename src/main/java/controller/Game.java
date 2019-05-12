@@ -119,6 +119,11 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         return p.getpC().stream().map(PowerUpCard::getCardName).collect(Collectors.toList());
     }
 
+    public List<String> getPowerUpCardColour(String nickName) {
+        Player p = this.grid.getPlayerObject(nickName);
+        return p.getpC().stream().map(PowerUpCard::getC).map(Colour::getAbbreviation).collect(Collectors.toList());
+    }
+
     public String getDescriptionPUC(String s, String colour, String nickName) {
         Player p = this.grid.getPlayerObject(nickName);
         Colour col = Colour.valueOf(colour);
@@ -145,41 +150,31 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         this.gameState = INITIALIZED;
    }
 
-   public synchronized List<String> giveTwoPUCard(String nickName) {
+   public synchronized void giveTwoPUCard(String nickName) {
         Player p = this.grid.getPlayerObject(nickName);
         if(p.getCell() == null) {
-            List<String> l = new LinkedList<>();
-            pUC1 = this.grid.pickPowerUpCard();
-            pUC2 = this.grid.pickPowerUpCard();
-            p.addPowerUpCard(pUC1);
-            p.addPowerUpCard(pUC2);
-            l.add(pUC1.getCardName());
-            l.add(pUC1.getC().getAbbreviation());
-            l.add(pUC2.getCardName());
-            l.add(pUC2.getC().getAbbreviation());
-            return l;
+            p.addPowerUpCard(this.grid.pickPowerUpCard());
+            p.addPowerUpCard(this.grid.pickPowerUpCard());
         }
-                                            //View control -> empty list
-       return new LinkedList<>();
    }
 
    public synchronized boolean isValidPickAndDiscard(String nickName, String p1, String c1) {
         Player p = this.grid.getPlayerObject(nickName);
         return (p.getCell() == null &&
-                (p1.equals(pUC1.getCardName()) && Colour.valueOf(c1).equals(pUC1.getC()) || p1.equals(pUC2.getCardName()) && Colour.valueOf(c1).equals(pUC2.getC())));
+                (p1.equals(p.getpC().get(0).getCardName()) && Colour.valueOf(c1).equals(p.getpC().get(0).getC()) || p1.equals(p.getpC().get(1).getCardName()) && Colour.valueOf(c1).equals(p.getpC().get(1).getC())));
    }
 
    public synchronized void pickAndDiscardCard(String nickName, String p1, String c1) {     //p1 and c1 name and colour of the card the player want to keep
        Player p = this.grid.getPlayerObject(nickName);
-       if(p1.equals(pUC1.getCardName()) && Colour.valueOf(c1).equals(pUC1.getC())) {
-           p.removePowerUpCard(pUC2);
-           this.grid.getPowerUpDiscardPile().add(pUC2);
-           chooseSpawnPoint(pUC2.getC(), p);
+       if(p1.equals(p.getpC().get(0).getCardName()) && Colour.valueOf(c1).equals(p.getpC().get(0).getC())) {
+           this.grid.getPowerUpDiscardPile().add(p.getpC().get(1));
+           chooseSpawnPoint(p.getpC().get(1).getC(), p);
+           p.removePowerUpCard(p.getpC().get(1));
        }
-       else if(p1.equals(pUC2.getCardName()) && Colour.valueOf(c1).equals(pUC2.getC())) {
-           p.removePowerUpCard(pUC1);
-           this.grid.getPowerUpDiscardPile().add(pUC1);
-           chooseSpawnPoint(pUC1.getC(), p);
+       else if(p1.equals(p.getpC().get(1).getCardName()) && Colour.valueOf(c1).equals(p.getpC().get(1).getC())) {
+           this.grid.getPowerUpDiscardPile().add(p.getpC().get(0));
+           chooseSpawnPoint(p.getpC().get(0).getC(), p);
+           p.removePowerUpCard(p.getpC().get(0));
        }
    }
 

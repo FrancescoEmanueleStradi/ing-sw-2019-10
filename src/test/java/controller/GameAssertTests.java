@@ -62,61 +62,53 @@ class GameAssertTests {
         assertEquals(GameState.INITIALIZED, game.getGameState());
 
 
-        List<String> list = game.giveTwoPUCard("Player 1");
-        System.out.print("PowerUpCard picked from the deck for Player 1: " + list.get(0) + " coloured " + list.get(1) + ", and " + list.get(2) + " coloured " + list.get(3));
-        assertTrue(game.isValidPickAndDiscard("Player 1", list.get(0), list.get(1)));
-        game.pickAndDiscardCard("Player 1", list.get(0), list.get(1));
+        game.giveTwoPUCard("Player 1");
+        PowerUpCard discarded1 = p1.getpC().get(1);
+        System.out.print("PowerUpCard picked from the deck for Player 1: " + p1.getpC().get(0).getCardName() + " coloured " + p1.getpC().get(0).getC().getAbbreviation() + ", and " + p1.getpC().get(1).getCardName() + " coloured " + p1.getpC().get(1).getC().getAbbreviation());
+        assertTrue(game.isValidPickAndDiscard("Player 1", p1.getpC().get(0).getCardName(), p1.getpC().get(0).getC().getAbbreviation()));
+        game.pickAndDiscardCard("Player 1", p1.getpC().get(0).getCardName(), p1.getpC().get(0).getC().getAbbreviation());
         assertEquals(GameState.STARTTURN, game.getGameState());
         assertEquals(1, p1.getpC().size());
-        assertEquals(list.get(0), p1.getpC().get(0).getCardName());
-        assertEquals(Colour.valueOf(list.get(1)), p1.getpC().get(0).getC());
         assertEquals(1, grid.getPowerUpDiscardPile().size());
-        assertEquals(list.get(2), grid.getPowerUpDiscardPile().get(0).getCardName());
-        assertEquals(Colour.valueOf(list.get(3)), grid.getPowerUpDiscardPile().get(0).getC());
 
-        if(Colour.valueOf(list.get(3)).equals(Colour.YELLOW))
+
+        if(discarded1.getC().equals(Colour.YELLOW))
             assertEquals(p1.getCell(), grid.getBoard().getArena()[2][3]);
-        else if(Colour.valueOf(list.get(3)).equals(Colour.RED))
+        else if(discarded1.getC().equals(Colour.RED))
             assertEquals(p1.getCell(), grid.getBoard().getArena()[1][0]);
-        else if(Colour.valueOf(list.get(3)).equals(Colour.BLUE))
+        else if(discarded1.getC().equals(Colour.BLUE))
             assertEquals(p1.getCell(), grid.getBoard().getArena()[0][2]);
 
-        List<String> list2 = game.giveTwoPUCard("Player 2");
-        System.out.print("\nPowerUpCard picked from the deck for Player 2: " + list2.get(0) + " coloured " + list2.get(1) + ", and " + list2.get(2) + " coloured " + list2.get(3));
-        assertTrue(game.isValidPickAndDiscard("Player 2", list2.get(2), list2.get(3)));
-        game.pickAndDiscardCard("Player 2", list2.get(2), list2.get(3));
+        game.giveTwoPUCard("Player 2");
+        PowerUpCard discarded2 = p2.getpC().get(0);
+        System.out.print("\nPowerUpCard picked from the deck for Player 2: " + p2.getpC().get(0).getCardName() + " coloured " + p2.getpC().get(0).getC().getAbbreviation() + ", and " + p2.getpC().get(1).getCardName() + " coloured " + p2.getpC().get(1).getC().getAbbreviation());
+        assertTrue(game.isValidPickAndDiscard("Player 2", p2.getpC().get(1).getCardName(), p2.getpC().get(1).getC().getAbbreviation()));
+        game.pickAndDiscardCard("Player 2", p2.getpC().get(1).getCardName(), p2.getpC().get(1).getC().getAbbreviation());
         assertEquals(GameState.STARTTURN, game.getGameState());
         assertEquals(1, p2.getpC().size());
-        assertEquals(list2.get(2), p2.getpC().get(0).getCardName());
-        assertEquals(Colour.valueOf(list2.get(3)), p2.getpC().get(0).getC());
         assertEquals(2, grid.getPowerUpDiscardPile().size());
-        assertEquals(list2.get(0), grid.getPowerUpDiscardPile().get(1).getCardName());
-        assertEquals(Colour.valueOf(list2.get(1)), grid.getPowerUpDiscardPile().get(1).getC());
 
-        if(Colour.valueOf(list2.get(1)).equals(Colour.YELLOW))
+        if(discarded2.getC().equals(Colour.YELLOW))
             assertEquals(p2.getCell(), grid.getBoard().getArena()[2][3]);
-        else if(Colour.valueOf(list2.get(1)).equals(Colour.RED))
+        else if(discarded2.getC().equals(Colour.RED))
             assertEquals(p2.getCell(), grid.getBoard().getArena()[1][0]);
-        else if(Colour.valueOf(list2.get(1)).equals(Colour.BLUE))
+        else if(discarded2.getC().equals(Colour.BLUE))
             assertEquals(p2.getCell(), grid.getBoard().getArena()[0][2]);
 
-        List<String> list3 = game.giveTwoPUCard("Player 3");
-        System.out.print("\nPowerUpCard picked from the deck for Player 3: " + list3.get(0) + " coloured " + list3.get(1) + ", and " + list3.get(2) + " coloured " + list3.get(3));
-        assertTrue(game.isValidPickAndDiscard("Player 3", list3.get(0), list3.get(1)));
-        game.pickAndDiscardCard("Player 3", list3.get(0), list3.get(1));
+        game.giveTwoPUCard("Player 3");
+        PowerUpCard discarded3 = p3.getpC().get(1);
+        System.out.print("\nPowerUpCard picked from the deck for Player 3: " + p3.getpC().get(0).getCardName() + " coloured " + p3.getpC().get(0).getC().getAbbreviation() + ", and " + p3.getpC().get(1).getCardName() + " coloured " + p3.getpC().get(1).getC().getAbbreviation());
+        assertTrue(game.isValidPickAndDiscard("Player 3", p3.getpC().get(0).getCardName(), p3.getpC().get(0).getC().getAbbreviation()));
+        game.pickAndDiscardCard("Player 3", p3.getpC().get(0).getCardName(), p3.getpC().get(0).getC().getAbbreviation());
         assertEquals(GameState.STARTTURN, game.getGameState());
         assertEquals(1, p3.getpC().size());
-        assertEquals(list3.get(0), p3.getpC().get(0).getCardName());
-        assertEquals(Colour.valueOf(list3.get(1)), p3.getpC().get(0).getC());
         assertEquals(3, grid.getPowerUpDiscardPile().size());
-        assertEquals(list3.get(2), grid.getPowerUpDiscardPile().get(2).getCardName());
-        assertEquals(Colour.valueOf(list3.get(3)), grid.getPowerUpDiscardPile().get(2).getC());
 
-        if(Colour.valueOf(list3.get(3)).equals(Colour.YELLOW))
+        if(discarded3.getC().equals(Colour.YELLOW))
             assertEquals(p3.getCell(), grid.getBoard().getArena()[2][3]);
-        else if(Colour.valueOf(list3.get(3)).equals(Colour.RED))
+        else if(discarded3.getC().equals(Colour.RED))
             assertEquals(p3.getCell(), grid.getBoard().getArena()[1][0]);
-        else if(Colour.valueOf(list3.get(3)).equals(Colour.BLUE))
+        else if(discarded3.getC().equals(Colour.BLUE))
             assertEquals(p3.getCell(), grid.getBoard().getArena()[0][2]);
 
 
@@ -439,13 +431,13 @@ class GameAssertTests {
 
         game.receiveType(1);
 
-        List<String> list = game.giveTwoPUCard("Player 1");
-        System.out.print("PowerUpCard picked from the deck for Player 1: " + list.get(0) + " coloured " + list.get(1) + ", and " + list.get(2) + " coloured " + list.get(3));
-        game.pickAndDiscardCard("Player 1", list.get(0), list.get(1));
+        game.giveTwoPUCard("Player 1");
+        System.out.print("\nPowerUpCard picked from the deck for Player 1: " + p1.getpC().get(0).getCardName() + " coloured " + p1.getpC().get(0).getC().getAbbreviation() + ", and " + p1.getpC().get(1).getCardName() + " coloured " + p1.getpC().get(1).getC().getAbbreviation());
+        game.pickAndDiscardCard("Player 1", p1.getpC().get(0).getCardName(), p1.getpC().get(0).getC().getAbbreviation());
 
-        List<String> list2 = game.giveTwoPUCard("Player 2");
-        System.out.print("\nPowerUpCard picked from the deck for Player 2: " + list2.get(0) + " coloured " + list2.get(1) + ", and " + list2.get(2) + " coloured " + list2.get(3));
-        game.pickAndDiscardCard("Player 2", list2.get(2), list2.get(3));
+        game.giveTwoPUCard("Player 2");
+        System.out.print("\nPowerUpCard picked from the deck for Player 2: " + p2.getpC().get(0).getCardName() + " coloured " + p2.getpC().get(0).getC().getAbbreviation() + ", and " + p2.getpC().get(1).getCardName() + " coloured " + p2.getpC().get(1).getC().getAbbreviation());
+        game.pickAndDiscardCard("Player 2", p2.getpC().get(1).getCardName(), p2.getpC().get(1).getC().getAbbreviation());
 
         //Initialization finished
         //First Action: Grab

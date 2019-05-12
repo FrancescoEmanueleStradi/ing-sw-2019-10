@@ -8,14 +8,14 @@ public class WeaponSlot {
     private WeaponCard card2;
     private WeaponCard card3;
 
-    public WeaponSlot(int n, WeaponCard w1, WeaponCard w2,WeaponCard w3) {
+    public WeaponSlot(int n, WeaponCard w1, WeaponCard w2, WeaponCard w3) {
         this.card1 = w1;
         this.card2 = w2;
         this.card3 = w3;
         this.n = n;
     }
 
-    public int getN() {
+    public int getWeaponSlot() {
         return n;
     }
 

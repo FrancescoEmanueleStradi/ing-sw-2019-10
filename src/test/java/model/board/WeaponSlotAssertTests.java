@@ -17,7 +17,7 @@ class WeaponSlotAssertTests {
         WeaponCard wc3 = new MachineGun();
         WeaponSlot w1 = new WeaponSlot(1, wc1, wc2, wc3);
 
-        int n = w1.getN();
+        int n = w1.getWeaponSlot();
         WeaponCard wc11 = w1.getCard1();
         WeaponCard wc12 = w1.getCard2();
         WeaponCard wc13 = w1.getCard3();

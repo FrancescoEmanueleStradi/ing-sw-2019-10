@@ -182,7 +182,7 @@ public class Grid {
         p.changeCell(board.getArena()[x][y]);
     }
 
-    public boolean isThereAWall (Player p, Position pT){            //1 if there is a wall between p and pT
+    public boolean isThereAWall (Player p, Position pT) {            //1 if there is a wall between p and pT
         int direction = 0;
         if(p.getCell().getP().getX() > pT.getX())
             direction = 1;
@@ -199,10 +199,10 @@ public class Grid {
     }
 
     public void collectCard(Player p) {
-          if(p.getCell().getA().ispC())
-              pickPowerUpCard(p);
-          for(int i = 0; i < p.getCell().getA().getaC().size(); i++)
-              p.addNewAC(p.getCell().getA().getaC().get(i));
+        if(p.getCell().getA().ispC())
+            pickPowerUpCard(p);
+        for(int i = 0; i < p.getCell().getA().getaC().size(); i++)
+            p.addNewAC(p.getCell().getA().getaC().get(i));
     }
 
     public boolean isInTheRoom(Player p, Player p2) {
@@ -216,16 +216,16 @@ public class Grid {
     public boolean isInViewZone(Player p, Player p2) {
         boolean b = false;
         for(int i=0; i<p.getCell().getPosDoor().length; i++) {
-                if ((!b) && ((p.getCell().getPosDoor()[i] == 1 && p.getCell().getP().getX() - 1 >= 0 && p2.getCell().getC().equals(this.board.getArena()[p.getCell().getP().getX() - 1][p.getCell().getP().getY()].getC())) ||
-                        (p.getCell().getPosDoor()[i] == 2 && p.getCell().getP().getY() + 1 <= 3 && p2.getCell().getC().equals(this.board.getArena()[p.getCell().getP().getX()][p.getCell().getP().getY() + 1].getC())) ||
-                        (p.getCell().getPosDoor()[i] == 3 && p.getCell().getP().getX() + 1 <= 2 && p2.getCell().getC().equals(this.board.getArena()[p.getCell().getP().getX() + 1][p.getCell().getP().getY()].getC())) ||
-                        p.getCell().getPosDoor()[i] == 4 && p.getCell().getP().getY() - 1 >= 0 && p2.getCell().getC().equals(this.board.getArena()[p.getCell().getP().getX()][p.getCell().getP().getY() - 1].getC())))
-                    b = true;
+            if ((!b) && ((p.getCell().getPosDoor()[i] == 1 && p.getCell().getP().getX() - 1 >= 0 && p2.getCell().getC().equals(this.board.getArena()[p.getCell().getP().getX() - 1][p.getCell().getP().getY()].getC())) ||
+                    (p.getCell().getPosDoor()[i] == 2 && p.getCell().getP().getY() + 1 <= 3 && p2.getCell().getC().equals(this.board.getArena()[p.getCell().getP().getX()][p.getCell().getP().getY() + 1].getC())) ||
+                    (p.getCell().getPosDoor()[i] == 3 && p.getCell().getP().getX() + 1 <= 2 && p2.getCell().getC().equals(this.board.getArena()[p.getCell().getP().getX() + 1][p.getCell().getP().getY()].getC())) ||
+                    p.getCell().getPosDoor()[i] == 4 && p.getCell().getP().getY() - 1 >= 0 && p2.getCell().getC().equals(this.board.getArena()[p.getCell().getP().getX()][p.getCell().getP().getY() - 1].getC())))
+                b = true;
             }
         return (isInTheRoom(p, p2) || ((p.getCell().getPosDoor()!=null) && b));
     }
 
-    public boolean isInViewZone(Player p, Position pos){
+    public boolean isInViewZone(Player p, Position pos) {
         if(this.board.getArena()[pos.getX()][pos.getY()].getC().equals(p.getCell().getC()))
             return true;
         for(int i=0; i<p.getCell().getPosDoor().length; i++)
@@ -409,7 +409,7 @@ public class Grid {
         return ghost;
     }
 
-    public boolean canGhostMove(Player p, List<Integer> directions)  {
+    public boolean canGhostMove(Player p, List<Integer> directions) {
         Player ghost = new Player("?gHoSt!", p.getC(), p.isFirstPlayerCard());
         ghost.changeCell(p.getCell());
         Position initialPos = ghost.getCell().getP();
@@ -424,13 +424,13 @@ public class Grid {
         return true;
     }
 
-    public WeaponSlot getWeaponSlotObject(String s){
+    public WeaponSlot getWeaponSlotObject(String s) {
         if(s.equals("1"))
             return this.board.getW1();
         if(s.equals("2"))
             return this.board.getW2();
         if(s.equals("3"))
             return this.board.getW3();
-       return null;
+        return null;
     }
 }

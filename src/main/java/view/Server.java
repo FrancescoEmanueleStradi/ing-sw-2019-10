@@ -187,15 +187,20 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
 
     public synchronized void messageAddPlayer(int game, String nick, Colour c) throws RemoteException {
         games.get(game).addPlayer(nick, c);
-
     }
+
     public synchronized List<String> messageGiveTwoPUCard(int game, String nick) throws RemoteException {
         return games.get(game).giveTwoPUCard(nick);
+    }
+
+    public synchronized List<String> messageCheckWeaponSlotContents(int game, int n) throws RemoteException {
+        return games.get(game).checkWeaponSlotContents(n);
     }
 
     public synchronized boolean messageIsValidPickAndDiscard(int game, String nick, String p1, String c1) throws RemoteException {
         return games.get(game).isValidPickAndDiscard(nick, p1, c1);
     }
+
     public synchronized void messagePickAndDiscardCard(int game, String nick, String p1, String c1) throws RemoteException {
         games.get(game).pickAndDiscardCard(nick, p1, c1);
     }
@@ -212,15 +217,14 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
         return games.get(game).isValidFirstActionMove(nick, d);
     }
 
-
     public synchronized void messageFirstActionMove(int game, String nick, List<Integer> d) throws RemoteException {
         games.get(game).firstActionMove(nick, d);
     }
 
-
     public synchronized List<String> messageGetWeaponCardLoaded(int game, String nick) throws RemoteException {
         return games.get(game).getWeaponCardLoaded(nick);
     }
+
     public synchronized boolean messageIsValidCard(int game, String nick, String weaponCard) throws RemoteException {
         return games.get(game).isValidCard(nick, weaponCard);
     }
@@ -236,6 +240,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
     public synchronized boolean messageIsValidFirstActionGrab(int game, String nick, List<Integer> d, String wC, String wS, List<Colour> lA, List<String> lP, List<String> lPC) throws RemoteException {
         return games.get(game).isValidFirstActionGrab(nick, d, wC, wS,lA, lP, lPC);
     }
+
     public synchronized void messageFirstActionGrab(int game, String nick, List<Integer> d, String wC, List<Colour> lC, List<String> lP, List<String> lPC) throws RemoteException {
         games.get(game).firstActionGrab(nick, d, wC, lC, lP, lPC);
     }
@@ -270,8 +275,8 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
 
     public synchronized void messageSecondActionGrab(int game, String nick, List<Integer> d, String wC, List<Colour> lC, List<String> lP, List<String> lPC) throws RemoteException {
         games.get(game).secondActionGrab(nick, d, wC, lC, lP, lPC);
-
     }
+
     public synchronized List<String> messageGetPowerUpCard(int game, String nick) throws RemoteException {
         return games.get(game).getPowerUpCard(nick);
     }
@@ -283,7 +288,6 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
     public synchronized boolean messageIsValidUsePowerUpCard(int game, String nick, String pC, String col, List<String> l, Colour c) throws RemoteException {
         return games.get(game).isValidUsePowerUpCard(nick, pC, col, l, c);
     }
-
 
     public synchronized void messageUsePowerUpCard(int game, String nick, String pC, String col, List<String> l, Colour c) throws RemoteException {
         games.get(game).usePowerUpCard(nick, pC, col, l, c);
@@ -299,8 +303,8 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
 
     public synchronized void messageReload(int game, String nick, String s, int end) throws RemoteException {
         games.get(game).reload(nick, s, end);
-
     }
+
     public synchronized boolean messageIsValidScoring(int game) throws RemoteException {
         return games.get(game).isValidScoring();
     }
@@ -327,8 +331,8 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
 
     public synchronized void messageReplace(int game) throws RemoteException {
         games.get(game).replace();;
-
     }
+
     public synchronized boolean messageIsValidFinalFrenzyAction(int game, String nick, List<String> l) throws RemoteException {
         return games.get(game).isValidFinalFrenzyAction(nick, l);
     }
@@ -352,34 +356,35 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
     public synchronized void messageFinalFrenzyAction2(int game, String nick, List<Integer> d) throws RemoteException {
         games.get(game).finalFrenzyAction2(nick, d);
     }
+
     public synchronized boolean messageIsValidFinalFrenzyAction3(int game, String nick, List<Integer> d, String wC, String wS, List<Colour> lC, List<String> lP, List<String> lPC) throws RemoteException {
        return games.get(game).isValidFinalFrenzyAction3(nick, d, wC, wS, lC, lP, lPC);
     }
 
     public synchronized void messageFinalFrenzyAction3(int game, String nick, List<Integer> d, String wC, List<Colour> lC, List<String> lP, List<String> lPC) throws RemoteException {
         games.get(game).finalFrenzyAction3(nick, d, wC, lC, lP, lPC);
-
     }
+
     public synchronized boolean messageIsValidFinalFrenzyAction4(int game, String nick, List<Integer> d, String wC, List<Integer> lI, List<String> lS, List<Colour> lC, List<String> lP, List<String> lPC) throws RemoteException {
         return games.get(game).isValidFinalFrenzyAction4(nick, d, wC, lI, lS, lC, lP, lPC);
     }
 
     public synchronized void messageFinalFrenzyAction4(int game, String nick, List<Integer> d, List<String> lW, String wC, List<Integer> lI, List<String> lS, List<Colour> lC, List<String> lP, List<String> lPC) throws RemoteException {
         games.get(game).finalFrenzyAction4(nick, d, lW, wC, lI, lS, lC, lP, lPC);
-
     }
+
     public synchronized boolean messageIsValidFinalFrenzyAction5(int game, String nick, List<Integer> d, String wC, String wS, List<Colour> lC, List<String> lS, List<String> lPC) throws RemoteException {
         return games.get(game).isValidFinalFrenzyAction5(nick, d, wC, wS, lC, lS, lPC);
     }
 
     public synchronized void messageFinalFrenzyAction5(int game, String nick, List<Integer> d, String wC, List<Colour> lC, List<String> lP, List<String> lPC) throws RemoteException {
         games.get(game).finalFrenzyAction5(nick, d, wC, lC, lP, lPC);
-
     }
+
     public synchronized void messageFinalFrenzyTurnScoring(int game) throws RemoteException {
         games.get(game).finalFrenzyTurnScoring();
-
     }
+
     public synchronized void messageEndTurnFinalFrenzy(int game) throws RemoteException {
         games.get(game).endTurnFinalFrenzy();
 

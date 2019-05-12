@@ -926,6 +926,26 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         return l;
     }
 
+    public List<String> checkWeaponSlotContents(int n) {
+        List<String> l = new LinkedList<>();
+        if (n == 1) {
+            l.add(grid.getBoard().getW1().getCard1().getCardName());
+            l.add(grid.getBoard().getW1().getCard2().getCardName());
+            l.add(grid.getBoard().getW1().getCard3().getCardName());
+        }
+        if (n == 2) {
+            l.add(grid.getBoard().getW2().getCard1().getCardName());
+            l.add(grid.getBoard().getW2().getCard2().getCardName());
+            l.add(grid.getBoard().getW2().getCard3().getCardName());
+        }
+        if (n == 3) {
+            l.add(grid.getBoard().getW3().getCard1().getCardName());
+            l.add(grid.getBoard().getW3().getCard2().getCardName());
+            l.add(grid.getBoard().getW3().getCard3().getCardName());
+        }
+        return l;
+    }
+
     public boolean isValidFirstActionGrab(String nickName, List<Integer> directionList, String wCardInput, String wSlotInput, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) {
         Player p = this.grid.getPlayerObject(nickName);
         WeaponCard wCard = this.grid.getWeaponCardObject(wCardInput);

@@ -70,7 +70,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
         return canStartList.get(game);
     }
 
-    public synchronized boolean tooMany(int game) throws RemoteException{
+    public synchronized boolean tooMany(int game) throws RemoteException{               //Even if a Player is suspended, the total number of player can't be more than five
         return (!players.isEmpty() && players.get(game) == 5);
     }
 

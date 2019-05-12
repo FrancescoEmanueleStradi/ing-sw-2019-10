@@ -20,7 +20,7 @@ public class Client {
         System.out.println("Enter the number of the game you want to play: " +
                 "there are " + centralServer.getGames()+ " games now");
         int g = in.nextInt()-1;
-        System.out.println("Are you a new Player?");
+        System.out.println("Are you an old Player of this game?");
         String n = in.next();
         if(n.equals("yes") || n.equals("Yes") || n.equals("YES")){
             System.out.println("Enter you old identifier:");

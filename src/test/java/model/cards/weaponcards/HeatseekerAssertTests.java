@@ -40,11 +40,11 @@ class HeatseekerAssertTests {
 
         Player player = new Player("Myself", Colour.BLUE, true);
         Position playerPos =  new Position(1,0);
-        grid.move(player, playerPos);
+        // TODO grid.move(player, playerPos);
 
         Player enemy = new Player("Enemy 1", Colour.GREEN, false);
         Position enemyPos = new Position(2,3);
-        grid.move(enemy, enemyPos);
+        // TODO grid.move(enemy, enemyPos);
 
         assertFalse(grid.isInViewZone(player, enemy));
         h.applyEffect(grid, player, enemy);

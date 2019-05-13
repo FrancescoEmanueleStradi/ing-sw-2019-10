@@ -174,9 +174,6 @@ public class Grid {
         return true;
     }
 
-    public void move(Player p, Position pt) {
-        p.changeCell(board.getArena()[pt.getX()][pt.getY()]);           //TODO control where we used
-    }
 
     public void move(Player p, int x, int y) {
         p.changeCell(board.getArena()[x][y]);

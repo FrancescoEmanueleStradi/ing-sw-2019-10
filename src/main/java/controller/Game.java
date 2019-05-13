@@ -23,8 +23,6 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
     private boolean discard = false;
     private List<String> deadList = new LinkedList<>();
     private boolean finalFrenzy = false;
-    private PowerUpCard pUC1;
-    private PowerUpCard pUC2;
     private int cardToPickAfterDeath;
 
     public Grid getGrid() {
@@ -61,7 +59,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
 
     public Colour getColour(String nickName){
-        return this.getColour(nickName);
+        return this.grid.getPlayerColour(nickName);
     }
 
 
@@ -1316,7 +1314,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
             p.getpB().getPoints().remove();
         p.getpB().getDamages().clean();
         p.addPowerUpCard(this.grid.getPowerUpDeck().getDeck().get(cardToPickAfterDeath));
-        cardToPickAfterDeath++;     //TODO attention to this int, also used below
+        cardToPickAfterDeath++;
     }
 
     public boolean isValidScoring() {
@@ -1344,7 +1342,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
             p.getpB().getDamages().cleanL();
             c++;
             if(c == 2)
-                this.grid.scoringByColour(p.getpB().getDamages().getDamageTr()[10].getC(),1);        //Double Kill  //TODO attention to powerupcard: another player can kill you
+                this.grid.scoringByColour(p.getpB().getDamages().getDamageTr()[10].getC(),1);        //Double Kill
             this.death(p);
             this.gameState = DEATH;
         }
@@ -1365,7 +1363,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         PowerUpCard p1 = p.getPowerUpCardObject(s1, Colour.valueOf(c1));
         chooseSpawnPoint(p1.getC(), p);
         p.removePowerUpCard(p1);
-        this.grid.getPowerUpDeck().getDeck().remove(cardToPickAfterDeath);
+        this.grid.getPowerUpDeck().getDeck().remove(cardToPickAfterDeath-1); //It should be OK
         cardToPickAfterDeath--;
         this.grid.getPowerUpDiscardPile().add(p1);
         this.deadList.remove(nickName);

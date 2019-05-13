@@ -61,7 +61,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
 
     public Colour getColour(String nickName){
-        return this.getColour(nickName);
+        return this.grid.getPlayerColour(nickName);
     }
 
 

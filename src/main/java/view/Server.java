@@ -113,7 +113,10 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
     }*/
 
     public synchronized boolean isMyTurn(int game, int identifier) throws RemoteException {
-        return(playersTakingTheirTurn.get(game) == identifier);
+        if(suspendedIdentifier.get(game).isEmpty())
+            return(playersTakingTheirTurn.get(game) == identifier && (players.get(game) != frenzyTurn));
+        else
+            return(playersTakingTheirTurn.get(game) == identifier && (players.get(game)-suspendedIdentifier.get(game).size()-1 != frenzyTurn));
     }
 
     public synchronized boolean isNotFinalFrenzy(int game) throws RemoteException {
@@ -131,9 +134,13 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
     }
 
     public synchronized boolean gameIsFinished(int game) throws RemoteException {
-        if(players.get(game)-suspendedIdentifier.get(game).size() < 3)
-            return true;
-        return games.get(game).getGameState() == GameState.ENDALLTURN;
+        //if(players.get(game)-suspendedIdentifier.get(game).size() < 3)
+            //return true;
+        //return games.get(game).getGameState() == GameState.ENDALLTURN;
+        if(suspendedIdentifier.get(game).isEmpty())
+            return(players.get(game) == frenzyTurn);
+        else
+            return(players.get(game)-suspendedIdentifier.get(game).size()-1 == frenzyTurn);
     }
 
     public synchronized void finishTurn(int game) throws RemoteException {

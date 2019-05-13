@@ -113,14 +113,15 @@ public class Client {
                         centralServer.setFinalTurn(game, identifier, view.getNickName());
                         view.finalFrenzyTurn();
                         centralServer.finishTurn(game);
-                        break;              //TODO is it now that the client has to break?
                     }
                 }
+                if(centralServer.gameIsFinished(game))
+                    break;
             }
             view.endFinalFrenzy();
-            if (centralServer.gameIsFinished(game)) {
-                view.finalScoring();
-            }
+            //if (centralServer.gameIsFinished(game)) {
+            view.finalScoring();
+            //}
         }catch (RemoteException e){                                     //TODO Question: is it correct?
             centralServer.manageDisconnection(game, identifier, view.getNickName());
         }

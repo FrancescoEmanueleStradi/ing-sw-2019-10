@@ -120,7 +120,7 @@ public class Client {
             if (centralServer.gameIsFinished(game)) {
                 view.finalScoring();
             }
-        }catch (RemoteException e){                                     //TODO is it correct?
+        }catch (RemoteException e){                                     //TODO Question: is it correct?
             centralServer.manageDisconnection(game, identifier, view.getNickName());
         }
     }

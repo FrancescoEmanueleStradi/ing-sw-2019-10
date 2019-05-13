@@ -1404,6 +1404,9 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
     public boolean isValidFinalFrenzyAction1(String nickName, int direction, String weaponToUse, List<Integer> lI, List<String> lS, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) {
         Player p = this.grid.getPlayerObject(nickName);
+        Set<Integer> lIset = new HashSet<>(lI);
+        if(lIset.size() < lI.size())                //to check if there are repetitions in lI, which means that player wants to apply the same effect multiple times
+            return false;
         List<AmmoCube> lA = new LinkedList<>();
         if(!lAInput.isEmpty()) {
             for (Colour c : lAInput)

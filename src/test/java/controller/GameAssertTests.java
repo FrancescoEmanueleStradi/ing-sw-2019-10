@@ -12,6 +12,7 @@ import model.cards.powerupcards.TagbackGrenade;
 import model.cards.powerupcards.TargetingScope;
 import model.cards.powerupcards.Teleporter;
 import model.cards.weaponcards.Cyberblade;
+import model.cards.weaponcards.LockRifle;
 import model.cards.weaponcards.MachineGun;
 import model.player.AmmoCube;
 import model.player.Player;
@@ -531,5 +532,31 @@ class GameAssertTests {
 
         //Initialization finished
         //First Action: Grab
+
+        p1.changeCell(grid.getBoard().getArena()[0][1]);
+        WeaponCard lockRifle = new LockRifle();
+        grid.getBoard().getW1().setCard1(lockRifle);
+
+        List<Integer> directions1 = new LinkedList<>();
+        directions1.add(2);
+        List<Colour> lA = new LinkedList<>();
+        lA.add(Colour.BLUE);
+        List<String> lP = new LinkedList<>();
+        List<String> lPColourInput = new LinkedList<>();
+        assertTrue(game.isValidFirstActionGrab(p1.getNickName(), directions1, "Lock Rifle", "1", lA, lP, lPColourInput));
+        game.firstActionGrab(p1.getNickName(), directions1, "Lock Rifle", lA, lP, lPColourInput);
+
+        assertEquals(1, p1.getwC().size());
+        assertTrue(p1.getwC().contains(lockRifle));
+
+        assertNotNull(p1.getaC()[0]);
+        assertNull(p1.getaC()[1]);
+        assertNull(p1.getaC()[2]);
+        assertNull(p1.getaC()[3]);
+        assertNull(p1.getaC()[4]);
+        assertNull(p1.getaC()[5]);
+        assertNotNull(p1.getaC()[6]);
+        assertNull(p1.getaC()[7]);
+        assertNull(p1.getaC()[8]);
     }
 }

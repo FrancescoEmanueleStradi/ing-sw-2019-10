@@ -371,14 +371,16 @@ public class CLI implements View {
                     lD.add(d);
             }
             //TODO method that displays the cards in a weapon slot of the player's choice; should be in a while() so as to let the player inspect all of them
-            System.out.println("Would you like to check the WeaponCards of some WeaponSlot? (Yes/yes/y)");
-            confirm = in.nextLine();
-            if (confirm.equals("Yes") || confirm.equals("yes") || confirm.equals("y")) {
-                System.out.println("Enter the number of the WeaponSlot you want to check:");
-                int n = in.nextInt();
-                List<String> lWS = this.server.messageCheckWeaponSlotContents(game, n);
-                System.out.println("The cards available in WeaponSlot " + n +"are:\n" + lWS.get(0) + "\n" + lWS.get(1) + "\n" + lWS.get(2));
-            }
+
+                System.out.println("Would you like to check the WeaponCards of some WeaponSlot? (Yes/yes/y)");
+                confirm = in.nextLine();
+                if (confirm.equals("Yes") || confirm.equals("yes") || confirm.equals("y")) {
+                    System.out.println("Enter the number of the WeaponSlot you want to check:");
+                    int n = in.nextInt();
+                    List<String> lWS = this.server.messageCheckWeaponSlotContents(game, n);
+                    System.out.println("The cards available in WeaponSlot " + n + " are:\n" + lWS.get(0) + "\n" + lWS.get(1) + "\n" + lWS.get(2) +
+                            "\nCheck some other weapon slot? (Yes/yes/y)");
+                }
             in.nextLine();
             System.out.println("Do you want to buy a weapon card instead of grabbing ammo? (Yes/yes/y)");
             confirm = in.nextLine();
@@ -625,6 +627,15 @@ public class CLI implements View {
                     lD.add(d);
             }
             //TODO method that displays the cards in a weapon slot of the player's choice; should be in a while() so as to let the player inspect all of them
+            System.out.println("Would you like to check the WeaponCards of some WeaponSlot? (Yes/yes/y)");
+            confirm = in.nextLine();
+            if (confirm.equals("Yes") || confirm.equals("yes") || confirm.equals("y")) {
+                System.out.println("Enter the number of the WeaponSlot you want to check:");
+                int n = in.nextInt();
+                List<String> lWS = this.server.messageCheckWeaponSlotContents(game, n);
+                System.out.println("The cards available in WeaponSlot " + n + " are:\n" + lWS.get(0) + "\n" + lWS.get(1) + "\n" + lWS.get(2));
+            }
+            in.nextLine();
             System.out.println("Do you want to buy a weapon card instead of grabbing ammo? (Yes/yes/y)");
             confirm = in.nextLine();
             if (confirm.equals("Yes") || confirm.equals("yes") || confirm.equals("y")) {

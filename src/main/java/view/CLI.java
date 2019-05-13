@@ -136,7 +136,7 @@ public class CLI implements View {
             if (this.server.messageGetPowerUpCard(game, this.nickName).get(0).equals(p) && this.server.messageGetPowerUpCardColour(game, this.nickName).get(0).equals(c))
                 this.server.messagePickAndDiscardCard(game, this.nickName, this.server.messageGetPowerUpCard(game, this.nickName).get(0), this.server.messageGetPowerUpCardColour(game, this.nickName).get(0));
             else
-                this.server.messagePickAndDiscardCard(game, this.nickName, this.server.messageGetPowerUpCard(game, this.nickName).get(1), this.server.messageGetPowerUpCard(game, this.nickName).get(1));
+                this.server.messagePickAndDiscardCard(game, this.nickName, this.server.messageGetPowerUpCard(game, this.nickName).get(1), this.server.messageGetPowerUpCardColour(game, this.nickName).get(1));
     }
 
     @Override
@@ -371,7 +371,7 @@ public class CLI implements View {
                     lD.add(d);
             }
             //TODO method that displays the cards in a weapon slot of the player's choice; should be in a while() so as to let the player inspect all of them
-            System.out.println("Would you like to check the WeaponCards of some WeaponSlot?");
+            System.out.println("Would you like to check the WeaponCards of some WeaponSlot? (Yes/yes/y)");
             confirm = in.nextLine();
             if (confirm.equals("Yes") || confirm.equals("yes") || confirm.equals("y")) {
                 System.out.println("Enter the number of the WeaponSlot you want to check:");
@@ -379,6 +379,7 @@ public class CLI implements View {
                 List<String> lWS = this.server.messageCheckWeaponSlotContents(game, n);
                 System.out.println("The cards available in WeaponSlot " + n +"are:\n" + lWS.get(0) + "\n" + lWS.get(1) + "\n" + lWS.get(2));
             }
+            in.nextLine();
             System.out.println("Do you want to buy a weapon card instead of grabbing ammo? (Yes/yes/y)");
             confirm = in.nextLine();
             if (confirm.equals("Yes") || confirm.equals("yes") || confirm.equals("y")) {

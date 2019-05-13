@@ -32,6 +32,7 @@ public interface ServerInterface extends Remote {
     //void setGui(int game, int identifier) throws RemoteException;
     boolean isMyTurn(int game, int identifier) throws RemoteException;
     boolean isNotFinalFrenzy(int game) throws RemoteException;
+    void setFinalTurn(int game, int identifier, String nickName) throws RemoteException;
     boolean gameIsFinished(int game) throws RemoteException;
     void finishTurn(int game) throws RemoteException;
     void manageDisconnection(int game, int identifier, String nickName) throws RemoteException;

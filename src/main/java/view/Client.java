@@ -83,7 +83,7 @@ public class Client {
             view.setServer(centralServer);
             view.setGame(game);
 
-            view.askNameAndColour();
+            view.askNameAndColour();                    //identifier 1 has to have the first player  card
             view.selectSpawnPoint();
         }
         try {
@@ -110,6 +110,7 @@ public class Client {
                         if (centralServer.stopGame(game))
                             break;
                     } else {
+                        centralServer.setFinalTurn(game, identifier, view.getNickName());
                         view.finalFrenzyTurn();
                         centralServer.finishTurn(game);
                         break;              //TODO is it now that the client has to break?

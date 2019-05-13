@@ -47,7 +47,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
        }
     }
 
-    public void changeTurnFinalFrenzy(String nickName, int turn) {      //TODO attention to the server
+    public void changeTurnFinalFrenzy(String nickName, int turn) {
         Player p = this.grid.getPlayerObject(nickName);
         if(!p.isFirstPlayerCard())
             p.setTurnFinalFrenzy(turn);

@@ -19,8 +19,9 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
     //static private List<List<View>> views;
     private static List<Integer> playersTakingTheirTurn;        //position n --> game n
     private static List<LinkedList<Integer>>  suspendedIdentifier;
-    private static List<LinkedList<String>> suspendedName;                      //TODO test to understand if these are initialized and insert condition !isEmpty in if statements
+    private static List<LinkedList<String>> suspendedName;                      //TODO (test) to understand if these are initialized and insert condition !isEmpty in if statements
     private static List<Boolean> disconnection;
+    private static int frenzyTurn = 0;
 
     public Server() throws RemoteException {
         super();
@@ -116,7 +117,17 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
     }
 
     public synchronized boolean isNotFinalFrenzy(int game) throws RemoteException {
-        return !games.get(game).isFinalFrenzy();
+        boolean n = !games.get(game).isFinalFrenzy();
+        if(!n)
+            frenzyTurn++;
+        return n;
+    }
+
+    public synchronized void setFinalTurn(int game, int identifier, String nickName){           //We assert identifier 1 has the first player card
+        if(identifier-frenzyTurn > 0)
+            games.get(game).changeTurnFinalFrenzy(nickName, 0);
+        if(identifier-frenzyTurn < 0 )
+            games.get(game).changeTurnFinalFrenzy(nickName, 2);
     }
 
     public synchronized boolean gameIsFinished(int game) throws RemoteException {
@@ -134,7 +145,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
     }
 
     public void manageDisconnection(int game, int identifier, String nickName) throws RemoteException{
-        suspendedIdentifier.get(game).add(identifier, identifier);                //TODO is suspended already initialized?
+        suspendedIdentifier.get(game).add(identifier, identifier);                //TODO (test) is suspended already initialized?
         suspendedName.get(game).add(identifier, nickName);
         disconnection.add(game, true);
     }

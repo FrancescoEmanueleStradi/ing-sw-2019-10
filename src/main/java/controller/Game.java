@@ -1194,13 +1194,30 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         boolean x = false;
         if(this.gameState.equals(ACTION1) || this.gameState.equals(ACTION2)) {
             if(namePC.equals("Tagback Grenade")) {
-                //player p can use this only when he is being attacked, i.e. while the attacker is taking his turn
                 if (p.getPowerUpCardObject(namePC, Colour.valueOf(colourPC)) != null && this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(0))))
                     x = true;
+                boolean exit = false;
+                for (DamageToken dT : p.getpB().getDamages().getDamageTr()) {
+                    if (dT != null && dT.getC().equals(this.grid.getPlayerObject(lS.get(0)).getC())) {
+                        exit = true;
+                        break;
+                    }
+                }
+                if(!exit)
+                    x = false;
             }
             else if(namePC.equals("Targeting Scope")) {
                     if (p.getPowerUpCardObject(namePC, Colour.valueOf(colourPC)) != null && p.checkAmmoCube(new AmmoCube[]{new AmmoCube(c)}))
                         x = true;
+                    boolean exit = false;
+                    for(int i = 0; i < this.grid.getPlayerObject(lS.get(0)).getpB().getDamages().getDamageTr().length - 1; i++) {
+                        if(this.grid.getPlayerObject(lS.get(0)).getpB().getDamages().getDamageTr()[i+1] == null && this.grid.getPlayerObject(lS.get(0)).getpB().getDamages().getDamageTr()[i].getC().equals(p.getC())) {
+                            exit = true;
+                            break;
+                        }
+                    }
+                    if(!exit)
+                        x = false;
                 }
         }
         if(this.gameState.equals(STARTTURN) || this.gameState.equals(ACTION1) || this.gameState.equals(ACTION2)) {
@@ -1245,9 +1262,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                 ((TagbackGrenade) p.getPowerUpCardObject(namePC, Colour.valueOf(colourPC))).applyEffect(this.grid, p, this.grid.getPlayerObject(lS.get(0)));
                 break;
             case "Targeting Scope" :
-                for(String s : lS) {
-                    ((TargetingScope) p.getPowerUpCardObject(namePC, Colour.valueOf(colourPC))).applyEffect(this.grid, p, this.grid.getPlayerObject(s));
-                }
+                    ((TargetingScope) p.getPowerUpCardObject(namePC, Colour.valueOf(colourPC))).applyEffect(this.grid, p, this.grid.getPlayerObject(lS.get(0)));
                 List<AmmoCube> lA = new LinkedList<>();
                 lA.add(new AmmoCube(c));
                 List<PowerUpCard> lP = new LinkedList<>();

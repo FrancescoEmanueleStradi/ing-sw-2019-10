@@ -377,11 +377,11 @@ public class CLI implements View {
                 int n = intScan.nextInt();
                 List<String> lWS = this.server.messageCheckWeaponSlotContents(game, n);
                 System.out.println("The cards available in WeaponSlot " + n + " are:\n" + lWS.get(0) + "\n" + lWS.get(1) + "\n" + lWS.get(2) +
-                        "\nCheck some other weapon slot? (Yes/yes/y)");
+                        "\nCheck some other WeaponSlot? (Yes/yes/y)");
                 confirm = in.nextLine();
             }
             in.nextLine();
-            System.out.println("Do you want to buy a weapon card instead of grabbing ammo? (Yes/yes/y)");
+            System.out.println("Do you want to buy a WeaponCard instead of grabbing ammo? (Yes/yes/y)");
             confirm = in.nextLine();
             if (confirm.equals("Yes") || confirm.equals("yes") || confirm.equals("y")) {
                 System.out.println("Enter the name of the WeaponCard you wish to buy:");
@@ -391,7 +391,7 @@ public class CLI implements View {
                 System.out.println("Enter the colour(s), in order and in all caps, of the required AmmoCube(s) to buy the card,\n" +
                         "or 0 if not necessary");
                 while (in.hasNext()) {
-                    String a = in.next();
+                    String a = in.nextLine();
                     if (a.equals("0"))
                         break;
                     else
@@ -399,7 +399,7 @@ public class CLI implements View {
                 }
                 System.out.println("Enter the PowerUpCard(s) you want to use to pay during your turn, or 0 if not necessary");
                 while (in.hasNext()) {
-                    String p = in.next();
+                    String p = in.nextLine();
                     if (p.equals("0"))
                         break;
                     else
@@ -407,7 +407,7 @@ public class CLI implements View {
                 }
                 System.out.println("Enter the colour(s) of the PowerUpCard(s) you want to use to pay during your turn, or 0 if not necessary");
                 while (in.hasNext()) {
-                    String c = in.next();
+                    String c = in.nextLine();
                     if (c.equals("0"))
                         break;
                     else
@@ -462,7 +462,7 @@ public class CLI implements View {
         System.out.println("Enter the sequence of movements you want to do, one integer at a time, up to 3\n" +
                 "1 = north, 2 = east, 3 = south, 4 = west\n" +
                 "Press 0 to finish");
-        while(true) {
+        while (true) {
             System.out.println("Next int:");
             int n = in.nextInt();
             if (n == 0 && this.server.messageIsValidSecondActionMove(game, nickName, l)) {
@@ -610,11 +610,11 @@ public class CLI implements View {
                 int n = intScan.nextInt();
                 List<String> lWS = this.server.messageCheckWeaponSlotContents(game, n);
                 System.out.println("The cards available in WeaponSlot " + n + " are:\n" + lWS.get(0) + "\n" + lWS.get(1) + "\n" + lWS.get(2) +
-                        "\nCheck some other weapon slot? (Yes/yes/y)");
+                        "\nCheck some other WeaponSlot? (Yes/yes/y)");
                 confirm = in.nextLine();
             }
             in.nextLine();
-            System.out.println("Do you want to buy a weapon card instead of grabbing ammo? (Yes/yes/y)");
+            System.out.println("Do you want to buy a WeaponCard instead of grabbing ammo? (Yes/yes/y)");
             confirm = in.nextLine();
             if (confirm.equals("Yes") || confirm.equals("yes") || confirm.equals("y")) {
                 System.out.println("Enter the name of the WeaponCard you wish to buy:");
@@ -624,7 +624,7 @@ public class CLI implements View {
                 System.out.println("Enter the colour(s), in order and in all caps, of the required AmmoCube(s) to buy the card,\n" +
                         "or 0 if not necessary");
                 while (in.hasNext()) {
-                    String a = in.next();
+                    String a = in.nextLine();
                     if (a.equals("0"))
                         break;
                     else
@@ -632,7 +632,7 @@ public class CLI implements View {
                 }
                 System.out.println("Enter the PowerUpCard(s) you want to use to pay during your turn, or 0 if not necessary");
                 while (in.hasNext()) {
-                    String p = in.next();
+                    String p = in.nextLine();
                     if (p.equals("0"))
                         break;
                     else
@@ -640,7 +640,7 @@ public class CLI implements View {
                 }
                 System.out.println("Enter the colour(s) of the PowerUpCard(s) you want to use to pay during your turn, or 0 if not necessary");
                 while (in.hasNext()) {
-                    String c = in.next();
+                    String c = in.nextLine();
                     if (c.equals("0"))
                         break;
                     else
@@ -668,31 +668,32 @@ public class CLI implements View {
     @Override
     public boolean doYouWantToUsePUC(){
         Scanner in = new Scanner(System.in);
-        System.out.println("Do you want to use the power up card now?");
-        String s1 = in.next();
-        return (s1.equals("Yes") || s1.equals("yes"));
+        System.out.println("Do you want to use the PowerUpCard now?");
+        String confirm = in.next();
+        return (confirm.equals("Yes") || confirm.equals("yes") || confirm.equals("y"));
     }
 
     @Override
     public void usePowerUpCard() throws RemoteException{
         Scanner in = new Scanner(System.in);
+        Scanner intScan = new Scanner(System.in);
         String namePC;
         String colourPC;
         List<String> lS = new LinkedList<>();
         System.out.println("Enter which PowerUpCard you want to use:");
         this.server.messageGetPowerUpCard(game, nickName).stream().forEach(System.out::println);
-        namePC = in.next();
+        namePC = in.nextLine();
         System.out.println("Enter the colour of the PowerUpCard:");
-        colourPC = in.next();
+        colourPC = in.nextLine();
         this.server.messageGetDescriptionPUC(game, namePC, colourPC, nickName);
         switch (namePC){
             case "Tagback Grenade":
                 System.out.println("Enter the nickname of a player you can see and that gave you damage:");
-                lS.add(in.next());
+                lS.add(in.nextLine());
                 while(!this.server.messageIsValidUsePowerUpCard(game, nickName, namePC, colourPC, lS, null)){
                     System.out.println(errorRetry);
                     System.out.println("Enter the nickname of a player you can see and that gave you damage:");
-                    lS.add(in.next());
+                    lS.add(in.nextLine());
                 }
                 this.server.messageUsePowerUpCard(game, nickName, namePC, colourPC, lS, null);
                 break;
@@ -700,31 +701,31 @@ public class CLI implements View {
             case "Targeting Scope":
                 System.out.println("Enter the nickname of one or more players you have damaged:");
                 while(in.hasNext())
-                    lS.add(in.next());
+                    lS.add(in.nextLine());
                 System.out.println("Enter the colour of the AmmoCube you want to use to pay:");
-                Colour c = Colour.valueOf(in.next());
+                Colour c = Colour.valueOf(in.nextLine());
                 while(!this.server.messageIsValidUsePowerUpCard(game, nickName, namePC, colourPC, lS, c)){
                     System.out.println(errorRetry);
                     System.out.println("Enter the nickname of one or more players you have damaged:");
                     while(in.hasNext())
-                        lS.add(in.next());
+                        lS.add(in.nextLine());
                     System.out.println("Enter the colour of the AmmoCube you want to use to pay:");
-                    c = Colour.valueOf(in.next());
+                    c = Colour.valueOf(in.nextLine());
                 }
                 this.server.messageUsePowerUpCard(game, nickName, namePC, colourPC, lS, c);
                 break;
 
             case "Newton":
                 System.out.println("Enter the nickname of a player:");
-                lS.add(in.next());
-                System.out.println("Enter the direction(s) where you want the enemy to go:");
+                lS.add(in.nextLine());
+                System.out.println("Enter the direction(s) in which you want the enemy to go:");
                 while(in.hasNext())
                     lS.add(in.next());
                 while(!this.server.messageIsValidUsePowerUpCard(game, nickName, namePC, colourPC, lS, null)){
-                    System.out.println("Error: please retryt");
+                    System.out.println("Error: please retry");
                     System.out.println("Enter the nickname of a player:");
                     lS.add(in.next());
-                    System.out.println("write the directions where you want the enemy to go:");
+                    System.out.println("Enter the direction(s) in which you want the enemy to go:");
                     while(in.hasNext())
                         lS.add(in.next());
                 }
@@ -732,7 +733,7 @@ public class CLI implements View {
                 break;
 
             case "Teleporter":
-                System.out.println("Enter the coordinates of the cell you want to move (x y):");
+                System.out.println("Enter the coordinates of the cell you want to move to (x y):");
                 lS.add(in.next());
                 lS.add(in.next());
                 while(!this.server.messageIsValidUsePowerUpCard(game, nickName, namePC, colourPC, lS, null)) {
@@ -752,14 +753,14 @@ public class CLI implements View {
         Scanner in = new Scanner(System.in);
         this.server.messageGetWeaponCardUnloaded(game, this.nickName).stream().forEach(System.out::println);
         int i = 0;
-        while(i == 0){
+        while (i == 0) {
             System.out.println("Choose the weapon card you want to reload, or 'end' if you don't need/want to");
             String s = in.nextLine();
             if (s.equals("end"))
                 break;
             System.out.println("Enter 0 if you want to reload another card, otherwise 1");
             i = in.nextInt();
-            if(this.server.messageIsValidReload(game, this.nickName, s))
+            if (this.server.messageIsValidReload(game, this.nickName, s))
                 this.server.messageReload(game, this.nickName, s, i);
             else
                 System.out.println("You can't reload now: pay attention to the rules! (you can find the manual inside the box)");

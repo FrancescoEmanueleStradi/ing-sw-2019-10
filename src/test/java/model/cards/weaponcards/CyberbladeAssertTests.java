@@ -54,7 +54,7 @@ class CyberbladeAssertTests {
 
         Player enemy2 = new Player("Enemy 2", Colour.RED, false);
         Position enemyPos = new Position(0,2);
-        grid.move(enemy2, enemyPos);
+        //TODO grid.move(enemy2, enemyPos);
         //grid.moveInMyCell doesn't work
         assertEquals(player.getCell(), enemy2.getCell());
 

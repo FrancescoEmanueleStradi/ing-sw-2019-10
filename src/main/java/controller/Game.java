@@ -843,20 +843,20 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
     private boolean canPay(WeaponCard w, List<AmmoCube> l) {
         List<AmmoCube> l2 = new ArrayList<>(Arrays.asList(w.getReloadCost()));          //this way the original array is not modified
-        l2.remove(0);                                             //containsAll does not work: AmmoCubes have not the same references!
-        int count = 0;
-        for(AmmoCube a : l) {
-            for(AmmoCube aCost : l2) {
-                if(a.getC().equals(aCost.getC())) {
-                    count++;
-                    break;
-                }
-                if(count == l2.size())
-                    return true;
-            }
-        }
-        return false;
+        l2.remove(0);                                                               //containsAll does not work: AmmoCubes have not the same references!
 
+        if(l2.isEmpty())
+            return true;
+
+        List<Colour> lInput = new LinkedList<>();
+        for(AmmoCube aC : l)
+            lInput.add(aC.getC());
+
+        List<Colour> lCost = new LinkedList<>();
+        for(AmmoCube aCost : l2)
+            lCost.add(aCost.getC());
+
+        return lInput.containsAll(lCost);
     }
 
     private void grabNotAdrenaline(Player p, List<Integer> d, WeaponCard wCard, List<AmmoCube> lA, List<PowerUpCard> lP) {
@@ -864,7 +864,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
             this.grid.move(p, d.get(0));
         if(p.getCell().getStatus() == 0)
             giveWhatIsOnAmmoCard(p, p.getCell().getA());
-        else if(p.getCell().getStatus() == 1 && wCard != null && canPay(wCard, choosePayment(lA, lP))) {
+        else if(p.getCell().getStatus() == 1) {
                 p.payCard(lA, lP);
                 p.getwC().add(wCard);
                 p.getwC().get(p.getwC().size() - 1).reload();
@@ -901,7 +901,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
             this.grid.move(p, d.get(1));
         if(p.getCell().getStatus() == 0)
             giveWhatIsOnAmmoCard(p, p.getCell().getA());
-        else if((p.getCell().getStatus() == 1) && w != null && (canPay(w, choosePayment(lA, lP)))) {
+        else if(p.getCell().getStatus() == 1) {
                 p.payCard(lA, lP);
                 p.getwC().add(w);
                 p.getwC().get(p.getwC().size() - 1).reload();

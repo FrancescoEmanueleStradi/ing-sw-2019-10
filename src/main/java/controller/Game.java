@@ -859,8 +859,9 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
     }
 
-    private void grabNotAdrenaline(Player p, int direction, WeaponCard wCard, List<AmmoCube> lA, List<PowerUpCard> lP) {
-        this.grid.move(p, direction);
+    private void grabNotAdrenaline(Player p, List<Integer> d, WeaponCard wCard, List<AmmoCube> lA, List<PowerUpCard> lP) {
+        if(!d.isEmpty())
+            this.grid.move(p, d.get(0));
         if(p.getCell().getStatus() == 0)
             giveWhatIsOnAmmoCard(p, p.getCell().getA());
         else if(p.getCell().getStatus() == 1 && wCard != null && canPay(wCard, choosePayment(lA, lP))) {
@@ -894,7 +895,8 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
     }
 
     private void grabAdrenaline(Player p, List<Integer> d, WeaponCard w, List<AmmoCube> lA, List<PowerUpCard> lP) {
-        this.grid.move(p, d.get(0));
+        if(!d.isEmpty())
+            this.grid.move(p, d.get(0));
         if(d.size() == 2)
             this.grid.move(p, d.get(1));
         if(p.getCell().getStatus() == 0)
@@ -972,12 +974,14 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                 if ((wSlotInput.equals("1") && (this.grid.ghostMove(p, directionList).getCell().getP().getX() == 0 && this.grid.ghostMove(p, directionList).getCell().getP().getY() == 2) && this.checkWeaponSlotContents(1).contains(wCardInput)) ||
                         (wSlotInput.equals("2") && (this.grid.ghostMove(p, directionList).getCell().getP().getX() == 2 && this.grid.ghostMove(p, directionList).getCell().getP().getY() == 3) && this.checkWeaponSlotContents(2).contains(wCardInput)) ||
                         (wSlotInput.equals("3") && (this.grid.ghostMove(p, directionList).getCell().getP().getX() == 1 && this.grid.ghostMove(p, directionList).getCell().getP().getY() == 0) && this.checkWeaponSlotContents(3).contains(wCardInput))) {
-                    if (!p.checkAmmoCube(cubeArray))
+                    if (cubeArray.length != 0 && !p.checkAmmoCube(cubeArray))
                         return false;
-                    for (int i = 0; i < lPInput.size(); i++) {
-                        if (p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))) == null)
-                            return false;
-                        lP.add(p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))));
+                    if(!lPInput.isEmpty()) {
+                        for (int i = 0; i < lPInput.size(); i++) {
+                            if (p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))) == null)
+                                return false;
+                            lP.add(p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))));
+                        }
                     }
 
                     if (!canPay(wCard, choosePayment(lA, lP)))
@@ -1006,7 +1010,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                 lP.add(p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))));
         }
         if(!(p.isAdrenaline1()))
-                grabNotAdrenaline(p, directions.get(0), wCard, l, lP);
+                grabNotAdrenaline(p, directions, wCard, l, lP);
 
         if(p.isAdrenaline1()||p.isAdrenaline2()){
                 grabAdrenaline(p, directions, wCard, l, lP);
@@ -1092,7 +1096,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         for(int i = 0; i < lPInput.size(); i++)
             lP.add(p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))));
         if(!(p.isAdrenaline1()))
-            grabNotAdrenaline(p, directions.get(0), wCard, l, lP);
+            grabNotAdrenaline(p, directions, wCard, l, lP);
 
         if(p.isAdrenaline1()||p.isAdrenaline2()){
             grabAdrenaline(p, directions, wCard, l, lP);

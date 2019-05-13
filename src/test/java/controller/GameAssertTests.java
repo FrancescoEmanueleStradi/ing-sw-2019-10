@@ -12,6 +12,7 @@ import model.cards.powerupcards.TagbackGrenade;
 import model.cards.powerupcards.TargetingScope;
 import model.cards.powerupcards.Teleporter;
 import model.cards.weaponcards.Cyberblade;
+import model.cards.weaponcards.Electroscythe;
 import model.cards.weaponcards.LockRifle;
 import model.cards.weaponcards.MachineGun;
 import model.player.AmmoCube;
@@ -533,9 +534,10 @@ class GameAssertTests {
         //Initialization finished
         //First Action: Grab
 
-        p1.changeCell(grid.getBoard().getArena()[0][1]);
+        /*p1.changeCell(grid.getBoard().getArena()[0][1]);
         WeaponCard lockRifle = new LockRifle();
         grid.getBoard().getW1().setCard1(lockRifle);
+        assertNotNull(grid.getWeaponCardObject("Lock Rifle"));
 
         List<Integer> directions1 = new LinkedList<>();
         directions1.add(2);
@@ -557,6 +559,18 @@ class GameAssertTests {
         assertNull(p1.getaC()[5]);
         assertNotNull(p1.getaC()[6]);
         assertNull(p1.getaC()[7]);
-        assertNull(p1.getaC()[8]);
+        assertNull(p1.getaC()[8]);*/
+
+        p3.changeCell(grid.getBoard().getArena()[0][2]);
+        WeaponCard electroscythe = new Electroscythe();
+        grid.getBoard().getW1().setCard1(electroscythe);
+
+        List<Integer> directions1 = new LinkedList<>();
+        List<Colour> lA = new LinkedList<>();
+        List<String> lP = new LinkedList<>();
+        List<String> lPColourInput = new LinkedList<>();
+        assertEquals(GameState.STARTTURN, game.getGameState());
+        assertTrue(game.isValidFirstActionGrab(p3.getNickName(), directions1, "Electroscythe", "1", lA, lP, lPColourInput));
+        game.firstActionGrab(p3.getNickName(), directions1, "Electroscythe", lA, lP, lPColourInput);
     }
 }

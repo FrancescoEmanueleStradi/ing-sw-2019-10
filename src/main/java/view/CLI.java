@@ -789,10 +789,8 @@ public class CLI implements View {
                 System.out.println("Enter the colour of the PowerUp:");
                 c = in.nextLine();
             }
-                    this.server.messageDiscardCardForSpawnPoint(game, this.nickName, s, c);
+            this.server.messageDiscardCardForSpawnPoint(game, this.nickName, s, c);
         }
-        else
-            System.out.println("What are you doing, man?");
     }
 
     @Override

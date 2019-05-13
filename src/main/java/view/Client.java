@@ -87,7 +87,7 @@ public class Client {
             view.selectSpawnPoint();
         }
         try {
-            while (true) {
+            while (true) {                                              //TODO Question: Timer
                 if(centralServer.isThereDisconnection(game))
                     view.disconnected();
                 if (centralServer.stopGame(game))
@@ -104,17 +104,22 @@ public class Client {
                             view.usePowerUpCard();
                         view.reload();
                         view.scoring();
-                        view.newSpawnPoint();               //TODO it must be asked to every player
+                        //view.newSpawnPoint();
                         view.replace();
                         centralServer.finishTurn(game);
                         if (centralServer.stopGame(game))
                             break;
                     } else {
+                        if (centralServer.stopGame(game))
+                            break;
                         centralServer.setFinalTurn(game, identifier, view.getNickName());
                         view.finalFrenzyTurn();
                         centralServer.finishTurn(game);
+                        if (centralServer.stopGame(game))
+                            break;
                     }
                 }
+                view.newSpawnPoint();
                 if(centralServer.gameIsFinished(game))
                     break;
             }

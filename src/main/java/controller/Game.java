@@ -1344,7 +1344,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
             if(c == 2)
                 this.grid.scoringByColour(p.getpB().getDamages().getDamageTr()[10].getC(),1);        //Double Kill
             this.death(p);
-            this.gameState = DEATH;
+            this.gameState = ENDTURN;
         }
 
     }
@@ -1355,7 +1355,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
     public boolean isValidDiscardCardForSpawnPoint(String nickName, String s1, String c1) {
         Player p = this.grid.getPlayerObject(nickName);
-        return (this.gameState == DEATH && p.getPowerUpCardObject(s1, Colour.valueOf(c1)) != null);
+        return (/*this.gameState == DEATH && */p.getPowerUpCardObject(s1, Colour.valueOf(c1)) != null);
     }
 
     public synchronized void discardCardForSpawnPoint(String nickName, String s1, String c1) {      //Attention to the view
@@ -1368,7 +1368,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         this.grid.getPowerUpDiscardPile().add(p1);
         this.deadList.remove(nickName);
         if(this.deadList.isEmpty())
-            this.gameState = ENDTURN;
+            this.gameState = STARTTURN;
     }
 
     public boolean isValidToReplace() {
@@ -1380,7 +1380,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
        this.grid.replaceWeaponCard();
        if(this.grid.getBoard().getK().getSkulls()[7] != 0)
            finalFrenzy = true;
-       this.gameState = STARTTURN;
+       //this.gameState = STARTTURN;
     }
 
 

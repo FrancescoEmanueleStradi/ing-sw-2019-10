@@ -359,7 +359,7 @@ public class CLI implements View {
         String confirm;
         while (true) {
             System.out.println("If you wish to grab whatever is in your cell, enter 0\n" +
-                    "Otherwise, enter the sequence of movements you want to do, one integer at a time: only one is permitted" +
+                    "Otherwise, enter the sequence of movements you want to do, one integer at a time: only one is permitted " +
                     "if you haven't unlocked the Adrenaline move, up to two otherwise\n" +
                     "1 = north, 2 = east, 3 = south, 4 = west\n" +
                     "Enter 5 to finish");
@@ -370,17 +370,16 @@ public class CLI implements View {
                 else
                     lD.add(d);
             }
-            //TODO method that displays the cards in a weapon slot of the player's choice; should be in a while() so as to let the player inspect all of them
-
-                System.out.println("Would you like to check the WeaponCards of some WeaponSlot? (Yes/yes/y)");
+            System.out.println("Would you like to check the WeaponCards of a WeaponSlot? (Yes/yes/y)");
+            confirm = in.nextLine();
+            while (confirm.equals("Yes") || confirm.equals("yes") || confirm.equals("y")) {
+                System.out.println("Enter the number of the WeaponSlot you want to check:");
+                int n = intScan.nextInt();
+                List<String> lWS = this.server.messageCheckWeaponSlotContents(game, n);
+                System.out.println("The cards available in WeaponSlot " + n + " are:\n" + lWS.get(0) + "\n" + lWS.get(1) + "\n" + lWS.get(2) +
+                        "\nCheck some other weapon slot? (Yes/yes/y)");
                 confirm = in.nextLine();
-                if (confirm.equals("Yes") || confirm.equals("yes") || confirm.equals("y")) {
-                    System.out.println("Enter the number of the WeaponSlot you want to check:");
-                    int n = in.nextInt();
-                    List<String> lWS = this.server.messageCheckWeaponSlotContents(game, n);
-                    System.out.println("The cards available in WeaponSlot " + n + " are:\n" + lWS.get(0) + "\n" + lWS.get(1) + "\n" + lWS.get(2) +
-                            "\nCheck some other weapon slot? (Yes/yes/y)");
-                }
+            }
             in.nextLine();
             System.out.println("Do you want to buy a weapon card instead of grabbing ammo? (Yes/yes/y)");
             confirm = in.nextLine();
@@ -415,7 +414,6 @@ public class CLI implements View {
                         lPC.add(c);
                 }
             }
-            //if (this.server.messageIsValidFirstActionGrab(game, nickName, l.toArray(directions), wCard, weaponSlot, lC, lP, lPC))
             if (this.server.messageIsValidFirstActionGrab(game, nickName, lD, wCard, weaponSlot, lC, lP, lPC))
                 break;
             else {
@@ -426,27 +424,6 @@ public class CLI implements View {
                 lPC.clear();
             }
         }
-        /*while (!this.server.messageIsValidFirstActionGrab(game, nickName, l.toArray(directions), wCard, weaponSlot, lC, lP, lPC)){
-            System.out.println(errorRetry);
-            System.out.println("Enter the direction(s) where you want to move");
-            while (in.hasNext())
-                l.add(in.nextInt());
-            System.out.println("Enter the WeaponCard you want to buy, if you want:");
-            wCard = in.next();
-            if(!wCard.equals("")) {
-                System.out.println("Enter the number of the WeaponSlot from which you want to buy the card:");
-                weaponSlot = in.next();
-                System.out.println("Enter the colour(s) of the required AmmoCube(s) to buy the card, if necessary");
-                while ((in.hasNext()))
-                    lC.add(Colour.valueOf(in.next()));
-                System.out.println("Enter the PowerUpCard you want to use to pay during your turn:");
-                while ((in.hasNext()))
-                    lP.add(in.next());
-                System.out.println("Enter the colour of the PowerUpCard you want to use for paying during your turn:");
-                while ((in.hasNext()))
-                    lPC.add(in.next());
-            }
-        }*/
         this.server.messageFirstActionGrab(game, nickName, lD, wCard, lC, lP, lPC);
         if(this.server.messageIsDiscard(game)) {
             System.out.println("Enter the WeaponCard you want to discard");
@@ -615,7 +592,7 @@ public class CLI implements View {
         String confirm;
         while (true) {
             System.out.println("If you wish to grab whatever is in your cell, enter 0\n" +
-                    "Otherwise, enter the sequence of movements you want to do, one integer at a time: only one is permitted" +
+                    "Otherwise, enter the sequence of movements you want to do, one integer at a time: only one is permitted " +
                     "if you haven't unlocked the Adrenaline move, up to two otherwise\n" +
                     "1 = north, 2 = east, 3 = south, 4 = west\n" +
                     "Enter 5 to finish");
@@ -626,14 +603,15 @@ public class CLI implements View {
                 else
                     lD.add(d);
             }
-            //TODO method that displays the cards in a weapon slot of the player's choice; should be in a while() so as to let the player inspect all of them
-            System.out.println("Would you like to check the WeaponCards of some WeaponSlot? (Yes/yes/y)");
+            System.out.println("Would you like to check the WeaponCards of a WeaponSlot? (Yes/yes/y)");
             confirm = in.nextLine();
-            if (confirm.equals("Yes") || confirm.equals("yes") || confirm.equals("y")) {
+            while (confirm.equals("Yes") || confirm.equals("yes") || confirm.equals("y")) {
                 System.out.println("Enter the number of the WeaponSlot you want to check:");
-                int n = in.nextInt();
+                int n = intScan.nextInt();
                 List<String> lWS = this.server.messageCheckWeaponSlotContents(game, n);
-                System.out.println("The cards available in WeaponSlot " + n + " are:\n" + lWS.get(0) + "\n" + lWS.get(1) + "\n" + lWS.get(2));
+                System.out.println("The cards available in WeaponSlot " + n + " are:\n" + lWS.get(0) + "\n" + lWS.get(1) + "\n" + lWS.get(2) +
+                        "\nCheck some other weapon slot? (Yes/yes/y)");
+                confirm = in.nextLine();
             }
             in.nextLine();
             System.out.println("Do you want to buy a weapon card instead of grabbing ammo? (Yes/yes/y)");

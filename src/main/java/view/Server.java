@@ -93,7 +93,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
             canStartList.add(game, true);
             notifyAll();
         }
-        if(players.get(game) == 3) {                // TODO collision
+        if(players.get(game) == 3) {
             wait(30000);
             while(players.get(game) < 3)
                 wait(30000);
@@ -144,8 +144,8 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
     }
 
     public int disconnected(int game) throws RemoteException, InterruptedException{
-        int disconnected = suspendedIdentifier.get(game).get(suspendedIdentifier.size()-1);                     //TODO is it the right index?
-        wait(5000);                                                                     //TODO to make every player get the message
+        int disconnected = suspendedIdentifier.get(game).get(suspendedIdentifier.size()-1);
+        wait(5000);                                                                     // TODO Question: to make every player get the message
         disconnection.add(game, false);
         return disconnected;
     }

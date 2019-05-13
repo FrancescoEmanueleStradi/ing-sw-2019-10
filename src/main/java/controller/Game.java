@@ -1197,12 +1197,11 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         if(this.gameState.equals(ACTION1) || this.gameState.equals(ACTION2)) {
             if(namePC.equals("Tagback Grenade")) {
                 //player p can use this only when he is being attacked, i.e. while the attacker is taking his turn
-                //TODO this should be implemented server-side
                 if (p.getPowerUpCardObject(namePC, Colour.valueOf(colourPC)) != null && this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(0))))
                     x = true;
             }
             else if(namePC.equals("Targeting Scope")) {
-                    if (p.getPowerUpCardObject(namePC, Colour.valueOf(colourPC)) != null && p.checkAmmoCube(new AmmoCube[]{new AmmoCube(c)}))                //TODO this should be implemented server-side
+                    if (p.getPowerUpCardObject(namePC, Colour.valueOf(colourPC)) != null && p.checkAmmoCube(new AmmoCube[]{new AmmoCube(c)}))
                         x = true;
                 }
         }

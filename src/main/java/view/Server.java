@@ -75,7 +75,10 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
     }
 
     public synchronized boolean stopGame(int game) throws RemoteException{
-        return (players.get(game)-suspendedIdentifier.get(game).size() < 3);
+        if(suspendedIdentifier.isEmpty())
+            return (players.get(game)< 3);
+        else
+            return (players.get(game)-suspendedIdentifier.get(game).size() < 3);
     }
 
     public synchronized int receiveIdentifier(int game) throws RemoteException {

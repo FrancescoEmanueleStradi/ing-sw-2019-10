@@ -787,4 +787,127 @@ class GameAssertTests {
         assertTrue(game.isValidFirstActionShoot("Player 1", "Whisper", lI, lS, 0, lA, lP, lPColourInput));
         game.firstActionShoot("Player 1", "Whisper", lI, lS, 0, lA, lP, lPColourInput);
     }
+
+    @Test
+    void GameShootVortexCannonTest() {
+        Game game = new Game();
+        Grid grid = game.getGrid();
+
+        game.gameStart("Player 1", BLUE);
+        Player p1 = grid.getPlayerObject("Player 1");
+
+        game.addPlayer("Player 2", YELLOW);
+        Player p2 = grid.getPlayerObject("Player 2");
+
+        game.addPlayer("Player 3", GREEN);
+        Player p3 = grid.getPlayerObject("Player 3");
+
+        game.addPlayer("Player 4", BLACK);
+        Player p4 = grid.getPlayerObject("Player 4");
+
+        game.receiveType(1);
+
+        game.giveTwoPUCard("Player 1");
+        System.out.print("\nPowerUpCard picked from the deck for Player 1: " + p1.getpC().get(0).getCardName() + " coloured " + p1.getpC().get(0).getC().getAbbreviation() + ", and " + p1.getpC().get(1).getCardName() + " coloured " + p1.getpC().get(1).getC().getAbbreviation());
+        game.pickAndDiscardCard("Player 1", p1.getpC().get(0).getCardName(), p1.getpC().get(0).getC().getAbbreviation());
+
+        game.giveTwoPUCard("Player 2");
+        System.out.print("\nPowerUpCard picked from the deck for Player 2: " + p2.getpC().get(0).getCardName() + " coloured " + p2.getpC().get(0).getC().getAbbreviation() + ", and " + p2.getpC().get(1).getCardName() + " coloured " + p2.getpC().get(1).getC().getAbbreviation());
+        game.pickAndDiscardCard("Player 2", p2.getpC().get(1).getCardName(), p2.getpC().get(1).getC().getAbbreviation());
+
+        game.giveTwoPUCard("Player 3");
+        System.out.print("\nPowerUpCard picked from the deck for Player 3: " + p3.getpC().get(0).getCardName() + " coloured " + p3.getpC().get(0).getC().getAbbreviation() + ", and " + p3.getpC().get(1).getCardName() + " coloured " + p3.getpC().get(1).getC().getAbbreviation());
+        game.pickAndDiscardCard("Player 3", p3.getpC().get(1).getCardName(), p3.getpC().get(1).getC().getAbbreviation());
+
+        game.giveTwoPUCard("Player 4");
+        System.out.print("\nPowerUpCard picked from the deck for Player 4: " + p4.getpC().get(0).getCardName() + " coloured " + p4.getpC().get(0).getC().getAbbreviation() + ", and " + p4.getpC().get(1).getCardName() + " coloured " + p4.getpC().get(1).getC().getAbbreviation());
+        game.pickAndDiscardCard("Player 4", p4.getpC().get(1).getCardName(), p4.getpC().get(1).getC().getAbbreviation());
+
+        p1.changeCell(grid.getBoard().getArena()[0][0]);
+        p2.changeCell(grid.getBoard().getArena()[0][2]);
+        p3.changeCell(grid.getBoard().getArena()[1][1]);
+        p4.changeCell(grid.getBoard().getArena()[1][1]);
+
+        assertEquals(grid.getBoard().getArena()[0][0], p1.getCell());
+        assertEquals(grid.getBoard().getArena()[0][2], p2.getCell());
+        assertEquals(grid.getBoard().getArena()[1][1], p3.getCell());
+        assertEquals(grid.getBoard().getArena()[1][1], p4.getCell());
+
+        WeaponCard vortexCannon = new VortexCannon();
+        p1.addWeaponCard(vortexCannon);
+        vortexCannon.reload();
+        assertTrue(vortexCannon.isReloaded());
+
+
+        List<Integer> lI = new LinkedList<>();
+        lI.add(1);
+        lI.add(2);
+        List<String> lS = new LinkedList<>();
+        lS.add("Player 2");
+        lS.add("0");
+        lS.add("1");
+        lS.add("Player 3");
+        lS.add("Player 4");
+        List<Colour> lA = new LinkedList<>();
+        lA.add(RED);
+        List<String> lP = new LinkedList<>();
+        List<String> lPColourInput = new LinkedList<>();
+
+        assertEquals(GameState.STARTTURN, game.getGameState());
+
+        assertTrue(game.isValidFirstActionShoot("Player 1", "Vortex Cannon", lI, lS, 0, lA, lP, lPColourInput));
+        game.firstActionShoot("Player 1", "Vortex Cannon", lI, lS, 0, lA, lP, lPColourInput);
+    }
+
+    @Test
+    void GameTractorBeamCannonTest() {
+        Game game = new Game();
+        Grid grid = game.getGrid();
+
+        game.gameStart("Player 1", BLUE);
+        Player p1 = grid.getPlayerObject("Player 1");
+
+        game.addPlayer("Player 2", YELLOW);
+        Player p2 = grid.getPlayerObject("Player 2");
+
+        game.receiveType(1);
+
+        game.giveTwoPUCard("Player 1");
+        System.out.print("\nPowerUpCard picked from the deck for Player 1: " + p1.getpC().get(0).getCardName() + " coloured " + p1.getpC().get(0).getC().getAbbreviation() + ", and " + p1.getpC().get(1).getCardName() + " coloured " + p1.getpC().get(1).getC().getAbbreviation());
+        game.pickAndDiscardCard("Player 1", p1.getpC().get(0).getCardName(), p1.getpC().get(0).getC().getAbbreviation());
+
+        game.giveTwoPUCard("Player 2");
+        System.out.print("\nPowerUpCard picked from the deck for Player 2: " + p2.getpC().get(0).getCardName() + " coloured " + p2.getpC().get(0).getC().getAbbreviation() + ", and " + p2.getpC().get(1).getCardName() + " coloured " + p2.getpC().get(1).getC().getAbbreviation());
+        game.pickAndDiscardCard("Player 2", p2.getpC().get(1).getCardName(), p2.getpC().get(1).getC().getAbbreviation());
+
+        p1.changeCell(grid.getBoard().getArena()[0][0]);
+        p2.changeCell(grid.getBoard().getArena()[1][1]);
+
+        assertEquals(grid.getBoard().getArena()[0][0], p1.getCell());
+        assertEquals(grid.getBoard().getArena()[1][1], p2.getCell());
+
+        WeaponCard tractorBeam = new TractorBeam();
+        p1.addWeaponCard(tractorBeam);
+        tractorBeam.reload();
+        assertTrue(tractorBeam.isReloaded());
+
+
+        List<Integer> lI = new LinkedList<>();
+        //lI.add(1);
+        lI.add(2);
+        List<String> lS = new LinkedList<>();
+        lS.add("Player 2");
+        lS.add("");
+        lS.add("");
+        List<Colour> lA = new LinkedList<>();
+        lA.add(RED);
+        lA.add(YELLOW);
+        List<String> lP = new LinkedList<>();
+        List<String> lPColourInput = new LinkedList<>();
+
+        assertEquals(GameState.STARTTURN, game.getGameState());
+
+        assertTrue(game.isValidFirstActionShoot("Player 1", "Tractor Beam", lI, lS, 0, lA, lP, lPColourInput));
+        game.firstActionShoot("Player 1", "Tractor Beam", lI, lS, 0, lA, lP, lPColourInput);
+    }
 }

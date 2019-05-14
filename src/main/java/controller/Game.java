@@ -486,26 +486,20 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                            x = true;
                    break;
                case "Tractor Beam":
-                   List<Integer> directions = new LinkedList<>();
-                   if(!lS.get(1).isEmpty())
-                       directions.add(Integer.parseInt(lS.get(1)));
-                   if(!lS.get(2).isEmpty())
-                       directions.add(Integer.parseInt(lS.get(2)));
-
                    if(lI.contains(1) && !lI.contains(2)) {
-                       if((lS.get(1).isEmpty() && this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(0)))) ||
-                               (this.grid.canGhostMove(this.grid.getPlayerObject(lS.get(0)), directions) && this.grid.isInViewZone(p, this.grid.ghostMove(this.grid.getPlayerObject(lS.get(0)), directions)) && Integer.parseInt(lS.get(1)) >= 0 && Integer.parseInt(lS.get(1)) <= 4 && (lS.get(2).isEmpty() || Integer.parseInt(lS.get(2)) >= 0 && Integer.parseInt(lS.get(2)) <= 4)))
+                       if((lS.get(1).isEmpty() && lS.get(2).isEmpty() && this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(0)))) ||
+                               (this.grid.isInViewZone(p, grid.getBoard().getArena()[Integer.parseInt(lS.get(1))][Integer.parseInt(lS.get(2))].getP()) && Integer.parseInt(lS.get(1)) >= 0 && Integer.parseInt(lS.get(1)) <= 2 && Integer.parseInt(lS.get(2)) >= 0 && Integer.parseInt(lS.get(2)) <= 3))
                             x = true;
                    }
                    else if(!lI.contains(1) && lI.contains(2) &&
-                           (this.grid.distance(p, this.grid.getPlayerObject(lS.get(0))) < 3 && (lS.get(1).isEmpty() || this.grid.canGhostMove(this.grid.getPlayerObject(lS.get(0)), directions)) && lC.containsAll(Arrays.asList(Colour.RED, Colour.YELLOW))))
+                           (this.grid.distance(p, this.grid.getPlayerObject(lS.get(0))) < 3 && lC.containsAll(Arrays.asList(Colour.RED, Colour.YELLOW))))
                            x = true;
                    break;
                case "Vortex Cannon":
-                   if((lI.size() == 1 && lI.contains(1) && lS.size() > 3 &&
+                   if((lI.size() == 1 && lI.contains(1) && lS.size() > 2 &&
                            this.grid.isInViewZone(p, grid.getBoard().getArena()[Integer.parseInt(lS.get(1))][Integer.parseInt(lS.get(2))].getP()) && !p.getCell().getP().equals(grid.getBoard().getArena()[Integer.parseInt(lS.get(1))][Integer.parseInt(lS.get(2))].getP()) &&
                                this.grid.distance(this.grid.getPlayerObject(lS.get(0)), grid.getBoard().getArena()[Integer.parseInt(lS.get(1))][Integer.parseInt(lS.get(2))].getP()) < 2) ||
-                   (lI.size() == 2 && lI.contains(1) && lI.contains(2) &&
+                   (lI.size() == 2 && lI.contains(1) && lI.contains(2) && lS.size() > 4 &&
                            (this.grid.isInViewZone(p, grid.getBoard().getArena()[Integer.parseInt(lS.get(1))][Integer.parseInt(lS.get(2))].getP()) && !p.getCell().getP().equals(grid.getBoard().getArena()[Integer.parseInt(lS.get(1))][Integer.parseInt(lS.get(2))].getP()) &&
                                    this.grid.distance(this.grid.getPlayerObject(lS.get(0)), grid.getBoard().getArena()[Integer.parseInt(lS.get(1))][Integer.parseInt(lS.get(2))].getP()) < 2) &&
                            this.grid.distance(this.grid.getPlayerObject(lS.get(3)), grid.getBoard().getArena()[Integer.parseInt(lS.get(1))][Integer.parseInt(lS.get(2))].getP()) < 2 && (lS.get(4).isEmpty() || this.grid.distance(this.grid.getPlayerObject(lS.get(4)), grid.getBoard().getArena()[Integer.parseInt(lS.get(1))][Integer.parseInt(lS.get(2))].getP()) < 2) && lC.contains(Colour.RED)))
@@ -682,14 +676,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                 break;
             case "Tractor Beam":
                 if(lI.get(0) == 1) {
-                    List<Integer> directions = new LinkedList<>();
-                    if(lS.size() == 2)
-                        directions.add(Integer.parseInt(lS.get(1)));
-                    if(lS.size() == 3) {
-                        directions.add(Integer.parseInt(lS.get(1)));
-                        directions.add(Integer.parseInt(lS.get(2)));
-                    }
-                    ((TractorBeam) p.getWeaponCardObject(nameWC)).applyEffect(this.grid, p, this.grid.getPlayerObject(lS.get(0)), directions);
+                    ((TractorBeam) p.getWeaponCardObject(nameWC)).applyEffect(this.grid, p, this.grid.getPlayerObject(lS.get(0)), Integer.parseInt(lS.get(1)), Integer.parseInt(lS.get(2)));
                 }
                 if(lI.get(0) == 2)
                     ((TractorBeam) p.getWeaponCardObject(nameWC)).applySpecialEffect(this.grid, p, this.grid.getPlayerObject(lS.get(0)));
@@ -697,7 +684,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
             case "Vortex Cannon":
                 if(lI.get(0) == 1){
                     ((VortexCannon) p.getWeaponCardObject(nameWC)).applyEffect(this.grid, p, this.grid.getPlayerObject(lS.get(0)), lS.get(1), lS.get(2));
-                    if(lI.get(1) == 2)
+                    if(lI.size() == 2 && lI.get(1) == 2)
                         ((VortexCannon) p.getWeaponCardObject(nameWC)).applySpecialEffect(this.grid, p, this.grid.getPlayerObject(lS.get(3)), this.grid.getPlayerObject(lS.get(4)));
                 }
                 break;

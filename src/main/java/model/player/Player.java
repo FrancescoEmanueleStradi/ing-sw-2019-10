@@ -5,10 +5,7 @@ import model.board.*;
 import model.cards.PowerUpCard;
 import model.cards.WeaponCard;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class Player {
 
@@ -72,7 +69,7 @@ public class Player {
     }
 
     public boolean checkAmmoCube(AmmoCube[] a){
-        /*List<AmmoCube> l2 = new ArrayList<>(Arrays.asList(a));          //this way the original array is not modified
+        List<AmmoCube> l2 = new ArrayList<>(Arrays.asList(a));          //this way the original array is not modified
 
         if(l2.isEmpty())
             return true;
@@ -87,8 +84,13 @@ public class Player {
         for(AmmoCube aCost : l2)
             lCost.add(aCost.getC());
 
-        return lInput.containsAll(lCost);*/
+        for(Colour colour : lCost) {
+            if(Collections.frequency(lInput, colour) < Collections.frequency(lCost, colour))
+                return false;
+        }
 
+        return lInput.containsAll(lCost);
+        /*
         List<AmmoCube> l1 = new ArrayList<>(Arrays.asList(this.aC));    //this way the original array is not modified
         List<AmmoCube> l2 = new ArrayList<>(Arrays.asList(a));          //this way the original array is not modified
         if(l2.isEmpty())
@@ -104,7 +106,7 @@ public class Player {
                     return true;
             }
         }
-        return false;
+        return false;*/
     }
 
     public void addNewAC(AmmoCube ac) {

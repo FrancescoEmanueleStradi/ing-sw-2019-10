@@ -6,11 +6,12 @@ import model.cards.PowerUpCard;
 import model.cards.WeaponCard;
 
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
-public class CLI implements View {
+public class CLI  extends UnicastRemoteObject implements View {                 //TODO get updates of the model
 
     private int game;
     private ServerInterface server;
@@ -19,6 +20,16 @@ public class CLI implements View {
     private CLIWeaponPrompt wPrompt;
     private String errorRetry = "Error: please retry";
 
+    CLI(int game, ServerInterface server) throws RemoteException{
+        super();
+        this.game = game;
+        this.server = server;
+    }
+
+
+    public CLI  getCLI() {
+        return this;
+    }
 
     public int getGame() {              //for the test
         return game;
@@ -46,8 +57,8 @@ public class CLI implements View {
     }
 
     @Override
-    public void disconnected() throws RemoteException, InterruptedException{
-        System.out.println("Player number " + this.server.disconnected(game) + " is disconnected");
+    public void disconnected(int disconnected) throws RemoteException, InterruptedException{
+        System.out.println("Player number " + disconnected + " is disconnected");
     }
 
     @Override
@@ -666,7 +677,7 @@ public class CLI implements View {
     }
 
     @Override
-    public boolean doYouWantToUsePUC(){
+    public boolean doYouWantToUsePUC() throws RemoteException{
         Scanner in = new Scanner(System.in);
         System.out.println("Do you want to use the PowerUpCard now?");
         String confirm = in.next();

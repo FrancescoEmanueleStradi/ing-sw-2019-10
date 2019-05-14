@@ -23,6 +23,7 @@ public interface ServerInterface extends Remote {
     String echo(String input) throws RemoteException;
     int getGames() throws RemoteException;
     int setGame(int game) throws RemoteException;
+    void setView(int game, int identifier, View view) throws RemoteException;
     boolean canStart(int game) throws RemoteException;
     boolean tooMany(int game) throws RemoteException;
     boolean stopGame(int game) throws RemoteException;
@@ -35,9 +36,9 @@ public interface ServerInterface extends Remote {
     void setFinalTurn(int game, int identifier, String nickName) throws RemoteException;
     boolean gameIsFinished(int game) throws RemoteException;
     void finishTurn(int game) throws RemoteException;
-    void manageDisconnection(int game, int identifier, String nickName) throws RemoteException;
-    boolean isThereDisconnection(int game) throws RemoteException;
-    int disconnected(int game) throws RemoteException, InterruptedException;
+    void manageDisconnection(int game, int identifier, String nickName) throws RemoteException, InterruptedException;
+    //boolean isThereDisconnection(int game) throws RemoteException;
+    //int disconnected(int game) throws RemoteException, InterruptedException;
     boolean isASuspendedIdentifier(int game, int identifier) throws RemoteException;
     void manageReconnection(int game, int identifier) throws RemoteException;
     String getSuspendedName(int game, int identifier) throws RemoteException;

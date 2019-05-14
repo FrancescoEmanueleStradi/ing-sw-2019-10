@@ -757,29 +757,27 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         Set<Integer> lIset = new HashSet<>(lI);
         if(lIset.size() < lI.size())                //to check if there are repetitions in lI, which means that player wants to apply the same effect multiple times
             return false;
-        List<AmmoCube> lA= new LinkedList<>();
-        if(!lAInput.isEmpty()) {
-            for (Colour c : lAInput)
-                lA.add(new AmmoCube(c));
-            AmmoCube[] cubeArray = new AmmoCube[lA.size()];
-            lA.toArray(cubeArray);
-            if (!p.checkAmmoCube(cubeArray))
+
+        List<AmmoCube> lA = new LinkedList<>();
+        for (Colour c : lAInput)
+            lA.add(new AmmoCube(c));
+        AmmoCube[] cubeArray = new AmmoCube[lA.size()];
+        lA.toArray(cubeArray);
+        if (!p.checkAmmoCube(cubeArray))
+            return false;
+
+        List<PowerUpCard> lP = new LinkedList<>();
+        for (int i = 0; i < lPInput.size(); i++) {
+            if (p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))) == null)
                 return false;
+            lP.add(p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))));
         }
-        List<PowerUpCard> lP= new LinkedList<>();
-        if(!lPInput.isEmpty()) {
-            for (int i = 0; i < lPInput.size(); i++) {
-                if (p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))) == null)
-                    return false;
-                lP.add(p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))));
-            }
-        }
-        if(this.gameState.equals(STARTTURN)) {
-            if (!p.isAdrenaline2())
+
+        if(this.gameState.equals(STARTTURN))
+            if(!p.isAdrenaline2())
                 return isValidShootNotAdrenaline(p, nameWC, lI, lS, lA, lP);
             else
                 return isValidShootAdrenaline(p, nameWC, lI, lS, direction, lA, lP);
-        }
         return false;
     }
 
@@ -922,31 +920,49 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
     }
 
     public List<String> checkWeaponSlotContents(int n) {
+        List<String> lNull = new LinkedList<>();
+        if (n == 1)
+            return checkWeaponSlot1Contents();
+
+        else if (n == 2)
+            return checkWeaponSlot2Contents();
+
+        else if (n == 3)
+            return checkWeaponSlot3Contents();
+
+        return lNull;
+    }
+
+    private List<String> checkWeaponSlot1Contents() {
         List<String> l = new LinkedList<>();
-        if (n == 1) {
-            if(grid.getBoard().getW1().getCard1() != null)
-                l.add(grid.getBoard().getW1().getCard1().getCardName());
-            if(grid.getBoard().getW1().getCard2() != null)
-                l.add(grid.getBoard().getW1().getCard2().getCardName());
-            if(grid.getBoard().getW1().getCard3() != null)
-                l.add(grid.getBoard().getW1().getCard3().getCardName());
-        }
-        if (n == 2) {
-            if(grid.getBoard().getW2().getCard1() != null)
-                l.add(grid.getBoard().getW2().getCard1().getCardName());
-            if(grid.getBoard().getW2().getCard2() != null)
-                l.add(grid.getBoard().getW2().getCard2().getCardName());
-            if(grid.getBoard().getW2().getCard3() != null)
-                l.add(grid.getBoard().getW2().getCard3().getCardName());
-        }
-        if (n == 3) {
-            if(grid.getBoard().getW3().getCard1() != null)
-                l.add(grid.getBoard().getW3().getCard1().getCardName());
-            if(grid.getBoard().getW3().getCard2() != null)
-                l.add(grid.getBoard().getW3().getCard2().getCardName());
-            if(grid.getBoard().getW3().getCard3() != null)
-                l.add(grid.getBoard().getW3().getCard3().getCardName());
-        }
+        if(grid.getBoard().getW1().getCard1() != null)
+            l.add(grid.getBoard().getW1().getCard1().getCardName());
+        if(grid.getBoard().getW1().getCard2() != null)
+            l.add(grid.getBoard().getW1().getCard2().getCardName());
+        if(grid.getBoard().getW1().getCard3() != null)
+            l.add(grid.getBoard().getW1().getCard3().getCardName());
+        return l;
+    }
+
+    private List<String> checkWeaponSlot2Contents() {
+        List<String> l = new LinkedList<>();
+        if(grid.getBoard().getW2().getCard1() != null)
+            l.add(grid.getBoard().getW2().getCard1().getCardName());
+        if(grid.getBoard().getW2().getCard2() != null)
+            l.add(grid.getBoard().getW2().getCard2().getCardName());
+        if(grid.getBoard().getW2().getCard3() != null)
+            l.add(grid.getBoard().getW2().getCard3().getCardName());
+        return l;
+    }
+
+    private List<String> checkWeaponSlot3Contents() {
+        List<String> l = new LinkedList<>();
+        if(grid.getBoard().getW3().getCard1() != null)
+            l.add(grid.getBoard().getW3().getCard1().getCardName());
+        if(grid.getBoard().getW3().getCard2() != null)
+            l.add(grid.getBoard().getW3().getCard2().getCardName());
+        if(grid.getBoard().getW3().getCard3() != null)
+            l.add(grid.getBoard().getW3().getCard3().getCardName());
         return l;
     }
 
@@ -1052,36 +1068,44 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
 
     public boolean isValidSecondActionGrab(String nickName, List<Integer> directionList, String wCardInput, String wSlotInput, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) {
-        Player p = this.grid.getPlayerObject(nickName);
-        WeaponCard wCard = this.grid.getWeaponCardObject(wCardInput);
-        List<AmmoCube> lA= new LinkedList<>();
-        if(!lAInput.isEmpty()) {
+        if(this.gameState.equals(ACTION1)) {
+            Player p = this.grid.getPlayerObject(nickName);
+            WeaponCard wCard = this.grid.getWeaponCardObject(wCardInput);
+            List<AmmoCube> lA = new LinkedList<>();
+            List<PowerUpCard> lP = new LinkedList<>();
+
+            if ((!p.isAdrenaline1() && directionList.size() > 1) || (p.isAdrenaline1() && directionList.size() > 2))
+                return false;
+
+            if(!this.grid.canGhostMove(p, directionList))
+                return false;
+
             for (Colour c : lAInput)
                 lA.add(new AmmoCube(c));
             AmmoCube[] cubeArray = new AmmoCube[lA.size()];
             lA.toArray(cubeArray);
-            if (!p.checkAmmoCube(cubeArray) && wCard != null)
+
+            if (wCard != null && wSlotInput.isEmpty())
                 return false;
-        }
-        List<PowerUpCard> lP= new LinkedList<>();
-        if(!lPInput.isEmpty()) {
-            for (int i = 0; i < lPInput.size(); i++) {
-                if (p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))) == null)
-                    return false;
-                lP.add(p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))));
+            else if (wCard != null) {
+                if ((wSlotInput.equals("1") && (this.grid.ghostMove(p, directionList).getCell().getP().getX() == 0 && this.grid.ghostMove(p, directionList).getCell().getP().getY() == 2) && this.checkWeaponSlotContents(1).contains(wCardInput)) ||
+                        (wSlotInput.equals("2") && (this.grid.ghostMove(p, directionList).getCell().getP().getX() == 2 && this.grid.ghostMove(p, directionList).getCell().getP().getY() == 3) && this.checkWeaponSlotContents(2).contains(wCardInput)) ||
+                        (wSlotInput.equals("3") && (this.grid.ghostMove(p, directionList).getCell().getP().getX() == 1 && this.grid.ghostMove(p, directionList).getCell().getP().getY() == 0) && this.checkWeaponSlotContents(3).contains(wCardInput))) {
+                    if (cubeArray.length != 0 && !p.checkAmmoCube(cubeArray))
+                        return false;
+                    if(!lPInput.isEmpty()) {
+                        for (int i = 0; i < lPInput.size(); i++) {
+                            if (p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))) == null)
+                                return false;
+                            lP.add(p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))));
+                        }
+                    }
+
+                    if (!canPay(wCard, choosePayment(lA, lP)))
+                        return false;
+                }
             }
-        }
-        if(this.gameState.equals(ACTION1) && (directionList.size() <= 2)) {
-            if(!p.isAdrenaline1() && directionList.size() == 1 && this.grid.canMove(p, directionList.get(0)) &&
-                    (wCardInput.equals("") || ((!wCardInput.equals("") && wCard != null) && ((wSlotInput.equals("1") && (this.grid.ghostMove(p, directionList).getCell().getP().getX() == 0 && this.grid.ghostMove(p, directionList).getCell().getP().getY() == 2)) ||
-                        (wSlotInput.equals("2") && (this.grid.ghostMove(p, directionList).getCell().getP().getX() == 2 && this.grid.ghostMove(p, directionList).getCell().getP().getY() == 3)) ||
-                        (wSlotInput.equals("3") && (this.grid.ghostMove(p, directionList).getCell().getP().getX() == 1 && this.grid.ghostMove(p, directionList).getCell().getP().getY() == 0))))))
-                    return true;
-            if(p.isAdrenaline1() && directionList.size() == 2 && this.grid.canGhostMove(p, directionList) &&
-                    (wCardInput.equals("") || ((!wCardInput.equals("") && wCard != null) && ((wSlotInput.equals("1") && (this.grid.ghostMove(p, directionList).getCell().getP().getX() == 0 && this.grid.ghostMove(p, directionList).getCell().getP().getY() == 2)) ||
-                        (wSlotInput.equals("2") && (this.grid.ghostMove(p, directionList).getCell().getP().getX() == 2 && this.grid.ghostMove(p, directionList).getCell().getP().getY() == 3)) ||
-                        (wSlotInput.equals("3") && (this.grid.ghostMove(p, directionList).getCell().getP().getX() == 1 && this.grid.ghostMove(p, directionList).getCell().getP().getY() == 0))))))
-                    return true;
+            return true;
         }
         return false;
     }
@@ -1089,19 +1113,22 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
     public synchronized void secondActionGrab(String nickName, List<Integer> directions, String wCardInput, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) { //directions contains where p wants to go. directions contains '0' if p doesn't want to move and only grab
         Player p = this.grid.getPlayerObject(nickName);
         WeaponCard wCard = this.grid.getWeaponCardObject(wCardInput);
-        List<AmmoCube> l= new LinkedList<>();
-        for(Colour c : lAInput)
-            l.add(new AmmoCube(c));
-        List<PowerUpCard> lP= new LinkedList<>();
-        for(int i = 0; i < lPInput.size(); i++)
-            lP.add(p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))));
+        List<AmmoCube> l = new LinkedList<>();
+        if(!lAInput.isEmpty()) {
+            for (Colour c : lAInput)
+                l.add(new AmmoCube(c));
+        }
+        List<PowerUpCard> lP = new LinkedList<>();
+        if(!lPInput.isEmpty()) {
+            for (int i = 0; i < lPInput.size(); i++)
+                lP.add(p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))));
+        }
         if(!(p.isAdrenaline1()))
             grabNotAdrenaline(p, directions, wCard, l, lP);
 
         if(p.isAdrenaline1()||p.isAdrenaline2()){
             grabAdrenaline(p, directions, wCard, l, lP);
         }
-
         this.gameState = ACTION2;
     }
 
@@ -1112,23 +1139,22 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         Set<Integer> lIset = new HashSet<>(lI);
         if(lIset.size() < lI.size())                //to check if there are repetitions in lI, which means that player wants to apply the same effect multiple times
             return false;
+
         List<AmmoCube> lA = new LinkedList<>();
-        if(!lAInput.isEmpty()) {
-            for (Colour c : lAInput)
-                lA.add(new AmmoCube(c));
-            AmmoCube[] cubeArray = new AmmoCube[lA.size()];
-            lA.toArray(cubeArray);
-            if (!p.checkAmmoCube(cubeArray))
-                return false;
-        }
+        for (Colour c : lAInput)
+            lA.add(new AmmoCube(c));
+        AmmoCube[] cubeArray = new AmmoCube[lA.size()];
+        lA.toArray(cubeArray);
+        if (!p.checkAmmoCube(cubeArray))
+            return false;
+
         List<PowerUpCard> lP = new LinkedList<>();
-        if(!lPInput.isEmpty()) {
-            for (int i = 0; i < lPInput.size(); i++) {
-                if (p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))) == null)
-                    return false;
-                lP.add(p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))));
-            }
+        for (int i = 0; i < lPInput.size(); i++) {
+            if (p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))) == null)
+                return false;
+            lP.add(p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))));
         }
+
         if(this.gameState.equals(ACTION1))
             if(!p.isAdrenaline2())
                 return isValidShootNotAdrenaline(p, nameWC, lI, lS, lA, lP);

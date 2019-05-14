@@ -15,7 +15,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
 
     private static List<Game> games;
     private static List<Boolean> canStartList;
-    static private List<List<Connection>> connections;
+    private static List<List<Connection>> connections;
     private static List<LinkedList<Integer>>  suspendedIdentifier;
     private static List<LinkedList<String>> suspendedName;                      //TODO (test) to understand if these are initialized and insert condition !isEmpty in if statements
     private static int frenzyTurn = 0;
@@ -142,7 +142,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
             if(connections.get(game).size() - 1 == frenzyTurn){
                 for(Connection c : connections.get(game)){
                     c.getView().endFinalFrenzy();
-                    c.getView().scoring();
+                    c.getView().finalScoring();
                 }
             }
             return (connections.get(game).size() - 1 == frenzyTurn);
@@ -151,7 +151,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
             if(connections.get(game).size()-1-suspendedIdentifier.get(game).size()-1 == frenzyTurn){
                 for(Connection c : connections.get(game)){
                     c.getView().endFinalFrenzy();
-                    c.getView().scoring();
+                    c.getView().finalScoring();
                 }
             }
             return(connections.get(game).size()-1-suspendedIdentifier.get(game).size()-1 == frenzyTurn);

@@ -910,4 +910,43 @@ class GameAssertTests {
         assertTrue(game.isValidFirstActionShoot("Player 1", "Tractor Beam", lI, lS, 0, lA, lP, lPColourInput));
         game.firstActionShoot("Player 1", "Tractor Beam", lI, lS, 0, lA, lP, lPColourInput);
     }
+
+    @Test
+    void ScoringTest() {
+        Game game = new Game();
+        Grid grid = game.getGrid();
+        List<String> deadGuys = game.getDeadList();
+
+        game.gameStart("Player 1", BLUE);
+        Player p1 = grid.getPlayerObject("Player 1");
+
+        game.addPlayer("Player 2", YELLOW);
+        Player p2 = grid.getPlayerObject("Player 2");
+
+        game.addPlayer("Player 3", GREEN);
+        Player p3 = grid.getPlayerObject("Player 3");
+
+        game.addPlayer("Player 4", BLACK);
+        Player p4 = grid.getPlayerObject("Player 4");
+        grid.damage(p3, p2, 3);
+        grid.damage(p1, p2, 8);
+        grid.damage(p3, p1, 5);
+        grid.damage(p1, p3, 11);
+        grid.damage(p1, p4, 2);
+        grid.damage(p4, p1, 6);
+
+        game.finalFrenzyTurnScoring();
+
+        assertEquals(3, deadGuys.size());
+        assertTrue(deadGuys.contains(p2.getNickName()));
+        assertTrue(deadGuys.contains(p3.getNickName()));
+        assertEquals(p2.getpB().getDamages().scoreBoard().size(), 0);
+        assertEquals(p3.getpB().getDamages().scoreBoard().size(), 0);
+        assertEquals(p4.getpB().getDamages().scoreBoard().size(), 1);
+        assertEquals(p1.getpB().getDamages().scoreBoard().size(), 0);
+        assertEquals(5, p1.getScore());
+        assertEquals(0, p2.getScore());
+        assertEquals(2, p3.getScore());
+        assertEquals(2, p4.getScore());
+    }
 }

@@ -24,6 +24,7 @@ public class CLIWeaponPrompt {
 
     public void shootToUser1(int game, ServerInterface server, String nickName, String s) throws RemoteException {
         Scanner in = new Scanner(System.in);
+        Scanner intScan = new Scanner(System.in);
         int e, i;
         String str, a, p, c;
         List<Integer> lI = new LinkedList<>();
@@ -34,9 +35,12 @@ public class CLIWeaponPrompt {
 
         while (true) {
             System.out.println(enterEffect);
-            while (in.hasNextInt()) {
-                e = in.nextInt();
-                lI.add(e);
+            while (intScan.hasNextInt()) {
+                e = intScan.nextInt();
+                if (e == 0)
+                    break;
+                else
+                    lI.add(e);
             }
             System.out.println(enterRelevantString);
             while (true) {

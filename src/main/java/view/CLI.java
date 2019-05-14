@@ -47,7 +47,7 @@ public class CLI implements View {
 
     @Override
     public void disconnected() throws RemoteException, InterruptedException{
-        System.out.println("Player number" + this.server.disconnected(game) + "is disconnected");
+        System.out.println("Player number " + this.server.disconnected(game) + " is disconnected");
     }
 
     @Override
@@ -147,7 +147,7 @@ public class CLI implements View {
         /*System.out.println("Choose the action you want to do (Move, Shoot, Grab):");
         String action = in.nextLine();*/
         while (true) {
-            System.out.println("Choose the action you want to do (Move, Shoot, Grab):");
+            System.out.println("Choose the first action you want to do (Move, Shoot, Grab):");
             action = in.nextLine();
             if ((action.equals("Move") || action.equals("Shoot") || action.equals("Grab")
                     || action.equals("move") || action.equals("shoot") || action.equals("grab")))
@@ -440,7 +440,7 @@ public class CLI implements View {
         /*System.out.println("Choose the action you want to do (Move, Shoot, Grab):");
         String action = in.nextLine();*/
         while (true) {
-            System.out.println("Choose the action you want to do (Move, Shoot, Grab):");
+            System.out.println("Choose the second action you want to do (Move, Shoot, Grab):");
             action = in.nextLine();
             if ((action.equals("Move") || action.equals("Shoot") || action.equals("Grab")
                     || action.equals("move") || action.equals("shoot") || action.equals("grab")))

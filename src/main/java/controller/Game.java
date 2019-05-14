@@ -992,14 +992,11 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                         (wSlotInput.equals("3") && (this.grid.ghostMove(p, directionList).getCell().getP().getX() == 1 && this.grid.ghostMove(p, directionList).getCell().getP().getY() == 0) && this.checkWeaponSlotContents(3).contains(wCardInput))) {
                     if (cubeArray.length != 0 && !p.checkAmmoCube(cubeArray))
                         return false;
-                    if(!lPInput.isEmpty()) {
-                        for (int i = 0; i < lPInput.size(); i++) {
-                            if (p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))) == null)
-                                return false;
-                            lP.add(p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))));
-                        }
+                    for (int i = 0; i < lPInput.size(); i++) {
+                        if (p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))) == null)
+                            return false;
+                        lP.add(p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))));
                     }
-
                     if (!canPay(wCard, choosePayment(lA, lP)))
                         return false;
                 }
@@ -1093,14 +1090,11 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                         (wSlotInput.equals("3") && (this.grid.ghostMove(p, directionList).getCell().getP().getX() == 1 && this.grid.ghostMove(p, directionList).getCell().getP().getY() == 0) && this.checkWeaponSlotContents(3).contains(wCardInput))) {
                     if (cubeArray.length != 0 && !p.checkAmmoCube(cubeArray))
                         return false;
-                    if(!lPInput.isEmpty()) {
-                        for (int i = 0; i < lPInput.size(); i++) {
-                            if (p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))) == null)
-                                return false;
-                            lP.add(p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))));
-                        }
+                    for (int i = 0; i < lPInput.size(); i++) {
+                        if (p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))) == null)
+                            return false;
+                        lP.add(p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))));
                     }
-
                     if (!canPay(wCard, choosePayment(lA, lP)))
                         return false;
                 }
@@ -1165,16 +1159,15 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
     public synchronized void secondActionShoot(String nickName, String nameWC, List<Integer> lI, List<String> lS, int direction, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) {
         Player p = this.grid.getPlayerObject(nickName);
+
         List<AmmoCube> lA= new LinkedList<>();
-        if(!lAInput.isEmpty()) {
-            for (Colour c : lAInput)
-                lA.add(new AmmoCube(c));
-        }
+        for (Colour c : lAInput)
+            lA.add(new AmmoCube(c));
+
         List<PowerUpCard> lP= new LinkedList<>();
-        if(!lPInput.isEmpty()) {
-            for (int i = 0; i < lPInput.size(); i++)
-                lP.add(p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))));
-        }
+        for (int i = 0; i < lPInput.size(); i++)
+            lP.add(p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))));
+
         if(!p.isAdrenaline2())
             this.shootNotAdrenaline(p, nameWC, lI, lS, lA, lP);
         else
@@ -1393,17 +1386,17 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
     }
 
     public boolean isValidFinalFrenzyAction(String nickName, List<String> lS) {
-        if(this.gameState == STARTTURN && finalFrenzy) {
-            Player p = this.grid.getPlayerObject(nickName);
-            if (p.getTurnFinalFrenzy() == 0 && lS.size() == 2) {
-                for (String s : lS) {
-                    if (s.equals("1") || s.equals("2") || s.equals("3"))
-                        return true;
-                }
+        if(!(this.gameState == STARTTURN && finalFrenzy))
+            return false;
+        Player p = this.grid.getPlayerObject(nickName);
+        if (p.getTurnFinalFrenzy() == 0 && lS.size() == 2) {
+            for (String s : lS) {
+                if (s.equals("1") || s.equals("2") || s.equals("3"))
+                    return true;
             }
-            else return (p.getTurnFinalFrenzy() != 0 && lS.size() == 1 &&
-                    (lS.get(0).equals("4") || lS.get(0).equals("5")));
         }
+        else return (p.getTurnFinalFrenzy() != 0 && lS.size() == 1 &&
+                (lS.get(0).equals("4") || lS.get(0).equals("5")));
         return false;
     }
 
@@ -1415,47 +1408,44 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         Set<Integer> lIset = new HashSet<>(lI);
         if(lIset.size() < lI.size())                //to check if there are repetitions in lI, which means that player wants to apply the same effect multiple times
             return false;
+
         List<AmmoCube> lA = new LinkedList<>();
-        if(!lAInput.isEmpty()) {
-            for (Colour c : lAInput)
-                lA.add(new AmmoCube(c));
-            AmmoCube[] cubeArray = new AmmoCube[lA.size()];
-            lA.toArray(cubeArray);
-            if (!p.checkAmmoCube(cubeArray) && !weaponToUse.equals(""))
-                return false;
-        }
+        for (Colour c : lAInput)
+            lA.add(new AmmoCube(c));
+        AmmoCube[] cubeArray = new AmmoCube[lA.size()];
+        lA.toArray(cubeArray);
+        if (!p.checkAmmoCube(cubeArray))
+            return false;
+
         List<PowerUpCard> lP = new LinkedList<>();
-        if(!lPInput.isEmpty()) {
-            for (int i = 0; i < lPInput.size(); i++) {
-                if (p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))) == null)
-                    return false;
-                lP.add(p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))));
-            }
+        for (int i = 0; i < lPInput.size(); i++) {
+            if (p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))) == null)
+                return false;
+            lP.add(p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))));
         }
-        return (finalFrenzy  && this.grid.canMove(p, direction) && this.isValidShootNotAdrenaline(p, weaponToUse, lI, lS, lA, lP) &&
-                    direction >= 1 && direction <= 4);
+        return (finalFrenzy && this.grid.canMove(p, direction) && this.isValidShootNotAdrenaline(p, weaponToUse, lI, lS, lA, lP) &&
+                    direction >= 0 && direction <= 4);
 
     }
 
     public synchronized void finalFrenzyAction1(String nickName, int direction, List<String> weaponToReload, String weaponToUse, List<Integer> lI, List<String> lS, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) {
         Player p = this.grid.getPlayerObject(nickName);
+
         List<AmmoCube> lA = new LinkedList<>();
-        if(!lAInput.isEmpty()) {
-            for (Colour c : lAInput)
-                lA.add(new AmmoCube(c));
-        }
+        for (Colour c : lAInput)
+            lA.add(new AmmoCube(c));
+
         List<PowerUpCard> lP = new LinkedList<>();
-        if(!lPInput.isEmpty()) {
-            for (int i = 0; i < lPInput.size(); i++) {
-                lP.add(p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))));
-            }
-        }
+        for (int i = 0; i < lPInput.size(); i++)
+            lP.add(p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))));
+
         if (direction != 0)
             this.grid.move(p, direction);
         if (!weaponToReload.isEmpty()) {
             for (String weapon : weaponToReload)
                 this.reloadFrenzy(p, weapon);
         }
+
         this.shootNotAdrenaline(p, weaponToUse, lI, lS, lA, lP);
         this.gameState = ENDTURN;
     }
@@ -1495,19 +1485,18 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
     public synchronized void finalFrenzyAction3(String nickName, List<Integer> directions, String wCardInput, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) {
         Player p = this.grid.getPlayerObject(nickName);
         WeaponCard wCard = this.grid.getWeaponCardObject(wCardInput);
+
         List<AmmoCube> lA = new LinkedList<>();
-        if(!lAInput.isEmpty()) {
-            for (Colour c : lAInput)
-                lA.add(new AmmoCube(c));
-        }
+        for (Colour c : lAInput)
+            lA.add(new AmmoCube(c));
+
         List<PowerUpCard> lP = new LinkedList<>();
-        if(!lPInput.isEmpty()) {
-            for (int i = 0; i < lPInput.size(); i++) {
-                lP.add(p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))));
-            }
+        for (int i = 0; i < lPInput.size(); i++) {
+            lP.add(p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))));
         }
         for(int i : directions)
             this.grid.move(p, i);
+
         this.frenzyGrab(p, wCard, lA, lP);
         this.gameState = ENDTURN;
     }
@@ -1518,23 +1507,22 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
     public boolean isValidFinalFrenzyAction4(String nickName, List<Integer> directions, String weaponToUse, List<Integer> lI, List<String> lS, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) {
         Player p = this.grid.getPlayerObject(nickName);
+
         List<AmmoCube> lA = new LinkedList<>();
-        if(!lAInput.isEmpty()) {
-            for (Colour c : lAInput)
-                lA.add(new AmmoCube(c));
-            AmmoCube[] cubeArray = new AmmoCube[lA.size()];
-            lA.toArray(cubeArray);
-            if (!p.checkAmmoCube(cubeArray) && !weaponToUse.equals(""))
-                return false;
-        }
+        for (Colour c : lAInput)
+            lA.add(new AmmoCube(c));
+        AmmoCube[] cubeArray = new AmmoCube[lA.size()];
+        lA.toArray(cubeArray);
+        if (!p.checkAmmoCube(cubeArray))
+            return false;
+
         List<PowerUpCard> lP = new LinkedList<>();
-        if(!lPInput.isEmpty()) {
-            for (int i = 0; i < lPInput.size(); i++) {
-                if (p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))) == null)
-                    return false;
-                lP.add(p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))));
-            }
+        for (int i = 0; i < lPInput.size(); i++) {
+            if (p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))) == null)
+                return false;
+            lP.add(p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))));
         }
+
         for(Integer i : directions) {
             if(i < 0 || i > 4)
                 return false;
@@ -1544,19 +1532,19 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
     public synchronized void finalFrenzyAction4(String nickName, List<Integer> directions, List<String> weaponToReload, String weaponToUse, List<Integer> lI, List<String> lS, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) {
         Player p = this.grid.getPlayerObject(nickName);
+
         List<AmmoCube> lA = new LinkedList<>();
-        if(!lAInput.isEmpty()) {
-            for (Colour c : lAInput)
-                lA.add(new AmmoCube(c));
-        }
+        for (Colour c : lAInput)
+            lA.add(new AmmoCube(c));
+
         List<PowerUpCard> lP = new LinkedList<>();
-        if(!lPInput.isEmpty()) {
-            for (int i = 0; i < lPInput.size(); i++) {
-                lP.add(p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))));
-            }
+        for (int i = 0; i < lPInput.size(); i++) {
+            lP.add(p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))));
         }
+
         for(Integer i : directions)
             this.grid.move(p, i);
+
         if(!weaponToReload.isEmpty()) {
             for(String weapon : weaponToReload)
                 this.reloadFrenzy(p, weapon);
@@ -1580,19 +1568,19 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
     public synchronized void finalFrenzyAction5(String nickName, List<Integer> directions, String wCardInput, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) {
         Player p = this.grid.getPlayerObject(nickName);
         WeaponCard wCard = this.grid.getWeaponCardObject(wCardInput);
+
         List<AmmoCube> lA = new LinkedList<>();
-        if(!lAInput.isEmpty()) {
-            for (Colour c : lAInput)
-                lA.add(new AmmoCube(c));
-        }
+        for (Colour c : lAInput)
+            lA.add(new AmmoCube(c));
+
         List<PowerUpCard> lP = new LinkedList<>();
-        if(!lPInput.isEmpty()) {
-            for (int i = 0; i < lPInput.size(); i++) {
-                lP.add(p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))));
-            }
+        for (int i = 0; i < lPInput.size(); i++) {
+            lP.add(p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))));
         }
+
         for(Integer i : directions)
             this.grid.move(p, i);
+
         this.frenzyGrab(p, wCard, lA, lP);
         this.gameState = ENDTURN;
     }
@@ -1608,39 +1596,42 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
     }
 
     private boolean isValidFrenzyGrab(String nickName, String wCardInput, String wSlotInput, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) {
-        if(finalFrenzy) {
         Player p = this.grid.getPlayerObject(nickName);
         WeaponCard wCard = this.grid.getWeaponCardObject(wCardInput);
-        List<AmmoCube> lA= new LinkedList<>();
-        if(!lAInput.isEmpty()) {
-            for (Colour c : lAInput)
-                lA.add(new AmmoCube(c));
-            AmmoCube[] cubeArray = new AmmoCube[lA.size()];
-            lA.toArray(cubeArray);
-            if (!p.checkAmmoCube(cubeArray) && wCard != null)
+        List<AmmoCube> lA = new LinkedList<>();
+        List<PowerUpCard> lP = new LinkedList<>();
+
+        for (Colour c : lAInput)
+            lA.add(new AmmoCube(c));
+        AmmoCube[] cubeArray = new AmmoCube[lA.size()];
+        lA.toArray(cubeArray);
+        if (!p.checkAmmoCube(cubeArray))
+            return false;
+
+        if(wCard != null && wSlotInput.isEmpty())
+            return false;
+        else if(wCard != null) {
+            if ((wSlotInput.equals("1") && (p.getCell().getP().getX() == 0 && p.getCell().getP().getY() == 2) && this.checkWeaponSlotContents(1).contains(wCardInput)) ||
+                    (wSlotInput.equals("2") && (p.getCell().getP().getX() == 2 && p.getCell().getP().getY() == 3) && this.checkWeaponSlotContents(2).contains(wCardInput)) ||
+                    (wSlotInput.equals("3") && (p.getCell().getP().getX() == 1 && p.getCell().getP().getY() == 0) && this.checkWeaponSlotContents(3).contains(wCardInput))) {
+                if (cubeArray.length != 0 && !p.checkAmmoCube(cubeArray))
+                    return false;
+                for (int i = 0; i < lPInput.size(); i++) {
+                    if (p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))) == null)
+                        return false;
+                    lP.add(p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))));
+                }
+            }
+            if (!canPay(wCard, choosePayment(lA, lP)))
                 return false;
         }
-        List<PowerUpCard> lP= new LinkedList<>();
-        if(!lPInput.isEmpty()) {
-            for (int i = 0; i < lPInput.size(); i++) {
-                if (p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))) == null)
-                    return false;
-                lP.add(p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))));
-            }
-        }
-        if(wCardInput.equals("") || (((!wCardInput.equals("") && wCard != null) && (wSlotInput.equals("1") &&p.getCell().getP().getX() == 0 &&p.getCell().getP().getY() == 2)) ||
-                (wSlotInput.equals("2") && p.getCell().getP().getX() == 2 && p.getCell().getP().getY() == 3) ||
-                (wSlotInput.equals("3") && p.getCell().getP().getX() == 1 && p.getCell().getP().getY() == 0)))
-                    return true;
-        }
-        return false;
+        return true;
     }
 
     private void frenzyGrab(Player p, WeaponCard wCard, List<AmmoCube> lA, List<PowerUpCard> lP) {
         if(p.getCell().getStatus() == 0)
             giveWhatIsOnAmmoCard(p, p.getCell().getA());
-        else if((p.getCell().getStatus() == 1) && wCard != null &&
-                (canPay(wCard, choosePayment(lA, lP)))) {
+        else if(p.getCell().getStatus() == 1) {
             p.payCard(lA, lP);
             p.getwC().add(wCard);
             p.getwC().get(p.getwC().size() - 1).reload();

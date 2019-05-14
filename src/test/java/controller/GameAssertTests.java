@@ -639,7 +639,7 @@ class GameAssertTests {
         p1.addWeaponCard(thor);
         thor.reload();
         assertTrue(thor.isReloaded());
-        AmmoCube aBlu = new AmmoCube(BLUE);
+        AmmoCube aBlu = new AmmoCube(Colour.BLUE);
         p1.addNewAC(aBlu);
         p1.addNewAC(aBlu);
         System.out.println("\n" + p1.getaC()[0].getC().toString());

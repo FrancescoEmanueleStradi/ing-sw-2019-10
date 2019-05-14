@@ -473,16 +473,16 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                    }
                    break;
                case "T.H.O.R.":
-                   if(lI.size() == 1 && lI.get(0) == 1 && !lS.isEmpty()) {
+                   if(lI.size() == 1 && lI.get(0) == 1 && !lS.isEmpty() && !lS.get(0).isEmpty()) {
                        if(this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(0))))
                            x = true;
                    }
-                   else if(lI.size() == 2 && lI.get(0) == 1 && lI.get(1) == 2 && lS.size() > 1) {
+                   else if(lI.size() == 2 && lI.get(0) == 1 && lI.get(1) == 2 && lS.size() > 1 && !lS.get(0).isEmpty() && !lS.get(1).isEmpty()) {
                        if(this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(0))) && this.grid.isInViewZone(this.grid.getPlayerObject(lS.get(0)), this.grid.getPlayerObject(lS.get(1))) && !(this.grid.getPlayerObject(lS.get(0)).equals(this.grid.getPlayerObject(lS.get(1)))) && lC.contains(Colour.BLUE))
                            x = true;
                    }
-                   else if(lI.size() == 3 && lI.get(0) == 1 && lI.get(1) == 2 && lI.get(2) == 3 && lS.size() > 2 && this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(0))) && this.grid.isInViewZone(this.grid.getPlayerObject(lS.get(0)), this.grid.getPlayerObject(lS.get(1))) && this.grid.isInViewZone(this.grid.getPlayerObject(lS.get(1)), this.grid.getPlayerObject(lS.get(2))) &&
-                               !(this.grid.getPlayerObject(lS.get(1)).equals(this.grid.getPlayerObject(lS.get(2)))) && !(this.grid.getPlayerObject(lS.get(0)).equals(this.grid.getPlayerObject(lS.get(2)))) && !(this.grid.getPlayerObject(lS.get(0)).equals(this.grid.getPlayerObject(lS.get(1)))) && lC.containsAll(Arrays.asList(Colour.BLUE, Colour.BLUE)))
+                   else if(lI.size() == 3 && lI.get(0) == 1 && lI.get(1) == 2 && lI.get(2) == 3 && lS.size() > 2 && !lS.get(0).isEmpty() && !lS.get(1).isEmpty() && !lS.get(2).isEmpty() && this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(0))) && this.grid.isInViewZone(this.grid.getPlayerObject(lS.get(0)), this.grid.getPlayerObject(lS.get(1))) && this.grid.isInViewZone(this.grid.getPlayerObject(lS.get(1)), this.grid.getPlayerObject(lS.get(2))) &&
+                               !(this.grid.getPlayerObject(lS.get(1)).equals(this.grid.getPlayerObject(lS.get(2)))) && !(this.grid.getPlayerObject(lS.get(0)).equals(this.grid.getPlayerObject(lS.get(2)))) && !(this.grid.getPlayerObject(lS.get(0)).equals(this.grid.getPlayerObject(lS.get(1)))) && Collections.frequency(lC, Colour.BLUE) == 2)
                            x = true;
                    break;
                case "Tractor Beam":
@@ -675,9 +675,9 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
             case "T.H.O.R.":
                 if(lI.get(0) == 1)
                     ((THOR) p.getWeaponCardObject(nameWC)).applyEffect(this.grid, p, this.grid.getPlayerObject(lS.get(0)));
-                if(lI.get(1) == 2)
+                if(lI.size() > 1 && lI.get(1) == 2)
                     ((THOR) p.getWeaponCardObject(nameWC)).applySpecialEffect(this.grid, p, this.grid.getPlayerObject(lS.get(1)));
-                if(lI.get(2) == 3)
+                if(lI.size() > 2 && lI.get(2) == 3)
                     ((THOR) p.getWeaponCardObject(nameWC)).applySpecialEffect2(this.grid, p, this.grid.getPlayerObject(lS.get(2)));
                 break;
             case "Tractor Beam":
@@ -741,23 +741,28 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
     public boolean isValidFirstActionShoot(String nickName, String nameWC, List<Integer> lI, List<String> lS, int direction, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) {
         Player p = this.grid.getPlayerObject(nickName);
+        List<AmmoCube> lA = new LinkedList<>();
+        List<PowerUpCard> lP = new LinkedList<>();
+
         Set<Integer> lIset = new HashSet<>(lI);
         if(lIset.size() < lI.size())                //to check if there are repetitions in lI, which means that player wants to apply the same effect multiple times
             return false;
 
-        List<AmmoCube> lA = new LinkedList<>();
-        for (Colour c : lAInput)
-            lA.add(new AmmoCube(c));
-        AmmoCube[] cubeArray = new AmmoCube[lA.size()];
-        lA.toArray(cubeArray);
-        if (!p.checkAmmoCube(cubeArray))
-            return false;
-
-        List<PowerUpCard> lP = new LinkedList<>();
-        for (int i = 0; i < lPInput.size(); i++) {
-            if (p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))) == null)
+        if(!lAInput.isEmpty()) {
+            for (Colour c : lAInput)
+                lA.add(new AmmoCube(c));
+            AmmoCube[] cubeArray = new AmmoCube[lA.size()];
+            lA.toArray(cubeArray);
+            if (!p.checkAmmoCube(cubeArray))
                 return false;
-            lP.add(p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))));
+        }
+
+        if(!lPInput.isEmpty()) {
+            for (int i = 0; i < lPInput.size(); i++) {
+                if (p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))) == null)
+                    return false;
+                lP.add(p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))));
+            }
         }
 
         if(this.gameState.equals(STARTTURN))
@@ -1117,11 +1122,13 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
     public boolean isValidSecondActionShoot(String nickName, String nameWC, List<Integer> lI, List<String> lS, int direction, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) {
         Player p = this.grid.getPlayerObject(nickName);
+        List<AmmoCube> lA = new LinkedList<>();
+        List<PowerUpCard> lP = new LinkedList<>();
+
         Set<Integer> lIset = new HashSet<>(lI);
         if(lIset.size() < lI.size())                //to check if there are repetitions in lI, which means that player wants to apply the same effect multiple times
             return false;
 
-        List<AmmoCube> lA = new LinkedList<>();
         for (Colour c : lAInput)
             lA.add(new AmmoCube(c));
         AmmoCube[] cubeArray = new AmmoCube[lA.size()];
@@ -1129,7 +1136,6 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         if (!p.checkAmmoCube(cubeArray))
             return false;
 
-        List<PowerUpCard> lP = new LinkedList<>();
         for (int i = 0; i < lPInput.size(); i++) {
             if (p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))) == null)
                 return false;

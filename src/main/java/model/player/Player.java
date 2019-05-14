@@ -72,7 +72,7 @@ public class Player {
     }
 
     public boolean checkAmmoCube(AmmoCube[] a){
-        /*List<AmmoCube> l2 = new ArrayList<>(Arrays.asList(a));          //this way the original array is not modified
+        List<AmmoCube> l2 = new ArrayList<>(Arrays.asList(a));          //this way the original array is not modified
 
         if(l2.isEmpty())
             return true;
@@ -87,8 +87,8 @@ public class Player {
         for(AmmoCube aCost : l2)
             lCost.add(aCost.getC());
 
-        return lInput.containsAll(lCost);*/
-
+        return lInput.containsAll(lCost);
+        /*
         List<AmmoCube> l1 = new ArrayList<>(Arrays.asList(this.aC));    //this way the original array is not modified
         List<AmmoCube> l2 = new ArrayList<>(Arrays.asList(a));          //this way the original array is not modified
         if(l2.isEmpty())
@@ -104,7 +104,7 @@ public class Player {
                     return true;
             }
         }
-        return false;
+        return false;*/
     }
 
     public void addNewAC(AmmoCube ac) {

@@ -41,15 +41,6 @@ public class DamageTrack {
         }
     }
 
-    private int damageByColour(Colour c) {
-        int n = 0;
-        for(int i = 0; i < 12; i++){
-            if(c.equals(this.damageTr[i].getC()))
-                n++;
-        }
-        return n;
-    }
-
     private List<Colour> colours() {
         LinkedList<Colour> lC = new LinkedList<>();
         for(DamageToken d : this.damageTr){

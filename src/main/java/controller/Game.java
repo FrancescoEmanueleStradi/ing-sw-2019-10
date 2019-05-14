@@ -968,10 +968,9 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
             if (wCard != null && wSlotInput.isEmpty())
                 return false;
-            else if (wCard != null) {
-                if ((wSlotInput.equals("1") && (this.grid.ghostMove(p, directionList).getCell().getP().getX() == 0 && this.grid.ghostMove(p, directionList).getCell().getP().getY() == 2) && this.checkWeaponSlotContents(1).contains(wCardInput)) ||
+            else if (wCard != null && ((wSlotInput.equals("1") && (this.grid.ghostMove(p, directionList).getCell().getP().getX() == 0 && this.grid.ghostMove(p, directionList).getCell().getP().getY() == 2) && this.checkWeaponSlotContents(1).contains(wCardInput)) ||
                         (wSlotInput.equals("2") && (this.grid.ghostMove(p, directionList).getCell().getP().getX() == 2 && this.grid.ghostMove(p, directionList).getCell().getP().getY() == 3) && this.checkWeaponSlotContents(2).contains(wCardInput)) ||
-                        (wSlotInput.equals("3") && (this.grid.ghostMove(p, directionList).getCell().getP().getX() == 1 && this.grid.ghostMove(p, directionList).getCell().getP().getY() == 0) && this.checkWeaponSlotContents(3).contains(wCardInput))) {
+                        (wSlotInput.equals("3") && (this.grid.ghostMove(p, directionList).getCell().getP().getX() == 1 && this.grid.ghostMove(p, directionList).getCell().getP().getY() == 0) && this.checkWeaponSlotContents(3).contains(wCardInput)))) {
                     if (cubeArray.length != 0 && !p.checkAmmoCube(cubeArray))
                         return false;
                     for (int i = 0; i < lPInput.size(); i++) {
@@ -982,7 +981,6 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                     if (!canPay(wCard, choosePayment(lA, lP)))
                         return false;
                 }
-            }
             return true;
         }
         return false;
@@ -1066,10 +1064,9 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
             if (wCard != null && wSlotInput.isEmpty())
                 return false;
-            else if (wCard != null) {
-                if ((wSlotInput.equals("1") && (this.grid.ghostMove(p, directionList).getCell().getP().getX() == 0 && this.grid.ghostMove(p, directionList).getCell().getP().getY() == 2) && this.checkWeaponSlotContents(1).contains(wCardInput)) ||
+            else if (wCard != null && ((wSlotInput.equals("1") && (this.grid.ghostMove(p, directionList).getCell().getP().getX() == 0 && this.grid.ghostMove(p, directionList).getCell().getP().getY() == 2) && this.checkWeaponSlotContents(1).contains(wCardInput)) ||
                         (wSlotInput.equals("2") && (this.grid.ghostMove(p, directionList).getCell().getP().getX() == 2 && this.grid.ghostMove(p, directionList).getCell().getP().getY() == 3) && this.checkWeaponSlotContents(2).contains(wCardInput)) ||
-                        (wSlotInput.equals("3") && (this.grid.ghostMove(p, directionList).getCell().getP().getX() == 1 && this.grid.ghostMove(p, directionList).getCell().getP().getY() == 0) && this.checkWeaponSlotContents(3).contains(wCardInput))) {
+                        (wSlotInput.equals("3") && (this.grid.ghostMove(p, directionList).getCell().getP().getX() == 1 && this.grid.ghostMove(p, directionList).getCell().getP().getY() == 0) && this.checkWeaponSlotContents(3).contains(wCardInput)))) {
                     if (cubeArray.length != 0 && !p.checkAmmoCube(cubeArray))
                         return false;
                     for (int i = 0; i < lPInput.size(); i++) {
@@ -1080,7 +1077,6 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                     if (!canPay(wCard, choosePayment(lA, lP)))
                         return false;
                 }
-            }
             return true;
         }
         return false;
@@ -1352,7 +1348,6 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
        this.grid.replaceWeaponCard();
        if(this.grid.getBoard().getK().getSkulls()[7] != 0)
            finalFrenzy = true;
-       //this.gameState = STARTTURN;
     }
 
 

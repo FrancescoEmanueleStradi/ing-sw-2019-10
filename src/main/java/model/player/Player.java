@@ -21,8 +21,6 @@ public class Player {
     private LinkedList<WeaponCard> wC;
     private LinkedList<PowerUpCard> pC;
     private Cell cell;
-    private boolean adrenaline1;
-    private boolean adrenaline2;
     private int turnFinalFrenzy;        //0 if your final frenzy turn is before the first player, 1 if you are the first player, 2 if you play after
 
     public Player(String name, Colour c, boolean f)  {
@@ -35,9 +33,6 @@ public class Player {
         this.aC = new AmmoCube[]{new AmmoCube(Colour.RED), null, null, new AmmoCube(Colour.BLUE), null, null, new AmmoCube(Colour.YELLOW), null, null};
         wC = new LinkedList<>();
         pC = new LinkedList<>();
-        adrenaline1 = false;
-        adrenaline2 = false;
-
     }
 
     public String getNickName() {

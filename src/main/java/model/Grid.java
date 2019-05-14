@@ -206,10 +206,6 @@ public class Grid {
         return (p.getCell().getC().equals(p2.getCell().getC()));
     }
 
-    /*public boolean isInTheRoom(Player p, Colour c) {
-        return (p.getCell().getC().equals(c));
-    }*/
-
     public boolean isInViewZone(Player p, Player p2) {
         boolean b = false;
         for(int i=0; i<p.getCell().getPosDoor().length; i++) {
@@ -294,10 +290,6 @@ public class Grid {
             return board.getW3().getCard3();
         return null;
     }
-
-    /*public void pickWeaponCard(Player p) {
-            p.addWeaponCard(this.weaponDeck.getTopOfDeck());
-    }*/
 
     public WeaponCard pickWeaponCard() {
         return this.weaponDeck.getTopOfDeck();
@@ -392,9 +384,6 @@ public class Grid {
         }
         return l;
     }
-
-
-    //--------------------------------------------------------------------------------------
 
     public Player ghostMove(Player p, List<Integer> directions) {
         Player ghost = new Player("?gHoSt!", p.getC(), p.isFirstPlayerCard());

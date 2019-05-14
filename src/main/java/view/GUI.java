@@ -2,6 +2,8 @@ package view;
 
 import controller.Game;
 import model.Colour;
+import java.awt.*;
+import javax.swing.*;
 
 import java.rmi.RemoteException;
 
@@ -35,13 +37,30 @@ public class GUI implements View{
 
     @Override
     public void disconnected() throws RemoteException, InterruptedException{
-        //TODO
+        JFrame f = new JFrame("Disconnected");
+        int x = server.disconnected(game);
+        Container c = f.getContentPane();
+        StandardPanel panel = new StandardPanel(x, server);
+        c.add(panel);
+        f.show();
     }
 
     @Override
-    public void askNameAndColour() {
-        //TODO
+    public void askNameAndColour() throws RemoteException{
+        if (this.server.messageGameIsNotStarted(game)) {
+            JFrame f = new JFrame("Enter your name");
+            Container c = f.getContentPane();
+            TakeInformation p = new TakeInformation();
+            c.add(p);
+            f.addWindowListener( new Terminator() );
+            f.setSize(300,120);
+            f.show();
+
+
+        }
     }
+
+
 
     @Override
     public void selectSpawnPoint(){

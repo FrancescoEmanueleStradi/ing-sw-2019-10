@@ -23,6 +23,8 @@ public class MyTask extends TimerTask {
             System.exit(0);                         //TODO Does it exit from the client?
         }catch (RemoteException e){
             System.exit(0);
+        }catch (InterruptedException i){
+            System.exit(1);
         }
 
     }

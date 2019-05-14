@@ -36,11 +36,10 @@ public class GUI implements View{
     }
 
     @Override
-    public void disconnected() throws RemoteException, InterruptedException{
+    public void disconnected(int disconnected) throws RemoteException, InterruptedException{
         JFrame f = new JFrame("Disconnected");
-        int x = server.disconnected(game);
         Container c = f.getContentPane();
-        StandardPanel panel = new StandardPanel(x, server);
+        StandardPanel panel = new StandardPanel(disconnected, server);
         c.add(panel);
         f.show();
     }

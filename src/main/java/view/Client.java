@@ -39,7 +39,7 @@ public class Client {
                 case "CLI":
                 case "Cli":
                 case "cli":
-                    view = new CLI();
+                    view = new CLI(game, centralServer);
                     break;
                 case "GUI":
                 case "Gui":
@@ -48,8 +48,9 @@ public class Client {
                     break;
             }
             game = centralServer.setGame(g);
-            view.setServer(centralServer);
-            view.setGame(game);
+            //view.setServer(centralServer);
+            //view.setGame(game);
+            centralServer.setView(game, identifier, view);
             view.setInformation(identifier);
         }
         else {
@@ -75,7 +76,7 @@ public class Client {
                 case "CLI":
                 case "Cli":
                 case "cli":
-                    view = new CLI();
+                    view = new CLI(game, centralServer);
                     break;
                 case "GUI":
                 case "Gui":
@@ -83,8 +84,9 @@ public class Client {
                     view = new GUI();
                     break;
             }
-            view.setServer(centralServer);
-            view.setGame(game);
+            centralServer.setView(game, identifier, view);
+            //view.setServer(centralServer);
+           // view.setGame(game);
 
             view.askNameAndColour();                    //identifier 1 has to have the first player  card
             view.selectSpawnPoint();
@@ -92,8 +94,6 @@ public class Client {
         }
         try {
             while (true) {
-                if(centralServer.isThereDisconnection(game))
-                    view.disconnected();                     //TODO made by the server
                 if (centralServer.stopGame(game))
                     break;
                 if (centralServer.isMyTurn(game, identifier)) {
@@ -142,9 +142,9 @@ public class Client {
                 if(centralServer.gameIsFinished(game))
                     break;
             }
-            view.endFinalFrenzy();
+            //view.endFinalFrenzy();
             //if (centralServer.gameIsFinished(game)) {
-            view.finalScoring();                //TODO made by the server
+            //view.finalScoring();
             //}
         }catch (RemoteException e){                                             //we inserted it here to manage a possible problem during the first part of the game
             centralServer.manageDisconnection(game, identifier, view.getNickName());

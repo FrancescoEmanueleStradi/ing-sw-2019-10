@@ -3,6 +3,7 @@ package view;
 import java.net.MalformedURLException;
 import java.rmi.*;
 import java.util.Scanner;
+import java.util.Timer;
 import javax.naming.*;
 
 public class Client {
@@ -10,6 +11,8 @@ public class Client {
     private static View view;
     private static int game;
     private static int identifier;
+    private static Timer timer = new Timer();
+    private static MyTask task;
 
     public static void main(String[] args) throws NamingException, RemoteException, AlreadyBoundException, NotBoundException, MalformedURLException, InterruptedException {
         //Registry registry = LocateRegistry.getRegistry();
@@ -85,23 +88,37 @@ public class Client {
 
             view.askNameAndColour();                    //identifier 1 has to have the first player  card
             view.selectSpawnPoint();
+            task = new MyTask(game, identifier, view.getNickName(), centralServer);
         }
         try {
-            while (true) {                                              //TODO Question: Timer
+            while (true) {
                 if(centralServer.isThereDisconnection(game))
-                    view.disconnected();
+                    view.disconnected();                     //TODO made by the server
                 if (centralServer.stopGame(game))
                     break;
                 if (centralServer.isMyTurn(game, identifier)) {
                     if (centralServer.isNotFinalFrenzy(game)) {
-                        if (view.doYouWantToUsePUC())
+                        if (view.doYouWantToUsePUC()) {
+                            timer.schedule(task, 150000);
                             view.usePowerUpCard();
+                            timer.cancel();
+                        }
+                        timer.schedule(task, 150000);
                         view.action1();
-                        if (view.doYouWantToUsePUC())
+                        timer.cancel();
+                        if (view.doYouWantToUsePUC()) {
+                            timer.schedule(task, 150000);
                             view.usePowerUpCard();
+                            timer.cancel();
+                        }
+                        timer.schedule(task, 150000);
                         view.action2();
-                        if (view.doYouWantToUsePUC())
+                        timer.cancel();
+                        if (view.doYouWantToUsePUC()) {
+                            timer.schedule(task, 150000);
                             view.usePowerUpCard();
+                            timer.cancel();
+                        }
                         view.reload();
                         view.scoring();
                         //view.newSpawnPoint();
@@ -113,7 +130,9 @@ public class Client {
                         if (centralServer.stopGame(game))
                             break;
                         centralServer.setFinalTurn(game, identifier, view.getNickName());
+                        timer.schedule(task, 500000);
                         view.finalFrenzyTurn();
+                        timer.cancel();
                         centralServer.finishTurn(game);
                         if (centralServer.stopGame(game))
                             break;
@@ -125,9 +144,9 @@ public class Client {
             }
             view.endFinalFrenzy();
             //if (centralServer.gameIsFinished(game)) {
-            view.finalScoring();
+            view.finalScoring();                //TODO made by the server
             //}
-        }catch (RemoteException e){                                     //TODO Question: is it correct?
+        }catch (RemoteException e){                                             //we inserted it here to manage a possible problem during the first part of the game
             centralServer.manageDisconnection(game, identifier, view.getNickName());
         }
     }

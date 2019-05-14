@@ -1084,4 +1084,6 @@ class GameAssertTests {
         assertTrue(game.isValidFirstActionShoot("Player 1", "Shockwave", lI, lS, 0, lA, lP, lPColourInput));
         game.firstActionShoot("Player 1", "Shockwave", lI, lS, 0, lA, lP, lPColourInput);
     }
+
+    //Tested all the cards from the bottom to Shockwave (included) and also Cyberblade and Machine Gun
 }

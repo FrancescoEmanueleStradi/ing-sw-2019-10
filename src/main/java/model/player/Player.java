@@ -90,23 +90,6 @@ public class Player {
         }
 
         return lInput.containsAll(lCost);
-        /*
-        List<AmmoCube> l1 = new ArrayList<>(Arrays.asList(this.aC));    //this way the original array is not modified
-        List<AmmoCube> l2 = new ArrayList<>(Arrays.asList(a));          //this way the original array is not modified
-        if(l2.isEmpty())
-            return true;
-        int count = 0;                                                  //containsAll does not work: AmmoCubes have not the same references!
-        for(AmmoCube acPlayer : l1) {
-            for(AmmoCube aCost : l2) {
-                if((acPlayer != null) && acPlayer.getC().equals(aCost.getC())) {
-                    count++;
-                    break;
-                }
-                if(count == l2.size())
-                    return true;
-            }
-        }
-        return false;*/
     }
 
     public void addNewAC(AmmoCube ac) {

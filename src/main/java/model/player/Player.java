@@ -5,10 +5,7 @@ import model.board.*;
 import model.cards.PowerUpCard;
 import model.cards.WeaponCard;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class Player {
 
@@ -86,6 +83,11 @@ public class Player {
         List<Colour> lCost = new LinkedList<>();
         for(AmmoCube aCost : l2)
             lCost.add(aCost.getC());
+
+        for(Colour colour : lCost) {
+            if(Collections.frequency(lInput, colour) < Collections.frequency(lCost, colour))
+                return false;
+        }
 
         return lInput.containsAll(lCost);
         /*

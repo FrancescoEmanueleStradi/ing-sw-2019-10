@@ -445,7 +445,9 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                    break;
                case "Shockwave":
                    if(lI.contains(1) && !lI.contains(2) &&
-                           (lS.size() == 1 && this.grid.distance(p, this.grid.getPlayerObject(lS.get(0))) <= 1 || lS.size() == 2 && this.grid.distance(p, this.grid.getPlayerObject(lS.get(0))) <= 1 && this.grid.distance(p, this.grid.getPlayerObject(lS.get(1))) <= 1|| lS.size() == 3 && this.grid.distance(p, this.grid.getPlayerObject(lS.get(0))) <= 1 && this.grid.distance(p, this.grid.getPlayerObject(lS.get(1))) <= 1 && this.grid.distance(p, this.grid.getPlayerObject(lS.get(2))) <= 1))
+                           ((!lS.get(0).isEmpty() && lS.get(1).isEmpty() && lS.get(2).isEmpty() && this.grid.distance(p, this.grid.getPlayerObject(lS.get(0))) <= 1) ||
+                                   (!lS.get(0).isEmpty() && !lS.get(1).isEmpty() && lS.get(2).isEmpty() && this.grid.distance(p, this.grid.getPlayerObject(lS.get(0))) <= 1 && this.grid.distance(p, this.grid.getPlayerObject(lS.get(1))) <= 1 && !(this.grid.getPlayerObject(lS.get(0)).getCell().equals(this.grid.getPlayerObject(lS.get(1)).getCell()))) ||
+                                   (!lS.get(0).isEmpty() && !lS.get(1).isEmpty() && !lS.get(2).isEmpty() && this.grid.distance(p, this.grid.getPlayerObject(lS.get(0))) <= 1 && this.grid.distance(p, this.grid.getPlayerObject(lS.get(1))) <= 1 && this.grid.distance(p, this.grid.getPlayerObject(lS.get(2))) <= 1) && !(this.grid.getPlayerObject(lS.get(0)).getCell().equals(this.grid.getPlayerObject(lS.get(1)).getCell())) && !(this.grid.getPlayerObject(lS.get(1)).getCell().equals(this.grid.getPlayerObject(lS.get(2)).getCell())) && !(this.grid.getPlayerObject(lS.get(0)).getCell().equals(this.grid.getPlayerObject(lS.get(2)).getCell()))))
                            x = true;
                    if(!lI.contains(1) && lI.contains(2) &&
                            (lC.contains(Colour.YELLOW)))
@@ -453,22 +455,23 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                    break;
                case "Shotgun":
                    if(lI.contains(1) && !lI.contains(3) &&
-                           (p.getCell().equals(this.grid.getPlayerObject(lS.get(0)).getCell()) && (lS.size() < 2 || lS.size() == 2 && this.grid.canMove(this.grid.getPlayerObject(lS.get(0)), Integer.parseInt(lS.get(1))) && Integer.parseInt(lS.get(1)) == 1 || Integer.parseInt(lS.get(1)) == 2 || Integer.parseInt(lS.get(1)) == 3 || Integer.parseInt(lS.get(1)) == 4)))
+                           (p.getCell().equals(this.grid.getPlayerObject(lS.get(0)).getCell()) && (lI.size() < 2 || lI.size() == 2 && this.grid.canMove(this.grid.getPlayerObject(lS.get(0)), Integer.parseInt(lS.get(1))) && Integer.parseInt(lS.get(1)) >= 0 && Integer.parseInt(lS.get(1)) <= 4)))
                            x = true;
                    if(!lI.contains(1) && lI.contains(3) &&
                            (this.grid.distance(p, this.grid.getPlayerObject(lS.get(0))) == 1))
                            x = true;
                    break;
                case "Sledgehammer":
-                   if(lI.contains(1) && !lI.contains(2) &&
+                   if(lI.contains(1) && !lI.contains(2) && !lS.isEmpty() && !lS.get(0).isEmpty() &&
                            (p.getCell().equals(this.grid.getPlayerObject(lS.get(0)).getCell())))
                            x = true;
-                   if(!lI.contains(1) && lI.contains(2)) {
+                   if(!lI.contains(1) && lI.contains(2) && lS.size() > 2 && !lS.get(0).isEmpty() && !lS.get(1).isEmpty()) {
                        List<Integer> directions = new LinkedList<>();
-                       directions.add(Integer.parseInt(lS.get(2)));
+                       if(!lS.get(2).isEmpty())
+                           directions.add(Integer.parseInt(lS.get(2)));
                        if(p.getCell().equals(this.grid.getPlayerObject(lS.get(0)).getCell()) &&
-                               (Integer.parseInt(lS.get(1)) == 0) || ((Integer.parseInt(lS.get(1))) == 1 && this.grid.canGhostMove(p, directions) && Integer.parseInt(lS.get(2)) == 1 || Integer.parseInt(lS.get(2)) == 2 || Integer.parseInt(lS.get(2)) == 3 || Integer.parseInt(lS.get(2)) == 4) ||
-                               (Integer.parseInt(lS.get(1)) == 2 && this.grid.canGhostMove(p, directions) && this.grid.canGhostMove(this.grid.ghostMove(p, directions), directions) && Integer.parseInt(lS.get(2)) == 1 || Integer.parseInt(lS.get(2)) == 2 || Integer.parseInt(lS.get(2)) == 3 || Integer.parseInt(lS.get(2)) == 4) && lC.contains(Colour.RED))
+                               (Integer.parseInt(lS.get(1)) == 0 || ((Integer.parseInt(lS.get(1))) == 1 && this.grid.canGhostMove(p, directions) && Integer.parseInt(lS.get(2) )>= 0 && Integer.parseInt(lS.get(2)) <= 4) ||
+                               (Integer.parseInt(lS.get(1)) == 2 && this.grid.canGhostMove(p, directions) && this.grid.canGhostMove(this.grid.ghostMove(p, directions), directions) && Integer.parseInt(lS.get(2)) >= 0 && Integer.parseInt(lS.get(2)) <= 4)) && lC.contains(Colour.RED))
                            x = true;    //is the if correct?
                    }
                    break;
@@ -649,12 +652,11 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                     ((Shockwave) p.getWeaponCardObject(nameWC)).applySpecialEffect(this.grid, p);
                 break;
             case "Shotgun":
-                if(lI.get(0) == 1 && lI.get(1) == 2) {
+                if(lI.get(0) == 1) {
                     ((Shotgun) p.getWeaponCardObject(nameWC)).applyEffect(this.grid, p, this.grid.getPlayerObject(lS.get(0)));
-                    ((Shotgun) p.getWeaponCardObject(nameWC)).movePlayer(this.grid, this.grid.getPlayerObject(lS.get(0)), Integer.parseInt(lS.get(1)));
+                    if(lI.size() > 1)
+                        ((Shotgun) p.getWeaponCardObject(nameWC)).movePlayer(this.grid, this.grid.getPlayerObject(lS.get(0)), Integer.parseInt(lS.get(1)));
                 }
-                if(lI.get(0) == 1 && lI.size()<2)
-                    ((Shotgun) p.getWeaponCardObject(nameWC)).applyEffect(this.grid, p, this.grid.getPlayerObject(lS.get(0)));
                 if(lI.get(0) == 3)
                     ((Shotgun) p.getWeaponCardObject(nameWC)).applySpecialEffect(this.grid, p, this.grid.getPlayerObject(lS.get(0)));
                 break;
@@ -663,7 +665,8 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                     ((Sledgehammer) p.getWeaponCardObject(nameWC)).applyEffect(this.grid, p, this.grid.getPlayerObject(lS.get(0)));
                 if(lI.get(0) == 2) {
                     ((Sledgehammer) p.getWeaponCardObject(nameWC)).applyEffect(this.grid, p, this.grid.getPlayerObject(lS.get(0)));
-                    ((Sledgehammer) p.getWeaponCardObject(nameWC)).moveEnemy(this.grid.getPlayerObject(lS.get(0)), this.grid, Integer.parseInt(lS.get(1)), Integer.parseInt(lS.get(2)));
+                    if(!lS.get(2).isEmpty())
+                        ((Sledgehammer) p.getWeaponCardObject(nameWC)).moveEnemy(this.grid.getPlayerObject(lS.get(0)), this.grid, Integer.parseInt(lS.get(1)), Integer.parseInt(lS.get(2)));
                 }
                 break;
             case "T.H.O.R.":

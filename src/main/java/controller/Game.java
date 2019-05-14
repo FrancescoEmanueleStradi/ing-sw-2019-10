@@ -517,10 +517,10 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                    break;
                case "ZX-2":
                    if((lI.contains(1) && !lI.contains(2) && !lS.isEmpty() && this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(0)))) ||
-                           (!lI.contains(1) && lI.contains(2) && (lS.size() == 1 && this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(0))) ||
-                               lS.size() == 2 && this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(0))) && this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(1))) && !this.grid.getPlayerObject(lS.get(0)).getCell().getC().equals(this.grid.getPlayerObject(lS.get(1)).getCell().getC()) ||
-                               lS.size() == 3 && this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(0))) && this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(1))) && this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(2))) &&
-                                       !this.grid.getPlayerObject(lS.get(0)).getCell().getC().equals(this.grid.getPlayerObject(lS.get(1)).getCell().getC()) && !this.grid.getPlayerObject(lS.get(1)).getCell().getC().equals(this.grid.getPlayerObject(lS.get(2)).getCell().getC()) && !this.grid.getPlayerObject(lS.get(0)).getCell().getC().equals(this.grid.getPlayerObject(lS.get(2)).getCell().getC()))))
+                           (!lI.contains(1) && lI.contains(2) && ((!lS.isEmpty() && !lS.get(0).isEmpty() && this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(0)))) ||
+                                   (lS.size() > 1 && !lS.get(0).isEmpty() && !lS.get(1).isEmpty() && this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(0))) && this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(1))) && !(this.grid.getPlayerObject(lS.get(0)).getCell().getC().equals(this.grid.getPlayerObject(lS.get(1)).getCell().getC()))) ||
+                                   (lS.size() > 2 && !lS.get(0).isEmpty() && !lS.get(1).isEmpty() && !lS.get(2).isEmpty() && this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(0))) && this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(1))) && this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(2))) &&
+                                       !(this.grid.getPlayerObject(lS.get(0)).getCell().getC().equals(this.grid.getPlayerObject(lS.get(1)).getCell().getC())) && !(this.grid.getPlayerObject(lS.get(1)).getCell().getC().equals(this.grid.getPlayerObject(lS.get(2)).getCell().getC())) && !(this.grid.getPlayerObject(lS.get(0)).getCell().getC().equals(this.grid.getPlayerObject(lS.get(2)).getCell().getC()))))))
                             x = true;
                    break;
                default: x = false;

@@ -250,6 +250,11 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
 
     public synchronized void messageFirstActionShoot(int game, String nick, String wC, List<Integer> lI, List<String> lS, int d, List<Colour> lC, List<String> lP, List<String> lPC) throws RemoteException {
         games.get(game).firstActionShoot(nick, wC, lI, lS, d, lC, lP, lPC);
+        /*for(Connection c : connections.get(game)){
+            if(c.getNickName()!=nick){
+                c.getView().printString("Player "+nick+"has damaged Player/s: "+ +"with "+wC);
+            }
+        }*/
     }
 
     public synchronized boolean messageIsValidFirstActionMove(int game, String nick, List<Integer> d) throws RemoteException {

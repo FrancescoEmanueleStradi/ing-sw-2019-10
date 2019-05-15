@@ -23,4 +23,5 @@ public interface View extends Remote {
     void finalFrenzyTurn()throws RemoteException;
     void endFinalFrenzy()throws RemoteException;
     void finalScoring()throws RemoteException;
+    void printString(String s) throws RemoteException;
 }

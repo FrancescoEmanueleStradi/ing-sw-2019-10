@@ -121,4 +121,9 @@ public class GUI implements View{
     public void finalScoring(){
         //TODO
     }
+
+    @Override
+    public void printString(String s) throws RemoteException{
+        //TODO
+    }
 }

@@ -1100,4 +1100,9 @@ public class CLI  extends UnicastRemoteObject implements View {                 
         System.out.println();
         System.out.println("END GAME");
     }
+
+    @Override
+    public void printString(String s){
+        System.out.println(s);
+    }
 }

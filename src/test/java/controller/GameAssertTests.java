@@ -912,46 +912,6 @@ class GameAssertTests {
     }
 
     @Test
-    void ScoringTest() {
-        Game game = new Game();
-        Grid grid = game.getGrid();
-        List<String> deadGuys = game.getDeadList();
-
-        game.gameStart("Player 1", BLUE);
-        Player p1 = grid.getPlayerObject("Player 1");
-
-        game.addPlayer("Player 2", YELLOW);
-        Player p2 = grid.getPlayerObject("Player 2");
-
-        game.addPlayer("Player 3", GREEN);
-        Player p3 = grid.getPlayerObject("Player 3");
-
-        game.addPlayer("Player 4", BLACK);
-        Player p4 = grid.getPlayerObject("Player 4");
-
-        grid.damage(p3, p2, 3);
-        grid.damage(p1, p2, 8);
-        grid.damage(p3, p1, 5);
-        grid.damage(p1, p3, 11);
-        grid.damage(p1, p4, 2);
-        grid.damage(p4, p1, 6);
-
-        game.finalFrenzyTurnScoring();
-
-        assertEquals(3, deadGuys.size());
-        assertTrue(deadGuys.contains(p2.getNickName()));
-        assertTrue(deadGuys.contains(p3.getNickName()));
-        assertEquals(p2.getpB().getDamages().scoreBoard().size(), 0);
-        assertEquals(p3.getpB().getDamages().scoreBoard().size(), 0);
-        assertEquals(p4.getpB().getDamages().scoreBoard().size(), 1);
-        assertEquals(p1.getpB().getDamages().scoreBoard().size(), 0);
-        assertEquals(5, p1.getScore());
-        assertEquals(0, p2.getScore());
-        assertEquals(2, p3.getScore());
-        assertEquals(2, p4.getScore());
-    }
-
-    @Test
     void GameShootSledgehammerTest() {
         Game game = new Game();
         Grid grid = game.getGrid();
@@ -1126,4 +1086,86 @@ class GameAssertTests {
     }
 
     //Tested all cards from the bottom to Shockwave (included) as well as Cyberblade and Machine Gun
+
+    @Test
+    void FinalFrenzyScoringTest() {
+        Game game = new Game();
+        Grid grid = game.getGrid();
+        List<String> deadGuys = game.getDeadList();
+
+        game.gameStart("Player 1", BLUE);
+        Player p1 = grid.getPlayerObject("Player 1");
+
+        game.addPlayer("Player 2", YELLOW);
+        Player p2 = grid.getPlayerObject("Player 2");
+
+        game.addPlayer("Player 3", GREEN);
+        Player p3 = grid.getPlayerObject("Player 3");
+
+        game.addPlayer("Player 4", BLACK);
+        Player p4 = grid.getPlayerObject("Player 4");
+
+        grid.damage(p3, p2, 3);
+        grid.damage(p1, p2, 8);
+        grid.damage(p3, p1, 5);
+        grid.damage(p1, p3, 11);
+        grid.damage(p1, p4, 2);
+        grid.damage(p4, p1, 6);
+
+        game.finalFrenzyTurnScoring();
+
+        assertEquals(3, deadGuys.size());
+        assertTrue(deadGuys.contains(p2.getNickName()));
+        assertTrue(deadGuys.contains(p3.getNickName()));
+        assertEquals(p2.getpB().getDamages().scoreBoard().size(), 0);
+        assertEquals(p3.getpB().getDamages().scoreBoard().size(), 0);
+        assertEquals(p4.getpB().getDamages().scoreBoard().size(), 1);
+        assertEquals(p1.getpB().getDamages().scoreBoard().size(), 0);
+        assertEquals(5, p1.getScore());
+        assertEquals(0, p2.getScore());
+        assertEquals(2, p3.getScore());
+        assertEquals(2, p4.getScore());
+    }
+
+    @Test
+    void FinalFrenzyTest() {
+        Game game = new Game();
+        Grid grid = game.getGrid();
+
+        game.gameStart("Player 1", BLUE);
+        Player p1 = grid.getPlayerObject("Player 1");
+
+        game.addPlayer("Player 2", YELLOW);
+        Player p2 = grid.getPlayerObject("Player 2");
+
+        game.addPlayer("Player 3", GREEN);
+        Player p3 = grid.getPlayerObject("Player 3");
+
+        game.receiveType(2);
+
+        game.giveTwoPUCard("Player 1");
+        System.out.print("\nPowerUpCard picked from the deck for Player 1: " + p1.getpC().get(0).getCardName() + " coloured " + p1.getpC().get(0).getC().getAbbreviation() + ", and " + p1.getpC().get(1).getCardName() + " coloured " + p1.getpC().get(1).getC().getAbbreviation());
+        game.pickAndDiscardCard("Player 1", p1.getpC().get(0).getCardName(), p1.getpC().get(0).getC().getAbbreviation());
+
+        game.giveTwoPUCard("Player 2");
+        System.out.print("\nPowerUpCard picked from the deck for Player 2: " + p2.getpC().get(0).getCardName() + " coloured " + p2.getpC().get(0).getC().getAbbreviation() + ", and " + p2.getpC().get(1).getCardName() + " coloured " + p2.getpC().get(1).getC().getAbbreviation());
+        game.pickAndDiscardCard("Player 2", p2.getpC().get(1).getCardName(), p2.getpC().get(1).getC().getAbbreviation());
+
+        game.giveTwoPUCard("Player 3");
+        System.out.print("\nPowerUpCard picked from the deck for Player 3: " + p3.getpC().get(0).getCardName() + " coloured " + p3.getpC().get(0).getC().getAbbreviation() + ", and " + p3.getpC().get(1).getCardName() + " coloured " + p3.getpC().get(1).getC().getAbbreviation());
+        game.pickAndDiscardCard("Player 3", p3.getpC().get(1).getCardName(), p3.getpC().get(1).getC().getAbbreviation());
+
+        int[] skulls = {0, 0, 0, 0, 0, 0, 0, 3};
+        grid.getBoard().getK().setSkulls(skulls);
+        assertEquals(game.getGameState(), GameState.STARTTURN);
+        assertTrue(game.getDeadList().isEmpty());
+
+        game.replace();
+        assertTrue(game.isFinalFrenzy());
+
+        List<String> lS = new LinkedList<>();
+        lS.add("1");
+        //assertFalse(game.isValidFinalFrenzyAction("Player 1", lS));
+
+    }
 }

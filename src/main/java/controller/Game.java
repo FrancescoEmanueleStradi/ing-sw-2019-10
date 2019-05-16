@@ -431,14 +431,14 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                            x = false;
                            if (this.grid.isInViewZone(this.grid.ghostMove(p, directions), this.grid.getPlayerObject(lS.get(0))) && !this.grid.ghostMove(p, directions).getCell().equals(this.grid.getPlayerObject(lS.get(0)).getCell()) && (!lS.contains("2") || lS.contains("2") && this.grid.canMove(this.grid.ghostMove(p, directions), Integer.parseInt(lS.get(1))) && (Integer.parseInt(lS.get(1)) == 1 || Integer.parseInt(lS.get(1)) == 2 || Integer.parseInt(lS.get(1)) == 3 || Integer.parseInt(lS.get(1)) == 4)))
                                x = true;
-                           if (!x)
+                           else
                                break;
                        }
                        if (lI.contains(4) && lI.contains(1)) {
                            x = false;
                            if (lC.contains(Colour.YELLOW))
                                x = true;
-                           if(!x)
+                           else
                                break;
                        }
                    }

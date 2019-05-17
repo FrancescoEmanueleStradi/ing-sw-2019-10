@@ -1111,16 +1111,21 @@ class GameAssertTests {
         grid.damage(p1, p3, 11);
         grid.damage(p1, p4, 2);
         grid.damage(p4, p1, 6);
+        //p2, who has not dealt anyone damage, dies promptly at the hands of p3 and p1
+        //p1 deals finishing blows to p2 and p3, and damages p4
+        //p3 deals some damage to p2 and p1, who kills him
+        //p4 receives damage from p1, who is then killed by him
 
         game.finalFrenzyTurnScoring();
 
         assertEquals(3, deadGuys.size());
         assertTrue(deadGuys.contains(p2.getNickName()));
         assertTrue(deadGuys.contains(p3.getNickName()));
+        assertEquals(p1.getpB().getDamages().scoreBoard().size(), 0);
         assertEquals(p2.getpB().getDamages().scoreBoard().size(), 0);
         assertEquals(p3.getpB().getDamages().scoreBoard().size(), 0);
         assertEquals(p4.getpB().getDamages().scoreBoard().size(), 1);
-        assertEquals(p1.getpB().getDamages().scoreBoard().size(), 0);
+
         assertEquals(5, p1.getScore());
         assertEquals(0, p2.getScore());
         assertEquals(2, p3.getScore());
@@ -1193,6 +1198,27 @@ class GameAssertTests {
         p3S.add("3");
         p3S.add("2");
         assertTrue(game.isValidFinalFrenzyAction("Player 3", p3S));
+
+        List<String> p2R = new LinkedList<>();
+        List<Integer> p2E = new LinkedList<>();
+        List<String> p2S = new LinkedList<>();
+        List<Colour> p2A = new LinkedList<>();
+        List<String> p2P = new LinkedList<>();
+        List<String> p2PC = new LinkedList<>();
+        p2E.add(1);
+        p2E.add(2);
+        p2S.add("Player 1");
+        WeaponCard whisper = new Whisper();
+        p2.addWeaponCard(whisper);
+        assertFalse(whisper.isReloaded());
+        assertFalse(game.isValidFinalFrenzyAction1("Player 2", 1, "Whisper", p2E, p2S, p2A, p2P, p2PC));
+        whisper.reload();
+        assertTrue(game.isValidFinalFrenzyAction1("Player 2", 1, "Whisper", p2E, p2S, p2A, p2P, p2PC));
+        game.finalFrenzyAction1("Player 2", 1, p2R,"Whisper", p2E, p2S, p2A, p2P, p2PC);
+        assertEquals(YELLOW, p1.getpB().getMarks().get(0).getC());
+
+        //TODO action 3
+        List<Integer> p2D = new LinkedList<>();
 
     }
 }

@@ -2,11 +2,14 @@ package view;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.List;
 
 public interface View extends Remote {
 
+    View getView() throws RemoteException;
     void setServer(ServerInterface server)throws RemoteException;
     void setGame(int game)throws RemoteException;
+    void setIdentifier(int identifier) throws RemoteException;
     String getNickName() throws RemoteException;
     void setInformation(int identifier) throws RemoteException;
     void disconnected(int disconnected) throws RemoteException, InterruptedException;
@@ -23,5 +26,10 @@ public interface View extends Remote {
     void finalFrenzyTurn()throws RemoteException;
     void endFinalFrenzy()throws RemoteException;
     void finalScoring()throws RemoteException;
-    void printString(String s) throws RemoteException;
+
+    void printScore(List<String> information) throws RemoteException;
+    void printPosition(List<String> information) throws RemoteException;
+    void printMark(List<String> information) throws RemoteException;
+    void printDamage(List<String> information) throws RemoteException;
+    void printType(int type) throws RemoteException;
 }

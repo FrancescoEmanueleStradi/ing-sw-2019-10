@@ -50,7 +50,7 @@ public class Client {
             game = centralServer.setGame(g);
             //view.setServer(centralServer);
             //view.setGame(game);
-            centralServer.setView(game, identifier, view);
+            centralServer.setView(game, identifier, view.getView());
             view.setInformation(identifier);
         }
         else {
@@ -84,7 +84,8 @@ public class Client {
                     view = new GUI();
                     break;
             }
-            centralServer.setView(game, identifier, view);
+            centralServer.setView(game, identifier, view.getView());
+            view.setIdentifier(identifier);
             //view.setServer(centralServer);
            // view.setGame(game);
 

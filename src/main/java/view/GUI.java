@@ -6,13 +6,20 @@ import java.awt.*;
 import javax.swing.*;
 
 import java.rmi.RemoteException;
+import java.util.List;
 
 public class GUI implements View{
 
+    private int identifier;
     private int game;
     private ServerInterface server;
     private String nickName;
     private Colour colour;
+
+    @Override
+    public View getView() {
+        return this;
+    }
 
     @Override
     public void setServer(ServerInterface server) {
@@ -22,6 +29,11 @@ public class GUI implements View{
     @Override
     public void setGame(int game){
         this.game = game;
+    }
+
+    @Override
+    public void setIdentifier(int identifier) throws RemoteException{
+        this.identifier = identifier;
     }
 
     @Override
@@ -122,8 +134,29 @@ public class GUI implements View{
         //TODO
     }
 
+
     @Override
-    public void printString(String s) throws RemoteException{
+    public void printScore(java.util.List<String> information) throws RemoteException{
+        //TODO
+    }
+
+    @Override
+    public void printPosition(java.util.List<String> information) throws RemoteException{
+        //TODO
+    }
+
+    @Override
+    public void printMark(java.util.List<String> information) throws RemoteException{
+        //TODO
+    }
+
+    @Override
+    public void printDamage(List<String> information) throws RemoteException{
+        //TODO
+    }
+
+    @Override
+    public void printType(int type) throws RemoteException{
         //TODO
     }
 }

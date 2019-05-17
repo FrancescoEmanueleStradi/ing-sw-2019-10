@@ -24,6 +24,7 @@ public interface ServerInterface extends Remote {
     int getGames() throws RemoteException;
     int setGame(int game) throws RemoteException;
     void setView(int game, int identifier, View view) throws RemoteException;
+    void setNickName(int game, int identifier, String nickName) throws RemoteException;
     boolean canStart(int game) throws RemoteException;
     boolean tooMany(int game) throws RemoteException;
     boolean stopGame(int game) throws RemoteException;
@@ -43,6 +44,12 @@ public interface ServerInterface extends Remote {
     void manageReconnection(int game, int identifier) throws RemoteException;
     String getSuspendedName(int game, int identifier) throws RemoteException;
     Colour getSuspendedColour(int game, String nickName) throws RemoteException;
+
+    void notifyScore(int game, List<String> information) throws RemoteException;
+    void notifyPosition(int game, List<String> information) throws RemoteException;
+    void notifyMark(int game, List<String> information) throws RemoteException;
+    void notifyDamage(int game, List<String> information) throws RemoteException;
+    void notifyType(int game, int type) throws RemoteException;
 
     boolean messageGameIsNotStarted(int game) throws RemoteException;
     void messageGameStart(int game, String nick, Colour c) throws RemoteException;

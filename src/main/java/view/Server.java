@@ -53,7 +53,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
 
     public synchronized int setGame(int numGame) throws RemoteException {
         if (games.isEmpty() || games.size() <= numGame){
-            games.add(numGame, new Game());
+            games.add(numGame, new Game(numGame, this));
             //views.add(numGame, new LinkedList<>());
             connections.add(numGame, new LinkedList<>());
             //playersTakingTheirTurn.add(numGame, 1);
@@ -68,6 +68,10 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
 
     public synchronized void setView(int game, int identifier, View view) throws RemoteException{
         connections.get(game).get(identifier-1).setView(view);
+    }
+
+    public synchronized void setNickName(int game, int identifier, String nickName) throws RemoteException{
+        connections.get(game).get(identifier).setNickName(nickName);
     }
 
     public synchronized boolean canStart(int game) throws RemoteException{
@@ -186,11 +190,11 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
         }
     }
 
-    public boolean isASuspendedIdentifier(int game, int identifier) throws RemoteException{
+    public synchronized boolean isASuspendedIdentifier(int game, int identifier) throws RemoteException{
         return suspendedIdentifier.get(game).contains(identifier);
     }
 
-    public void manageReconnection(int game, int identifier) throws RemoteException{
+    public synchronized void manageReconnection(int game, int identifier) throws RemoteException{
         suspendedIdentifier.get(game).remove(identifier);
     }
 
@@ -203,6 +207,42 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
     public Colour getSuspendedColour(int game, String nickName) throws RemoteException{
         return games.get(game).getColour(nickName);
     }
+
+    //notify to client
+
+    public synchronized void  notifyScore(int game, List<String> information) throws RemoteException{
+        for(Connection c : connections.get(game)){
+            c.getView().printScore(information);
+        }
+    }
+
+    public  synchronized void  notifyPosition(int game, List<String> information) throws RemoteException{
+        for(Connection c : connections.get(game)){
+            c.getView().printPosition(information);
+        }
+    }
+
+    public synchronized void  notifyMark(int game, List<String> information) throws RemoteException{
+        for(Connection c : connections.get(game)){
+            c.getView().printMark(information);
+        }
+    }
+
+    public synchronized void notifyDamage(int game, List<String> information) throws RemoteException{
+        for(Connection c : connections.get(game)){
+            c.getView().printDamage(information);
+        }
+    }
+
+    public synchronized void notifyType(int game, int type) throws RemoteException{
+        for(Connection c : connections.get(game)){
+            c.getView().printType(type);
+        }
+    }
+
+
+    //message from client to the controller
+
 
     public synchronized boolean messageGameIsNotStarted(int game) throws RemoteException {
         return games.get(game).gameIsNotStarted();
@@ -250,11 +290,6 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
 
     public synchronized void messageFirstActionShoot(int game, String nick, String wC, List<Integer> lI, List<String> lS, int d, List<Colour> lC, List<String> lP, List<String> lPC) throws RemoteException {
         games.get(game).firstActionShoot(nick, wC, lI, lS, d, lC, lP, lPC);
-        /*for(Connection c : connections.get(game)){
-            if(c.getNickName()!=nick){
-                c.getView().printString("Player "+nick+"has damaged Player/s: "+ +"with "+wC);
-            }
-        }*/
     }
 
     public synchronized boolean messageIsValidFirstActionMove(int game, String nick, List<Integer> d) throws RemoteException {
@@ -378,7 +413,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
     }
 
     public synchronized void messageReplace(int game) throws RemoteException {
-        games.get(game).replace();;
+        games.get(game).replace();
     }
 
     public synchronized boolean messageIsValidFinalFrenzyAction(int game, String nick, List<String> l) throws RemoteException {

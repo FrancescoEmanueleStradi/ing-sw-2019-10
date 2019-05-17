@@ -7,7 +7,10 @@ import model.decks.WeaponDeck;
 import model.cards.*;
 import model.player.DamageToken;
 import model.player.Player;
+import view.Server;
+import view.ServerInterface;
 
+import java.rmi.RemoteException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -15,6 +18,8 @@ import static java.lang.Math.abs;
 
 public class Grid {
 
+    private int iD;
+    private ServerInterface server;
     private ArrayList<Player> players;
     private Board board;
     private WeaponDeck weaponDeck;
@@ -23,7 +28,9 @@ public class Grid {
     private List<AmmoCard> ammoDiscardPile;
     private List<PowerUpCard> powerUpDiscardPile;
 
-    public Grid()  {
+    public Grid(int iD, ServerInterface server)  {
+        this.iD = iD;
+        this.server = server;
         this.players = new ArrayList<>();
         this.weaponDeck = new WeaponDeck();
         this.weaponDeck.startingShuffle();
@@ -35,11 +42,12 @@ public class Grid {
         this.powerUpDiscardPile = new LinkedList<>();
     }
 
-    public void setType(int aType){
+    public void setType(int aType) throws RemoteException {
         WeaponSlot ws1 = new WeaponSlot(1, pickWeaponCard(), pickWeaponCard(), pickWeaponCard());
         WeaponSlot ws2 = new WeaponSlot(2, pickWeaponCard(), pickWeaponCard(), pickWeaponCard());
         WeaponSlot ws3 = new WeaponSlot(3, pickWeaponCard(), pickWeaponCard(), pickWeaponCard());
         this.board = new Board(aType, ws1, ws2, ws3);
+        server.notifyType(this.iD, aType);
     }
 
     public void addPlayer(Player p){
@@ -84,6 +92,15 @@ public class Grid {
         return null;
     }
 
+    public Player getPlayerObjectByColour(Colour c) {
+        for (Player p : players ){
+            if(p.getC().equals(c))
+                return p;
+        }
+        return null;
+    }
+
+
     public int getNumPlayers() {
         return this.players.size();
     }
@@ -99,26 +116,45 @@ public class Grid {
         return board;
     }
 
-    public void damage(Player p, Player p1, int numDamage) { //p attacks, p1 is attacked
+    public void damage(Player p, Player p1, int numDamage) throws RemoteException{ //p attacks, p1 is attacked
         removeMarkAndAdd(p1, p);
         p1.getpB().getDamages().addDamage(numDamage, p.getC());
-        if(p1.getpB().getDamages().getDamageTr()[11] != null)
+        List<String> informationDamage = new LinkedList<>();
+        informationDamage.add(p.getNickName());
+        informationDamage.add(Integer.toString(numDamage));
+        informationDamage.add(p1.getNickName());
+        server.notifyDamage(this.iD, informationDamage);
+        if(p1.getpB().getDamages().getDamageTr()[11] != null) {
             p.getpB().addMark(new DamageToken(p1.getC()));
+            List<String> information = new LinkedList<>();
+            information.add(p.getNickName());
+            information.add( p1.getNickName());
+            server.notifyMark(this.iD, information);                    //TODO why we add marks here?
+        }
     }
 
     public void clean(Player p) {
         p.getpB().getDamages().clean();
     }
 
-    public void addMark(Player p1, Player p2) {
+    public void addMark(Player p1, Player p2) throws RemoteException{
         p2.getpB().addMark(new DamageToken(p1.getC()));
+        List<String> information = new LinkedList<>();
+        information.add(p1.getNickName());
+        information.add( p2.getNickName());
+        server.notifyMark(this.iD, information);
     }
 
-    public void removeMarkAndAdd(Player p1, Player p2) {
+    public void removeMarkAndAdd(Player p1, Player p2) throws RemoteException{
         long x = p1.getpB().getMarks().stream().filter(a -> a.getC() == p2.getC()).count();
         if (x > 0) {
             int y = (int) x;
             p1.getpB().getDamages().addDamage(y, p2.getC());
+            List<String> informationDamage = new LinkedList<>();
+            informationDamage.add(p1.getNickName());
+            informationDamage.add(Integer.toString(y));
+            informationDamage.add(p2.getNickName());
+            server.notifyDamage(this.iD, informationDamage);
             p1.getpB().clearMark(p2.getC());
         }
     }
@@ -143,7 +179,33 @@ public class Grid {
         p2.changeCell(p.getCell());
     }
 
-    public void move(Player p, int d) {                                //1 up, 2 right, 3 down, 4 left
+    public void move(Player p, int d) throws RemoteException{                                //1 up, 2 right, 3 down, 4 left
+        int n = 0;
+
+        for(int i =0; i<p.getCell().getPosWall().length; i++) {
+            if (p.getCell().getPosWall()[i] == d) {                     //player can't move
+                n=1;
+            }
+        }
+
+        if(n==0) {
+            if((d==1) && (p.getCell().getP().getX()>0))
+                p.changeCell(board.getArena()[p.getCell().getP().getX()-1][p.getCell().getP().getY()]);
+            else if((d==2) && (p.getCell().getP().getY()<3))
+                p.changeCell(board.getArena()[p.getCell().getP().getX()][p.getCell().getP().getY()+1]);
+            else if((d==3) && (p.getCell().getP().getX()<2))
+                p.changeCell(board.getArena()[p.getCell().getP().getX()+1][p.getCell().getP().getY()]);
+            else if((d==4) && (p.getCell().getP().getY()>0))
+                p.changeCell(board.getArena()[p.getCell().getP().getX()][p.getCell().getP().getY()-1]);
+        }
+        List<String> information = new LinkedList<>();
+        information.add(p.getNickName());
+        information.add(Integer.toString(p.getCell().getP().getX()));
+        information.add(Integer.toString(p.getCell().getP().getY()));
+        server.notifyPosition(this.iD, information);
+    }
+
+    public void moveWithoutNotify(Player p, int d) {                                //1 up, 2 right, 3 down, 4 left
         int n = 0;
 
         for(int i =0; i<p.getCell().getPosWall().length; i++) {
@@ -175,8 +237,13 @@ public class Grid {
     }
 
 
-    public void move(Player p, int x, int y) {
+    public void move(Player p, int x, int y) throws RemoteException{
         p.changeCell(board.getArena()[x][y]);
+        List<String> information = new LinkedList<>();
+        information.add(p.getNickName());
+        information.add(Integer.toString(x));
+        information.add(Integer.toString(y));
+        server.notifyPosition(this.iD, information);
     }
 
     public boolean isThereAWall (Player p, Position pT) {            //1 if there is a wall between p and pT
@@ -390,7 +457,7 @@ public class Grid {
         ghost.changeCell(p.getCell());
 
         for(Integer i : directions)
-            this.move(ghost, i);
+            this.moveWithoutNotify(ghost, i);
 
         return ghost;
     }
@@ -401,7 +468,7 @@ public class Grid {
         Position initialPos = ghost.getCell().getP();
 
         for(Integer i : directions) {
-            this.move(ghost, i);
+            this.moveWithoutNotify(ghost, i);
             if(i != 0 && ghost.getCell().getP().equals(initialPos))
                 return false;
             else

@@ -9,7 +9,9 @@ import model.cards.weaponcards.*;
 import model.player.AmmoCube;
 import model.player.DamageToken;
 import model.player.Player;
+import view.ServerInterface;
 
+import java.rmi.RemoteException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -17,13 +19,38 @@ import static controller.GameState.*;
 
 public class Game {                                 //Cli or Gui -- Rmi or Socket
 
+
+    private int iD;
+    private ServerInterface server;
     private GameState gameState;
     private boolean init = false;
-    private Grid grid = new Grid();
+    private Grid grid;
     private boolean discard = false;
     private List<String> deadList = new LinkedList<>();
     private boolean finalFrenzy = false;
     private int cardToPickAfterDeath;
+
+    public Game(int iD, ServerInterface server){
+        this.iD = iD;
+        this.server = server;
+        grid = new Grid(iD, server);
+    }
+
+    public int getiD() {
+        return iD;
+    }
+
+    public void setiD(int iD) {
+        this.iD = iD;
+    }
+
+    public ServerInterface getServer() {
+        return server;
+    }
+
+    public void setServer(ServerInterface server) {
+        this.server = server;
+    }
 
     public Grid getGrid() {
         return grid;            //to use only for tests!!
@@ -142,7 +169,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         return this.gameState.equals(START) && (type == 1 || type == 2 || type == 3 || type == 4);
     }
 
-   public synchronized void receiveType(int type) {
+   public synchronized void receiveType(int type) throws RemoteException {
         this.grid.setType(type);                 //find a condition
         this.grid.setUpAmmoCard();
         this.gameState = INITIALIZED;
@@ -718,13 +745,13 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
             future.changeCell(p.getCell());
             for(WeaponCard w : p.getwC())
                 future.addWeaponCard(w);
-            this.grid.move(future, direction);
+            this.grid.moveWithoutNotify(future, direction);
             return this.isValidShootNotAdrenaline(future, nameWC, lI, lS, lA, lP);
         }
     }
 
     private void shootAdrenaline(Player p, String nameWC, List<Integer> lI, List<String> lS, int direction, List<AmmoCube> lA, List<PowerUpCard> lP) {
-        this.grid.move(p, direction);
+        this.grid.moveWithoutNotify(p, direction);
         this.shootNotAdrenaline(p, nameWC, lI, lS, lA, lP);
     }
 
@@ -786,7 +813,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
 
 
-   private void move(Player p, List<Integer> directions) {
+   private void move(Player p, List<Integer> directions) throws RemoteException{
        for(Integer i : directions) {
            this.grid.move(p, i);    //view will tell player if there's a wall
        }
@@ -798,7 +825,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         return (this.gameState.equals(STARTTURN) && (directions.size() < 4) && (!directions.isEmpty()) && grid.canGhostMove(p, directions));
    }
 
-    public synchronized void firstActionMove(String nickName, List<Integer> directions){ //player p moves 1,2,3 cells: directions contains every direction from cell to cell
+    public synchronized void firstActionMove(String nickName, List<Integer> directions) throws RemoteException{ //player p moves 1,2,3 cells: directions contains every direction from cell to cell
         Player p = this.grid.getPlayerObject(nickName);
         move(p, directions);
         this.gameState = ACTION1;
@@ -839,7 +866,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         return lInput.containsAll(lCost);
     }
 
-    private void grabNotAdrenaline(Player p, List<Integer> d, WeaponCard wCard, List<AmmoCube> lA, List<PowerUpCard> lP) {
+    private void grabNotAdrenaline(Player p, List<Integer> d, WeaponCard wCard, List<AmmoCube> lA, List<PowerUpCard> lP) throws RemoteException{
         if(!d.isEmpty())
             this.grid.move(p, d.get(0));
         if(p.getCell().getStatus() == 0)
@@ -874,7 +901,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
             wS.setCard3(wC);
     }
 
-    private void grabAdrenaline(Player p, List<Integer> d, WeaponCard w, List<AmmoCube> lA, List<PowerUpCard> lP) {
+    private void grabAdrenaline(Player p, List<Integer> d, WeaponCard w, List<AmmoCube> lA, List<PowerUpCard> lP) throws RemoteException{
         if(!d.isEmpty())
             this.grid.move(p, d.get(0));
         if(d.size() == 2)
@@ -989,7 +1016,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
 
 
-    public synchronized void firstActionGrab(String nickName, List<Integer> directions, String wCardInput, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) { //directions contains where p wants to go. directions contains '0' if p doesn't want to move and only grab
+    public synchronized void firstActionGrab(String nickName, List<Integer> directions, String wCardInput, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) throws RemoteException{ //directions contains where p wants to go. directions contains '0' if p doesn't want to move and only grab
         Player p = this.grid.getPlayerObject(nickName);
         WeaponCard wCard = this.grid.getWeaponCardObject(wCardInput);
         List<AmmoCube> l = new LinkedList<>();
@@ -1028,7 +1055,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
 
 
-    public synchronized void secondActionMove(String nickName, List<Integer> directions ){ //player p moves 1,2,3 cells: directions contains every direction from cell to cell
+    public synchronized void secondActionMove(String nickName, List<Integer> directions ) throws RemoteException{ //player p moves 1,2,3 cells: directions contains every direction from cell to cell
         Player p = this.grid.getPlayerObject(nickName);
         move(p, directions);
         this.gameState = ACTION2;
@@ -1082,7 +1109,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         return false;
     }
 
-    public synchronized void secondActionGrab(String nickName, List<Integer> directions, String wCardInput, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) { //directions contains where p wants to go. directions contains '0' if p doesn't want to move and only grab
+    public synchronized void secondActionGrab(String nickName, List<Integer> directions, String wCardInput, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) throws RemoteException{ //directions contains where p wants to go. directions contains '0' if p doesn't want to move and only grab
         Player p = this.grid.getPlayerObject(nickName);
         WeaponCard wCard = this.grid.getWeaponCardObject(wCardInput);
         List<AmmoCube> l = new LinkedList<>();
@@ -1267,12 +1294,16 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
     }
 
 
-    private void death(Player p) {
+    private void death(Player p) throws RemoteException{
        p.changeCell(null);
        if(p.getpB().getDamages().getDamageTr()[11] != null) {
            int n = this.grid.getBoard().substituteSkull(2);
            this.grid.getBoard().getK().getC()[n] = p.getpB().getDamages().getDT(11).getC();
            p.getpB().addMark(new DamageToken(p.getpB().getDamages().getDT(11).getC()));      //OverKill
+           List<String> information = new LinkedList<>();
+           information.add(this.grid.getPlayerObjectByColour(p.getpB().getDamages().getDT(11).getC()).getNickName());
+           information.add(p.getNickName());
+           server.notifyMark(this.iD, information);
         }
         else {
             int n = this.grid.getBoard().substituteSkull(1);
@@ -1289,7 +1320,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         return this.gameState.equals(RELOADED) && (this.grid.whoIsDead()!=null);
     }
 
-    public synchronized void scoring() {
+    public synchronized void scoring() throws RemoteException{
         int c = 0;
         cardToPickAfterDeath = 0;
         for(Player p : this.grid.whoIsDead()) {
@@ -1313,6 +1344,10 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                 this.grid.scoringByColour(p.getpB().getDamages().getDamageTr()[10].getC(),1);        //Double Kill
             this.death(p);
             this.gameState = ENDTURN;
+            List<String> information = new LinkedList<>();
+            information.add(p.getNickName());
+            information.add(Integer.toString(p.getScore()));
+            server.notifyScore(this.iD, information);
         }
 
     }
@@ -1403,7 +1438,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
     }
 
-    public synchronized void finalFrenzyAction1(String nickName, int direction, List<String> weaponToReload, String weaponToUse, List<Integer> lI, List<String> lS, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) {
+    public synchronized void finalFrenzyAction1(String nickName, int direction, List<String> weaponToReload, String weaponToUse, List<Integer> lI, List<String> lS, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) throws RemoteException{
         Player p = this.grid.getPlayerObject(nickName);
 
         List<AmmoCube> lA = new LinkedList<>();
@@ -1438,7 +1473,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         return(finalFrenzy && directions.size() <= 4 && this.grid.canGhostMove(p, directions));
     }
 
-    public synchronized void finalFrenzyAction2(String nickName, List<Integer> directions) {
+    public synchronized void finalFrenzyAction2(String nickName, List<Integer> directions) throws RemoteException{
         Player p = this.grid.getPlayerObject(nickName);
         for(int i : directions)
             this.grid.move(p, i);
@@ -1457,7 +1492,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         return(finalFrenzy && directions.size() <= 2 && this.grid.canGhostMove(p, directions) && isValidFrenzyGrab(nickName, wCardInput, wSlotInput, lAInput, lPInput, lPColourInput));
     }
 
-    public synchronized void finalFrenzyAction3(String nickName, List<Integer> directions, String wCardInput, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) {
+    public synchronized void finalFrenzyAction3(String nickName, List<Integer> directions, String wCardInput, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) throws RemoteException{
         Player p = this.grid.getPlayerObject(nickName);
         WeaponCard wCard = this.grid.getWeaponCardObject(wCardInput);
 
@@ -1505,7 +1540,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         return (finalFrenzy && directions.size() <= 2 && this.grid.canGhostMove(p, directions) && this.isValidShootNotAdrenaline(p, weaponToUse, lI, lS, lA, lP));
     }
 
-    public synchronized void finalFrenzyAction4(String nickName, List<Integer> directions, List<String> weaponToReload, String weaponToUse, List<Integer> lI, List<String> lS, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) {
+    public synchronized void finalFrenzyAction4(String nickName, List<Integer> directions, List<String> weaponToReload, String weaponToUse, List<Integer> lI, List<String> lS, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) throws RemoteException{
         Player p = this.grid.getPlayerObject(nickName);
 
         List<AmmoCube> lA = new LinkedList<>();
@@ -1540,7 +1575,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         return(finalFrenzy && directions.size() <= 3 && this.grid.canGhostMove(p, directions) && isValidFrenzyGrab(nickName, wCardInput, wSlotInput, lAInput, lPInput, lPColourInput));
     }
 
-    public synchronized void finalFrenzyAction5(String nickName, List<Integer> directions, String wCardInput, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) {
+    public synchronized void finalFrenzyAction5(String nickName, List<Integer> directions, String wCardInput, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) throws RemoteException{
         Player p = this.grid.getPlayerObject(nickName);
         WeaponCard wCard = this.grid.getWeaponCardObject(wCardInput);
 
@@ -1616,7 +1651,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
     }
 
 
-    public synchronized void finalFrenzyTurnScoring() {
+    public synchronized void finalFrenzyTurnScoring() throws RemoteException{
         int c = 0;
         for(Player p : this.grid.whoIsDead()) {
             this.deadList.add(p.getNickName());
@@ -1634,6 +1669,10 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                 this.grid.scoringByColour(p.getpB().getDamages().getDamageTr()[10].getC(),1);        //Double Kill
             p.changeCell(null);
             p.getpB().getDamages().clean();
+            List<String> information = new LinkedList<>();
+            information.add(p.getNickName());
+            information.add(Integer.toString(p.getScore()));
+            server.notifyScore(this.iD, information);
         }
         this.gameState = STARTTURN;
     }

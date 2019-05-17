@@ -11,9 +11,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
-public class CLI  extends UnicastRemoteObject implements View {                 //TODO get updates of the model
+public class CLI  extends UnicastRemoteObject implements View {
 
     private int game;
+    private int identifier;
     private ServerInterface server;
     private String nickName;
     private Colour colour;
@@ -26,8 +27,8 @@ public class CLI  extends UnicastRemoteObject implements View {                 
         this.server = server;
     }
 
-
-    public CLI  getCLI() {
+    @Override
+    public View  getView() {
         return this;
     }
 
@@ -38,6 +39,11 @@ public class CLI  extends UnicastRemoteObject implements View {                 
     @Override
     public void setGame(int game) {
         this.game = game;
+    }
+
+    @Override
+    public void setIdentifier(int identifier) throws RemoteException{
+        this.identifier = identifier;
     }
 
     @Override
@@ -54,6 +60,7 @@ public class CLI  extends UnicastRemoteObject implements View {                 
     public void setInformation(int identifier) throws RemoteException{
         this.nickName = server.getSuspendedName(game, identifier);
         this.colour = server.getSuspendedColour(game, this.nickName);
+        this.identifier = identifier;
     }
 
     @Override
@@ -67,6 +74,7 @@ public class CLI  extends UnicastRemoteObject implements View {                 
         if (this.server.messageGameIsNotStarted(game)) {
             System.out.println("Enter your name:");
             this.nickName = in.nextLine();
+            server.setNickName(this.game, this.identifier, this.nickName);
             System.out.println("Enter your colour in all caps (YELLOW, BLUE, GREEN, PURPLE, BLACK):");
             String s1 = in.nextLine();
             this.colour = Colour.valueOf(s1);
@@ -95,11 +103,13 @@ public class CLI  extends UnicastRemoteObject implements View {                 
         this.nickName = in.nextLine();
         System.out.println("Enter your colour in all caps (YELLOW, BLUE, GREEN, PURPLE, BLACK):");
         String s2 = in.nextLine();
+        server.setNickName(this.game, this.identifier, this.nickName);
         this.colour = Colour.valueOf(s2);
         while (!this.server.messageIsValidAddPlayer(game, this.nickName, this.colour)) {
             System.out.println(errorRetry);
             System.out.println("Enter your name:");
             this.nickName = in.nextLine();
+            server.setNickName(this.game, this.identifier, this.nickName);
             System.out.println("Enter your colour in all caps (YELLOW, BLUE, GREEN, PURPLE, BLACK):");
             s2 = in.nextLine();
             this.colour = Colour.valueOf(s2);
@@ -1101,8 +1111,29 @@ public class CLI  extends UnicastRemoteObject implements View {                 
         System.out.println("END GAME");
     }
 
+
     @Override
-    public void printString(String s){
-        System.out.println(s);
+    public void printScore(List<String> information) throws RemoteException{
+        System.out.println("Player" + information.get(0) + "has now this score:" + information.get(1));
+    }
+
+    @Override
+    public void printPosition(List<String> information) throws RemoteException{
+        System.out.println("Now Player" + information.get(0) + "is in the cell" + information.get(1) + information.get(2));
+    }
+
+    @Override
+    public void printMark(List<String> information) throws RemoteException{
+        System.out.println("Player" + information.get(0) + "give a new Mark to Player" + information.get(1));
+    }
+
+    @Override
+    public void printDamage(List<String> information) throws RemoteException{
+        System.out.println("Player" + information.get(0) + "give" + information.get(1) + "damages to Player" + information.get(2));
+    }
+
+    @Override
+    public void printType(int type) throws RemoteException{
+        System.out.println("Type of the grid is:" + type);
     }
 }

@@ -1163,9 +1163,36 @@ class GameAssertTests {
         game.replace();
         assertTrue(game.isFinalFrenzy());
 
-        List<String> lS = new LinkedList<>();
-        lS.add("1");
-        //assertFalse(game.isValidFinalFrenzyAction("Player 1", lS));
+        int p1Turn = 1;
+        p1.setTurnFinalFrenzy(p1Turn);
+        grid.move(p1, 0, 0);
+        List<String> p1STrue = new LinkedList<>();
+        List<String> p1SFalse = new LinkedList<>();
+        p1STrue.add("4");
+        p1SFalse.add("1");
+        p1SFalse.add("3");
+        assertTrue(game.isValidFinalFrenzyAction("Player 1", p1STrue));
+        assertFalse(game.isValidFinalFrenzyAction("Player 1", p1SFalse));
+
+        int p2Turn = 0;
+        p2.setTurnFinalFrenzy(p2Turn);
+        grid.move(p2, 1, 2);
+        List<String> p2STrue = new LinkedList<>();
+        List<String> p2SFalse = new LinkedList<>();
+        p2STrue.add("1");
+        p2STrue.add("3");
+        p2SFalse.add("1");
+        p2SFalse.add("4");
+        assertTrue(game.isValidFinalFrenzyAction("Player 2", p2STrue));
+        assertFalse(game.isValidFinalFrenzyAction("Player 2", p2SFalse));
+
+        int p3Turn = 0;
+        p3.setTurnFinalFrenzy(p3Turn);
+        grid.move(p3, 2, 2);
+        List<String> p3S = new LinkedList<>();
+        p3S.add("3");
+        p3S.add("2");
+        assertTrue(game.isValidFinalFrenzyAction("Player 3", p3S));
 
     }
 }

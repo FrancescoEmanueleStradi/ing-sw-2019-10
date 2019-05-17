@@ -1364,17 +1364,14 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
     }
 
     public boolean isValidFinalFrenzyAction(String nickName, List<String> lS) {
-        if(!(this.gameState == STARTTURN && finalFrenzy))
+        if (!(this.gameState == STARTTURN && finalFrenzy))
             return false;
         Player p = this.grid.getPlayerObject(nickName);
-        if (p.getTurnFinalFrenzy() == 0 && lS.size() == 2) {
-            for (String s : lS) {
-                if (s.equals("1") || s.equals("2") || s.equals("3"))
-                    return true;
-            }
-        }
-        else return (p.getTurnFinalFrenzy() != 0 && lS.size() == 1 &&
-                (lS.get(0).equals("4") || lS.get(0).equals("5")));
+        if (p.getTurnFinalFrenzy() == 0 && lS.size() == 2 && (lS.get(0).equals("1") || lS.get(0).equals("2") || lS.get(0).equals("3")) &&
+                (lS.get(1).equals("1") || lS.get(1).equals("2") || lS.get(1).equals("3")))
+            return true;
+        else if (p.getTurnFinalFrenzy() != 0 && lS.size() == 1 && (lS.get(0).equals("4") || lS.get(0).equals("5")))
+            return true;
         return false;
     }
 

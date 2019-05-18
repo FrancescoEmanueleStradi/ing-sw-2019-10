@@ -40,7 +40,7 @@ class CellAssertTests {
 
 
     @Test
-    void CellCorrectPositionTest() throws RemoteException {
+    void CellCorrectPositionTest() {
         Position pos = new Position(1, 3);
         Cell cell = new Cell(-1, pos);
 
@@ -49,7 +49,7 @@ class CellAssertTests {
     }
 
     @Test
-    void CellAmmoCardTest()   {
+    void CellAmmoCardTest() {
         AmmoCard ammocard = new BRR();
         int[] walls = new int[]{0, 1};
         int[] doors = new int[]{2, 3};

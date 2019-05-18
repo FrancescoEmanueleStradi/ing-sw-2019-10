@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class PositionAssertTests {
     @Test
-    void PositionTest() throws RemoteException {
+    void PositionTest() {
         Position pos1 = new Position(0, 0);
 
         assertEquals(0, pos1.getX());

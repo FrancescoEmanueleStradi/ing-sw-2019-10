@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class PointsPlayerBoardAssertTests {
     @Test
-    void PointsPlayerBoardTest() throws RemoteException {
+    void PointsPlayerBoardTest() {
         PointsPlayerBoard ppb = new PointsPlayerBoard();
 
         assertEquals(1, ppb.getInt(0));

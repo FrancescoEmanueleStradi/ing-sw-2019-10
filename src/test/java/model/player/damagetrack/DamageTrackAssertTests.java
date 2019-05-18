@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 class DamageTrackAssertTests {
     @Test
-    void DamageTrackTest() throws RemoteException {
+    void DamageTrackTest() {
         DamageTrack dt = new DamageTrack();
         DamageToken dt1 = new DamageToken(Colour.RED);
         DamageToken dt2 = new DamageToken(Colour.GREEN);
@@ -50,7 +50,7 @@ class DamageTrackAssertTests {
     }
 
     @Test
-    void ScoringTest() throws RemoteException {
+    void ScoringTest() {
         DamageTrack dt = new DamageTrack();
         dt.addDamage(1, Colour.BLUE);
         dt.addDamage(2, Colour.GREEN);

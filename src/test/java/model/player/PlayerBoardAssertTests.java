@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerBoardAssertTests {
     @Test
-    void PlayerBoardTest() throws RemoteException {
+    void PlayerBoardTest() {
         PlayerBoard pb = new PlayerBoard();
 
         assertNotNull(pb.getDamages());

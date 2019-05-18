@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class NumColourAssertTests {
     @Test
-    void NumColourGetterSetterTest() throws RemoteException {
+    void NumColourGetterSetterTest() {
         NumColour nc = new NumColour(Colour.BLUE);
 
         assertEquals(Colour.BLUE, nc.getC());
@@ -39,7 +39,7 @@ class NumColourAssertTests {
     }
 
     @Test
-    void ColourDifferenceTest() throws RemoteException {
+    void ColourDifferenceTest() {
         NumColour nc1 = new NumColour(Colour.BLUE);
         NumColour nc2 = new NumColour(Colour.YELLOW);
 

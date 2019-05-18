@@ -302,7 +302,7 @@ class PlayerAssertTests {
     }
 
     @Test
-    void PlayerFinalFrenzyTest() throws RemoteException {
+    void PlayerFinalFrenzyTest() {
         Player p1 = new Player("Player", Colour.YELLOW, true);
         p1.setTurnFinalFrenzy(0);
         assertEquals(0, p1.getTurnFinalFrenzy());

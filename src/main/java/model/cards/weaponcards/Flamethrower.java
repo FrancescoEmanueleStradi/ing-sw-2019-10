@@ -5,6 +5,8 @@ import model.cards.WeaponCard;
 import model.player.AmmoCube;
 import model.player.Player;
 
+import java.rmi.RemoteException;
+
 public class Flamethrower extends WeaponCard {
 
     private String alternativeEffect = "Barbecue Mode";
@@ -28,7 +30,7 @@ public class Flamethrower extends WeaponCard {
 
     //before: let the player p choose a cell one move away from him, and possibly a second cell one more move away in the same direction (not through walls but ok if through doors). Let him choose one player for each cell he has selected (p1 and p2 respectively). It can be useful to implement a method here.
 
-    public void applyEffect(Grid grid, Player p, Player p1, Player p2) {    //player p deals 1 damage to p1 and p2. p2 can be null
+    public void applyEffect(Grid grid, Player p, Player p1, Player p2) throws RemoteException {    //player p deals 1 damage to p1 and p2. p2 can be null
         grid.damage(p, p1, 1);
         if(p2 != null)
             grid.damage(p, p2, 1);
@@ -36,7 +38,7 @@ public class Flamethrower extends WeaponCard {
 
     //before: let the player p choose one or two cells as above. This time, however, he does not select the player(s)
 
-    public void applySpecialEffect(Grid grid, Player p, String x1, String y1, String x2, String y2) { //Barbecue Mode: player p deals 2 damage to every enemy in the first cell c1, and 1 damage to every enemy in the second cell c2. c2 can be null
+    public void applySpecialEffect(Grid grid, Player p, String x1, String y1, String x2, String y2) throws RemoteException{ //Barbecue Mode: player p deals 2 damage to every enemy in the first cell c1, and 1 damage to every enemy in the second cell c2. c2 can be null
         for(Player enemy : grid.getPlayers()) {
             if(enemy.getCell().getP().getX() == Integer.parseInt(x1) && enemy.getCell().getP().getY() == Integer.parseInt(y1))
                 grid.damage(p, enemy, 2);

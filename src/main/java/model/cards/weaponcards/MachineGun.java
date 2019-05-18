@@ -5,6 +5,8 @@ import model.player.AmmoCube;
 import model.cards.WeaponCard;
 import model.player.Player;
 
+import java.rmi.RemoteException;
+
 public class MachineGun extends WeaponCard {
 
     private String optionalEffect1 = "Focus Shot";
@@ -33,13 +35,13 @@ public class MachineGun extends WeaponCard {
 
     //before applying effects: let player p selecting player(s) to attack, checking if they are visible
 
-    public void applyEffect(Grid grid, Player p, Player p1, Player p2) { //primary attack if 2 visible targets are selected: player p attacks p1 and p2
+    public void applyEffect(Grid grid, Player p, Player p1, Player p2) throws RemoteException { //primary attack if 2 visible targets are selected: player p attacks p1 and p2
         grid.damage(p, p1, 1);
         if(p2 != null)
             grid.damage(p, p2, 1);
     }
 
-    public void applySpecialEffect(Grid grid, Player p, Player p1) { //Focus Shot: player damages p1 (controller asks player p if he wants to attack p1 or p2)
+    public void applySpecialEffect(Grid grid, Player p, Player p1) throws RemoteException{ //Focus Shot: player damages p1 (controller asks player p if he wants to attack p1 or p2)
         grid.damage(p, p1, 1);
     }
 

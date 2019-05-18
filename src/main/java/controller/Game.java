@@ -555,7 +555,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
 
 
-   private void shootNotAdrenaline(Player p, String nameWC, List<Integer> lI, List<String> lS, List<AmmoCube> lA, List<PowerUpCard> lP) {                    //is better to use a file?
+   private void shootNotAdrenaline(Player p, String nameWC, List<Integer> lI, List<String> lS, List<AmmoCube> lA, List<PowerUpCard> lP) throws RemoteException{                    //is better to use a file?
         switch(nameWC) {
             case "Cyberblade":
                 int x = 0;
@@ -750,7 +750,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         }
     }
 
-    private void shootAdrenaline(Player p, String nameWC, List<Integer> lI, List<String> lS, int direction, List<AmmoCube> lA, List<PowerUpCard> lP) {
+    private void shootAdrenaline(Player p, String nameWC, List<Integer> lI, List<String> lS, int direction, List<AmmoCube> lA, List<PowerUpCard> lP) throws RemoteException{
         this.grid.moveWithoutNotify(p, direction);
         this.shootNotAdrenaline(p, nameWC, lI, lS, lA, lP);
     }
@@ -790,7 +790,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         return false;
     }
 
-    public synchronized void firstActionShoot(String nickName, String nameWC, List<Integer> lI, List<String> lS, int direction, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) {
+    public synchronized void firstActionShoot(String nickName, String nameWC, List<Integer> lI, List<String> lS, int direction, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) throws RemoteException{
         Player p = this.grid.getPlayerObject(nickName);
         List<AmmoCube> lA= new LinkedList<>();
         if(!lAInput.isEmpty()) {
@@ -1163,7 +1163,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         return false;
     }
 
-    public synchronized void secondActionShoot(String nickName, String nameWC, List<Integer> lI, List<String> lS, int direction, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) {
+    public synchronized void secondActionShoot(String nickName, String nameWC, List<Integer> lI, List<String> lS, int direction, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) throws RemoteException{
         Player p = this.grid.getPlayerObject(nickName);
 
         List<AmmoCube> lA= new LinkedList<>();
@@ -1237,7 +1237,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         return x;
     }
 
-    public synchronized void usePowerUpCard(String nickName, String namePC, String colourPC, List<String> lS, Colour c) {
+    public synchronized void usePowerUpCard(String nickName, String namePC, String colourPC, List<String> lS, Colour c) throws RemoteException{
         Player p = this.grid.getPlayerObject(nickName);
         switch(namePC) {
             case "Newton" :

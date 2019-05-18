@@ -5,6 +5,8 @@ import model.cards.WeaponCard;
 import model.player.AmmoCube;
 import model.player.Player;
 
+import java.rmi.RemoteException;
+
 public class Whisper extends WeaponCard {
 
     public Whisper () {
@@ -20,7 +22,7 @@ public class Whisper extends WeaponCard {
 
     //before: let the player p choose 1 target p1 he can see: it has to be at least 2 moves away from player p, so check this.
 
-    public void applyEffect(Grid grid, Player p, Player p1) {   //Player p deals 3 damages and adds 1 mark to player p1
+    public void applyEffect(Grid grid, Player p, Player p1) throws RemoteException {   //Player p deals 3 damages and adds 1 mark to player p1
         grid.damage(p, p1, 3);
         grid.addMark(p, p1);
     }

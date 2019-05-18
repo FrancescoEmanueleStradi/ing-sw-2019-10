@@ -6,6 +6,8 @@ import model.cards.WeaponCard;
 import model.player.AmmoCube;
 import model.player.Player;
 
+import java.rmi.RemoteException;
+
 public class VortexCannon extends WeaponCard {
 
     private int xVortex;
@@ -32,7 +34,7 @@ public class VortexCannon extends WeaponCard {
 
     //before: let the player p choose a cell for the vortex, and a player p1 to move into the vortex (p1 must be on the vortex or 1 move away from it) and to damage it
 
-    public void applyEffect(Grid grid, Player p, Player p1, String xVortex, String yVortex) {  //p1 is moved into the vortex and damaged
+    public void applyEffect(Grid grid, Player p, Player p1, String xVortex, String yVortex) throws RemoteException {  //p1 is moved into the vortex and damaged
         grid.move(p1, Integer.parseInt(xVortex), Integer.parseInt(yVortex));
         grid.damage(p, p1, 2);
         this.xVortex = Integer.parseInt(xVortex);
@@ -41,7 +43,7 @@ public class VortexCannon extends WeaponCard {
 
     //before: let the player p choose up to 2 other targets on the vortex or 1 move away from it
 
-    public void applySpecialEffect(Grid grid, Player p, Player p1, Player p2) { //p2 can be null. p1 and p2 are moved into the vortex and damaged
+    public void applySpecialEffect(Grid grid, Player p, Player p1, Player p2) throws RemoteException{ //p2 can be null. p1 and p2 are moved into the vortex and damaged
         grid.move(p1, this.xVortex, this.yVortex);
         if(p2 != null) {
             grid.move(p2, this.xVortex, this.yVortex);

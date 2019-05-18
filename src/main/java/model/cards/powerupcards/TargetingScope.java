@@ -5,6 +5,8 @@ import model.cards.PowerUpCard;
 import model.player.AmmoCube;
 import model.player.Player;
 
+import java.rmi.RemoteException;
+
 public class TargetingScope extends PowerUpCard {
 
     public TargetingScope(Colour c) {
@@ -19,7 +21,7 @@ public class TargetingScope extends PowerUpCard {
 
     //before: let player p choose one player p1 who is being attacked by p. p1 can't receive only marks from the attack that p is using against him.
 
-    public void applyEffect(Grid grid, Player p, Player p1) {   //p deals 1 additional damage to p1
+    public void applyEffect(Grid grid, Player p, Player p1) throws RemoteException {   //p deals 1 additional damage to p1
         grid.damage(p, p1, 1);
     }
 }

@@ -5,6 +5,8 @@ import model.cards.WeaponCard;
 import model.player.AmmoCube;
 import model.player.Player;
 
+import java.rmi.RemoteException;
+
 public class ZX2 extends WeaponCard {
 
     private String alternativeEffect = "Scanner Mode";
@@ -26,7 +28,7 @@ public class ZX2 extends WeaponCard {
 
     //before: let player p choose one target he can see: p1.
 
-    public void applyEffect(Grid grid, Player p, Player p1) {   //player p deals 1 damage to p1 and adds 2 marks to him
+    public void applyEffect(Grid grid, Player p, Player p1) throws RemoteException {   //player p deals 1 damage to p1 and adds 2 marks to him
         grid.damage(p, p1, 1);
         grid.addMark(p, p1);
         grid.addMark(p, p1);
@@ -34,7 +36,7 @@ public class ZX2 extends WeaponCard {
 
     //before: let player p choose up to three target he can see: p1, p2, p3. They can be in three different rooms.
 
-    public void applySpecialEffect(Grid grid, Player p, Player p1, Player p2, Player p3) { //Scanner Mode: player p deals 1 damage to p1, p2 and p3: p2 and/or p3 can be null
+    public void applySpecialEffect(Grid grid, Player p, Player p1, Player p2, Player p3) throws RemoteException{ //Scanner Mode: player p deals 1 damage to p1, p2 and p3: p2 and/or p3 can be null
         grid.damage(p, p1, 1);
         if(p2 != null)
             grid.damage(p, p2, 1);

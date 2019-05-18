@@ -6,6 +6,7 @@ import model.cards.WeaponCard;
 import model.player.AmmoCube;
 import model.player.Player;
 
+import java.rmi.RemoteException;
 import java.util.List;
 
 public class TractorBeam extends WeaponCard {
@@ -30,14 +31,14 @@ public class TractorBeam extends WeaponCard {
 
     //before: let the player p choose which player p1 he wants to move and damage, letting him choose the visible cell he wants to move the enemy in
 
-    public void applyEffect(Grid grid, Player p, Player p1, int x, int y) {    //enemy is moved to cell and damaged
+    public void applyEffect(Grid grid, Player p, Player p1, int x, int y) throws RemoteException {    //enemy is moved to cell and damaged
         p1.changeCell(grid.getBoard().getArena()[x][y]);
         grid.damage(p, p1, 1);
     }
 
     //before: let the player choose which player p1 he wants to move and damage: controller checks if the distance is 0, 1 or 2, but player p don't necessarily have to see the enemy
 
-    public void applySpecialEffect(Grid grid, Player p, Player p1) {    //enemy is moved to p and damaged
+    public void applySpecialEffect(Grid grid, Player p, Player p1) throws RemoteException{    //enemy is moved to p and damaged
         p1.changeCell(p.getCell());
         grid.damage(p, p1, 3);
     }

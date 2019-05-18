@@ -5,6 +5,8 @@ import model.cards.WeaponCard;
 import model.player.AmmoCube;
 import model.player.Player;
 
+import java.rmi.RemoteException;
+
 public class Cyberblade extends WeaponCard {
 
     private String optionalEffect1 = "Shadowstep";
@@ -33,19 +35,19 @@ public class Cyberblade extends WeaponCard {
 
     //before: let player p choose a player p1 on his cell.
 
-    public void applyEffect(Grid grid, Player p, Player p1) {   //player p deals 1 damage to p1
+    public void applyEffect(Grid grid, Player p, Player p1) throws RemoteException {   //player p deals 1 damage to p1
         grid.damage(p, p1, 2);
     }
 
     //before: This Special Effect can be done before or after the other effects. Let player p choose a cell he wants to go to.
 
-    public void applySpecialEffect(Grid grid, Player p, String direction) {   //Shadowstep: player p moves in the chosen cell
+    public void applySpecialEffect(Grid grid, Player p, String direction) throws RemoteException{   //Shadowstep: player p moves in the chosen cell
         grid.move(p, Integer.parseInt(direction));
     }
 
     //before: let player p choose a different target p2 than p1. p2 must be on the same cell of p.
 
-    public void applySpecialEffect2(Grid grid, Player p, Player p2) {   //Slice and dice: player p deals 2 damage to the chosen p2
+    public void applySpecialEffect2(Grid grid, Player p, Player p2) throws RemoteException{   //Slice and dice: player p deals 2 damage to the chosen p2
         grid.damage(p, p2, 2);
     }
 }

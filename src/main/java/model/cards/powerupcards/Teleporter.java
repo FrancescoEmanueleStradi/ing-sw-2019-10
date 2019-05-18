@@ -5,6 +5,8 @@ import model.cards.PowerUpCard;
 import model.player.AmmoCube;
 import model.player.Player;
 
+import java.rmi.RemoteException;
+
 public class Teleporter extends PowerUpCard {
 
     public Teleporter(Colour c) {
@@ -19,7 +21,7 @@ public class Teleporter extends PowerUpCard {
 
     //before: let player p choose a Cell cell he wants to go in. He has to use this card before any player respawns at the end of p's turn.
 
-    public void applyEffect(Grid grid, Player p, String x, String y) {
+    public void applyEffect(Grid grid, Player p, String x, String y) throws RemoteException {
         grid.move(p, Integer.parseInt(x), Integer.parseInt(y));
     }
 }

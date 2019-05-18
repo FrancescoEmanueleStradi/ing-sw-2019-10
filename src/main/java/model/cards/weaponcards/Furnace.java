@@ -6,6 +6,8 @@ import model.cards.WeaponCard;
 import model.player.AmmoCube;
 import model.player.Player;
 
+import java.rmi.RemoteException;
+
 public class Furnace extends WeaponCard {
 
     private String alternativeEffect = "Cozy Fire Mode";
@@ -26,7 +28,7 @@ public class Furnace extends WeaponCard {
 
     //before: let the player p choose a room he can see (excluding the room the player is in)
 
-    public void applyEffect(Grid grid, Player p, Colour c) {    //damage every enemy in that room
+    public void applyEffect(Grid grid, Player p, Colour c) throws RemoteException {    //damage every enemy in that room
         for(Player enemy : grid.getPlayers()) {
             if(enemy.getCell().getC().equals(c))
                 grid.damage(p, enemy, 1);
@@ -35,7 +37,7 @@ public class Furnace extends WeaponCard {
 
     //before: let the player choose a cell one move away from him (it checks this)
 
-    public void applySpecialEffect(Grid grid, Player p, String x, String y) {    //Cozy Fire Mode: player p gives 1 damage and 1 mark to every enemy in that cell
+    public void applySpecialEffect(Grid grid, Player p, String x, String y) throws RemoteException{    //Cozy Fire Mode: player p gives 1 damage and 1 mark to every enemy in that cell
         for(Player enemy : grid.getPlayers()) {
             if(enemy.getCell().getP().getX() == Integer.parseInt(x) && enemy.getCell().getP().getY() == Integer.parseInt(y)) {
                 grid.damage(p, enemy, 1);

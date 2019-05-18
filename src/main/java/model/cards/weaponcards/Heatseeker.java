@@ -5,6 +5,8 @@ import model.cards.WeaponCard;
 import model.player.AmmoCube;
 import model.player.Player;
 
+import java.rmi.RemoteException;
+
 public class Heatseeker extends WeaponCard {
 
     public Heatseeker() {
@@ -19,7 +21,7 @@ public class Heatseeker extends WeaponCard {
 
     //before: let the player p choose 1 target he cannot see (it checks that condition)
 
-    public void applyEffect(Grid grid, Player p, Player p1) {   //Player p deals 3 damages to the chosen player p1
+    public void applyEffect(Grid grid, Player p, Player p1) throws RemoteException {   //Player p deals 3 damages to the chosen player p1
         grid.damage(p, p1, 3);
     }
 }

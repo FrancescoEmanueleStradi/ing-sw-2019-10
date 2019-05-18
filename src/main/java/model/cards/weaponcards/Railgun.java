@@ -5,6 +5,8 @@ import model.cards.WeaponCard;
 import model.player.AmmoCube;
 import model.player.Player;
 
+import java.rmi.RemoteException;
+
 public class Railgun extends WeaponCard {
 
     private String alternativeEffect = "Piercing Mode";
@@ -29,13 +31,13 @@ public class Railgun extends WeaponCard {
 
     //before: let player p choose a cardinal direction (1, 2, 3, 4) and a player p1 in that direction, even if there is a wall. LET HIM CHOOSE ENEMIES ON HIS SAME CELL TOO!!
 
-    public void applyEffect(Grid grid, Player p, Player p1) {   //player p deals 3 damages to p1
+    public void applyEffect(Grid grid, Player p, Player p1) throws RemoteException {   //player p deals 3 damages to p1
         grid.damage(p, p1, 3);
     }
 
     //before: let player p choose a cardinal direction (1, 2, 3, 4) and one or two players p1, p2 in that direction, even if there is a wall. LET HIM CHOOSE ENEMIES ON HIS SAME CELL TOO!! P1 AND P2 CAN BE ON THE SAME CELL!
 
-    public void applySpecialEffect(Grid grid, Player p, Player p1, Player p2) { //player p deals 2 damage to p1 and, if selected, 2 damages to p2 too
+    public void applySpecialEffect(Grid grid, Player p, Player p1, Player p2) throws RemoteException{ //player p deals 2 damage to p1 and, if selected, 2 damages to p2 too
         grid.damage(p, p1, 2);
         if(p2 != null)
             grid.damage(p, p2, 2);

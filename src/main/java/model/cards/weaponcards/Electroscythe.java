@@ -5,6 +5,8 @@ import model.cards.WeaponCard;
 import model.player.AmmoCube;
 import model.player.Player;
 
+import java.rmi.RemoteException;
+
 public class Electroscythe extends WeaponCard {
 
     private String alternativeEffect = "Reaper Mode";
@@ -23,14 +25,14 @@ public class Electroscythe extends WeaponCard {
         return alternativeEffect;
     }
 
-    public void applyEffect(Grid grid, Player p) { //player p damages (1) every enemy on the same square as player p
+    public void applyEffect(Grid grid, Player p) throws RemoteException { //player p damages (1) every enemy on the same square as player p
         for(Player enemy : grid.getPlayers()) {
             if (grid.whereAmI(enemy).equals(grid.whereAmI(p)) && !(enemy.equals(p)))
                 grid.damage(p, enemy, 1);
         }
     }
 
-    public void applySpecialEffect(Grid grid, Player p) { //Reaper Mode: player p damages (2) every enemy on the same square as player p
+    public void applySpecialEffect(Grid grid, Player p) throws RemoteException{ //Reaper Mode: player p damages (2) every enemy on the same square as player p
         for(Player enemy : grid.getPlayers()) {
             if (grid.whereAmI(enemy).equals(grid.whereAmI(p)) && !(enemy.equals(p)))
                 grid.damage(p, enemy, 2);

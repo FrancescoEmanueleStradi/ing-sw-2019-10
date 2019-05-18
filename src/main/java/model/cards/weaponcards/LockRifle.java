@@ -5,6 +5,8 @@ import model.cards.WeaponCard;
 import model.player.AmmoCube;
 import model.player.Player;
 
+import java.rmi.RemoteException;
+
 public class LockRifle extends WeaponCard {
 
     private String optionalEffect = "Second Lock";
@@ -23,12 +25,12 @@ public class LockRifle extends WeaponCard {
         return optionalEffect;
     }
 
-    public void applyEffect(Grid grid, Player p, Player p1) { //player p attacks p1 (visible), giving him 2 damage and 1 mark
+    public void applyEffect(Grid grid, Player p, Player p1) throws RemoteException { //player p attacks p1 (visible), giving him 2 damage and 1 mark
         grid.damage(p, p1, 2);
         grid.addMark(p, p1);
     }
 
-    public void applySpecialEffect(Grid grid, Player p, Player p2) { //Second Lock: player p attacks p2 (visible), who is different from the p1 selected for the primary effect: the controller will check this!
+    public void applySpecialEffect(Grid grid, Player p, Player p2) throws RemoteException{ //Second Lock: player p attacks p2 (visible), who is different from the p1 selected for the primary effect: the controller will check this!
         grid.addMark(p, p2);
     }
 }

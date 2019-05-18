@@ -5,6 +5,8 @@ import model.cards.WeaponCard;
 import model.player.AmmoCube;
 import model.player.Player;
 
+import java.rmi.RemoteException;
+
 public class PlasmaGun extends WeaponCard {
 
     private String optionalEffect1 = "Phase Glide";
@@ -33,13 +35,13 @@ public class PlasmaGun extends WeaponCard {
 
     //before: let the player p choose one target he can see
 
-    public void applyEffect(Grid grid, Player p, Player p1) {   //player p damages the chosen player p1
+    public void applyEffect(Grid grid, Player p, Player p1) throws RemoteException {   //player p damages the chosen player p1
         grid.damage(p, p1, 2);
     }
 
     //before: ask the player p how many cells he wants to move (1 or 2) (alternative: let him click the cell he wants to go to). PLAYER CAN USE THIS BEFORE OR AFTER THE PRIMARY EFFECT
 
-    public void applySpecialEffect(Grid grid, Player p, int moves, int direction1, int direction2) {   //Phase Glide: player p moves 1 or 2 cells: he can change direction (i.e. one move up and one right)
+    public void applySpecialEffect(Grid grid, Player p, int moves, int direction1, int direction2) throws RemoteException{   //Phase Glide: player p moves 1 or 2 cells: he can change direction (i.e. one move up and one right)
         if(moves == 1) {
             if(direction1 == 1)
                 grid.move(p, 1);
@@ -98,7 +100,7 @@ public class PlasmaGun extends WeaponCard {
         }
     }
 
-    public void applySpecialEffect2(Grid grid, Player p, Player p1) {   //Charged Shots: player p deals 1 additional damage to the same player p1 attacked with the primary effect
+    public void applySpecialEffect2(Grid grid, Player p, Player p1) throws RemoteException{   //Charged Shots: player p deals 1 additional damage to the same player p1 attacked with the primary effect
         grid.damage(p, p1, 1);
     }
 }

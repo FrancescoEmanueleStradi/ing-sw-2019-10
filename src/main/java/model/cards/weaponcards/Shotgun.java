@@ -5,6 +5,8 @@ import model.cards.WeaponCard;
 import model.player.AmmoCube;
 import model.player.Player;
 
+import java.rmi.RemoteException;
+
 public class Shotgun extends WeaponCard {
 
     private String alternativeEffect = "Long Barrel Mode";
@@ -25,19 +27,19 @@ public class Shotgun extends WeaponCard {
 
     //before: ask player p which player p1 (who must be on the same cell as p) he wants to attack.
 
-    public void applyEffect(Grid grid, Player p, Player p1) {   //player p deals 1 damage to player p1
+    public void applyEffect(Grid grid, Player p, Player p1) throws RemoteException {   //player p deals 1 damage to player p1
         grid.damage(p, p1, 1);
     }
 
     //after primary effect: ask player p if he wants to move the attacked player p1 one cell, and in which direction (click on cell and from that we get the direction?).
 
-    public void movePlayer(Grid grid, Player p1, int direction) {   //right after the primary effect
+    public void movePlayer(Grid grid, Player p1, int direction) throws RemoteException{   //right after the primary effect
         grid.move(p1, direction);
     }
 
     //before: let player p choose one player p1 exactly one cell away.
 
-    public void applySpecialEffect(Grid grid, Player p, Player p1) {    //player p deals 2 damages to the selected p1
+    public void applySpecialEffect(Grid grid, Player p, Player p1) throws RemoteException{    //player p deals 2 damages to the selected p1
         grid.damage(p, p1, 2);
     }
 }

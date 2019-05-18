@@ -5,6 +5,8 @@ import model.cards.PowerUpCard;
 import model.player.AmmoCube;
 import model.player.Player;
 
+import java.rmi.RemoteException;
+
 public class TagbackGrenade extends PowerUpCard {
 
     public TagbackGrenade(Colour c) {
@@ -18,7 +20,7 @@ public class TagbackGrenade extends PowerUpCard {
 
     //before: let player p use this card only when he is receiving damage from a player he can see.
 
-    public void applyEffect(Grid grid, Player p, Player p1) {   //p gives 1 mark to p1
+    public void applyEffect(Grid grid, Player p, Player p1) throws RemoteException {   //p gives 1 mark to p1
         grid.addMark(p, p1);
     }
 }

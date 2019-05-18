@@ -245,7 +245,7 @@ public class Grid {
         server.notifyPosition(this.iD, information);
     }
 
-    public boolean isThereAWall (Player p, Position pT) {            //1 if there is a wall between p and pT
+    public boolean isThereAWall (Player p, Position pT) {            //true if there is a wall between p and pT
         int direction = 0;
         if(p.getCell().getP().getX() > pT.getX())
             direction = 1;
@@ -257,6 +257,22 @@ public class Grid {
             direction = 2;
         List<Integer> listPosWalls = new LinkedList<>();        //need to do this because cell.posWalls is int[] and list.contains checks for Integer
         for(int i : this.board.getArena()[p.getCell().getP().getX()][p.getCell().getP().getY()].getPosWall())
+            listPosWalls.add(i);
+        return listPosWalls.contains(direction);
+    }
+
+    public boolean isThereAWall (Position pT1, Position pT2) {            //true if there is a wall between pT1 and pT2
+        int direction = 0;
+        if(pT1.getX() > pT2.getX())
+            direction = 1;
+        else if(pT1.getX() < pT2.getX())
+            direction = 3;
+        else if(pT1.getY() > pT2.getY())
+            direction = 4;
+        else if(pT1.getY() < pT2.getY())
+            direction = 2;
+        List<Integer> listPosWalls = new LinkedList<>();        //need to do this because cell.posWalls is int[] and list.contains checks for Integer
+        for(int i : this.board.getArena()[pT1.getX()][pT1.getY()].getPosWall())
             listPosWalls.add(i);
         return listPosWalls.contains(direction);
     }

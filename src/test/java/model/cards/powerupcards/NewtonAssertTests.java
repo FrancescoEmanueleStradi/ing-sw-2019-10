@@ -5,13 +5,19 @@ import model.Grid;
 import model.cards.PowerUpCard;
 import model.player.Player;
 import org.junit.jupiter.api.Test;
+import view.ServerInterface;
 
+import java.rmi.RemoteException;
 import java.util.LinkedList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class NewtonAssertTests {
+
+    private int iD = 1;
+    private ServerInterface server;
+
     @Test
     void NewtonCorrectConstructor() {
         PowerUpCard pUC = new Newton(Colour.BLUE);
@@ -25,10 +31,14 @@ class NewtonAssertTests {
     }
 
     @Test
-    void NewtonMethods() {
+    void NewtonMethods() throws RemoteException {
         Newton newton = new Newton(Colour.YELLOW);
-        Grid grid = new Grid();
-        grid.setType(1);
+        Grid grid = new Grid(iD, server);
+        try {
+            grid.setType(1);
+        } catch (java.rmi.RemoteException e) {
+            e.printStackTrace();
+        }
         Player p1 = new Player("Player", Colour.BLUE, true);
         p1.changeCell(grid.getBoard().getArena()[0][0]);
         List<Integer> directions = new LinkedList<>();

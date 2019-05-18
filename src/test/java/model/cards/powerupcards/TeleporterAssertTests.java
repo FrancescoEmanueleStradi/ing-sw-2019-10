@@ -5,10 +5,17 @@ import model.Grid;
 import model.cards.PowerUpCard;
 import model.player.Player;
 import org.junit.jupiter.api.Test;
+import view.ServerInterface;
+
+import java.rmi.RemoteException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class TeleporterAssertTests {
+
+    private int iD = 1;
+    private ServerInterface server;
+
     @Test
     void TeleporterCorrectConstructor() {
         PowerUpCard pUC = new Teleporter(Colour.BLUE);
@@ -22,10 +29,14 @@ class TeleporterAssertTests {
     }
 
     @Test
-    void TeleporterMethods() {
+    void TeleporterMethods() throws RemoteException {
         Teleporter teleporter = new Teleporter(Colour.YELLOW);
-        Grid grid = new Grid();
-        grid.setType(4);
+        Grid grid = new Grid(iD, server);
+        try {
+            grid.setType(4);
+        } catch (java.rmi.RemoteException e) {
+            e.printStackTrace();
+        }
         Player p1 = new Player("Player", Colour.GREEN, true);
         p1.changeCell(grid.getBoard().getArena()[2][3]);
         String x = "0";

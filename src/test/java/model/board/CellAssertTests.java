@@ -40,7 +40,7 @@ class CellAssertTests {
 
 
     @Test
-    void CellCorrectPositionTest() {
+    void CellCorrectPositionTest() throws RemoteException {
         Position pos = new Position(1, 3);
         Cell cell = new Cell(-1, pos);
 

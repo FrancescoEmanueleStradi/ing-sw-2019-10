@@ -71,7 +71,7 @@ class KillTrackAssertTests {
     }
 
     @Test
-    void KillTrackScoringTest() {
+    void KillTrackScoringTest() throws RemoteException {
         KillTrack killtrack = new KillTrack();
 
         killtrack.getSkulls()[0] = 1;
@@ -105,7 +105,7 @@ class KillTrackAssertTests {
     }
 
     @Test
-    void KilltrackScoringTieTest() {
+    void KilltrackScoringTieTest() throws RemoteException {
         KillTrack killtrack = new KillTrack();
 
         killtrack.getSkulls()[0] = 2;

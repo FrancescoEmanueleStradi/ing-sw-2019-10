@@ -2,16 +2,22 @@ package model.cards.weaponcards;
 
 import model.Colour;
 import model.Grid;
-import model.Position;
 import model.cards.WeaponCard;
 import model.player.Player;
 import org.junit.jupiter.api.Test;
+import view.ServerInterface;
+
+import java.rmi.RemoteException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class CyberbladeAssertTests {
+
+    private int iD = 1;
+    private ServerInterface server;
+
     @Test
-    void CyberbladeCorrectConstructor()  {
+    void CyberbladeCorrectConstructor() {
         WeaponCard c = new Cyberblade();
 
         assertEquals("Cyberblade", c.getCardName());
@@ -28,7 +34,7 @@ class CyberbladeAssertTests {
     }
 
     @Test
-    void CyberbladeMethods()  {
+    void CyberbladeMethods() throws RemoteException {
         Cyberblade c = new Cyberblade();
 
         c.reload();
@@ -39,14 +45,22 @@ class CyberbladeAssertTests {
         assertEquals("Shadowstep", c.getOptionalEffect1());
         assertEquals("Slice and Dice", c.getOptionalEffect2());
 
-        Grid grid = new Grid();
-        grid.setType(1);
+        Grid grid = new Grid(iD, server);
+        try {
+            grid.setType(1);
+        } catch (java.rmi.RemoteException e) {
+            e.printStackTrace();
+        }
 
         Player player = new Player("Myself", Colour.YELLOW, true);
         player.changeCell(grid.getBoard().getArena()[0][1]);
 
         Player enemy1 = new Player("Enemy 1", Colour.BLACK, false);
-        c.applyEffect(grid, player, enemy1);
+        try {
+            c.applyEffect(grid, player, enemy1);
+        } catch (java.rmi.RemoteException e) {
+            e.printStackTrace();
+        }
         assertEquals(Colour.YELLOW, enemy1.getpB().getDamages().getDamageTr()[1].getC());
 
         c.applySpecialEffect(grid, player, "2");

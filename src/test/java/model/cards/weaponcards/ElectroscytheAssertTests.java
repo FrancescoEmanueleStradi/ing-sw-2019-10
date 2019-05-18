@@ -4,12 +4,14 @@ import model.Colour;
 import model.cards.WeaponCard;
 import org.junit.jupiter.api.Test;
 
+import java.rmi.RemoteException;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ElectroscytheAssertTests {
     @Test
-    void ElectroscytheCorrectConstructor() {
+    void ElectroscytheCorrectConstructor() throws RemoteException {
         WeaponCard e = new Electroscythe();
 
         assertEquals("Electroscythe", e.getCardName());

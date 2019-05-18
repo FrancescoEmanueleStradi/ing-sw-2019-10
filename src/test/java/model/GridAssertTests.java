@@ -5,16 +5,22 @@ import model.cards.PowerUpCard;
 import model.cards.WeaponCard;
 import model.player.Player;
 import org.junit.jupiter.api.Test;
+import view.ServerInterface;
 
+import java.rmi.RemoteException;
 import java.util.LinkedList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class GridAssertTests {
+
+    private int iD = 1;
+    private ServerInterface server;
+
     @Test
-    void GridPlayersTest() {
-        Grid grid = new Grid();
+    void GridPlayersTest() throws RemoteException {
+        Grid grid = new Grid(iD, server);
         assertTrue(grid.getPlayers().isEmpty());
         assertNull(grid.getPlayerObject("Player 1"));
 
@@ -70,7 +76,11 @@ class GridAssertTests {
         assertEquals(1, grid.getNumPlayers());
         assertNull(grid.getPlayerObject("Player 2"));
 
-        grid.setType(1);
+        try {
+            grid.setType(1);
+        } catch (java.rmi.RemoteException e) {
+            e.printStackTrace();
+        }
         assertEquals(1, grid.getBoard().getaType());
 
         grid.damage(p1, p2, 3);
@@ -99,8 +109,8 @@ class GridAssertTests {
     }
 
     @Test
-    void ScoringByColourTest() {
-        Grid grid = new Grid();
+    void ScoringByColourTest() throws RemoteException {
+        Grid grid = new Grid(iD, server);
         Player p1 = new Player("Player 1", Colour.BLUE, true);
         Player p2 = new Player("Player 2", Colour.YELLOW, false);
         Player p3 = new Player("Player 3", Colour.BLACK, false);
@@ -139,8 +149,8 @@ class GridAssertTests {
     }
 
     @Test
-    void DistanceTest() {
-        Grid grid = new Grid();
+    void DistanceTest() throws RemoteException {
+        Grid grid = new Grid(iD, server);
         Player p1 = new Player("Player 1", Colour.BLUE, true);
         Player p2 = new Player("Player 2", Colour.YELLOW, false);
 
@@ -162,9 +172,13 @@ class GridAssertTests {
     }
 
     @Test
-    void MovementTest() {
-        Grid grid = new Grid();
-        grid.setType(1);
+    void MovementTest() throws RemoteException {
+        Grid grid = new Grid(iD, server);
+        try {
+            grid.setType(1);
+        } catch (java.rmi.RemoteException e) {
+            e.printStackTrace();
+        }
         Player p1 = new Player("Player 1", Colour.BLUE, true);
         Cell c1 = grid.getBoard().getArena()[0][2];
         Cell c2 = grid.getBoard().getArena()[1][2];
@@ -195,9 +209,13 @@ class GridAssertTests {
     }
 
     @Test
-    void ViewZoneRoomTest() {
-        Grid grid = new Grid();
-        grid.setType(1);
+    void ViewZoneRoomTest() throws RemoteException {
+        Grid grid = new Grid(iD, server);
+        try {
+            grid.setType(1);
+        } catch (java.rmi.RemoteException e) {
+            e.printStackTrace();
+        }
         Player p1 = new Player("Player 1", Colour.BLUE, true);
         Player p2 = new Player("Player 2", Colour.YELLOW, false);
         Player p3 = new Player("Player 3", Colour.GREEN, false);
@@ -258,9 +276,13 @@ class GridAssertTests {
     }
 
     @Test
-    void GridWeaponCardMethodsTest() {
-        Grid grid = new Grid();
-        grid.setType(2);
+    void GridWeaponCardMethodsTest() throws RemoteException {
+        Grid grid = new Grid(iD, server);
+        try {
+            grid.setType(2);
+        } catch (java.rmi.RemoteException e) {
+            e.printStackTrace();
+        }
 
         assertNotNull(grid.getBoard().getW1().getCard1());
         assertNotNull(grid.getBoard().getW1().getCard2());
@@ -317,9 +339,13 @@ class GridAssertTests {
     }
 
     @Test
-    void GridPowerUpCardMethodsTest() {
-        Grid grid = new Grid();
-        grid.setType(3);
+    void GridPowerUpCardMethodsTest() throws RemoteException {
+        Grid grid = new Grid(iD, server);
+        try {
+            grid.setType(3);
+        } catch (java.rmi.RemoteException e) {
+            e.printStackTrace();
+        }
         Player p = new Player("Player", Colour.BLUE, true);
 
         grid.pickPowerUpCard(p);
@@ -337,9 +363,13 @@ class GridAssertTests {
     }
 
     @Test
-    void GridAmmoCardMethodsTest() {
-        Grid grid = new Grid();
-        grid.setType(4);
+    void GridAmmoCardMethodsTest() throws RemoteException {
+        Grid grid = new Grid(iD, server);
+        try {
+            grid.setType(4);
+        } catch (java.rmi.RemoteException e) {
+            e.printStackTrace();
+        }
 
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 4; j++) {
@@ -376,10 +406,14 @@ class GridAssertTests {
     }
 
     @Test
-    void GridGhostMoveTest() {
-        Grid grid = new Grid();
+    void GridGhostMoveTest() throws RemoteException {
+        Grid grid = new Grid(iD, server);
         Player p1 = new Player("Player 1", Colour.BLUE, true);
-        grid.setType(1);
+        try {
+            grid.setType(1);
+        } catch (java.rmi.RemoteException e) {
+            e.printStackTrace();
+        }
         p1.changeCell(grid.getBoard().getArena()[1][0]);
 
         List<Integer> directions = new LinkedList<>();

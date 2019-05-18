@@ -94,7 +94,7 @@ class BoardAssertTests {
     }
 
     @Test
-    void BoardKillTrackTest() {
+    void BoardKillTrackTest() throws RemoteException {
         WeaponCard w1 = new MachineGun();
         WeaponCard w2 = new MachineGun();
         WeaponCard w3 = new MachineGun();
@@ -192,7 +192,7 @@ class BoardAssertTests {
     }
 
     @Test
-    void BoardWeaponSlotTest() {
+    void BoardWeaponSlotTest() throws RemoteException {
         WeaponCard w1 = new Cyberblade();
         WeaponCard w2 = new Electroscythe();
         WeaponCard w3 = new Flamethrower();

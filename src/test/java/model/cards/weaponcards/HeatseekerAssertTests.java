@@ -2,14 +2,20 @@ package model.cards.weaponcards;
 
 import model.Colour;
 import model.Grid;
-import model.Position;
 import model.cards.WeaponCard;
 import model.player.Player;
 import org.junit.jupiter.api.Test;
+import view.ServerInterface;
+
+import java.rmi.RemoteException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class HeatseekerAssertTests {
+
+    private int iD = 1;
+    private ServerInterface server;
+
     @Test
     void HeatseekerCorrectConstructor()  {
         WeaponCard h = new Heatseeker();
@@ -27,7 +33,7 @@ class HeatseekerAssertTests {
     }
 
     @Test
-    void HeatseekerMethods()  {
+    void HeatseekerMethods() throws RemoteException {
         Heatseeker h = new Heatseeker();
 
         h.reload();
@@ -35,8 +41,12 @@ class HeatseekerAssertTests {
         h.unload();
         assertFalse(h.isReloaded());
 
-        Grid grid = new Grid();
-        grid.setType(1);
+        Grid grid = new Grid(iD, server);
+        try {
+            grid.setType(1);
+        } catch (java.rmi.RemoteException e) {
+            e.printStackTrace();
+        }
 
         Player player = new Player("Myself", Colour.BLUE, true);
         grid.move(player, 0, 1);

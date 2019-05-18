@@ -5,12 +5,19 @@ import model.Grid;
 import model.cards.WeaponCard;
 import model.player.Player;
 import org.junit.jupiter.api.Test;
+import view.ServerInterface;
+
+import java.rmi.RemoteException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class LockRifleAssertTests {
+
+    private int iD = 1;
+    private ServerInterface server;
+
     @Test
-    void LockRifleCorrectConstructor()  {
+    void LockRifleCorrectConstructor() {
         WeaponCard lr = new LockRifle();
 
         assertEquals("Lock Rifle", lr.getCardName());
@@ -25,7 +32,7 @@ class LockRifleAssertTests {
     }
 
     @Test
-    void LockRifleMethods()  {
+    void LockRifleMethods() throws RemoteException {
         LockRifle lr = new LockRifle();
 
         lr.reload();
@@ -35,7 +42,7 @@ class LockRifleAssertTests {
 
         assertEquals("Second Lock", lr.getOptionalEffect());
 
-        Grid grid = new Grid();
+        Grid grid = new Grid(iD, server);
         Player player = new Player("Myself", Colour.BLUE, true);
         Player enemy1 = new Player("Enemy 1", Colour.GREEN, false);
         Player enemy2 = new Player("Enemy 2", Colour.RED, false);

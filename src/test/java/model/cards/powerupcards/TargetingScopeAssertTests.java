@@ -5,10 +5,17 @@ import model.Grid;
 import model.cards.PowerUpCard;
 import model.player.Player;
 import org.junit.jupiter.api.Test;
+import view.ServerInterface;
+
+import java.rmi.RemoteException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class TargetingScopeAssertTests {
+
+    private int iD = 1;
+    private ServerInterface server;
+
     @Test
     void TargetingScopeCorrectConstructor() {
         PowerUpCard pUC = new TargetingScope(Colour.BLUE);
@@ -22,10 +29,14 @@ class TargetingScopeAssertTests {
     }
 
     @Test
-    void TargetingScopeMethods() {
+    void TargetingScopeMethods() throws RemoteException {
         TargetingScope targetingScope = new TargetingScope(Colour.RED);
-        Grid grid = new Grid();
-        grid.setType(3);
+        Grid grid = new Grid(iD, server);
+        try {
+            grid.setType(3);
+        } catch (java.rmi.RemoteException e) {
+            e.printStackTrace();
+        }
         Player p1 = new Player("Player", Colour.YELLOW, true);
         Player p2 = new Player("Enemy", Colour.GREEN, false);
 

@@ -9,6 +9,7 @@ import model.cards.weaponcards.*;
 import model.player.AmmoCube;
 import model.player.Player;
 import org.junit.jupiter.api.Test;
+import view.ServerInterface;
 
 import java.rmi.RemoteException;
 import java.util.LinkedList;
@@ -18,9 +19,13 @@ import static model.Colour.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class GameAssertTests {
+
+    private int iD = 1;
+    private ServerInterface server;
+
     @Test
-    void GameStartMoveShootEndTest() {
-        Game game = new Game();
+    void GameStartMoveShootEndTest() throws RemoteException {
+        Game game = new Game(iD, server);
         Grid grid = game.getGrid();
 
         assertTrue(game.gameIsNotStarted());
@@ -411,8 +416,8 @@ class GameAssertTests {
     }
 
     @Test
-    void GameGrabShootTest() {
-        Game game = new Game();
+    void GameGrabShootTest() throws RemoteException {
+        Game game = new Game(iD, server);
         Grid grid = game.getGrid();
 
         game.gameStart("Player 1", BLUE);
@@ -500,8 +505,8 @@ class GameAssertTests {
     }
 
     @Test
-    void GameGrabShootTest2() {
-        Game game = new Game();
+    void GameGrabShootTest2() throws RemoteException {
+        Game game = new Game(iD, server);
         Grid grid = game.getGrid();
 
         game.gameStart("Player 1", BLUE);
@@ -582,8 +587,8 @@ class GameAssertTests {
     }
 
     @Test
-    void GameShootTHORTest() {
-        Game game = new Game();
+    void GameShootTHORTest() throws RemoteException {
+        Game game = new Game(iD, server);
         Grid grid = game.getGrid();
 
         game.gameStart("Player 1", BLUE);
@@ -665,8 +670,8 @@ class GameAssertTests {
     }
 
     @Test
-    void GameShootZX2Test() {
-        Game game = new Game();
+    void GameShootZX2Test() throws RemoteException {
+        Game game = new Game(iD, server);
         Grid grid = game.getGrid();
 
         game.gameStart("Player 1", BLUE);
@@ -737,8 +742,8 @@ class GameAssertTests {
     }
 
     @Test
-    void GameShootWhisperTest() {
-        Game game = new Game();
+    void GameShootWhisperTest() throws RemoteException {
+        Game game = new Game(iD, server);
         Grid grid = game.getGrid();
 
         game.gameStart("Player 1", BLUE);
@@ -785,8 +790,8 @@ class GameAssertTests {
     }
 
     @Test
-    void GameShootVortexCannonTest() {
-        Game game = new Game();
+    void GameShootVortexCannonTest() throws RemoteException {
+        Game game = new Game(iD, server);
         Grid grid = game.getGrid();
 
         game.gameStart("Player 1", BLUE);
@@ -856,8 +861,8 @@ class GameAssertTests {
     }
 
     @Test
-    void GameShootTractorBeamCannonTest() {
-        Game game = new Game();
+    void GameShootTractorBeamCannonTest() throws RemoteException {
+        Game game = new Game(iD, server);
         Grid grid = game.getGrid();
 
         game.gameStart("Player 1", BLUE);
@@ -908,8 +913,8 @@ class GameAssertTests {
     }
 
     @Test
-    void GameShootSledgehammerTest() {
-        Game game = new Game();
+    void GameShootSledgehammerTest() throws RemoteException {
+        Game game = new Game(iD, server);
         Grid grid = game.getGrid();
 
         game.gameStart("Player 1", BLUE);
@@ -961,8 +966,8 @@ class GameAssertTests {
     }
 
     @Test
-    void GameShootShotgunTest() {
-        Game game = new Game();
+    void GameShootShotgunTest() throws RemoteException {
+        Game game = new Game(iD, server);
         Grid grid = game.getGrid();
 
         game.gameStart("Player 1", BLUE);
@@ -1013,8 +1018,8 @@ class GameAssertTests {
     }
 
     @Test
-    void GameShootShockwaveTest() {
-        Game game = new Game();
+    void GameShootShockwaveTest() throws RemoteException {
+        Game game = new Game(iD, server);
         Grid grid = game.getGrid();
 
         game.gameStart("Player 1", BLUE);
@@ -1084,8 +1089,8 @@ class GameAssertTests {
     //Tested all cards from the bottom to Shockwave (included) as well as Cyberblade and Machine Gun
 
     @Test
-    void FinalFrenzyScoringTest() {
-        Game game = new Game();
+    void FinalFrenzyScoringTest() throws RemoteException {
+        Game game = new Game(iD, server);
         Grid grid = game.getGrid();
         List<String> deadGuys = game.getDeadList();
 
@@ -1129,8 +1134,8 @@ class GameAssertTests {
     }
 
     @Test
-    void FinalFrenzyTest() {
-        Game game = new Game();
+    void FinalFrenzyTest() throws RemoteException {
+        Game game = new Game(iD, server);
         Grid grid = game.getGrid();
 
         game.gameStart("Player 1", BLUE);

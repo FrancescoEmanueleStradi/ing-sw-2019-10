@@ -5,10 +5,17 @@ import model.Grid;
 import model.cards.PowerUpCard;
 import model.player.Player;
 import org.junit.jupiter.api.Test;
+import view.ServerInterface;
+
+import java.rmi.RemoteException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class TagbackGrenadeAssertTests {
+
+    private int iD = 1;
+    private ServerInterface server;
+
     @Test
     void TagbackGrenadeCorrectConstructor() {
         PowerUpCard pUC = new TagbackGrenade(Colour.RED);
@@ -21,10 +28,14 @@ class TagbackGrenadeAssertTests {
     }
 
     @Test
-    void TagbackGrenadeMethods() {
+    void TagbackGrenadeMethods() throws RemoteException {
         TagbackGrenade tagbackGrenade = new TagbackGrenade(Colour.YELLOW);
-        Grid grid = new Grid();
-        grid.setType(2);
+        Grid grid = new Grid(iD, server);
+        try {
+            grid.setType(2);
+        } catch (java.rmi.RemoteException e) {
+            e.printStackTrace();
+        }
         Player p1 = new Player("Player", Colour.BLUE, true);
         Player p2 = new Player("Enemy", Colour.BLACK, false);
 

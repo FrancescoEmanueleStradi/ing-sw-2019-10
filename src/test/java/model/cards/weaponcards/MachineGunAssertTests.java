@@ -5,10 +5,17 @@ import model.Grid;
 import model.cards.WeaponCard;
 import model.player.Player;
 import org.junit.jupiter.api.Test;
+import view.ServerInterface;
+
+import java.rmi.RemoteException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class MachineGunAssertTests {
+
+    private int iD = 1;
+    private ServerInterface server;
+
     @Test
     void MachineGunCorrectConstructor()  {
         WeaponCard mg = new MachineGun();
@@ -28,7 +35,7 @@ class MachineGunAssertTests {
     }
 
     @Test
-    void MachineGunMethods()  {
+    void MachineGunMethods() throws RemoteException {
         MachineGun mg = new MachineGun();
 
         mg.reload();
@@ -39,7 +46,7 @@ class MachineGunAssertTests {
         assertEquals("Focus Shot", mg.getOptionalEffect1());
         assertEquals("Turret Tripod", mg.getOptionalEffect2());
 
-        Grid grid = new Grid();
+        Grid grid = new Grid(iD, server);
         Player player = new Player("Test", Colour.BLUE, true);
         Player enemy1 = new Player("Enemy 1", Colour.RED, false);
         Player enemy2 = new Player("Enemy 2", Colour.YELLOW, false);

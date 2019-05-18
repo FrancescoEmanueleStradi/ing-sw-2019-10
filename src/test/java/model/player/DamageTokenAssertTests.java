@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class DamageTokenAssertTests {
     @Test
-    void DamageTokenTest() {
+    void DamageTokenTest() throws RemoteException {
         DamageToken dt = new DamageToken(Colour.BLUE);
         assertEquals(Colour.BLUE, dt.getC());
     }

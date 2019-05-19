@@ -212,31 +212,36 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
 
     public synchronized void  notifyScore(int game, List<String> information) throws RemoteException{
         for(Connection c : connections.get(game)){
-            c.getView().printScore(information);
+            if(c.getView()!=null)
+                c.getView().printScore(information);
         }
     }
 
     public  synchronized void  notifyPosition(int game, List<String> information) throws RemoteException{
         for(Connection c : connections.get(game)){
-            c.getView().printPosition(information);
+            if(c.getView()!=null)
+                c.getView().printPosition(information);
         }
     }
 
     public synchronized void  notifyMark(int game, List<String> information) throws RemoteException{
         for(Connection c : connections.get(game)){
-            c.getView().printMark(information);
+            if(c.getView()!=null)
+                c.getView().printMark(information);
         }
     }
 
     public synchronized void notifyDamage(int game, List<String> information) throws RemoteException{
         for(Connection c : connections.get(game)){
-            c.getView().printDamage(information);
+            if(c.getView()!=null)
+                c.getView().printDamage(information);
         }
     }
 
     public synchronized void notifyType(int game, int type) throws RemoteException{
         for(Connection c : connections.get(game)){
-            c.getView().printType(type);                            //TODO attention: there are connections initialized that have not the view
+            if(c.getView()!=null)                                //TODO the player who has not initialized the view will not see the type of arena
+                c.getView().printType(type);
         }
     }
 

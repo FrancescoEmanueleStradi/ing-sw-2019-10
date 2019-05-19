@@ -71,7 +71,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
     }
 
     public synchronized void setNickName(int game, int identifier, String nickName) throws RemoteException{
-        connections.get(game).get(identifier).setNickName(nickName);
+        connections.get(game).get(identifier-1).setNickName(nickName);
     }
 
     public synchronized boolean canStart(int game) throws RemoteException{
@@ -236,7 +236,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
 
     public synchronized void notifyType(int game, int type) throws RemoteException{
         for(Connection c : connections.get(game)){
-            c.getView().printType(type);
+            c.getView().printType(type);                            //TODO attention: there are connections initialized that have not the view
         }
     }
 

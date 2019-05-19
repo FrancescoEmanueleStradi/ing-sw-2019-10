@@ -3,7 +3,6 @@ package controller;
 import model.*;
 import model.board.WeaponSlot;
 import model.cards.*;
-import model.Position;
 import model.cards.powerupcards.*;
 import model.cards.weaponcards.*;
 import model.player.AmmoCube;
@@ -114,17 +113,17 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
     public List<String> getWeaponCard(String nickName) {
         Player p = this.grid.getPlayerObject(nickName);
-        return p.getwC().stream().map(WeaponCard::getCardName).collect(Collectors.toList());
+        return p.getWeaponCards().stream().map(WeaponCard::getCardName).collect(Collectors.toList());
     }
 
     public List<String> getWeaponCardLoaded(String nickName){
         Player p = this.grid.getPlayerObject(nickName);
-        return p.getwC().stream().filter(WeaponCard::isReloaded).map(WeaponCard::getCardName).collect(Collectors.toList());
+        return p.getWeaponCards().stream().filter(WeaponCard::isReloaded).map(WeaponCard::getCardName).collect(Collectors.toList());
     }
 
     public List<String> getWeaponCardUnloaded(String nickName) {
         Player p = this.grid.getPlayerObject(nickName);
-        return p.getwC().stream().filter(a -> !a.isReloaded()).map(WeaponCard::getCardName).collect(Collectors.toList());
+        return p.getWeaponCards().stream().filter(a -> !a.isReloaded()).map(WeaponCard::getCardName).collect(Collectors.toList());
     }
 
     public String getDescriptionWC(String s, String nickName) {
@@ -141,12 +140,12 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
     public List<String> getPowerUpCard(String nickName) {
         Player p = this.grid.getPlayerObject(nickName);
-        return p.getpC().stream().map(PowerUpCard::getCardName).collect(Collectors.toList());
+        return p.getPowerUpCards().stream().map(PowerUpCard::getCardName).collect(Collectors.toList());
     }
 
     public List<String> getPowerUpCardColour(String nickName) {
         Player p = this.grid.getPlayerObject(nickName);
-        return p.getpC().stream().map(PowerUpCard::getC).map(Colour::getAbbreviation).collect(Collectors.toList());
+        return p.getPowerUpCards().stream().map(PowerUpCard::getC).map(Colour::getAbbreviation).collect(Collectors.toList());
     }
 
     public String getDescriptionPUC(String s, String colour, String nickName) {
@@ -186,20 +185,20 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
    public synchronized boolean isValidPickAndDiscard(String nickName, String p1, String c1) {
         Player p = this.grid.getPlayerObject(nickName);
         return (p.getCell() == null &&
-                (p1.equals(p.getpC().get(0).getCardName()) && Colour.valueOf(c1).equals(p.getpC().get(0).getC()) || p1.equals(p.getpC().get(1).getCardName()) && Colour.valueOf(c1).equals(p.getpC().get(1).getC())));
+                (p1.equals(p.getPowerUpCards().get(0).getCardName()) && Colour.valueOf(c1).equals(p.getPowerUpCards().get(0).getC()) || p1.equals(p.getPowerUpCards().get(1).getCardName()) && Colour.valueOf(c1).equals(p.getPowerUpCards().get(1).getC())));
    }
 
    public synchronized void pickAndDiscardCard(String nickName, String p1, String c1) {     //p1 and c1 name and colour of the card the player want to keep
        Player p = this.grid.getPlayerObject(nickName);
-       if(p1.equals(p.getpC().get(0).getCardName()) && Colour.valueOf(c1).equals(p.getpC().get(0).getC())) {
-           this.grid.getPowerUpDiscardPile().add(p.getpC().get(1));
-           chooseSpawnPoint(p.getpC().get(1).getC(), p);
-           p.removePowerUpCard(p.getpC().get(1));
+       if(p1.equals(p.getPowerUpCards().get(0).getCardName()) && Colour.valueOf(c1).equals(p.getPowerUpCards().get(0).getC())) {
+           this.grid.getPowerUpDiscardPile().add(p.getPowerUpCards().get(1));
+           chooseSpawnPoint(p.getPowerUpCards().get(1).getC(), p);
+           p.removePowerUpCard(p.getPowerUpCards().get(1));
        }
-       else if(p1.equals(p.getpC().get(1).getCardName()) && Colour.valueOf(c1).equals(p.getpC().get(1).getC())) {
-           this.grid.getPowerUpDiscardPile().add(p.getpC().get(0));
-           chooseSpawnPoint(p.getpC().get(0).getC(), p);
-           p.removePowerUpCard(p.getpC().get(0));
+       else if(p1.equals(p.getPowerUpCards().get(1).getCardName()) && Colour.valueOf(c1).equals(p.getPowerUpCards().get(1).getC())) {
+           this.grid.getPowerUpDiscardPile().add(p.getPowerUpCards().get(0));
+           chooseSpawnPoint(p.getPowerUpCards().get(0).getC(), p);
+           p.removePowerUpCard(p.getPowerUpCards().get(0));
        }
    }
 
@@ -775,7 +774,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         else {
             Player future = new Player("?fUtUrE!", p.getC(), p.isFirstPlayerCard());
             future.changeCell(p.getCell());
-            for(WeaponCard w : p.getwC())
+            for(WeaponCard w : p.getWeaponCards())
                 future.addWeaponCard(w);
             this.grid.moveWithoutNotify(future, direction);
             return this.isValidShootNotAdrenaline(future, nameWC, lI, lS, lA, lP);
@@ -905,10 +904,10 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
             giveWhatIsOnAmmoCard(p, p.getCell().getA());
         else if(p.getCell().getStatus() == 1) {
                 p.payCard(lA, lP);
-                p.getwC().add(wCard);
-                p.getwC().get(p.getwC().size() - 1).reload();
+                p.getWeaponCards().add(wCard);
+                p.getWeaponCards().get(p.getWeaponCards().size() - 1).reload();
         }
-        if(p.getwC().size() > 3)
+        if(p.getWeaponCards().size() > 3)
             this.discard = true;
     }
 
@@ -942,10 +941,10 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
             giveWhatIsOnAmmoCard(p, p.getCell().getA());
         else if(p.getCell().getStatus() == 1) {
                 p.payCard(lA, lP);
-                p.getwC().add(w);
-                p.getwC().get(p.getwC().size() - 1).reload();
+                p.getWeaponCards().add(w);
+                p.getWeaponCards().get(p.getWeaponCards().size() - 1).reload();
         }
-        if(p.getwC().size() > 3)
+        if(p.getWeaponCards().size() > 3)
             this.discard = true;
     }
 
@@ -1224,7 +1223,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                 if (p.getPowerUpCardObject(namePC, Colour.valueOf(colourPC)) != null && this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(0))))
                     x = true;
                 boolean exit = false;
-                for (DamageToken dT : p.getpB().getDamages().getDamageTr()) {
+                for (DamageToken dT : p.getPlayerBoard().getDamages().getDamageTokens()) {
                     if (dT != null && dT.getC().equals(this.grid.getPlayerObject(lS.get(0)).getC())) {
                         exit = true;
                         break;
@@ -1237,8 +1236,8 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                     if (p.getPowerUpCardObject(namePC, Colour.valueOf(colourPC)) != null && p.checkAmmoCube(new AmmoCube[]{new AmmoCube(c)}))
                         x = true;
                     boolean exit = false;
-                    for(int i = 0; i < this.grid.getPlayerObject(lS.get(0)).getpB().getDamages().getDamageTr().length - 1; i++) {
-                        if(this.grid.getPlayerObject(lS.get(0)).getpB().getDamages().getDamageTr()[i+1] == null && this.grid.getPlayerObject(lS.get(0)).getpB().getDamages().getDamageTr()[i].getC().equals(p.getC())) {
+                    for(int i = 0; i < this.grid.getPlayerObject(lS.get(0)).getPlayerBoard().getDamages().getDamageTokens().length - 1; i++) {
+                        if(this.grid.getPlayerObject(lS.get(0)).getPlayerBoard().getDamages().getDamageTokens()[i+1] == null && this.grid.getPlayerObject(lS.get(0)).getPlayerBoard().getDamages().getDamageTokens()[i].getC().equals(p.getC())) {
                             exit = true;
                             break;
                         }
@@ -1328,22 +1327,22 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
     private void death(Player p) throws RemoteException{
        p.changeCell(null);
-       if(p.getpB().getDamages().getDamageTr()[11] != null) {
+       if(p.getPlayerBoard().getDamages().getDamageTokens()[11] != null) {
            int n = this.grid.getBoard().substituteSkull(2);
-           this.grid.getBoard().getK().getC()[n] = p.getpB().getDamages().getDT(11).getC();
-           p.getpB().addMark(new DamageToken(p.getpB().getDamages().getDT(11).getC()));      //OverKill
+           this.grid.getBoard().getK().getC()[n] = p.getPlayerBoard().getDamages().getDT(11).getC();
+           p.getPlayerBoard().addMark(new DamageToken(p.getPlayerBoard().getDamages().getDT(11).getC()));      //OverKill
            List<String> information = new LinkedList<>();
-           information.add(this.grid.getPlayerObjectByColour(p.getpB().getDamages().getDT(11).getC()).getNickName());
+           information.add(this.grid.getPlayerObjectByColour(p.getPlayerBoard().getDamages().getDT(11).getC()).getNickName());
            information.add(p.getNickName());
            server.notifyMark(this.iD, information);
         }
         else {
             int n = this.grid.getBoard().substituteSkull(1);
-            this.grid.getBoard().getK().getC()[n] = p.getpB().getDamages().getDT(10).getC();
+            this.grid.getBoard().getK().getC()[n] = p.getPlayerBoard().getDamages().getDT(10).getC();
         }
-        if(p.getpB().getPoints().getPoints().size()>1)
-            p.getpB().getPoints().remove();
-        p.getpB().getDamages().clean();
+        if(p.getPlayerBoard().getPoints().getPoints().size()>1)
+            p.getPlayerBoard().getPoints().remove();
+        p.getPlayerBoard().getDamages().clean();
         p.addPowerUpCard(this.grid.getPowerUpDeck().getDeck().get(cardToPickAfterDeath));
         cardToPickAfterDeath++;
     }
@@ -1357,23 +1356,23 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         cardToPickAfterDeath = 0;
         for(Player p : this.grid.whoIsDead()) {
             this.deadList.add(p.getNickName());
-            this.grid.scoringByColour(p.getpB().getDamages().getDamageTr()[0].getC(), 1);
-            if(!p.getpB().getDamages().scoreBoard().isEmpty())
-                this.grid.scoringByColour(p.getpB().getDamages().getColourPosition(0), p.getpB().getPoints().getInt(1));
-            if(p.getpB().getDamages().scoreBoard().size() >= 2)
-                this.grid.scoringByColour(p.getpB().getDamages().getColourPosition(1), p.getpB().getPoints().getInt(2));
-            if(p.getpB().getDamages().scoreBoard().size() >= 3)
-                this.grid.scoringByColour(p.getpB().getDamages().getColourPosition(2), p.getpB().getPoints().getInt(3));
-            if(p.getpB().getDamages().scoreBoard().size() >= 4)
-                this.grid.scoringByColour(p.getpB().getDamages().getColourPosition(3), p.getpB().getPoints().getInt(4));
-            if(p.getpB().getDamages().scoreBoard().size() >= 5)
-                this.grid.scoringByColour(p.getpB().getDamages().getColourPosition(4), p.getpB().getPoints().getInt(5));
-            if(p.getpB().getDamages().scoreBoard().size() >= 6)
-                this.grid.scoringByColour(p.getpB().getDamages().getColourPosition(5), p.getpB().getPoints().getInt(6));
-            p.getpB().getDamages().cleanL();
+            this.grid.scoringByColour(p.getPlayerBoard().getDamages().getDamageTokens()[0].getC(), 1);
+            if(!p.getPlayerBoard().getDamages().scoreBoard().isEmpty())
+                this.grid.scoringByColour(p.getPlayerBoard().getDamages().getColourPosition(0), p.getPlayerBoard().getPoints().getInt(1));
+            if(p.getPlayerBoard().getDamages().scoreBoard().size() >= 2)
+                this.grid.scoringByColour(p.getPlayerBoard().getDamages().getColourPosition(1), p.getPlayerBoard().getPoints().getInt(2));
+            if(p.getPlayerBoard().getDamages().scoreBoard().size() >= 3)
+                this.grid.scoringByColour(p.getPlayerBoard().getDamages().getColourPosition(2), p.getPlayerBoard().getPoints().getInt(3));
+            if(p.getPlayerBoard().getDamages().scoreBoard().size() >= 4)
+                this.grid.scoringByColour(p.getPlayerBoard().getDamages().getColourPosition(3), p.getPlayerBoard().getPoints().getInt(4));
+            if(p.getPlayerBoard().getDamages().scoreBoard().size() >= 5)
+                this.grid.scoringByColour(p.getPlayerBoard().getDamages().getColourPosition(4), p.getPlayerBoard().getPoints().getInt(5));
+            if(p.getPlayerBoard().getDamages().scoreBoard().size() >= 6)
+                this.grid.scoringByColour(p.getPlayerBoard().getDamages().getColourPosition(5), p.getPlayerBoard().getPoints().getInt(6));
+            p.getPlayerBoard().getDamages().cleanL();
             c++;
             if(c == 2)
-                this.grid.scoringByColour(p.getpB().getDamages().getDamageTr()[10].getC(),1);        //Double Kill
+                this.grid.scoringByColour(p.getPlayerBoard().getDamages().getDamageTokens()[10].getC(),1);        //Double Kill
             this.death(p);
             this.gameState = ENDTURN;
             List<String> information = new LinkedList<>();
@@ -1675,10 +1674,10 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
             giveWhatIsOnAmmoCard(p, p.getCell().getA());
         else if(p.getCell().getStatus() == 1) {
             p.payCard(lA, lP);
-            p.getwC().add(wCard);
-            p.getwC().get(p.getwC().size() - 1).reload();
+            p.getWeaponCards().add(wCard);
+            p.getWeaponCards().get(p.getWeaponCards().size() - 1).reload();
         }
-        if(p.getwC().size() > 3)
+        if(p.getWeaponCards().size() > 3)
             this.discard = true;                    //View saved the Weapon Slot
     }
 
@@ -1687,20 +1686,20 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         int c = 0;
         for(Player p : this.grid.whoIsDead()) {
             this.deadList.add(p.getNickName());
-            if(!p.getpB().getDamages().scoreBoard().isEmpty())
-                this.grid.scoringByColour(p.getpB().getDamages().getColourPosition(0), 2);
-            if(p.getpB().getDamages().scoreBoard().size() >= 2)
-                this.grid.scoringByColour(p.getpB().getDamages().getColourPosition(1), 1);
-            if(p.getpB().getDamages().scoreBoard().size() >= 3)
-                this.grid.scoringByColour(p.getpB().getDamages().getColourPosition(2), 1);
-            if(p.getpB().getDamages().scoreBoard().size() >= 4)
-                this.grid.scoringByColour(p.getpB().getDamages().getColourPosition(3), 1);
-            p.getpB().getDamages().cleanL();
+            if(!p.getPlayerBoard().getDamages().scoreBoard().isEmpty())
+                this.grid.scoringByColour(p.getPlayerBoard().getDamages().getColourPosition(0), 2);
+            if(p.getPlayerBoard().getDamages().scoreBoard().size() >= 2)
+                this.grid.scoringByColour(p.getPlayerBoard().getDamages().getColourPosition(1), 1);
+            if(p.getPlayerBoard().getDamages().scoreBoard().size() >= 3)
+                this.grid.scoringByColour(p.getPlayerBoard().getDamages().getColourPosition(2), 1);
+            if(p.getPlayerBoard().getDamages().scoreBoard().size() >= 4)
+                this.grid.scoringByColour(p.getPlayerBoard().getDamages().getColourPosition(3), 1);
+            p.getPlayerBoard().getDamages().cleanL();
             c++;
             if(c == 2)
-                this.grid.scoringByColour(p.getpB().getDamages().getDamageTr()[10].getC(),1);        //Double Kill
+                this.grid.scoringByColour(p.getPlayerBoard().getDamages().getDamageTokens()[10].getC(),1);        //Double Kill
             p.changeCell(null);
-            p.getpB().getDamages().clean();
+            p.getPlayerBoard().getDamages().clean();
             List<String> information = new LinkedList<>();
             information.add(p.getNickName());
             information.add(Integer.toString(p.getScore()));
@@ -1716,16 +1715,16 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
     public synchronized void finalScoring() {
         if (this.gameState == ENDALLTURN) {
             for (Player p : this.grid.getPlayers()) {
-                if (p.getpB().getDamages().getDamageTr()[0] == null) {
-                    if(!p.getpB().getDamages().scoreBoard().isEmpty())
-                        this.grid.scoringByColour(p.getpB().getDamages().getColourPosition(0), 2);
-                    if(p.getpB().getDamages().scoreBoard().size() >= 2)
-                        this.grid.scoringByColour(p.getpB().getDamages().getColourPosition(1), 1);
-                    if(p.getpB().getDamages().scoreBoard().size() >= 3)
-                        this.grid.scoringByColour(p.getpB().getDamages().getColourPosition(2), 1);
-                    if(p.getpB().getDamages().scoreBoard().size() >= 4)
-                        this.grid.scoringByColour(p.getpB().getDamages().getColourPosition(3), 1);
-                    p.getpB().getDamages().cleanL();
+                if (p.getPlayerBoard().getDamages().getDamageTokens()[0] == null) {
+                    if(!p.getPlayerBoard().getDamages().scoreBoard().isEmpty())
+                        this.grid.scoringByColour(p.getPlayerBoard().getDamages().getColourPosition(0), 2);
+                    if(p.getPlayerBoard().getDamages().scoreBoard().size() >= 2)
+                        this.grid.scoringByColour(p.getPlayerBoard().getDamages().getColourPosition(1), 1);
+                    if(p.getPlayerBoard().getDamages().scoreBoard().size() >= 3)
+                        this.grid.scoringByColour(p.getPlayerBoard().getDamages().getColourPosition(2), 1);
+                    if(p.getPlayerBoard().getDamages().scoreBoard().size() >= 4)
+                        this.grid.scoringByColour(p.getPlayerBoard().getDamages().getColourPosition(3), 1);
+                    p.getPlayerBoard().getDamages().cleanL();
                 }
             }
             if(!this.grid.getBoard().getK().scoreBoard().isEmpty())

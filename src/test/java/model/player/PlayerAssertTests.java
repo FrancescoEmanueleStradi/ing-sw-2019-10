@@ -22,23 +22,23 @@ class PlayerAssertTests {
 
         assertEquals("Test", p1.getNickName());
         assertEquals(Colour.BLUE, p1.getC());
-        assertTrue(p1.getpB().mIsEmpty());
+        assertTrue(p1.getPlayerBoard().mIsEmpty());
         assertTrue(p1.isFirstPlayerCard());
         assertEquals(0, p1.getScore());
 
-        assertEquals(9, p1.getaC().length);
-        assertEquals(Colour.RED, p1.getaC()[0].getC());
-        assertNull(p1.getaC()[1]);
-        assertNull(p1.getaC()[2]);
-        assertEquals(Colour.BLUE, p1.getaC()[3].getC());
-        assertNull(p1.getaC()[4]);
-        assertNull(p1.getaC()[5]);
-        assertEquals(Colour.YELLOW, p1.getaC()[6].getC());
-        assertNull(p1.getaC()[7]);
-        assertNull(p1.getaC()[8]);
+        assertEquals(9, p1.getAmmoCubes().length);
+        assertEquals(Colour.RED, p1.getAmmoCubes()[0].getC());
+        assertNull(p1.getAmmoCubes()[1]);
+        assertNull(p1.getAmmoCubes()[2]);
+        assertEquals(Colour.BLUE, p1.getAmmoCubes()[3].getC());
+        assertNull(p1.getAmmoCubes()[4]);
+        assertNull(p1.getAmmoCubes()[5]);
+        assertEquals(Colour.YELLOW, p1.getAmmoCubes()[6].getC());
+        assertNull(p1.getAmmoCubes()[7]);
+        assertNull(p1.getAmmoCubes()[8]);
 
-        assertTrue(p1.getpC().isEmpty());
-        assertTrue(p1.getwC().isEmpty());
+        assertTrue(p1.getPowerUpCards().isEmpty());
+        assertTrue(p1.getWeaponCards().isEmpty());
 
         assertNull(p1.getCell());
         assertFalse(p1.isAdrenaline1());
@@ -74,101 +74,101 @@ class PlayerAssertTests {
         p1.addNewAC(new AmmoCube(Colour.BLUE));             //it should not be added
         p1.addNewAC(new AmmoCube(Colour.YELLOW));           //it should not be added
 
-        assertEquals(9, p1.getaC().length);
-        assertEquals(Colour.RED, p1.getaC()[0].getC());
-        assertEquals(Colour.RED, p1.getaC()[1].getC());
-        assertEquals(Colour.RED, p1.getaC()[2].getC());
-        assertEquals(Colour.BLUE, p1.getaC()[3].getC());
-        assertEquals(Colour.BLUE, p1.getaC()[4].getC());
-        assertEquals(Colour.BLUE, p1.getaC()[5].getC());
-        assertEquals(Colour.YELLOW, p1.getaC()[6].getC());
-        assertEquals(Colour.YELLOW, p1.getaC()[7].getC());
-        assertEquals(Colour.YELLOW, p1.getaC()[8].getC());
+        assertEquals(9, p1.getAmmoCubes().length);
+        assertEquals(Colour.RED, p1.getAmmoCubes()[0].getC());
+        assertEquals(Colour.RED, p1.getAmmoCubes()[1].getC());
+        assertEquals(Colour.RED, p1.getAmmoCubes()[2].getC());
+        assertEquals(Colour.BLUE, p1.getAmmoCubes()[3].getC());
+        assertEquals(Colour.BLUE, p1.getAmmoCubes()[4].getC());
+        assertEquals(Colour.BLUE, p1.getAmmoCubes()[5].getC());
+        assertEquals(Colour.YELLOW, p1.getAmmoCubes()[6].getC());
+        assertEquals(Colour.YELLOW, p1.getAmmoCubes()[7].getC());
+        assertEquals(Colour.YELLOW, p1.getAmmoCubes()[8].getC());
 
 
         p1.removeArrayAC(price1);
-        assertNull(p1.getaC()[0]);
-        assertEquals(Colour.RED, p1.getaC()[1].getC());
-        assertEquals(Colour.RED, p1.getaC()[2].getC());
-        assertNull(p1.getaC()[3]);
-        assertEquals(Colour.BLUE, p1.getaC()[4].getC());
-        assertEquals(Colour.BLUE, p1.getaC()[5].getC());
-        assertNull(p1.getaC()[6]);
-        assertEquals(Colour.YELLOW, p1.getaC()[7].getC());
-        assertEquals(Colour.YELLOW, p1.getaC()[8].getC());
+        assertNull(p1.getAmmoCubes()[0]);
+        assertEquals(Colour.RED, p1.getAmmoCubes()[1].getC());
+        assertEquals(Colour.RED, p1.getAmmoCubes()[2].getC());
+        assertNull(p1.getAmmoCubes()[3]);
+        assertEquals(Colour.BLUE, p1.getAmmoCubes()[4].getC());
+        assertEquals(Colour.BLUE, p1.getAmmoCubes()[5].getC());
+        assertNull(p1.getAmmoCubes()[6]);
+        assertEquals(Colour.YELLOW, p1.getAmmoCubes()[7].getC());
+        assertEquals(Colour.YELLOW, p1.getAmmoCubes()[8].getC());
 
         p1.removeArrayAC(price2);
-        assertNull(p1.getaC()[0]);
-        assertNull(p1.getaC()[1]);
-        assertEquals(Colour.RED, p1.getaC()[2].getC());
-        assertNull(p1.getaC()[3]);
-        assertNull(p1.getaC()[4]);
-        assertEquals(Colour.BLUE, p1.getaC()[5].getC());
-        assertNull(p1.getaC()[6]);
-        assertEquals(Colour.YELLOW, p1.getaC()[7].getC());
-        assertEquals(Colour.YELLOW, p1.getaC()[8].getC());
+        assertNull(p1.getAmmoCubes()[0]);
+        assertNull(p1.getAmmoCubes()[1]);
+        assertEquals(Colour.RED, p1.getAmmoCubes()[2].getC());
+        assertNull(p1.getAmmoCubes()[3]);
+        assertNull(p1.getAmmoCubes()[4]);
+        assertEquals(Colour.BLUE, p1.getAmmoCubes()[5].getC());
+        assertNull(p1.getAmmoCubes()[6]);
+        assertEquals(Colour.YELLOW, p1.getAmmoCubes()[7].getC());
+        assertEquals(Colour.YELLOW, p1.getAmmoCubes()[8].getC());
 
         AmmoCube[] price4 = new AmmoCube[]{new AmmoCube(Colour.RED), new AmmoCube(Colour.RED)};
         p1.removeArrayAC(price4);
-        assertNull(p1.getaC()[0]);
-        assertNull(p1.getaC()[1]);
-        assertNull(p1.getaC()[2]);
-        assertNull(p1.getaC()[3]);
-        assertNull(p1.getaC()[4]);
-        assertEquals(Colour.BLUE, p1.getaC()[5].getC());
-        assertNull(p1.getaC()[6]);
-        assertEquals(Colour.YELLOW, p1.getaC()[7].getC());
-        assertEquals(Colour.YELLOW, p1.getaC()[8].getC());
+        assertNull(p1.getAmmoCubes()[0]);
+        assertNull(p1.getAmmoCubes()[1]);
+        assertNull(p1.getAmmoCubes()[2]);
+        assertNull(p1.getAmmoCubes()[3]);
+        assertNull(p1.getAmmoCubes()[4]);
+        assertEquals(Colour.BLUE, p1.getAmmoCubes()[5].getC());
+        assertNull(p1.getAmmoCubes()[6]);
+        assertEquals(Colour.YELLOW, p1.getAmmoCubes()[7].getC());
+        assertEquals(Colour.YELLOW, p1.getAmmoCubes()[8].getC());
     }
 
     @Test
     void PlayerCardsTest()  {
         Player p1 = new Player("Test", Colour.BLUE, false);
 
-        assertTrue(p1.getwC().isEmpty());
+        assertTrue(p1.getWeaponCards().isEmpty());
         assertNull(p1.getWeaponCardObject("ZX-2"));
 
         WeaponCard wc1 = new ZX2();
         p1.addWeaponCard(wc1);
-        assertEquals(wc1, p1.getwC().get(0));
-        assertEquals(1, p1.getwC().size());
+        assertEquals(wc1, p1.getWeaponCards().get(0));
+        assertEquals(1, p1.getWeaponCards().size());
         assertEquals(wc1, p1.getWeaponCardObject("ZX-2"));
 
         WeaponCard wc2 = new Whisper();
         p1.addWeaponCard(wc2);
-        assertEquals(wc2, p1.getwC().get(1));
-        assertEquals(2, p1.getwC().size());
+        assertEquals(wc2, p1.getWeaponCards().get(1));
+        assertEquals(2, p1.getWeaponCards().size());
         assertEquals(wc2, p1.getWeaponCardObject("Whisper"));
 
         p1.removeWeaponCard(wc1);
-        assertEquals(wc2, p1.getwC().get(0));
-        assertEquals(1, p1.getwC().size());
+        assertEquals(wc2, p1.getWeaponCards().get(0));
+        assertEquals(1, p1.getWeaponCards().size());
 
         p1.removeWeaponCard(wc2);
-        assertTrue(p1.getwC().isEmpty());
+        assertTrue(p1.getWeaponCards().isEmpty());
 
 
-        assertTrue(p1.getpC().isEmpty());
+        assertTrue(p1.getPowerUpCards().isEmpty());
         assertNull(p1.getPowerUpCardObject("Newton", Colour.valueOf("YELLOW")));
 
         PowerUpCard pc1 = new Newton(Colour.YELLOW);
         p1.addPowerUpCard(pc1);
-        assertEquals(pc1, p1.getpC().get(0));
-        assertEquals(1, p1.getpC().size());
+        assertEquals(pc1, p1.getPowerUpCards().get(0));
+        assertEquals(1, p1.getPowerUpCards().size());
         assertEquals(pc1, p1.getPowerUpCardObject("Newton", Colour.valueOf("YELLOW")));
 
         PowerUpCard pc2 = new TargetingScope(Colour.RED);
         p1.addPowerUpCard(pc2);
-        assertEquals(pc2, p1.getpC().get(1));
-        assertEquals(2, p1.getpC().size());
+        assertEquals(pc2, p1.getPowerUpCards().get(1));
+        assertEquals(2, p1.getPowerUpCards().size());
         assertEquals(pc2, p1.getPowerUpCardObject("Targeting Scope", Colour.valueOf("RED")));
 
         p1.removePowerUpCard(pc1);
-        assertEquals(pc2, p1.getpC().get(0));
-        assertEquals(1, p1.getpC().size());
+        assertEquals(pc2, p1.getPowerUpCards().get(0));
+        assertEquals(1, p1.getPowerUpCards().size());
 
         p1.removePowerUpCard(pc2);
-        assertTrue(p1.getwC().isEmpty());
+        assertTrue(p1.getWeaponCards().isEmpty());
     }
 
     @Test
@@ -234,11 +234,11 @@ class PlayerAssertTests {
         assertFalse(p1.isDead());
         assertFalse(p1.isOverkilled());
 
-        p1.getpB().getDamages().addDamage(11, Colour.RED);
+        p1.getPlayerBoard().getDamages().addDamage(11, Colour.RED);
 
         assertTrue(p1.isDead());
 
-        p1.getpB().getDamages().addDamage(1, Colour.RED);
+        p1.getPlayerBoard().getDamages().addDamage(1, Colour.RED);
 
         assertTrue(p1.isOverkilled());
     }
@@ -251,54 +251,54 @@ class PlayerAssertTests {
 
         p1.payCard(cubes, cards);
 
-        assertTrue(p1.getpC().isEmpty());
-        assertEquals(9, p1.getaC().length);
-        assertEquals(Colour.RED, p1.getaC()[0].getC());
-        assertNull(p1.getaC()[1]);
-        assertNull(p1.getaC()[2]);
-        assertEquals(Colour.BLUE, p1.getaC()[3].getC());
-        assertNull(p1.getaC()[4]);
-        assertNull(p1.getaC()[5]);
-        assertEquals(Colour.YELLOW, p1.getaC()[6].getC());
-        assertNull(p1.getaC()[7]);
-        assertNull(p1.getaC()[8]);
+        assertTrue(p1.getPowerUpCards().isEmpty());
+        assertEquals(9, p1.getAmmoCubes().length);
+        assertEquals(Colour.RED, p1.getAmmoCubes()[0].getC());
+        assertNull(p1.getAmmoCubes()[1]);
+        assertNull(p1.getAmmoCubes()[2]);
+        assertEquals(Colour.BLUE, p1.getAmmoCubes()[3].getC());
+        assertNull(p1.getAmmoCubes()[4]);
+        assertNull(p1.getAmmoCubes()[5]);
+        assertEquals(Colour.YELLOW, p1.getAmmoCubes()[6].getC());
+        assertNull(p1.getAmmoCubes()[7]);
+        assertNull(p1.getAmmoCubes()[8]);
 
         PowerUpCard card1 = new Newton(Colour.BLUE);
         p1.addPowerUpCard(card1);
 
-        cubes.add(p1.getaC()[6]);
+        cubes.add(p1.getAmmoCubes()[6]);
         cards.add(card1);
 
         p1.payCard(cubes, cards);
 
-        assertEquals(9, p1.getaC().length);
-        assertEquals(Colour.RED, p1.getaC()[0].getC());
-        assertNull(p1.getaC()[1]);
-        assertNull(p1.getaC()[2]);
-        assertEquals(Colour.BLUE, p1.getaC()[3].getC());
-        assertNull(p1.getaC()[4]);
-        assertNull(p1.getaC()[5]);
-        assertNull(p1.getaC()[6]);
-        assertNull(p1.getaC()[7]);
-        assertNull(p1.getaC()[8]);
+        assertEquals(9, p1.getAmmoCubes().length);
+        assertEquals(Colour.RED, p1.getAmmoCubes()[0].getC());
+        assertNull(p1.getAmmoCubes()[1]);
+        assertNull(p1.getAmmoCubes()[2]);
+        assertEquals(Colour.BLUE, p1.getAmmoCubes()[3].getC());
+        assertNull(p1.getAmmoCubes()[4]);
+        assertNull(p1.getAmmoCubes()[5]);
+        assertNull(p1.getAmmoCubes()[6]);
+        assertNull(p1.getAmmoCubes()[7]);
+        assertNull(p1.getAmmoCubes()[8]);
 
-        assertTrue(p1.getpC().isEmpty());
+        assertTrue(p1.getPowerUpCards().isEmpty());
 
-        cubes.add(p1.getaC()[3]);
+        cubes.add(p1.getAmmoCubes()[3]);
         p1.payCard(cubes, cards);
 
-        assertEquals(9, p1.getaC().length);
-        assertEquals(Colour.RED, p1.getaC()[0].getC());
-        assertNull(p1.getaC()[1]);
-        assertNull(p1.getaC()[2]);
-        assertNull(p1.getaC()[3]);
-        assertNull(p1.getaC()[4]);
-        assertNull(p1.getaC()[5]);
-        assertNull(p1.getaC()[6]);
-        assertNull(p1.getaC()[7]);
-        assertNull(p1.getaC()[8]);
+        assertEquals(9, p1.getAmmoCubes().length);
+        assertEquals(Colour.RED, p1.getAmmoCubes()[0].getC());
+        assertNull(p1.getAmmoCubes()[1]);
+        assertNull(p1.getAmmoCubes()[2]);
+        assertNull(p1.getAmmoCubes()[3]);
+        assertNull(p1.getAmmoCubes()[4]);
+        assertNull(p1.getAmmoCubes()[5]);
+        assertNull(p1.getAmmoCubes()[6]);
+        assertNull(p1.getAmmoCubes()[7]);
+        assertNull(p1.getAmmoCubes()[8]);
 
-        assertTrue(p1.getpC().isEmpty());
+        assertTrue(p1.getPowerUpCards().isEmpty());
     }
 
     @Test

@@ -11,12 +11,12 @@ public class Player {
 
     private String nickName;
     private Colour c;
-    private PlayerBoard pB;
+    private PlayerBoard playerBoard;
     private boolean firstPlayerCard;            //0 is not the first player, 1 is
     private int score;
-    private AmmoCube[] aC;                  //from 0 to 9; maximum 3 for each colour
-    private LinkedList<WeaponCard> wC;
-    private LinkedList<PowerUpCard> pC;
+    private AmmoCube[] ammoCubes;                  //from 0 to 9; maximum 3 for each colour
+    private LinkedList<WeaponCard> weaponCards;
+    private LinkedList<PowerUpCard> powerUpCards;
     private Cell cell;
     private int turnFinalFrenzy;        //0 if your final frenzy turn is before the first player, 1 if you are the first player, 2 if you play after
 
@@ -24,12 +24,12 @@ public class Player {
 
         this.nickName = name;
         this.c = c;
-        this.pB = new PlayerBoard();
+        this.playerBoard = new PlayerBoard();
         this.firstPlayerCard = f;
         this.score = 0;
-        this.aC = new AmmoCube[]{new AmmoCube(Colour.RED), null, null, new AmmoCube(Colour.BLUE), null, null, new AmmoCube(Colour.YELLOW), null, null};
-        wC = new LinkedList<>();
-        pC = new LinkedList<>();
+        this.ammoCubes = new AmmoCube[]{new AmmoCube(Colour.RED), null, null, new AmmoCube(Colour.BLUE), null, null, new AmmoCube(Colour.YELLOW), null, null};
+        weaponCards = new LinkedList<>();
+        powerUpCards = new LinkedList<>();
     }
 
     public String getNickName() {
@@ -40,8 +40,8 @@ public class Player {
         return c;
     }
 
-    public PlayerBoard getpB() {
-        return pB;
+    public PlayerBoard getPlayerBoard() {
+        return playerBoard;
     }
 
     public boolean isFirstPlayerCard() {
@@ -56,8 +56,8 @@ public class Player {
         this.score = this.score + score;
     }
 
-    public AmmoCube[] getaC() {
-        return aC;
+    public AmmoCube[] getAmmoCubes() {
+        return ammoCubes;
     }
 
     public int getTurnFinalFrenzy() {
@@ -75,7 +75,7 @@ public class Player {
             return true;
 
         List<Colour> lInput = new LinkedList<>();
-        for(AmmoCube aCPlayer : this.aC) {
+        for(AmmoCube aCPlayer : this.ammoCubes) {
             if(aCPlayer != null)
                 lInput.add(aCPlayer.getC());
         }
@@ -103,8 +103,8 @@ public class Player {
 
     private void addNewACRED(AmmoCube ac) {
         for (int i = 0; i < 3; i++) {
-            if (this.aC[i] == null) {
-                this.aC[i] = ac;
+            if (this.ammoCubes[i] == null) {
+                this.ammoCubes[i] = ac;
                 break;
             }
         }
@@ -112,8 +112,8 @@ public class Player {
 
     private void addNewACBLUE(AmmoCube ac) {
         for (int i = 3; i < 6; i++) {
-            if (this.aC[i] == null) {
-                this.aC[i] = ac;
+            if (this.ammoCubes[i] == null) {
+                this.ammoCubes[i] = ac;
                 break;
             }
         }
@@ -121,8 +121,8 @@ public class Player {
 
     private void addNewACYELLOW(AmmoCube ac) {
         for (int i = 6; i < 9; i++) {
-            if (this.aC[i] == null) {
-                this.aC[i] = ac;
+            if (this.ammoCubes[i] == null) {
+                this.ammoCubes[i] = ac;
                 break;
             }
         }
@@ -130,9 +130,9 @@ public class Player {
 
     private void removeAC(AmmoCube a){
         int i = 0;
-        for(AmmoCube a1 : this.getaC()){
+        for(AmmoCube a1 : this.getAmmoCubes()){
             if((a1 != null) && a1.getC().equals(a.getC())){
-                this.aC[i] = null;
+                this.ammoCubes[i] = null;
                 return;
             }
             i++;
@@ -151,44 +151,44 @@ public class Player {
         }
         if(!lP.isEmpty()) {
             for (PowerUpCard p : lP)
-                this.pC.remove(p);
+                this.powerUpCards.remove(p);
         }
     }
 
-    public List<WeaponCard> getwC() {
-        return wC;
+    public List<WeaponCard> getWeaponCards() {
+        return weaponCards;
     }
 
     public void addWeaponCard(WeaponCard w){
-        this.wC.add(w);
+        this.weaponCards.add(w);
     }
 
     public void removeWeaponCard(WeaponCard w){
-        this.wC.remove(w);
+        this.weaponCards.remove(w);
     }
 
     public WeaponCard getWeaponCardObject(String s){
-        for (WeaponCard w: this.wC){
+        for (WeaponCard w: this.weaponCards){
             if(w.getCardName().equals(s))
                 return w;
         }
         return null;
     }
 
-    public List<PowerUpCard> getpC() {
-        return pC;
+    public List<PowerUpCard> getPowerUpCards() {
+        return powerUpCards;
     }
 
     public void addPowerUpCard(PowerUpCard p){
-        this.pC.add(p);
+        this.powerUpCards.add(p);
     }
 
     public void removePowerUpCard(PowerUpCard p){
-        this.pC.remove(p);
+        this.powerUpCards.remove(p);
     }
 
     public PowerUpCard getPowerUpCardObject(String s, Colour colour){
-        for (PowerUpCard p: this.pC){
+        for (PowerUpCard p: this.powerUpCards){
             if(p.getCardName().equals(s) && p.getC().equals(colour))
                 return p;
         }
@@ -207,18 +207,18 @@ public class Player {
     }
 
     public boolean isAdrenaline1() {
-        return (this.pB.getDamages().getDamageTr()[2]!=null);
+        return (this.playerBoard.getDamages().getDamageTokens()[2]!=null);
     }
 
     public boolean isAdrenaline2() {
-        return (this.pB.getDamages().getDamageTr()[5]!=null);
+        return (this.playerBoard.getDamages().getDamageTokens()[5]!=null);
     }
 
     public boolean isDead(){
-        return (this.pB.getDamages().getDamageTr()[10]!=null);
+        return (this.playerBoard.getDamages().getDamageTokens()[10]!=null);
     }
 
     public boolean isOverkilled(){
-        return (this.pB.getDamages().getDamageTr()[11]!=null);
+        return (this.playerBoard.getDamages().getDamageTokens()[11]!=null);
     }
 }

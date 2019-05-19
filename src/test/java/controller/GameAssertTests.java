@@ -23,6 +23,7 @@ class GameAssertTests {
     private int iD = 1;
     private ServerInterface server;
 
+
     @Test
     void GameStartMoveShootEndTest() throws RemoteException {
         Game game = new Game(iD, server);
@@ -64,12 +65,12 @@ class GameAssertTests {
 
 
         game.giveTwoPUCard("Player 1");
-        PowerUpCard discarded1 = p1.getpC().get(1);
-        System.out.print("PowerUpCard picked from the deck for Player 1: " + p1.getpC().get(0).getCardName() + " coloured " + p1.getpC().get(0).getC().getAbbreviation() + ", and " + p1.getpC().get(1).getCardName() + " coloured " + p1.getpC().get(1).getC().getAbbreviation());
-        assertTrue(game.isValidPickAndDiscard("Player 1", p1.getpC().get(0).getCardName(), p1.getpC().get(0).getC().getAbbreviation()));
-        game.pickAndDiscardCard("Player 1", p1.getpC().get(0).getCardName(), p1.getpC().get(0).getC().getAbbreviation());
+        PowerUpCard discarded1 = p1.getPowerUpCards().get(1);
+        System.out.print("PowerUpCard picked from the deck for Player 1: " + p1.getPowerUpCards().get(0).getCardName() + " coloured " + p1.getPowerUpCards().get(0).getC().getAbbreviation() + ", and " + p1.getPowerUpCards().get(1).getCardName() + " coloured " + p1.getPowerUpCards().get(1).getC().getAbbreviation());
+        assertTrue(game.isValidPickAndDiscard("Player 1", p1.getPowerUpCards().get(0).getCardName(), p1.getPowerUpCards().get(0).getC().getAbbreviation()));
+        game.pickAndDiscardCard("Player 1", p1.getPowerUpCards().get(0).getCardName(), p1.getPowerUpCards().get(0).getC().getAbbreviation());
         assertEquals(GameState.STARTTURN, game.getGameState());
-        assertEquals(1, p1.getpC().size());
+        assertEquals(1, p1.getPowerUpCards().size());
         assertEquals(1, grid.getPowerUpDiscardPile().size());
 
 
@@ -81,12 +82,12 @@ class GameAssertTests {
             assertEquals(p1.getCell(), grid.getBoard().getArena()[0][2]);
 
         game.giveTwoPUCard("Player 2");
-        PowerUpCard discarded2 = p2.getpC().get(0);
-        System.out.print("\nPowerUpCard picked from the deck for Player 2: " + p2.getpC().get(0).getCardName() + " coloured " + p2.getpC().get(0).getC().getAbbreviation() + ", and " + p2.getpC().get(1).getCardName() + " coloured " + p2.getpC().get(1).getC().getAbbreviation());
-        assertTrue(game.isValidPickAndDiscard("Player 2", p2.getpC().get(1).getCardName(), p2.getpC().get(1).getC().getAbbreviation()));
-        game.pickAndDiscardCard("Player 2", p2.getpC().get(1).getCardName(), p2.getpC().get(1).getC().getAbbreviation());
+        PowerUpCard discarded2 = p2.getPowerUpCards().get(0);
+        System.out.print("\nPowerUpCard picked from the deck for Player 2: " + p2.getPowerUpCards().get(0).getCardName() + " coloured " + p2.getPowerUpCards().get(0).getC().getAbbreviation() + ", and " + p2.getPowerUpCards().get(1).getCardName() + " coloured " + p2.getPowerUpCards().get(1).getC().getAbbreviation());
+        assertTrue(game.isValidPickAndDiscard("Player 2", p2.getPowerUpCards().get(1).getCardName(), p2.getPowerUpCards().get(1).getC().getAbbreviation()));
+        game.pickAndDiscardCard("Player 2", p2.getPowerUpCards().get(1).getCardName(), p2.getPowerUpCards().get(1).getC().getAbbreviation());
         assertEquals(GameState.STARTTURN, game.getGameState());
-        assertEquals(1, p2.getpC().size());
+        assertEquals(1, p2.getPowerUpCards().size());
         assertEquals(2, grid.getPowerUpDiscardPile().size());
 
         if (discarded2.getC().equals(YELLOW))
@@ -97,12 +98,12 @@ class GameAssertTests {
             assertEquals(p2.getCell(), grid.getBoard().getArena()[0][2]);
 
         game.giveTwoPUCard("Player 3");
-        PowerUpCard discarded3 = p3.getpC().get(1);
-        System.out.print("\nPowerUpCard picked from the deck for Player 3: " + p3.getpC().get(0).getCardName() + " coloured " + p3.getpC().get(0).getC().getAbbreviation() + ", and " + p3.getpC().get(1).getCardName() + " coloured " + p3.getpC().get(1).getC().getAbbreviation());
-        assertTrue(game.isValidPickAndDiscard("Player 3", p3.getpC().get(0).getCardName(), p3.getpC().get(0).getC().getAbbreviation()));
-        game.pickAndDiscardCard("Player 3", p3.getpC().get(0).getCardName(), p3.getpC().get(0).getC().getAbbreviation());
+        PowerUpCard discarded3 = p3.getPowerUpCards().get(1);
+        System.out.print("\nPowerUpCard picked from the deck for Player 3: " + p3.getPowerUpCards().get(0).getCardName() + " coloured " + p3.getPowerUpCards().get(0).getC().getAbbreviation() + ", and " + p3.getPowerUpCards().get(1).getCardName() + " coloured " + p3.getPowerUpCards().get(1).getC().getAbbreviation());
+        assertTrue(game.isValidPickAndDiscard("Player 3", p3.getPowerUpCards().get(0).getCardName(), p3.getPowerUpCards().get(0).getC().getAbbreviation()));
+        game.pickAndDiscardCard("Player 3", p3.getPowerUpCards().get(0).getCardName(), p3.getPowerUpCards().get(0).getC().getAbbreviation());
         assertEquals(GameState.STARTTURN, game.getGameState());
-        assertEquals(1, p3.getpC().size());
+        assertEquals(1, p3.getPowerUpCards().size());
         assertEquals(3, grid.getPowerUpDiscardPile().size());
 
         if (discarded3.getC().equals(YELLOW))
@@ -164,7 +165,7 @@ class GameAssertTests {
         assertFalse(game.isValidCard("Player 1", "Machine Gun"));
         p1.addWeaponCard(machineGun);
         assertFalse(game.isValidCard("Player 1", "Machine Gun"));
-        p1.getwC().get(0).reload();
+        p1.getWeaponCards().get(0).reload();
         assertTrue(game.isValidCard("Player 1", "Machine Gun"));
 
         List<Integer> lI = new LinkedList<>();
@@ -185,22 +186,22 @@ class GameAssertTests {
 
         assertTrue(game.isValidSecondActionShoot("Player 1", "Machine Gun", lI, lS, 0, lA, lP, lPC));
         game.secondActionShoot("Player 1", "Machine Gun", lI, lS, 0, lA, lP, lPC);
-        assertEquals(BLUE, p2.getpB().getDamages().getDamageTr()[0].getC());
-        assertEquals(BLUE, p3.getpB().getDamages().getDamageTr()[0].getC());
-        assertEquals(BLUE, p3.getpB().getDamages().getDamageTr()[1].getC());
-        assertEquals(BLUE, p2.getpB().getDamages().getDamageTr()[1].getC());
+        assertEquals(BLUE, p2.getPlayerBoard().getDamages().getDamageTokens()[0].getC());
+        assertEquals(BLUE, p3.getPlayerBoard().getDamages().getDamageTokens()[0].getC());
+        assertEquals(BLUE, p3.getPlayerBoard().getDamages().getDamageTokens()[1].getC());
+        assertEquals(BLUE, p2.getPlayerBoard().getDamages().getDamageTokens()[1].getC());
 
         assertEquals(GameState.ACTION2, game.getGameState());
         assertFalse(machineGun.isReloaded());
-        assertNotNull(p1.getaC()[0]);
-        assertNull(p1.getaC()[1]);
-        assertNull(p1.getaC()[2]);
-        assertNull(p1.getaC()[3]);
-        assertNull(p1.getaC()[4]);
-        assertNull(p1.getaC()[5]);
-        assertNull(p1.getaC()[6]);
-        assertNull(p1.getaC()[7]);
-        assertNull(p1.getaC()[8]);
+        assertNotNull(p1.getAmmoCubes()[0]);
+        assertNull(p1.getAmmoCubes()[1]);
+        assertNull(p1.getAmmoCubes()[2]);
+        assertNull(p1.getAmmoCubes()[3]);
+        assertNull(p1.getAmmoCubes()[4]);
+        assertNull(p1.getAmmoCubes()[5]);
+        assertNull(p1.getAmmoCubes()[6]);
+        assertNull(p1.getAmmoCubes()[7]);
+        assertNull(p1.getAmmoCubes()[8]);
 
 
         //Use PowerUpCards
@@ -208,17 +209,17 @@ class GameAssertTests {
         lI.clear();
         lS.clear();
         lA.clear();
-        p1.getpC().clear();
-        p2.getpC().clear();
-        p3.getpC().clear();
+        p1.getPowerUpCards().clear();
+        p2.getPowerUpCards().clear();
+        p3.getPowerUpCards().clear();
 
         PowerUpCard tagbackGrenade = new TagbackGrenade(BLUE);
         p2.addPowerUpCard(tagbackGrenade);
         lS.add("Player 1");
         assertTrue(game.isValidUsePowerUpCard("Player 2", "Tagback Grenade", "BLUE", lS, null));
         game.usePowerUpCard("Player 2", "Tagback Grenade", "BLUE", lS, null);
-        assertEquals(YELLOW, p1.getpB().getMarks().get(0).getC());
-        assertFalse(p2.getpC().contains(tagbackGrenade));
+        assertEquals(YELLOW, p1.getPlayerBoard().getMarks().get(0).getC());
+        assertFalse(p2.getPowerUpCards().contains(tagbackGrenade));
         assertEquals(4, grid.getPowerUpDiscardPile().size());
 
         lS.clear();
@@ -228,12 +229,12 @@ class GameAssertTests {
         lS.add("Player 2");
         assertTrue(game.isValidUsePowerUpCard("Player 1", "Targeting Scope", "RED", lS, Colour.valueOf("RED")));
         game.usePowerUpCard("Player 1", "Targeting Scope", "RED", lS, Colour.valueOf("RED"));
-        assertEquals(BLUE, p2.getpB().getDamages().getDamageTr()[2].getC());
-        for (AmmoCube ac : p1.getaC()) {
+        assertEquals(BLUE, p2.getPlayerBoard().getDamages().getDamageTokens()[2].getC());
+        for (AmmoCube ac : p1.getAmmoCubes()) {
             if (ac != null)
                 assertNotEquals(Colour.RED, ac.getC());
         }
-        assertFalse(p1.getpC().contains(targetingScope));
+        assertFalse(p1.getPowerUpCards().contains(targetingScope));
         assertEquals(5, grid.getPowerUpDiscardPile().size());
 
         lS.clear();
@@ -246,7 +247,7 @@ class GameAssertTests {
         assertTrue(game.isValidUsePowerUpCard("Player 1", "Newton", "YELLOW", lS, null));
         game.usePowerUpCard("Player 1", "Newton", "YELLOW", lS, null);
         assertEquals(grid.getBoard().getArena()[2][1], p3.getCell());
-        assertFalse(p1.getpC().contains(newton));
+        assertFalse(p1.getPowerUpCards().contains(newton));
         assertEquals(6, grid.getPowerUpDiscardPile().size());
 
         lS.clear();
@@ -258,7 +259,7 @@ class GameAssertTests {
         assertTrue(game.isValidUsePowerUpCard("Player 1", "Teleporter", "BLUE", lS, null));
         game.usePowerUpCard("Player 1", "Teleporter", "BLUE", lS, null);
         assertEquals(grid.getBoard().getArena()[1][1], p1.getCell());
-        assertFalse(p1.getpC().contains(teleporter));
+        assertFalse(p1.getPowerUpCards().contains(teleporter));
         assertEquals(7, grid.getPowerUpDiscardPile().size());
 
         lS.clear();
@@ -269,22 +270,22 @@ class GameAssertTests {
         assertFalse(game.isValidReload("Player 1", "Machine Gun"));
         p1.addNewAC(new AmmoCube(BLUE));
         p1.addNewAC(new AmmoCube(Colour.RED));
-        assertNotNull(p1.getaC()[0]);
-        assertNull(p1.getaC()[1]);
-        assertNull(p1.getaC()[2]);
-        assertNotNull(p1.getaC()[3]);
-        assertNull(p1.getaC()[4]);
-        assertNull(p1.getaC()[5]);
-        assertNull(p1.getaC()[6]);
-        assertNull(p1.getaC()[7]);
-        assertNull(p1.getaC()[8]);
+        assertNotNull(p1.getAmmoCubes()[0]);
+        assertNull(p1.getAmmoCubes()[1]);
+        assertNull(p1.getAmmoCubes()[2]);
+        assertNotNull(p1.getAmmoCubes()[3]);
+        assertNull(p1.getAmmoCubes()[4]);
+        assertNull(p1.getAmmoCubes()[5]);
+        assertNull(p1.getAmmoCubes()[6]);
+        assertNull(p1.getAmmoCubes()[7]);
+        assertNull(p1.getAmmoCubes()[8]);
 
 
-        assertFalse(p1.getwC().get(0).isReloaded());
+        assertFalse(p1.getWeaponCards().get(0).isReloaded());
         assertTrue(game.isValidReload("Player 1", "Machine Gun"));
         game.reload("Player 1", "Machine Gun", 1);
-        assertTrue(p1.getwC().get(0).isReloaded());
-        for (AmmoCube ac : p1.getaC()) {
+        assertTrue(p1.getWeaponCards().get(0).isReloaded());
+        for (AmmoCube ac : p1.getAmmoCubes()) {
             assertNull(ac);
         }
 
@@ -297,9 +298,9 @@ class GameAssertTests {
         grid.damage(p1, p2, 9);
         grid.damage(p1, p3, 9);
 
-        assertEquals(2, p1.getpB().getMarks().size());
-        assertEquals(p2.getC(), p1.getpB().getMarks().get(0).getC());
-        assertEquals(p2.getC(), p1.getpB().getMarks().get(1).getC());
+        assertEquals(2, p1.getPlayerBoard().getMarks().size());
+        assertEquals(p2.getC(), p1.getPlayerBoard().getMarks().get(0).getC());
+        assertEquals(p2.getC(), p1.getPlayerBoard().getMarks().get(1).getC());
 
         assertTrue(game.isValidScoring());
         game.scoring();
@@ -320,24 +321,24 @@ class GameAssertTests {
         assertEquals(p1.getC(), grid.getBoard().getK().getC()[0]);
         assertEquals(p1.getC(), grid.getBoard().getK().getC()[1]);
 
-        assertEquals(6, p2.getpB().getPoints().getPoints().size());
-        assertEquals(6, p3.getpB().getPoints().getPoints().size());
+        assertEquals(6, p2.getPlayerBoard().getPoints().getPoints().size());
+        assertEquals(6, p3.getPlayerBoard().getPoints().getPoints().size());
 
         for (int i = 0; i < 12; i++) {
-            assertNull(p2.getpB().getDamages().getDamageTr()[i]);
-            assertNull(p3.getpB().getDamages().getDamageTr()[i]);
+            assertNull(p2.getPlayerBoard().getDamages().getDamageTokens()[i]);
+            assertNull(p3.getPlayerBoard().getDamages().getDamageTokens()[i]);
         }
 
-        assertEquals(1, p2.getpC().size());
-        assertEquals(1, p3.getpC().size());
+        assertEquals(1, p2.getPowerUpCards().size());
+        assertEquals(1, p3.getPowerUpCards().size());
 
         //assertEquals(GameState.DEATH, game.getGameState());
 
 
         //Discard card for new spawn point
 
-        p2.getpC().clear();
-        p3.getpC().clear();
+        p2.getPowerUpCards().clear();
+        p3.getPowerUpCards().clear();
 
         PowerUpCard targetingScope2 = new TargetingScope(BLUE);
 
@@ -345,7 +346,7 @@ class GameAssertTests {
         assertTrue(game.isValidDiscardCardForSpawnPoint("Player 2", "Targeting Scope", "BLUE"));
         game.discardCardForSpawnPoint("Player 2", "Targeting Scope", "BLUE");
         assertEquals(p2.getCell(), grid.getBoard().getArena()[0][2]);
-        assertFalse(p2.getpC().contains(targetingScope));
+        assertFalse(p2.getPowerUpCards().contains(targetingScope));
         assertEquals(8, grid.getPowerUpDiscardPile().size());
         assertTrue(grid.getPowerUpDiscardPile().contains(targetingScope2));
 
@@ -359,7 +360,7 @@ class GameAssertTests {
         assertTrue(game.isValidDiscardCardForSpawnPoint("Player 3", "Tagback Grenade", "RED"));
         game.discardCardForSpawnPoint("Player 3", "Tagback Grenade", "RED");
         assertEquals(p3.getCell(), grid.getBoard().getArena()[1][0]);
-        assertFalse(p3.getpC().contains(tagbackGrenade2));
+        assertFalse(p3.getPowerUpCards().contains(tagbackGrenade2));
         assertEquals(9, grid.getPowerUpDiscardPile().size());
         assertTrue(grid.getPowerUpDiscardPile().contains(tagbackGrenade2));
 
@@ -432,12 +433,12 @@ class GameAssertTests {
         game.receiveType(1);
 
         game.giveTwoPUCard("Player 1");
-        System.out.print("\nPowerUpCard picked from the deck for Player 1: " + p1.getpC().get(0).getCardName() + " coloured " + p1.getpC().get(0).getC().getAbbreviation() + ", and " + p1.getpC().get(1).getCardName() + " coloured " + p1.getpC().get(1).getC().getAbbreviation());
-        game.pickAndDiscardCard("Player 1", p1.getpC().get(0).getCardName(), p1.getpC().get(0).getC().getAbbreviation());
+        System.out.print("\nPowerUpCard picked from the deck for Player 1: " + p1.getPowerUpCards().get(0).getCardName() + " coloured " + p1.getPowerUpCards().get(0).getC().getAbbreviation() + ", and " + p1.getPowerUpCards().get(1).getCardName() + " coloured " + p1.getPowerUpCards().get(1).getC().getAbbreviation());
+        game.pickAndDiscardCard("Player 1", p1.getPowerUpCards().get(0).getCardName(), p1.getPowerUpCards().get(0).getC().getAbbreviation());
 
         game.giveTwoPUCard("Player 2");
-        System.out.print("\nPowerUpCard picked from the deck for Player 2: " + p2.getpC().get(0).getCardName() + " coloured " + p2.getpC().get(0).getC().getAbbreviation() + ", and " + p2.getpC().get(1).getCardName() + " coloured " + p2.getpC().get(1).getC().getAbbreviation());
-        game.pickAndDiscardCard("Player 2", p2.getpC().get(1).getCardName(), p2.getpC().get(1).getC().getAbbreviation());
+        System.out.print("\nPowerUpCard picked from the deck for Player 2: " + p2.getPowerUpCards().get(0).getCardName() + " coloured " + p2.getPowerUpCards().get(0).getC().getAbbreviation() + ", and " + p2.getPowerUpCards().get(1).getCardName() + " coloured " + p2.getPowerUpCards().get(1).getC().getAbbreviation());
+        game.pickAndDiscardCard("Player 2", p2.getPowerUpCards().get(1).getCardName(), p2.getPowerUpCards().get(1).getC().getAbbreviation());
 
         //Initialization finished
         //First Action: Grab
@@ -456,17 +457,17 @@ class GameAssertTests {
         assertTrue(game.isValidFirstActionGrab(p1.getNickName(), directions1, "", "", lA, lP, lPColourInput));
         game.firstActionGrab(p1.getNickName(), directions1, "", lA, lP, lPColourInput);
 
-        assertNotNull(p1.getaC()[0]);
-        assertNotNull(p1.getaC()[1]);
-        assertNull(p1.getaC()[2]);
-        assertNotNull(p1.getaC()[3]);
-        assertNotNull(p1.getaC()[4]);
-        assertNull(p1.getaC()[5]);
-        assertNotNull(p1.getaC()[6]);
-        assertNull(p1.getaC()[7]);
-        assertNull(p1.getaC()[8]);
+        assertNotNull(p1.getAmmoCubes()[0]);
+        assertNotNull(p1.getAmmoCubes()[1]);
+        assertNull(p1.getAmmoCubes()[2]);
+        assertNotNull(p1.getAmmoCubes()[3]);
+        assertNotNull(p1.getAmmoCubes()[4]);
+        assertNull(p1.getAmmoCubes()[5]);
+        assertNotNull(p1.getAmmoCubes()[6]);
+        assertNull(p1.getAmmoCubes()[7]);
+        assertNull(p1.getAmmoCubes()[8]);
 
-        assertEquals(2, p1.getpC().size());
+        assertEquals(2, p1.getPowerUpCards().size());
 
         assertEquals(GameState.ACTION1, game.getGameState());
 
@@ -498,10 +499,10 @@ class GameAssertTests {
 
         assertTrue(game.isValidSecondActionShoot("Player 3", "Cyberblade", lI, lS, 2, lA, lP, lPColourInput));
         game.secondActionShoot("Player 3", "Cyberblade", lI, lS, 2, lA, lP, lPColourInput);
-        assertEquals(p3.getC(), p1.getpB().getDamages().getDamageTr()[0].getC());
-        assertEquals(p3.getC(), p1.getpB().getDamages().getDamageTr()[1].getC());
-        assertEquals(p3.getC(), p2.getpB().getDamages().getDamageTr()[0].getC());
-        assertEquals(p3.getC(), p2.getpB().getDamages().getDamageTr()[1].getC());
+        assertEquals(p3.getC(), p1.getPlayerBoard().getDamages().getDamageTokens()[0].getC());
+        assertEquals(p3.getC(), p1.getPlayerBoard().getDamages().getDamageTokens()[1].getC());
+        assertEquals(p3.getC(), p2.getPlayerBoard().getDamages().getDamageTokens()[0].getC());
+        assertEquals(p3.getC(), p2.getPlayerBoard().getDamages().getDamageTokens()[1].getC());
     }
 
     @Test
@@ -521,12 +522,12 @@ class GameAssertTests {
         game.receiveType(1);
 
         game.giveTwoPUCard("Player 1");
-        System.out.print("\nPowerUpCard picked from the deck for Player 1: " + p1.getpC().get(0).getCardName() + " coloured " + p1.getpC().get(0).getC().getAbbreviation() + ", and " + p1.getpC().get(1).getCardName() + " coloured " + p1.getpC().get(1).getC().getAbbreviation());
-        game.pickAndDiscardCard("Player 1", p1.getpC().get(0).getCardName(), p1.getpC().get(0).getC().getAbbreviation());
+        System.out.print("\nPowerUpCard picked from the deck for Player 1: " + p1.getPowerUpCards().get(0).getCardName() + " coloured " + p1.getPowerUpCards().get(0).getC().getAbbreviation() + ", and " + p1.getPowerUpCards().get(1).getCardName() + " coloured " + p1.getPowerUpCards().get(1).getC().getAbbreviation());
+        game.pickAndDiscardCard("Player 1", p1.getPowerUpCards().get(0).getCardName(), p1.getPowerUpCards().get(0).getC().getAbbreviation());
 
         game.giveTwoPUCard("Player 2");
-        System.out.print("\nPowerUpCard picked from the deck for Player 2: " + p2.getpC().get(0).getCardName() + " coloured " + p2.getpC().get(0).getC().getAbbreviation() + ", and " + p2.getpC().get(1).getCardName() + " coloured " + p2.getpC().get(1).getC().getAbbreviation());
-        game.pickAndDiscardCard("Player 2", p2.getpC().get(1).getCardName(), p2.getpC().get(1).getC().getAbbreviation());
+        System.out.print("\nPowerUpCard picked from the deck for Player 2: " + p2.getPowerUpCards().get(0).getCardName() + " coloured " + p2.getPowerUpCards().get(0).getC().getAbbreviation() + ", and " + p2.getPowerUpCards().get(1).getCardName() + " coloured " + p2.getPowerUpCards().get(1).getC().getAbbreviation());
+        game.pickAndDiscardCard("Player 2", p2.getPowerUpCards().get(1).getCardName(), p2.getPowerUpCards().get(1).getC().getAbbreviation());
 
         //Initialization finished
         //First Action: Grab
@@ -545,18 +546,18 @@ class GameAssertTests {
         assertTrue(game.isValidFirstActionGrab(p1.getNickName(), directions1, "Lock Rifle", "1", lA, lP, lPColourInput));
         game.firstActionGrab(p1.getNickName(), directions1, "Lock Rifle", lA, lP, lPColourInput);
 
-        assertEquals(1, p1.getwC().size());
-        assertTrue(p1.getwC().contains(lockRifle));
+        assertEquals(1, p1.getWeaponCards().size());
+        assertTrue(p1.getWeaponCards().contains(lockRifle));
 
-        assertNotNull(p1.getaC()[0]);
-        assertNull(p1.getaC()[1]);
-        assertNull(p1.getaC()[2]);
-        assertNull(p1.getaC()[3]);
-        assertNull(p1.getaC()[4]);
-        assertNull(p1.getaC()[5]);
-        assertNotNull(p1.getaC()[6]);
-        assertNull(p1.getaC()[7]);
-        assertNull(p1.getaC()[8]);*/
+        assertNotNull(p1.getAmmoCubes()[0]);
+        assertNull(p1.getAmmoCubes()[1]);
+        assertNull(p1.getAmmoCubes()[2]);
+        assertNull(p1.getAmmoCubes()[3]);
+        assertNull(p1.getAmmoCubes()[4]);
+        assertNull(p1.getAmmoCubes()[5]);
+        assertNotNull(p1.getAmmoCubes()[6]);
+        assertNull(p1.getAmmoCubes()[7]);
+        assertNull(p1.getAmmoCubes()[8]);*/
 
         p2.changeCell(grid.getBoard().getArena()[0][2]);
         WeaponCard railgun = new Railgun();
@@ -606,20 +607,20 @@ class GameAssertTests {
         game.receiveType(4);
 
         game.giveTwoPUCard("Player 1");
-        System.out.print("\nPowerUpCard picked from the deck for Player 1: " + p1.getpC().get(0).getCardName() + " coloured " + p1.getpC().get(0).getC().getAbbreviation() + ", and " + p1.getpC().get(1).getCardName() + " coloured " + p1.getpC().get(1).getC().getAbbreviation());
-        game.pickAndDiscardCard("Player 1", p1.getpC().get(0).getCardName(), p1.getpC().get(0).getC().getAbbreviation());
+        System.out.print("\nPowerUpCard picked from the deck for Player 1: " + p1.getPowerUpCards().get(0).getCardName() + " coloured " + p1.getPowerUpCards().get(0).getC().getAbbreviation() + ", and " + p1.getPowerUpCards().get(1).getCardName() + " coloured " + p1.getPowerUpCards().get(1).getC().getAbbreviation());
+        game.pickAndDiscardCard("Player 1", p1.getPowerUpCards().get(0).getCardName(), p1.getPowerUpCards().get(0).getC().getAbbreviation());
 
         game.giveTwoPUCard("Player 2");
-        System.out.print("\nPowerUpCard picked from the deck for Player 2: " + p2.getpC().get(0).getCardName() + " coloured " + p2.getpC().get(0).getC().getAbbreviation() + ", and " + p2.getpC().get(1).getCardName() + " coloured " + p2.getpC().get(1).getC().getAbbreviation());
-        game.pickAndDiscardCard("Player 2", p2.getpC().get(1).getCardName(), p2.getpC().get(1).getC().getAbbreviation());
+        System.out.print("\nPowerUpCard picked from the deck for Player 2: " + p2.getPowerUpCards().get(0).getCardName() + " coloured " + p2.getPowerUpCards().get(0).getC().getAbbreviation() + ", and " + p2.getPowerUpCards().get(1).getCardName() + " coloured " + p2.getPowerUpCards().get(1).getC().getAbbreviation());
+        game.pickAndDiscardCard("Player 2", p2.getPowerUpCards().get(1).getCardName(), p2.getPowerUpCards().get(1).getC().getAbbreviation());
 
         game.giveTwoPUCard("Player 3");
-        System.out.print("\nPowerUpCard picked from the deck for Player 3: " + p3.getpC().get(0).getCardName() + " coloured " + p3.getpC().get(0).getC().getAbbreviation() + ", and " + p3.getpC().get(1).getCardName() + " coloured " + p3.getpC().get(1).getC().getAbbreviation());
-        game.pickAndDiscardCard("Player 3", p3.getpC().get(1).getCardName(), p3.getpC().get(1).getC().getAbbreviation());
+        System.out.print("\nPowerUpCard picked from the deck for Player 3: " + p3.getPowerUpCards().get(0).getCardName() + " coloured " + p3.getPowerUpCards().get(0).getC().getAbbreviation() + ", and " + p3.getPowerUpCards().get(1).getCardName() + " coloured " + p3.getPowerUpCards().get(1).getC().getAbbreviation());
+        game.pickAndDiscardCard("Player 3", p3.getPowerUpCards().get(1).getCardName(), p3.getPowerUpCards().get(1).getC().getAbbreviation());
 
         game.giveTwoPUCard("Player 4");
-        System.out.print("\nPowerUpCard picked from the deck for Player 4: " + p4.getpC().get(0).getCardName() + " coloured " + p4.getpC().get(0).getC().getAbbreviation() + ", and " + p4.getpC().get(1).getCardName() + " coloured " + p4.getpC().get(1).getC().getAbbreviation());
-        game.pickAndDiscardCard("Player 4", p4.getpC().get(1).getCardName(), p4.getpC().get(1).getC().getAbbreviation());
+        System.out.print("\nPowerUpCard picked from the deck for Player 4: " + p4.getPowerUpCards().get(0).getCardName() + " coloured " + p4.getPowerUpCards().get(0).getC().getAbbreviation() + ", and " + p4.getPowerUpCards().get(1).getCardName() + " coloured " + p4.getPowerUpCards().get(1).getC().getAbbreviation());
+        game.pickAndDiscardCard("Player 4", p4.getPowerUpCards().get(1).getCardName(), p4.getPowerUpCards().get(1).getC().getAbbreviation());
 
         p1.changeCell(grid.getBoard().getArena()[1][0]);
         p2.changeCell(grid.getBoard().getArena()[2][1]);
@@ -642,12 +643,12 @@ class GameAssertTests {
         AmmoCube aBlu = new AmmoCube(Colour.BLUE);
         p1.addNewAC(aBlu);
         p1.addNewAC(aBlu);
-        System.out.println("\n" + p1.getaC()[0].getC().toString());
-        assertNull(p1.getaC()[1]);
-        assertNull(p1.getaC()[2]);
-        System.out.println("\n" + p1.getaC()[3].getC().toString());
-        System.out.println("\n" + p1.getaC()[4].getC().toString());
-        System.out.println("\n" + p1.getaC()[5].getC().toString());
+        System.out.println("\n" + p1.getAmmoCubes()[0].getC().toString());
+        assertNull(p1.getAmmoCubes()[1]);
+        assertNull(p1.getAmmoCubes()[2]);
+        System.out.println("\n" + p1.getAmmoCubes()[3].getC().toString());
+        System.out.println("\n" + p1.getAmmoCubes()[4].getC().toString());
+        System.out.println("\n" + p1.getAmmoCubes()[5].getC().toString());
 
         List<Integer> lI = new LinkedList<>();
         lI.add(1);
@@ -689,20 +690,20 @@ class GameAssertTests {
         game.receiveType(1);
 
         game.giveTwoPUCard("Player 1");
-        System.out.print("\nPowerUpCard picked from the deck for Player 1: " + p1.getpC().get(0).getCardName() + " coloured " + p1.getpC().get(0).getC().getAbbreviation() + ", and " + p1.getpC().get(1).getCardName() + " coloured " + p1.getpC().get(1).getC().getAbbreviation());
-        game.pickAndDiscardCard("Player 1", p1.getpC().get(0).getCardName(), p1.getpC().get(0).getC().getAbbreviation());
+        System.out.print("\nPowerUpCard picked from the deck for Player 1: " + p1.getPowerUpCards().get(0).getCardName() + " coloured " + p1.getPowerUpCards().get(0).getC().getAbbreviation() + ", and " + p1.getPowerUpCards().get(1).getCardName() + " coloured " + p1.getPowerUpCards().get(1).getC().getAbbreviation());
+        game.pickAndDiscardCard("Player 1", p1.getPowerUpCards().get(0).getCardName(), p1.getPowerUpCards().get(0).getC().getAbbreviation());
 
         game.giveTwoPUCard("Player 2");
-        System.out.print("\nPowerUpCard picked from the deck for Player 2: " + p2.getpC().get(0).getCardName() + " coloured " + p2.getpC().get(0).getC().getAbbreviation() + ", and " + p2.getpC().get(1).getCardName() + " coloured " + p2.getpC().get(1).getC().getAbbreviation());
-        game.pickAndDiscardCard("Player 2", p2.getpC().get(1).getCardName(), p2.getpC().get(1).getC().getAbbreviation());
+        System.out.print("\nPowerUpCard picked from the deck for Player 2: " + p2.getPowerUpCards().get(0).getCardName() + " coloured " + p2.getPowerUpCards().get(0).getC().getAbbreviation() + ", and " + p2.getPowerUpCards().get(1).getCardName() + " coloured " + p2.getPowerUpCards().get(1).getC().getAbbreviation());
+        game.pickAndDiscardCard("Player 2", p2.getPowerUpCards().get(1).getCardName(), p2.getPowerUpCards().get(1).getC().getAbbreviation());
 
         game.giveTwoPUCard("Player 3");
-        System.out.print("\nPowerUpCard picked from the deck for Player 3: " + p3.getpC().get(0).getCardName() + " coloured " + p3.getpC().get(0).getC().getAbbreviation() + ", and " + p3.getpC().get(1).getCardName() + " coloured " + p3.getpC().get(1).getC().getAbbreviation());
-        game.pickAndDiscardCard("Player 3", p3.getpC().get(1).getCardName(), p3.getpC().get(1).getC().getAbbreviation());
+        System.out.print("\nPowerUpCard picked from the deck for Player 3: " + p3.getPowerUpCards().get(0).getCardName() + " coloured " + p3.getPowerUpCards().get(0).getC().getAbbreviation() + ", and " + p3.getPowerUpCards().get(1).getCardName() + " coloured " + p3.getPowerUpCards().get(1).getC().getAbbreviation());
+        game.pickAndDiscardCard("Player 3", p3.getPowerUpCards().get(1).getCardName(), p3.getPowerUpCards().get(1).getC().getAbbreviation());
 
         game.giveTwoPUCard("Player 4");
-        System.out.print("\nPowerUpCard picked from the deck for Player 4: " + p4.getpC().get(0).getCardName() + " coloured " + p4.getpC().get(0).getC().getAbbreviation() + ", and " + p4.getpC().get(1).getCardName() + " coloured " + p4.getpC().get(1).getC().getAbbreviation());
-        game.pickAndDiscardCard("Player 4", p4.getpC().get(1).getCardName(), p4.getpC().get(1).getC().getAbbreviation());
+        System.out.print("\nPowerUpCard picked from the deck for Player 4: " + p4.getPowerUpCards().get(0).getCardName() + " coloured " + p4.getPowerUpCards().get(0).getC().getAbbreviation() + ", and " + p4.getPowerUpCards().get(1).getCardName() + " coloured " + p4.getPowerUpCards().get(1).getC().getAbbreviation());
+        game.pickAndDiscardCard("Player 4", p4.getPowerUpCards().get(1).getCardName(), p4.getPowerUpCards().get(1).getC().getAbbreviation());
 
         p1.changeCell(grid.getBoard().getArena()[1][1]);
         p2.changeCell(grid.getBoard().getArena()[1][2]);
@@ -755,12 +756,12 @@ class GameAssertTests {
         game.receiveType(1);
 
         game.giveTwoPUCard("Player 1");
-        System.out.print("\nPowerUpCard picked from the deck for Player 1: " + p1.getpC().get(0).getCardName() + " coloured " + p1.getpC().get(0).getC().getAbbreviation() + ", and " + p1.getpC().get(1).getCardName() + " coloured " + p1.getpC().get(1).getC().getAbbreviation());
-        game.pickAndDiscardCard("Player 1", p1.getpC().get(0).getCardName(), p1.getpC().get(0).getC().getAbbreviation());
+        System.out.print("\nPowerUpCard picked from the deck for Player 1: " + p1.getPowerUpCards().get(0).getCardName() + " coloured " + p1.getPowerUpCards().get(0).getC().getAbbreviation() + ", and " + p1.getPowerUpCards().get(1).getCardName() + " coloured " + p1.getPowerUpCards().get(1).getC().getAbbreviation());
+        game.pickAndDiscardCard("Player 1", p1.getPowerUpCards().get(0).getCardName(), p1.getPowerUpCards().get(0).getC().getAbbreviation());
 
         game.giveTwoPUCard("Player 2");
-        System.out.print("\nPowerUpCard picked from the deck for Player 2: " + p2.getpC().get(0).getCardName() + " coloured " + p2.getpC().get(0).getC().getAbbreviation() + ", and " + p2.getpC().get(1).getCardName() + " coloured " + p2.getpC().get(1).getC().getAbbreviation());
-        game.pickAndDiscardCard("Player 2", p2.getpC().get(1).getCardName(), p2.getpC().get(1).getC().getAbbreviation());
+        System.out.print("\nPowerUpCard picked from the deck for Player 2: " + p2.getPowerUpCards().get(0).getCardName() + " coloured " + p2.getPowerUpCards().get(0).getC().getAbbreviation() + ", and " + p2.getPowerUpCards().get(1).getCardName() + " coloured " + p2.getPowerUpCards().get(1).getC().getAbbreviation());
+        game.pickAndDiscardCard("Player 2", p2.getPowerUpCards().get(1).getCardName(), p2.getPowerUpCards().get(1).getC().getAbbreviation());
 
         p1.changeCell(grid.getBoard().getArena()[0][0]);
         p2.changeCell(grid.getBoard().getArena()[0][2]);
@@ -809,20 +810,20 @@ class GameAssertTests {
         game.receiveType(1);
 
         game.giveTwoPUCard("Player 1");
-        System.out.print("\nPowerUpCard picked from the deck for Player 1: " + p1.getpC().get(0).getCardName() + " coloured " + p1.getpC().get(0).getC().getAbbreviation() + ", and " + p1.getpC().get(1).getCardName() + " coloured " + p1.getpC().get(1).getC().getAbbreviation());
-        game.pickAndDiscardCard("Player 1", p1.getpC().get(0).getCardName(), p1.getpC().get(0).getC().getAbbreviation());
+        System.out.print("\nPowerUpCard picked from the deck for Player 1: " + p1.getPowerUpCards().get(0).getCardName() + " coloured " + p1.getPowerUpCards().get(0).getC().getAbbreviation() + ", and " + p1.getPowerUpCards().get(1).getCardName() + " coloured " + p1.getPowerUpCards().get(1).getC().getAbbreviation());
+        game.pickAndDiscardCard("Player 1", p1.getPowerUpCards().get(0).getCardName(), p1.getPowerUpCards().get(0).getC().getAbbreviation());
 
         game.giveTwoPUCard("Player 2");
-        System.out.print("\nPowerUpCard picked from the deck for Player 2: " + p2.getpC().get(0).getCardName() + " coloured " + p2.getpC().get(0).getC().getAbbreviation() + ", and " + p2.getpC().get(1).getCardName() + " coloured " + p2.getpC().get(1).getC().getAbbreviation());
-        game.pickAndDiscardCard("Player 2", p2.getpC().get(1).getCardName(), p2.getpC().get(1).getC().getAbbreviation());
+        System.out.print("\nPowerUpCard picked from the deck for Player 2: " + p2.getPowerUpCards().get(0).getCardName() + " coloured " + p2.getPowerUpCards().get(0).getC().getAbbreviation() + ", and " + p2.getPowerUpCards().get(1).getCardName() + " coloured " + p2.getPowerUpCards().get(1).getC().getAbbreviation());
+        game.pickAndDiscardCard("Player 2", p2.getPowerUpCards().get(1).getCardName(), p2.getPowerUpCards().get(1).getC().getAbbreviation());
 
         game.giveTwoPUCard("Player 3");
-        System.out.print("\nPowerUpCard picked from the deck for Player 3: " + p3.getpC().get(0).getCardName() + " coloured " + p3.getpC().get(0).getC().getAbbreviation() + ", and " + p3.getpC().get(1).getCardName() + " coloured " + p3.getpC().get(1).getC().getAbbreviation());
-        game.pickAndDiscardCard("Player 3", p3.getpC().get(1).getCardName(), p3.getpC().get(1).getC().getAbbreviation());
+        System.out.print("\nPowerUpCard picked from the deck for Player 3: " + p3.getPowerUpCards().get(0).getCardName() + " coloured " + p3.getPowerUpCards().get(0).getC().getAbbreviation() + ", and " + p3.getPowerUpCards().get(1).getCardName() + " coloured " + p3.getPowerUpCards().get(1).getC().getAbbreviation());
+        game.pickAndDiscardCard("Player 3", p3.getPowerUpCards().get(1).getCardName(), p3.getPowerUpCards().get(1).getC().getAbbreviation());
 
         game.giveTwoPUCard("Player 4");
-        System.out.print("\nPowerUpCard picked from the deck for Player 4: " + p4.getpC().get(0).getCardName() + " coloured " + p4.getpC().get(0).getC().getAbbreviation() + ", and " + p4.getpC().get(1).getCardName() + " coloured " + p4.getpC().get(1).getC().getAbbreviation());
-        game.pickAndDiscardCard("Player 4", p4.getpC().get(1).getCardName(), p4.getpC().get(1).getC().getAbbreviation());
+        System.out.print("\nPowerUpCard picked from the deck for Player 4: " + p4.getPowerUpCards().get(0).getCardName() + " coloured " + p4.getPowerUpCards().get(0).getC().getAbbreviation() + ", and " + p4.getPowerUpCards().get(1).getCardName() + " coloured " + p4.getPowerUpCards().get(1).getC().getAbbreviation());
+        game.pickAndDiscardCard("Player 4", p4.getPowerUpCards().get(1).getCardName(), p4.getPowerUpCards().get(1).getC().getAbbreviation());
 
         p1.changeCell(grid.getBoard().getArena()[0][0]);
         p2.changeCell(grid.getBoard().getArena()[0][2]);
@@ -874,12 +875,12 @@ class GameAssertTests {
         game.receiveType(1);
 
         game.giveTwoPUCard("Player 1");
-        System.out.print("\nPowerUpCard picked from the deck for Player 1: " + p1.getpC().get(0).getCardName() + " coloured " + p1.getpC().get(0).getC().getAbbreviation() + ", and " + p1.getpC().get(1).getCardName() + " coloured " + p1.getpC().get(1).getC().getAbbreviation());
-        game.pickAndDiscardCard("Player 1", p1.getpC().get(0).getCardName(), p1.getpC().get(0).getC().getAbbreviation());
+        System.out.print("\nPowerUpCard picked from the deck for Player 1: " + p1.getPowerUpCards().get(0).getCardName() + " coloured " + p1.getPowerUpCards().get(0).getC().getAbbreviation() + ", and " + p1.getPowerUpCards().get(1).getCardName() + " coloured " + p1.getPowerUpCards().get(1).getC().getAbbreviation());
+        game.pickAndDiscardCard("Player 1", p1.getPowerUpCards().get(0).getCardName(), p1.getPowerUpCards().get(0).getC().getAbbreviation());
 
         game.giveTwoPUCard("Player 2");
-        System.out.print("\nPowerUpCard picked from the deck for Player 2: " + p2.getpC().get(0).getCardName() + " coloured " + p2.getpC().get(0).getC().getAbbreviation() + ", and " + p2.getpC().get(1).getCardName() + " coloured " + p2.getpC().get(1).getC().getAbbreviation());
-        game.pickAndDiscardCard("Player 2", p2.getpC().get(1).getCardName(), p2.getpC().get(1).getC().getAbbreviation());
+        System.out.print("\nPowerUpCard picked from the deck for Player 2: " + p2.getPowerUpCards().get(0).getCardName() + " coloured " + p2.getPowerUpCards().get(0).getC().getAbbreviation() + ", and " + p2.getPowerUpCards().get(1).getCardName() + " coloured " + p2.getPowerUpCards().get(1).getC().getAbbreviation());
+        game.pickAndDiscardCard("Player 2", p2.getPowerUpCards().get(1).getCardName(), p2.getPowerUpCards().get(1).getC().getAbbreviation());
 
         p1.changeCell(grid.getBoard().getArena()[0][0]);
         p2.changeCell(grid.getBoard().getArena()[1][1]);
@@ -926,12 +927,12 @@ class GameAssertTests {
         game.receiveType(1);
 
         game.giveTwoPUCard("Player 1");
-        System.out.print("\nPowerUpCard picked from the deck for Player 1: " + p1.getpC().get(0).getCardName() + " coloured " + p1.getpC().get(0).getC().getAbbreviation() + ", and " + p1.getpC().get(1).getCardName() + " coloured " + p1.getpC().get(1).getC().getAbbreviation());
-        game.pickAndDiscardCard("Player 1", p1.getpC().get(0).getCardName(), p1.getpC().get(0).getC().getAbbreviation());
+        System.out.print("\nPowerUpCard picked from the deck for Player 1: " + p1.getPowerUpCards().get(0).getCardName() + " coloured " + p1.getPowerUpCards().get(0).getC().getAbbreviation() + ", and " + p1.getPowerUpCards().get(1).getCardName() + " coloured " + p1.getPowerUpCards().get(1).getC().getAbbreviation());
+        game.pickAndDiscardCard("Player 1", p1.getPowerUpCards().get(0).getCardName(), p1.getPowerUpCards().get(0).getC().getAbbreviation());
 
         game.giveTwoPUCard("Player 2");
-        System.out.print("\nPowerUpCard picked from the deck for Player 2: " + p2.getpC().get(0).getCardName() + " coloured " + p2.getpC().get(0).getC().getAbbreviation() + ", and " + p2.getpC().get(1).getCardName() + " coloured " + p2.getpC().get(1).getC().getAbbreviation());
-        game.pickAndDiscardCard("Player 2", p2.getpC().get(1).getCardName(), p2.getpC().get(1).getC().getAbbreviation());
+        System.out.print("\nPowerUpCard picked from the deck for Player 2: " + p2.getPowerUpCards().get(0).getCardName() + " coloured " + p2.getPowerUpCards().get(0).getC().getAbbreviation() + ", and " + p2.getPowerUpCards().get(1).getCardName() + " coloured " + p2.getPowerUpCards().get(1).getC().getAbbreviation());
+        game.pickAndDiscardCard("Player 2", p2.getPowerUpCards().get(1).getCardName(), p2.getPowerUpCards().get(1).getC().getAbbreviation());
 
         p1.changeCell(grid.getBoard().getArena()[0][0]);
         p2.changeCell(grid.getBoard().getArena()[0][0]);
@@ -979,12 +980,12 @@ class GameAssertTests {
         game.receiveType(1);
 
         game.giveTwoPUCard("Player 1");
-        System.out.print("\nPowerUpCard picked from the deck for Player 1: " + p1.getpC().get(0).getCardName() + " coloured " + p1.getpC().get(0).getC().getAbbreviation() + ", and " + p1.getpC().get(1).getCardName() + " coloured " + p1.getpC().get(1).getC().getAbbreviation());
-        game.pickAndDiscardCard("Player 1", p1.getpC().get(0).getCardName(), p1.getpC().get(0).getC().getAbbreviation());
+        System.out.print("\nPowerUpCard picked from the deck for Player 1: " + p1.getPowerUpCards().get(0).getCardName() + " coloured " + p1.getPowerUpCards().get(0).getC().getAbbreviation() + ", and " + p1.getPowerUpCards().get(1).getCardName() + " coloured " + p1.getPowerUpCards().get(1).getC().getAbbreviation());
+        game.pickAndDiscardCard("Player 1", p1.getPowerUpCards().get(0).getCardName(), p1.getPowerUpCards().get(0).getC().getAbbreviation());
 
         game.giveTwoPUCard("Player 2");
-        System.out.print("\nPowerUpCard picked from the deck for Player 2: " + p2.getpC().get(0).getCardName() + " coloured " + p2.getpC().get(0).getC().getAbbreviation() + ", and " + p2.getpC().get(1).getCardName() + " coloured " + p2.getpC().get(1).getC().getAbbreviation());
-        game.pickAndDiscardCard("Player 2", p2.getpC().get(1).getCardName(), p2.getpC().get(1).getC().getAbbreviation());
+        System.out.print("\nPowerUpCard picked from the deck for Player 2: " + p2.getPowerUpCards().get(0).getCardName() + " coloured " + p2.getPowerUpCards().get(0).getC().getAbbreviation() + ", and " + p2.getPowerUpCards().get(1).getCardName() + " coloured " + p2.getPowerUpCards().get(1).getC().getAbbreviation());
+        game.pickAndDiscardCard("Player 2", p2.getPowerUpCards().get(1).getCardName(), p2.getPowerUpCards().get(1).getC().getAbbreviation());
 
         p1.changeCell(grid.getBoard().getArena()[0][0]);
         p2.changeCell(grid.getBoard().getArena()[1][0]);
@@ -1037,20 +1038,20 @@ class GameAssertTests {
         game.receiveType(1);
 
         game.giveTwoPUCard("Player 1");
-        System.out.print("\nPowerUpCard picked from the deck for Player 1: " + p1.getpC().get(0).getCardName() + " coloured " + p1.getpC().get(0).getC().getAbbreviation() + ", and " + p1.getpC().get(1).getCardName() + " coloured " + p1.getpC().get(1).getC().getAbbreviation());
-        game.pickAndDiscardCard("Player 1", p1.getpC().get(0).getCardName(), p1.getpC().get(0).getC().getAbbreviation());
+        System.out.print("\nPowerUpCard picked from the deck for Player 1: " + p1.getPowerUpCards().get(0).getCardName() + " coloured " + p1.getPowerUpCards().get(0).getC().getAbbreviation() + ", and " + p1.getPowerUpCards().get(1).getCardName() + " coloured " + p1.getPowerUpCards().get(1).getC().getAbbreviation());
+        game.pickAndDiscardCard("Player 1", p1.getPowerUpCards().get(0).getCardName(), p1.getPowerUpCards().get(0).getC().getAbbreviation());
 
         game.giveTwoPUCard("Player 2");
-        System.out.print("\nPowerUpCard picked from the deck for Player 2: " + p2.getpC().get(0).getCardName() + " coloured " + p2.getpC().get(0).getC().getAbbreviation() + ", and " + p2.getpC().get(1).getCardName() + " coloured " + p2.getpC().get(1).getC().getAbbreviation());
-        game.pickAndDiscardCard("Player 2", p2.getpC().get(1).getCardName(), p2.getpC().get(1).getC().getAbbreviation());
+        System.out.print("\nPowerUpCard picked from the deck for Player 2: " + p2.getPowerUpCards().get(0).getCardName() + " coloured " + p2.getPowerUpCards().get(0).getC().getAbbreviation() + ", and " + p2.getPowerUpCards().get(1).getCardName() + " coloured " + p2.getPowerUpCards().get(1).getC().getAbbreviation());
+        game.pickAndDiscardCard("Player 2", p2.getPowerUpCards().get(1).getCardName(), p2.getPowerUpCards().get(1).getC().getAbbreviation());
 
         game.giveTwoPUCard("Player 3");
-        System.out.print("\nPowerUpCard picked from the deck for Player 3: " + p3.getpC().get(0).getCardName() + " coloured " + p3.getpC().get(0).getC().getAbbreviation() + ", and " + p3.getpC().get(1).getCardName() + " coloured " + p3.getpC().get(1).getC().getAbbreviation());
-        game.pickAndDiscardCard("Player 3", p3.getpC().get(1).getCardName(), p3.getpC().get(1).getC().getAbbreviation());
+        System.out.print("\nPowerUpCard picked from the deck for Player 3: " + p3.getPowerUpCards().get(0).getCardName() + " coloured " + p3.getPowerUpCards().get(0).getC().getAbbreviation() + ", and " + p3.getPowerUpCards().get(1).getCardName() + " coloured " + p3.getPowerUpCards().get(1).getC().getAbbreviation());
+        game.pickAndDiscardCard("Player 3", p3.getPowerUpCards().get(1).getCardName(), p3.getPowerUpCards().get(1).getC().getAbbreviation());
 
         game.giveTwoPUCard("Player 4");
-        System.out.print("\nPowerUpCard picked from the deck for Player 4: " + p4.getpC().get(0).getCardName() + " coloured " + p4.getpC().get(0).getC().getAbbreviation() + ", and " + p4.getpC().get(1).getCardName() + " coloured " + p4.getpC().get(1).getC().getAbbreviation());
-        game.pickAndDiscardCard("Player 4", p4.getpC().get(1).getCardName(), p4.getpC().get(1).getC().getAbbreviation());
+        System.out.print("\nPowerUpCard picked from the deck for Player 4: " + p4.getPowerUpCards().get(0).getCardName() + " coloured " + p4.getPowerUpCards().get(0).getC().getAbbreviation() + ", and " + p4.getPowerUpCards().get(1).getCardName() + " coloured " + p4.getPowerUpCards().get(1).getC().getAbbreviation());
+        game.pickAndDiscardCard("Player 4", p4.getPowerUpCards().get(1).getCardName(), p4.getPowerUpCards().get(1).getC().getAbbreviation());
 
         p1.changeCell(grid.getBoard().getArena()[1][2]);
         p2.changeCell(grid.getBoard().getArena()[1][1]);
@@ -1122,10 +1123,10 @@ class GameAssertTests {
         assertEquals(3, deadGuys.size());
         assertTrue(deadGuys.contains(p2.getNickName()));
         assertTrue(deadGuys.contains(p3.getNickName()));
-        assertEquals(p1.getpB().getDamages().scoreBoard().size(), 0);
-        assertEquals(p2.getpB().getDamages().scoreBoard().size(), 0);
-        assertEquals(p3.getpB().getDamages().scoreBoard().size(), 0);
-        assertEquals(p4.getpB().getDamages().scoreBoard().size(), 1);
+        assertEquals(p1.getPlayerBoard().getDamages().scoreBoard().size(), 0);
+        assertEquals(p2.getPlayerBoard().getDamages().scoreBoard().size(), 0);
+        assertEquals(p3.getPlayerBoard().getDamages().scoreBoard().size(), 0);
+        assertEquals(p4.getPlayerBoard().getDamages().scoreBoard().size(), 1);
 
         assertEquals(5, p1.getScore());
         assertEquals(0, p2.getScore());
@@ -1150,16 +1151,16 @@ class GameAssertTests {
         game.receiveType(2);
 
         game.giveTwoPUCard("Player 1");
-        System.out.print("\nPowerUpCard picked from the deck for Player 1: " + p1.getpC().get(0).getCardName() + " coloured " + p1.getpC().get(0).getC().getAbbreviation() + ", and " + p1.getpC().get(1).getCardName() + " coloured " + p1.getpC().get(1).getC().getAbbreviation());
-        game.pickAndDiscardCard("Player 1", p1.getpC().get(0).getCardName(), p1.getpC().get(0).getC().getAbbreviation());
+        System.out.print("\nPowerUpCard picked from the deck for Player 1: " + p1.getPowerUpCards().get(0).getCardName() + " coloured " + p1.getPowerUpCards().get(0).getC().getAbbreviation() + ", and " + p1.getPowerUpCards().get(1).getCardName() + " coloured " + p1.getPowerUpCards().get(1).getC().getAbbreviation());
+        game.pickAndDiscardCard("Player 1", p1.getPowerUpCards().get(0).getCardName(), p1.getPowerUpCards().get(0).getC().getAbbreviation());
 
         game.giveTwoPUCard("Player 2");
-        System.out.print("\nPowerUpCard picked from the deck for Player 2: " + p2.getpC().get(0).getCardName() + " coloured " + p2.getpC().get(0).getC().getAbbreviation() + ", and " + p2.getpC().get(1).getCardName() + " coloured " + p2.getpC().get(1).getC().getAbbreviation());
-        game.pickAndDiscardCard("Player 2", p2.getpC().get(1).getCardName(), p2.getpC().get(1).getC().getAbbreviation());
+        System.out.print("\nPowerUpCard picked from the deck for Player 2: " + p2.getPowerUpCards().get(0).getCardName() + " coloured " + p2.getPowerUpCards().get(0).getC().getAbbreviation() + ", and " + p2.getPowerUpCards().get(1).getCardName() + " coloured " + p2.getPowerUpCards().get(1).getC().getAbbreviation());
+        game.pickAndDiscardCard("Player 2", p2.getPowerUpCards().get(1).getCardName(), p2.getPowerUpCards().get(1).getC().getAbbreviation());
 
         game.giveTwoPUCard("Player 3");
-        System.out.print("\nPowerUpCard picked from the deck for Player 3: " + p3.getpC().get(0).getCardName() + " coloured " + p3.getpC().get(0).getC().getAbbreviation() + ", and " + p3.getpC().get(1).getCardName() + " coloured " + p3.getpC().get(1).getC().getAbbreviation());
-        game.pickAndDiscardCard("Player 3", p3.getpC().get(1).getCardName(), p3.getpC().get(1).getC().getAbbreviation());
+        System.out.print("\nPowerUpCard picked from the deck for Player 3: " + p3.getPowerUpCards().get(0).getCardName() + " coloured " + p3.getPowerUpCards().get(0).getC().getAbbreviation() + ", and " + p3.getPowerUpCards().get(1).getCardName() + " coloured " + p3.getPowerUpCards().get(1).getC().getAbbreviation());
+        game.pickAndDiscardCard("Player 3", p3.getPowerUpCards().get(1).getCardName(), p3.getPowerUpCards().get(1).getC().getAbbreviation());
 
         int[] skulls = {0, 0, 0, 0, 0, 0, 0, 3};
         grid.getBoard().getK().setSkulls(skulls);
@@ -1216,10 +1217,41 @@ class GameAssertTests {
         whisper.reload();
         assertTrue(game.isValidFinalFrenzyAction1("Player 2", 1, "Whisper", p2E, p2S, p2A, p2P, p2PC));
         game.finalFrenzyAction1("Player 2", 1, p2R,"Whisper", p2E, p2S, p2A, p2P, p2PC);
-        assertEquals(YELLOW, p1.getpB().getMarks().get(0).getC());
+        assertEquals(YELLOW, p1.getPlayerBoard().getMarks().get(0).getC());
+        assertNull(p2.getAmmoCubes()[4]);
+        assertNull(p2.getAmmoCubes()[7]);
 
-        //TODO action 3
         List<Integer> p2D = new LinkedList<>();
+        p2D.add(3);
+        p2D.add(2);
+        AmmoCard ammoCard1 = new PYB();
+        grid.getBoard().getArena()[1][3].setA(ammoCard1);
+        assertTrue(game.isValidFinalFrenzyAction3("Player 2", p2D, "","", p2A, p2P, p2PC));
+        game.finalFrenzyAction3("Player 2", p2D, "", p2A, p2P, p2PC);
+        assertEquals(p2.getCell(), grid.getBoard().getArena()[1][3]);
+        assertNotNull(p2.getAmmoCubes()[4]);
+        assertNotNull(p2.getAmmoCubes()[7]);
 
+        List<Integer> p3D = new LinkedList<>();
+        List<Colour> p3A = new LinkedList<>();
+        List<String> p3P = new LinkedList<>();
+        List<String> p3PC = new LinkedList<>();
+        p3D.add(2);
+        p3A.add(YELLOW);
+        WeaponCard shotgun = new Shotgun();
+        grid.getBoard().getW2().setCard2(shotgun);
+        assertTrue(game.isValidFinalFrenzyAction3("Player 3", p3D, "Shotgun","2", p3A, p3P, p3PC));
+        game.finalFrenzyAction3("Player 3", p3D, "Shotgun", p3A, p3P, p3PC);
+        assertEquals(p3.getCell(), grid.getBoard().getArena()[2][3]);
+        assertTrue(p3.getWeaponCards().contains(shotgun));
+
+        p3D.clear();
+        p3D.add(1);
+        p3D.add(4);
+        p3D.add(1);
+        p3D.add(4);
+        assertTrue(game.isValidFinalFrenzyAction2("Player 3", p3D));
+        game.finalFrenzyAction2("Player 3", p3D);
+        assertEquals(p3.getCell(), grid.getBoard().getArena()[0][1]);
     }
 }

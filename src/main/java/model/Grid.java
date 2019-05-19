@@ -117,44 +117,44 @@ public class Grid {
 
     public void damage(Player p, Player p1, int numDamage) throws RemoteException{ //p attacks, p1 is attacked
         removeMarkAndAdd(p1, p);
-        p1.getpB().getDamages().addDamage(numDamage, p.getC());
+        p1.getPlayerBoard().getDamages().addDamage(numDamage, p.getC());
         List<String> informationDamage = new LinkedList<>();
         informationDamage.add(p.getNickName());
         informationDamage.add(Integer.toString(numDamage));
         informationDamage.add(p1.getNickName());
         server.notifyDamage(this.iD, informationDamage);
-        if(p1.getpB().getDamages().getDamageTr()[11] != null) {
-            p.getpB().addMark(new DamageToken(p1.getC()));
+        if(p1.getPlayerBoard().getDamages().getDamageTokens()[11] != null) {
+            p.getPlayerBoard().addMark(new DamageToken(p1.getC()));
             List<String> information = new LinkedList<>();
             information.add(p.getNickName());
-            information.add( p1.getNickName());
+            information.add(p1.getNickName());
             server.notifyMark(this.iD, information);                    //TODO why we add marks here?
         }
     }
 
     public void clean(Player p) {
-        p.getpB().getDamages().clean();
+        p.getPlayerBoard().getDamages().clean();
     }
 
     public void addMark(Player p1, Player p2) throws RemoteException{
-        p2.getpB().addMark(new DamageToken(p1.getC()));
+        p2.getPlayerBoard().addMark(new DamageToken(p1.getC()));
         List<String> information = new LinkedList<>();
         information.add(p1.getNickName());
-        information.add( p2.getNickName());
+        information.add(p2.getNickName());
         server.notifyMark(this.iD, information);
     }
 
     public void removeMarkAndAdd(Player p1, Player p2) throws RemoteException{
-        long x = p1.getpB().getMarks().stream().filter(a -> a.getC() == p2.getC()).count();
+        long x = p1.getPlayerBoard().getMarks().stream().filter(a -> a.getC() == p2.getC()).count();
         if (x > 0) {
             int y = (int) x;
-            p1.getpB().getDamages().addDamage(y, p2.getC());
+            p1.getPlayerBoard().getDamages().addDamage(y, p2.getC());
             List<String> informationDamage = new LinkedList<>();
             informationDamage.add(p1.getNickName());
             informationDamage.add(Integer.toString(y));
             informationDamage.add(p2.getNickName());
             server.notifyDamage(this.iD, informationDamage);
-            p1.getpB().clearMark(p2.getC());
+            p1.getPlayerBoard().clearMark(p2.getC());
         }
     }
 
@@ -400,7 +400,7 @@ public class Grid {
 
 
     public void pickPowerUpCard(Player p) {     //use this every time a player wants a PowerUpCard, except for the final "pick and discard" when he is dead
-        if(p.getpC().size() < 3) {
+        if(p.getPowerUpCards().size() < 3) {
             if(powerUpDeck.getDeck().isEmpty()) {
                 Collections.shuffle(powerUpDiscardPile);
                 powerUpDeck.getDeck().addAll(powerUpDiscardPile);

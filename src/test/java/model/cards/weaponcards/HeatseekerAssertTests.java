@@ -56,7 +56,7 @@ class HeatseekerAssertTests {
 
         assertFalse(grid.isInViewZone(player, enemy));
         h.applyEffect(grid, player, enemy);
-        assertEquals(Colour.BLUE, enemy.getpB().getDamages().getDamageTr()[2].getC());
+        assertEquals(Colour.BLUE, enemy.getPlayerBoard().getDamages().getDamageTokens()[2].getC());
 
     }
 }

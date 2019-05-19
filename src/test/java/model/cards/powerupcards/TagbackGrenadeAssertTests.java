@@ -41,7 +41,7 @@ class TagbackGrenadeAssertTests {
 
         tagbackGrenade.applyEffect(grid, p1, p2);
 
-        assertEquals(1, p2.getpB().getMarks().size());
-        assertEquals(p1.getC(), p2.getpB().getMarks().get(0).getC());
+        assertEquals(1, p2.getPlayerBoard().getMarks().size());
+        assertEquals(p1.getC(), p2.getPlayerBoard().getMarks().get(0).getC());
     }
 }

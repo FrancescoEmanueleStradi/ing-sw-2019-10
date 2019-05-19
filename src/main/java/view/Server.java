@@ -210,21 +210,21 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
 
     //notify to client
 
-    public synchronized void  notifyScore(int game, List<String> information) throws RemoteException{
+    public synchronized void notifyScore(int game, List<String> information) throws RemoteException{
         for(Connection c : connections.get(game)){
             if(c.getView()!=null)
                 c.getView().printScore(information);
         }
     }
 
-    public  synchronized void  notifyPosition(int game, List<String> information) throws RemoteException{
+    public  synchronized void notifyPosition(int game, List<String> information) throws RemoteException{
         for(Connection c : connections.get(game)){
             if(c.getView()!=null)
                 c.getView().printPosition(information);
         }
     }
 
-    public synchronized void  notifyMark(int game, List<String> information) throws RemoteException{
+    public synchronized void notifyMark(int game, List<String> information) throws RemoteException{
         for(Connection c : connections.get(game)){
             if(c.getView()!=null)
                 c.getView().printMark(information);

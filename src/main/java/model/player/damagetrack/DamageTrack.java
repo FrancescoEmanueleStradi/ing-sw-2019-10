@@ -8,23 +8,23 @@ import java.util.List;
 
 public class DamageTrack {
 
-    private DamageToken[] damageTr;                  //0,1 Normal -- 2,3,4 first power up -- 5,6,7,8,9 second power up -- 10 death -- 11 mark
+    private DamageToken[] damageTokens;                  //0,1 Normal -- 2,3,4 first power up -- 5,6,7,8,9 second power up -- 10 death -- 11 mark
     private List<NumColour> l;
 
     public DamageTrack(){
-        this.damageTr = new DamageToken[12];
+        this.damageTokens = new DamageToken[12];
 
     }
 
-    public DamageToken[] getDamageTr() {
-        return damageTr;
+    public DamageToken[] getDamageTokens() {
+        return damageTokens;
     }
 
     public void addDamage(int numDamage, Colour c) {
-        for(int i = 0; i < damageTr.length; i++){
-            if(damageTr[i] == null && numDamage != 0) {
-                damageTr[i] = new DamageToken(c);
-                numDamage--;                             //Controller will check if damageTr[10] is occupied (player is dead) and if damageTr[11] is occupied (player is dead and marked)
+        for(int i = 0; i < damageTokens.length; i++){
+            if(damageTokens[i] == null && numDamage != 0) {
+                damageTokens[i] = new DamageToken(c);
+                numDamage--;                             //Controller will check if damageTokens[10] is occupied (player is dead) and if damageTokens[11] is occupied (player is dead and marked)
                }
             else if(numDamage == 0)
                 break;
@@ -32,18 +32,18 @@ public class DamageTrack {
     }
 
     public DamageToken getDT(int index) {
-        return this.damageTr[index];
+        return this.damageTokens[index];
     }
 
     public void clean() {
         for(int i=0; i<12; i++){
-            damageTr[i] = null;
+            damageTokens[i] = null;
         }
     }
 
     private List<Colour> colours() {
         LinkedList<Colour> lC = new LinkedList<>();
-        for(DamageToken d : this.damageTr){
+        for(DamageToken d : this.damageTokens){
             if(d != null && !lC.contains(d.getC()))
                 lC.add(d.getC());
         }
@@ -88,7 +88,7 @@ public class DamageTrack {
 
     private void listNumColour() {
         this.initializeListNumColour();
-        for(DamageToken d : this.damageTr){
+        for(DamageToken d : this.damageTokens){
             if(d != null)
                 giveNumColour(d.getC()).addNum();
         }

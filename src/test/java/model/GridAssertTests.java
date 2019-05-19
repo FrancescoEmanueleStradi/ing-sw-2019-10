@@ -86,16 +86,16 @@ class GridAssertTests {
         grid.damage(p1, p2, 3);
         grid.damage(p2, p1, 1);
         grid.addMark(p2, p1);
-        assertEquals(Colour.YELLOW, p2.getpB().getDamages().getDamageTr()[1].getC());
-        assertEquals(Colour.BLUE, p1.getpB().getDamages().getDamageTr()[0].getC());
-        assertEquals(p1.getpB().getMarks().size(), 1);
+        assertEquals(Colour.YELLOW, p2.getPlayerBoard().getDamages().getDamageTokens()[1].getC());
+        assertEquals(Colour.BLUE, p1.getPlayerBoard().getDamages().getDamageTokens()[0].getC());
+        assertEquals(p1.getPlayerBoard().getMarks().size(), 1);
 
         grid.damage(p2, p1, 2);
-        assertEquals(Colour.BLUE, p1.getpB().getDamages().getDamageTr()[3].getC());
-        assertEquals(p1.getpB().getMarks().size(), 0);
+        assertEquals(Colour.BLUE, p1.getPlayerBoard().getDamages().getDamageTokens()[3].getC());
+        assertEquals(p1.getPlayerBoard().getMarks().size(), 0);
 
         grid.clean(p2);
-        assertNull(p2.getpB().getDamages().getDamageTr()[0]);
+        assertNull(p2.getPlayerBoard().getDamages().getDamageTokens()[0]);
 
 
         Player p3 = new Player("Player 3", Colour.GREEN, false);
@@ -353,13 +353,13 @@ class GridAssertTests {
         grid.pickPowerUpCard(p);
         grid.pickPowerUpCard(p);
 
-        assertEquals(3, p.getpC().size());
+        assertEquals(3, p.getPowerUpCards().size());
 
         PowerUpCard pUC = grid.pickPowerUpCard();
         p.addPowerUpCard(pUC);
 
-        assertEquals(4, p.getpC().size());
-        assertEquals(pUC, p.getpC().get(3));
+        assertEquals(4, p.getPowerUpCards().size());
+        assertEquals(pUC, p.getPowerUpCards().get(3));
     }
 
     @Test

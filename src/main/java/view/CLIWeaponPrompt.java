@@ -9,83 +9,42 @@ import java.util.Scanner;
 
 public class CLIWeaponPrompt {
 
-    private String enterEffect = "Enter the number(s) of the effect(s) you want to use\n" +
-            "Press any letter char to finish";
-    private String enterRelevantString = "Enter the relevant strings for the card\n" +
-            "0 to finish";
-    private String enterAmmoColour = "Enter the colour(s) of the required AmmoCube(s) needed for the effect\n" +
-            "0 to finish";
-    private String enterPowerUp = "Enter the PowerUpCard(s) you want to use for paying during your turn\n" +
-            "0 to finish";
-    private String enterPowerUpColour = "Enter the colour(s) of the PowerUpCard(s)\n" +
-            "0 to finish";
-    private String enterAdrenalineDir = "If you are in Adrenaline, enter the direction of the move:";
+    private String enterEffect = "Enter the number(s) of the effect(s) you want to use; 0 to finish";
+    private String enterRelevantString = "Enter the relevant strings for the card; 0 to finish";
+    private String enterAmmoColour = "Enter the colour(s) of the required AmmoCube(s) needed for the effect; 0 to finish";
+    private String enterPowerUp = "Enter the PowerUpCard(s) you want to use for paying during your turn; 0 to finish";
+    private String enterPowerUpColour = "Enter the colour(s) of the PowerUpCard(s); 0 to finish";
+    private String enterAdrenalineDir = "If you are in Adrenaline, enter the direction of the move, 0 otherwise";
     private String promptErrorRetry = "Error: please retry";
 
     public void shootToUser1(int game, ServerInterface server, String nickName, String s) throws RemoteException {
         Scanner in = new Scanner(System.in);
         Scanner intScan = new Scanner(System.in);
-        int e, i;
-        String str, a, p, c;
-        List<Integer> lI = new LinkedList<>();
-        List<String> lS = new LinkedList<>();
-        List<Colour> lC = new LinkedList<>();
-        List<String> lP = new LinkedList<>();
-        List<String> lPC = new LinkedList<>();
+        int i;
+        List<Integer> lI;
+        List<String> lS;
+        List<Colour> lC;
+        List<String> lP;
+        List<String> lPC;
 
         while (true) {
             System.out.println(enterEffect);
-            while (intScan.hasNextInt()) {
-                e = intScan.nextInt();
-                if (e == 0)
-                    break;
-                else
-                    lI.add(e);
-            }
+            lI = enterEffect(intScan);
             System.out.println(enterRelevantString);
-            while (true) {
-                str = in.next();
-                if (str.equals("0")) {
-                    break;
-                } else
-                    lS.add(str);
-            }
+            lS = enterRelevantString(in);
             System.out.println(enterAmmoColour);
-            while (true) {
-                a = in.next();
-                if (a.equals("0")) {
-                    break;
-                } else
-                    lC.add(Colour.valueOf(a));
-            }
-            server.messageGetPowerUpCard(game, nickName).stream().forEach(System.out::println);
+            lC = enterAmmoColour(in);
+            server.messageGetPowerUpCard(game, nickName).forEach(System.out::println);
             System.out.println(enterPowerUp);
-            while (true) {
-                p = in.next();
-                if (p.equals("0")) {
-                    break;
-                } else
-                    lP.add(p);
-            }
+            lP = enterPowerUp(in);
             System.out.println(enterPowerUpColour);
-            while (true) {
-                c = in.next();
-                if (c.equals("0")) {
-                    break;
-                } else
-                    lPC.add(c);
-            }
+            lPC = enterPowerUpColour(in);
             System.out.println(enterAdrenalineDir);
-            i = in.nextInt(); //TODO nextint is a problem
+            i = enterAdrenalineDir(intScan);
             if (server.messageIsValidFirstActionShoot(game, nickName, s, lI, lS, i, lC, lP, lPC))
                 break;
             else {
                 System.out.println(promptErrorRetry);
-                lI.clear();
-                lS.clear();
-                lC.clear();
-                lP.clear();
-                lPC.clear();
             }
         }
         server.messageFirstActionShoot(game, nickName, s, lI, lS, i, lC, lP, lPC);
@@ -93,64 +52,32 @@ public class CLIWeaponPrompt {
 
     public void shoot2ToUser1(int game, ServerInterface server, String nickName, String s) throws RemoteException {
         Scanner in = new Scanner(System.in);
-        int e, i;
-        String str, a, p, c;
-        List<Integer> lI = new LinkedList<>();
-        List<String> lS = new LinkedList<>();
-        List<Colour> lC = new LinkedList<>();
-        List<String> lP = new LinkedList<>();
-        List<String> lPC = new LinkedList<>();
+        Scanner intScan = new Scanner(System.in);
+        int i;
+        List<Integer> lI;
+        List<String> lS;
+        List<Colour> lC;
+        List<String> lP;
+        List<String> lPC;
 
         while (true) {
             System.out.println(enterEffect);
-            while (in.hasNextInt()) {
-                e = in.nextInt();
-                lI.add(e);
-            }
+            lI = enterEffect(intScan);
             System.out.println(enterRelevantString);
-            while (true) {
-                str = in.next();
-                if (str.equals("0")) {
-                    break;
-                } else
-                    lS.add(str);
-            }
+            lS = enterRelevantString(in);
             System.out.println(enterAmmoColour);
-            while (true) {
-                a = in.next();
-                if (a.equals("0")) {
-                    break;
-                } else
-                    lC.add(Colour.valueOf(a));
-            }
-            server.messageGetPowerUpCard(game, nickName).stream().forEach(System.out::println);
+            lC = enterAmmoColour(in);
+            server.messageGetPowerUpCard(game, nickName).forEach(System.out::println);
             System.out.println(enterPowerUp);
-            while (true) {
-                p = in.next();
-                if (p.equals("0")) {
-                    break;
-                } else
-                    lP.add(p);
-            }
+            lP = enterPowerUp(in);
             System.out.println(enterPowerUpColour);
-            while (true) {
-                c = in.next();
-                if (c.equals("0")) {
-                    break;
-                } else
-                    lPC.add(c);
-            }
+            lPC = enterPowerUpColour(in);
             System.out.println(enterAdrenalineDir);
-            i = in.nextInt(); //TODO nextint is a problem
+            i = enterAdrenalineDir(intScan);
             if (server.messageIsValidSecondActionShoot(game, nickName, s, lI, lS, i, lC, lP, lPC))
                 break;
             else {
                 System.out.println(promptErrorRetry);
-                lI.clear();
-                lS.clear();
-                lC.clear();
-                lP.clear();
-                lPC.clear();
             }
         }
         server.messageSecondActionShoot(game, nickName, s, lI, lS, i, lC, lP, lPC);
@@ -158,55 +85,30 @@ public class CLIWeaponPrompt {
 
    public void shootToUser2(int game, ServerInterface server, String nickName, String s) throws RemoteException {
        Scanner in = new Scanner(System.in);
-       int e, i;
-       String a, p, c;
-       List<Integer> lI = new LinkedList<>();
+       Scanner intScan = new Scanner(System.in);
+       int i;
+       List<Integer> lI;
        List<String> lS = new LinkedList<>();
-       List<Colour> lC = new LinkedList<>();
-       List<String> lP = new LinkedList<>();
-       List<String> lPC = new LinkedList<>();
+       List<Colour> lC;
+       List<String> lP;
+       List<String> lPC;
 
        while (true) {
            System.out.println(enterEffect);
-           while (in.hasNextInt()) {
-               e = in.nextInt();
-               lI.add(e);
-           }
+           lI = enterEffect(intScan);
            System.out.println(enterAmmoColour);
-           while (true) {
-               a = in.next();
-               if (a.equals("0")) {
-                   break;
-               } else
-                   lC.add(Colour.valueOf(a));
-           }
-           server.messageGetPowerUpCard(game, nickName).stream().forEach(System.out::println);
+           lC = enterAmmoColour(in);
+           server.messageGetPowerUpCard(game, nickName).forEach(System.out::println);
            System.out.println(enterPowerUp);
-           while (true) {
-               p = in.next();
-               if (p.equals("0")) {
-                   break;
-               } else
-                   lP.add(p);
-           }
+           lP = enterPowerUp(in);
            System.out.println(enterPowerUpColour);
-           while (true) {
-               c = in.next();
-               if (c.equals("0")) {
-                   break;
-               } else
-                   lPC.add(c);
-           }
+           lPC = enterPowerUpColour(in);
            System.out.println(enterAdrenalineDir);
-           i = in.nextInt(); //TODO nextint is a problem
+           i = enterAdrenalineDir(intScan);
            if (server.messageIsValidFirstActionShoot(game, nickName, s, lI, lS, i, lC, lP, lPC))
                break;
            else {
                System.out.println(promptErrorRetry);
-               lI.clear();
-               lC.clear();
-               lP.clear();
-               lPC.clear();
            }
        }
        server.messageFirstActionShoot(game, nickName, s, lI, lS, i, lC, lP, lPC);
@@ -214,55 +116,30 @@ public class CLIWeaponPrompt {
 
     public void shoot2ToUser2(int game, ServerInterface server, String nickName, String s) throws RemoteException {
         Scanner in = new Scanner(System.in);
-        int e, i;
-        String a, p, c;
-        List<Integer> lI = new LinkedList<>();
+        Scanner intScan = new Scanner(System.in);
+        int i;
+        List<Integer> lI;
         List<String> lS = new LinkedList<>();
-        List<Colour> lC = new LinkedList<>();
-        List<String> lP = new LinkedList<>();
-        List<String> lPC = new LinkedList<>();
+        List<Colour> lC;
+        List<String> lP;
+        List<String> lPC;
 
         while (true) {
             System.out.println(enterEffect);
-            while (in.hasNextInt()) {
-                e = in.nextInt();
-                lI.add(e);
-            }
+            lI = enterEffect(intScan);
             System.out.println(enterAmmoColour);
-            while (true) {
-                a = in.next();
-                if (a.equals("0")) {
-                    break;
-                } else
-                    lC.add(Colour.valueOf(a));
-            }
-            server.messageGetPowerUpCard(game, nickName).stream().forEach(System.out::println);
+            lC = enterAmmoColour(in);
+            server.messageGetPowerUpCard(game, nickName).forEach(System.out::println);
             System.out.println(enterPowerUp);
-            while (true) {
-                p = in.next();
-                if (p.equals("0")) {
-                    break;
-                } else
-                    lP.add(p);
-            }
+            lP = enterPowerUp(in);
             System.out.println(enterPowerUpColour);
-            while (true) {
-                c = in.next();
-                if (c.equals("0")) {
-                    break;
-                } else
-                    lPC.add(c);
-            }
+            lPC = enterPowerUpColour(in);
             System.out.println(enterAdrenalineDir);
-            i = in.nextInt(); //TODO nextint is a problem
+            i = enterAdrenalineDir(intScan);
             if (server.messageIsValidSecondActionShoot(game, nickName, s, lI, lS, i, lC, lP, lPC))
                 break;
             else {
                 System.out.println(promptErrorRetry);
-                lI.clear();
-                lC.clear();
-                lP.clear();
-                lPC.clear();
             }
         }
         server.messageSecondActionShoot(game, nickName, s, lI, lS, i, lC, lP, lPC);
@@ -270,36 +147,25 @@ public class CLIWeaponPrompt {
 
     public void shootToUser3(int game, ServerInterface server, String nickName, String s) throws RemoteException {
         Scanner in = new Scanner(System.in);
-        int e, i;
-        String str;
-        List<Integer> lI = new LinkedList<>();
-        List<String> lS = new LinkedList<>();
+        Scanner intScan = new Scanner(System.in);
+        int i;
+        List<Integer> lI;
+        List<String> lS;
         List<Colour> lC = new LinkedList<>();
         List<String> lP = new LinkedList<>();
         List<String> lPC = new LinkedList<>();
 
         while (true) {
             System.out.println(enterEffect);
-            while (in.hasNextInt()) {
-                e = in.nextInt();
-                lI.add(e);
-            }
+            lI = enterEffect(intScan);
             System.out.println(enterRelevantString);
-            while (true) {
-                str = in.next();
-                if (str.equals("0")) {
-                    break;
-                } else
-                    lS.add(str);
-            }
+            lS = enterRelevantString(in);
             System.out.println(enterAdrenalineDir);
-            i = in.nextInt(); //TODO nextint is a problem
+            i = enterAdrenalineDir(intScan);
             if (server.messageIsValidFirstActionShoot(game, nickName, s, lI, lS, i, lC, lP, lPC))
                 break;
             else {
                 System.out.println(promptErrorRetry);
-                lI.clear();
-                lS.clear();
             }
         }
         server.messageFirstActionShoot(game, nickName, s, lI, lS, i, lC, lP, lPC);
@@ -307,36 +173,25 @@ public class CLIWeaponPrompt {
 
     public void shoot2ToUser3(int game, ServerInterface server, String nickName, String s) throws RemoteException {
         Scanner in = new Scanner(System.in);
-        int e, i;
-        String str;
-        List<Integer> lI = new LinkedList<>();
-        List<String> lS = new LinkedList<>();
+        Scanner intScan = new Scanner(System.in);
+        int i;
+        List<Integer> lI;
+        List<String> lS;
         List<Colour> lC = new LinkedList<>();
         List<String> lP = new LinkedList<>();
         List<String> lPC = new LinkedList<>();
 
         while (true) {
             System.out.println(enterEffect);
-            while (in.hasNextInt()) {
-                e = in.nextInt();
-                lI.add(e);
-            }
+            lI = enterEffect(intScan);
             System.out.println(enterRelevantString);
-            while (true) {
-                str = in.next();
-                if (str.equals("0")) {
-                    break;
-                } else
-                    lS.add(str);
-            }
+            lS = enterRelevantString(in);
             System.out.println(enterAdrenalineDir);
-            i = in.nextInt(); //TODO nextint is a problem
+            i = enterAdrenalineDir(intScan);
             if (server.messageIsValidSecondActionShoot(game, nickName, s, lI, lS, i, lC, lP, lPC))
                 break;
             else {
                 System.out.println(promptErrorRetry);
-                lI.clear();
-                lS.clear();
             }
         }
         server.messageSecondActionShoot(game, nickName, s, lI, lS, i, lC, lP, lPC);
@@ -344,31 +199,23 @@ public class CLIWeaponPrompt {
 
     public void shootToUser4(int game, ServerInterface server, String nickName, String s) throws RemoteException {
         Scanner in = new Scanner(System.in);
+        Scanner intScan = new Scanner(System.in);
         int i;
-        String str;
         List<Integer> lI = new LinkedList<>();
-        List<String> lS = new LinkedList<>();
+        List<String> lS;
         List<Colour> lC = new LinkedList<>();
         List<String> lP = new LinkedList<>();
         List<String> lPC = new LinkedList<>();
 
         while (true) {
             System.out.println(enterRelevantString);
-            while (true) {
-                str = in.next();
-                if (str.equals("0")) {
-                    break;
-                } else
-                    lS.add(str);
-            }
+            lS = enterRelevantString(in);
             System.out.println(enterAdrenalineDir);
-            i = in.nextInt(); //TODO nextint is a problem
+            i = enterAdrenalineDir(intScan);
             if (server.messageIsValidFirstActionShoot(game, nickName, s, lI, lS, i, lC, lP, lPC))
                 break;
             else {
                 System.out.println(promptErrorRetry);
-                lI.clear();
-                lS.clear();
             }
         }
         server.messageFirstActionShoot(game, nickName, s, lI, lS, i, lC, lP, lPC);
@@ -376,52 +223,45 @@ public class CLIWeaponPrompt {
 
     public void shoot2ToUser4(int game, ServerInterface server, String nickName, String s) throws RemoteException {
         Scanner in = new Scanner(System.in);
+        Scanner intScan = new Scanner(System.in);
         int i;
-        String str;
         List<Integer> lI = new LinkedList<>();
-        List<String> lS = new LinkedList<>();
+        List<String> lS;
         List<Colour> lC = new LinkedList<>();
         List<String> lP = new LinkedList<>();
         List<String> lPC = new LinkedList<>();
 
         while (true) {
             System.out.println(enterRelevantString);
-            while (true) {
-                str = in.next();
-                if (str.equals("0")) {
-                    break;
-                } else
-                    lS.add(str);
-            }
+            lS = enterRelevantString(in);
             System.out.println(enterAdrenalineDir);
-            i = in.nextInt(); //TODO nextint is a problem
+            i = enterAdrenalineDir(intScan);
             if (server.messageIsValidSecondActionShoot(game, nickName, s, lI, lS, i, lC, lP, lPC))
                 break;
             else {
                 System.out.println(promptErrorRetry);
-                lI.clear();
-                lS.clear();
             }
         }
         server.messageSecondActionShoot(game, nickName, s, lI, lS, i, lC, lP, lPC);
     }
-}
 
-/*public List<Integer> enterEffect(Scanner in, List<Integer> l) throws RemoteException {
+    private List<Integer> enterEffect(Scanner in) {
         int effect;
-        System.out.println(enterEffect);
+        List<Integer> l = new LinkedList<>();
         while (in.hasNextInt()) {
             effect = in.nextInt();
+            if (effect == 0)
+                break;
             l.add(effect);
         }
         return l;
     }
 
-    public List<String> enterRelevantString(Scanner in, List<String> l) throws RemoteException {
+    private List<String> enterRelevantString(Scanner in) {
         String str;
-        System.out.println(enterRelevantString);
+        List<String> l = new LinkedList<>();
         while (true) {
-            str = in.next();
+            str = in.nextLine();
             if (str.equals("0")) {
                 break;
             } else
@@ -430,11 +270,11 @@ public class CLIWeaponPrompt {
         return l;
     }
 
-    public List<Colour> enterAmmoColour(Scanner in, List<Colour> l) throws RemoteException {
+    private List<Colour> enterAmmoColour(Scanner in) {
         String colour;
-        System.out.println(enterAmmoColour);
+        List<Colour> l = new LinkedList<>();
         while (true) {
-            colour = in.next();
+            colour = in.nextLine();
             if (colour.equals("0")) {
                 break;
             } else
@@ -443,9 +283,9 @@ public class CLIWeaponPrompt {
         return l;
     }
 
-    public List<String> enterPowerUp(Scanner in, List<String> l) throws RemoteException {
+    private List<String> enterPowerUp(Scanner in) {
         String pUC;
-        System.out.println(enterPowerUp);
+        List<String> l = new LinkedList<>();
         while (true) {
             pUC = in.next();
             if (pUC.equals("0")) {
@@ -456,9 +296,9 @@ public class CLIWeaponPrompt {
         return l;
     }
 
-    public List<String> enterPowerUpColour(Scanner in, List<String> l) throws RemoteException {
+    private List<String> enterPowerUpColour(Scanner in) {
         String colour;
-        System.out.println(enterPowerUpColour);
+        List<String> l = new LinkedList<>();
         while (true) {
             colour = in.next();
             if (colour.equals("0")) {
@@ -467,4 +307,23 @@ public class CLIWeaponPrompt {
                 l.add(colour);
         }
         return l;
-    }*/
+    }
+
+    private int enterAdrenalineDir(Scanner in) {
+        int direction = in.nextInt();
+        while (direction < 0 || direction > 4 ) {
+            System.out.println("Make sure the direction is between 0 and 4");
+            direction = in.nextInt();
+        }
+        return direction;
+    }
+}
+
+
+
+
+
+
+
+
+

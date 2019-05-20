@@ -815,7 +815,7 @@ public class CLI extends UnicastRemoteObject implements View {
             if (this.server.messageIsValidReload(game, this.nickName, s))
                 this.server.messageReload(game, this.nickName, s, i);
             else
-                System.out.println("You can't reload now: pay attention to the rules! (you can find the manual inside the box)");
+                System.out.println("You can't reload now");
         }
     }
 
@@ -824,7 +824,7 @@ public class CLI extends UnicastRemoteObject implements View {
         if(this.server.messageIsValidScoring(game))
             this.server.messageScoring(game);
         else
-            System.out.println("Error scoring");
+            System.out.println("Not scoring");
     }
 
     @Override
@@ -850,7 +850,7 @@ public class CLI extends UnicastRemoteObject implements View {
         if(this.server.messageIsValidToReplace(game))
             this.server.messageReplace(game);
         else
-            System.out.println("Error replacing");
+            System.out.println("Not replacing");
     }
 
 

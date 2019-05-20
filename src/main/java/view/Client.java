@@ -11,8 +11,6 @@ public class Client {
     private static View view;
     private static int game;
     private static int identifier;
-    private static Timer timer;
-    private static MyTask task;
 
     public static void main(String[] args) throws NamingException, RemoteException, AlreadyBoundException, NotBoundException, MalformedURLException, InterruptedException {
         //Registry registry = LocateRegistry.getRegistry();
@@ -94,7 +92,6 @@ public class Client {
             view.askNameAndColour();                    //identifier 1 has to have the first player  card
             view.selectSpawnPoint();
             view.printType();
-            task = new MyTask(game, identifier, view.getNickName(), centralServer);
         }
         try {
             while (true) {
@@ -103,30 +100,35 @@ public class Client {
                 if (centralServer.isMyTurn(game, identifier)) {
                     if (centralServer.isNotFinalFrenzy(game)) {
                         if (view.doYouWantToUsePUC()) {
-                            timer = new Timer();
+                            MyTask task = new MyTask(game, identifier, view.getNickName(), centralServer);
+                            Timer timer = new Timer();
                             timer.schedule(task, 150000);
                             view.usePowerUpCard();
                             timer.cancel();
                         }
-                        timer = new Timer();
-                        timer.schedule(task, 150000);
+                        MyTask task2 = new MyTask(game, identifier, view.getNickName(), centralServer);
+                        Timer timer2 = new Timer();
+                        timer2.schedule(task2, 150000);
                         view.action1();
-                        timer.cancel();
+                        timer2.cancel();
                         if (view.doYouWantToUsePUC()) {
-                            timer = new Timer();
-                            timer.schedule(task, 150000);
+                            MyTask task3 = new MyTask(game, identifier, view.getNickName(), centralServer);
+                            Timer timer3 = new Timer();
+                            timer3.schedule(task3, 150000);
                             view.usePowerUpCard();
-                            timer.cancel();
+                            timer3.cancel();
                         }
-                        timer = new Timer();
-                        timer.schedule(task, 150000);
+                        MyTask task4 = new MyTask(game, identifier, view.getNickName(), centralServer);
+                        Timer timer4 = new Timer();
+                        timer4.schedule(task4, 150000);
                         view.action2();
-                        timer.cancel();
+                        timer4.cancel();
                         if (view.doYouWantToUsePUC()) {
-                            timer = new Timer();
-                            timer.schedule(task, 150000);
+                            MyTask task5 = new MyTask(game, identifier, view.getNickName(), centralServer);
+                            Timer timer5 = new Timer();
+                            timer5.schedule(task5, 150000);
                             view.usePowerUpCard();
-                            timer.cancel();
+                            timer5.cancel();
                         }
                         view.reload();
                         view.scoring();
@@ -139,10 +141,11 @@ public class Client {
                         if (centralServer.stopGame(game))
                             break;
                         centralServer.setFinalTurn(game, identifier, view.getNickName());
-                        timer = new Timer();
-                        timer.schedule(task, 500000);
+                        MyTask task6 = new MyTask(game, identifier, view.getNickName(), centralServer);
+                        Timer timer6 = new Timer();
+                        timer6.schedule(task6, 500000);
                         view.finalFrenzyTurn();
-                        timer.cancel();
+                        timer6.cancel();
                         centralServer.finishTurn(game);
                         if (centralServer.stopGame(game))
                             break;

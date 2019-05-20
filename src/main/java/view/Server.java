@@ -128,7 +128,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
             return(connections.get(game).get(identifier-1).isMyTurn() && (connections.get(game).size()-1-suspendedIdentifier.get(game).size()-1 != frenzyTurn));
     }
 
-    public synchronized boolean isNotFinalFrenzy(int game) throws RemoteException {
+    public synchronized boolean isNotFinalFrenzy(int game) throws RemoteException {       
         boolean n = !games.get(game).isFinalFrenzy();
         if(!n)
             frenzyTurn++;
@@ -147,22 +147,24 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
             //return true;
         //return games.get(game).getGameState() == GameState.ENDALLTURN;
         if(suspendedIdentifier.get(game).isEmpty()) {
-            if(connections.get(game).size() - 1 == frenzyTurn){
+            if(connections.get(game).size() == frenzyTurn){
                 for(Connection c : connections.get(game)){
                     c.getView().endFinalFrenzy();
                     c.getView().finalScoring();
                 }
             }
-            return (connections.get(game).size() - 1 == frenzyTurn);
+            return (connections.get(game).size() == frenzyTurn);
         }
         else
-            if(connections.get(game).size()-1-suspendedIdentifier.get(game).size()-1 == frenzyTurn){
+            if(connections.get(game).size()-suspendedIdentifier.get(game).size() == frenzyTurn){
                 for(Connection c : connections.get(game)){
-                    c.getView().endFinalFrenzy();
-                    c.getView().finalScoring();
+                    if(!suspendedIdentifier.get(game).contains(c.getIdentifier())) {
+                        c.getView().endFinalFrenzy();
+                        c.getView().finalScoring();
+                    }
                 }
             }
-            return(connections.get(game).size()-1-suspendedIdentifier.get(game).size()-1 == frenzyTurn);
+            return(connections.get(game).size()-suspendedIdentifier.get(game).size() == frenzyTurn);
     }
 
     private int getPlayerTurn(int game) throws RemoteException{

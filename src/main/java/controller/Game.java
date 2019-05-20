@@ -35,11 +35,11 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         grid = new Grid(iD, server);
     }
 
-    public int getiD() {
+    public int getID() {
         return iD;
     }
 
-    public void setiD(int iD) {
+    public void setID(int iD) {
         this.iD = iD;
     }
 

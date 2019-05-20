@@ -179,24 +179,7 @@ public class Grid {
     }
 
     public void move(Player p, int d) throws RemoteException{                                //1 up, 2 right, 3 down, 4 left
-        int n = 0;
-
-        for(int i =0; i<p.getCell().getPosWall().length; i++) {
-            if (p.getCell().getPosWall()[i] == d) {                     //player can't move
-                n=1;
-            }
-        }
-
-        if(n==0) {
-            if((d==1) && (p.getCell().getP().getX()>0))
-                p.changeCell(board.getArena()[p.getCell().getP().getX()-1][p.getCell().getP().getY()]);
-            else if((d==2) && (p.getCell().getP().getY()<3))
-                p.changeCell(board.getArena()[p.getCell().getP().getX()][p.getCell().getP().getY()+1]);
-            else if((d==3) && (p.getCell().getP().getX()<2))
-                p.changeCell(board.getArena()[p.getCell().getP().getX()+1][p.getCell().getP().getY()]);
-            else if((d==4) && (p.getCell().getP().getY()>0))
-                p.changeCell(board.getArena()[p.getCell().getP().getX()][p.getCell().getP().getY()-1]);
-        }
+        moveWithoutNotify(p, d);
         List<String> information = new LinkedList<>();
         information.add(p.getNickName());
         information.add(Integer.toString(p.getCell().getP().getX()));

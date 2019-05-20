@@ -21,7 +21,7 @@ public class Client {
 
         Scanner in = new Scanner(System.in);
         System.out.println("Enter the number of the game you want to play: " +
-                "there are " + centralServer.getGames()+ " games now");
+                "there are " + centralServer.getGames()+ " games now; you can choose one of the current games or you can create a new game entering the number you saw +1");
         game = in.nextInt()-1;
         System.out.println("Are you an old Player of this game?");
         String n = in.next();

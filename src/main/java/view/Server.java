@@ -83,29 +83,29 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
     }
 
     public synchronized boolean tooMany(int game) throws RemoteException{               //Even if a Player is suspended, the total number of player can't be more than five
-        return (!connections.isEmpty() && !connections.get(game).isEmpty() &&  connections.get(game).size() == 4);
+        return (!connections.isEmpty() && (games.size() > game) &&  connections.get(game).size() == 5);
     }
 
     public synchronized boolean stopGame(int game) throws RemoteException{
         if(suspendedIdentifier.isEmpty())
-            return (connections.get(game).size() < 2);
+            return (connections.get(game).size() < 3);
         else
-            return (connections.get(game).size()-suspendedIdentifier.get(game).size() < 2);
+            return (connections.get(game).size()-suspendedIdentifier.get(game).size() < 3);
     }
 
     public synchronized int receiveIdentifier(int game) throws RemoteException {
-        connections.get(game).get(connections.get(game).size()-1).setIdentifier(connections.get(game).size()-1);
-        return connections.get(game).size()-1;
+        connections.get(game).get(connections.get(game).size()-1).setIdentifier(connections.get(game).size());
+        return connections.get(game).size();
     }
 
     public synchronized void mergeGroup(int game) throws RemoteException, InterruptedException {
-        if (connections.get(game).size() == 4) {
+        if (connections.get(game).size() == 5) {
             canStartList.add(game, true);
             notifyAll();
         }
-        if(connections.get(game).size() == 2) {
+        if(connections.get(game).size() == 3) {
             wait(30000);
-            while(connections.get(game).size() < 2)
+            while(connections.get(game).size() < 3)
                 wait(30000);
             canStartList.add(game, true);
         }

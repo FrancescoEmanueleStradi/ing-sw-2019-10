@@ -22,7 +22,7 @@ public interface ServerInterface extends Remote {
 
     String echo(String input) throws RemoteException;
     int getGames() throws RemoteException;
-    int setGame(int game) throws RemoteException;
+    void setGame(int game) throws RemoteException;
     void setView(int game, int identifier, View view) throws RemoteException;
     void setNickName(int game, int identifier, String nickName) throws RemoteException;
     boolean canStart(int game) throws RemoteException;

@@ -17,7 +17,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
     private static List<Boolean> canStartList;
     private static List<List<Connection>> connections;
     private static List<LinkedList<Integer>>  suspendedIdentifier;
-    private static List<LinkedList<String>> suspendedName;                      //TODO (test) to understand if these are initialized and insert condition !isEmpty in if statements
+    private static List<LinkedList<String>> suspendedName;
     private static int frenzyTurn = 0;
 
     public Server() throws RemoteException {
@@ -51,7 +51,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
         return games.size();
     }
 
-    public synchronized int setGame(int numGame) throws RemoteException {
+    public synchronized void setGame(int numGame) throws RemoteException {
         if (games.isEmpty() || games.size() <= numGame){
             games.add(numGame, new Game(numGame, this));
             //views.add(numGame, new LinkedList<>());
@@ -64,8 +64,8 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
             connections.get(numGame).add(new Connection());             //this index should be the identifier - 1
             connections.get(numGame).get(connections.get(numGame).size()-1).setMyTurn(true);
         }
-        connections.get(numGame).add(new Connection());
-        return numGame;
+        else
+            connections.get(numGame).add(new Connection());
     }
 
     public synchronized void setView(int game, int identifier, View view) throws RemoteException{
@@ -185,7 +185,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
     }
 
     public synchronized void manageDisconnection(int game, int identifier, String nickName) throws RemoteException, InterruptedException{
-        suspendedIdentifier.get(game).add(identifier, identifier);                //TODO (test) is suspended already initialized?
+        suspendedIdentifier.get(game).add(identifier, identifier);
         suspendedName.get(game).add(identifier, nickName);
         for(Connection c : connections.get(game)){
             c.getView().disconnected(identifier);

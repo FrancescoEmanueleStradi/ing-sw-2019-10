@@ -22,17 +22,17 @@ public class Client {
         Scanner in = new Scanner(System.in);
         System.out.println("Enter the number of the game you want to play: " +
                 "there are " + centralServer.getGames()+ " games now");
-        int g = in.nextInt()-1;
+        game = in.nextInt()-1;
         System.out.println("Are you an old Player of this game?");
         String n = in.next();
         if(n.equals("yes") || n.equals("Yes") || n.equals("YES")){
             System.out.println("Enter you old identifier:");
             identifier = in.nextInt();
-            while(!centralServer.isASuspendedIdentifier(g, identifier)){
+            while(!centralServer.isASuspendedIdentifier(game, identifier)){
                 System.out.println("Enter you old identifier:");
                 identifier = in.nextInt();
             }
-            centralServer.manageReconnection(g,identifier);
+            centralServer.manageReconnection(game,identifier);
             System.out.println("Your identifier is:" + identifier);
             System.out.println("Do you want to use CLI or GUI?");
             switch (in.next()) {
@@ -47,19 +47,19 @@ public class Client {
                     view = new GUI();
                     break;
             }
-            game = centralServer.setGame(g);
+            centralServer.setGame(game);
             //view.setServer(centralServer);
             //view.setGame(game);
             centralServer.setView(game, identifier, view.getView());
             view.setInformation(identifier);
         }
         else {
-            while (centralServer.tooMany(g)) {
+            while (centralServer.tooMany(game)) {
                 System.out.println("Too many people on this game, choose another one:");
-                g = in.nextInt() - 1;
+                game = in.nextInt() - 1;
             }
 
-            game = centralServer.setGame(g);
+            centralServer.setGame(game);
             System.out.println("Wait for five players to connect, if time will be out you will start even with three or four players");
             identifier = centralServer.receiveIdentifier(game);
             centralServer.mergeGroup(game);

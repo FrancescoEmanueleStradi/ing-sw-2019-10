@@ -63,7 +63,7 @@ class CyberbladeAssertTests {
         } catch (java.rmi.RemoteException e) {
             e.printStackTrace();
         }
-        assertEquals(Colour.YELLOW, enemy1.getPlayerBoard().getDamages().getDamageTokens()[1].getC());
+        assertEquals(Colour.YELLOW, enemy1.getPlayerBoard().getDamage().getDamageTokens()[1].getC());
 
         c.applySpecialEffect(grid, player, "2");
         assertEquals(grid.getBoard().getArena()[0][2], player.getCell());
@@ -73,6 +73,6 @@ class CyberbladeAssertTests {
         assertEquals(player.getCell(), enemy2.getCell());
 
         c.applySpecialEffect2(grid, player, enemy2);
-        assertEquals(Colour.YELLOW, enemy2.getPlayerBoard().getDamages().getDamageTokens()[1].getC());
+        assertEquals(Colour.YELLOW, enemy2.getPlayerBoard().getDamage().getDamageTokens()[1].getC());
     }
 }

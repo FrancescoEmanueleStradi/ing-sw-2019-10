@@ -207,18 +207,18 @@ public class Player {
     }
 
     public boolean isAdrenaline1() {
-        return (this.playerBoard.getDamages().getDamageTokens()[2]!=null);
+        return (this.playerBoard.getDamage().getDamageTokens()[2]!=null);
     }
 
     public boolean isAdrenaline2() {
-        return (this.playerBoard.getDamages().getDamageTokens()[5]!=null);
+        return (this.playerBoard.getDamage().getDamageTokens()[5]!=null);
     }
 
     public boolean isDead(){
-        return (this.playerBoard.getDamages().getDamageTokens()[10]!=null);
+        return (this.playerBoard.getDamage().getDamageTokens()[10]!=null);
     }
 
     public boolean isOverkilled(){
-        return (this.playerBoard.getDamages().getDamageTokens()[11]!=null);
+        return (this.playerBoard.getDamage().getDamageTokens()[11]!=null);
     }
 }

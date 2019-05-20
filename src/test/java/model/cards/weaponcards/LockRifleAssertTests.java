@@ -50,7 +50,7 @@ class LockRifleAssertTests {
         Player enemy2 = new Player("Enemy 2", Colour.RED, false);
 
         lr.applyEffect(grid, player, enemy1);
-        assertEquals(Colour.BLUE, enemy1.getPlayerBoard().getDamages().getDamageTokens()[1].getC());
+        assertEquals(Colour.BLUE, enemy1.getPlayerBoard().getDamage().getDamageTokens()[1].getC());
         assertTrue(enemy1.getPlayerBoard().getMarks().size() == 1);
 
         lr.applySpecialEffect(grid, player, enemy2);

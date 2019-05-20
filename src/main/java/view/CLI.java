@@ -72,7 +72,7 @@ public class CLI extends UnicastRemoteObject implements View {
         String yourName = "Enter your name:";
         String yourColour = "Enter your colour in all caps (YELLOW, BLUE, GREEN, PURPLE, BLACK):";
         Scanner in = new Scanner(System.in);
-        if (this.server.messageGameIsNotStarted(game)) {
+        if (this.server.messageGameIsNotStarted(game) && this.identifier == 1) {
             System.out.println(yourName);
             this.nickName = in.nextLine();
             server.setNickName(this.game, this.identifier, this.nickName);

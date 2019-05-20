@@ -58,6 +58,8 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
             connections.add(numGame, new LinkedList<>());
             //playersTakingTheirTurn.add(numGame, 1);
             //players.add(numGame, 0);
+            suspendedName.add(numGame, new LinkedList<>());
+            suspendedIdentifier.add(numGame, new LinkedList<>());
             canStartList.add(numGame, false);
             connections.get(numGame).add(new Connection());             //this index should be the identifier - 1
             connections.get(numGame).get(connections.get(numGame).size()-1).setMyTurn(true);

@@ -1145,26 +1145,26 @@ public class CLI extends UnicastRemoteObject implements View {
 
     @Override
     public void printScore(List<String> information) throws RemoteException{
-        System.out.println("Player" + information.get(0) + "has now this score:" + information.get(1));
+        System.out.println("Player: " + information.get(0) + " has now this score: " + information.get(1));
     }
 
     @Override
     public void printPosition(List<String> information) throws RemoteException{
-        System.out.println("Now Player" + information.get(0) + "is in the cell" + information.get(1) + information.get(2));
+        System.out.println("Now Player: " + information.get(0) + " is in the cell " + information.get(1) + " " + information.get(2));
     }
 
     @Override
     public void printMark(List<String> information) throws RemoteException{
-        System.out.println("Player" + information.get(0) + "give a new Mark to Player" + information.get(1));
+        System.out.println("Player: " + information.get(0) + "give a new Mark to Player" + information.get(1));
     }
 
     @Override
     public void printDamage(List<String> information) throws RemoteException{
-        System.out.println("Player" + information.get(0) + "give" + information.get(1) + "damages to Player" + information.get(2));
+        System.out.println("Player: " + information.get(0) + " give " + information.get(1) + " damages to Player: " + information.get(2));
     }
 
     @Override
     public void printType(int type) throws RemoteException{
-        System.out.println("Type of the grid is:" + type);
+        System.out.println("Type of the grid is: " + type);
     }
 }

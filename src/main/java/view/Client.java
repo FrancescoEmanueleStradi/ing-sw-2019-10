@@ -11,7 +11,7 @@ public class Client {
     private static View view;
     private static int game;
     private static int identifier;
-    private static Timer timer = new Timer();
+    private static Timer timer;
     private static MyTask task;
 
     public static void main(String[] args) throws NamingException, RemoteException, AlreadyBoundException, NotBoundException, MalformedURLException, InterruptedException {
@@ -100,22 +100,27 @@ public class Client {
                 if (centralServer.isMyTurn(game, identifier)) {
                     if (centralServer.isNotFinalFrenzy(game)) {
                         if (view.doYouWantToUsePUC()) {
+                            timer = new Timer();
                             timer.schedule(task, 150000);
                             view.usePowerUpCard();
                             timer.cancel();
                         }
+                        timer = new Timer();
                         timer.schedule(task, 150000);
                         view.action1();
                         timer.cancel();
                         if (view.doYouWantToUsePUC()) {
+                            timer = new Timer();
                             timer.schedule(task, 150000);
                             view.usePowerUpCard();
                             timer.cancel();
                         }
+                        timer = new Timer();
                         timer.schedule(task, 150000);
                         view.action2();
                         timer.cancel();
                         if (view.doYouWantToUsePUC()) {
+                            timer = new Timer();
                             timer.schedule(task, 150000);
                             view.usePowerUpCard();
                             timer.cancel();
@@ -131,6 +136,7 @@ public class Client {
                         if (centralServer.stopGame(game))
                             break;
                         centralServer.setFinalTurn(game, identifier, view.getNickName());
+                        timer = new Timer();
                         timer.schedule(task, 500000);
                         view.finalFrenzyTurn();
                         timer.cancel();

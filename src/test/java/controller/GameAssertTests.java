@@ -1470,6 +1470,25 @@ class GameAssertTests {
         game.replace();
         assertTrue(game.isFinalFrenzy());
 
+        WeaponCard whisper = new Whisper();
+        grid.getBoard().getW1().setCard1(whisper);
+        WeaponCard cyberblade = new Cyberblade();
+        grid.getBoard().getW1().setCard2(cyberblade);
+        WeaponCard electroscythe = new Electroscythe();
+        grid.getBoard().getW1().setCard3(electroscythe);
+        WeaponCard flamethrower = new Flamethrower();
+        grid.getBoard().getW2().setCard1(flamethrower);
+        WeaponCard shotgun = new Shotgun();
+        grid.getBoard().getW2().setCard2(shotgun);
+        WeaponCard furnace = new Furnace();
+        grid.getBoard().getW2().setCard3(furnace);
+        WeaponCard hellion = new Hellion();
+        grid.getBoard().getW3().setCard1(hellion);
+        WeaponCard shockwave = new Shockwave();
+        grid.getBoard().getW3().setCard2(shockwave);
+        WeaponCard railgun = new Railgun();
+        grid.getBoard().getW3().setCard3(railgun);
+
         int p1Turn = 1;
         p1.setTurnFinalFrenzy(p1Turn);
         p1.changeCell(grid.getBoard().getArena()[0][0]);
@@ -1506,7 +1525,6 @@ class GameAssertTests {
         p2E.add(1);
         p2E.add(2);
         p2S.add("Player 1");
-        WeaponCard whisper = new Whisper();
         p2.addWeaponCard(whisper);
         assertFalse(whisper.isReloaded());
         assertFalse(game.isValidFinalFrenzyAction1("Player 2", 1, "Whisper", p2E, p2S, new LinkedList<>(), new LinkedList<>(), new LinkedList<>()));
@@ -1532,8 +1550,6 @@ class GameAssertTests {
         List<Colour> p3A = new LinkedList<>();
         p3D.add(2);
         p3A.add(YELLOW);
-        WeaponCard shotgun = new Shotgun();
-        grid.getBoard().getW2().setCard2(shotgun);
         assertTrue(game.isValidFinalFrenzyAction3("Player 3", p3D, "Shotgun","2", p3A, new LinkedList<>(), new LinkedList<>()));
         game.finalFrenzyAction3("Player 3", p3D, "Shotgun", p3A, new LinkedList<>(), new LinkedList<>());
         assertNull(grid.getBoard().getW2().getCard2());
@@ -1556,7 +1572,6 @@ class GameAssertTests {
 
         p1D.add(2);
         p1D.add(2);
-        WeaponCard shockwave = new Shockwave();
         p1.addWeaponCard(shockwave);
         assertEquals(shockwave.getReloadCost()[0].getC(), YELLOW);
         shockwave.reload();

@@ -51,6 +51,8 @@ public class Client {
             //view.setServer(centralServer);
             //view.setGame(game);
             centralServer.setView(game, identifier, view.getView());
+            view.setType(centralServer.getType(game));
+            view.printType();
             view.setInformation(identifier);
         }
         else {
@@ -91,6 +93,7 @@ public class Client {
 
             view.askNameAndColour();                    //identifier 1 has to have the first player  card
             view.selectSpawnPoint();
+            view.printType();
             task = new MyTask(game, identifier, view.getNickName(), centralServer);
         }
         try {

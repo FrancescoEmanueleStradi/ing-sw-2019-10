@@ -31,5 +31,7 @@ public interface View extends Remote {
     void printPosition(List<String> information) throws RemoteException;
     void printMark(List<String> information) throws RemoteException;
     void printDamage(List<String> information) throws RemoteException;
-    void printType(int type) throws RemoteException;
+    void printType() throws RemoteException;
+
+    void setType(int type) throws RemoteException;
 }

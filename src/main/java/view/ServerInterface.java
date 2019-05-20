@@ -50,6 +50,7 @@ public interface ServerInterface extends Remote {
     void notifyMark(int game, List<String> information) throws RemoteException;
     void notifyDamage(int game, List<String> information) throws RemoteException;
     void notifyType(int game, int type) throws RemoteException;
+    int getType(int game) throws RemoteException;
 
     boolean messageGameIsNotStarted(int game) throws RemoteException;
     void messageGameStart(int game, String nick, Colour c) throws RemoteException;

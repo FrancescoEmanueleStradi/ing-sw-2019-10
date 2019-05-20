@@ -796,21 +796,17 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         if(lIset.size() < lI.size())                //to check if there are repetitions in lI, which means that player wants to apply the same effect multiple times
             return false;
 
-        if(!lAInput.isEmpty()) {
-            for (Colour c : lAInput)
-                lA.add(new AmmoCube(c));
-            AmmoCube[] cubeArray = new AmmoCube[lA.size()];
-            lA.toArray(cubeArray);
-            if (!p.checkAmmoCube(cubeArray))
-                return false;
-        }
+        for (Colour c : lAInput)
+            lA.add(new AmmoCube(c));
+        AmmoCube[] cubeArray = new AmmoCube[lA.size()];
+        lA.toArray(cubeArray);
+        if (!p.checkAmmoCube(cubeArray))
+            return false;
 
-        if(!lPInput.isEmpty()) {
-            for (int i = 0; i < lPInput.size(); i++) {
-                if (p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))) == null)
-                    return false;
-                lP.add(p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))));
-            }
+        for (int i = 0; i < lPInput.size(); i++) {
+            if (p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))) == null)
+                return false;
+            lP.add(p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))));
         }
 
         if(this.gameState.equals(STARTTURN))

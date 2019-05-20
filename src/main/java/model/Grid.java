@@ -128,7 +128,7 @@ public class Grid {
             List<String> information = new LinkedList<>();
             information.add(p.getNickName());
             information.add(p1.getNickName());
-            server.notifyMark(this.iD, information);                    //TODO why we add marks here?
+            server.notifyMark(this.iD, information);
         }
     }
 

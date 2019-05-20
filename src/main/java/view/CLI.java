@@ -89,6 +89,7 @@ public class CLI extends UnicastRemoteObject implements View {
             }
             this.server.messageReceiveType(game, type);
             System.out.println("\n---------GENERATING ARENA...---------\n");
+            this.setType(server.getType(game));
             return;
         }
         this.setType(server.getType(game));

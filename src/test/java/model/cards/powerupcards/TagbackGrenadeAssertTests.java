@@ -5,16 +5,18 @@ import model.Grid;
 import model.cards.PowerUpCard;
 import model.player.Player;
 import org.junit.jupiter.api.Test;
+import view.Server;
 import view.ServerInterface;
 
 import java.rmi.RemoteException;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
 
 class TagbackGrenadeAssertTests {
 
     private int iD = 1;
-    private ServerInterface server;
+    private ServerInterface server = mock(Server.class);
 
     @Test
     void TagbackGrenadeCorrectConstructor() {

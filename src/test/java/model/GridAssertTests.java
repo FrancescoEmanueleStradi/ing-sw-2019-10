@@ -5,6 +5,7 @@ import model.cards.PowerUpCard;
 import model.cards.WeaponCard;
 import model.player.Player;
 import org.junit.jupiter.api.Test;
+import view.Server;
 import view.ServerInterface;
 
 import java.rmi.RemoteException;
@@ -12,11 +13,12 @@ import java.util.LinkedList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
 
 class GridAssertTests {
 
     private int iD = 1;
-    private ServerInterface server;
+    private ServerInterface server = mock(Server.class);
 
     @Test
     void GridPlayersTest() throws RemoteException {

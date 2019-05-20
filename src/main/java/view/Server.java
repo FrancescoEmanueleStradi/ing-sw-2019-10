@@ -128,7 +128,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
             return(connections.get(game).get(identifier-1).isMyTurn() && (connections.get(game).size()-1-suspendedIdentifier.get(game).size()-1 != frenzyTurn));
     }
 
-    public synchronized boolean isNotFinalFrenzy(int game) throws RemoteException {       
+    public synchronized boolean isNotFinalFrenzy(int game) throws RemoteException {
         boolean n = !games.get(game).isFinalFrenzy();
         if(!n)
             frenzyTurn++;

@@ -826,7 +826,7 @@ public class CLI extends UnicastRemoteObject implements View {
         if(this.server.messageIsValidScoring(game))
             this.server.messageScoring(game);
         else
-            System.out.println("It is not time for scoring: pay attention to the rule! (you can find the rule book near the board you bought)");
+            System.out.println("Error scoring");
     }
 
     @Override
@@ -852,7 +852,7 @@ public class CLI extends UnicastRemoteObject implements View {
         if(this.server.messageIsValidToReplace(game))
             this.server.messageReplace(game);
         else
-            System.out.println("Time for replacing has not come yet: pay attention to the rule! (you can find the rule book near the board you bought)");
+            System.out.println("Error replacing");
     }
 
 

@@ -115,7 +115,7 @@ public class Client {
                             MyTask task3 = new MyTask(game, identifier, view.getNickName(), centralServer);
                             Timer timer3 = new Timer();
                             timer3.schedule(task3, 150000);
-                            view.usePowerUpCard();
+                            view.usePowerUpCard();                      //TODO make the player can escape from using PWC?? and from other
                             timer3.cancel();
                         }
                         MyTask task4 = new MyTask(game, identifier, view.getNickName(), centralServer);

@@ -42,6 +42,7 @@ public class RocketLauncher extends WeaponCard {
 
     public void applyEffect(Grid grid, Player p, Player p1) throws RemoteException {   //player p deals 2 damages to p1. We save the original cell of p1, in case p uses Fragmenting Warhead
         grid.damage(p, p1, 2);
+        firstEnemy = p1;
         firstEnemyOriginalCell = p1.getCell();
     }
 

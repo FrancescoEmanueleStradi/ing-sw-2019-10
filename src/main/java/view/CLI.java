@@ -56,14 +56,14 @@ public class CLI extends UnicastRemoteObject implements View {
     }
 
     @Override
-    public void setInformation(int identifier) throws RemoteException{
+    public void setInformation(int identifier) throws RemoteException {
         this.nickName = server.getSuspendedName(game, identifier);
         this.colour = server.getSuspendedColour(game, this.nickName);
         this.identifier = identifier;
     }
 
     @Override
-    public void disconnected(int disconnected) throws RemoteException, InterruptedException{
+    public void disconnected(int disconnected) throws RemoteException, InterruptedException {
         System.out.println("Player number " + disconnected + " is disconnected");
     }
 
@@ -113,7 +113,7 @@ public class CLI extends UnicastRemoteObject implements View {
     }
 
     @Override
-    public void selectSpawnPoint() throws RemoteException{
+    public void selectSpawnPoint() throws RemoteException {
         Scanner in = new Scanner(System.in);
         this.server.messageGiveTwoPUCard(game, this.nickName);
         String p;
@@ -133,10 +133,10 @@ public class CLI extends UnicastRemoteObject implements View {
             else
                 System.out.println(errorRetry);
         }
-            if (this.server.messageGetPowerUpCard(game, this.nickName).get(0).equals(p) && this.server.messageGetPowerUpCardColour(game, this.nickName).get(0).equals(c))
-                this.server.messagePickAndDiscardCard(game, this.nickName, this.server.messageGetPowerUpCard(game, this.nickName).get(0), this.server.messageGetPowerUpCardColour(game, this.nickName).get(0));
-            else
-                this.server.messagePickAndDiscardCard(game, this.nickName, this.server.messageGetPowerUpCard(game, this.nickName).get(1), this.server.messageGetPowerUpCardColour(game, this.nickName).get(1));
+        if (this.server.messageGetPowerUpCard(game, this.nickName).get(0).equals(p) && this.server.messageGetPowerUpCardColour(game, this.nickName).get(0).equals(c))
+            this.server.messagePickAndDiscardCard(game, this.nickName, this.server.messageGetPowerUpCard(game, this.nickName).get(0), this.server.messageGetPowerUpCardColour(game, this.nickName).get(0));
+        else
+            this.server.messagePickAndDiscardCard(game, this.nickName, this.server.messageGetPowerUpCard(game, this.nickName).get(1), this.server.messageGetPowerUpCardColour(game, this.nickName).get(1));
     }
 
     @Override
@@ -385,8 +385,7 @@ public class CLI extends UnicastRemoteObject implements View {
                 wCard = in.nextLine();
                 System.out.println("Enter the number of the WeaponSlot from which you want to buy the card:");
                 weaponSlot = in.nextLine();
-                System.out.println("Enter the colour(s), in order and in all caps, of the required AmmoCube(s) to buy the card,\n" +
-                        "or 0 if not necessary");
+                System.out.println("Enter the colour(s), in order and in all caps, of the required AmmoCube(s) to buy the card; 0 to finish");
                 while (in.hasNext()) {
                     String a = in.nextLine();
                     if (a.equals("0"))
@@ -394,7 +393,7 @@ public class CLI extends UnicastRemoteObject implements View {
                     else
                         lC.add(Colour.valueOf(a));
                 }
-                System.out.println("Enter the PowerUpCard(s) you want to use to pay during your turn, or 0 if not necessary");
+                System.out.println("Enter the PowerUpCard(s) you want to use to pay during your turn; 0 to finish");
                 while (in.hasNext()) {
                     String p = in.nextLine();
                     if (p.equals("0"))
@@ -402,7 +401,7 @@ public class CLI extends UnicastRemoteObject implements View {
                     else
                         lP.add(p);
                 }
-                System.out.println("Enter the colour(s) of the PowerUpCard(s) you want to use to pay during your turn, or 0 if not necessary");
+                System.out.println("Enter the colour(s) of the PowerUpCard(s) you want to use to pay during your turn; 0 to finish");
                 while (in.hasNext()) {
                     String c = in.nextLine();
                     if (c.equals("0"))
@@ -675,8 +674,7 @@ public class CLI extends UnicastRemoteObject implements View {
                 wCard = in.nextLine();
                 System.out.println("Enter the number of the WeaponSlot from which you want to buy the card:");
                 weaponSlot = in.nextLine();
-                System.out.println("Enter the colour(s), in order and in all caps, of the required AmmoCube(s) to buy the card,\n" +
-                        "or 0 if not necessary");
+                System.out.println("Enter the colour(s), in order and in all caps, of the required AmmoCube(s) to buy the card; 0 to finish");
                 while (in.hasNext()) {
                     String a = in.nextLine();
                     if (a.equals("0"))
@@ -684,7 +682,7 @@ public class CLI extends UnicastRemoteObject implements View {
                     else
                         lC.add(Colour.valueOf(a));
                 }
-                System.out.println("Enter the PowerUpCard(s) you want to use to pay during your turn, or 0 if not necessary");
+                System.out.println("Enter the PowerUpCard(s) you want to use to pay during your turn; 0 to finish");
                 while (in.hasNext()) {
                     String p = in.nextLine();
                     if (p.equals("0"))
@@ -692,7 +690,7 @@ public class CLI extends UnicastRemoteObject implements View {
                     else
                         lP.add(p);
                 }
-                System.out.println("Enter the colour(s) of the PowerUpCard(s) you want to use to pay during your turn, or 0 if not necessary");
+                System.out.println("Enter the colour(s) of the PowerUpCard(s) you want to use to pay during your turn; 0 to finish");
                 while (in.hasNext()) {
                     String c = in.nextLine();
                     if (c.equals("0"))

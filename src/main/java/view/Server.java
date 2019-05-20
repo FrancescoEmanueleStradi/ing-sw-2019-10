@@ -14,6 +14,7 @@ import java.util.List;
 public class Server extends UnicastRemoteObject implements ServerInterface {
 
     private static List<Game> games;
+    private static List<Integer> types;
     private static List<Boolean> canStartList;
     private static List<List<Connection>> connections;
     private static List<LinkedList<Integer>>  suspendedIdentifier;
@@ -39,6 +40,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
 
         System.out.println("Client may now invoke methods");
         games = new LinkedList<>();
+        types = new LinkedList<>();
         connections = new LinkedList<>();
         canStartList = new LinkedList<>();
         suspendedIdentifier = new LinkedList<>();
@@ -241,10 +243,11 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
     }
 
     public synchronized void notifyType(int game, int type) throws RemoteException{
-        for(Connection c : connections.get(game)){
-            if(c.getView()!=null)                                //TODO the player who has not initialized the view will not see the type of arena
-                c.getView().printType(type);
-        }
+        types.add(game, type);
+    }
+
+    public synchronized int getType(int game) throws RemoteException{
+        return types.get(game);
     }
 
 

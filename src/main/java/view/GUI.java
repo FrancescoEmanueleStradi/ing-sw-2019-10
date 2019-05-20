@@ -10,8 +10,9 @@ import java.util.List;
 
 public class GUI implements View{
 
-    private int identifier;
     private int game;
+    private int identifier;
+    private int type;
     private ServerInterface server;
     private String nickName;
     private Colour colour;
@@ -156,7 +157,12 @@ public class GUI implements View{
     }
 
     @Override
-    public void printType(int type) throws RemoteException{
+    public void printType() throws RemoteException{
         //TODO
+    }
+
+    @Override
+    public void setType(int type) throws RemoteException{
+        this.type = type;
     }
 }

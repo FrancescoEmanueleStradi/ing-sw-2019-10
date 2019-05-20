@@ -12,6 +12,7 @@ public class CLI extends UnicastRemoteObject implements View {
 
     private int game;
     private int identifier;
+    private int type;
     private ServerInterface server;
     private String nickName;
     private Colour colour;
@@ -90,6 +91,7 @@ public class CLI extends UnicastRemoteObject implements View {
             System.out.println("\n---------GENERATING ARENA...---------\n");
             return;
         }
+        this.setType(server.getType(game));
         System.out.println("\n---------WAITING FOR PLAYERS TO JOIN---------\n");
         System.out.println(yourName);
         this.nickName = in.nextLine();
@@ -1164,7 +1166,12 @@ public class CLI extends UnicastRemoteObject implements View {
     }
 
     @Override
-    public void printType(int type) throws RemoteException{
+    public void printType() throws RemoteException{
         System.out.println("Type of the grid is: " + type);
+    }
+
+    @Override
+    public void setType(int type) throws RemoteException{
+        this.type = type;
     }
 }

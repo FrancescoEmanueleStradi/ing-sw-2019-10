@@ -88,16 +88,16 @@ class GridAssertTests {
         grid.damage(p1, p2, 3);
         grid.damage(p2, p1, 1);
         grid.addMark(p2, p1);
-        assertEquals(Colour.YELLOW, p2.getPlayerBoard().getDamages().getDamageTokens()[1].getC());
-        assertEquals(Colour.BLUE, p1.getPlayerBoard().getDamages().getDamageTokens()[0].getC());
+        assertEquals(Colour.YELLOW, p2.getPlayerBoard().getDamage().getDamageTokens()[1].getC());
+        assertEquals(Colour.BLUE, p1.getPlayerBoard().getDamage().getDamageTokens()[0].getC());
         assertEquals(p1.getPlayerBoard().getMarks().size(), 1);
 
         grid.damage(p2, p1, 2);
-        assertEquals(Colour.BLUE, p1.getPlayerBoard().getDamages().getDamageTokens()[3].getC());
+        assertEquals(Colour.BLUE, p1.getPlayerBoard().getDamage().getDamageTokens()[3].getC());
         assertEquals(p1.getPlayerBoard().getMarks().size(), 0);
 
         grid.clean(p2);
-        assertNull(p2.getPlayerBoard().getDamages().getDamageTokens()[0]);
+        assertNull(p2.getPlayerBoard().getDamage().getDamageTokens()[0]);
 
 
         Player p3 = new Player("Player 3", Colour.GREEN, false);

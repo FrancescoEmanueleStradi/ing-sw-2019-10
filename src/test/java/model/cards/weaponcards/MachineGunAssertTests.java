@@ -54,10 +54,10 @@ class MachineGunAssertTests {
         Player enemy2 = new Player("Enemy 2", Colour.YELLOW, false);
 
         mg.applyEffect(grid, player, enemy1, enemy2);
-        assertEquals(Colour.BLUE, enemy1.getPlayerBoard().getDamages().getDamageTokens()[0].getC());
-        assertEquals(Colour.BLUE, enemy2.getPlayerBoard().getDamages().getDamageTokens()[0].getC());
+        assertEquals(Colour.BLUE, enemy1.getPlayerBoard().getDamage().getDamageTokens()[0].getC());
+        assertEquals(Colour.BLUE, enemy2.getPlayerBoard().getDamage().getDamageTokens()[0].getC());
 
         mg.applySpecialEffect(grid, player, enemy1);
-        assertEquals(Colour.BLUE, enemy1.getPlayerBoard().getDamages().getDamageTokens()[1].getC());
+        assertEquals(Colour.BLUE, enemy1.getPlayerBoard().getDamage().getDamageTokens()[1].getC());
     }
 }

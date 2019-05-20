@@ -18,7 +18,7 @@ public class PlayerBoard {
         this.marks = new ArrayList<>();
     }
 
-    public DamageTrack getDamages() {
+    public DamageTrack getDamage() {
         return damages;
     }
 

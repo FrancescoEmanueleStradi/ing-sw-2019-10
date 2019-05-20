@@ -234,11 +234,11 @@ class PlayerAssertTests {
         assertFalse(p1.isDead());
         assertFalse(p1.isOverkilled());
 
-        p1.getPlayerBoard().getDamages().addDamage(11, Colour.RED);
+        p1.getPlayerBoard().getDamage().addDamage(11, Colour.RED);
 
         assertTrue(p1.isDead());
 
-        p1.getPlayerBoard().getDamages().addDamage(1, Colour.RED);
+        p1.getPlayerBoard().getDamage().addDamage(1, Colour.RED);
 
         assertTrue(p1.isOverkilled());
     }

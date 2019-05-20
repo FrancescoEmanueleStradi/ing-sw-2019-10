@@ -44,6 +44,6 @@ class TargetingScopeAssertTests {
 
         targetingScope.applyEffect(grid, p1, p2);
 
-        assertEquals(p1.getC(), p2.getPlayerBoard().getDamages().getDamageTokens()[0].getC());
+        assertEquals(p1.getC(), p2.getPlayerBoard().getDamage().getDamageTokens()[0].getC());
     }
 }

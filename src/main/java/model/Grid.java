@@ -117,13 +117,13 @@ public class Grid {
 
     public void damage(Player p, Player p1, int numDamage) throws RemoteException{ //p attacks, p1 is attacked
         removeMarkAndAdd(p1, p);
-        p1.getPlayerBoard().getDamages().addDamage(numDamage, p.getC());
+        p1.getPlayerBoard().getDamage().addDamage(numDamage, p.getC());
         List<String> informationDamage = new LinkedList<>();
         informationDamage.add(p.getNickName());
         informationDamage.add(Integer.toString(numDamage));
         informationDamage.add(p1.getNickName());
         server.notifyDamage(this.iD, informationDamage);
-        if(p1.getPlayerBoard().getDamages().getDamageTokens()[11] != null) {
+        if(p1.getPlayerBoard().getDamage().getDamageTokens()[11] != null) {
             p.getPlayerBoard().addMark(new DamageToken(p1.getC()));
             List<String> information = new LinkedList<>();
             information.add(p.getNickName());
@@ -133,7 +133,7 @@ public class Grid {
     }
 
     public void clean(Player p) {
-        p.getPlayerBoard().getDamages().clean();
+        p.getPlayerBoard().getDamage().clean();
     }
 
     public void addMark(Player p1, Player p2) throws RemoteException{
@@ -148,7 +148,7 @@ public class Grid {
         long x = p1.getPlayerBoard().getMarks().stream().filter(a -> a.getC() == p2.getC()).count();
         if (x > 0) {
             int y = (int) x;
-            p1.getPlayerBoard().getDamages().addDamage(y, p2.getC());
+            p1.getPlayerBoard().getDamage().addDamage(y, p2.getC());
             List<String> informationDamage = new LinkedList<>();
             informationDamage.add(p1.getNickName());
             informationDamage.add(Integer.toString(y));

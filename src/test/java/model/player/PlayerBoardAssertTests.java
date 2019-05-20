@@ -11,10 +11,10 @@ class PlayerBoardAssertTests {
     void PlayerBoardTest() {
         PlayerBoard pb = new PlayerBoard();
 
-        assertNotNull(pb.getDamages());
+        assertNotNull(pb.getDamage());
         DamageTrack newDT = new DamageTrack();
         pb.setDamages(newDT);
-        assertEquals(newDT, pb.getDamages());
+        assertEquals(newDT, pb.getDamage());
 
         assertEquals(8, pb.getPoints().getInt(1));
         PointsPlayerBoard ppb = new PointsPlayerBoard();

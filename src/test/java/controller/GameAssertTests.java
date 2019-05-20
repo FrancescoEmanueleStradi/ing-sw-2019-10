@@ -187,10 +187,10 @@ class GameAssertTests {
 
         assertTrue(game.isValidSecondActionShoot("Player 1", "Machine Gun", lI, lS, 0, lA, lP, lPC));
         game.secondActionShoot("Player 1", "Machine Gun", lI, lS, 0, lA, lP, lPC);
-        assertEquals(BLUE, p2.getPlayerBoard().getDamages().getDamageTokens()[0].getC());
-        assertEquals(BLUE, p3.getPlayerBoard().getDamages().getDamageTokens()[0].getC());
-        assertEquals(BLUE, p3.getPlayerBoard().getDamages().getDamageTokens()[1].getC());
-        assertEquals(BLUE, p2.getPlayerBoard().getDamages().getDamageTokens()[1].getC());
+        assertEquals(BLUE, p2.getPlayerBoard().getDamage().getDamageTokens()[0].getC());
+        assertEquals(BLUE, p3.getPlayerBoard().getDamage().getDamageTokens()[0].getC());
+        assertEquals(BLUE, p3.getPlayerBoard().getDamage().getDamageTokens()[1].getC());
+        assertEquals(BLUE, p2.getPlayerBoard().getDamage().getDamageTokens()[1].getC());
 
         assertEquals(GameState.ACTION2, game.getGameState());
         assertFalse(machineGun.isReloaded());
@@ -230,7 +230,7 @@ class GameAssertTests {
         lS.add("Player 2");
         assertTrue(game.isValidUsePowerUpCard("Player 1", "Targeting Scope", "RED", lS, Colour.valueOf("RED")));
         game.usePowerUpCard("Player 1", "Targeting Scope", "RED", lS, Colour.valueOf("RED"));
-        assertEquals(BLUE, p2.getPlayerBoard().getDamages().getDamageTokens()[2].getC());
+        assertEquals(BLUE, p2.getPlayerBoard().getDamage().getDamageTokens()[2].getC());
         for (AmmoCube ac : p1.getAmmoCubes()) {
             if (ac != null)
                 assertNotEquals(Colour.RED, ac.getC());
@@ -326,8 +326,8 @@ class GameAssertTests {
         assertEquals(6, p3.getPlayerBoard().getPoints().getPoints().size());
 
         for (int i = 0; i < 12; i++) {
-            assertNull(p2.getPlayerBoard().getDamages().getDamageTokens()[i]);
-            assertNull(p3.getPlayerBoard().getDamages().getDamageTokens()[i]);
+            assertNull(p2.getPlayerBoard().getDamage().getDamageTokens()[i]);
+            assertNull(p3.getPlayerBoard().getDamage().getDamageTokens()[i]);
         }
 
         assertEquals(1, p2.getPowerUpCards().size());
@@ -500,10 +500,10 @@ class GameAssertTests {
 
         assertTrue(game.isValidSecondActionShoot("Player 3", "Cyberblade", lI, lS, 2, lA, lP, lPColourInput));
         game.secondActionShoot("Player 3", "Cyberblade", lI, lS, 2, lA, lP, lPColourInput);
-        assertEquals(p3.getC(), p1.getPlayerBoard().getDamages().getDamageTokens()[0].getC());
-        assertEquals(p3.getC(), p1.getPlayerBoard().getDamages().getDamageTokens()[1].getC());
-        assertEquals(p3.getC(), p2.getPlayerBoard().getDamages().getDamageTokens()[0].getC());
-        assertEquals(p3.getC(), p2.getPlayerBoard().getDamages().getDamageTokens()[1].getC());
+        assertEquals(p3.getC(), p1.getPlayerBoard().getDamage().getDamageTokens()[0].getC());
+        assertEquals(p3.getC(), p1.getPlayerBoard().getDamage().getDamageTokens()[1].getC());
+        assertEquals(p3.getC(), p2.getPlayerBoard().getDamage().getDamageTokens()[0].getC());
+        assertEquals(p3.getC(), p2.getPlayerBoard().getDamage().getDamageTokens()[1].getC());
     }
 
     @Test
@@ -1091,7 +1091,7 @@ class GameAssertTests {
     //Tested all cards from the bottom to Shockwave (included) as well as Cyberblade and Machine Gun
 
     @Test
-    void FinalFrenzyScoringTest() throws RemoteException {
+    void FinalFrenzyScoringTest1() throws RemoteException {
         Game game = new Game(iD, server);
         Grid grid = game.getGrid();
         List<String> deadGuys = game.getDeadList();
@@ -1124,15 +1124,66 @@ class GameAssertTests {
         assertEquals(3, deadGuys.size());
         assertTrue(deadGuys.contains(p2.getNickName()));
         assertTrue(deadGuys.contains(p3.getNickName()));
-        assertEquals(p1.getPlayerBoard().getDamages().scoreBoard().size(), 0);
-        assertEquals(p2.getPlayerBoard().getDamages().scoreBoard().size(), 0);
-        assertEquals(p3.getPlayerBoard().getDamages().scoreBoard().size(), 0);
-        assertEquals(p4.getPlayerBoard().getDamages().scoreBoard().size(), 1);
+        assertEquals(p1.getPlayerBoard().getDamage().scoreBoard().size(), 0);
+        assertEquals(p2.getPlayerBoard().getDamage().scoreBoard().size(), 0);
+        assertEquals(p3.getPlayerBoard().getDamage().scoreBoard().size(), 0);
+        assertEquals(p4.getPlayerBoard().getDamage().scoreBoard().size(), 1);
 
         assertEquals(5, p1.getScore());
         assertEquals(0, p2.getScore());
         assertEquals(2, p3.getScore());
         assertEquals(2, p4.getScore());
+    }
+
+    @Test
+    void FinalFrenzyScoringTest2() throws RemoteException {
+        Game game = new Game(iD, server);
+        Grid grid = game.getGrid();
+        List<String> deadGuys = game.getDeadList();
+
+        game.gameStart("Player 1", BLUE);
+        Player p1 = grid.getPlayerObject("Player 1");
+
+        game.addPlayer("Player 2", YELLOW);
+        Player p2 = grid.getPlayerObject("Player 2");
+
+        game.addPlayer("Player 3", GREEN);
+        Player p3 = grid.getPlayerObject("Player 3");
+
+        game.addPlayer("Player 4", BLACK);
+        Player p4 = grid.getPlayerObject("Player 4");
+
+        game.addPlayer("Player 5", PURPLE);
+        Player p5 = grid.getPlayerObject("Player 5");
+
+        grid.damage(p5, p2, 11);
+        grid.damage(p5, p4, 1);
+        grid.damage(p3, p4, 3);
+        grid.damage(p4, p3, 11);
+        grid.damage(p1, p4, 3);
+        grid.damage(p5, p1, 6);
+        grid.damage(p4, p1, 2);
+        grid.damage(p1, p5, 2);
+        grid.damage(p5, p4, 2);
+
+        game.finalFrenzyTurnScoring();
+
+        assertEquals(2, deadGuys.size());
+        assertTrue(deadGuys.contains(p2.getNickName()));
+        assertTrue(deadGuys.contains(p3.getNickName()));
+
+        assertEquals(p1.getPlayerBoard().getDamage().scoreBoard().size(), 2);
+        assertEquals(p2.getPlayerBoard().getDamage().scoreBoard().size(), 0);
+        assertEquals(p3.getPlayerBoard().getDamage().scoreBoard().size(), 0);
+        assertEquals(p4.getPlayerBoard().getDamage().scoreBoard().size(), 3);
+        assertEquals(p5.getPlayerBoard().getDamage().scoreBoard().size(), 1);
+
+        assertEquals(0, p1.getScore());
+        assertEquals(0, p2.getScore());
+        assertEquals(0, p3.getScore());
+        assertEquals(3, p4.getScore());
+        assertEquals(2, p5.getScore());
+
     }
 
     @Test
@@ -1173,7 +1224,7 @@ class GameAssertTests {
 
         int p1Turn = 1;
         p1.setTurnFinalFrenzy(p1Turn);
-        grid.move(p1, 0, 0);
+        p1.changeCell(grid.getBoard().getArena()[0][0]);
         List<String> p1STrue = new LinkedList<>();
         List<String> p1SFalse = new LinkedList<>();
         p1STrue.add("4");
@@ -1184,7 +1235,7 @@ class GameAssertTests {
 
         int p2Turn = 0;
         p2.setTurnFinalFrenzy(p2Turn);
-        grid.move(p2, 1, 2);
+        p2.changeCell(grid.getBoard().getArena()[1][2]);
         List<String> p2STrue = new LinkedList<>();
         List<String> p2SFalse = new LinkedList<>();
         p2STrue.add("1");
@@ -1196,28 +1247,24 @@ class GameAssertTests {
 
         int p3Turn = 0;
         p3.setTurnFinalFrenzy(p3Turn);
-        grid.move(p3, 2, 2);
+        p3.changeCell(grid.getBoard().getArena()[2][2]);
         List<String> p3S = new LinkedList<>();
         p3S.add("3");
         p3S.add("2");
         assertTrue(game.isValidFinalFrenzyAction("Player 3", p3S));
 
-        List<String> p2R = new LinkedList<>();
         List<Integer> p2E = new LinkedList<>();
         List<String> p2S = new LinkedList<>();
-        List<Colour> p2A = new LinkedList<>();
-        List<String> p2P = new LinkedList<>();
-        List<String> p2PC = new LinkedList<>();
         p2E.add(1);
         p2E.add(2);
         p2S.add("Player 1");
         WeaponCard whisper = new Whisper();
         p2.addWeaponCard(whisper);
         assertFalse(whisper.isReloaded());
-        assertFalse(game.isValidFinalFrenzyAction1("Player 2", 1, "Whisper", p2E, p2S, p2A, p2P, p2PC));
+        assertFalse(game.isValidFinalFrenzyAction1("Player 2", 1, "Whisper", p2E, p2S, new LinkedList<>(), new LinkedList<>(), new LinkedList<>()));
         whisper.reload();
-        assertTrue(game.isValidFinalFrenzyAction1("Player 2", 1, "Whisper", p2E, p2S, p2A, p2P, p2PC));
-        game.finalFrenzyAction1("Player 2", 1, p2R,"Whisper", p2E, p2S, p2A, p2P, p2PC);
+        assertTrue(game.isValidFinalFrenzyAction1("Player 2", 1, "Whisper", p2E, p2S, new LinkedList<>(), new LinkedList<>(), new LinkedList<>()));
+        game.finalFrenzyAction1("Player 2", 1, new LinkedList<>(),"Whisper", p2E, p2S, new LinkedList<>(), new LinkedList<>(), new LinkedList<>());
         assertEquals(YELLOW, p1.getPlayerBoard().getMarks().get(0).getC());
         assertNull(p2.getAmmoCubes()[4]);
         assertNull(p2.getAmmoCubes()[7]);
@@ -1227,24 +1274,24 @@ class GameAssertTests {
         p2D.add(2);
         AmmoCard ammoCard1 = new PYB();
         grid.getBoard().getArena()[1][3].setA(ammoCard1);
-        assertTrue(game.isValidFinalFrenzyAction3("Player 2", p2D, "","", p2A, p2P, p2PC));
-        game.finalFrenzyAction3("Player 2", p2D, "", p2A, p2P, p2PC);
+        assertTrue(game.isValidFinalFrenzyAction3("Player 2", p2D, "","", new LinkedList<>(), new LinkedList<>(), new LinkedList<>()));
+        game.finalFrenzyAction3("Player 2", p2D, "", new LinkedList<>(), new LinkedList<>(), new LinkedList<>());
         assertEquals(p2.getCell(), grid.getBoard().getArena()[1][3]);
         assertNotNull(p2.getAmmoCubes()[4]);
         assertNotNull(p2.getAmmoCubes()[7]);
 
         List<Integer> p3D = new LinkedList<>();
         List<Colour> p3A = new LinkedList<>();
-        /*List<String> p3P = new LinkedList<>();
-        List<String> p3PC = new LinkedList<>();*/
         p3D.add(2);
         p3A.add(YELLOW);
         WeaponCard shotgun = new Shotgun();
         grid.getBoard().getW2().setCard2(shotgun);
         assertTrue(game.isValidFinalFrenzyAction3("Player 3", p3D, "Shotgun","2", p3A, new LinkedList<>(), new LinkedList<>()));
         game.finalFrenzyAction3("Player 3", p3D, "Shotgun", p3A, new LinkedList<>(), new LinkedList<>());
+        assertNull(grid.getBoard().getW2().getCard2());
         assertEquals(p3.getCell(), grid.getBoard().getArena()[2][3]);
-        //assertTrue(p3.getWeaponCards().contains(shotgun));
+        assertEquals(p3.getWeaponCards().get(0), shotgun);
+        assertTrue(p3.getWeaponCards().contains(shotgun));
 
         p3D.clear();
         p3D.add(1);
@@ -1260,6 +1307,7 @@ class GameAssertTests {
         List<Colour> p1A = new LinkedList<>();
 
         p1D.add(2);
+        p1D.add(2);
         WeaponCard shockwave = new Shockwave();
         p1.addWeaponCard(shockwave);
         assertEquals(shockwave.getReloadCost()[0].getC(), YELLOW);
@@ -1268,5 +1316,7 @@ class GameAssertTests {
         p1E.add(2);
         p1A.add(YELLOW);
         assertTrue(game.isValidFinalFrenzyAction4("Player 1", p1D, "Shockwave", p1E, new LinkedList<>(), p1A, new LinkedList<>(), new LinkedList<>()));
+        game.finalFrenzyAction4("Player 1", p1D, new LinkedList<>(), "Shockwave", p1E, new LinkedList<>(), p1A, new LinkedList<>(), new LinkedList<>());
+        assertEquals(BLUE, p3.getPlayerBoard().getDamage().getDamageTokens()[0].getC());
     }
 }

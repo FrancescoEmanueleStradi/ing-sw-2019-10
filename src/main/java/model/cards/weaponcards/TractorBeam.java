@@ -1,13 +1,11 @@
 package model.cards.weaponcards;
 
 import model.*;
-import model.board.*;
 import model.cards.WeaponCard;
 import model.player.AmmoCube;
 import model.player.Player;
 
 import java.rmi.RemoteException;
-import java.util.List;
 
 public class TractorBeam extends WeaponCard {
 

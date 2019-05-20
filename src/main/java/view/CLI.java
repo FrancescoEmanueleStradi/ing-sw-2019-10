@@ -1,9 +1,6 @@
 package view;
 
-import controller.Game;
 import model.Colour;
-import model.cards.PowerUpCard;
-import model.cards.WeaponCard;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -11,15 +8,16 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
-public class CLI  extends UnicastRemoteObject implements View {
+public class CLI extends UnicastRemoteObject implements View {
 
     private int game;
     private int identifier;
     private ServerInterface server;
     private String nickName;
     private Colour colour;
-    private CLIWeaponPrompt wPrompt;
+    private CLIWeaponPrompt wPrompt = new CLIWeaponPrompt();
     private String errorRetry = "Error: please retry";
+    private String directions = "1 = north, 2 = east, 3 = south, 4 = west";
 
     CLI(int game, ServerInterface server) throws RemoteException{
         super();
@@ -70,25 +68,19 @@ public class CLI  extends UnicastRemoteObject implements View {
 
     @Override
     public void askNameAndColour() throws RemoteException {
+        String yourName = "Enter your name:";
+        String yourColour = "Enter your colour in all caps (YELLOW, BLUE, GREEN, PURPLE, BLACK):";
         Scanner in = new Scanner(System.in);
         if (this.server.messageGameIsNotStarted(game)) {
-            System.out.println("Enter your name:");
+            System.out.println(yourName);
             this.nickName = in.nextLine();
             server.setNickName(this.game, this.identifier, this.nickName);
-            System.out.println("Enter your colour in all caps (YELLOW, BLUE, GREEN, PURPLE, BLACK):");
+            System.out.println(yourColour);
             String s1 = in.nextLine();
             this.colour = Colour.valueOf(s1);
             this.server.messageGameStart(game, nickName, colour);
             System.out.println("Choose the type of arena (1, 2, 3, 4):");
             int type = in.nextInt();
-            /*while (true) {
-                System.out.println("Choose the type of arena (1, 2, 3, 4):");
-                type = in.nextInt();
-                if (this.server.messageIsValidReceiveType(game, type))
-                    break;
-                else
-                    System.out.println(errorRetry);
-            }*/
             while (!this.server.messageIsValidReceiveType(game, type)){
                 System.out.println(errorRetry);
                 System.out.println("Choose the type of arena (1, 2, 3, 4):");
@@ -99,32 +91,21 @@ public class CLI  extends UnicastRemoteObject implements View {
             return;
         }
         System.out.println("\n---------WAITING FOR PLAYERS TO JOIN---------\n");
-        System.out.println("Enter your name:");
+        System.out.println(yourName);
         this.nickName = in.nextLine();
-        System.out.println("Enter your colour in all caps (YELLOW, BLUE, GREEN, PURPLE, BLACK):");
+        System.out.println(yourColour);
         String s2 = in.nextLine();
         server.setNickName(this.game, this.identifier, this.nickName);
         this.colour = Colour.valueOf(s2);
         while (!this.server.messageIsValidAddPlayer(game, this.nickName, this.colour)) {
             System.out.println(errorRetry);
-            System.out.println("Enter your name:");
+            System.out.println(yourName);
             this.nickName = in.nextLine();
             server.setNickName(this.game, this.identifier, this.nickName);
-            System.out.println("Enter your colour in all caps (YELLOW, BLUE, GREEN, PURPLE, BLACK):");
+            System.out.println(yourColour);
             s2 = in.nextLine();
             this.colour = Colour.valueOf(s2);
         }
-        /*while (true) {
-            System.out.println("Enter your name:");
-            this.nickName = in.nextLine();
-            System.out.println("Enter your colour in all caps (YELLOW, BLUE, GREEN, PURPLE, BLACK):");
-            String s2 = in.nextLine();
-            this.colour = Colour.valueOf(s2);
-            if (this.server.messageIsValidAddPlayer(game, this.nickName, this.colour))
-                break;
-            else
-                System.out.println(errorRetry);
-        }*/
         this.server.messageAddPlayer(game, this.nickName, this.colour);
     }
 
@@ -138,11 +119,6 @@ public class CLI  extends UnicastRemoteObject implements View {
         System.out.println(this.server.messageGetPowerUpCard(game, this.nickName).get(0) + " coloured " + this.server.messageGetPowerUpCardColour(game, this.nickName).get(0));
         System.out.println(this.server.messageGetPowerUpCard(game, this.nickName).get(1) + " coloured " + this.server.messageGetPowerUpCardColour(game, this.nickName).get(1));
         System.out.println("\n---------SPAWN POINT SELECT---------\n");
-        /*System.out.println("Enter the name of the card you want to keep; you will discard the other one corresponding to the " +
-                "colour of your spawn point");
-        String p1 = in.nextLine();
-        System.out.println("Enter the colour of that card: ");
-        String c1 = in.nextLine();*/
         while (true) {
             System.out.println("Enter the name of the card you want to keep; you will discard the other one corresponding to the " +
                     "colour of your spawn point");
@@ -165,8 +141,6 @@ public class CLI  extends UnicastRemoteObject implements View {
         Scanner in = new Scanner(System.in);
         String action;
         System.out.println("\n---------START OF " + this.nickName + "'s FIRST ACTION---------\n");
-        /*System.out.println("Choose the action you want to do (Move, Shoot, Grab):");
-        String action = in.nextLine();*/
         while (true) {
             System.out.println("Choose the first action you want to do (Move, Shoot, Grab):");
             action = in.nextLine();
@@ -188,7 +162,7 @@ public class CLI  extends UnicastRemoteObject implements View {
         Scanner in = new Scanner(System.in);
         List<Integer> l = new LinkedList<>();
         System.out.println("Enter the sequence of movements you want to do, one integer at a time, up to 3\n" +
-                "1 = north, 2 = east, 3 = south, 4 = west\n" +
+                directions + "\n" +
                 "Press 0 to finish");
         while(true) {
             System.out.println("Next int:");
@@ -212,11 +186,11 @@ public class CLI  extends UnicastRemoteObject implements View {
                 "In brackets is the additional ammo cost for certain effects and modes.\n";
         Scanner in = new Scanner(System.in);
         System.out.println("Choose one of these cards to shoot:");
-        this.server.messageGetWeaponCardLoaded(game, this.nickName).stream().forEach(System.out::println);
+        this.server.messageGetWeaponCardLoaded(game, this.nickName).forEach(System.out::println);
         String s = in.nextLine();
         while (!this.server.messageIsValidCard(game, nickName, s)) {
             System.out.println("Error: choose one of these cards to shoot:");
-            this.server.messageGetWeaponCardLoaded(game, this.nickName).stream().forEach(System.out::println);
+            this.server.messageGetWeaponCardLoaded(game, this.nickName).forEach(System.out::println);
             s = in.nextLine();
         }
         System.out.println(this.server.messageGetReloadCost(game, s, nickName));
@@ -277,14 +251,13 @@ public class CLI  extends UnicastRemoteObject implements View {
             case "Machine Gun":
                 System.out.println(inputReminder +
                         "basic effect: 1 or 2 targets you can see\nfocus shot: one of those targets [1 yellow]\n" +
-                        "turret tripod: the other of those targets or a different target you can see [1 blue]");
+                        "turret tripod: the other of those targets and/or a different target you can see [1 blue]");
                 wPrompt.shootToUser1(game, server, nickName, s);
                 break;
 
             case "Plasma Gun":
-                //TODO not sure
                 System.out.println(inputReminder +
-                        "basic effect: target you can see\nphase glide: coordinates of cell you want to move to up to 2 squares away\n" +
+                        "basic effect: target you can see\nphase glide: number of cells you want to move (1 or 2) and the direction(s)\n" +
                         "charged shot: none [1 blue]");
                 wPrompt.shootToUser1(game, server, nickName, s);
                 break;
@@ -299,16 +272,15 @@ public class CLI  extends UnicastRemoteObject implements View {
 
             case "Railgun":
                 System.out.println(inputReminder +
-                        "basic mode: target in some direction\npiercing mode: 1 or 2 targets in some direction" +
+                        "basic mode: target in a cardinal direction\npiercing mode: 1 or 2 targets in a cardinal direction" +
                         "(keep in mind this attack ignores walls)");
                 wPrompt.shootToUser3(game, server, nickName, s);
                 break;
 
             case "Rocket Launcher":
-                //TODO not sure
                 System.out.println(inputReminder +
                         "basic effect: target you can see but not in your cell, and possibly the direction in which to move them\n" +
-                        "rocket jump: [1 blue]" +
+                        "rocket jump: number of cells you want to move (1 or 2) and the direction(s) [1 blue]" +
                         "fragmenting warhead: none [1 yellow]");
                 wPrompt.shootToUser1(game, server, nickName, s);
                 break;
@@ -328,8 +300,8 @@ public class CLI  extends UnicastRemoteObject implements View {
 
             case "Sledgehammer":
                 System.out.println(inputReminder +
-                        "basic mode: target in your cell\npulverize mode: target in your cell, number of squares you want to move them " +
-                        "(can be 0), direction of said move [1 red]");
+                        "basic mode: target in your cell\npulverize mode: target in your cell, and possibly the number of squares (1 or 2) you want to move them " +
+                        "and the direction(s) [1 red]");
                 wPrompt.shootToUser1(game, server, nickName, s);
                 break;
 
@@ -342,7 +314,7 @@ public class CLI  extends UnicastRemoteObject implements View {
 
             case "Tractor Beam":
                 System.out.println(inputReminder +
-                        "basic mode: target you may or may not see, coordinates of cell you can see up to 2 squares away from you\n" +
+                        "basic mode: target you may or may not see, coordinates of a cell you can see up to 2 squares away from you\n" +
                         "punisher mode: target up to 2 moves away [1 red 1 yellow]");
                 wPrompt.shootToUser1(game, server, nickName, s);
                 break;
@@ -362,9 +334,10 @@ public class CLI  extends UnicastRemoteObject implements View {
 
             case "ZX-2":
                 System.out.println(inputReminder +
-                        "basic mode: target you can see\nscanner mode: 3 targets you can see");
+                        "basic mode: target you can see\nscanner mode: up to 3 targets you can see");
                 wPrompt.shootToUser3(game, server, nickName, s);
                 break;
+            default: break;
         }
     }
 
@@ -382,7 +355,7 @@ public class CLI  extends UnicastRemoteObject implements View {
             System.out.println("If you wish to grab whatever is in your cell, enter 0\n" +
                     "Otherwise, enter the sequence of movements you want to do, one integer at a time: only one is permitted " +
                     "if you haven't unlocked the Adrenaline move, up to two otherwise\n" +
-                    "1 = north, 2 = east, 3 = south, 4 = west\n" +
+                    directions + "\n" +
                     "Enter 5 to finish");
             while (intScan.hasNextInt()) {
                 int d = intScan.nextInt();
@@ -458,8 +431,6 @@ public class CLI  extends UnicastRemoteObject implements View {
         System.out.println("---------START OF " + this.nickName + "'s SECOND ACTION---------");
         String action;
         Scanner in = new Scanner(System.in);
-        /*System.out.println("Choose the action you want to do (Move, Shoot, Grab):");
-        String action = in.nextLine();*/
         while (true) {
             System.out.println("Choose the second action you want to do (Move, Shoot, Grab):");
             action = in.nextLine();
@@ -481,7 +452,7 @@ public class CLI  extends UnicastRemoteObject implements View {
         Scanner in = new Scanner(System.in);
         List<Integer> l = new LinkedList<>();
         System.out.println("Enter the sequence of movements you want to do, one integer at a time, up to 3\n" +
-                "1 = north, 2 = east, 3 = south, 4 = west\n" +
+                directions + "\n" +
                 "Press 0 to finish");
         while (true) {
             System.out.println("Next int:");
@@ -501,14 +472,15 @@ public class CLI  extends UnicastRemoteObject implements View {
     }
 
     private void shootSecondAction() throws RemoteException{
-        //TODO update with lines from shootFirstAction
+        String inputReminder = "Below are the relevant strings you must enter for this card, in order of effects as shown in the manual.\n" +
+                "In brackets is the additional ammo cost for certain effects and modes.\n";
         Scanner in = new Scanner(System.in);
         System.out.println("Choose one of these cards to shoot: ");
-        this.server.messageGetWeaponCardLoaded(game, this.nickName).stream().forEach(System.out::println);
+        this.server.messageGetWeaponCardLoaded(game, this.nickName).forEach(System.out::println);
         String s = in.next();
         while(!this.server.messageIsValidCard(game, nickName, s)){
             System.out.println("Error: choose one of these cards to shoot: ");
-            this.server.messageGetWeaponCardLoaded(game, this.nickName).stream().forEach(System.out::println);
+            this.server.messageGetWeaponCardLoaded(game, this.nickName).forEach(System.out::println);
             s = in.next();
         }
         System.out.println(this.server.messageGetReloadCost(game, s, nickName));
@@ -516,88 +488,146 @@ public class CLI  extends UnicastRemoteObject implements View {
 
         switch(s){
             case "Cyberblade":
-                wPrompt.shoot2ToUser1(game, server, nickName, s);
+                System.out.println(inputReminder +
+                        "basic effect: target in your cell\nshadowstep: direction you want to move to\n" +
+                        "slice and dice: different target in your cell [1 yellow]");
+                wPrompt.shootToUser1(game, server, nickName, s);
                 break;
 
             case "Electroscythe":
-                wPrompt.shoot2ToUser2(game, server, nickName, s);
+                System.out.println(inputReminder +
+                        "basic mode: none\nreaper mode: none [1 red 1 blue]");
+                wPrompt.shootToUser2(game, server, nickName, s);
                 break;
 
             case "Flamethrower":
-                wPrompt.shoot2ToUser1(game, server, nickName, s);
+                System.out.println(inputReminder +
+                        "basic mode: target 1 move away, and possibly another target 1 more move away in the same direction\n" +
+                        "barbecue mode: coordinates of cell of target(s) 1 move away, and possibly those of another cell 1 more more away in the same direction [2 yellow]");
+                wPrompt.shootToUser1(game, server, nickName, s);
                 break;
 
             case "Furnace":
-                wPrompt.shoot2ToUser3(game, server, nickName, s);
+                System.out.println(inputReminder +
+                        "basic mode: colour of room you can see that isn't your room\ncozy fire mode: coordinates of cell 1 move away");
+                wPrompt.shootToUser3(game, server, nickName, s);
                 break;
 
             case "Grenade Launcher":
-                wPrompt.shoot2ToUser1(game, server, nickName, s);
+                System.out.println(inputReminder +
+                        "basic effect: target you can see, and possibly the direction you wish to move him in\n" +
+                        "extra grenade: coordinates of cell you can see [1 red]");
+                wPrompt.shootToUser1(game, server, nickName, s);
                 break;
 
             case "Heatseeker":
-                wPrompt.shoot2ToUser3(game, server, nickName, s);
+                System.out.println(inputReminder +
+                        "effect: target you canNOT see");
+                wPrompt.shootToUser3(game, server, nickName, s);
                 break;
 
             case "Hellion":
-                wPrompt.shoot2ToUser1(game, server, nickName, s);
+                System.out.println(inputReminder +
+                        "basic mode: target you can see at least 1 move away\nnano-tracer mode: as with basic mode [1 red]");
+                wPrompt.shootToUser1(game, server, nickName, s);
                 break;
 
             case "Lock Rifle":
-                wPrompt.shoot2ToUser1(game, server, nickName, s);
+                System.out.println(inputReminder +
+                        "basic effect: target you can see\nsecond lock: different target you can see [1 red]");
+                wPrompt.shootToUser1(game, server, nickName, s);
                 break;
 
             case "Machine Gun":
-                wPrompt.shoot2ToUser1(game, server, nickName, s);
+                System.out.println(inputReminder +
+                        "basic effect: 1 or 2 targets you can see\nfocus shot: one of those targets [1 yellow]\n" +
+                        "turret tripod: the other of those targets and/or a different target you can see [1 blue]");
+                wPrompt.shootToUser1(game, server, nickName, s);
                 break;
 
             case "Plasma Gun":
-                wPrompt.shoot2ToUser1(game, server, nickName, s);
+                System.out.println(inputReminder +
+                        "basic effect: target you can see\nphase glide: number of cells you want to move (1 or 2) and the direction(s)\n" +
+                        "charged shot: none [1 blue]");
+                wPrompt.shootToUser1(game, server, nickName, s);
                 break;
 
             case "Power Glove":
-                wPrompt.shoot2ToUser1(game, server, nickName, s);
+                System.out.println(inputReminder +
+                        "basic mode: target 1 move away\n" +
+                        "rocket fist mode: coordinates of cell 1 move away, and possibly a target on that cell" +
+                        "(you may repeat this once with a cell in the same direction just 1 square away, plus a target on that cell [1 blue]");
+                wPrompt.shootToUser1(game, server, nickName, s);
                 break;
 
             case "Railgun":
-                wPrompt.shoot2ToUser3(game, server, nickName, s);
+                System.out.println(inputReminder +
+                        "basic mode: target in a cardinal direction\npiercing mode: 1 or 2 targets in a cardinal direction" +
+                        "(keep in mind this attack ignores walls)");
+                wPrompt.shootToUser3(game, server, nickName, s);
                 break;
 
             case "Rocket Launcher":
-                wPrompt.shoot2ToUser1(game, server, nickName, s);
+                System.out.println(inputReminder +
+                        "basic effect: target you can see but not in your cell, and possibly the direction in which to move them\n" +
+                        "rocket jump: number of cells you want to move (1 or 2) and the direction(s) [1 blue]" +
+                        "fragmenting warhead: none [1 yellow]");
+                wPrompt.shootToUser1(game, server, nickName, s);
                 break;
 
             case "Shockwave":
-                wPrompt.shoot2ToUser1(game, server, nickName, s);
+                System.out.println(inputReminder +
+                        "basic mode: up to 3 targets in different cells, each 1 move away\ntsunami mode: none [1 yellow]");
+                wPrompt.shootToUser1(game, server, nickName, s);
                 break;
 
             case "Shotgun":
-                wPrompt.shoot2ToUser3(game, server, nickName, s);
+                System.out.println(inputReminder +
+                        "basic mode: target in your cell, and possibly the direction you want to move them in\n" +
+                        "long barrel mode: target 1 move away");
+                wPrompt.shootToUser3(game, server, nickName, s);
                 break;
 
             case "Sledgehammer":
-                wPrompt.shoot2ToUser1(game, server, nickName, s);
+                System.out.println(inputReminder +
+                        "basic mode: target in your cell\npulverize mode: target in your cell, and possibly the number of squares (1 or 2) you want to move them " +
+                        "and the direction(s) [1 red]");
+                wPrompt.shootToUser1(game, server, nickName, s);
                 break;
 
             case "T.H.O.R.":
-                wPrompt.shoot2ToUser1(game, server, nickName, s);
+                System.out.println(inputReminder +
+                        "basic effect: target you can see\nchain reaction: target your first target can see [1 blue]\n" +
+                        "high voltage: target your second target can see [1 blue]");
+                wPrompt.shootToUser1(game, server, nickName, s);
                 break;
 
             case "Tractor Beam":
-                wPrompt.shoot2ToUser1(game, server, nickName, s);
+                System.out.println(inputReminder +
+                        "basic mode: target you may or may not see, coordinates of a cell you can see up to 2 squares away from you\n" +
+                        "punisher mode: target up to 2 moves away [1 red 1 yellow]");
+                wPrompt.shootToUser1(game, server, nickName, s);
                 break;
 
             case "Vortex Cannon":
-                wPrompt.shoot2ToUser1(game, server, nickName, s);
+                System.out.println(inputReminder +
+                        "basic effect: target up to 1 move away from the 'vortex', coordinates of the cell the vortex is to be placed in " +
+                        "(must not be your cell)\nblack hole: 1 or 2 targets on the vortex or 1 move away from it [1 red]");
+                wPrompt.shootToUser1(game, server, nickName, s);
                 break;
 
             case "Whisper":
-                wPrompt.shoot2ToUser4(game, server, nickName, s);
+                System.out.println(inputReminder +
+                        "effect: target you can see at least 2 moves away)");
+                wPrompt.shootToUser4(game, server, nickName, s);
                 break;
 
             case "ZX-2":
-                wPrompt.shoot2ToUser3(game, server, nickName, s);
+                System.out.println(inputReminder +
+                        "basic mode: target you can see\nscanner mode: up to 3 targets you can see");
+                wPrompt.shootToUser3(game, server, nickName, s);
                 break;
+            default: break;
         }
     }
 
@@ -702,7 +732,7 @@ public class CLI  extends UnicastRemoteObject implements View {
         String colourPC;
         List<String> lS = new LinkedList<>();
         System.out.println("Enter which PowerUpCard you want to use:");
-        this.server.messageGetPowerUpCard(game, nickName).stream().forEach(System.out::println);
+        this.server.messageGetPowerUpCard(game, nickName).forEach(System.out::println);
         namePC = in.nextLine();
         System.out.println("Enter the colour of the PowerUpCard:");
         colourPC = in.nextLine();
@@ -770,9 +800,9 @@ public class CLI  extends UnicastRemoteObject implements View {
     }
     
     @Override
-    public void reload() throws RemoteException{               //the player knows everything!
+    public void reload() throws RemoteException{
         Scanner in = new Scanner(System.in);
-        this.server.messageGetWeaponCardUnloaded(game, this.nickName).stream().forEach(System.out::println);
+        this.server.messageGetWeaponCardUnloaded(game, this.nickName).forEach(System.out::println);
         int i = 0;
         while (i == 0) {
             System.out.println("Choose the weapon card you want to reload, or 'end' if you don't need/want to");
@@ -831,7 +861,7 @@ public class CLI  extends UnicastRemoteObject implements View {
         while (in.hasNext())
             l.add(in.next());
         while(!this.server.messageIsValidFinalFrenzyAction(game, nickName, l)){
-            System.out.println("Error: repeat");
+            System.out.println(errorRetry);
             System.out.println("This is the final turn. final frenzy mode:\nchoose the moves you want to do according to the fact you are before or after the player who started the game");
             while (in.hasNext())
                 l.add(in.next());
@@ -863,7 +893,7 @@ public class CLI  extends UnicastRemoteObject implements View {
                     System.out.println("Enter the colour(s) of the required AmmoCube(s) needed for the effect:");
                     while (in.hasNext())
                         lC.add(Colour.valueOf(in.next()));
-                    this.server.messageGetPowerUpCard(game, nickName).stream().forEach(System.out::println);
+                    this.server.messageGetPowerUpCard(game, nickName).forEach(System.out::println);
                     System.out.println("Enter the PowerUpCard you want to use for paying during your turn:");
                     while (in.hasNext())
                         lP.add(in.next());
@@ -871,7 +901,7 @@ public class CLI  extends UnicastRemoteObject implements View {
                     while (in.hasNext())
                         lPC.add(in.next());
                     while(!this.server.messageIsValidFinalFrenzyAction1(game, nickName, i, wC, lI, lS, lC, lP, lPC)){
-                        System.out.println("Error: repeat");
+                        System.out.println(errorRetry);
                         System.out.println("write the direction you want to move");
                         i = in.nextInt();
                         System.out.println("Write the card(s) you want to reload:"+this.server.messageGetWeaponCardUnloaded(game, nickName));
@@ -888,7 +918,7 @@ public class CLI  extends UnicastRemoteObject implements View {
                         System.out.println("Enter the colour(s) of the required AmmoCube(s) needed for the effect:");
                         while (in.hasNext())
                             lC.add(Colour.valueOf(in.next()));
-                        server.messageGetPowerUpCard(game, nickName).stream().forEach(System.out::println);
+                        server.messageGetPowerUpCard(game, nickName).forEach(System.out::println);
                         System.out.println("Enter the PowerUpCard you want to use for paying during your turn:");
                         while (in.hasNext())
                             lP.add(in.next());
@@ -909,7 +939,7 @@ public class CLI  extends UnicastRemoteObject implements View {
                     while(in.hasNext())
                         list.add(in.nextInt());
                      while(!this.server.messageIsValidFinalFrenzyAction2(game, nickName, list)) {
-                         System.out.println("Error: repeat");
+                         System.out.println(errorRetry);
                          System.out.println("write the direction(s) you want to move");
                          while (in.hasNext())
                              list.add(in.nextInt());
@@ -947,7 +977,7 @@ public class CLI  extends UnicastRemoteObject implements View {
                             lPC2.add(in.next());
                     }
                     while(!this.server.messageIsValidFinalFrenzyAction3(game, nickName, list2, wCard, weaponSlot, lC2, lP2, lPC2)){
-                        System.out.println("Error: repeat");
+                        System.out.println(errorRetry);
                         System.out.println("write the direction(s) you want to move");
                         while(in.hasNext())
                             list2.add(in.nextInt());
@@ -999,7 +1029,7 @@ public class CLI  extends UnicastRemoteObject implements View {
                     System.out.println("Enter the colour(s) of the required AmmoCube(s) needed for the effect:");
                     while (in.hasNext())
                         lC3.add(Colour.valueOf(in.next()));
-                    server.messageGetPowerUpCard(game, nickName).stream().forEach(System.out::println);
+                    server.messageGetPowerUpCard(game, nickName).forEach(System.out::println);
                     System.out.println("Enter the PowerUpCard you want to use for paying during your turn:");
                     while (in.hasNext())
                         lP3.add(in.next());
@@ -1025,7 +1055,7 @@ public class CLI  extends UnicastRemoteObject implements View {
                         System.out.println("Enter the colour(s) of the required AmmoCube(s) needed for the effect:");
                         while (in.hasNext())
                             lC3.add(Colour.valueOf(in.next()));
-                        server.messageGetPowerUpCard(game, nickName).stream().forEach(System.out::println);
+                        server.messageGetPowerUpCard(game, nickName).forEach(System.out::println);
                         System.out.println("Enter the PowerUpCard you want to use for paying during your turn:");
                         while (in.hasNext())
                             lP3.add(in.next());
@@ -1089,6 +1119,7 @@ public class CLI  extends UnicastRemoteObject implements View {
                     if(doYouWantToUsePUC())
                         usePowerUpCard();
                     break;
+                default: break;
             }
         }
         this.server.messageFinalFrenzyTurnScoring(game);
@@ -1104,9 +1135,9 @@ public class CLI  extends UnicastRemoteObject implements View {
     public void finalScoring()throws RemoteException{
         this.server.messageFinalScoring(game);
         System.out.println("FINAL SCORE");
-        this.server.messageGetPlayers(game).stream().forEach(System.out::print);
+        this.server.messageGetPlayers(game).forEach(System.out::print);
         System.out.println();
-        this.server.messageGetScore(game).stream().forEach(System.out::print);
+        this.server.messageGetScore(game).forEach(System.out::print);
         System.out.println();
         System.out.println("END GAME");
     }

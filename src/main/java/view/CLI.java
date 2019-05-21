@@ -19,6 +19,8 @@ public class CLI extends UnicastRemoteObject implements View {
     private CLIWeaponPrompt wPrompt = new CLIWeaponPrompt();
     private String errorRetry = "Error: please retry";
     private String directions = "1 = north, 2 = east, 3 = south, 4 = west";
+    private String exit = "Exit and change action?";
+    private String yesPrompt = "(Yes/yes/y)";
 
     CLI(int game, ServerInterface server) throws RemoteException{
         super();
@@ -163,19 +165,24 @@ public class CLI extends UnicastRemoteObject implements View {
 
     private void moveFirstAction() throws RemoteException{
         Scanner in = new Scanner(System.in);
+        Scanner intScan = new Scanner(System.in);
         List<Integer> l = new LinkedList<>();
         System.out.println("Enter the sequence of movements you want to do, one integer at a time, up to 3\n" +
                 directions + "\n" +
                 "Press 0 to finish");
         while(true) {
             System.out.println("Next int:");
-            int n = in.nextInt();
+            int n = intScan.nextInt();
             if (n == 0 && this.server.messageIsValidFirstActionMove(game, nickName, l)) {
                 break;
             }
             else if (n == 0 && !this.server.messageIsValidFirstActionMove(game, nickName, l)) {
                 System.out.println(errorRetry);
                 l.clear();
+                System.out.println(this.exit + yesPrompt);
+                String exit = in.next();
+                if (exit.equals("Yes") || exit.equals("yes") || exit.equals("y"))
+                    action1();
             }
             else {
                 l.add(n);
@@ -367,22 +374,22 @@ public class CLI extends UnicastRemoteObject implements View {
                 else
                     lD.add(d);
             }
-            System.out.println("Would you like to check the WeaponCards of a WeaponSlot? (Yes/yes/y)");
+            System.out.println("Would you like to check the WeaponCards of a WeaponSlot? " + yesPrompt);
             confirm = in.nextLine();
             while (confirm.equals("Yes") || confirm.equals("yes") || confirm.equals("y")) {
                 System.out.println("Enter the number of the WeaponSlot you want to check:");
                 int n = intScan.nextInt();
                 List<String> lWS = this.server.messageCheckWeaponSlotContents(game, n);
                 /*System.out.println("The cards available in WeaponSlot " + n + " are:\n" + lWS.get(0) + "\n" + lWS.get(1) + "\n" + lWS.get(2) +
-                        "\nCheck some other WeaponSlot? (Yes/yes/y)");*/
+                        "\nCheck some other WeaponSlot? " + yesPrompt);*/
                 System.out.println("Below are the cards available in WeaponSlot " + n + ", together with their reload costs:");
                 for(String s : lWS)
                     System.out.println(s);
-                System.out.println("Check some other WeaponSlot? (Yes/yes/y)");
+                System.out.println("Check some other WeaponSlot? " + yesPrompt);
                 confirm = in.nextLine();
             }
             in.nextLine();
-            System.out.println("Do you want to buy a WeaponCard instead of grabbing ammo? (Yes/yes/y)");
+            System.out.println("Do you want to buy a WeaponCard instead of grabbing ammo? " + yesPrompt);
             confirm = in.nextLine();
             if (confirm.equals("Yes") || confirm.equals("yes") || confirm.equals("y")) {
                 System.out.println("Enter the name of the WeaponCard you wish to buy:");
@@ -418,6 +425,10 @@ public class CLI extends UnicastRemoteObject implements View {
                 break;
             else {
                 System.out.println(errorRetry);
+                System.out.println(this.exit + yesPrompt);
+                String exit = in.next();
+                if (exit.equals("Yes") || exit.equals("yes") || exit.equals("y"))
+                    action1();
                 lD.clear();
                 lC.clear();
                 lP.clear();
@@ -456,19 +467,24 @@ public class CLI extends UnicastRemoteObject implements View {
 
     private void moveSecondAction() throws RemoteException{
         Scanner in = new Scanner(System.in);
+        Scanner intScan = new Scanner(System.in);
         List<Integer> l = new LinkedList<>();
         System.out.println("Enter the sequence of movements you want to do, one integer at a time, up to 3\n" +
                 directions + "\n" +
                 "Press 0 to finish");
         while (true) {
             System.out.println("Next int:");
-            int n = in.nextInt();
+            int n = intScan.nextInt();
             if (n == 0 && this.server.messageIsValidSecondActionMove(game, nickName, l)) {
                 break;
             }
             else if (n == 0 && !this.server.messageIsValidSecondActionMove(game, nickName, l)) {
                 System.out.println(errorRetry);
                 l.clear();
+                System.out.println(this.exit + yesPrompt);
+                String exit = in.next();
+                if (exit.equals("Yes") || exit.equals("yes") || exit.equals("y"))
+                    action2();
             }
             else {
                 l.add(n);
@@ -660,22 +676,22 @@ public class CLI extends UnicastRemoteObject implements View {
                 else
                     lD.add(d);
             }
-            System.out.println("Would you like to check the WeaponCards of a WeaponSlot? (Yes/yes/y)");
+            System.out.println("Would you like to check the WeaponCards of a WeaponSlot? " + yesPrompt);
             confirm = in.nextLine();
             while (confirm.equals("Yes") || confirm.equals("yes") || confirm.equals("y")) {
                 System.out.println("Enter the number of the WeaponSlot you want to check:");
                 int n = intScan.nextInt();
                 List<String> lWS = this.server.messageCheckWeaponSlotContents(game, n);
                 /*System.out.println("The cards available in WeaponSlot " + n + " are:\n" + lWS.get(0) + "\n" + lWS.get(1) + "\n" + lWS.get(2) +
-                        "\nCheck some other WeaponSlot? (Yes/yes/y)");*/
+                        "\nCheck some other WeaponSlot? " + yesPrompt);*/
                 System.out.println("Below are the cards available in WeaponSlot " + n + ", together with their reload costs:");
                 for(String s : lWS)
                     System.out.println(s);
-                System.out.println("Check some other WeaponSlot? (Yes/yes/y)");
+                System.out.println("Check some other WeaponSlot? " + yesPrompt);
                 confirm = in.nextLine();
             }
             in.nextLine();
-            System.out.println("Do you want to buy a WeaponCard instead of grabbing ammo? (Yes/yes/y)");
+            System.out.println("Do you want to buy a WeaponCard instead of grabbing ammo? " + yesPrompt);
             confirm = in.nextLine();
             if (confirm.equals("Yes") || confirm.equals("yes") || confirm.equals("y")) {
                 System.out.println("Enter the name of the WeaponCard you wish to buy:");
@@ -711,6 +727,10 @@ public class CLI extends UnicastRemoteObject implements View {
                 break;
             else {
                 System.out.println(errorRetry);
+                System.out.println(this.exit + yesPrompt);
+                String exit = in.next();
+                if (exit.equals("Yes") || exit.equals("yes") || exit.equals("y"))
+                    action1();
                 lD.clear();
                 lC.clear();
                 lP.clear();
@@ -752,6 +772,10 @@ public class CLI extends UnicastRemoteObject implements View {
                 lS.add(in.nextLine());
                 while(!this.server.messageIsValidUsePowerUpCard(game, nickName, namePC, colourPC, lS, null)){
                     System.out.println(errorRetry);
+                    System.out.println(this.exit + yesPrompt);
+                    String exit = in.next();
+                    if (exit.equals("Yes") || exit.equals("yes") || exit.equals("y"))
+                        action2();
                     System.out.println("Enter the nickname of a player you can see and that gave you damage:");
                     lS.add(in.nextLine());
                 }
@@ -766,6 +790,10 @@ public class CLI extends UnicastRemoteObject implements View {
                 Colour c = Colour.valueOf(in.nextLine());
                 while(!this.server.messageIsValidUsePowerUpCard(game, nickName, namePC, colourPC, lS, c)){
                     System.out.println(errorRetry);
+                    System.out.println(this.exit + yesPrompt);
+                    String exit = in.next();
+                    if (exit.equals("Yes") || exit.equals("yes") || exit.equals("y"))
+                        action2();
                     System.out.println("Enter the nickname of one or more players you have damaged:");
                     while(in.hasNext())
                         lS.add(in.nextLine());
@@ -781,8 +809,12 @@ public class CLI extends UnicastRemoteObject implements View {
                 System.out.println("Enter the direction(s) in which you want the enemy to go:");
                 while(in.hasNext())
                     lS.add(in.next());
-                while(!this.server.messageIsValidUsePowerUpCard(game, nickName, namePC, colourPC, lS, null)){
-                    System.out.println("Error: please retry");
+                while(!this.server.messageIsValidUsePowerUpCard(game, nickName, namePC, colourPC, lS, null)) {
+                    System.out.println(errorRetry);
+                    System.out.println(this.exit + yesPrompt);
+                    String exit = in.next();
+                    if (exit.equals("Yes") || exit.equals("yes") || exit.equals("y"))
+                        action2();
                     System.out.println("Enter the nickname of a player:");
                     lS.add(in.next());
                     System.out.println("Enter the direction(s) in which you want the enemy to go:");
@@ -798,6 +830,10 @@ public class CLI extends UnicastRemoteObject implements View {
                 lS.add(in.next());
                 while(!this.server.messageIsValidUsePowerUpCard(game, nickName, namePC, colourPC, lS, null)) {
                     System.out.println(errorRetry);
+                    System.out.println(this.exit + yesPrompt);
+                    String exit = in.next();
+                    if (exit.equals("Yes") || exit.equals("yes") || exit.equals("y"))
+                        action2();
                     System.out.println("Enter the coordinates of the cell you want to move:");
                     lS.add(in.next());
                     lS.add(in.next());

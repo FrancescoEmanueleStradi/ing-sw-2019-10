@@ -914,8 +914,10 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
     private void grabNotAdrenaline(Player p, List<Integer> d, WeaponCard w, List<AmmoCube> lA, List<PowerUpCard> lP) throws RemoteException{
         if(!d.isEmpty())
             this.grid.move(p, d.get(0));
-        if(p.getCell().getStatus() == 0)
+        if(p.getCell().getStatus() == 0) {
             giveWhatIsOnAmmoCard(p, p.getCell().getA());
+            p.getCell().setA(null);
+        }
         else if(p.getCell().getStatus() == 1) {
             p.payCard(lA, lP);
             p.getWeaponCards().add(w);
@@ -979,8 +981,10 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
             this.grid.move(p, d.get(0));
         if(d.size() == 2)
             this.grid.move(p, d.get(1));
-        if(p.getCell().getStatus() == 0)
+        if(p.getCell().getStatus() == 0) {
             giveWhatIsOnAmmoCard(p, p.getCell().getA());
+            p.getCell().setA(null);
+        }
         else if(p.getCell().getStatus() == 1) {
                 p.payCard(lA, lP);
                 p.getWeaponCards().add(w);

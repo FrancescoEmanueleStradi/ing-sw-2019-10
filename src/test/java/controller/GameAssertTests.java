@@ -1646,7 +1646,6 @@ class GameAssertTests {
         List<String> lPColourInput = new LinkedList<>();
 
         assertEquals(GameState.STARTTURN, game.getGameState());
-        //TODO
         assertTrue(game.isValidFirstActionShoot("Player 1", "Flamethrower", lI, lS, 0, lA, lP, lPColourInput));
         game.firstActionShoot("Player 1", "Flamethrower", lI, lS, 0, lA, lP, lPColourInput);
     }

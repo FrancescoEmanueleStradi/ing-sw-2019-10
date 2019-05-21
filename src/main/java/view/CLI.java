@@ -472,6 +472,7 @@ public class CLI extends UnicastRemoteObject implements View {
     private void moveSecondAction() throws RemoteException{
         Scanner in = new Scanner(System.in);
         Scanner intScan = new Scanner(System.in);
+        boolean x;
         List<Integer> l = new LinkedList<>();
         System.out.println("The AmmoCards on the Board are as below:\n" + this.server.messageShowCardsOnBoard(game));
         System.out.println("Enter the sequence of movements you want to do, one integer at a time, up to 3\n" +
@@ -486,12 +487,9 @@ public class CLI extends UnicastRemoteObject implements View {
             else if (n == 0 && !this.server.messageIsValidSecondActionMove(game, nickName, l)) {
                 System.out.println(errorRetry);
                 l.clear();
-                System.out.println(this.exit + yesPrompt);
-                String exit = in.next();
-                if (exit.equals("Yes") || exit.equals("yes") || exit.equals("y")) {
-                    action2();
+                x = exitHandler(in);
+                if (x)
                     return;
-                }
             }
             else {
                 l.add(n);
@@ -664,6 +662,7 @@ public class CLI extends UnicastRemoteObject implements View {
     private void grabSecondAction() throws RemoteException{
         Scanner in = new Scanner(System.in);
         Scanner intScan = new Scanner(System.in);
+        boolean x;
         List<Integer> lD = new LinkedList<>();
         List<Colour> lC = new LinkedList<>();
         List<String> lP = new LinkedList<>();
@@ -736,16 +735,13 @@ public class CLI extends UnicastRemoteObject implements View {
                 break;
             else {
                 System.out.println(errorRetry);
-                String exit = in.next();
                 lD.clear();
                 lC.clear();
                 lP.clear();
                 lPC.clear();
-                System.out.println(this.exit + yesPrompt);
-                if (exit.equals("Yes") || exit.equals("yes") || exit.equals("y")) {
-                    action2();
+                x = exitHandler(in);
+                if (x)
                     return;
-                }
             }
         }
         this.server.messageSecondActionGrab(game, nickName, lD, wCard, lC, lP, lPC);

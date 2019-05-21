@@ -1768,8 +1768,10 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
     }
 
     private void frenzyGrab(Player p, WeaponCard wCard, List<AmmoCube> lA, List<PowerUpCard> lP) {
-        if(p.getCell().getStatus() == 0)
+        if(p.getCell().getStatus() == 0) {
             giveWhatIsOnAmmoCard(p, p.getCell().getA());
+            p.getCell().setA(null);
+        }
         else if(p.getCell().getStatus() == 1) {
             p.payCard(lA, lP);
             p.getWeaponCards().add(wCard);

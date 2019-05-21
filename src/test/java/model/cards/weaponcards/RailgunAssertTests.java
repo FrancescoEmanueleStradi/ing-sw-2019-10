@@ -16,6 +16,7 @@ public class RailgunAssertTests {
         assertEquals(Colour.YELLOW, r.getReloadCost()[0].getC());
         assertEquals(Colour.YELLOW, r.getReloadCost()[1].getC());
         assertEquals(Colour.BLUE, r.getReloadCost()[2].getC());
+        assertEquals(r.getReloadCost().length, 3);
         assertEquals("basic mode: Choose a cardinal direction and 1 target in that direction. Deal 3 damage to it.\n" +
                         "in piercing mode: Choose a cardinal direction and 1 or 2 targets in that direction. Deal 2 damage to each.\n" +
                         "Notes: Basically, you're shooting in a straight line and ignoring walls.\n" +

@@ -89,7 +89,7 @@ public class Client {
             //view.setServer(centralServer);
            // view.setGame(game);
 
-            view.askNameAndColour();                    //identifier 1 has to have the first player  card
+            view.askNameAndColour();                    //identifier 1 has to have the first player  card and he has to choose the type
             view.selectSpawnPoint();
             view.printType();
         }

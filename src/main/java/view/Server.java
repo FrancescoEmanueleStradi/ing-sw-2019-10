@@ -189,8 +189,8 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
     }
 
     public synchronized void manageDisconnection(int game, int identifier, String nickName) throws RemoteException, InterruptedException{
-        suspendedIdentifier.get(game).add(identifier, identifier);
-        suspendedName.get(game).add(identifier, nickName);
+        suspendedIdentifier.get(game).add(identifier);
+        suspendedName.get(game).add(nickName);
         for(Connection c : connections.get(game)){
             c.getView().disconnected(identifier);
         }
@@ -205,7 +205,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
     }
 
     public String getSuspendedName(int game, int identifier) throws RemoteException{
-        String s = suspendedName.get(game).get(identifier);
+        String s = suspendedName.get(game).get(suspendedIdentifier.get(game).indexOf(identifier));
         suspendedName.get(game).remove(s);
         return s;
     }

@@ -373,8 +373,12 @@ public class CLI extends UnicastRemoteObject implements View {
                 System.out.println("Enter the number of the WeaponSlot you want to check:");
                 int n = intScan.nextInt();
                 List<String> lWS = this.server.messageCheckWeaponSlotContents(game, n);
-                System.out.println("The cards available in WeaponSlot " + n + " are:\n" + lWS.get(0) + "\n" + lWS.get(1) + "\n" + lWS.get(2) +
-                        "\nCheck some other WeaponSlot? (Yes/yes/y)");
+                /*System.out.println("The cards available in WeaponSlot " + n + " are:\n" + lWS.get(0) + "\n" + lWS.get(1) + "\n" + lWS.get(2) +
+                        "\nCheck some other WeaponSlot? (Yes/yes/y)");*/
+                System.out.println("Below are the cards available in WeaponSlot " + n + ", together with their reload costs:");
+                for(String s : lWS)
+                    System.out.println(s);
+                System.out.println("Check some other WeaponSlot? (Yes/yes/y)");
                 confirm = in.nextLine();
             }
             in.nextLine();
@@ -662,8 +666,12 @@ public class CLI extends UnicastRemoteObject implements View {
                 System.out.println("Enter the number of the WeaponSlot you want to check:");
                 int n = intScan.nextInt();
                 List<String> lWS = this.server.messageCheckWeaponSlotContents(game, n);
-                System.out.println("The cards available in WeaponSlot " + n + " are:\n" + lWS.get(0) + "\n" + lWS.get(1) + "\n" + lWS.get(2) +
-                        "\nCheck some other WeaponSlot? (Yes/yes/y)");
+                /*System.out.println("The cards available in WeaponSlot " + n + " are:\n" + lWS.get(0) + "\n" + lWS.get(1) + "\n" + lWS.get(2) +
+                        "\nCheck some other WeaponSlot? (Yes/yes/y)");*/
+                System.out.println("Below are the cards available in WeaponSlot " + n + ", together with their reload costs:");
+                for(String s : lWS)
+                    System.out.println(s);
+                System.out.println("Check some other WeaponSlot? (Yes/yes/y)");
                 confirm = in.nextLine();
             }
             in.nextLine();

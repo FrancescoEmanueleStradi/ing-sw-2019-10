@@ -992,7 +992,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
     }
 
     public List<String> checkWeaponSlotContents(int n) {
-        List<String> lNull = new LinkedList<>();
+        List<String> lEmpty = new LinkedList<>();
         if (n == 1)
             return checkWeaponSlot1Contents();
 
@@ -1002,39 +1002,102 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         else if (n == 3)
             return checkWeaponSlot3Contents();
 
-        return lNull;
+        return lEmpty;
     }
 
     private List<String> checkWeaponSlot1Contents() {
         List<String> l = new LinkedList<>();
-        if(grid.getBoard().getW1().getCard1() != null)
+        if(grid.getBoard().getW1().getCard1() != null) {
             l.add(grid.getBoard().getW1().getCard1().getCardName());
-        if(grid.getBoard().getW1().getCard2() != null)
+            for(int i = 0; i < 3; i++) {
+                if(grid.getBoard().getW1().getCard1().getReloadCost().length > i) {
+                    l.add(grid.getBoard().getW1().getCard1().getReloadCost()[i].getC().getAbbreviation());
+                    i++;
+                }
+            }
+        }
+        if(grid.getBoard().getW1().getCard2() != null) {
             l.add(grid.getBoard().getW1().getCard2().getCardName());
-        if(grid.getBoard().getW1().getCard3() != null)
+            for(int i = 0; i < 3; i++) {
+                if(grid.getBoard().getW1().getCard2().getReloadCost().length > i) {
+                    l.add(grid.getBoard().getW1().getCard2().getReloadCost()[i].getC().getAbbreviation());
+                    i++;
+                }
+            }
+        }
+        if(grid.getBoard().getW1().getCard3() != null) {
             l.add(grid.getBoard().getW1().getCard3().getCardName());
+            for(int i = 0; i < 3; i++) {
+                if(grid.getBoard().getW1().getCard3().getReloadCost().length > i) {
+                    l.add(grid.getBoard().getW1().getCard3().getReloadCost()[i].getC().getAbbreviation());
+                    i++;
+                }
+            }
+        }
         return l;
     }
 
     private List<String> checkWeaponSlot2Contents() {
         List<String> l = new LinkedList<>();
-        if(grid.getBoard().getW2().getCard1() != null)
+        if(grid.getBoard().getW2().getCard1() != null) {
             l.add(grid.getBoard().getW2().getCard1().getCardName());
-        if(grid.getBoard().getW2().getCard2() != null)
+            for(int i = 0; i < 3; i++) {
+                if(grid.getBoard().getW2().getCard1().getReloadCost().length > i) {
+                    l.add(grid.getBoard().getW2().getCard1().getReloadCost()[i].getC().getAbbreviation());
+                    i++;
+                }
+            }
+        }
+        if(grid.getBoard().getW2().getCard2() != null) {
             l.add(grid.getBoard().getW2().getCard2().getCardName());
-        if(grid.getBoard().getW2().getCard3() != null)
+            for(int i = 0; i < 3; i++) {
+                if(grid.getBoard().getW2().getCard2().getReloadCost().length > i) {
+                    l.add(grid.getBoard().getW2().getCard2().getReloadCost()[i].getC().getAbbreviation());
+                    i++;
+                }
+            }
+        }
+        if(grid.getBoard().getW2().getCard3() != null) {
             l.add(grid.getBoard().getW2().getCard3().getCardName());
+            for(int i = 0; i < 3; i++) {
+                if(grid.getBoard().getW2().getCard3().getReloadCost().length > i) {
+                    l.add(grid.getBoard().getW2().getCard3().getReloadCost()[i].getC().getAbbreviation());
+                    i++;
+                }
+            }
+        }
         return l;
     }
 
     private List<String> checkWeaponSlot3Contents() {
         List<String> l = new LinkedList<>();
-        if(grid.getBoard().getW3().getCard1() != null)
+        if(grid.getBoard().getW3().getCard1() != null) {
             l.add(grid.getBoard().getW3().getCard1().getCardName());
-        if(grid.getBoard().getW3().getCard2() != null)
+            for(int i = 0; i < 3; i++) {
+                if(grid.getBoard().getW3().getCard1().getReloadCost().length > i) {
+                    l.add(grid.getBoard().getW3().getCard1().getReloadCost()[i].getC().getAbbreviation());
+                    i++;
+                }
+            }
+        }
+        if(grid.getBoard().getW3().getCard2() != null) {
             l.add(grid.getBoard().getW3().getCard2().getCardName());
-        if(grid.getBoard().getW3().getCard3() != null)
+            for(int i = 0; i < 3; i++) {
+                if(grid.getBoard().getW3().getCard2().getReloadCost().length > i) {
+                    l.add(grid.getBoard().getW3().getCard2().getReloadCost()[i].getC().getAbbreviation());
+                    i++;
+                }
+            }
+        }
+        if(grid.getBoard().getW3().getCard3() != null) {
             l.add(grid.getBoard().getW3().getCard3().getCardName());
+            for(int i = 0; i < 3; i++) {
+                if(grid.getBoard().getW3().getCard3().getReloadCost().length > i) {
+                    l.add(grid.getBoard().getW3().getCard3().getReloadCost()[i].getC().getAbbreviation());
+                    i++;
+                }
+            }
+        }
         return l;
     }
 

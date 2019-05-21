@@ -17,10 +17,10 @@ public class CLI extends UnicastRemoteObject implements View {
     private String nickName;
     private Colour colour;
     private static CLIWeaponPrompt wPrompt;
-    private String errorRetry = "Error: please retry";
-    private String directions = "1 = north, 2 = east, 3 = south, 4 = west";
-    public static String exit = "Exit and change action?";
-    public static String yesPrompt = "(Yes/yes/y)";
+    private final String errorRetry = "Error: please retry";
+    private final String directions = "1 = north, 2 = east, 3 = south, 4 = west";
+    public static final String exit = "Exit and change action?";
+    public static final String yesPrompt = "(Yes/yes/y)";
 
     public CLI(int game, ServerInterface server) throws RemoteException {
         super();

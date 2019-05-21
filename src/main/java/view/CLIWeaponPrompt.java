@@ -9,15 +9,15 @@ import java.util.Scanner;
 
 public class CLIWeaponPrompt {
 
-    private String enterEffect = "Enter the number(s) of the effect(s) you want to use; 0 to finish";
-    private String enterRelevantString = "Enter the relevant strings for the card; 0 to finish";
-    private String enterAmmoColour = "Enter the colour(s) of the required AmmoCube(s) needed for the effect; 0 to finish";
-    private String enterPowerUp = "Enter the PowerUpCard(s) you want to use for paying during your turn; 0 to finish";
-    private String enterPowerUpColour = "Enter the colour(s) of the PowerUpCard(s); 0 to finish";
-    private String enterAdrenalineDir = "If you are in Adrenaline, enter the direction of the move, 0 otherwise";
-    private String promptErrorRetry = "Error: please retry";
-    private String exit = CLI.exit;
-    private String yesPrompt = CLI.yesPrompt;
+    private final String enterEffect = "Enter the number(s) of the effect(s) you want to use; 0 to finish";
+    private final String enterRelevantString = "Enter the relevant strings for the card; 0 to finish";
+    private final String enterAmmoColour = "Enter the colour(s) of the required AmmoCube(s) needed for the effect; 0 to finish";
+    private final String enterPowerUp = "Enter the PowerUpCard(s) you want to use for paying during your turn; 0 to finish";
+    private final String enterPowerUpColour = "Enter the colour(s) of the PowerUpCard(s); 0 to finish";
+    private final String enterAdrenalineDir = "If you are in Adrenaline, enter the direction of the move, 0 otherwise";
+    private final String promptErrorRetry = "Error: please retry";
+    private final String exit = CLI.exit;
+    private final String yesPrompt = CLI.yesPrompt;
 
     public void shootToUser1(int game, ServerInterface server, String nickName, String s) throws RemoteException {
         Scanner in = new Scanner(System.in);

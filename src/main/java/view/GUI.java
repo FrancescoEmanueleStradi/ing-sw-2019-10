@@ -106,18 +106,20 @@ public class GUI implements View{
     }
 
     @Override
-    public void scoring(){
+    public void scoring() throws RemoteException{
+        if(this.server.messageIsValidScoring(game))
+            this.server.messageScoring(game);
+    }
+
+    @Override
+    public void newSpawnPoint() throws RemoteException{
         //TODO
     }
 
     @Override
-    public void newSpawnPoint(){
-        //TODO
-    }
-
-    @Override
-    public void replace(){
-        //TODO
+    public void replace() throws RemoteException{
+        if(this.server.messageIsValidToReplace(game))
+            this.server.messageReplace(game);
     }
 
     @Override

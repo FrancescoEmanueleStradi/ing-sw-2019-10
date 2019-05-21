@@ -192,7 +192,8 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
         suspendedIdentifier.get(game).add(identifier);
         suspendedName.get(game).add(nickName);
         for(Connection c : connections.get(game)){
-            c.getView().disconnected(identifier);
+            if(c.getView() != null)
+                c.getView().disconnected(identifier);
         }
     }
 

@@ -10,6 +10,7 @@ public class YBB extends AmmoCard {
 
     public YBB() {
         super();
+        this.ammoCardName = "YBB";
         this.aC = new ArrayList<>();
         this.aC.add(new AmmoCube(Colour.YELLOW));
         this.aC.add(new AmmoCube(Colour.BLUE));

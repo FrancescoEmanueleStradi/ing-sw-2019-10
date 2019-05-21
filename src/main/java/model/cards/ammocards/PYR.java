@@ -10,6 +10,7 @@ public class PYR extends AmmoCard {
 
     public PYR() {
         super();
+        this.ammoCardName = "PYR";
         this.aC = new ArrayList<>();
         this.aC.add(new AmmoCube(Colour.YELLOW));
         this.aC.add(new AmmoCube(Colour.RED));

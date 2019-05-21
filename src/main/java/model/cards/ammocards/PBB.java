@@ -10,6 +10,7 @@ public class PBB extends AmmoCard {
 
     public PBB() {
         super();
+        this.ammoCardName = "PBB";
         this.aC = new ArrayList<>();
         this.aC.add(new AmmoCube(Colour.BLUE));
         this.aC.add(new AmmoCube(Colour.BLUE));

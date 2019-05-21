@@ -1,6 +1,7 @@
 package controller;
 
 import model.*;
+import model.board.Cell;
 import model.board.WeaponSlot;
 import model.cards.*;
 import model.cards.powerupcards.*;
@@ -1073,6 +1074,24 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                 l.add(a.getC().getAbbreviation());
         }
         return l;
+    }
+
+    public String showCardsOnBoard() {
+        List<String> rows = new LinkedList<>();
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 4; j++) {
+                if (grid.getBoard().getArena()[i][j].getStatus() == 0)
+                    rows.add(grid.getBoard().getArena()[i][j].getA().getAmmoCardName() + "   ");
+                else if (grid.getBoard().getArena()[i][j].getStatus() == 1)
+                    rows.add("spawn ");
+                else
+                    rows.add("N/A   ");
+
+            }
+        }
+        return rows.get(0) + rows.get(1) + rows.get(2) + rows.get(3) + "\n" +
+                rows.get(4) + rows.get(5) + rows.get(6) + rows.get(7) + "\n" +
+                rows.get(8) + rows.get(9) + rows.get(10) + rows.get(11);
     }
 
     public boolean isValidFirstActionGrab(String nickName, List<Integer> directionList, String wCardInput, String wSlotInput, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) {

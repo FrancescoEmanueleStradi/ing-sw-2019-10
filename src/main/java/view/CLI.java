@@ -169,6 +169,7 @@ public class CLI extends UnicastRemoteObject implements View {
         Scanner intScan = new Scanner(System.in);
         boolean x;
         List<Integer> l = new LinkedList<>();
+        System.out.println("The AmmoCards on the Board are as below:\n" + this.server.messageShowCardsOnBoard(game));
         System.out.println("Enter the sequence of movements you want to do, one integer at a time, up to 3\n" +
                 directions + "\n" +
                 "Press 0 to finish");
@@ -364,6 +365,7 @@ public class CLI extends UnicastRemoteObject implements View {
         String wCard = "";
         String weaponSlot = "";
         String confirm;
+        System.out.println("The AmmoCards on the Board are as below:\n" + this.server.messageShowCardsOnBoard(game));
         while (true) {
             System.out.println("If you wish to grab whatever is in your cell, enter 0\n" +
                     "Otherwise, enter the sequence of movements you want to do, one integer at a time: only one is permitted " +
@@ -471,6 +473,7 @@ public class CLI extends UnicastRemoteObject implements View {
         Scanner in = new Scanner(System.in);
         Scanner intScan = new Scanner(System.in);
         List<Integer> l = new LinkedList<>();
+        System.out.println("The AmmoCards on the Board are as below:\n" + this.server.messageShowCardsOnBoard(game));
         System.out.println("Enter the sequence of movements you want to do, one integer at a time, up to 3\n" +
                 directions + "\n" +
                 "Press 0 to finish");
@@ -668,6 +671,7 @@ public class CLI extends UnicastRemoteObject implements View {
         String wCard = "";
         String weaponSlot = "";
         String confirm;
+        System.out.println("The AmmoCards on the Board are as below:\n" + this.server.messageShowCardsOnBoard(game));
         while (true) {
             System.out.println("If you wish to grab whatever is in your cell, enter 0\n" +
                     "Otherwise, enter the sequence of movements you want to do, one integer at a time: only one is permitted " +

@@ -10,6 +10,7 @@ public class PRR extends AmmoCard {
 
     public PRR() {
         super();
+        this.ammoCardName = "PRR";
         this.aC = new ArrayList<>();
         this.aC.add(new AmmoCube(Colour.RED));
         this.aC.add(new AmmoCube(Colour.RED));

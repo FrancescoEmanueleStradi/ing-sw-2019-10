@@ -10,6 +10,7 @@ public class PYB extends AmmoCard {     //PYB stands for "Powerup Yellow Blue", 
                                         //all other cards will have the same naming scheme
     public PYB() {
         super();
+        this.ammoCardName = "PYB";
         this.aC = new ArrayList<>();
         this.aC.add(new AmmoCube(Colour.YELLOW));
         this.aC.add(new AmmoCube(Colour.BLUE));

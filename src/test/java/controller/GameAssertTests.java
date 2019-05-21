@@ -1334,7 +1334,370 @@ class GameAssertTests {
         game.firstActionShoot("Player 1", "Plasma Gun", lI, lS, 0, lA, lP, lPColourInput);
     }
 
-    //Tested all cards from the bottom to Plasma Gun (included) as well as Cyberblade and Machine Gun
+    @Test
+    void GameShootLockRifleTest() throws RemoteException {
+        Game game = new Game(iD, server);
+        Grid grid = game.getGrid();
+
+        game.gameStart("Player 1", BLUE);
+        Player p1 = grid.getPlayerObject("Player 1");
+
+        game.addPlayer("Player 2", YELLOW);
+        Player p2 = grid.getPlayerObject("Player 2");
+
+        game.addPlayer("Player 3", GREEN);
+        Player p3 = grid.getPlayerObject("Player 3");
+
+        game.receiveType(1);
+
+        game.giveTwoPUCard("Player 1");
+        System.out.print("\nPowerUpCard picked from the deck for Player 1: " + p1.getPowerUpCards().get(0).getCardName() + " coloured " + p1.getPowerUpCards().get(0).getC().getAbbreviation() + ", and " + p1.getPowerUpCards().get(1).getCardName() + " coloured " + p1.getPowerUpCards().get(1).getC().getAbbreviation());
+        game.pickAndDiscardCard("Player 1", p1.getPowerUpCards().get(0).getCardName(), p1.getPowerUpCards().get(0).getC().getAbbreviation());
+
+        game.giveTwoPUCard("Player 2");
+        System.out.print("\nPowerUpCard picked from the deck for Player 2: " + p2.getPowerUpCards().get(0).getCardName() + " coloured " + p2.getPowerUpCards().get(0).getC().getAbbreviation() + ", and " + p2.getPowerUpCards().get(1).getCardName() + " coloured " + p2.getPowerUpCards().get(1).getC().getAbbreviation());
+        game.pickAndDiscardCard("Player 2", p2.getPowerUpCards().get(1).getCardName(), p2.getPowerUpCards().get(1).getC().getAbbreviation());
+
+        game.giveTwoPUCard("Player 3");
+        System.out.print("\nPowerUpCard picked from the deck for Player 3: " + p3.getPowerUpCards().get(0).getCardName() + " coloured " + p3.getPowerUpCards().get(0).getC().getAbbreviation() + ", and " + p3.getPowerUpCards().get(1).getCardName() + " coloured " + p3.getPowerUpCards().get(1).getC().getAbbreviation());
+        game.pickAndDiscardCard("Player 3", p3.getPowerUpCards().get(1).getCardName(), p3.getPowerUpCards().get(1).getC().getAbbreviation());
+
+        p1.changeCell(grid.getBoard().getArena()[1][3]);
+        p2.changeCell(grid.getBoard().getArena()[1][2]);
+        p3.changeCell(grid.getBoard().getArena()[1][1]);
+
+        assertEquals(grid.getBoard().getArena()[1][3], p1.getCell());
+        assertEquals(grid.getBoard().getArena()[1][2], p2.getCell());
+        assertEquals(grid.getBoard().getArena()[1][1], p3.getCell());
+
+        WeaponCard lockRifle = new LockRifle();
+        p1.addWeaponCard(lockRifle);
+        lockRifle.reload();
+        assertTrue(lockRifle.isReloaded());
+
+
+        List<Integer> lI = new LinkedList<>();
+        lI.add(1);
+        lI.add(2);
+        List<String> lS = new LinkedList<>();
+        lS.add("Player 2");
+        lS.add("Player 3");
+        List<Colour> lA = new LinkedList<>();
+        lA.add(RED);
+        List<String> lP = new LinkedList<>();
+        List<String> lPColourInput = new LinkedList<>();
+
+        assertEquals(GameState.STARTTURN, game.getGameState());
+
+        assertTrue(game.isValidFirstActionShoot("Player 1", "Lock Rifle", lI, lS, 0, lA, lP, lPColourInput));
+        game.firstActionShoot("Player 1", "Lock Rifle", lI, lS, 0, lA, lP, lPColourInput);
+    }
+
+    @Test
+    void GameShootHellionTest() throws RemoteException {
+        Game game = new Game(iD, server);
+        Grid grid = game.getGrid();
+
+        game.gameStart("Player 1", BLUE);
+        Player p1 = grid.getPlayerObject("Player 1");
+
+        game.addPlayer("Player 2", YELLOW);
+        Player p2 = grid.getPlayerObject("Player 2");
+
+        game.receiveType(1);
+
+        game.giveTwoPUCard("Player 1");
+        System.out.print("\nPowerUpCard picked from the deck for Player 1: " + p1.getPowerUpCards().get(0).getCardName() + " coloured " + p1.getPowerUpCards().get(0).getC().getAbbreviation() + ", and " + p1.getPowerUpCards().get(1).getCardName() + " coloured " + p1.getPowerUpCards().get(1).getC().getAbbreviation());
+        game.pickAndDiscardCard("Player 1", p1.getPowerUpCards().get(0).getCardName(), p1.getPowerUpCards().get(0).getC().getAbbreviation());
+
+        game.giveTwoPUCard("Player 2");
+        System.out.print("\nPowerUpCard picked from the deck for Player 2: " + p2.getPowerUpCards().get(0).getCardName() + " coloured " + p2.getPowerUpCards().get(0).getC().getAbbreviation() + ", and " + p2.getPowerUpCards().get(1).getCardName() + " coloured " + p2.getPowerUpCards().get(1).getC().getAbbreviation());
+        game.pickAndDiscardCard("Player 2", p2.getPowerUpCards().get(1).getCardName(), p2.getPowerUpCards().get(1).getC().getAbbreviation());
+
+        p1.changeCell(grid.getBoard().getArena()[0][0]);
+        p2.changeCell(grid.getBoard().getArena()[0][2]);
+
+        assertEquals(grid.getBoard().getArena()[0][0], p1.getCell());
+        assertEquals(grid.getBoard().getArena()[0][2], p2.getCell());
+
+        WeaponCard hellion = new Hellion();
+        p1.addWeaponCard(hellion);
+        hellion.reload();
+        assertTrue(hellion.isReloaded());
+
+
+        List<Integer> lI = new LinkedList<>();
+        lI.add(2);
+        List<String> lS = new LinkedList<>();
+        lS.add("Player 2");
+        List<Colour> lA = new LinkedList<>();
+        lA.add(RED);
+        List<String> lP = new LinkedList<>();
+        List<String> lPColourInput = new LinkedList<>();
+
+        assertEquals(GameState.STARTTURN, game.getGameState());
+
+        assertTrue(game.isValidFirstActionShoot("Player 1", "Hellion", lI, lS, 0, lA, lP, lPColourInput));
+        game.firstActionShoot("Player 1", "Hellion", lI, lS, 0, lA, lP, lPColourInput);
+    }
+
+    @Test
+    void GameShootHeatseekerTest() throws RemoteException {
+        Game game = new Game(iD, server);
+        Grid grid = game.getGrid();
+
+        game.gameStart("Player 1", BLUE);
+        Player p1 = grid.getPlayerObject("Player 1");
+
+        game.addPlayer("Player 2", YELLOW);
+        Player p2 = grid.getPlayerObject("Player 2");
+
+        game.receiveType(1);
+
+        game.giveTwoPUCard("Player 1");
+        System.out.print("\nPowerUpCard picked from the deck for Player 1: " + p1.getPowerUpCards().get(0).getCardName() + " coloured " + p1.getPowerUpCards().get(0).getC().getAbbreviation() + ", and " + p1.getPowerUpCards().get(1).getCardName() + " coloured " + p1.getPowerUpCards().get(1).getC().getAbbreviation());
+        game.pickAndDiscardCard("Player 1", p1.getPowerUpCards().get(0).getCardName(), p1.getPowerUpCards().get(0).getC().getAbbreviation());
+
+        game.giveTwoPUCard("Player 2");
+        System.out.print("\nPowerUpCard picked from the deck for Player 2: " + p2.getPowerUpCards().get(0).getCardName() + " coloured " + p2.getPowerUpCards().get(0).getC().getAbbreviation() + ", and " + p2.getPowerUpCards().get(1).getCardName() + " coloured " + p2.getPowerUpCards().get(1).getC().getAbbreviation());
+        game.pickAndDiscardCard("Player 2", p2.getPowerUpCards().get(1).getCardName(), p2.getPowerUpCards().get(1).getC().getAbbreviation());
+
+        p1.changeCell(grid.getBoard().getArena()[0][0]);
+        p2.changeCell(grid.getBoard().getArena()[2][0]);
+
+        assertEquals(grid.getBoard().getArena()[0][0], p1.getCell());
+        assertEquals(grid.getBoard().getArena()[2][0], p2.getCell());
+
+        WeaponCard heatseeker = new Heatseeker();
+        p1.addWeaponCard(heatseeker);
+        heatseeker.reload();
+        assertTrue(heatseeker.isReloaded());
+
+
+        List<Integer> lI = new LinkedList<>();
+        lI.add(1);
+        List<String> lS = new LinkedList<>();
+        lS.add("Player 2");
+        List<Colour> lA = new LinkedList<>();
+        List<String> lP = new LinkedList<>();
+        List<String> lPColourInput = new LinkedList<>();
+
+        assertEquals(GameState.STARTTURN, game.getGameState());
+
+        assertTrue(game.isValidFirstActionShoot("Player 1", "Heatseeker", lI, lS, 0, lA, lP, lPColourInput));
+        game.firstActionShoot("Player 1", "Heatseeker", lI, lS, 0, lA, lP, lPColourInput);
+    }
+
+    @Test
+    void GameShootGrenadeLauncherTest() throws RemoteException {
+        Game game = new Game(iD, server);
+        Grid grid = game.getGrid();
+
+        game.gameStart("Player 1", BLUE);
+        Player p1 = grid.getPlayerObject("Player 1");
+
+        game.addPlayer("Player 2", YELLOW);
+        Player p2 = grid.getPlayerObject("Player 2");
+
+        game.receiveType(1);
+
+        game.giveTwoPUCard("Player 1");
+        System.out.print("\nPowerUpCard picked from the deck for Player 1: " + p1.getPowerUpCards().get(0).getCardName() + " coloured " + p1.getPowerUpCards().get(0).getC().getAbbreviation() + ", and " + p1.getPowerUpCards().get(1).getCardName() + " coloured " + p1.getPowerUpCards().get(1).getC().getAbbreviation());
+        game.pickAndDiscardCard("Player 1", p1.getPowerUpCards().get(0).getCardName(), p1.getPowerUpCards().get(0).getC().getAbbreviation());
+
+        game.giveTwoPUCard("Player 2");
+        System.out.print("\nPowerUpCard picked from the deck for Player 2: " + p2.getPowerUpCards().get(0).getCardName() + " coloured " + p2.getPowerUpCards().get(0).getC().getAbbreviation() + ", and " + p2.getPowerUpCards().get(1).getCardName() + " coloured " + p2.getPowerUpCards().get(1).getC().getAbbreviation());
+        game.pickAndDiscardCard("Player 2", p2.getPowerUpCards().get(1).getCardName(), p2.getPowerUpCards().get(1).getC().getAbbreviation());
+
+        p1.changeCell(grid.getBoard().getArena()[0][0]);
+        p2.changeCell(grid.getBoard().getArena()[1][0]);
+
+        assertEquals(grid.getBoard().getArena()[0][0], p1.getCell());
+        assertEquals(grid.getBoard().getArena()[1][0], p2.getCell());
+
+        WeaponCard grenadeLauncher = new GrenadeLauncher();
+        p1.addWeaponCard(grenadeLauncher);
+        grenadeLauncher.reload();
+        assertTrue(grenadeLauncher.isReloaded());
+
+
+        List<Integer> lI = new LinkedList<>();
+        lI.add(2);
+        lI.add(1);
+        List<String> lS = new LinkedList<>();
+        lS.add("Player 2");
+        lS.add("3");
+        lS.add("0");
+        lS.add("2");
+        List<Colour> lA = new LinkedList<>();
+        lA.add(RED);
+        List<String> lP = new LinkedList<>();
+        List<String> lPColourInput = new LinkedList<>();
+
+        assertEquals(GameState.STARTTURN, game.getGameState());
+
+        assertTrue(game.isValidFirstActionShoot("Player 1", "Grenade Launcher", lI, lS, 0, lA, lP, lPColourInput));
+        game.firstActionShoot("Player 1", "Grenade Launcher", lI, lS, 0, lA, lP, lPColourInput);
+    }
+
+    @Test
+    void GameShootFurnaceTest() throws RemoteException {
+        Game game = new Game(iD, server);
+        Grid grid = game.getGrid();
+
+        game.gameStart("Player 1", BLUE);
+        Player p1 = grid.getPlayerObject("Player 1");
+
+        game.addPlayer("Player 2", YELLOW);
+        Player p2 = grid.getPlayerObject("Player 2");
+
+        game.receiveType(1);
+
+        game.giveTwoPUCard("Player 1");
+        System.out.print("\nPowerUpCard picked from the deck for Player 1: " + p1.getPowerUpCards().get(0).getCardName() + " coloured " + p1.getPowerUpCards().get(0).getC().getAbbreviation() + ", and " + p1.getPowerUpCards().get(1).getCardName() + " coloured " + p1.getPowerUpCards().get(1).getC().getAbbreviation());
+        game.pickAndDiscardCard("Player 1", p1.getPowerUpCards().get(0).getCardName(), p1.getPowerUpCards().get(0).getC().getAbbreviation());
+
+        game.giveTwoPUCard("Player 2");
+        System.out.print("\nPowerUpCard picked from the deck for Player 2: " + p2.getPowerUpCards().get(0).getCardName() + " coloured " + p2.getPowerUpCards().get(0).getC().getAbbreviation() + ", and " + p2.getPowerUpCards().get(1).getCardName() + " coloured " + p2.getPowerUpCards().get(1).getC().getAbbreviation());
+        game.pickAndDiscardCard("Player 2", p2.getPowerUpCards().get(1).getCardName(), p2.getPowerUpCards().get(1).getC().getAbbreviation());
+
+        p1.changeCell(grid.getBoard().getArena()[0][0]);
+        p2.changeCell(grid.getBoard().getArena()[1][0]);
+
+        assertEquals(grid.getBoard().getArena()[0][0], p1.getCell());
+        assertEquals(grid.getBoard().getArena()[1][0], p2.getCell());
+
+        WeaponCard furnace = new Furnace();
+        p1.addWeaponCard(furnace);
+        furnace.reload();
+        assertTrue(furnace.isReloaded());
+
+
+        List<Integer> lI = new LinkedList<>();
+        lI.add(2);
+        List<String> lS = new LinkedList<>();
+        lS.add("0");
+        lS.add("1");
+        List<Colour> lA = new LinkedList<>();
+        List<String> lP = new LinkedList<>();
+        List<String> lPColourInput = new LinkedList<>();
+
+        assertEquals(GameState.STARTTURN, game.getGameState());
+
+        assertTrue(game.isValidFirstActionShoot("Player 1", "Furnace", lI, lS, 0, lA, lP, lPColourInput));
+        game.firstActionShoot("Player 1", "Furnace", lI, lS, 0, lA, lP, lPColourInput);
+    }
+
+    @Test
+    void GameShootFlamethrowerTest() throws RemoteException {
+        Game game = new Game(iD, server);
+        Grid grid = game.getGrid();
+
+        game.gameStart("Player 1", BLUE);
+        Player p1 = grid.getPlayerObject("Player 1");
+
+        game.addPlayer("Player 2", YELLOW);
+        Player p2 = grid.getPlayerObject("Player 2");
+
+        game.addPlayer("Player 3", GREEN);
+        Player p3 = grid.getPlayerObject("Player 3");
+
+        game.receiveType(1);
+
+        game.giveTwoPUCard("Player 1");
+        System.out.print("\nPowerUpCard picked from the deck for Player 1: " + p1.getPowerUpCards().get(0).getCardName() + " coloured " + p1.getPowerUpCards().get(0).getC().getAbbreviation() + ", and " + p1.getPowerUpCards().get(1).getCardName() + " coloured " + p1.getPowerUpCards().get(1).getC().getAbbreviation());
+        game.pickAndDiscardCard("Player 1", p1.getPowerUpCards().get(0).getCardName(), p1.getPowerUpCards().get(0).getC().getAbbreviation());
+
+        game.giveTwoPUCard("Player 2");
+        System.out.print("\nPowerUpCard picked from the deck for Player 2: " + p2.getPowerUpCards().get(0).getCardName() + " coloured " + p2.getPowerUpCards().get(0).getC().getAbbreviation() + ", and " + p2.getPowerUpCards().get(1).getCardName() + " coloured " + p2.getPowerUpCards().get(1).getC().getAbbreviation());
+        game.pickAndDiscardCard("Player 2", p2.getPowerUpCards().get(1).getCardName(), p2.getPowerUpCards().get(1).getC().getAbbreviation());
+
+        game.giveTwoPUCard("Player 3");
+        System.out.print("\nPowerUpCard picked from the deck for Player 3: " + p3.getPowerUpCards().get(0).getCardName() + " coloured " + p3.getPowerUpCards().get(0).getC().getAbbreviation() + ", and " + p3.getPowerUpCards().get(1).getCardName() + " coloured " + p3.getPowerUpCards().get(1).getC().getAbbreviation());
+        game.pickAndDiscardCard("Player 3", p3.getPowerUpCards().get(1).getCardName(), p3.getPowerUpCards().get(1).getC().getAbbreviation());
+
+        p1.changeCell(grid.getBoard().getArena()[1][3]);
+        p2.changeCell(grid.getBoard().getArena()[1][2]);
+        p3.changeCell(grid.getBoard().getArena()[1][1]);
+
+        assertEquals(grid.getBoard().getArena()[1][3], p1.getCell());
+        assertEquals(grid.getBoard().getArena()[1][2], p2.getCell());
+        assertEquals(grid.getBoard().getArena()[1][1], p3.getCell());
+
+        WeaponCard flamethrower = new Flamethrower();
+        p1.addWeaponCard(flamethrower);
+        flamethrower.reload();
+        assertTrue(flamethrower.isReloaded());
+
+        p1.addNewAC(new AmmoCube(YELLOW));
+
+
+        List<Integer> lI = new LinkedList<>();
+        lI.add(2);
+        List<String> lS = new LinkedList<>();
+        lS.add("1");
+        lS.add("2");
+        lS.add("1");
+        lS.add("1");
+        List<Colour> lA = new LinkedList<>();
+        lA.add(YELLOW);
+        lA.add(YELLOW);
+        List<String> lP = new LinkedList<>();
+        List<String> lPColourInput = new LinkedList<>();
+
+        assertEquals(GameState.STARTTURN, game.getGameState());
+        //TODO
+        assertTrue(game.isValidFirstActionShoot("Player 1", "Flamethrower", lI, lS, 0, lA, lP, lPColourInput));
+        game.firstActionShoot("Player 1", "Flamethrower", lI, lS, 0, lA, lP, lPColourInput);
+    }
+
+    @Test
+    void GameShootElectroscytheTest() throws RemoteException {
+        Game game = new Game(iD, server);
+        Grid grid = game.getGrid();
+
+        game.gameStart("Player 1", BLUE);
+        Player p1 = grid.getPlayerObject("Player 1");
+
+        game.addPlayer("Player 2", YELLOW);
+        Player p2 = grid.getPlayerObject("Player 2");
+
+        game.receiveType(1);
+
+        game.giveTwoPUCard("Player 1");
+        System.out.print("\nPowerUpCard picked from the deck for Player 1: " + p1.getPowerUpCards().get(0).getCardName() + " coloured " + p1.getPowerUpCards().get(0).getC().getAbbreviation() + ", and " + p1.getPowerUpCards().get(1).getCardName() + " coloured " + p1.getPowerUpCards().get(1).getC().getAbbreviation());
+        game.pickAndDiscardCard("Player 1", p1.getPowerUpCards().get(0).getCardName(), p1.getPowerUpCards().get(0).getC().getAbbreviation());
+
+        game.giveTwoPUCard("Player 2");
+        System.out.print("\nPowerUpCard picked from the deck for Player 2: " + p2.getPowerUpCards().get(0).getCardName() + " coloured " + p2.getPowerUpCards().get(0).getC().getAbbreviation() + ", and " + p2.getPowerUpCards().get(1).getCardName() + " coloured " + p2.getPowerUpCards().get(1).getC().getAbbreviation());
+        game.pickAndDiscardCard("Player 2", p2.getPowerUpCards().get(1).getCardName(), p2.getPowerUpCards().get(1).getC().getAbbreviation());
+
+        p1.changeCell(grid.getBoard().getArena()[0][0]);
+        p2.changeCell(grid.getBoard().getArena()[0][0]);
+
+        assertEquals(grid.getBoard().getArena()[0][0], p1.getCell());
+        assertEquals(grid.getBoard().getArena()[0][0], p2.getCell());
+
+        WeaponCard electroscythe = new Electroscythe();
+        p1.addWeaponCard(electroscythe);
+        electroscythe.reload();
+        assertTrue(electroscythe.isReloaded());
+
+
+        List<Integer> lI = new LinkedList<>();
+        lI.add(2);
+        List<String> lS = new LinkedList<>();
+        List<Colour> lA = new LinkedList<>();
+        lA.add(BLUE);
+        lA.add(RED);
+        List<String> lP = new LinkedList<>();
+        List<String> lPColourInput = new LinkedList<>();
+
+        assertEquals(GameState.STARTTURN, game.getGameState());
+
+        assertTrue(game.isValidFirstActionShoot("Player 1", "Electroscythe", lI, lS, 0, lA, lP, lPColourInput));
+        game.firstActionShoot("Player 1", "Electroscythe", lI, lS, 0, lA, lP, lPColourInput);
+    }
 
 
 

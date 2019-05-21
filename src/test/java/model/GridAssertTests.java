@@ -170,7 +170,7 @@ class GridAssertTests {
 
         assertEquals(0, grid.distance(new Position(0, 2), new Position(0, 2)));
         assertEquals(2, grid.distance(new Position(0, 2), new Position(1, 3)));
-        assertEquals(2, grid.distance(new Position(1, 3), new Position(0, 2)));
+        assertEquals(1, grid.distance(new Position(1, 1), new Position(1, 2)));
     }
 
     @Test

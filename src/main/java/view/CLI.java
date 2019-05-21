@@ -880,8 +880,10 @@ public class CLI extends UnicastRemoteObject implements View {
 
     @Override
     public void scoring() throws RemoteException{
-        if(this.server.messageIsValidScoring(game))
+        if(this.server.messageIsValidScoring(game)) {
+            System.out.println("Scoring...");
             this.server.messageScoring(game);
+        }
         else
             System.out.println("Not scoring");
     }
@@ -906,10 +908,15 @@ public class CLI extends UnicastRemoteObject implements View {
 
     @Override
     public void replace() throws RemoteException{
-        if(this.server.messageIsValidToReplace(game))
+        if(this.server.messageIsValidToReplace(game)) {
+            System.out.println("Replacing...");
             this.server.messageReplace(game);
-        else
+            System.out.println("Your turn is ended");
+        }
+        else {
             System.out.println("Not replacing");
+            System.out.println("Your turn is ended");
+        }
     }
 
 

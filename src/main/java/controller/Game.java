@@ -801,6 +801,8 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
     public boolean isValidFirstActionShoot(String nickName, String nameWC, List<Integer> lI, List<String> lS, int direction, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) {
         Player p = this.grid.getPlayerObject(nickName);
+        if(this.gameState.equals(ENDTURN))
+            this.gameState = STARTTURN;
         List<AmmoCube> lA = new LinkedList<>();
         List<PowerUpCard> lP = new LinkedList<>();
 
@@ -821,11 +823,12 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
             lP.add(p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))));
         }
 
-        if(this.gameState.equals(STARTTURN))
-            if(!p.isAdrenaline2())
+        if(this.gameState.equals(STARTTURN)) {
+            if (!p.isAdrenaline2())
                 return isValidShootNotAdrenaline(p, nameWC, lI, lS, lA, lP);
             else
                 return isValidShootAdrenaline(p, nameWC, lI, lS, direction, lA, lP);
+        }
         return false;
     }
 
@@ -861,7 +864,9 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
    public boolean isValidFirstActionMove(String nickName, List<Integer> directions) {
         Player p = this.grid.getPlayerObject(nickName);
-        return (this.gameState.equals(STARTTURN) && (directions.size() < 4) && (!directions.isEmpty()) && grid.canGhostMove(p, directions));
+        if(this.gameState.equals(ENDTURN))
+            this.gameState = STARTTURN;
+        return (this.gameState.equals(STARTTURN) && (!directions.isEmpty()) && (directions.size() < 4) && grid.canGhostMove(p, directions));
    }
 
     public synchronized void firstActionMove(String nickName, List<Integer> directions) throws RemoteException{ //player p moves 1,2,3 cells: directions contains every direction from cell to cell
@@ -1071,6 +1076,8 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
     }
 
     public boolean isValidFirstActionGrab(String nickName, List<Integer> directionList, String wCardInput, String wSlotInput, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) {
+        if(this.gameState.equals(ENDTURN))
+            this.gameState = STARTTURN;
         if(this.gameState.equals(STARTTURN)) {
             Player p = this.grid.getPlayerObject(nickName);
             WeaponCard wCard = this.grid.getWeaponCardObject(wCardInput);
@@ -1145,7 +1152,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
     public boolean isValidSecondActionMove(String nickName, List<Integer> directions) {
         Player p = this.grid.getPlayerObject(nickName);
-        return (this.gameState.equals(ACTION1) && (directions.size() < 4) && (!directions.isEmpty()) && grid.canGhostMove(p, directions));
+        return (this.gameState.equals(ACTION1) && (!directions.isEmpty()) && (directions.size() < 4) && grid.canGhostMove(p, directions));
     }
 
 
@@ -1250,11 +1257,12 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
             lP.add(p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))));
         }
 
-        if(this.gameState.equals(ACTION1))
-            if(!p.isAdrenaline2())
+        if(this.gameState.equals(ACTION1)) {
+            if (!p.isAdrenaline2())
                 return isValidShootNotAdrenaline(p, nameWC, lI, lS, lA, lP);
             else
                 return isValidShootAdrenaline(p, nameWC, lI, lS, direction, lA, lP);
+        }
         return false;
     }
 
@@ -1412,7 +1420,9 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
     }
 
     public boolean isValidScoring() {
-        return this.gameState.equals(RELOADED) && (this.grid.whoIsDead()!=null);
+        if(this.gameState.equals(ACTION2))
+            this.gameState = RELOADED;
+        return this.gameState.equals(RELOADED) && (!this.grid.whoIsDead().isEmpty());
     }
 
     public synchronized void scoring() throws RemoteException{
@@ -1453,7 +1463,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
     public boolean isValidDiscardCardForSpawnPoint(String nickName, String s1, String c1) {
         Player p = this.grid.getPlayerObject(nickName);
-        return (/*this.gameState == DEATH && */p.getPowerUpCardObject(s1, Colour.valueOf(c1)) != null);
+        return (p.getPowerUpCardObject(s1, Colour.valueOf(c1)) != null);
     }
 
     public synchronized void discardCardForSpawnPoint(String nickName, String s1, String c1) {      //Attention to the view
@@ -1470,6 +1480,8 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
     }
 
     public boolean isValidToReplace() {
+        if(this.gameState.equals(RELOADED))
+            this.gameState = ENDTURN;
         return this.gameState == ENDTURN;
     }
 

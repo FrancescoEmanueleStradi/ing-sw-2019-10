@@ -16,20 +16,21 @@ public class CLI extends UnicastRemoteObject implements View {
     private ServerInterface server;
     private String nickName;
     private Colour colour;
-    private CLIWeaponPrompt wPrompt = new CLIWeaponPrompt();
+    private static CLIWeaponPrompt wPrompt;
     private String errorRetry = "Error: please retry";
     private String directions = "1 = north, 2 = east, 3 = south, 4 = west";
-    private String exit = "Exit and change action?";
-    private String yesPrompt = "(Yes/yes/y)";
+    public static String exit = "Exit and change action?";
+    public static String yesPrompt = "(Yes/yes/y)";
 
-    CLI(int game, ServerInterface server) throws RemoteException{
+    public CLI(int game, ServerInterface server) throws RemoteException {
         super();
         this.game = game;
         this.server = server;
+        this.wPrompt = new CLIWeaponPrompt();
     }
 
     @Override
-    public View  getView() {
+    public View getView() {
         return this;
     }
 
@@ -181,8 +182,10 @@ public class CLI extends UnicastRemoteObject implements View {
                 l.clear();
                 System.out.println(this.exit + yesPrompt);
                 String exit = in.next();
-                if (exit.equals("Yes") || exit.equals("yes") || exit.equals("y"))
+                if (exit.equals("Yes") || exit.equals("yes") || exit.equals("y")) {
                     action1();
+                    return;
+                }
             }
             else {
                 l.add(n);
@@ -425,14 +428,16 @@ public class CLI extends UnicastRemoteObject implements View {
                 break;
             else {
                 System.out.println(errorRetry);
-                System.out.println(this.exit + yesPrompt);
-                String exit = in.next();
-                if (exit.equals("Yes") || exit.equals("yes") || exit.equals("y"))
-                    action1();
                 lD.clear();
                 lC.clear();
                 lP.clear();
                 lPC.clear();
+                System.out.println(this.exit + yesPrompt);
+                String exit = in.next();
+                if (exit.equals("Yes") || exit.equals("yes") || exit.equals("y")) {
+                    action1();
+                    return;
+                }
             }
         }
         this.server.messageFirstActionGrab(game, nickName, lD, wCard, lC, lP, lPC);
@@ -483,8 +488,10 @@ public class CLI extends UnicastRemoteObject implements View {
                 l.clear();
                 System.out.println(this.exit + yesPrompt);
                 String exit = in.next();
-                if (exit.equals("Yes") || exit.equals("yes") || exit.equals("y"))
+                if (exit.equals("Yes") || exit.equals("yes") || exit.equals("y")) {
                     action2();
+                    return;
+                }
             }
             else {
                 l.add(n);
@@ -727,14 +734,16 @@ public class CLI extends UnicastRemoteObject implements View {
                 break;
             else {
                 System.out.println(errorRetry);
-                System.out.println(this.exit + yesPrompt);
                 String exit = in.next();
-                if (exit.equals("Yes") || exit.equals("yes") || exit.equals("y"))
-                    action1();
                 lD.clear();
                 lC.clear();
                 lP.clear();
                 lPC.clear();
+                System.out.println(this.exit + yesPrompt);
+                if (exit.equals("Yes") || exit.equals("yes") || exit.equals("y")) {
+                    action2();
+                    return;
+                }
             }
         }
         this.server.messageSecondActionGrab(game, nickName, lD, wCard, lC, lP, lPC);
@@ -1171,13 +1180,13 @@ public class CLI extends UnicastRemoteObject implements View {
     }
 
     @Override
-    public void endFinalFrenzy()throws RemoteException{
+    public void endFinalFrenzy()throws RemoteException {
         this.server.messageEndTurnFinalFrenzy(game);
         System.out.println("We are calculating the result");
     }
 
     @Override
-    public void finalScoring()throws RemoteException{
+    public void finalScoring()throws RemoteException {
         this.server.messageFinalScoring(game);
         System.out.println("FINAL SCORE");
         this.server.messageGetPlayers(game).forEach(System.out::print);
@@ -1189,32 +1198,32 @@ public class CLI extends UnicastRemoteObject implements View {
 
 
     @Override
-    public void printScore(List<String> information) throws RemoteException{
+    public void printScore(List<String> information) throws RemoteException {
         System.out.println("Player: " + information.get(0) + " has now this score: " + information.get(1));
     }
 
     @Override
-    public void printPosition(List<String> information) throws RemoteException{
+    public void printPosition(List<String> information) throws RemoteException {
         System.out.println("Now Player: " + information.get(0) + " is in the cell " + information.get(1) + " " + information.get(2));
     }
 
     @Override
-    public void printMark(List<String> information) throws RemoteException{
+    public void printMark(List<String> information) throws RemoteException {
         System.out.println("Player: " + information.get(0) + "give a new Mark to Player" + information.get(1));
     }
 
     @Override
-    public void printDamage(List<String> information) throws RemoteException{
+    public void printDamage(List<String> information) throws RemoteException {
         System.out.println("Player: " + information.get(0) + " give " + information.get(1) + " damages to Player: " + information.get(2));
     }
 
     @Override
-    public void printType() throws RemoteException{
+    public void printType() throws RemoteException {
         System.out.println("Type of the grid is: " + type);
     }
 
     @Override
-    public void setType(int type) throws RemoteException{
+    public void setType(int type) throws RemoteException {
         this.type = type;
     }
 }

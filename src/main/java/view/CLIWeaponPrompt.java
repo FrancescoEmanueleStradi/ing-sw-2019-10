@@ -16,6 +16,8 @@ public class CLIWeaponPrompt {
     private String enterPowerUpColour = "Enter the colour(s) of the PowerUpCard(s); 0 to finish";
     private String enterAdrenalineDir = "If you are in Adrenaline, enter the direction of the move, 0 otherwise";
     private String promptErrorRetry = "Error: please retry";
+    private String exit = CLI.exit;
+    private String yesPrompt = CLI.yesPrompt;
 
     public void shootToUser1(int game, ServerInterface server, String nickName, String s) throws RemoteException {
         Scanner in = new Scanner(System.in);
@@ -26,7 +28,6 @@ public class CLIWeaponPrompt {
         List<Colour> lC;
         List<String> lP;
         List<String> lPC;
-
         while (true) {
             System.out.println(enterEffect);
             lI = enterEffect(intScan);
@@ -45,6 +46,12 @@ public class CLIWeaponPrompt {
                 break;
             else {
                 System.out.println(promptErrorRetry);
+                System.out.println(this.exit + yesPrompt);
+                String exit = in.next();
+                if (exit.equals("Yes") || exit.equals("yes") || exit.equals("y")) {
+                    //CLI.action1();
+                    return;
+                }
             }
         }
         server.messageFirstActionShoot(game, nickName, s, lI, lS, i, lC, lP, lPC);

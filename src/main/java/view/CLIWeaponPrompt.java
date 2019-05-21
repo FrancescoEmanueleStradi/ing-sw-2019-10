@@ -49,7 +49,6 @@ public class CLIWeaponPrompt {
                 System.out.println(this.exit + yesPrompt);
                 String exit = in.next();
                 if (exit.equals("Yes") || exit.equals("yes") || exit.equals("y")) {
-                    //CLI.action1();
                     return;
                 }
             }
@@ -85,6 +84,11 @@ public class CLIWeaponPrompt {
                 break;
             else {
                 System.out.println(promptErrorRetry);
+                System.out.println(this.exit + yesPrompt);
+                String exit = in.next();
+                if (exit.equals("Yes") || exit.equals("yes") || exit.equals("y")) {
+                    return;
+                }
             }
         }
         server.messageSecondActionShoot(game, nickName, s, lI, lS, i, lC, lP, lPC);
@@ -116,6 +120,11 @@ public class CLIWeaponPrompt {
                break;
            else {
                System.out.println(promptErrorRetry);
+               System.out.println(this.exit + yesPrompt);
+               String exit = in.next();
+               if (exit.equals("Yes") || exit.equals("yes") || exit.equals("y")) {
+                   return;
+               }
            }
        }
        server.messageFirstActionShoot(game, nickName, s, lI, lS, i, lC, lP, lPC);
@@ -147,6 +156,11 @@ public class CLIWeaponPrompt {
                 break;
             else {
                 System.out.println(promptErrorRetry);
+                System.out.println(this.exit + yesPrompt);
+                String exit = in.next();
+                if (exit.equals("Yes") || exit.equals("yes") || exit.equals("y")) {
+                    return;
+                }
             }
         }
         server.messageSecondActionShoot(game, nickName, s, lI, lS, i, lC, lP, lPC);
@@ -173,6 +187,11 @@ public class CLIWeaponPrompt {
                 break;
             else {
                 System.out.println(promptErrorRetry);
+                System.out.println(this.exit + yesPrompt);
+                String exit = in.next();
+                if (exit.equals("Yes") || exit.equals("yes") || exit.equals("y")) {
+                    return;
+                }
             }
         }
         server.messageFirstActionShoot(game, nickName, s, lI, lS, i, lC, lP, lPC);
@@ -199,6 +218,11 @@ public class CLIWeaponPrompt {
                 break;
             else {
                 System.out.println(promptErrorRetry);
+                System.out.println(this.exit + yesPrompt);
+                String exit = in.next();
+                if (exit.equals("Yes") || exit.equals("yes") || exit.equals("y")) {
+                    return;
+                }
             }
         }
         server.messageSecondActionShoot(game, nickName, s, lI, lS, i, lC, lP, lPC);
@@ -223,6 +247,11 @@ public class CLIWeaponPrompt {
                 break;
             else {
                 System.out.println(promptErrorRetry);
+                System.out.println(this.exit + yesPrompt);
+                String exit = in.next();
+                if (exit.equals("Yes") || exit.equals("yes") || exit.equals("y")) {
+                    return;
+                }
             }
         }
         server.messageFirstActionShoot(game, nickName, s, lI, lS, i, lC, lP, lPC);
@@ -247,6 +276,11 @@ public class CLIWeaponPrompt {
                 break;
             else {
                 System.out.println(promptErrorRetry);
+                System.out.println(this.exit + yesPrompt);
+                String exit = in.next();
+                if (exit.equals("Yes") || exit.equals("yes") || exit.equals("y")) {
+                    return;
+                }
             }
         }
         server.messageSecondActionShoot(game, nickName, s, lI, lS, i, lC, lP, lPC);

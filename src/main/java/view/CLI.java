@@ -167,6 +167,7 @@ public class CLI extends UnicastRemoteObject implements View {
     private void moveFirstAction() throws RemoteException{
         Scanner in = new Scanner(System.in);
         Scanner intScan = new Scanner(System.in);
+        boolean x;
         List<Integer> l = new LinkedList<>();
         System.out.println("Enter the sequence of movements you want to do, one integer at a time, up to 3\n" +
                 directions + "\n" +
@@ -180,12 +181,9 @@ public class CLI extends UnicastRemoteObject implements View {
             else if (n == 0 && !this.server.messageIsValidFirstActionMove(game, nickName, l)) {
                 System.out.println(errorRetry);
                 l.clear();
-                System.out.println(this.exit + yesPrompt);
-                String exit = in.next();
-                if (exit.equals("Yes") || exit.equals("yes") || exit.equals("y")) {
-                    action1();
+                x = exitHandler(in);
+                if (x)
                     return;
-                }
             }
             else {
                 l.add(n);
@@ -352,11 +350,13 @@ public class CLI extends UnicastRemoteObject implements View {
                 break;
             default: break;
         }
+        action1();
     }
 
     private void grabFirstAction() throws RemoteException{
         Scanner in = new Scanner(System.in);
         Scanner intScan = new Scanner(System.in);
+        boolean x;
         List<Integer> lD = new LinkedList<>();
         List<Colour> lC = new LinkedList<>();
         List<String> lP = new LinkedList<>();
@@ -432,12 +432,9 @@ public class CLI extends UnicastRemoteObject implements View {
                 lC.clear();
                 lP.clear();
                 lPC.clear();
-                System.out.println(this.exit + yesPrompt);
-                String exit = in.next();
-                if (exit.equals("Yes") || exit.equals("yes") || exit.equals("y")) {
-                    action1();
+                x = exitHandler(in);
+                if (x)
                     return;
-                }
             }
         }
         this.server.messageFirstActionGrab(game, nickName, lD, wCard, lC, lP, lPC);
@@ -658,6 +655,7 @@ public class CLI extends UnicastRemoteObject implements View {
                 break;
             default: break;
         }
+        action2();
     }
 
     private void grabSecondAction() throws RemoteException{
@@ -766,6 +764,7 @@ public class CLI extends UnicastRemoteObject implements View {
     public void usePowerUpCard() throws RemoteException{
         Scanner in = new Scanner(System.in);
         Scanner intScan = new Scanner(System.in);
+        boolean x;
         String namePC;
         String colourPC;
         List<String> lS = new LinkedList<>();
@@ -777,37 +776,44 @@ public class CLI extends UnicastRemoteObject implements View {
         this.server.messageGetDescriptionPUC(game, namePC, colourPC, nickName);
         switch (namePC){
             case "Tagback Grenade":
-                System.out.println("Enter the nickname of a player you can see and that gave you damage:");
-                lS.add(in.nextLine());
-                while(!this.server.messageIsValidUsePowerUpCard(game, nickName, namePC, colourPC, lS, null)){
-                    System.out.println(errorRetry);
-                    System.out.println(this.exit + yesPrompt);
-                    String exit = in.next();
-                    if (exit.equals("Yes") || exit.equals("yes") || exit.equals("y"))
-                        action2();
+                while (true) {
                     System.out.println("Enter the nickname of a player you can see and that gave you damage:");
                     lS.add(in.nextLine());
+                    if (this.server.messageIsValidUsePowerUpCard(game, nickName, namePC, colourPC, lS, null))
+                        break;
+                    else {
+                        System.out.println(errorRetry);
+                        lS.clear();
+                        x = exitHandler(in);
+                        if (x)
+                            return;
+                    }
                 }
                 this.server.messageUsePowerUpCard(game, nickName, namePC, colourPC, lS, null);
                 break;
 
             case "Targeting Scope":
-                System.out.println("Enter the nickname of one or more players you have damaged:");
-                while(in.hasNext())
-                    lS.add(in.nextLine());
-                System.out.println("Enter the colour of the AmmoCube you want to use to pay:");
-                Colour c = Colour.valueOf(in.nextLine());
-                while(!this.server.messageIsValidUsePowerUpCard(game, nickName, namePC, colourPC, lS, c)){
-                    System.out.println(errorRetry);
-                    System.out.println(this.exit + yesPrompt);
-                    String exit = in.next();
-                    if (exit.equals("Yes") || exit.equals("yes") || exit.equals("y"))
-                        action2();
-                    System.out.println("Enter the nickname of one or more players you have damaged:");
-                    while(in.hasNext())
-                        lS.add(in.nextLine());
+                Colour c = null;
+                while (true) {
+                    System.out.println("Enter the nickname of one or more players you have damaged; 0 to finish");
+                    while (true) {
+                        String p = in.nextLine();
+                        if (p.equals("0"))
+                            break;
+                        else
+                            lS.add(p);
+                    }
                     System.out.println("Enter the colour of the AmmoCube you want to use to pay:");
                     c = Colour.valueOf(in.nextLine());
+                    if (this.server.messageIsValidUsePowerUpCard(game, nickName, namePC, colourPC, lS, c))
+                        break;
+                    else {
+                        System.out.println(errorRetry);
+                        lS.clear();
+                        x = exitHandler(in);
+                        if (x)
+                            return;
+                    }
                 }
                 this.server.messageUsePowerUpCard(game, nickName, namePC, colourPC, lS, c);
                 break;
@@ -1225,5 +1231,11 @@ public class CLI extends UnicastRemoteObject implements View {
     @Override
     public void setType(int type) throws RemoteException {
         this.type = type;
+    }
+
+    public boolean exitHandler(Scanner in) {
+        System.out.println(this.exit + yesPrompt);
+        String exit = in.next();
+        return (exit.equals("Yes") || exit.equals("yes") || exit.equals("y"));
     }
 }

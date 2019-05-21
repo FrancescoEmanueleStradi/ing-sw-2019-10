@@ -218,28 +218,28 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
 
     public synchronized void notifyScore(int game, List<String> information) throws RemoteException{
         for(Connection c : connections.get(game)){
-            if(c.getView()!=null)
+            if(c.getView()!=null && !suspendedIdentifier.get(game).contains(c.getIdentifier()))
                 c.getView().printScore(information);
         }
     }
 
     public  synchronized void notifyPosition(int game, List<String> information) throws RemoteException{
         for(Connection c : connections.get(game)){
-            if(c.getView()!=null)
+            if(c.getView()!=null && !suspendedIdentifier.get(game).contains(c.getIdentifier()))
                 c.getView().printPosition(information);
         }
     }
 
     public synchronized void notifyMark(int game, List<String> information) throws RemoteException{
         for(Connection c : connections.get(game)){
-            if(c.getView()!=null)
+            if(c.getView()!=null && !suspendedIdentifier.get(game).contains(c.getIdentifier()))
                 c.getView().printMark(information);
         }
     }
 
     public synchronized void notifyDamage(int game, List<String> information) throws RemoteException{
         for(Connection c : connections.get(game)){
-            if(c.getView()!=null)
+            if(c.getView()!=null && !suspendedIdentifier.get(game).contains(c.getIdentifier()))
                 c.getView().printDamage(information);
         }
     }

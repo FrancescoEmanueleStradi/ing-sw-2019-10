@@ -390,7 +390,7 @@ public class CLI extends UnicastRemoteObject implements View {
                 System.out.println("Enter the number of the WeaponSlot from which you want to buy the card:");
                 weaponSlot = in.nextLine();
                 System.out.println("Enter the colour(s), in order and in all caps, of the required AmmoCube(s) to buy the card; 0 to finish");
-                while (in.hasNext()) {
+                while (true) {
                     String a = in.nextLine();
                     if (a.equals("0"))
                         break;
@@ -398,7 +398,7 @@ public class CLI extends UnicastRemoteObject implements View {
                         lC.add(Colour.valueOf(a));
                 }
                 System.out.println("Enter the PowerUpCard(s) you want to use to pay during your turn; 0 to finish");
-                while (in.hasNext()) {
+                while (true) {
                     String p = in.nextLine();
                     if (p.equals("0"))
                         break;
@@ -406,7 +406,7 @@ public class CLI extends UnicastRemoteObject implements View {
                         lP.add(p);
                 }
                 System.out.println("Enter the colour(s) of the PowerUpCard(s) you want to use to pay during your turn; 0 to finish");
-                while (in.hasNext()) {
+                while (true) {
                     String c = in.nextLine();
                     if (c.equals("0"))
                         break;
@@ -683,7 +683,7 @@ public class CLI extends UnicastRemoteObject implements View {
                 System.out.println("Enter the number of the WeaponSlot from which you want to buy the card:");
                 weaponSlot = in.nextLine();
                 System.out.println("Enter the colour(s), in order and in all caps, of the required AmmoCube(s) to buy the card; 0 to finish");
-                while (in.hasNext()) {
+                while (true) {
                     String a = in.nextLine();
                     if (a.equals("0"))
                         break;
@@ -691,7 +691,7 @@ public class CLI extends UnicastRemoteObject implements View {
                         lC.add(Colour.valueOf(a));
                 }
                 System.out.println("Enter the PowerUpCard(s) you want to use to pay during your turn; 0 to finish");
-                while (in.hasNext()) {
+                while (true) {
                     String p = in.nextLine();
                     if (p.equals("0"))
                         break;
@@ -699,7 +699,7 @@ public class CLI extends UnicastRemoteObject implements View {
                         lP.add(p);
                 }
                 System.out.println("Enter the colour(s) of the PowerUpCard(s) you want to use to pay during your turn; 0 to finish");
-                while (in.hasNext()) {
+                while (true) {
                     String c = in.nextLine();
                     if (c.equals("0"))
                         break;

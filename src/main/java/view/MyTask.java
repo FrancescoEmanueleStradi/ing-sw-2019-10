@@ -20,7 +20,7 @@ public class MyTask extends TimerTask {
     public void run() {
         try{
             server.manageDisconnection(game, identifier, nickName);
-            System.exit(0);                         //TODO Does it exit from the client?
+            System.exit(0);
         }catch (RemoteException e){
             System.exit(0);
         }catch (InterruptedException i){

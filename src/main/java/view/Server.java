@@ -285,6 +285,10 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
         games.get(game).giveTwoPUCard(nick);
     }
 
+    public synchronized String messageCheckYourStatus(int game, String nick) throws RemoteException {
+        return games.get(game).checkYourStatus(nick);
+    }
+
     public synchronized String messageShowCardsOnBoard(int game) throws RemoteException {
         return games.get(game).showCardsOnBoard();
     }

@@ -146,6 +146,7 @@ public class CLI extends UnicastRemoteObject implements View {
     public void action1() throws RemoteException{
         Scanner in = new Scanner(System.in);
         String action;
+        System.out.println("Your status:\n" + this.server.messageCheckYourStatus(game, nickName));
         System.out.println("\n---------START OF " + this.nickName + "'s FIRST ACTION---------\n");
         while (true) {
             System.out.println("Choose the first action you want to do (Move, Shoot, Grab):");
@@ -194,8 +195,8 @@ public class CLI extends UnicastRemoteObject implements View {
     }
 
     private void shootFirstAction() throws RemoteException {
-        String inputReminder = "Below are the relevant strings you must enter for this card, in order of effects as shown in the manual.\n" +
-                "In brackets is the additional ammo cost for certain effects and modes.\n";
+        String inputReminder = "Below are the relevant strings you must enter for this card, with respect to any possible order of effects as " +
+                "described in the manual.\nIn brackets is the additional ammo cost for certain effects and firing modes.\n";
         Scanner in = new Scanner(System.in);
         System.out.println("Choose one of these cards to shoot:");
         this.server.messageGetWeaponCardLoaded(game, this.nickName).forEach(System.out::println);
@@ -449,9 +450,10 @@ public class CLI extends UnicastRemoteObject implements View {
 
     @Override
     public void action2() throws RemoteException{
-        System.out.println("---------START OF " + this.nickName + "'s SECOND ACTION---------");
         String action;
         Scanner in = new Scanner(System.in);
+        System.out.println("Your status:\n" + this.server.messageCheckYourStatus(game, nickName));
+        System.out.println("---------START OF " + this.nickName + "'s SECOND ACTION---------");
         while (true) {
             System.out.println("Choose the second action you want to do (Move, Shoot, Grab):");
             action = in.nextLine();

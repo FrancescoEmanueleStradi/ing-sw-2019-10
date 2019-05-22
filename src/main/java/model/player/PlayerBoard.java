@@ -8,22 +8,22 @@ import java.util.List;
 
 public class PlayerBoard {
 
-    private DamageTrack damages;
+    private DamageTrack damage;
     private PointsPlayerBoard points;
     private ArrayList<DamageToken> marks;
 
     public PlayerBoard() {
-        this.damages = new DamageTrack();
+        this.damage = new DamageTrack();
         this.points = new PointsPlayerBoard();
         this.marks = new ArrayList<>();
     }
 
     public DamageTrack getDamage() {
-        return damages;
+        return damage;
     }
 
-    public void setDamages(DamageTrack damages) {
-        this.damages = damages;
+    public void setDamage(DamageTrack damage) {
+        this.damage = damage;
     }
 
     public PointsPlayerBoard getPoints() {

@@ -59,6 +59,7 @@ public interface ServerInterface extends Remote {
     boolean messageIsValidAddPlayer(int game, String nick, Colour c) throws RemoteException;
     void messageAddPlayer(int game, String nick, Colour c) throws RemoteException;
     void messageGiveTwoPUCard(int game, String nick) throws RemoteException;
+    String messageCheckYourStatus(int game, String nick) throws RemoteException;
     String messageShowCardsOnBoard(int game) throws RemoteException;
     List<String> messageCheckWeaponSlotContents(int game, int n) throws RemoteException;
     boolean messageIsValidPickAndDiscard(int game, String nick, String p1, String c1) throws RemoteException;

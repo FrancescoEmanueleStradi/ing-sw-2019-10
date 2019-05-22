@@ -44,8 +44,8 @@ class CellAssertTests {
         Position pos = new Position(1, 3);
         Cell cell = new Cell(-1, pos);
 
-        assertEquals(1, cell.getP().getX());
-        assertEquals(3, cell.getP().getY());
+        assertEquals(1, cell.getPos().getX());
+        assertEquals(3, cell.getPos().getY());
     }
 
     @Test

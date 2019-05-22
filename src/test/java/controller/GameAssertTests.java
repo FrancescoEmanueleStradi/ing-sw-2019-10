@@ -120,8 +120,8 @@ class GameAssertTests {
         List<Integer> directions = new LinkedList<>();
         assertFalse(game.isValidFirstActionMove(p1.getNickName(), directions));
 
-        int x = p1.getCell().getP().getX();
-        int y = p1.getCell().getP().getY();
+        int x = p1.getCell().getPos().getX();
+        int y = p1.getCell().getPos().getY();
 
         if ((p1.getCell() == grid.getBoard().getArena()[2][3]) || (p1.getCell() == grid.getBoard().getArena()[1][0])) {
             directions.add(1);
@@ -131,8 +131,8 @@ class GameAssertTests {
             directions.clear();
             directions.add(1);
             game.firstActionMove("Player 1", directions);
-            assertEquals(x - 1, p1.getCell().getP().getX());
-            assertEquals(y, p1.getCell().getP().getY());
+            assertEquals(x - 1, p1.getCell().getPos().getX());
+            assertEquals(y, p1.getCell().getPos().getY());
 
             directions.clear();
             directions.add(2);
@@ -146,8 +146,8 @@ class GameAssertTests {
             directions.add(3);
             directions.add(4);
             game.firstActionMove("Player 1", directions);
-            assertEquals(x + 1, p1.getCell().getP().getX());
-            assertEquals(y - 1, p1.getCell().getP().getY());
+            assertEquals(x + 1, p1.getCell().getPos().getX());
+            assertEquals(y - 1, p1.getCell().getPos().getY());
 
             directions.clear();
             directions.add(2);

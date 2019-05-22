@@ -4,20 +4,20 @@ import model.*;
 import model.cards.AmmoCard;
 
 public class Cell {
-    private Position p;
+    private Position pos;
     private int status;   //1 is a spawn point, 0 it is not, -1 cell does not exist
     private Colour c;
     private int[] posWall;
     private int[] posDoor;              //1 up, 2 right, 3 down, 4 left
     private AmmoCard a;
 
-    public Cell(int r, Position p) {   //r = -1
+    public Cell(int r, Position pos) {   //r = -1
         this.status = r;
-        this.p = p;
+        this.pos = pos;
     }
 
-    public Cell(int r, Colour c1, int[] pm,  int[] pp, Position p) {
-        this.p = p;
+    public Cell(int r, Colour c1, int[] pm,  int[] pp, Position pos) {
+        this.pos = pos;
         this.status = r;
         this.c = c1;
         this.posWall = new int[pm.length];
@@ -34,8 +34,8 @@ public class Cell {
         return c;
     }
 
-    public Position getP() {
-        return p;
+    public Position getPos() {
+        return pos;
     }
 
     public int[] getPosWall() {

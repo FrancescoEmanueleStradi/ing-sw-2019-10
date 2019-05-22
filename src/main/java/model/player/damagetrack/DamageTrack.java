@@ -11,9 +11,8 @@ public class DamageTrack {
     private DamageToken[] damageTokens;                  //0,1 Normal -- 2,3,4 first power up -- 5,6,7,8,9 second power up -- 10 death -- 11 mark
     private List<NumColour> l;
 
-    public DamageTrack(){
+    public DamageTrack() {
         this.damageTokens = new DamageToken[12];
-
     }
 
     public DamageToken[] getDamageTokens() {
@@ -21,7 +20,7 @@ public class DamageTrack {
     }
 
     public void addDamage(int numDamage, Colour c) {
-        for(int i = 0; i < damageTokens.length; i++){
+        for(int i = 0; i < damageTokens.length; i++) {
             if(damageTokens[i] == null && numDamage != 0) {
                 damageTokens[i] = new DamageToken(c);
                 numDamage--;                             //Controller will check if damageTokens[10] is occupied (player is dead) and if damageTokens[11] is occupied (player is dead and marked)

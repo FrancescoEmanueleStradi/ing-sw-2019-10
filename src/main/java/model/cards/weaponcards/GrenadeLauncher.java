@@ -45,7 +45,7 @@ public class GrenadeLauncher extends WeaponCard {
 
     public void applySpecialEffect(Grid grid, Player p, String x, String y) throws RemoteException{  //Extra Grenade: player p deals 1 damage to every enemy on the selected Cell cell
         for(Player enemy : grid.getPlayers()) {
-            if(enemy.getCell().getP().getX() == Integer.parseInt(x) && enemy.getCell().getP().getY() == Integer.parseInt(y) && enemy != p)
+            if(enemy.getCell().getPos().getX() == Integer.parseInt(x) && enemy.getCell().getPos().getY() == Integer.parseInt(y) && enemy != p)
                 grid.damage(p, enemy, 1);
         }
     }

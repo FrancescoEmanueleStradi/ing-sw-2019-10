@@ -37,10 +37,10 @@ public class Shockwave extends WeaponCard {
 
     public void applySpecialEffect(Grid grid, Player p) throws RemoteException{   //Tsunami Mode: player p deals 1 damage to every enemy who is in a cell exactly one move away from him
         for(Player enemy : grid.getPlayers()) {
-            if((enemy.getCell().getP().getX() == p.getCell().getP().getX()+1) ||
-                    enemy.getCell().getP().getX() == p.getCell().getP().getX()-1 ||
-                    enemy.getCell().getP().getY() == p.getCell().getP().getY()+1 ||
-                    enemy.getCell().getP().getY() == p.getCell().getP().getY()-1)
+            if((enemy.getCell().getPos().getX() == p.getCell().getPos().getX()+1) ||
+                    enemy.getCell().getPos().getX() == p.getCell().getPos().getX()-1 ||
+                    enemy.getCell().getPos().getY() == p.getCell().getPos().getY()+1 ||
+                    enemy.getCell().getPos().getY() == p.getCell().getPos().getY()-1)
                 grid.damage(p, enemy, 1);
         }
     }

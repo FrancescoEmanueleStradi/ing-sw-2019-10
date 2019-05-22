@@ -1,7 +1,6 @@
 package controller;
 
 import model.*;
-import model.board.Cell;
 import model.board.WeaponSlot;
 import model.cards.*;
 import model.cards.powerupcards.*;
@@ -264,19 +263,19 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                    break;
                case "Flamethrower":
                    if(lI.contains(1) && !lI.contains(2) && lS.size() > 1 && !lS.get(0).isEmpty() &&
-                           this.grid.distance(p, this.grid.getPlayerObject(lS.get(0))) == 1 && !this.grid.isThereAWall(p, this.grid.getPlayerObject(lS.get(0)).getCell().getP()) &&
-                           (lS.get(1).isEmpty() || this.grid.distance(this.grid.getPlayerObject(lS.get(0)), this.grid.getPlayerObject(lS.get(1))) == 1 && ((this.grid.getPlayerObject(lS.get(0)).getCell().getP().getX() == this.grid.getPlayerObject(lS.get(1)).getCell().getP().getX()) || (this.grid.getPlayerObject(lS.get(0)).getCell().getP().getY() == this.grid.getPlayerObject(lS.get(1)).getCell().getP().getY())) &&
-                                   !this.grid.isThereAWall(this.grid.getPlayerObject(lS.get(0)), this.grid.getPlayerObject(lS.get(1)).getCell().getP())) ||
+                           this.grid.distance(p, this.grid.getPlayerObject(lS.get(0))) == 1 && !this.grid.isThereAWall(p, this.grid.getPlayerObject(lS.get(0)).getCell().getPos()) &&
+                           (lS.get(1).isEmpty() || this.grid.distance(this.grid.getPlayerObject(lS.get(0)), this.grid.getPlayerObject(lS.get(1))) == 1 && ((this.grid.getPlayerObject(lS.get(0)).getCell().getPos().getX() == this.grid.getPlayerObject(lS.get(1)).getCell().getPos().getX()) || (this.grid.getPlayerObject(lS.get(0)).getCell().getPos().getY() == this.grid.getPlayerObject(lS.get(1)).getCell().getPos().getY())) &&
+                                   !this.grid.isThereAWall(this.grid.getPlayerObject(lS.get(0)), this.grid.getPlayerObject(lS.get(1)).getCell().getPos())) ||
                    (!lI.contains(1) && lI.contains(2) && lS.size() > 1 && !lS.get(0).isEmpty() && !lS.get(1).isEmpty() &&
-                           this.grid.distance(p, this.grid.getBoard().getArena()[Integer.parseInt(lS.get(0))][Integer.parseInt(lS.get(1))].getP()) == 1 && !this.grid.isThereAWall(p, this.grid.getBoard().getArena()[Integer.parseInt(lS.get(0))][Integer.parseInt(lS.get(1))].getP()) &&
-                           ((lS.size() == 4 && lS.get(2).isEmpty() && lS.get(3).isEmpty()) || (this.grid.distance(this.grid.getBoard().getArena()[Integer.parseInt(lS.get(0))][Integer.parseInt(lS.get(1))].getP(), this.grid.getBoard().getArena()[Integer.parseInt(lS.get(2))][Integer.parseInt(lS.get(3))].getP()) == 1 && !this.grid.isThereAWall(this.grid.getBoard().getArena()[Integer.parseInt(lS.get(0))][Integer.parseInt(lS.get(1))].getP(), this.grid.getBoard().getArena()[Integer.parseInt(lS.get(2))][Integer.parseInt(lS.get(3))].getP()) &&
+                           this.grid.distance(p, this.grid.getBoard().getArena()[Integer.parseInt(lS.get(0))][Integer.parseInt(lS.get(1))].getPos()) == 1 && !this.grid.isThereAWall(p, this.grid.getBoard().getArena()[Integer.parseInt(lS.get(0))][Integer.parseInt(lS.get(1))].getPos()) &&
+                           ((lS.size() == 4 && lS.get(2).isEmpty() && lS.get(3).isEmpty()) || (this.grid.distance(this.grid.getBoard().getArena()[Integer.parseInt(lS.get(0))][Integer.parseInt(lS.get(1))].getPos(), this.grid.getBoard().getArena()[Integer.parseInt(lS.get(2))][Integer.parseInt(lS.get(3))].getPos()) == 1 && !this.grid.isThereAWall(this.grid.getBoard().getArena()[Integer.parseInt(lS.get(0))][Integer.parseInt(lS.get(1))].getPos(), this.grid.getBoard().getArena()[Integer.parseInt(lS.get(2))][Integer.parseInt(lS.get(3))].getPos()) &&
                            (Integer.parseInt(lS.get(0)) == Integer.parseInt(lS.get(2)) || Integer.parseInt(lS.get(1)) == Integer.parseInt(lS.get(3))))) && Collections.frequency(lC, Colour.YELLOW) == 2))
                        x = true;
                    break;
                case "Furnace":
                    if(lI.contains(1) && !lI.contains(2) && !lS.isEmpty() && !lS.get(0).isEmpty() && !p.getCell().getC().equals(Colour.valueOf(lS.get(0))) && this.grid.colourOfOtherViewZone(p).contains(Colour.valueOf(lS.get(0))))
                            x = true;
-                   if(!lI.contains(1) && lI.contains(2) && lS.size() > 1 && !lS.get(0).isEmpty() && !lS.get(1).isEmpty() && this.grid.distance(p, this.grid.getBoard().getArena()[Integer.parseInt(lS.get(0))][Integer.parseInt(lS.get(1))].getP()) == 1)
+                   if(!lI.contains(1) && lI.contains(2) && lS.size() > 1 && !lS.get(0).isEmpty() && !lS.get(1).isEmpty() && this.grid.distance(p, this.grid.getBoard().getArena()[Integer.parseInt(lS.get(0))][Integer.parseInt(lS.get(1))].getPos()) == 1)
                            x = true;
                    break;
                case "Grenade Launcher":
@@ -286,7 +285,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                    }
                    else if(lI.size() == 2 && ((lI.get(0) == 1 && lI.get(1) == 2) || (lI.get(0) == 2 && lI.get(1) == 1)) && lS.size() > 3 && !lS.get(0).isEmpty() && !lS.get(1).isEmpty() && !lS.get(2).isEmpty() &&
                            this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(0))) && (Integer.parseInt(lS.get(1)) == 0 || this.grid.canMove(this.grid.getPlayerObject(lS.get(0)), Integer.parseInt(lS.get(1))) && Integer.parseInt(lS.get(1)) >= 0 && Integer.parseInt(lS.get(1)) <= 4) &&
-                           this.grid.isInViewZone(p, this.grid.getBoard().getArena()[Integer.parseInt(lS.get(2))][Integer.parseInt(lS.get(3))].getP()) && lC.contains(Colour.RED))
+                           this.grid.isInViewZone(p, this.grid.getBoard().getArena()[Integer.parseInt(lS.get(2))][Integer.parseInt(lS.get(3))].getPos()) && lC.contains(Colour.RED))
                            x = true;
                    break;
                case "Heatseeker":
@@ -377,34 +376,34 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                            (this.grid.distance(p, this.grid.getPlayerObject(lS.get(0))) == 1 && this.grid.isInViewZone(p,this.grid.getPlayerObject(lS.get(0)))))
                            ||
                            (!lI.contains(1) && lI.contains(2) && !lI.contains(3) && !lI.contains(4) && !lI.contains(5) && lS.size() > 1 && !lS.get(0).isEmpty() && !lS.get(1).isEmpty() &&
-                           (this.grid.distance(p, this.grid.getBoard().getArena()[Integer.parseInt(lS.get(0))][Integer.parseInt(lS.get(1))].getP()) == 1 && !this.grid.isThereAWall(p, this.grid.getBoard().getArena()[Integer.parseInt(lS.get(0))][Integer.parseInt(lS.get(1))].getP()) && lC.contains(Colour.BLUE)))
+                           (this.grid.distance(p, this.grid.getBoard().getArena()[Integer.parseInt(lS.get(0))][Integer.parseInt(lS.get(1))].getPos()) == 1 && !this.grid.isThereAWall(p, this.grid.getBoard().getArena()[Integer.parseInt(lS.get(0))][Integer.parseInt(lS.get(1))].getPos()) && lC.contains(Colour.BLUE)))
                            ||
                            (!lI.contains(1) && lI.contains(2) && lI.contains(3) && !lI.contains(4) && !lI.contains(5) && lS.size() > 2 && !lS.get(0).isEmpty() && !lS.get(1).isEmpty() && !lS.get(2).isEmpty() &&
-                           (this.grid.distance(p, this.grid.getBoard().getArena()[Integer.parseInt(lS.get(0))][Integer.parseInt(lS.get(1))].getP()) == 1 && !this.grid.isThereAWall(p, this.grid.getBoard().getArena()[Integer.parseInt(lS.get(0))][Integer.parseInt(lS.get(1))].getP()) && this.grid.getPlayerObject(lS.get(2)).getCell().getP().equals(this.grid.getBoard().getArena()[Integer.parseInt(lS.get(0))][Integer.parseInt(lS.get(1))].getP()) && lC.contains(Colour.BLUE)))
+                           (this.grid.distance(p, this.grid.getBoard().getArena()[Integer.parseInt(lS.get(0))][Integer.parseInt(lS.get(1))].getPos()) == 1 && !this.grid.isThereAWall(p, this.grid.getBoard().getArena()[Integer.parseInt(lS.get(0))][Integer.parseInt(lS.get(1))].getPos()) && this.grid.getPlayerObject(lS.get(2)).getCell().getPos().equals(this.grid.getBoard().getArena()[Integer.parseInt(lS.get(0))][Integer.parseInt(lS.get(1))].getPos()) && lC.contains(Colour.BLUE)))
                            ||
                            (!lI.contains(1) && lI.contains(2) && lI.contains(3) && lI.contains(4) && !lI.contains(5) && lS.size() > 4 && !lS.get(0).isEmpty() && !lS.get(1).isEmpty() && !lS.get(2).isEmpty() && !lS.get(3).isEmpty() && !lS.get(4).isEmpty() &&
-                           (this.grid.distance(p, this.grid.getBoard().getArena()[Integer.parseInt(lS.get(0))][Integer.parseInt(lS.get(1))].getP()) == 1 && !this.grid.isThereAWall(p, this.grid.getBoard().getArena()[Integer.parseInt(lS.get(0))][Integer.parseInt(lS.get(1))].getP()) && this.grid.getPlayerObject(lS.get(2)).getCell().getP().equals(this.grid.getBoard().getArena()[Integer.parseInt(lS.get(0))][Integer.parseInt(lS.get(1))].getP()) &&
-                               this.grid.distance(this.grid.getBoard().getArena()[Integer.parseInt(lS.get(0))][Integer.parseInt(lS.get(1))].getP(), this.grid.getBoard().getArena()[Integer.parseInt(lS.get(3))][Integer.parseInt(lS.get(4))].getP()) == 1 && !this.grid.isThereAWall(this.grid.getBoard().getArena()[Integer.parseInt(lS.get(0))][Integer.parseInt(lS.get(1))].getP(), this.grid.getBoard().getArena()[Integer.parseInt(lS.get(3))][Integer.parseInt(lS.get(4))].getP()) &&
+                           (this.grid.distance(p, this.grid.getBoard().getArena()[Integer.parseInt(lS.get(0))][Integer.parseInt(lS.get(1))].getPos()) == 1 && !this.grid.isThereAWall(p, this.grid.getBoard().getArena()[Integer.parseInt(lS.get(0))][Integer.parseInt(lS.get(1))].getPos()) && this.grid.getPlayerObject(lS.get(2)).getCell().getPos().equals(this.grid.getBoard().getArena()[Integer.parseInt(lS.get(0))][Integer.parseInt(lS.get(1))].getPos()) &&
+                               this.grid.distance(this.grid.getBoard().getArena()[Integer.parseInt(lS.get(0))][Integer.parseInt(lS.get(1))].getPos(), this.grid.getBoard().getArena()[Integer.parseInt(lS.get(3))][Integer.parseInt(lS.get(4))].getPos()) == 1 && !this.grid.isThereAWall(this.grid.getBoard().getArena()[Integer.parseInt(lS.get(0))][Integer.parseInt(lS.get(1))].getPos(), this.grid.getBoard().getArena()[Integer.parseInt(lS.get(3))][Integer.parseInt(lS.get(4))].getPos()) &&
                                (Integer.parseInt(lS.get(3)) == Integer.parseInt(lS.get(0)) || Integer.parseInt(lS.get(4)) == Integer.parseInt(lS.get(1)))&& lC.contains(Colour.BLUE)))
                            ||
                            (!lI.contains(1) && lI.contains(2) && lI.contains(3) && lI.contains(4) && lI.contains(5) && lS.size() > 5 && !lS.get(0).isEmpty() && !lS.get(1).isEmpty() && !lS.get(2).isEmpty() && !lS.get(3).isEmpty() && !lS.get(4).isEmpty() && !lS.get(5).isEmpty() &&
-                           (this.grid.distance(p, this.grid.getBoard().getArena()[Integer.parseInt(lS.get(0))][Integer.parseInt(lS.get(1))].getP()) == 1 && !this.grid.isThereAWall(p, this.grid.getBoard().getArena()[Integer.parseInt(lS.get(0))][Integer.parseInt(lS.get(1))].getP()) && this.grid.getPlayerObject(lS.get(2)).getCell().getP().equals(this.grid.getBoard().getArena()[Integer.parseInt(lS.get(0))][Integer.parseInt(lS.get(1))].getP()) &&
-                                   this.grid.distance(this.grid.getBoard().getArena()[Integer.parseInt(lS.get(0))][Integer.parseInt(lS.get(1))].getP(), this.grid.getBoard().getArena()[Integer.parseInt(lS.get(3))][Integer.parseInt(lS.get(4))].getP()) == 1 && !this.grid.isThereAWall(this.grid.getBoard().getArena()[Integer.parseInt(lS.get(0))][Integer.parseInt(lS.get(1))].getP(), this.grid.getBoard().getArena()[Integer.parseInt(lS.get(3))][Integer.parseInt(lS.get(4))].getP()) &&
+                           (this.grid.distance(p, this.grid.getBoard().getArena()[Integer.parseInt(lS.get(0))][Integer.parseInt(lS.get(1))].getPos()) == 1 && !this.grid.isThereAWall(p, this.grid.getBoard().getArena()[Integer.parseInt(lS.get(0))][Integer.parseInt(lS.get(1))].getPos()) && this.grid.getPlayerObject(lS.get(2)).getCell().getPos().equals(this.grid.getBoard().getArena()[Integer.parseInt(lS.get(0))][Integer.parseInt(lS.get(1))].getPos()) &&
+                                   this.grid.distance(this.grid.getBoard().getArena()[Integer.parseInt(lS.get(0))][Integer.parseInt(lS.get(1))].getPos(), this.grid.getBoard().getArena()[Integer.parseInt(lS.get(3))][Integer.parseInt(lS.get(4))].getPos()) == 1 && !this.grid.isThereAWall(this.grid.getBoard().getArena()[Integer.parseInt(lS.get(0))][Integer.parseInt(lS.get(1))].getPos(), this.grid.getBoard().getArena()[Integer.parseInt(lS.get(3))][Integer.parseInt(lS.get(4))].getPos()) &&
                                    (Integer.parseInt(lS.get(3)) == Integer.parseInt(lS.get(0)) || Integer.parseInt(lS.get(4)) == Integer.parseInt(lS.get(1))) &&
-                                   this.grid.getPlayerObject(lS.get(5)).getCell().getP().equals(this.grid.getBoard().getArena()[Integer.parseInt(lS.get(3))][Integer.parseInt(lS.get(4))].getP()) && lC.contains(Colour.BLUE))))
+                                   this.grid.getPlayerObject(lS.get(5)).getCell().getPos().equals(this.grid.getBoard().getArena()[Integer.parseInt(lS.get(3))][Integer.parseInt(lS.get(4))].getPos()) && lC.contains(Colour.BLUE))))
                            x = true;
                    break;
                case "Railgun":
                    if(lI.contains(1) && !lI.contains(2) && !lS.isEmpty() && !lS.get(0).isEmpty() &&
-                           (p.getCell().getP().getX() == this.grid.getPlayerObject(lS.get(0)).getCell().getP().getX() || p.getCell().getP().getY() == this.grid.getPlayerObject(lS.get(0)).getCell().getP().getY()))
+                           (p.getCell().getPos().getX() == this.grid.getPlayerObject(lS.get(0)).getCell().getPos().getX() || p.getCell().getPos().getY() == this.grid.getPlayerObject(lS.get(0)).getCell().getPos().getY()))
                            x = true;
                    else if(!lI.contains(1) && lI.contains(2) && lS.size() > 1 && !lS.get(0).isEmpty()) {
                        if (lS.get(1).isEmpty()) {
-                           if (p.getCell().getP().getX() == this.grid.getPlayerObject(lS.get(0)).getCell().getP().getX() || p.getCell().getP().getY() == this.grid.getPlayerObject(lS.get(0)).getCell().getP().getY())
+                           if (p.getCell().getPos().getX() == this.grid.getPlayerObject(lS.get(0)).getCell().getPos().getX() || p.getCell().getPos().getY() == this.grid.getPlayerObject(lS.get(0)).getCell().getPos().getY())
                                x = true;
                        } else if (!lS.get(1).isEmpty() &&
-                               (p.getCell().getP().getX() == this.grid.getPlayerObject(lS.get(0)).getCell().getP().getX() && p.getCell().getP().getX() == this.grid.getPlayerObject(lS.get(1)).getCell().getP().getX() && (p.getCell().getP().getY() <= this.grid.getPlayerObject(lS.get(0)).getCell().getP().getY() && p.getCell().getP().getY() <= this.grid.getPlayerObject(lS.get(1)).getCell().getP().getY() || p.getCell().getP().getY() >= this.grid.getPlayerObject(lS.get(0)).getCell().getP().getY() && p.getCell().getP().getY() >= this.grid.getPlayerObject(lS.get(1)).getCell().getP().getY()) ||
-                                       p.getCell().getP().getY() == this.grid.getPlayerObject(lS.get(0)).getCell().getP().getY() && p.getCell().getP().getY() == this.grid.getPlayerObject(lS.get(1)).getCell().getP().getY() && (p.getCell().getP().getX() <= this.grid.getPlayerObject(lS.get(0)).getCell().getP().getX() && p.getCell().getP().getX() <= this.grid.getPlayerObject(lS.get(1)).getCell().getP().getX() || p.getCell().getP().getX() >= this.grid.getPlayerObject(lS.get(0)).getCell().getP().getX() && p.getCell().getP().getX() >= this.grid.getPlayerObject(lS.get(1)).getCell().getP().getX())))
+                               (p.getCell().getPos().getX() == this.grid.getPlayerObject(lS.get(0)).getCell().getPos().getX() && p.getCell().getPos().getX() == this.grid.getPlayerObject(lS.get(1)).getCell().getPos().getX() && (p.getCell().getPos().getY() <= this.grid.getPlayerObject(lS.get(0)).getCell().getPos().getY() && p.getCell().getPos().getY() <= this.grid.getPlayerObject(lS.get(1)).getCell().getPos().getY() || p.getCell().getPos().getY() >= this.grid.getPlayerObject(lS.get(0)).getCell().getPos().getY() && p.getCell().getPos().getY() >= this.grid.getPlayerObject(lS.get(1)).getCell().getPos().getY()) ||
+                                       p.getCell().getPos().getY() == this.grid.getPlayerObject(lS.get(0)).getCell().getPos().getY() && p.getCell().getPos().getY() == this.grid.getPlayerObject(lS.get(1)).getCell().getPos().getY() && (p.getCell().getPos().getX() <= this.grid.getPlayerObject(lS.get(0)).getCell().getPos().getX() && p.getCell().getPos().getX() <= this.grid.getPlayerObject(lS.get(1)).getCell().getPos().getX() || p.getCell().getPos().getX() >= this.grid.getPlayerObject(lS.get(0)).getCell().getPos().getX() && p.getCell().getPos().getX() >= this.grid.getPlayerObject(lS.get(1)).getCell().getPos().getX())))
                            x = true;
                    }
                    break;
@@ -550,7 +549,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                case "Tractor Beam":
                    if(lI.contains(1) && !lI.contains(2)) {
                        if((lS.get(1).isEmpty() && lS.get(2).isEmpty() && this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(0)))) ||
-                               (this.grid.isInViewZone(p, grid.getBoard().getArena()[Integer.parseInt(lS.get(1))][Integer.parseInt(lS.get(2))].getP()) && Integer.parseInt(lS.get(1)) >= 0 && Integer.parseInt(lS.get(1)) <= 2 && Integer.parseInt(lS.get(2)) >= 0 && Integer.parseInt(lS.get(2)) <= 3))
+                               (this.grid.isInViewZone(p, grid.getBoard().getArena()[Integer.parseInt(lS.get(1))][Integer.parseInt(lS.get(2))].getPos()) && Integer.parseInt(lS.get(1)) >= 0 && Integer.parseInt(lS.get(1)) <= 2 && Integer.parseInt(lS.get(2)) >= 0 && Integer.parseInt(lS.get(2)) <= 3))
                             x = true;
                    }
                    else if(!lI.contains(1) && lI.contains(2) &&
@@ -559,12 +558,12 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                    break;
                case "Vortex Cannon":
                    if((lI.size() == 1 && lI.contains(1) && lS.size() > 2 &&
-                           this.grid.isInViewZone(p, grid.getBoard().getArena()[Integer.parseInt(lS.get(1))][Integer.parseInt(lS.get(2))].getP()) && !p.getCell().getP().equals(grid.getBoard().getArena()[Integer.parseInt(lS.get(1))][Integer.parseInt(lS.get(2))].getP()) &&
-                               this.grid.distance(this.grid.getPlayerObject(lS.get(0)), grid.getBoard().getArena()[Integer.parseInt(lS.get(1))][Integer.parseInt(lS.get(2))].getP()) < 2) ||
+                           this.grid.isInViewZone(p, grid.getBoard().getArena()[Integer.parseInt(lS.get(1))][Integer.parseInt(lS.get(2))].getPos()) && !p.getCell().getPos().equals(grid.getBoard().getArena()[Integer.parseInt(lS.get(1))][Integer.parseInt(lS.get(2))].getPos()) &&
+                               this.grid.distance(this.grid.getPlayerObject(lS.get(0)), grid.getBoard().getArena()[Integer.parseInt(lS.get(1))][Integer.parseInt(lS.get(2))].getPos()) < 2) ||
                    (lI.size() == 2 && lI.contains(1) && lI.contains(2) && lS.size() > 4 &&
-                           (this.grid.isInViewZone(p, grid.getBoard().getArena()[Integer.parseInt(lS.get(1))][Integer.parseInt(lS.get(2))].getP()) && !p.getCell().getP().equals(grid.getBoard().getArena()[Integer.parseInt(lS.get(1))][Integer.parseInt(lS.get(2))].getP()) &&
-                                   this.grid.distance(this.grid.getPlayerObject(lS.get(0)), grid.getBoard().getArena()[Integer.parseInt(lS.get(1))][Integer.parseInt(lS.get(2))].getP()) < 2) &&
-                           this.grid.distance(this.grid.getPlayerObject(lS.get(3)), grid.getBoard().getArena()[Integer.parseInt(lS.get(1))][Integer.parseInt(lS.get(2))].getP()) < 2 && (lS.get(4).isEmpty() || this.grid.distance(this.grid.getPlayerObject(lS.get(4)), grid.getBoard().getArena()[Integer.parseInt(lS.get(1))][Integer.parseInt(lS.get(2))].getP()) < 2) && lC.contains(Colour.RED)))
+                           (this.grid.isInViewZone(p, grid.getBoard().getArena()[Integer.parseInt(lS.get(1))][Integer.parseInt(lS.get(2))].getPos()) && !p.getCell().getPos().equals(grid.getBoard().getArena()[Integer.parseInt(lS.get(1))][Integer.parseInt(lS.get(2))].getPos()) &&
+                                   this.grid.distance(this.grid.getPlayerObject(lS.get(0)), grid.getBoard().getArena()[Integer.parseInt(lS.get(1))][Integer.parseInt(lS.get(2))].getPos()) < 2) &&
+                           this.grid.distance(this.grid.getPlayerObject(lS.get(3)), grid.getBoard().getArena()[Integer.parseInt(lS.get(1))][Integer.parseInt(lS.get(2))].getPos()) < 2 && (lS.get(4).isEmpty() || this.grid.distance(this.grid.getPlayerObject(lS.get(4)), grid.getBoard().getArena()[Integer.parseInt(lS.get(1))][Integer.parseInt(lS.get(2))].getPos()) < 2) && lC.contains(Colour.RED)))
                            x = true;
                    break;
                case "Whisper":
@@ -1006,6 +1005,36 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         return l;
     }
 
+    public String checkYourStatus(String nickName) {
+        Player p = grid.getPlayerObject(nickName);
+        List<String> details = new LinkedList<>();
+        List<String> wCards = new LinkedList<>();
+        List<String> aCubes = new LinkedList<>();
+        int count = 0;
+
+        for(int d = 0; d < 12; d++) {
+            if(p.getPlayerBoard().getDamage().getDamageTokens()[d] != null)
+                count++;
+        }
+        details.add("\nYou have received the following amount of damage: " + count + "\n");
+        details.add("You are currently in cell " + p.getCell().getPos().getX() + " " + p.getCell().getPos().getY() +"\n");
+
+        String yourWeapons = "These are the WeaponCards currently in your possession:\n";
+        for(WeaponCard w : p.getWeaponCards())
+            wCards.add(w.getCardName());
+
+        String yourAmmo = "These are the AmmoCubes currently in your possession:\n";
+        for(int i = 0; i < 9; i++) {
+            if(p.getAmmoCubes()[i] != null)
+                aCubes.add(p.getAmmoCubes()[i].getC().getAbbreviation());
+        }
+
+        String joinWC = String.join(", ", wCards);
+        String joinAC = String.join(", ", aCubes);
+
+        return details.get(0) + details.get(1) + yourWeapons + joinWC + yourAmmo + joinAC + "\n";
+    }
+
     public List<String> checkWeaponSlotContents(int n) {
         List<String> lEmpty = new LinkedList<>();
         if (n == 1)
@@ -1019,6 +1048,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
         return lEmpty;
     }
+
 
     private List<String> checkWeaponSlot1Contents() {
         List<String> l = new LinkedList<>();
@@ -1084,8 +1114,10 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         List<String> rows = new LinkedList<>();
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 4; j++) {
-                if (grid.getBoard().getArena()[i][j].getStatus() == 0)
+                if (grid.getBoard().getArena()[i][j].getStatus() == 0 && grid.getBoard().getArena()[i][j].getA() != null)
                     rows.add(grid.getBoard().getArena()[i][j].getA().getAmmoCardName() + "   ");
+                else if (grid.getBoard().getArena()[i][j].getStatus() == 0 && grid.getBoard().getArena()[i][j].getA() == null)
+                    rows.add("empty ");
                 else if (grid.getBoard().getArena()[i][j].getStatus() == 1)
                     rows.add("spawn ");
                 else
@@ -1093,9 +1125,9 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
             }
         }
-        return rows.get(0) + rows.get(1) + rows.get(2) + rows.get(3) + "\n" +
-                rows.get(4) + rows.get(5) + rows.get(6) + rows.get(7) + "\n" +
-                rows.get(8) + rows.get(9) + rows.get(10) + rows.get(11);
+        return rows.get(0) + rows.get(1) + rows.get(2) + rows.get(3) + "\n\n" +
+                rows.get(4) + rows.get(5) + rows.get(6) + rows.get(7) + "\n\n" +
+                rows.get(8) + rows.get(9) + rows.get(10) + rows.get(11) +"\n";
     }
 
     public boolean isValidFirstActionGrab(String nickName, List<Integer> directionList, String wCardInput, String wSlotInput, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) {
@@ -1120,9 +1152,9 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
             if (wCard != null && wSlotInput.isEmpty())
                 return false;
-            else if (wCard != null && ((wSlotInput.equals("1") && (this.grid.ghostMove(p, directionList).getCell().getP().getX() == 0 && this.grid.ghostMove(p, directionList).getCell().getP().getY() == 2) && this.checkWeaponSlotContents(1).contains(wCardInput)) ||
-                        (wSlotInput.equals("2") && (this.grid.ghostMove(p, directionList).getCell().getP().getX() == 2 && this.grid.ghostMove(p, directionList).getCell().getP().getY() == 3) && this.checkWeaponSlotContents(2).contains(wCardInput)) ||
-                        (wSlotInput.equals("3") && (this.grid.ghostMove(p, directionList).getCell().getP().getX() == 1 && this.grid.ghostMove(p, directionList).getCell().getP().getY() == 0) && this.checkWeaponSlotContents(3).contains(wCardInput)))) {
+            else if (wCard != null && ((wSlotInput.equals("1") && (this.grid.ghostMove(p, directionList).getCell().getPos().getX() == 0 && this.grid.ghostMove(p, directionList).getCell().getPos().getY() == 2) && this.checkWeaponSlotContents(1).contains(wCardInput)) ||
+                        (wSlotInput.equals("2") && (this.grid.ghostMove(p, directionList).getCell().getPos().getX() == 2 && this.grid.ghostMove(p, directionList).getCell().getPos().getY() == 3) && this.checkWeaponSlotContents(2).contains(wCardInput)) ||
+                        (wSlotInput.equals("3") && (this.grid.ghostMove(p, directionList).getCell().getPos().getX() == 1 && this.grid.ghostMove(p, directionList).getCell().getPos().getY() == 0) && this.checkWeaponSlotContents(3).contains(wCardInput)))) {
                     if (cubeArray.length != 0 && !p.checkAmmoCube(cubeArray))
                         return false;
                     for (int i = 0; i < lPInput.size(); i++) {
@@ -1216,9 +1248,9 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
             if (wCard != null && wSlotInput.isEmpty())
                 return false;
-            else if (wCard != null && ((wSlotInput.equals("1") && (this.grid.ghostMove(p, directionList).getCell().getP().getX() == 0 && this.grid.ghostMove(p, directionList).getCell().getP().getY() == 2) && this.checkWeaponSlotContents(1).contains(wCardInput)) ||
-                        (wSlotInput.equals("2") && (this.grid.ghostMove(p, directionList).getCell().getP().getX() == 2 && this.grid.ghostMove(p, directionList).getCell().getP().getY() == 3) && this.checkWeaponSlotContents(2).contains(wCardInput)) ||
-                        (wSlotInput.equals("3") && (this.grid.ghostMove(p, directionList).getCell().getP().getX() == 1 && this.grid.ghostMove(p, directionList).getCell().getP().getY() == 0) && this.checkWeaponSlotContents(3).contains(wCardInput)))) {
+            else if (wCard != null && ((wSlotInput.equals("1") && (this.grid.ghostMove(p, directionList).getCell().getPos().getX() == 0 && this.grid.ghostMove(p, directionList).getCell().getPos().getY() == 2) && this.checkWeaponSlotContents(1).contains(wCardInput)) ||
+                        (wSlotInput.equals("2") && (this.grid.ghostMove(p, directionList).getCell().getPos().getX() == 2 && this.grid.ghostMove(p, directionList).getCell().getPos().getY() == 3) && this.checkWeaponSlotContents(2).contains(wCardInput)) ||
+                        (wSlotInput.equals("3") && (this.grid.ghostMove(p, directionList).getCell().getPos().getX() == 1 && this.grid.ghostMove(p, directionList).getCell().getPos().getY() == 0) && this.checkWeaponSlotContents(3).contains(wCardInput)))) {
                     if (cubeArray.length != 0 && !p.checkAmmoCube(cubeArray))
                         return false;
                     for (int i = 0; i < lPInput.size(); i++) {
@@ -1750,9 +1782,9 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         if(wCard != null && wSlotInput.isEmpty())
             return false;
         else if(wCard != null) {
-            if ((wSlotInput.equals("1") && (p.getCell().getP().getX() == 0 && p.getCell().getP().getY() == 2) && this.checkWeaponSlotContents(1).contains(wCardInput)) ||
-                    (wSlotInput.equals("2") && (p.getCell().getP().getX() == 2 && p.getCell().getP().getY() == 3) && this.checkWeaponSlotContents(2).contains(wCardInput)) ||
-                    (wSlotInput.equals("3") && (p.getCell().getP().getX() == 1 && p.getCell().getP().getY() == 0) && this.checkWeaponSlotContents(3).contains(wCardInput))) {
+            if ((wSlotInput.equals("1") && (p.getCell().getPos().getX() == 0 && p.getCell().getPos().getY() == 2) && this.checkWeaponSlotContents(1).contains(wCardInput)) ||
+                    (wSlotInput.equals("2") && (p.getCell().getPos().getX() == 2 && p.getCell().getPos().getY() == 3) && this.checkWeaponSlotContents(2).contains(wCardInput)) ||
+                    (wSlotInput.equals("3") && (p.getCell().getPos().getX() == 1 && p.getCell().getPos().getY() == 0) && this.checkWeaponSlotContents(3).contains(wCardInput))) {
                 if (cubeArray.length != 0 && !p.checkAmmoCube(cubeArray))
                     return false;
                 for (int i = 0; i < lPInput.size(); i++) {

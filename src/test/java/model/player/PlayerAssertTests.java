@@ -189,7 +189,7 @@ class PlayerAssertTests {
         p1.changeCell(cell1);
         p1.changeCell(fake);    //this should not change the cell because 'fake' cell does not exist in the board
 
-        assertEquals(pos1, p1.getCell().getP());
+        assertEquals(pos1, p1.getCell().getPos());
         assertEquals(cell1.getC(), p1.getCell().getC());
         assertEquals(cell1.getStatus(), p1.getCell().getStatus());
         for(int i = 0; i < walls.length; i++)
@@ -198,7 +198,7 @@ class PlayerAssertTests {
             assertEquals(cell1.getPosDoor()[i], p1.getCell().getPosDoor()[i]);
 
         p1.changeCell(cell2);
-        assertEquals(pos2, p1.getCell().getP());
+        assertEquals(pos2, p1.getCell().getPos());
         assertEquals(cell2.getC(), p1.getCell().getC());
         assertEquals(cell2.getStatus(), p1.getCell().getStatus());
         for(int i = 0; i < walls.length; i++)

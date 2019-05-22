@@ -159,11 +159,11 @@ public class Grid {
     }
 
     public int distance(Player p1, Player p2) {
-        return abs(p1.getCell().getP().getX()-p2.getCell().getP().getX()) + abs(p1.getCell().getP().getY()-p2.getCell().getP().getY());
+        return abs(p1.getCell().getPos().getX()-p2.getCell().getPos().getX()) + abs(p1.getCell().getPos().getY()-p2.getCell().getPos().getY());
     }
 
     public int distance(Player p, Position pos) {
-        return abs(p.getCell().getP().getX()-pos.getX()) + abs(p.getCell().getP().getY()-pos.getY());
+        return abs(p.getCell().getPos().getX()-pos.getX()) + abs(p.getCell().getPos().getY()-pos.getY());
     }
 
     public int distance(Position pos1, Position pos2) {
@@ -182,8 +182,8 @@ public class Grid {
         moveWithoutNotify(p, d);
         List<String> information = new LinkedList<>();
         information.add(p.getNickName());
-        information.add(Integer.toString(p.getCell().getP().getX()));
-        information.add(Integer.toString(p.getCell().getP().getY()));
+        information.add(Integer.toString(p.getCell().getPos().getX()));
+        information.add(Integer.toString(p.getCell().getPos().getY()));
         server.notifyPosition(this.iD, information);
     }
 
@@ -197,14 +197,14 @@ public class Grid {
         }
 
         if(n==0) {
-            if((d==1) && (p.getCell().getP().getX()>0))
-                p.changeCell(board.getArena()[p.getCell().getP().getX()-1][p.getCell().getP().getY()]);
-            else if((d==2) && (p.getCell().getP().getY()<3))
-                p.changeCell(board.getArena()[p.getCell().getP().getX()][p.getCell().getP().getY()+1]);
-            else if((d==3) && (p.getCell().getP().getX()<2))
-                p.changeCell(board.getArena()[p.getCell().getP().getX()+1][p.getCell().getP().getY()]);
-            else if((d==4) && (p.getCell().getP().getY()>0))
-                p.changeCell(board.getArena()[p.getCell().getP().getX()][p.getCell().getP().getY()-1]);
+            if((d==1) && (p.getCell().getPos().getX()>0))
+                p.changeCell(board.getArena()[p.getCell().getPos().getX()-1][p.getCell().getPos().getY()]);
+            else if((d==2) && (p.getCell().getPos().getY()<3))
+                p.changeCell(board.getArena()[p.getCell().getPos().getX()][p.getCell().getPos().getY()+1]);
+            else if((d==3) && (p.getCell().getPos().getX()<2))
+                p.changeCell(board.getArena()[p.getCell().getPos().getX()+1][p.getCell().getPos().getY()]);
+            else if((d==4) && (p.getCell().getPos().getY()>0))
+                p.changeCell(board.getArena()[p.getCell().getPos().getX()][p.getCell().getPos().getY()-1]);
         }
     }
 
@@ -230,16 +230,16 @@ public class Grid {
 
     public boolean isThereAWall (Player p, Position pT) {            //true if there is a wall between p and pT
         int direction = 0;
-        if(p.getCell().getP().getX() > pT.getX())
+        if(p.getCell().getPos().getX() > pT.getX())
             direction = 1;
-        else if(p.getCell().getP().getX() < pT.getX())
+        else if(p.getCell().getPos().getX() < pT.getX())
             direction = 3;
-        else if(p.getCell().getP().getY() > pT.getY())
+        else if(p.getCell().getPos().getY() > pT.getY())
             direction = 4;
-        else if(p.getCell().getP().getY() < pT.getY())
+        else if(p.getCell().getPos().getY() < pT.getY())
             direction = 2;
         List<Integer> listPosWalls = new LinkedList<>();        //need to do this because cell.posWalls is int[] and list.contains checks for Integer
-        for(int i : this.board.getArena()[p.getCell().getP().getX()][p.getCell().getP().getY()].getPosWall())
+        for(int i : this.board.getArena()[p.getCell().getPos().getX()][p.getCell().getPos().getY()].getPosWall())
             listPosWalls.add(i);
         return listPosWalls.contains(direction);
     }
@@ -274,10 +274,10 @@ public class Grid {
     public boolean isInViewZone(Player p, Player p2) {
         boolean b = false;
         for(int i=0; i<p.getCell().getPosDoor().length; i++) {
-            if ((!b) && ((p.getCell().getPosDoor()[i] == 1 && p.getCell().getP().getX() - 1 >= 0 && p2.getCell().getC().equals(this.board.getArena()[p.getCell().getP().getX() - 1][p.getCell().getP().getY()].getC())) ||
-                    (p.getCell().getPosDoor()[i] == 2 && p.getCell().getP().getY() + 1 <= 3 && p2.getCell().getC().equals(this.board.getArena()[p.getCell().getP().getX()][p.getCell().getP().getY() + 1].getC())) ||
-                    (p.getCell().getPosDoor()[i] == 3 && p.getCell().getP().getX() + 1 <= 2 && p2.getCell().getC().equals(this.board.getArena()[p.getCell().getP().getX() + 1][p.getCell().getP().getY()].getC())) ||
-                    p.getCell().getPosDoor()[i] == 4 && p.getCell().getP().getY() - 1 >= 0 && p2.getCell().getC().equals(this.board.getArena()[p.getCell().getP().getX()][p.getCell().getP().getY() - 1].getC())))
+            if ((!b) && ((p.getCell().getPosDoor()[i] == 1 && p.getCell().getPos().getX() - 1 >= 0 && p2.getCell().getC().equals(this.board.getArena()[p.getCell().getPos().getX() - 1][p.getCell().getPos().getY()].getC())) ||
+                    (p.getCell().getPosDoor()[i] == 2 && p.getCell().getPos().getY() + 1 <= 3 && p2.getCell().getC().equals(this.board.getArena()[p.getCell().getPos().getX()][p.getCell().getPos().getY() + 1].getC())) ||
+                    (p.getCell().getPosDoor()[i] == 3 && p.getCell().getPos().getX() + 1 <= 2 && p2.getCell().getC().equals(this.board.getArena()[p.getCell().getPos().getX() + 1][p.getCell().getPos().getY()].getC())) ||
+                    p.getCell().getPosDoor()[i] == 4 && p.getCell().getPos().getY() - 1 >= 0 && p2.getCell().getC().equals(this.board.getArena()[p.getCell().getPos().getX()][p.getCell().getPos().getY() - 1].getC())))
                 b = true;
             }
         return (isInTheRoom(p, p2) || ((p.getCell().getPosDoor()!=null) && b));
@@ -287,14 +287,14 @@ public class Grid {
         if(this.board.getArena()[pos.getX()][pos.getY()].getC().equals(p.getCell().getC()))
             return true;
         for(int i=0; i<p.getCell().getPosDoor().length; i++)
-            if ((p.getCell().getPosDoor()[i] == 1 && p.getCell().getP().getX() - 1 >= 0 &&
-                    this.board.getArena()[p.getCell().getP().getX() - 1][p.getCell().getP().getY()].getC().equals(this.board.getArena()[pos.getX()][pos.getY()].getC())) ||
-                    (p.getCell().getPosDoor()[i] == 2 && p.getCell().getP().getY() + 1 <= 3 &&
-                            this.board.getArena()[p.getCell().getP().getX()][p.getCell().getP().getY() + 1].getC().equals(this.board.getArena()[pos.getX()][pos.getY()].getC())) ||
-                    (p.getCell().getPosDoor()[i] == 3 && p.getCell().getP().getX() + 1 <= 2 &&
-                            this.board.getArena()[p.getCell().getP().getX() + 1][p.getCell().getP().getY()].getC().equals(this.board.getArena()[pos.getX()][pos.getY()].getC())) ||
-                    (p.getCell().getPosDoor()[i] == 4 && p.getCell().getP().getY() - 1 >= 0 &&
-                            this.board.getArena()[p.getCell().getP().getX()][p.getCell().getP().getY() - 1].getC().equals(this.board.getArena()[pos.getX()][pos.getY()].getC())))
+            if ((p.getCell().getPosDoor()[i] == 1 && p.getCell().getPos().getX() - 1 >= 0 &&
+                    this.board.getArena()[p.getCell().getPos().getX() - 1][p.getCell().getPos().getY()].getC().equals(this.board.getArena()[pos.getX()][pos.getY()].getC())) ||
+                    (p.getCell().getPosDoor()[i] == 2 && p.getCell().getPos().getY() + 1 <= 3 &&
+                            this.board.getArena()[p.getCell().getPos().getX()][p.getCell().getPos().getY() + 1].getC().equals(this.board.getArena()[pos.getX()][pos.getY()].getC())) ||
+                    (p.getCell().getPosDoor()[i] == 3 && p.getCell().getPos().getX() + 1 <= 2 &&
+                            this.board.getArena()[p.getCell().getPos().getX() + 1][p.getCell().getPos().getY()].getC().equals(this.board.getArena()[pos.getX()][pos.getY()].getC())) ||
+                    (p.getCell().getPosDoor()[i] == 4 && p.getCell().getPos().getY() - 1 >= 0 &&
+                            this.board.getArena()[p.getCell().getPos().getX()][p.getCell().getPos().getY() - 1].getC().equals(this.board.getArena()[pos.getX()][pos.getY()].getC())))
                     return true;
         return false;
     }
@@ -305,13 +305,13 @@ public class Grid {
         List<Colour> l = new LinkedList<>();
         for(int i=0; i<p.getCell().getPosDoor().length; i++){
             if (p.getCell().getPosDoor()[i] == 1)
-                l.add(this.board.getArena()[p.getCell().getP().getX() - 1][p.getCell().getP().getY()].getC());
+                l.add(this.board.getArena()[p.getCell().getPos().getX() - 1][p.getCell().getPos().getY()].getC());
             else if (p.getCell().getPosDoor()[i] == 2)
-                l.add(this.board.getArena()[p.getCell().getP().getX()][p.getCell().getP().getY() + 1].getC());
+                l.add(this.board.getArena()[p.getCell().getPos().getX()][p.getCell().getPos().getY() + 1].getC());
             else if (p.getCell().getPosDoor()[i] == 3)
-                l.add(this.board.getArena()[p.getCell().getP().getX() + 1][p.getCell().getP().getY()].getC());
+                l.add(this.board.getArena()[p.getCell().getPos().getX() + 1][p.getCell().getPos().getY()].getC());
             else if (p.getCell().getPosDoor()[i] == 4)
-                l.add(this.board.getArena()[p.getCell().getP().getX()][p.getCell().getP().getY() - 1].getC());
+                l.add(this.board.getArena()[p.getCell().getPos().getX()][p.getCell().getPos().getY() - 1].getC());
         }
         return l.stream().distinct().collect(Collectors.toList());
     }
@@ -463,14 +463,14 @@ public class Grid {
     public boolean canGhostMove(Player p, List<Integer> directions) {
         Player ghost = new Player("?gHoSt!", p.getC(), p.isFirstPlayerCard());
         ghost.changeCell(p.getCell());
-        Position initialPos = ghost.getCell().getP();
+        Position initialPos = ghost.getCell().getPos();
 
         for(Integer i : directions) {
             this.moveWithoutNotify(ghost, i);
-            if(i != 0 && ghost.getCell().getP().equals(initialPos))
+            if(i != 0 && ghost.getCell().getPos().equals(initialPos))
                 return false;
             else
-                initialPos = ghost.getCell().getP();
+                initialPos = ghost.getCell().getPos();
         }
         return true;
     }

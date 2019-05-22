@@ -13,7 +13,7 @@ class PlayerBoardAssertTests {
 
         assertNotNull(pb.getDamage());
         DamageTrack newDT = new DamageTrack();
-        pb.setDamages(newDT);
+        pb.setDamage(newDT);
         assertEquals(newDT, pb.getDamage());
 
         assertEquals(8, pb.getPoints().getInt(1));

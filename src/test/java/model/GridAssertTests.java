@@ -200,12 +200,12 @@ class GridAssertTests {
         assertEquals(c1, grid.whereAmI(p1));
 
         assertTrue(grid.canMove(p1, 3));
-        assertFalse(grid.isThereAWall(p1, c2.getP()));
+        assertFalse(grid.isThereAWall(p1, c2.getPos()));
         grid.move(p1, 3);                       //this should move p1 one cell down (to c2) through a door
         assertEquals(c2, grid.whereAmI(p1));
 
         assertTrue(grid.canMove(p1, 4));
-        assertFalse(grid.isThereAWall(p1, c3.getP()));
+        assertFalse(grid.isThereAWall(p1, c3.getPos()));
         grid.move(p1, 4);                       //this should move p1 one cell left (to c3) through a corridor
         assertEquals(c3, grid.whereAmI(p1));
     }
@@ -245,12 +245,12 @@ class GridAssertTests {
         assertFalse(grid.isInViewZone(p2, p3));
         assertTrue(grid.isInViewZone(p3, p2));
 
-        assertTrue(grid.isInViewZone(p1, p2.getCell().getP()));
-        assertTrue(grid.isInViewZone(p2, p1.getCell().getP()));
-        assertTrue(grid.isInViewZone(p1, p3.getCell().getP()));
-        assertTrue(grid.isInViewZone(p3, p1.getCell().getP()));
-        assertFalse(grid.isInViewZone(p2, p3.getCell().getP()));
-        assertTrue(grid.isInViewZone(p3, p2.getCell().getP()));
+        assertTrue(grid.isInViewZone(p1, p2.getCell().getPos()));
+        assertTrue(grid.isInViewZone(p2, p1.getCell().getPos()));
+        assertTrue(grid.isInViewZone(p1, p3.getCell().getPos()));
+        assertTrue(grid.isInViewZone(p3, p1.getCell().getPos()));
+        assertFalse(grid.isInViewZone(p2, p3.getCell().getPos()));
+        assertTrue(grid.isInViewZone(p3, p2.getCell().getPos()));
 
 
         assertTrue(grid.whoIsInTheRoom(p1).contains(p2));

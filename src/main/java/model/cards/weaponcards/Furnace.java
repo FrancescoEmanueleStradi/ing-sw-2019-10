@@ -38,7 +38,7 @@ public class Furnace extends WeaponCard {
 
     public void applySpecialEffect(Grid grid, Player p, String x, String y) throws RemoteException{    //Cozy Fire Mode: player p gives 1 damage and 1 mark to every enemy in that cell
         for(Player enemy : grid.getPlayers()) {
-            if(enemy.getCell().getP().getX() == Integer.parseInt(x) && enemy.getCell().getP().getY() == Integer.parseInt(y)) {
+            if(enemy.getCell().getPos().getX() == Integer.parseInt(x) && enemy.getCell().getPos().getY() == Integer.parseInt(y)) {
                 grid.damage(p, enemy, 1);
                 grid.addMark(p, enemy);
             }

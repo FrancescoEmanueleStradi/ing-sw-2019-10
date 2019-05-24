@@ -26,6 +26,15 @@ public class CardLinkList {
         return l;
     }
 
+    public ImageIcon getImageIconFromName(String cardName){
+        for (CardLink c : cards) {
+            if (c.getCard().equals(cardName))
+                return c.getImage();
+            }
+            return null;
+        }
+
+
     public List<String> getNamefromImageIcon(List<ImageIcon> cardImages){
         List<String> l = new LinkedList<>();
         for(ImageIcon i : cardImages) {
@@ -35,6 +44,15 @@ public class CardLinkList {
             }
         }
         return l;
+    }
+
+    public String getNamefromImageIcon(ImageIcon cardImages) {
+        for (CardLink c : cards) {
+            if (c.getImage().equals(cardImages))
+                return c.getCard();
+        }
+
+        return null;
     }
 
 

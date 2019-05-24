@@ -16,6 +16,7 @@ public class GUI implements View, Serializable {
     private int game;
     private int identifier;
     private int type;
+    private boolean block = false;
     private ServerInterface server;
     private String nickName;
     private Colour colour;
@@ -162,6 +163,13 @@ public class GUI implements View, Serializable {
         this.colour = colour;
     }
 
+    public void setBlock(boolean block) {
+        this.block = block;
+    }
+
+    public boolean isBlock() {
+        return block;
+    }
 
     @Override
     public View getView() {
@@ -269,18 +277,25 @@ public class GUI implements View, Serializable {
 
     @Override
     public boolean doYouWantToUsePUC(){
+        JFrame jF = new JFrame();
+        jF.add(new Label("Do you want to use Power-Up Card)"));
+
         return true;
-        //TODO
     }
 
     @Override
     public void reload() throws RemoteException{
         CardLinkList l = new CardLinkList();
         JFrame jF = new JFrame();
+        ReloadPanel reloadPanel = new ReloadPanel();
+        jF.add(new Label("Choose the weapon card you want to reload, or 'end' if you don't need/want to"));
         for(ImageIcon i : l.getImageIconFromName(this.server.messageGetWeaponCardUnloaded(game, this.nickName))){
             jF.add(new JLabel(i));
+            reloadPanel.addButton(l.getNamefromImageIcon(i));
         }
-
+        jF.add(reloadPanel);
+        jF.setVisible(true);
+        //TODO
 
 
 

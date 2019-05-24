@@ -274,8 +274,44 @@ public class GUI implements View, Serializable {
     }
 
     @Override
-    public void reload(){
-        //TODO
+    public void reload() throws RemoteException{
+        CardLinkList l = new CardLinkList();
+        JFrame jF = new JFrame();
+        for(ImageIcon i : l.getImageIconFromName(this.server.messageGetWeaponCardUnloaded(game, this.nickName))){
+            jF.add(new JLabel(i));
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /*this.server.messageGetWeaponCardUnloaded(game, this.nickName).forEach(System.out::println);
+        int i = 0;
+        while (i == 0) {
+            System.out.println("Choose the weapon card you want to reload, or 'end' if you don't need/want to");
+            String s = in.nextLine();
+            if (s.equals("end"))
+                break;
+            System.out.println("Enter 0 if you want to reload another card, otherwise 1");
+            i = in.nextInt();
+            if (this.server.messageIsValidReload(game, this.nickName, s))
+                this.server.messageReload(game, this.nickName, s, i);
+            else
+                System.out.println("You can't reload now");
+        }*/
     }
 
     @Override
@@ -301,13 +337,22 @@ public class GUI implements View, Serializable {
     }
 
     @Override
-    public void endFinalFrenzy(){
-        //TODO
+    public void endFinalFrenzy() throws RemoteException{
+        this.server.messageEndTurnFinalFrenzy(game);
+        textArea.append("We are calculating the result");
+        this.gameGraphic.revalidate();
     }
 
     @Override
-    public void finalScoring(){
-        //TODO
+    public void finalScoring() throws RemoteException{
+        this.server.messageFinalScoring(game);
+        textArea.append("FINAL SCORE");
+        this.server.messageGetPlayers(game).forEach(textArea::append);
+        textArea.append("");
+        this.server.messageGetScore(game).stream().map(a -> Integer.toString(a)).forEach(textArea::append);
+        textArea.append("");
+        textArea.append("END GAME");
+        this.gameGraphic.revalidate();
     }
 
     @Override

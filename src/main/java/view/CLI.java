@@ -1213,6 +1213,11 @@ public class CLI extends UnicastRemoteObject implements View {
 
 
     @Override
+    public void printPlayer(List<String> information) throws RemoteException {
+        System.out.println("Player: " + information.get(0) + "(identifier " + information.get(2)+ ") with colour " + information.get(1) + " is now a Player of this game ");
+    }
+
+    @Override
     public void printScore(List<String> information) throws RemoteException {
         System.out.println("Player: " + information.get(0) + " has now this score: " + information.get(1));
     }

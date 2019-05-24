@@ -28,6 +28,7 @@ public interface View extends Remote {
     void endFinalFrenzy()throws RemoteException;
     void finalScoring()throws RemoteException;
 
+    void printPlayer(List<String> information) throws RemoteException;
     void printScore(List<String> information) throws RemoteException;
     void printPosition(List<String> information) throws RemoteException;
     void printMark(List<String> information) throws RemoteException;

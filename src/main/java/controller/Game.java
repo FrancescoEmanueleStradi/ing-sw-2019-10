@@ -63,7 +63,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         return this.grid.getPlayers().isEmpty();
     }
 
-    public void gameStart(String nickName, Colour c) {
+    public void gameStart(String nickName, Colour c) throws RemoteException{
        if(!init) {
            init = true;
            Player p = new Player(nickName, c, true);
@@ -94,7 +94,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
     }
 
 
-    public synchronized void addPlayer(String nickName, Colour c) {
+    public synchronized void addPlayer(String nickName, Colour c) throws RemoteException{
         Player p = new Player(nickName, c, false);
         this.grid.addPlayer(p);
     }

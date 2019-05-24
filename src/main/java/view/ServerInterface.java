@@ -45,6 +45,7 @@ public interface ServerInterface extends Remote {
     String getSuspendedName(int game, int identifier) throws RemoteException;
     Colour getSuspendedColour(int game, String nickName) throws RemoteException;
 
+    void notifyPlayer(int game, List<String> information) throws RemoteException;
     void notifyScore(int game, List<String> information) throws RemoteException;
     void notifyPosition(int game, List<String> information) throws RemoteException;
     void notifyMark(int game, List<String> information) throws RemoteException;

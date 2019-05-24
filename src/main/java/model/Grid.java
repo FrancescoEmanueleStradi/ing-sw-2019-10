@@ -49,8 +49,12 @@ public class Grid {
         server.notifyType(this.iD, aType);
     }
 
-    public void addPlayer(Player p){
+    public void addPlayer(Player p) throws RemoteException{
         this.players.add(p);
+        List<String> information = new LinkedList<>();
+        information.add(p.getNickName());
+        information.add(p.getC().toString());
+        server.notifyPlayer(this.iD, information);
     }
 
     public void removePlayer(Player p){

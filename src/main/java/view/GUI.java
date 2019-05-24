@@ -23,6 +23,7 @@ public class GUI implements View, Serializable {
     private Window gridGraphic;
     private JScrollPane scrollPane;
     private TextArea textArea;
+    private JPanel players;
     /*private ImageIcon Enjoy;
     private ImageIcon BlackPlayerBoard;
     private ImageIcon BlackPlayerBoardFF;
@@ -195,11 +196,8 @@ public class GUI implements View, Serializable {
 
     @Override
     public void disconnected(int disconnected) throws RemoteException, InterruptedException{
-        /*JFrame f = new JFrame("Disconnected");
-        Container c = f.getContentPane();
-        StandardPanel panel = new StandardPanel(disconnected, server);
-        c.add(panel);
-        f.setVisible(true);*/
+        textArea.append("Player number " + disconnected + " is disconnected");
+        this.gameGraphic.revalidate();
     }
 
     @Override
@@ -312,21 +310,31 @@ public class GUI implements View, Serializable {
         //TODO
     }
 
-
     @Override
-    public void printScore(java.util.List<String> information) throws RemoteException{
+    public void printPlayer(List<String> information) throws RemoteException{
+        this.players = new JPanel();
+        players.add(new PlayerName(information.get(0), information.get(1), information.get(2)));
+        players.setBounds(0,350, 50, 0);
+        this.gameGraphic.add(players);
         //TODO
+        gameGraphic.revalidate();
     }
 
     @Override
-    public void printPosition(java.util.List<String> information) throws RemoteException{
+    public void printScore(List<String> information) throws RemoteException{
+        textArea.append("Player: " + information.get(0) + " has now this score: " + information.get(1));
+        this.gameGraphic.revalidate();
+    }
+
+    @Override
+    public void printPosition(List<String> information) throws RemoteException{
         textArea.append("Now Player: " + information.get(0) + " is in the cell " + information.get(1) + " " + information.get(2));
         //TODO
         this.gameGraphic.revalidate();
     }
 
     @Override
-    public void printMark(java.util.List<String> information) throws RemoteException{
+    public void printMark(List<String> information) throws RemoteException{
         textArea.append("Player: " + information.get(0) + "give a new Mark to Player" + information.get(1));
         this.gameGraphic.revalidate();
     }
@@ -346,32 +354,32 @@ public class GUI implements View, Serializable {
             ImageIcon Right12Grid = new ImageIcon("Images/Right12Grid.png");
             JLabel L14Grid = new JLabel(Left14Grid);
             JLabel R12Grid = new JLabel(Right12Grid);
-            this.gameGraphic.add(L14Grid).setBounds(350, 700, 125, 0);
-            this.gameGraphic.add(R12Grid).setBounds(475, 700, 350, 0);
+            this.gameGraphic.add(L14Grid).setBounds(350, 600, 125, 0);
+            this.gameGraphic.add(R12Grid).setBounds(475, 600, 350, 0);
         }
         if(type == 2){
             ImageIcon Left23Grid = new ImageIcon("Images/Left23Grid.png");
             ImageIcon Right12Grid = new ImageIcon("Images/Right12Grid.png");
             JLabel L23Grid = new JLabel(Left23Grid);
             JLabel R12Grid = new JLabel(Right12Grid);
-            this.gameGraphic.add(L23Grid).setBounds(350, 700, 125, 0);
-            this.gameGraphic.add(R12Grid).setBounds(475, 700, 350, 0);
+            this.gameGraphic.add(L23Grid).setBounds(350, 600, 125, 0);
+            this.gameGraphic.add(R12Grid).setBounds(475, 600, 350, 0);
         }
         if(type == 3){
             ImageIcon Left23Grid = new ImageIcon("Images/Left23Grid.png");
             ImageIcon Right34Grid = new ImageIcon("Images/Right34Grid.png");
             JLabel L23Grid = new JLabel(Left23Grid);
             JLabel R34Grid = new JLabel(Right34Grid);
-            this.gameGraphic.add(L23Grid).setBounds(350, 700, 125, 0);
-            this.gameGraphic.add(R34Grid).setBounds(475, 700, 350, 0);
+            this.gameGraphic.add(L23Grid).setBounds(350, 600, 125, 0);
+            this.gameGraphic.add(R34Grid).setBounds(475, 600, 350, 0);
         }
         if(type == 4){
             ImageIcon Left14Grid = new ImageIcon("Images/Left14Grid.png");
             ImageIcon Right34Grid = new ImageIcon("Images/Right34Grid.png");
             JLabel L14Grid = new JLabel(Left14Grid);
             JLabel R34Grid = new JLabel(Right34Grid);
-            this.gameGraphic.add(L14Grid).setBounds(350, 700, 125, 0);
-            this.gameGraphic.add(R34Grid).setBounds(475, 700, 350, 0);
+            this.gameGraphic.add(L14Grid).setBounds(350, 600, 125, 0);
+            this.gameGraphic.add(R34Grid).setBounds(475, 600, 350, 0);
         }
         textArea = new TextArea();
         scrollPane = new JScrollPane (textArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);

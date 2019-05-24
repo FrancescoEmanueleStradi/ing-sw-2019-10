@@ -42,7 +42,7 @@ public class Client {
                 case "GUI":
                 case "Gui":
                 case "gui":
-                    view = new GUI();
+                    view = new GUI(game, centralServer);
                     break;
             }
             centralServer.setGame(game);
@@ -81,7 +81,7 @@ public class Client {
                 case "GUI":
                 case "Gui":
                 case "gui":
-                    view = new GUI();
+                    view = new GUI(game, centralServer);
                     break;
             }
             centralServer.setView(game, identifier, view.getView());
@@ -115,7 +115,7 @@ public class Client {
                             MyTask task3 = new MyTask(game, identifier, view.getNickName(), centralServer);
                             Timer timer3 = new Timer();
                             timer3.schedule(task3, 150000);
-                            view.usePowerUpCard();                      //TODO make the player can escape from using PWC?? and from other
+                            view.usePowerUpCard();
                             timer3.cancel();
                         }
                         MyTask task4 = new MyTask(game, identifier, view.getNickName(), centralServer);

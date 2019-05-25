@@ -1007,8 +1007,8 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
     public String checkYourStatus(String nickName) {
         Player p = grid.getPlayerObject(nickName);
-        List<String> details = new LinkedList<>();
         List<String> wCards = new LinkedList<>();
+        List<String> pCards = new LinkedList<>();
         List<String> aCubes = new LinkedList<>();
         int count = 0;
 
@@ -1016,12 +1016,16 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
             if(p.getPlayerBoard().getDamage().getDamageTokens()[d] != null)
                 count++;
         }
-        details.add("\nYou have received the following amount of damage: " + count + "\n");
-        details.add("You are currently in cell " + p.getCell().getPos().getX() + " " + p.getCell().getPos().getY() +"\n");
+        String damageDetails = "\nYou have received the following amount of damage: " + count + "\n";
+        String posDetails = "You are currently in cell " + p.getCell().getPos().getX() + " " + p.getCell().getPos().getY() +"\n";
 
         String yourWeapons = "These are the WeaponCards currently in your possession:\n";
         for(WeaponCard w : p.getWeaponCards())
             wCards.add(w.getCardName());
+
+        String yourPups = "These are the PowerUpCards currently in your possession:\n";
+        for(PowerUpCard c : p.getPowerUpCards())
+            pCards.add(c.getCardName());
 
         String yourAmmo = "These are the AmmoCubes currently in your possession:\n";
         for(int i = 0; i < 9; i++) {
@@ -1030,9 +1034,10 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         }
 
         String joinWC = String.join(", ", wCards);
+        String joinPC = String.join(", ", pCards);
         String joinAC = String.join(", ", aCubes);
 
-        return details.get(0) + details.get(1) + yourWeapons + joinWC + yourAmmo + joinAC + "\n";
+        return damageDetails + posDetails + yourWeapons + joinWC + "\n" + yourPups + joinPC + "\n" + yourAmmo + "\n" + joinAC + "\n";
     }
 
     public List<String> checkWeaponSlotContents(int n) {
@@ -1122,7 +1127,6 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                     rows.add("spawn ");
                 else
                     rows.add("N/A   ");
-
             }
         }
         return rows.get(0) + rows.get(1) + rows.get(2) + rows.get(3) + "\n\n" +

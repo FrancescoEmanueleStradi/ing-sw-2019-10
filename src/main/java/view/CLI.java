@@ -75,42 +75,44 @@ public class CLI extends UnicastRemoteObject implements View {
         String yourName = "Enter your name:";
         String yourColour = "Enter your colour in all caps (YELLOW, BLUE, GREEN, PURPLE, BLACK):";
         Scanner in = new Scanner(System.in);
-        if (this.server.messageGameIsNotStarted(game) && this.identifier == 1) {
+
+        if(this.server.messageGameIsNotStarted(game) && this.identifier == 1) {
             System.out.println(yourName);
             this.nickName = in.nextLine();
             server.setNickName(this.game, this.identifier, this.nickName);
             System.out.println(yourColour);
-            String s1 = in.nextLine();
-            this.colour = Colour.valueOf(s1);
+            String c1 = in.nextLine();
+            this.colour = Colour.valueOf(c1);
             this.server.messageGameStart(game, nickName, colour);
-            System.out.println("Choose the type of arena (1, 2, 3, 4):");
-            int type = in.nextInt();
-            while (!this.server.messageIsValidReceiveType(game, type)){
-                System.out.println(errorRetry);
+
+            while(true) {
                 System.out.println("Choose the type of arena (1, 2, 3, 4):");
                 type = in.nextInt();
+                if(this.server.messageIsValidReceiveType(game, type))
+                    break;
+                else
+                    System.out.println(errorRetry);
             }
             this.server.messageReceiveType(game, type);
+
             System.out.println("\n---------GENERATING ARENA...---------\n");
             this.setType(server.getType(game));
             return;
         }
         this.setType(server.getType(game));
         System.out.println("\n---------WAITING FOR PLAYERS TO JOIN---------\n");
-        System.out.println(yourName);
-        this.nickName = in.nextLine();
-        System.out.println(yourColour);
-        String s2 = in.nextLine();
-        server.setNickName(this.game, this.identifier, this.nickName);
-        this.colour = Colour.valueOf(s2);
-        while (!this.server.messageIsValidAddPlayer(game, this.nickName, this.colour)) {
-            System.out.println(errorRetry);
+
+        while(true) {
             System.out.println(yourName);
             this.nickName = in.nextLine();
             server.setNickName(this.game, this.identifier, this.nickName);
             System.out.println(yourColour);
-            s2 = in.nextLine();
-            this.colour = Colour.valueOf(s2);
+            String c2 = in.nextLine();
+            this.colour = Colour.valueOf(c2);
+            if(!this.server.messageIsValidAddPlayer(game, this.nickName, this.colour))
+                break;
+            else
+                System.out.println(errorRetry);
         }
         this.server.messageAddPlayer(game, this.nickName, this.colour);
     }
@@ -124,8 +126,9 @@ public class CLI extends UnicastRemoteObject implements View {
         System.out.println("The following are " + this.nickName +"'s starting PowerUpCards");
         System.out.println(this.server.messageGetPowerUpCard(game, this.nickName).get(0) + " coloured " + this.server.messageGetPowerUpCardColour(game, this.nickName).get(0));
         System.out.println(this.server.messageGetPowerUpCard(game, this.nickName).get(1) + " coloured " + this.server.messageGetPowerUpCardColour(game, this.nickName).get(1));
+
         System.out.println("\n---------SPAWN POINT SELECT---------\n");
-        while (true) {
+        while(true) {
             System.out.println("Enter the name of the card you want to keep; you will discard the other one corresponding to the " +
                     "colour of your spawn point");
             p = in.nextLine();
@@ -136,56 +139,66 @@ public class CLI extends UnicastRemoteObject implements View {
             else
                 System.out.println(errorRetry);
         }
-        if (this.server.messageGetPowerUpCard(game, this.nickName).get(0).equals(p) && this.server.messageGetPowerUpCardColour(game, this.nickName).get(0).equals(c))
+
+        if(this.server.messageGetPowerUpCard(game, this.nickName).get(0).equals(p) && this.server.messageGetPowerUpCardColour(game, this.nickName).get(0).equals(c)) {
             this.server.messagePickAndDiscardCard(game, this.nickName, this.server.messageGetPowerUpCard(game, this.nickName).get(0), this.server.messageGetPowerUpCardColour(game, this.nickName).get(0));
-        else
+            System.out.println("Your spawn point is " + this.server.messageGetPowerUpCardColour(game, this.nickName).get(0) + "\n");
+        }
+        else {
             this.server.messagePickAndDiscardCard(game, this.nickName, this.server.messageGetPowerUpCard(game, this.nickName).get(1), this.server.messageGetPowerUpCardColour(game, this.nickName).get(1));
+            System.out.println("Your spawn point is " + this.server.messageGetPowerUpCardColour(game, this.nickName).get(0) + "\n");
+        }
     }
 
     @Override
-    public void action1() throws RemoteException{
+    public void action1() throws RemoteException {
         Scanner in = new Scanner(System.in);
         String action;
         System.out.println("Your status:\n" + this.server.messageCheckYourStatus(game, nickName));
+
         System.out.println("\n---------START OF " + this.nickName + "'s FIRST ACTION---------\n");
-        while (true) {
+        while(true) {
             System.out.println("Choose the first action you want to do (Move, Shoot, Grab):");
             action = in.nextLine();
-            if ((action.equals("Move") || action.equals("Shoot") || action.equals("Grab")
+            if((action.equals("Move") || action.equals("Shoot") || action.equals("Grab")
                     || action.equals("move") || action.equals("shoot") || action.equals("grab")))
                 break;
             else
                 System.out.println(errorRetry);
         }
-        if (action.equals("Move") || action.equals("move"))
+
+        if(action.equals("Move") || action.equals("move"))
             this.moveFirstAction();
-        if (action.equals("Shoot") || action.equals("shoot"))
+        else if(action.equals("Shoot") || action.equals("shoot"))
             this.shootFirstAction();
-        if (action.equals("Grab") || action.equals("grab"))
+        else if(action.equals("Grab") || action.equals("grab"))
             this.grabFirstAction();
     }
 
-    private void moveFirstAction() throws RemoteException{
+    private void moveFirstAction() throws RemoteException {
         Scanner in = new Scanner(System.in);
         Scanner intScan = new Scanner(System.in);
         boolean x;
         List<Integer> l = new LinkedList<>();
         System.out.println("The AmmoCards on the Board are as below:\n" + this.server.messageShowCardsOnBoard(game));
+
         System.out.println("Enter the sequence of movements you want to do, one integer at a time, up to 3\n" +
                 directions + "\n" +
-                "Press 0 to finish");
+                "0 to finish");
         while(true) {
             System.out.println("Next int:");
             int n = intScan.nextInt();
-            if (n == 0 && this.server.messageIsValidFirstActionMove(game, nickName, l)) {
+            if(n == 0 && this.server.messageIsValidFirstActionMove(game, nickName, l)) {
                 break;
             }
-            else if (n == 0 && !this.server.messageIsValidFirstActionMove(game, nickName, l)) {
+            else if(n == 0 && !this.server.messageIsValidFirstActionMove(game, nickName, l)) {
                 System.out.println(errorRetry);
                 l.clear();
                 x = exitHandler(in);
-                if (x)
+                if (x) {
+                    action1();
                     return;
+                }
             }
             else {
                 l.add(n);
@@ -198,18 +211,21 @@ public class CLI extends UnicastRemoteObject implements View {
         String inputReminder = "Below are the relevant strings you must enter for this card, with respect to any possible order of effects as " +
                 "described in the manual.\nIn brackets is the additional ammo cost for certain effects and firing modes.\n";
         Scanner in = new Scanner(System.in);
-        System.out.println("Choose one of these cards to shoot:");
-        this.server.messageGetWeaponCardLoaded(game, this.nickName).forEach(System.out::println);
-        String s = in.nextLine();
-        while (!this.server.messageIsValidCard(game, nickName, s)) {
-            System.out.println("Error: choose one of these cards to shoot:");
+        String s = "";
+
+        while(true) {
+            System.out.println("Choose one of these cards to shoot:");
             this.server.messageGetWeaponCardLoaded(game, this.nickName).forEach(System.out::println);
             s = in.nextLine();
+            if(this.server.messageIsValidCard(game, nickName, s))
+                break;
+            else
+                System.out.println(errorRetry);
         }
         System.out.println(this.server.messageGetReloadCost(game, s, nickName));
         System.out.println(this.server.messageGetDescriptionWC(game, s, nickName));
 
-        switch(s){
+        switch(s) {
             case "Cyberblade":
                 System.out.println(inputReminder +
                         "basic effect: target in your cell\nshadowstep: direction you want to move to\n" +
@@ -366,60 +382,66 @@ public class CLI extends UnicastRemoteObject implements View {
         String wCard = "";
         String weaponSlot = "";
         String confirm;
+
         System.out.println("The AmmoCards on the Board are as below:\n" + this.server.messageShowCardsOnBoard(game));
-        while (true) {
+
+        while(true) {
             System.out.println("If you wish to grab whatever is in your cell, enter 0\n" +
                     "Otherwise, enter the sequence of movements you want to do, one integer at a time: only one is permitted " +
                     "if you haven't unlocked the Adrenaline move, up to two otherwise\n" +
                     directions + "\n" +
                     "Enter 5 to finish");
-            while (intScan.hasNextInt()) {
+            while(intScan.hasNextInt()) {
                 int d = intScan.nextInt();
                 if (d == 5)
                     break;
                 else
                     lD.add(d);
             }
+
             System.out.println("Would you like to check the WeaponCards of a WeaponSlot? " + yesPrompt);
             confirm = in.nextLine();
-            while (confirm.equals("Yes") || confirm.equals("yes") || confirm.equals("y")) {
+            while(confirm.equals("Yes") || confirm.equals("yes") || confirm.equals("y")) {
                 System.out.println("Enter the number of the WeaponSlot you want to check:");
                 int n = intScan.nextInt();
                 List<String> lWS = this.server.messageCheckWeaponSlotContents(game, n);
-                /*System.out.println("The cards available in WeaponSlot " + n + " are:\n" + lWS.get(0) + "\n" + lWS.get(1) + "\n" + lWS.get(2) +
-                        "\nCheck some other WeaponSlot? " + yesPrompt);*/
-                System.out.println("Below are the cards available in WeaponSlot " + n + ", together with their reload costs:");
+
+                System.out.println("Below are the cards available in WeaponSlot " + n + ", together with their reload costs:\n");
                 for(String s : lWS)
                     System.out.println(s);
+
                 System.out.println("Check some other WeaponSlot? " + yesPrompt);
                 confirm = in.nextLine();
             }
-            in.nextLine();
+
             System.out.println("Do you want to buy a WeaponCard instead of grabbing ammo? " + yesPrompt);
             confirm = in.nextLine();
-            if (confirm.equals("Yes") || confirm.equals("yes") || confirm.equals("y")) {
+            if(confirm.equals("Yes") || confirm.equals("yes") || confirm.equals("y")) {
                 System.out.println("Enter the name of the WeaponCard you wish to buy:");
                 wCard = in.nextLine();
                 System.out.println("Enter the number of the WeaponSlot from which you want to buy the card:");
                 weaponSlot = in.nextLine();
+
                 System.out.println("Enter the colour(s), in order and in all caps, of the required AmmoCube(s) to buy the card; 0 to finish");
-                while (true) {
+                while(true) {
                     String a = in.nextLine();
                     if (a.equals("0"))
                         break;
                     else
                         lC.add(Colour.valueOf(a));
                 }
+
                 System.out.println("Enter the PowerUpCard(s) you want to use to pay during your turn; 0 to finish");
-                while (true) {
+                while(true) {
                     String p = in.nextLine();
                     if (p.equals("0"))
                         break;
                     else
                         lP.add(p);
                 }
+
                 System.out.println("Enter the colour(s) of the PowerUpCard(s) you want to use to pay during your turn; 0 to finish");
-                while (true) {
+                while(true) {
                     String c = in.nextLine();
                     if (c.equals("0"))
                         break;
@@ -427,8 +449,10 @@ public class CLI extends UnicastRemoteObject implements View {
                         lPC.add(c);
                 }
             }
-            if (this.server.messageIsValidFirstActionGrab(game, nickName, lD, wCard, weaponSlot, lC, lP, lPC))
+
+            if(this.server.messageIsValidFirstActionGrab(game, nickName, lD, wCard, weaponSlot, lC, lP, lPC))
                 break;
+
             else {
                 System.out.println(errorRetry);
                 lD.clear();
@@ -436,11 +460,14 @@ public class CLI extends UnicastRemoteObject implements View {
                 lP.clear();
                 lPC.clear();
                 x = exitHandler(in);
-                if (x)
+                if(x) {
+                    action1();
                     return;
+                }
             }
         }
         this.server.messageFirstActionGrab(game, nickName, lD, wCard, lC, lP, lPC);
+
         if(this.server.messageIsDiscard(game)) {
             System.out.println("Enter the WeaponCard you want to discard");
             String wCDiscard = in.nextLine();
@@ -449,10 +476,11 @@ public class CLI extends UnicastRemoteObject implements View {
     }
 
     @Override
-    public void action2() throws RemoteException{
+    public void action2() throws RemoteException {
         String action;
         Scanner in = new Scanner(System.in);
         System.out.println("Your status:\n" + this.server.messageCheckYourStatus(game, nickName));
+
         System.out.println("---------START OF " + this.nickName + "'s SECOND ACTION---------");
         while (true) {
             System.out.println("Choose the second action you want to do (Move, Shoot, Grab):");
@@ -463,6 +491,7 @@ public class CLI extends UnicastRemoteObject implements View {
             else
                 System.out.println(errorRetry);
         }
+
         if(action.equals("Move") || action.equals("move"))
             this.moveSecondAction();
         if(action.equals("Shoot") || action.equals("shoot"))
@@ -471,27 +500,30 @@ public class CLI extends UnicastRemoteObject implements View {
             this.grabSecondAction();
     }
 
-    private void moveSecondAction() throws RemoteException{
+    private void moveSecondAction() throws RemoteException {
         Scanner in = new Scanner(System.in);
         Scanner intScan = new Scanner(System.in);
         boolean x;
         List<Integer> l = new LinkedList<>();
         System.out.println("The AmmoCards on the Board are as below:\n" + this.server.messageShowCardsOnBoard(game));
+
         System.out.println("Enter the sequence of movements you want to do, one integer at a time, up to 3\n" +
                 directions + "\n" +
-                "Press 0 to finish");
-        while (true) {
+                "0 to finish");
+        while(true) {
             System.out.println("Next int:");
             int n = intScan.nextInt();
-            if (n == 0 && this.server.messageIsValidSecondActionMove(game, nickName, l)) {
+            if(n == 0 && this.server.messageIsValidSecondActionMove(game, nickName, l)) {
                 break;
             }
-            else if (n == 0 && !this.server.messageIsValidSecondActionMove(game, nickName, l)) {
+            else if(n == 0 && !this.server.messageIsValidSecondActionMove(game, nickName, l)) {
                 System.out.println(errorRetry);
                 l.clear();
                 x = exitHandler(in);
-                if (x)
+                if (x) {
+                    action2();
                     return;
+                }
             }
             else {
                 l.add(n);
@@ -500,22 +532,25 @@ public class CLI extends UnicastRemoteObject implements View {
         this.server.messageSecondActionMove(game, this.nickName, l);
     }
 
-    private void shootSecondAction() throws RemoteException{
-        String inputReminder = "Below are the relevant strings you must enter for this card, in order of effects as shown in the manual.\n" +
-                "In brackets is the additional ammo cost for certain effects and modes.\n";
+    private void shootSecondAction() throws RemoteException {
+        String inputReminder = "Below are the relevant strings you must enter for this card, with respect to any possible order of effects as " +
+                "described in the manual.\nIn brackets is the additional ammo cost for certain effects and firing modes.\n";
         Scanner in = new Scanner(System.in);
-        System.out.println("Choose one of these cards to shoot: ");
-        this.server.messageGetWeaponCardLoaded(game, this.nickName).forEach(System.out::println);
-        String s = in.next();
-        while(!this.server.messageIsValidCard(game, nickName, s)){
-            System.out.println("Error: choose one of these cards to shoot: ");
+        String s = "";
+
+        while(true) {
+            System.out.println("Choose one of these cards to shoot:");
             this.server.messageGetWeaponCardLoaded(game, this.nickName).forEach(System.out::println);
-            s = in.next();
+            s = in.nextLine();
+            if(this.server.messageIsValidCard(game, nickName, s))
+                break;
+            else
+                System.out.println(errorRetry);
         }
         System.out.println(this.server.messageGetReloadCost(game, s, nickName));
-        System.out.println(this.server.messageGetDescriptionWC(game, s,nickName));
+        System.out.println(this.server.messageGetDescriptionWC(game, s, nickName));
 
-        switch(s){
+        switch(s) {
             case "Cyberblade":
                 System.out.println(inputReminder +
                         "basic effect: target in your cell\nshadowstep: direction you want to move to\n" +
@@ -661,7 +696,7 @@ public class CLI extends UnicastRemoteObject implements View {
         action2();
     }
 
-    private void grabSecondAction() throws RemoteException{
+    private void grabSecondAction() throws RemoteException {
         Scanner in = new Scanner(System.in);
         Scanner intScan = new Scanner(System.in);
         boolean x;
@@ -672,60 +707,66 @@ public class CLI extends UnicastRemoteObject implements View {
         String wCard = "";
         String weaponSlot = "";
         String confirm;
+
         System.out.println("The AmmoCards on the Board are as below:\n" + this.server.messageShowCardsOnBoard(game));
-        while (true) {
+
+        while(true) {
             System.out.println("If you wish to grab whatever is in your cell, enter 0\n" +
                     "Otherwise, enter the sequence of movements you want to do, one integer at a time: only one is permitted " +
                     "if you haven't unlocked the Adrenaline move, up to two otherwise\n" +
-                    "1 = north, 2 = east, 3 = south, 4 = west\n" +
+                    directions + "\n" +
                     "Enter 5 to finish");
-            while (intScan.hasNextInt()) {
+            while(intScan.hasNextInt()) {
                 int d = intScan.nextInt();
                 if (d == 5)
                     break;
                 else
                     lD.add(d);
             }
+
             System.out.println("Would you like to check the WeaponCards of a WeaponSlot? " + yesPrompt);
             confirm = in.nextLine();
-            while (confirm.equals("Yes") || confirm.equals("yes") || confirm.equals("y")) {
+            while(confirm.equals("Yes") || confirm.equals("yes") || confirm.equals("y")) {
                 System.out.println("Enter the number of the WeaponSlot you want to check:");
                 int n = intScan.nextInt();
                 List<String> lWS = this.server.messageCheckWeaponSlotContents(game, n);
-                /*System.out.println("The cards available in WeaponSlot " + n + " are:\n" + lWS.get(0) + "\n" + lWS.get(1) + "\n" + lWS.get(2) +
-                        "\nCheck some other WeaponSlot? " + yesPrompt);*/
-                System.out.println("Below are the cards available in WeaponSlot " + n + ", together with their reload costs:");
+
+                System.out.println("Below are the cards available in WeaponSlot " + n + ", together with their reload costs:\n");
                 for(String s : lWS)
                     System.out.println(s);
+
                 System.out.println("Check some other WeaponSlot? " + yesPrompt);
                 confirm = in.nextLine();
             }
-            in.nextLine();
+
             System.out.println("Do you want to buy a WeaponCard instead of grabbing ammo? " + yesPrompt);
             confirm = in.nextLine();
-            if (confirm.equals("Yes") || confirm.equals("yes") || confirm.equals("y")) {
+            if(confirm.equals("Yes") || confirm.equals("yes") || confirm.equals("y")) {
                 System.out.println("Enter the name of the WeaponCard you wish to buy:");
                 wCard = in.nextLine();
                 System.out.println("Enter the number of the WeaponSlot from which you want to buy the card:");
                 weaponSlot = in.nextLine();
+
                 System.out.println("Enter the colour(s), in order and in all caps, of the required AmmoCube(s) to buy the card; 0 to finish");
-                while (true) {
+                while(true) {
                     String a = in.nextLine();
                     if (a.equals("0"))
                         break;
                     else
                         lC.add(Colour.valueOf(a));
                 }
+
                 System.out.println("Enter the PowerUpCard(s) you want to use to pay during your turn; 0 to finish");
-                while (true) {
+                while(true) {
                     String p = in.nextLine();
                     if (p.equals("0"))
                         break;
                     else
                         lP.add(p);
                 }
+
                 System.out.println("Enter the colour(s) of the PowerUpCard(s) you want to use to pay during your turn; 0 to finish");
-                while (true) {
+                while(true) {
                     String c = in.nextLine();
                     if (c.equals("0"))
                         break;
@@ -733,8 +774,10 @@ public class CLI extends UnicastRemoteObject implements View {
                         lPC.add(c);
                 }
             }
-            if (this.server.messageIsValidSecondActionGrab(game, nickName, lD, wCard, weaponSlot, lC, lP, lPC))
+
+            if(this.server.messageIsValidSecondActionGrab(game, nickName, lD, wCard, weaponSlot, lC, lP, lPC))
                 break;
+
             else {
                 System.out.println(errorRetry);
                 lD.clear();
@@ -742,11 +785,14 @@ public class CLI extends UnicastRemoteObject implements View {
                 lP.clear();
                 lPC.clear();
                 x = exitHandler(in);
-                if (x)
+                if(x) {
+                    action2();
                     return;
+                }
             }
         }
         this.server.messageSecondActionGrab(game, nickName, lD, wCard, lC, lP, lPC);
+
         if(this.server.messageIsDiscard(game)) {
             System.out.println("Enter the WeaponCard you want to discard");
             String wCDiscard = in.nextLine();
@@ -755,33 +801,37 @@ public class CLI extends UnicastRemoteObject implements View {
     }
 
     @Override
-    public boolean doYouWantToUsePUC() throws RemoteException{
+    public boolean doYouWantToUsePUC() throws RemoteException {
         Scanner in = new Scanner(System.in);
-        System.out.println("Do you want to use the PowerUpCard now?");
+        System.out.println("Do you want to use a PowerUpCard now?");
         String confirm = in.next();
         return (confirm.equals("Yes") || confirm.equals("yes") || confirm.equals("y"));
     }
 
     @Override
-    public void usePowerUpCard() throws RemoteException{
+    public void usePowerUpCard() throws RemoteException {
         Scanner in = new Scanner(System.in);
         Scanner intScan = new Scanner(System.in);
         boolean x;
         String namePC;
         String colourPC;
         List<String> lS = new LinkedList<>();
+
         System.out.println("Enter which PowerUpCard you want to use:");
         this.server.messageGetPowerUpCard(game, nickName).forEach(System.out::println);
         namePC = in.nextLine();
+
         System.out.println("Enter the colour of the PowerUpCard:");
         colourPC = in.nextLine();
         this.server.messageGetDescriptionPUC(game, namePC, colourPC, nickName);
-        switch (namePC){
+
+        switch(namePC) {
             case "Tagback Grenade":
-                while (true) {
+                while(true) {
                     System.out.println("Enter the nickname of a player you can see and that gave you damage:");
                     lS.add(in.nextLine());
-                    if (this.server.messageIsValidUsePowerUpCard(game, nickName, namePC, colourPC, lS, null))
+
+                    if(this.server.messageIsValidUsePowerUpCard(game, nickName, namePC, colourPC, lS, null))
                         break;
                     else {
                         System.out.println(errorRetry);
@@ -796,24 +846,27 @@ public class CLI extends UnicastRemoteObject implements View {
 
             case "Targeting Scope":
                 Colour c = null;
-                while (true) {
+
+                while(true) {
                     System.out.println("Enter the nickname of one or more players you have damaged; 0 to finish");
-                    while (true) {
+                    while(true) {
                         String p = in.nextLine();
                         if (p.equals("0"))
                             break;
                         else
                             lS.add(p);
                     }
+
                     System.out.println("Enter the colour of the AmmoCube you want to use to pay:");
                     c = Colour.valueOf(in.nextLine());
-                    if (this.server.messageIsValidUsePowerUpCard(game, nickName, namePC, colourPC, lS, c))
+
+                    if(this.server.messageIsValidUsePowerUpCard(game, nickName, namePC, colourPC, lS, c))
                         break;
                     else {
                         System.out.println(errorRetry);
                         lS.clear();
                         x = exitHandler(in);
-                        if (x)
+                        if(x)
                             return;
                     }
                 }
@@ -821,39 +874,48 @@ public class CLI extends UnicastRemoteObject implements View {
                 break;
 
             case "Newton":
-                System.out.println("Enter the nickname of a player:");
-                lS.add(in.nextLine());
-                System.out.println("Enter the direction(s) in which you want the enemy to go:");
-                while(in.hasNext())
-                    lS.add(in.next());
-                while(!this.server.messageIsValidUsePowerUpCard(game, nickName, namePC, colourPC, lS, null)) {
-                    System.out.println(errorRetry);
-                    System.out.println(this.exit + yesPrompt);
-                    String exit = in.next();
-                    if (exit.equals("Yes") || exit.equals("yes") || exit.equals("y"))
-                        action2();
+                while(true) {
                     System.out.println("Enter the nickname of a player:");
-                    lS.add(in.next());
-                    System.out.println("Enter the direction(s) in which you want the enemy to go:");
-                    while(in.hasNext())
-                        lS.add(in.next());
+                    lS.add(in.nextLine());
+
+                    System.out.println("Enter the direction(s) in which you want the enemy to go; 0 to finish");
+                    while(true) {
+                        String s = in.next();
+                        if(s.equals("0"))
+                            break;
+                        else
+                            lS.add(in.next());
+                    }
+
+                    if(this.server.messageIsValidUsePowerUpCard(game, nickName, namePC, colourPC, lS, null)) {
+                        break;
+                    }
+                    else {
+                        System.out.println(errorRetry);
+                        lS.clear();
+                        x = exitHandler(in);
+                        if(x)
+                            return;
+                    }
                 }
                 this.server.messageUsePowerUpCard(game, nickName, namePC, colourPC, lS, null);
                 break;
 
             case "Teleporter":
-                System.out.println("Enter the coordinates of the cell you want to move to (x y):");
-                lS.add(in.next());
-                lS.add(in.next());
-                while(!this.server.messageIsValidUsePowerUpCard(game, nickName, namePC, colourPC, lS, null)) {
-                    System.out.println(errorRetry);
-                    System.out.println(this.exit + yesPrompt);
-                    String exit = in.next();
-                    if (exit.equals("Yes") || exit.equals("yes") || exit.equals("y"))
-                        action2();
-                    System.out.println("Enter the coordinates of the cell you want to move:");
+                while(true) {
+                    System.out.println("Enter the coordinates of the cell you want to move to:");
                     lS.add(in.next());
                     lS.add(in.next());
+
+                    if(this.server.messageIsValidUsePowerUpCard(game, nickName, namePC, colourPC, lS, null))
+                        break;
+                    else {
+                        System.out.println(errorRetry);
+                        lS.clear();
+                        x = exitHandler(in);
+                        if(x)
+                            return;
+                    }
                 }
                 this.server.messageUsePowerUpCard(game, nickName, namePC, colourPC, lS, null);
                 break;
@@ -862,18 +924,20 @@ public class CLI extends UnicastRemoteObject implements View {
     }
     
     @Override
-    public void reload() throws RemoteException{
+    public void reload() throws RemoteException {
         Scanner in = new Scanner(System.in);
         this.server.messageGetWeaponCardUnloaded(game, this.nickName).forEach(System.out::println);
         int i = 0;
-        while (i == 0) {
+
+        while(i == 0) {
             System.out.println("Choose the weapon card you want to reload, or 'end' if you don't need/want to");
             String s = in.nextLine();
-            if (s.equals("end"))
+            if(s.equals("end"))
                 break;
+
             System.out.println("Enter 0 if you want to reload another card, otherwise 1");
             i = in.nextInt();
-            if (this.server.messageIsValidReload(game, this.nickName, s))
+            if(this.server.messageIsValidReload(game, this.nickName, s))
                 this.server.messageReload(game, this.nickName, s, i);
             else
                 System.out.println("You can't reload now");
@@ -881,43 +945,50 @@ public class CLI extends UnicastRemoteObject implements View {
     }
 
     @Override
-    public void scoring() throws RemoteException{
+    public void scoring() throws RemoteException {
         if(this.server.messageIsValidScoring(game)) {
             System.out.println("Scoring...");
             this.server.messageScoring(game);
         }
         else
-            System.out.println("Not scoring");
+            System.out.println("No scoring yet");
     }
 
     @Override
-    public void newSpawnPoint() throws RemoteException{
+    public void newSpawnPoint() throws RemoteException {
+        Scanner in = new Scanner(System.in);
+
         if(this.server.messageGetDeadList(game).contains(this.nickName)) {
-            System.out.println("Enter the PowerUp card you want to discard:");
-            Scanner in = new Scanner(System.in);
-            String s = in.nextLine();
-            System.out.println("Enter the colour of the PowerUp:");
-            String c = in.nextLine();
-            while(!this.server.messageIsValidDiscardCardForSpawnPoint(game, this.nickName, s, c)){
+            String p = "";
+            String c = "";
+
+            while(true) {
                 System.out.println("Enter the PowerUp card you want to discard:");
-                s = in.nextLine();
+                p = in.nextLine();
+
                 System.out.println("Enter the colour of the PowerUp:");
                 c = in.nextLine();
+
+                if(this.server.messageIsValidDiscardCardForSpawnPoint(game, this.nickName, p, c))
+                    break;
+                else
+                    System.out.println(errorRetry);
+
             }
-            this.server.messageDiscardCardForSpawnPoint(game, this.nickName, s, c);
+            this.server.messageDiscardCardForSpawnPoint(game, this.nickName, p, c);
         }
     }
 
     @Override
-    public void replace() throws RemoteException{
+    public void replace() throws RemoteException {
         if(this.server.messageIsValidToReplace(game)) {
             System.out.println("Replacing...");
             this.server.messageReplace(game);
-            System.out.println("Your turn is ended");
+            System.out.println("Your turn has ended");
         }
         else {
-            System.out.println("Not replacing");
-            System.out.println("Your turn is ended");
+            System.out.println("It's not time to replace yet");
+            System.out.println("Your turn has ended");
         }
     }
 
@@ -1204,37 +1275,36 @@ public class CLI extends UnicastRemoteObject implements View {
     public void finalScoring()throws RemoteException {
         this.server.messageFinalScoring(game);
         System.out.println("FINAL SCORE");
-        this.server.messageGetPlayers(game).forEach(System.out::print);
-        System.out.println();
-        this.server.messageGetScore(game).forEach(System.out::print);
-        System.out.println();
+        this.server.messageGetPlayers(game).forEach(System.out::println);
+
+        this.server.messageGetScore(game).forEach(System.out::println);
         System.out.println("END GAME");
     }
 
 
     @Override
     public void printPlayer(List<String> information) throws RemoteException {
-        System.out.println("Player: " + information.get(0) + "(identifier " + information.get(2)+ ") with colour " + information.get(1) + " is now a Player of this game ");
+        System.out.println("Player " + information.get(0) + "(identifier " + information.get(2)+ ") of colour " + information.get(1) + " is now a Player of this game ");
     }
 
     @Override
     public void printScore(List<String> information) throws RemoteException {
-        System.out.println("Player: " + information.get(0) + " has now this score: " + information.get(1));
+        System.out.println("Player " + information.get(0) + "'s current score is " + information.get(1));
     }
 
     @Override
     public void printPosition(List<String> information) throws RemoteException {
-        System.out.println("Now Player: " + information.get(0) + " is in the cell " + information.get(1) + " " + information.get(2));
+        System.out.println("Player " + information.get(0) + " has moved to Cell " + information.get(1) + " " + information.get(2));
     }
 
     @Override
     public void printMark(List<String> information) throws RemoteException {
-        System.out.println("Player: " + information.get(0) + "give a new Mark to Player" + information.get(1));
+        System.out.println("Player " + information.get(0) + "has given a new Mark to Player " + information.get(1));
     }
 
     @Override
     public void printDamage(List<String> information) throws RemoteException {
-        System.out.println("Player: " + information.get(0) + " give " + information.get(1) + " damages to Player: " + information.get(2));
+        System.out.println("Player " + information.get(0) + " has dealt " + information.get(1) + " damage to Player " + information.get(2));
     }
 
     @Override

@@ -14,13 +14,13 @@ public interface View extends Remote {
     String getNickName() throws RemoteException;
     void setInformation(int identifier) throws RemoteException;
     void disconnected(int disconnected) throws RemoteException, InterruptedException;
-    void askNameAndColour()throws RemoteException;
+    void askNameAndColour()throws RemoteException, InterruptedException;
     void selectSpawnPoint()throws RemoteException;
     void action1()throws RemoteException;
     void action2()throws RemoteException;
     boolean doYouWantToUsePUC()throws RemoteException;
     void usePowerUpCard()throws RemoteException;
-    void reload()throws RemoteException;
+    void reload()throws RemoteException, InterruptedException;
     void scoring()throws RemoteException;
     void newSpawnPoint()throws RemoteException;
     void replace()throws RemoteException;

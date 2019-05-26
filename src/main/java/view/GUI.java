@@ -209,7 +209,7 @@ public class GUI implements View, Serializable {
     }
 
     @Override
-    public void askNameAndColour() throws RemoteException{
+    public void askNameAndColour() throws RemoteException, InterruptedException{
         if (this.server.messageGameIsNotStarted(game) && this.identifier == 1) {
             JFrame f = new JFrame("Name, colour and type");
             f.setLocation(10,10);
@@ -219,6 +219,7 @@ public class GUI implements View, Serializable {
             //f.addWindowListener( new Terminator());
             f.setSize(500,500);
             f.setVisible(true);
+            wait();
         }
         else{
             JFrame f = new JFrame("Name and colour");
@@ -229,6 +230,7 @@ public class GUI implements View, Serializable {
             //f.addWindowListener( new Terminator());
             f.setSize(500,500);
             f.setVisible(true);
+            wait();
         }
     }
 
@@ -284,7 +286,7 @@ public class GUI implements View, Serializable {
     }
 
     @Override
-    public void reload() throws RemoteException{
+    public void reload() throws RemoteException, InterruptedException{
         CardLinkList l = new CardLinkList();
         JFrame jF = new JFrame();
         ReloadPanel reloadPanel = new ReloadPanel();
@@ -295,6 +297,7 @@ public class GUI implements View, Serializable {
         }
         jF.add(reloadPanel);
         jF.setVisible(true);
+        wait();
         //TODO
 
 

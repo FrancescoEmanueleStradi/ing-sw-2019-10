@@ -118,33 +118,22 @@ public class GUI implements View, Serializable {
 
 
     @Override
-    public void selectSpawnPoint() throws RemoteException{
+    public void selectSpawnPoint() throws RemoteException, InterruptedException{
+        CardLinkList l = new CardLinkList();
         this.server.messageGiveTwoPUCard(game, this.nickName);
         Container spawnPoint = new Container();
         spawnPoint.add(new JLabel("The following are " + this.nickName +"'s starting PowerUpCards"));
-        System.out.println(this.server.messageGetPowerUpCard(game, this.nickName).get(0) + " coloured " + this.server.messageGetPowerUpCardColour(game, this.nickName).get(0));
-        System.out.println(this.server.messageGetPowerUpCard(game, this.nickName).get(1) + " coloured " + this.server.messageGetPowerUpCardColour(game, this.nickName).get(1));
+        spawnPoint.add(new JLabel(l.getImageIconFromName(this.server.messageGetPowerUpCard(game, this.nickName).get(0), this.server.messageGetPowerUpCardColour(game, this.nickName).get(0))));
+        spawnPoint.add(new JLabel(l.getImageIconFromName(this.server.messageGetPowerUpCard(game, this.nickName).get(1), this.server.messageGetPowerUpCardColour(game, this.nickName).get(1))));
         spawnPoint.add(new JLabel("\n---------SPAWN POINT SELECT---------\n"));
-        /*while (true) {
-            System.out.println("Enter the name of the card you want to keep; you will discard the other one corresponding to the " +
-                    "colour of your spawn point");
-            p = in.nextLine();
-            System.out.println("Enter the colour of that card:");
-            c = in.nextLine();
-            if (this.server.messageIsValidPickAndDiscard(game, this.nickName, p, c))
-                break;
-            else
-                System.out.println(errorRetry);
-        }
-        if (this.server.messageGetPowerUpCard(game, this.nickName).get(0).equals(p) && this.server.messageGetPowerUpCardColour(game, this.nickName).get(0).equals(c))
-            this.server.messagePickAndDiscardCard(game, this.nickName, this.server.messageGetPowerUpCard(game, this.nickName).get(0), this.server.messageGetPowerUpCardColour(game, this.nickName).get(0));
-        else
-            this.server.messagePickAndDiscardCard(game, this.nickName, this.server.messageGetPowerUpCard(game, this.nickName).get(1), this.server.messageGetPowerUpCardColour(game, this.nickName).get(1));*/
+        spawnPoint.add(new DiscardPUC(this, server, game, nickName, this.server.messageGetPowerUpCard(game, this.nickName).get(0), this.server.messageGetPowerUpCard(game, this.nickName).get(1), this.server.messageGetPowerUpCardColour(game, this.nickName).get(0), this.server.messageGetPowerUpCardColour(game, this.nickName).get(1)));
+        spawnPoint.setVisible(true);
+        wait();
     }
 
 
     @Override
-    public void action1() throws InterruptedException{
+    public synchronized void action1() throws InterruptedException{
         JFrame action = new JFrame(this.nickName + "'s FIRST ACTION");
         action.add(new Action1(this));
         action.setVisible(true);
@@ -167,8 +156,26 @@ public class GUI implements View, Serializable {
     }
 
     @Override
-    public void action2(){
-        //TODO
+    public void action2() throws InterruptedException{
+        JFrame action = new JFrame(this.nickName + "'s SECOND ACTION");
+        action.add(new Action1(this));
+        action.setVisible(true);
+        wait();
+    }
+
+    public synchronized void moveSecondAction() throws InterruptedException{
+        JFrame move = new JFrame("Second action move");                     //TODO
+        move.add(new Move(this, server, game, identifier, nickName));
+        move.setVisible(true);
+        wait();
+    }
+
+    public synchronized void grabSecondAction() throws InterruptedException{
+
+    }
+
+    public synchronized void shootSecondAction() throws InterruptedException{
+
     }
 
     @Override

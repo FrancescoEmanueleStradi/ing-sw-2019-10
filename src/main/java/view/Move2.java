@@ -8,7 +8,7 @@ import java.rmi.RemoteException;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Move extends JPanel implements ActionListener {
+public class Move2 extends JPanel implements ActionListener {
 
     private GUI gui;
     private ServerInterface server;
@@ -20,8 +20,7 @@ public class Move extends JPanel implements ActionListener {
     private JTextField txt2;
     private JTextField txt3;
 
-
-    public Move(GUI gui, ServerInterface server, int game, int identifier, String nickName) {
+    public Move2(GUI gui, ServerInterface server, int game, int identifier, String nickName) {
         super();
         this.gui = gui;
         this.server = server;
@@ -33,15 +32,14 @@ public class Move extends JPanel implements ActionListener {
         txt2 = new JTextField("Write here", 25);
         txt3 = new JTextField("Write here", 25);
         b.addActionListener(this);
-        add(new Label(("Enter your first direction:")));
+        add(new JLabel(("Enter your first direction:")));
         add(txt1);
-        add(new Label("Enter your second direction:"));
+        add(new JLabel("Enter your second direction:"));
         add(txt2);
-        add(new Label("Enter your third direction:"));
+        add(new JLabel("Enter your third direction:"));
         add(txt3);
         add(b);
     }
-
 
     public synchronized void actionPerformed(ActionEvent e) {
         try {
@@ -49,22 +47,16 @@ public class Move extends JPanel implements ActionListener {
             l.add(Integer.parseInt(txt1.getText()));
             l.add(Integer.parseInt(txt2.getText()));
             l.add(Integer.parseInt(txt3.getText()));
-            while (!server.messageIsValidFirstActionMove(game, nickName, l))
+            while (!server.messageIsValidSecondActionMove(game, nickName, l))
                 gui.moveFirstAction();
-            server.messageFirstActionMove(game, nickName, l);
+            server.messageSecondActionMove(game, nickName, l);
             notifyAll();
-        }
-        catch(RemoteException r){
+        } catch (RemoteException r) {
 
-        }
-        catch (InterruptedException i){
+        } catch (InterruptedException i) {
 
         }
 
 
     }
-
-
 }
-
-

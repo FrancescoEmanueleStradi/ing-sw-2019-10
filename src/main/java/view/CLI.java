@@ -1322,4 +1322,9 @@ public class CLI extends UnicastRemoteObject implements View {
         String exit = in.next();
         return (exit.equals("Yes") || exit.equals("yes") || exit.equals("y"));
     }
+
+    @Override
+    public void exit() {
+        System.exit(0);
+    }
 }

@@ -362,4 +362,9 @@ public class GUI implements View, Serializable {
     public void setType(int type) throws RemoteException{
         this.type = type;
     }
+
+    @Override
+    public void exit() {
+        System.exit(0);
+    }
 }

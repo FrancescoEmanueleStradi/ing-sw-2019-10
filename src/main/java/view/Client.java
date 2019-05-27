@@ -30,7 +30,6 @@ public class Client {
                 System.out.println("Enter you old identifier:");
                 identifier = in.nextInt();
             }
-            centralServer.manageReconnection(game,identifier);
             System.out.println("Your identifier is:" + identifier);
             System.out.println("Do you want to use CLI or GUI?");
             switch (in.next()) {
@@ -45,13 +44,14 @@ public class Client {
                     view = new GUI(game, centralServer);
                     break;
             }
-            centralServer.setGame(game);
+            //centralServer.setGame(game);
             //view.setServer(centralServer);
             //view.setGame(game);
             centralServer.setView(game, identifier, view.getView());
             view.setType(centralServer.getType(game));
-            view.printType();
             view.setInformation(identifier);
+            centralServer.manageReconnection(game,identifier);
+            view.printType();
         }
         else {
             while (centralServer.tooMany(game)) {
@@ -157,10 +157,13 @@ public class Client {
             }
             //view.endFinalFrenzy();
             //if (centralServer.gameIsFinished(game)) {
-            //view.finalScoring();
+            view.finalScoring();                        //TODO at the end of the game every player must go there and not start a new turn
+            System.exit(0);
             //}
-        }catch (RemoteException e){                                             //we inserted it here to manage a possible problem during the first part of the game
+        }catch (RemoteException e){
+            centralServer.finishTurn(game);                         //we inserted it here to manage a possible problem during the first part of the game
             centralServer.manageDisconnection(game, identifier, view.getNickName());
+            System.exit(0);
         }
     }
 }

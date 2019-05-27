@@ -36,4 +36,6 @@ public interface View extends Remote {
     void printType() throws RemoteException;
 
     void setType(int type) throws RemoteException;
+
+    void exit() throws RemoteException;
 }

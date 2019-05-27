@@ -430,7 +430,7 @@ public class Grid {
     public void replaceAmmoCard() {
         for(int i = 0; i < 3; i++) {
             for(int j = 0; j < 4; j++) {
-                if(this.board.getArena()[i][j].getA() == null)              //check that when we pick up the card from the cell it will be null
+                if(this.board.getArena()[i][j].getStatus() == 0 && this.board.getArena()[i][j].getA() == null)              //check that when we pick up the card from the cell it will be null
                     this.board.getArena()[i][j].setA(this.pickAmmoCard());
             }
         }

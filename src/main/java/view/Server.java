@@ -182,8 +182,8 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
                 connections.get(game).get(getPlayerTurn(game)-1).setMyTurn(false);
             }
             else {
-                connections.get(game).get(0).setMyTurn(true);
                 connections.get(game).get(getPlayerTurn(game)-1).setMyTurn(false);
+                connections.get(game).get(0).setMyTurn(true);
             }
         }while(suspendedIdentifier.get(game).contains(getPlayerTurn(game)));
     }
@@ -191,6 +191,14 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
     public synchronized void manageDisconnection(int game, int identifier, String nickName) throws RemoteException, InterruptedException{
         suspendedIdentifier.get(game).add(identifier);
         suspendedName.get(game).add(nickName);
+        if(connections.get(game).size() - suspendedIdentifier.get(game).size() < 3) {
+            for(Connection c : connections.get(game)) {
+                if(c.getView() != null) {                                     //TODO it must not print in disconnected views
+                    c.getView().finalScoring();
+                    c.getView().exit();
+                }
+            }
+        }
         for(Connection c : connections.get(game)){
             if(c.getView() != null)
                 c.getView().disconnected(identifier);
@@ -202,7 +210,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
     }
 
     public synchronized void manageReconnection(int game, int identifier) throws RemoteException{
-        suspendedIdentifier.get(game).remove(identifier);
+        suspendedIdentifier.get(game).removeFirstOccurrence(identifier);
     }
 
     public String getSuspendedName(int game, int identifier) throws RemoteException{
@@ -218,9 +226,12 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
     //notify to client
 
     public synchronized void notifyPlayer(int game, List<String> information) throws RemoteException{
+        for (Connection c : connections.get(game)) {
+            if(information.get(0).equals(c.getNickName()))
+                information.add(Integer.toString(c.getIdentifier()));
+        }
         for(Connection c : connections.get(game)){
             if(c.getView()!=null && !suspendedIdentifier.get(game).contains(c.getIdentifier())) {
-                information.add(Integer.toString(c.getIdentifier()));
                 c.getView().printPlayer(information);
             }
         }

@@ -1,16 +1,13 @@
 package view;
 
-import controller.Game;
 import model.Colour;
 import java.awt.*;
 import javax.swing.*;
 
 import java.io.Serializable;
 import java.rmi.RemoteException;
-import java.time.chrono.JapaneseChronology;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Scanner;
 
 public class GUI implements View, Serializable {
 
@@ -141,18 +138,19 @@ public class GUI implements View, Serializable {
     }
 
     public synchronized void moveFirstAction() throws InterruptedException{
-        JFrame move = new JFrame("First action move");
-        move.add(new Move(this, server, game, identifier, nickName));
+        JFrame move = new JFrame("First action - move");
+        move.add(new Move1(this, server, game, identifier, nickName));
         move.setVisible(true);
         wait();
     }
 
     public synchronized void grabFirstAction() throws InterruptedException{
-
+        JFrame grab = new JFrame("First action - grab");
+        grab.add(new Grab1(this, server, game, identifier, nickName));
     }
 
     public synchronized void shootFirstAction() throws InterruptedException{
-        
+
     }
 
     @Override
@@ -164,14 +162,14 @@ public class GUI implements View, Serializable {
     }
 
     public synchronized void moveSecondAction() throws InterruptedException{
-        JFrame move = new JFrame("Second action move");                     //TODO
-        move.add(new Move(this, server, game, identifier, nickName));
+        JFrame move = new JFrame("Second action - move");                     //TODO
+        move.add(new Move2(this, server, game, identifier, nickName));
         move.setVisible(true);
         wait();
     }
 
     public synchronized void grabSecondAction() throws InterruptedException{
-
+        JFrame move = new JFrame("Second action - grab");
     }
 
     public synchronized void shootSecondAction() throws InterruptedException{

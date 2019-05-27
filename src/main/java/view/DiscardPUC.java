@@ -32,8 +32,10 @@ public class DiscardPUC extends JOptionPane implements ActionListener {
                 "colour of your spawn point"));
         firstButton = new JButton(this.n1 + this.c1);
         add(firstButton).doLayout();
+        firstButton.addActionListener(this);
         secondButton = new JButton(this.n2 + this.c2);
         add(secondButton).doLayout();
+        secondButton.addActionListener(this);
     }
 
     @Override

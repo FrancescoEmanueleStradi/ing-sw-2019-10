@@ -17,10 +17,13 @@ public class Action2 extends JOptionPane implements ActionListener {
         add(new JLabel("Choose the second action you want to do"));
         moveButton = new JButton("Move");
         add(moveButton).doLayout();
+        moveButton.addActionListener(this);
         grabButton = new JButton("Grab");
         add(moveButton).doLayout();
+        grabButton.addActionListener(this);
         shootButton = new JButton("Shoot");
         add(moveButton).doLayout();
+        shootButton.addActionListener(this);
     }
 
     @Override

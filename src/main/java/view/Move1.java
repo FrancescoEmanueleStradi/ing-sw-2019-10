@@ -8,7 +8,7 @@ import java.rmi.RemoteException;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Move extends JPanel implements ActionListener {
+public class Move1 extends JPanel implements ActionListener {
 
     private GUI gui;
     private ServerInterface server;
@@ -20,8 +20,7 @@ public class Move extends JPanel implements ActionListener {
     private JTextField txt2;
     private JTextField txt3;
 
-
-    public Move(GUI gui, ServerInterface server, int game, int identifier, String nickName) {
+    public Move1(GUI gui, ServerInterface server, int game, int identifier, String nickName) {
         super();
         this.gui = gui;
         this.server = server;
@@ -42,7 +41,6 @@ public class Move extends JPanel implements ActionListener {
         add(b);
     }
 
-
     public synchronized void actionPerformed(ActionEvent e) {
         try {
             List<Integer> l = new LinkedList<>();
@@ -53,18 +51,14 @@ public class Move extends JPanel implements ActionListener {
                 gui.moveFirstAction();
             server.messageFirstActionMove(game, nickName, l);
             notifyAll();
-        }
-        catch(RemoteException r){
+        } catch (RemoteException r) {
 
-        }
-        catch (InterruptedException i){
+        } catch (InterruptedException i) {
 
         }
 
 
     }
-
-
 }
 
 

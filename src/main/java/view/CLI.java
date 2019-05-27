@@ -139,12 +139,14 @@ public class CLI extends UnicastRemoteObject implements View {
         }
 
         if(this.server.messageGetPowerUpCard(game, this.nickName).get(0).equals(p) && this.server.messageGetPowerUpCardColour(game, this.nickName).get(0).equals(c)) {
+            String spawnColour = this.server.messageGetPowerUpCardColour(game, this.nickName).get(1);
             this.server.messagePickAndDiscardCard(game, this.nickName, this.server.messageGetPowerUpCard(game, this.nickName).get(0), this.server.messageGetPowerUpCardColour(game, this.nickName).get(0));
-            System.out.println("Your spawn point is " + this.server.messageGetPowerUpCardColour(game, this.nickName).get(1) + "\n");
+            System.out.println("Your spawn point is " + spawnColour + "\n");
         }
         else {
+            String spawnColour = this.server.messageGetPowerUpCardColour(game, this.nickName).get(0);
             this.server.messagePickAndDiscardCard(game, this.nickName, this.server.messageGetPowerUpCard(game, this.nickName).get(1), this.server.messageGetPowerUpCardColour(game, this.nickName).get(1));
-            System.out.println("Your spawn point is " + this.server.messageGetPowerUpCardColour(game, this.nickName).get(0) + "\n");
+            System.out.println("Your spawn point is " + spawnColour + "\n");
         }
     }
 

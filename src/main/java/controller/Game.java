@@ -1025,7 +1025,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
         String yourPups = "These are the PowerUpCards currently in your possession:\n";
         for(PowerUpCard c : p.getPowerUpCards()) {
-            pCards.add(c.getCardName() + c.getC().getAbbreviation());
+            pCards.add(c.getCardName() + " coloured " + c.getC().getAbbreviation());
         }
 
         String yourAmmo = "These are the AmmoCubes currently in your possession:\n";

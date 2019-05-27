@@ -1139,7 +1139,9 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
             this.gameState = STARTTURN;
         if(this.gameState.equals(STARTTURN)) {
             Player p = this.grid.getPlayerObject(nickName);
-            WeaponCard wCard = this.grid.getWeaponCardObject(wCardInput);
+            WeaponCard wCard = null;
+            if(!wCardInput.equals(""))
+                wCard = this.grid.getWeaponCardObject(wCardInput);
             List<AmmoCube> lA = new LinkedList<>();
             List<PowerUpCard> lP = new LinkedList<>();
 
@@ -1235,7 +1237,9 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
     public boolean isValidSecondActionGrab(String nickName, List<Integer> directionList, String wCardInput, String wSlotInput, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) {
         if(this.gameState.equals(ACTION1)) {
             Player p = this.grid.getPlayerObject(nickName);
-            WeaponCard wCard = this.grid.getWeaponCardObject(wCardInput);
+            WeaponCard wCard = null;
+            if(!wCardInput.equals(""))
+                wCard = this.grid.getWeaponCardObject(wCardInput);
             List<AmmoCube> lA = new LinkedList<>();
             List<PowerUpCard> lP = new LinkedList<>();
 

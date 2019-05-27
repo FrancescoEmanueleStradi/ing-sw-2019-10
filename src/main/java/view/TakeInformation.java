@@ -40,7 +40,7 @@ public class TakeInformation extends JPanel implements ActionListener {
          add(b);
      }
 
-     public synchronized void actionPerformed(ActionEvent e){
+     public synchronized void actionPerformed(ActionEvent e) {
          try {
              if(identifier == 1)
                 getInformation();
@@ -48,10 +48,12 @@ public class TakeInformation extends JPanel implements ActionListener {
                  getLessInformation();
          }catch(RemoteException ex){
              //TODO?
+         }catch (InterruptedException i){
+             //TODO?
          }
      }
 
-     private synchronized void getInformation()  throws RemoteException {
+     private synchronized void getInformation()  throws RemoteException, InterruptedException {
          if(!error){
              gui.setNickName(txt1.getText());
              server.setNickName(this.game, this.identifier, txt1.getText());
@@ -61,6 +63,7 @@ public class TakeInformation extends JPanel implements ActionListener {
          }
              while (!this.server.messageIsValidReceiveType(game, Integer.valueOf(txt3.getText()))) {
                  add(new Label("Error, write a valid type"));
+                 gui.askNameAndColour();
              }
 
          this.server.messageReceiveType(game, Integer.valueOf(txt3.getText()));
@@ -69,7 +72,7 @@ public class TakeInformation extends JPanel implements ActionListener {
          notifyAll();
      }
 
-     private synchronized void getLessInformation() throws RemoteException{
+     private synchronized void getLessInformation() throws RemoteException, InterruptedException{
          gui.setType(server.getType(game));
          add(new Label("\n---------WAITING FOR PLAYERS TO JOIN---------\n"));
          gui.setNickName(txt1.getText());
@@ -77,6 +80,7 @@ public class TakeInformation extends JPanel implements ActionListener {
          server.setNickName(this.game, this.identifier, txt1.getText());
          while (!this.server.messageIsValidAddPlayer(game, txt1.getText(), Colour.valueOf(txt2.getText()))) {
              add(new Label("Error retry"));
+             gui.askNameAndColour();
              gui.setNickName(txt1.getText());
              gui.setColour(Colour.valueOf(txt2.getText()));
              server.setNickName(this.game, this.identifier, txt1.getText());

@@ -209,7 +209,7 @@ public class GUI implements View, Serializable {
     }
 
     @Override
-    public void askNameAndColour() throws RemoteException, InterruptedException{
+    public synchronized void askNameAndColour() throws RemoteException, InterruptedException{
         if (this.server.messageGameIsNotStarted(game) && this.identifier == 1) {
             JFrame f = new JFrame("Name, colour and type");
             f.setLocation(10,10);
@@ -238,12 +238,11 @@ public class GUI implements View, Serializable {
     @Override
     public void selectSpawnPoint() throws RemoteException{
         this.server.messageGiveTwoPUCard(game, this.nickName);
-        String p;
-        String c;
-        System.out.println("The following are " + this.nickName +"'s starting PowerUpCards");
+        Container spawnPoint = new Container();
+        spawnPoint.add(new JLabel("The following are " + this.nickName +"'s starting PowerUpCards"));
         System.out.println(this.server.messageGetPowerUpCard(game, this.nickName).get(0) + " coloured " + this.server.messageGetPowerUpCardColour(game, this.nickName).get(0));
         System.out.println(this.server.messageGetPowerUpCard(game, this.nickName).get(1) + " coloured " + this.server.messageGetPowerUpCardColour(game, this.nickName).get(1));
-        System.out.println("\n---------SPAWN POINT SELECT---------\n");
+        spawnPoint.add(new JLabel("\n---------SPAWN POINT SELECT---------\n"));
         /*while (true) {
             System.out.println("Enter the name of the card you want to keep; you will discard the other one corresponding to the " +
                     "colour of your spawn point");
@@ -263,8 +262,26 @@ public class GUI implements View, Serializable {
 
 
     @Override
-    public void action1(){
-        //TODO
+    public void action1() throws InterruptedException{
+        JFrame action = new JFrame(this.nickName + "'s FIRST ACTION");
+        action.add(new Action1(this));
+        action.setVisible(true);
+        wait();
+    }
+
+    public synchronized void moveFirstAction() throws InterruptedException{
+        JFrame move = new JFrame("First action move");
+        move.add(new Move(this, server, game, identifier, nickName));
+        move.setVisible(true);
+        wait();
+    }
+
+    public synchronized void grabFirstAction() throws InterruptedException{
+
+    }
+
+    public synchronized void shootFirstAction() throws InterruptedException{
+        
     }
 
     @Override

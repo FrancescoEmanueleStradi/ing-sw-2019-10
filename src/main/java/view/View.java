@@ -16,7 +16,7 @@ public interface View extends Remote {
     void disconnected(int disconnected) throws RemoteException, InterruptedException;
     void askNameAndColour()throws RemoteException, InterruptedException;
     void selectSpawnPoint()throws RemoteException;
-    void action1()throws RemoteException;
+    void action1()throws RemoteException, InterruptedException;
     void action2()throws RemoteException;
     boolean doYouWantToUsePUC()throws RemoteException;
     void usePowerUpCard()throws RemoteException;

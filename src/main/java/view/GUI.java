@@ -8,6 +8,7 @@ import javax.swing.*;
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.time.chrono.JapaneseChronology;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -25,66 +26,7 @@ public class GUI implements View, Serializable {
     private JScrollPane scrollPane;
     private TextArea textArea;
     private JPanel players;
-    /*private ImageIcon Enjoy;
-    private ImageIcon BlackPlayerBoard;
-    private ImageIcon BlackPlayerBoardFF;
-    private ImageIcon BluePlayerBoard;
-    private ImageIcon BluePlayerBoardFF;
-    private ImageIcon GreenPlayerBoard;
-    private ImageIcon GreenPlayerBoardFF;
-    private ImageIcon PurplePlayerBoard;
-    private ImageIcon PurplePlayerBoardFF;
-    private ImageIcon YellowPlayerBoard;
-    private ImageIcon YellowPlayerBoardFF;
-    private ImageIcon Left14Grid;
-    private ImageIcon Left23Grid;
-    private ImageIcon Right14Grid;
-    private ImageIcon Right23Grid;
-    private ImageIcon BRR;
-    private ImageIcon BYY;
-    private ImageIcon PBB;
-    private ImageIcon PRB;
-    private ImageIcon PRR;
-    private ImageIcon PYB;
-    private ImageIcon PYR;
-    private ImageIcon PYY;
-    private ImageIcon RBB;
-    private ImageIcon RYY;
-    private ImageIcon YBB;
-    private ImageIcon YRR;
-    private ImageIcon BlueNewton;
-    private ImageIcon RedNewton;
-    private ImageIcon YellowNewton;
-    private ImageIcon BlueTagbackGrenade;
-    private ImageIcon RedTagbackGrenade;
-    private ImageIcon YellowTagbackGrenda;
-    private ImageIcon BlueTargetingScope;
-    private ImageIcon RedTargetingScope;
-    private ImageIcon YellowTargetingScope;
-    private ImageIcon BlueTeleporter;
-    private ImageIcon RedTeleporter;
-    private ImageIcon YellowTeleporter;
-    private ImageIcon Cyberblade;
-    private ImageIcon Electroscythe;
-    private ImageIcon Flamethrower;
-    private ImageIcon Furnace;
-    private ImageIcon GrenadeLauncher;
-    private ImageIcon Heatseeker;
-    private ImageIcon Hellion;
-    private ImageIcon LockRifle;
-    private ImageIcon MachineGun;
-    private ImageIcon PlasmaGun;
-    private ImageIcon PowerGlove;
-    private ImageIcon Railgun;
-    private ImageIcon RocketLauncher;
-    private ImageIcon Shockwave;
-    private ImageIcon Shotgun;
-    private ImageIcon Sledgehammer;
-    private ImageIcon THOR;
-    private ImageIcon TractorBeam;
-    private ImageIcon VortexCannon;
-    private ImageIcon Whisper;
-    private ImageIcon ZX2;*/
+    //private ImageIcon Enjoy;
 
 
     public GUI(int game, ServerInterface server) throws RemoteException {
@@ -92,67 +34,7 @@ public class GUI implements View, Serializable {
         this.game = game;
         this.server = server;
         this.gameGraphic = new JFrame();
-        /*Enjoy = new ImageIcon("Images/Enjoy.png");
-        BlackPlayerBoard = new ImageIcon("Images/BlackPlayerBoard.png");
-        BlackPlayerBoardFF = new ImageIcon("Images/BlackPlayerBoardFF.png");
-        BluePlayerBoard = new ImageIcon("Images/BluePlayerBoard.png");
-        BluePlayerBoardFF = new ImageIcon("Images/BuePlayerBoardFF.png");
-        GreenPlayerBoard = new ImageIcon("Images/GreenPlayerBoard.png");
-        GreenPlayerBoardFF = new ImageIcon("Images/GreenPlayerBoardFF.png");
-        PurplePlayerBoard = new ImageIcon("Images/PurplePlayerBoard.png");
-        PurplePlayerBoardFF = new ImageIcon("Images/PurplePlayerBoardFF.png");
-        YellowPlayerBoard = new ImageIcon("Images/YellowPlayerBoard.png");
-        YellowPlayerBoardFF = new ImageIcon("Images/YellowPlayerBoardFF.png");
-        Left14Grid = new ImageIcon("Images/Left14Grid.png");
-        Left23Grid = new ImageIcon("Images/Left23Grid.png");
-        Right14Grid = new ImageIcon("Images/Right14Grid.png");
-        Right23Grid = new ImageIcon("Images/Right23Grid.png");
-        BRR = new ImageIcon("Images/ammo/BRR.png");
-        BYY = new ImageIcon("Images/ammo/BYY.png");
-        PBB = new ImageIcon("Images/ammo/PBB.png");
-        PRB = new ImageIcon("Images/ammo/PRB.png");
-        PRR = new ImageIcon("Images/ammo/PRR.png");
-        PYB = new ImageIcon("Images/ammo/PYB.png");
-        PYR = new ImageIcon("Images/ammo/PYR.png");
-        PYY = new ImageIcon("Images/ammo/PYY.png");
-        RBB = new ImageIcon("Images/ammo/RBB.png");
-        RYY = new ImageIcon("Images/ammo/RYY.png");
-        YBB = new ImageIcon("Images/ammo/YBB.png");
-        YRR = new ImageIcon("Images/ammo/YRR.png");
-        BlueNewton = new ImageIcon("Images/cards/BlueNewton.png");
-        RedNewton = new ImageIcon("Images/cards/RedNewton.png");
-        YellowNewton = new ImageIcon("Images/cards/YellowNewton.png");
-        BlueTagbackGrenade = new ImageIcon("Images/cards/BlueTagbackGrenade.png");
-        RedTagbackGrenade = new ImageIcon("Images/cards/RedTagbackGrenade.png");
-        YellowTagbackGrenda = new ImageIcon("Images/cards/YellowTagbackGrenda.png");
-        BlueTargetingScope = new ImageIcon("Images/cards/BlueTargetingScope.png");
-        RedTargetingScope = new ImageIcon("Images/cards/RedTargetingScope.png");
-        YellowTargetingScope = new ImageIcon("Images/cards/YellowTargetingScope.png");
-        BlueTeleporter = new ImageIcon("Images/cards/BlueTeleporter.png");
-        RedTeleporter = new ImageIcon("Images/cards/RedTeleporter.png");
-        YellowTeleporter = new ImageIcon("Images/cards/YellowTeleporter.png");
-        Cyberblade = new ImageIcon("Images/cards/Cyberblade.png");
-        Electroscythe = new ImageIcon("Images/cards/Electroscythe.png");
-        Flamethrower = new ImageIcon("Images/cards/Flamethrower.png");
-        Furnace = new ImageIcon("Images/cards/Furnace.png");
-        GrenadeLauncher = new ImageIcon("Images/cards/GrenadeLauncher.png");
-        Heatseeker = new ImageIcon("Images/cards/Heatseeker.png");
-        Hellion = new ImageIcon("Images/cards/Hellion.png");
-        LockRifle = new ImageIcon("Images/cards/LockRifle.png");
-        MachineGun = new ImageIcon("Images/cards/MachineGun.png");
-        PlasmaGun = new ImageIcon("Images/cards/PlasmaGun.png");
-        PowerGlove = new ImageIcon("Images/cards/PowerGlove.png");
-        Railgun = new ImageIcon("Images/cards/Railgun.png");
-        RocketLauncher = new ImageIcon("Images/cards/RocketLauncher.png");
-        Shockwave = new ImageIcon("Images/cards/Shockwave.png");
-        Shotgun = new ImageIcon("Images/cards/Shotgun.png");
-        Sledgehammer = new ImageIcon("Images/cards/Sledgehammer.png");
-        THOR = new ImageIcon("Images/cards/THOR.png");
-        TractorBeam = new ImageIcon("Images/cards/TractorBeam.png");
-        VortexCannon = new ImageIcon("Images/cards/VortexCannon.png");
-        Whisper = new ImageIcon("Images/cards/Whisper.png");
-        ZX2 = new ImageIcon("Images/cards/ZX2.png");
-        */
+        //Enjoy = new ImageIcon("Images/Enjoy.png");
     }
 
     public void setNickName(String nickName) {
@@ -291,7 +173,7 @@ public class GUI implements View, Serializable {
         JFrame jF = new JFrame();
         ReloadPanel reloadPanel = new ReloadPanel();
         jF.add(new Label("Choose the weapon card you want to reload, or 'end' if you don't need/want to"));
-        for(ImageIcon i : l.getImageIconFromName(this.server.messageGetWeaponCardUnloaded(game, this.nickName))){
+        for(ImageIcon i : l.getImageIconFromName(this.server.messageGetWeaponCardUnloaded(game, this.nickName), new LinkedList<>())){
             jF.add(new JLabel(i));
             reloadPanel.addButton(l.getNamefromImageIcon(i));
         }

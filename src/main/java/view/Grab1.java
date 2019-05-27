@@ -14,6 +14,8 @@ public class Grab1 extends JPanel {
     private String nickName;
     private JButton weaponConfirm;
     private JButton ammoConfirm;
+    private JFrame weaponFrame;
+    private JFrame ammoFrame;
 
     public Grab1(GUI gui, ServerInterface server, int game, int identifier, String nickName) {
         super();
@@ -24,15 +26,15 @@ public class Grab1 extends JPanel {
         this.nickName = nickName;
         add(new Label("Grab AmmoCard or WeaponCard?"));
         weaponConfirm = new JButton("WeaponCard");
-        weaponConfirm.addActionListener(new cardConfirmed());
+        weaponConfirm.addActionListener(new CardConfirmed());
         ammoConfirm = new JButton("AmmoCard");
-        ammoConfirm.addActionListener(new cardConfirmed());
+        ammoConfirm.addActionListener(new CardConfirmed());
     }
 
-    private class cardConfirmed implements ActionListener {
+    private class CardConfirmed implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            Object cardConfirm = e.getSource();
+            JButton cardConfirm = (JButton)e.getSource();
             if (cardConfirm == weaponConfirm)
                 weaponGrab();
             if (cardConfirm == ammoConfirm)
@@ -41,7 +43,7 @@ public class Grab1 extends JPanel {
         }
     }
 
-    private class somethingConfirmed implements ActionListener {
+    private class SomethingConfirmed implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
         }

@@ -32,11 +32,11 @@ public class Move1 extends JPanel implements ActionListener {
         txt2 = new JTextField("Write here", 25);
         txt3 = new JTextField("Write here", 25);
         b.addActionListener(this);
-        add(new Label(("Enter your first direction:")));
+        add(new JLabel(("Enter your first direction:")));
         add(txt1);
-        add(new Label("Enter your second direction:"));
+        add(new JLabel("Enter your second direction:"));
         add(txt2);
-        add(new Label("Enter your third direction:"));
+        add(new JLabel("Enter your third direction:"));
         add(txt3);
         add(b);
     }

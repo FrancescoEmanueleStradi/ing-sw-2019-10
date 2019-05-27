@@ -30,10 +30,10 @@ public class DiscardPUC extends JOptionPane implements ActionListener {
         this.c2 = c2;
         add(new JLabel("Enter the name of the card you want to keep; you will discard the other one corresponding to the " +
                 "colour of your spawn point"));
-        firstButton = new JButton(this.n1 + this.c1);
+        firstButton = new JButton(this.n1 + " coloured " + this.c1);
         add(firstButton).doLayout();
         firstButton.addActionListener(this);
-        secondButton = new JButton(this.n2 + this.c2);
+        secondButton = new JButton(this.n2 + " coloured " + this.c2);
         add(secondButton).doLayout();
         secondButton.addActionListener(this);
     }
@@ -41,7 +41,7 @@ public class DiscardPUC extends JOptionPane implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         try {
-            Object action = e.getSource();
+            JButton action = (JButton)e.getSource();
             if (action == firstButton){
                 while(!this.server.messageIsValidPickAndDiscard(game, nickName, n1, c1))
                     gui.selectSpawnPoint();

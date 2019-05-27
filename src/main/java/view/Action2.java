@@ -29,7 +29,7 @@ public class Action2 extends JOptionPane implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         try {
-            Object action = e.getSource();
+            JButton action = (JButton)e.getSource();
             if (action == moveButton)
                 gui.moveSecondAction();
             if (action == grabButton)

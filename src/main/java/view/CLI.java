@@ -75,44 +75,42 @@ public class CLI extends UnicastRemoteObject implements View {
         String yourName = "Enter your name:";
         String yourColour = "Enter your colour in all caps (YELLOW, BLUE, GREEN, PURPLE, BLACK):";
         Scanner in = new Scanner(System.in);
-
-        if(this.server.messageGameIsNotStarted(game) && this.identifier == 1) {
+        if (this.server.messageGameIsNotStarted(game) && this.identifier == 1) {
             System.out.println(yourName);
             this.nickName = in.nextLine();
             server.setNickName(this.game, this.identifier, this.nickName);
             System.out.println(yourColour);
-            String c1 = in.nextLine();
-            this.colour = Colour.valueOf(c1);
+            String s1 = in.nextLine();
+            this.colour = Colour.valueOf(s1);
             this.server.messageGameStart(game, nickName, colour);
-
-            while(true) {
+            System.out.println("Choose the type of arena (1, 2, 3, 4):");
+            int type = in.nextInt();
+            while (!this.server.messageIsValidReceiveType(game, type)){
+                System.out.println(errorRetry);
                 System.out.println("Choose the type of arena (1, 2, 3, 4):");
                 type = in.nextInt();
-                if(this.server.messageIsValidReceiveType(game, type))
-                    break;
-                else
-                    System.out.println(errorRetry);
             }
             this.server.messageReceiveType(game, type);
-
             System.out.println("\n---------GENERATING ARENA...---------\n");
             this.setType(server.getType(game));
             return;
         }
         this.setType(server.getType(game));
         System.out.println("\n---------WAITING FOR PLAYERS TO JOIN---------\n");
-
-        while(true) {
+        System.out.println(yourName);
+        this.nickName = in.nextLine();
+        System.out.println(yourColour);
+        String s2 = in.nextLine();
+        server.setNickName(this.game, this.identifier, this.nickName);
+        this.colour = Colour.valueOf(s2);
+        while (!this.server.messageIsValidAddPlayer(game, this.nickName, this.colour)) {
+            System.out.println(errorRetry);
             System.out.println(yourName);
             this.nickName = in.nextLine();
             server.setNickName(this.game, this.identifier, this.nickName);
             System.out.println(yourColour);
-            String c2 = in.nextLine();
-            this.colour = Colour.valueOf(c2);
-            if(!this.server.messageIsValidAddPlayer(game, this.nickName, this.colour))
-                break;
-            else
-                System.out.println(errorRetry);
+            s2 = in.nextLine();
+            this.colour = Colour.valueOf(s2);
         }
         this.server.messageAddPlayer(game, this.nickName, this.colour);
     }

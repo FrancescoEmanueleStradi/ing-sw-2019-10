@@ -1024,8 +1024,9 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
             wCards.add(w.getCardName());
 
         String yourPups = "These are the PowerUpCards currently in your possession:\n";
-        for(PowerUpCard c : p.getPowerUpCards())
-            pCards.add(c.getCardName());
+        for(PowerUpCard c : p.getPowerUpCards()) {
+            pCards.add(c.getCardName() + c.getC().getAbbreviation());
+        }
 
         String yourAmmo = "These are the AmmoCubes currently in your possession:\n";
         for(int i = 0; i < 9; i++) {
@@ -1037,7 +1038,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         String joinPC = String.join(", ", pCards);
         String joinAC = String.join(", ", aCubes);
 
-        return damageDetails + posDetails + yourWeapons + joinWC + "\n" + yourPups + joinPC + "\n" + yourAmmo + "\n" + joinAC + "\n";
+        return damageDetails + posDetails + yourWeapons + joinWC + "\n" + yourPups + joinPC + "\n" + yourAmmo + joinAC + "\n";
     }
 
     public List<String> checkWeaponSlotContents(int n) {

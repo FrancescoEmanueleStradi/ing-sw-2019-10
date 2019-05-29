@@ -47,8 +47,8 @@ public class DiscardPUC extends JOptionPane implements ActionListener {
                     gui.selectSpawnPoint();
                 server.messagePickAndDiscardCard(game, nickName, n1, c1);
             }
-            if (action == secondButton) {
-                while (!this.server.messageIsValidPickAndDiscard(game, nickName, n2, c2))
+            else if (action == secondButton) {
+                while(!this.server.messageIsValidPickAndDiscard(game, nickName, n2, c2))
                     gui.selectSpawnPoint();
                 server.messagePickAndDiscardCard(game, nickName, n2, c2);
             }

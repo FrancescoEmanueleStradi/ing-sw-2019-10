@@ -76,6 +76,7 @@ public class Move2 extends JPanel implements ActionListener {
 
             if(direction == reset) {
                 dirCount = 0;
+                directions.clear();
                 leftArrow.setEnabled(true);
                 rightArrow.setEnabled(true);
                 upArrow.setEnabled(true);
@@ -111,9 +112,7 @@ public class Move2 extends JPanel implements ActionListener {
                 gui.moveFirstAction();
             server.messageSecondActionMove(game, nickName, directions);
             notifyAll();
-        } catch (RemoteException r) {
-
-        } catch (InterruptedException i) {
+        } catch (RemoteException | InterruptedException ex) {
 
         }
     }

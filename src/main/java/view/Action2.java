@@ -30,12 +30,13 @@ public class Action2 extends JOptionPane implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         try {
             JButton action = (JButton)e.getSource();
-            if (action == moveButton)
+            if(action == moveButton)
                 gui.moveSecondAction();
-            if (action == grabButton)
+            else if(action == grabButton)
                 gui.grabSecondAction();
-            if (action == shootButton)
+            else if(action == shootButton)
                 gui.shootSecondAction();
+            action.setEnabled(false);
             notifyAll();
         }catch (InterruptedException i){
 

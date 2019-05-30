@@ -88,6 +88,7 @@ public class Grab1 extends JPanel {
             JButton direction = (JButton)e.getSource();
             if(direction == reset) {
                 dirCount = 0;
+                directions.clear();
                 leftArrow.setEnabled(true);
                 rightArrow.setEnabled(true);
                 upArrow.setEnabled(true);
@@ -104,7 +105,7 @@ public class Grab1 extends JPanel {
                 directions.add(3);
             dirCount++;
 
-            if(dirCount == 2) {
+            if(dirCount == 2) {             //maximum direction count is 2, but isValid will check whether player is or isn't in Adrenaline
                 leftArrow.setEnabled(false);
                 rightArrow.setEnabled(false);
                 upArrow.setEnabled(false);
@@ -119,12 +120,10 @@ public class Grab1 extends JPanel {
 
     private void ammoGrab() {
         try {
-            while(!this.server.messageIsValidFirstActionGrab(game, nickName, directions, wCard, weaponSlot, lC, lP, lPC))
+            while (!this.server.messageIsValidFirstActionGrab(game, nickName, directions, wCard, weaponSlot, lC, lP, lPC))
                 gui.grabFirstAction();
             server.messageFirstActionGrab(game, nickName, directions, wCard, lC, lP, lPC);
-        } catch(RemoteException ex) {
-
-        } catch(InterruptedException i) {
+        } catch (RemoteException | InterruptedException e) {
 
         }
     }

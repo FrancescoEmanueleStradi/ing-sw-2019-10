@@ -49,17 +49,16 @@ public class TakeInformation extends JPanel implements ActionListener {
     }
 
     public synchronized void actionPerformed(ActionEvent e) {
-        if(e.getSource() == b) { try {
-            b.setEnabled(false);
-            if(identifier == 1)
-                getInformation();
-            else
-                getLessInformation();
-        } catch(RemoteException ex){
-            //TODO?
-        } catch (InterruptedException i){
-            //TODO?
-        }
+        if (e.getSource() == b) {
+            try {
+                b.setEnabled(false);
+                if (identifier == 1)
+                    getInformation();
+                else
+                    getLessInformation();
+            } catch (RemoteException | InterruptedException ex) {
+                //TODO?
+            }
         }
     }
 

@@ -817,8 +817,11 @@ public class CLI extends UnicastRemoteObject implements View {
         String colourPC;
         List<String> lS = new LinkedList<>();
 
-        System.out.println("Enter which PowerUpCard you want to use:");
-        this.server.messageGetPowerUpCard(game, nickName).forEach(System.out::println);
+        System.out.println("Enter which PowerUpCard you want to use. You have the following:");
+        for(int i = 0; i < this.server.messageGetPowerUpCard(game, nickName).size(); i++) {
+            System.out.println(this.server.messageGetPowerUpCard(game, nickName).get(i) + " coloured " + this.server.messageGetPowerUpCardColour(game, nickName).get(i));
+        }
+
         namePC = in.nextLine();
 
         System.out.println("Enter the colour of the PowerUpCard:");

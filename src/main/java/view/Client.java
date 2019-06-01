@@ -155,7 +155,7 @@ public class Client {
                 if(centralServer.gameIsFinished(game))
                     break;
             }
-            //view.endFinalFrenzy();
+            view.endFinalFrenzy();
             //if (centralServer.gameIsFinished(game)) {
             view.finalScoring();                        //TODO at the end of the game every player must go there and not start a new turn
             System.exit(0);

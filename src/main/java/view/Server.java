@@ -146,14 +146,17 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
         //if(players.get(game)-suspendedIdentifier.get(game).size() < 3)
             //return true;
         //return games.get(game).getGameState() == GameState.ENDALLTURN;
-        if(suspendedIdentifier.get(game).isEmpty()) {
+
+        return (connections.get(game).size()-suspendedIdentifier.get(game).size() == frenzyTurn ||
+                connections.get(game).size()-suspendedIdentifier.get(game).size() < 3);
+        /*if(suspendedIdentifier.get(game).isEmpty()) {
             if(connections.get(game).size() == frenzyTurn){
                 for(Connection c : connections.get(game)){
                     c.getView().endFinalFrenzy();
                     c.getView().finalScoring();
                 }
             }
-            return (connections.get(game).size() == frenzyTurn);
+            return (connections.get(game).size() == frenzyTurn || connections.get(game).size() < 3);
         }
         else
             if(connections.get(game).size()-suspendedIdentifier.get(game).size() == frenzyTurn){
@@ -164,7 +167,8 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
                     }
                 }
             }
-            return(connections.get(game).size()-suspendedIdentifier.get(game).size() == frenzyTurn);
+            return(connections.get(game).size()-suspendedIdentifier.get(game).size() == frenzyTurn || connections.get(game).size()-suspendedIdentifier.get(game).size() < 3);
+    */
     }
 
     private int getPlayerTurn(int game) throws RemoteException{
@@ -176,31 +180,32 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
     }
 
     public synchronized void finishTurn(int game) throws RemoteException {
-        do {
-            if (games.get(game).getPlayers().size() > getPlayerTurn(game)) {
-                connections.get(game).get(getPlayerTurn(game)).setMyTurn(true);
-                connections.get(game).get(getPlayerTurn(game)-1).setMyTurn(false);
-            }
-            else {
-                connections.get(game).get(getPlayerTurn(game)-1).setMyTurn(false);
-                connections.get(game).get(0).setMyTurn(true);
-            }
-        }while(suspendedIdentifier.get(game).contains(getPlayerTurn(game)));
+        if (connections.get(game).size() - suspendedIdentifier.get(game).size() >= 3) {
+            do {
+                if (games.get(game).getPlayers().size() > getPlayerTurn(game)) {
+                    connections.get(game).get(getPlayerTurn(game)).setMyTurn(true);
+                    connections.get(game).get(getPlayerTurn(game) - 1).setMyTurn(false);
+                } else {
+                    connections.get(game).get(getPlayerTurn(game) - 1).setMyTurn(false);
+                    connections.get(game).get(0).setMyTurn(true);
+                }
+            } while (suspendedIdentifier.get(game).contains(getPlayerTurn(game)));
+        }
     }
 
     public synchronized void manageDisconnection(int game, int identifier, String nickName) throws RemoteException, InterruptedException{
         suspendedIdentifier.get(game).add(identifier);
         suspendedName.get(game).add(nickName);
-        if(connections.get(game).size() - suspendedIdentifier.get(game).size() < 3) {
+        /*if(connections.get(game).size() - suspendedIdentifier.get(game).size() < 3) {
             for(Connection c : connections.get(game)) {
-                if(c.getView() != null) {                                     //TODO it must not print in disconnected views
+                if(!c.getView().getNickName().equals(nickName)) {                                     //TODO it must not print in disconnected views
                     c.getView().finalScoring();
                     c.getView().exit();
                 }
             }
-        }
+        }*/
         for(Connection c : connections.get(game)){
-            if(c.getView() != null)
+            if(!c.getView().getNickName().equals(nickName))
                 c.getView().disconnected(identifier);
         }
     }

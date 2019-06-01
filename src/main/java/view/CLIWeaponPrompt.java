@@ -16,8 +16,8 @@ public class CLIWeaponPrompt {
     private final String enterPowerUpColour = "Enter the colour(s) of the PowerUpCard(s); 0 to finish";
     private final String enterAdrenalineDir = "If you are in Adrenaline, enter the direction of the move, 0 otherwise";
     private final String promptErrorRetry = "Error: please retry";
-    private final String exit = CLI.exit;
-    private final String yesPrompt = CLI.yesPrompt;
+    private final String exit = CLI.EXITSTRING;
+    private final String yesPrompt = CLI.YESPROMPT;
 
     public void shootToUser1(int game, ServerInterface server, String nickName, String s) throws RemoteException {
         Scanner in = new Scanner(System.in);

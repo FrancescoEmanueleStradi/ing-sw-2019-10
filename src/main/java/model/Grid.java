@@ -127,7 +127,7 @@ public class Grid {
         informationDamage.add(Integer.toString(numDamage));
         informationDamage.add(p1.getNickName());
         server.notifyDamage(this.iD, informationDamage);
-        if(p1.getPlayerBoard().getDamage().getDamageTokens()[11] != null) {
+        if(p1.isOverkilled()) {
             p.getPlayerBoard().addMark(new DamageToken(p1.getC()));
             List<String> information = new LinkedList<>();
             information.add(p.getNickName());
@@ -339,23 +339,23 @@ public class Grid {
     }
 
     public WeaponCard getWeaponCardObject(String wCardName){
-        if(board.getW1().getCard1().getCardName().equals(wCardName))
+        if(board.getW1().getCard1() != null && board.getW1().getCard1().getCardName().equals(wCardName))
             return board.getW1().getCard1();
-        else if(board.getW1().getCard2().getCardName().equals(wCardName))
+        else if(board.getW1().getCard2() != null && board.getW1().getCard2().getCardName().equals(wCardName))
             return board.getW1().getCard2();
-        else if(board.getW1().getCard3().getCardName().equals(wCardName))
+        else if(board.getW1().getCard3() != null && board.getW1().getCard3().getCardName().equals(wCardName))
             return board.getW1().getCard3();
-        else if(board.getW2().getCard1().getCardName().equals(wCardName))
+        else if(board.getW2().getCard1() != null && board.getW2().getCard1().getCardName().equals(wCardName))
             return board.getW2().getCard1();
-        else if(board.getW2().getCard2().getCardName().equals(wCardName))
+        else if(board.getW2().getCard2() != null && board.getW2().getCard2().getCardName().equals(wCardName))
             return board.getW2().getCard2();
-        else if(board.getW2().getCard3().getCardName().equals(wCardName))
+        else if(board.getW2().getCard3() != null && board.getW2().getCard3().getCardName().equals(wCardName))
             return board.getW2().getCard3();
-        else if(board.getW3().getCard1().getCardName().equals(wCardName))
+        else if(board.getW3().getCard1() != null && board.getW3().getCard1().getCardName().equals(wCardName))
             return board.getW3().getCard1();
-        else if(board.getW3().getCard2().getCardName().equals(wCardName))
+        else if(board.getW3().getCard2() != null && board.getW3().getCard2().getCardName().equals(wCardName))
             return board.getW3().getCard2();
-        else if(board.getW3().getCard3().getCardName().equals(wCardName))
+        else if(board.getW3().getCard3() != null && board.getW3().getCard3().getCardName().equals(wCardName))
             return board.getW3().getCard3();
         return null;
     }

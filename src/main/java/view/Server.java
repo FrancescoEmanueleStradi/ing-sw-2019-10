@@ -30,12 +30,11 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
     }
 
     public static void main(String[] args) throws RemoteException {
-        System.out.println("Generating server...");
+        System.out.println("Generating Adrenaline server...");
         Server centralServer = new Server();
 
         System.out.println("Binding server to registry...");
         Registry registry = LocateRegistry.createRegistry(5099);
-        //registry = LocateRegistry.getRegistry();
         registry.rebind("central_server", centralServer);
 
         System.out.println("Client may now invoke methods");
@@ -56,10 +55,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
     public synchronized void setGame(int numGame) throws RemoteException {
         if (games.isEmpty() || games.size() <= numGame){
             games.add(numGame, new Game(numGame, this));
-            //views.add(numGame, new LinkedList<>());
             connections.add(numGame, new LinkedList<>());
-            //playersTakingTheirTurn.add(numGame, 1);
-            //players.add(numGame, 0);
             suspendedName.add(numGame, new LinkedList<>());
             suspendedIdentifier.add(numGame, new LinkedList<>());
             canStartList.add(numGame, false);
@@ -111,16 +107,6 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
         }
     }
 
-    /*public void setCli(int game, int identifier) throws RemoteException{
-        views.get(game).add(identifier, new Cli());
-        views.get(game).get(identifier).setGame(games.get(identifier));
-    }
-
-    public void setGui(int game, int identifier) throws RemoteException{
-        views.get(game).add(identifier, new Gui());
-        views.get(game).get(identifier).setGame(games.get(identifier));
-    }*/
-
     public synchronized boolean isMyTurn(int game, int identifier) throws RemoteException {
         if(suspendedIdentifier.get(game).isEmpty())
             return(connections.get(game).get(identifier-1).isMyTurn()  && (connections.get(game).size()-1 != frenzyTurn));
@@ -143,35 +129,11 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
     }
 
     public synchronized boolean gameIsFinished(int game) throws RemoteException {
-        //if(players.get(game)-suspendedIdentifier.get(game).size() < 3)
-            //return true;
-        //return games.get(game).getGameState() == GameState.ENDALLTURN;
-
         return (connections.get(game).size()-suspendedIdentifier.get(game).size() == frenzyTurn ||
                 connections.get(game).size()-suspendedIdentifier.get(game).size() < 3);
-        /*if(suspendedIdentifier.get(game).isEmpty()) {
-            if(connections.get(game).size() == frenzyTurn){
-                for(Connection c : connections.get(game)){
-                    c.getView().endFinalFrenzy();
-                    c.getView().finalScoring();
-                }
-            }
-            return (connections.get(game).size() == frenzyTurn || connections.get(game).size() < 3);
-        }
-        else
-            if(connections.get(game).size()-suspendedIdentifier.get(game).size() == frenzyTurn){
-                for(Connection c : connections.get(game)){
-                    if(!suspendedIdentifier.get(game).contains(c.getIdentifier())) {
-                        c.getView().endFinalFrenzy();
-                        c.getView().finalScoring();
-                    }
-                }
-            }
-            return(connections.get(game).size()-suspendedIdentifier.get(game).size() == frenzyTurn || connections.get(game).size()-suspendedIdentifier.get(game).size() < 3);
-    */
     }
 
-    private int getPlayerTurn(int game) throws RemoteException{
+    private int getPlayerTurn(int game) {
         for(Connection c : connections.get(game)){
             if(c.isMyTurn())
                 return c.getIdentifier();
@@ -196,14 +158,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
     public synchronized void manageDisconnection(int game, int identifier, String nickName) throws RemoteException, InterruptedException{
         suspendedIdentifier.get(game).add(identifier);
         suspendedName.get(game).add(nickName);
-        /*if(connections.get(game).size() - suspendedIdentifier.get(game).size() < 3) {
-            for(Connection c : connections.get(game)) {
-                if(!c.getView().getNickName().equals(nickName)) {                                     //TODO it must not print in disconnected views
-                    c.getView().finalScoring();
-                    c.getView().exit();
-                }
-            }
-        }*/
+
         for(Connection c : connections.get(game)){
             if(!c.getView().getNickName().equals(nickName))
                 c.getView().disconnected(identifier);
@@ -275,7 +230,10 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
     }
 
     public synchronized int getType(int game) throws RemoteException{
-        return types.get(game);
+        if(types.size() > game)
+            return types.get(game);
+        else
+            return 0;
     }
 
 
@@ -530,7 +488,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
         return games.get(game).getScore();
     }
 
-    /* We should insert methods who take parameters from the view end give them to the controller, returning the public boolean (only for the
+    /* We should insert methods who take parameters from the view and give them to the controller, returning the public boolean (only for the
     IsValidMethod) to the Cli/Gui
      */
 }

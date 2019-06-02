@@ -1022,6 +1022,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         String yourWeapons = "These are the WeaponCards currently in your possession:\n";
         for(WeaponCard w : p.getWeaponCards())
             wCards.add(w.getCardName());
+        //wCards = this.getWeaponCard(nickName);
 
         String yourPups = "These are the PowerUpCards currently in your possession:\n";
         for(PowerUpCard c : p.getPowerUpCards()) {
@@ -1043,18 +1044,29 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
     public List<String> checkWeaponSlotContents(int n) {
         List<String> lEmpty = new LinkedList<>();
-        if (n == 1)
+        if(n == 1)
             return checkWeaponSlot1Contents();
-
-        else if (n == 2)
+        else if(n == 2)
             return checkWeaponSlot2Contents();
-
-        else if (n == 3)
+        else if(n == 3)
             return checkWeaponSlot3Contents();
 
         return lEmpty;
     }
 
+    //GUI exclusive method
+    public List<String> checkWeaponSlotContentsReduced(int n) {
+        List<String> lEmpty = new LinkedList<>();
+        if(n == 1)
+            return checkWeaponSlot1ContentsReduced();
+        else if(n == 2)
+            return checkWeaponSlot2ContentsReduced();
+        else if(n == 3)
+            return checkWeaponSlot3ContentsReduced();
+
+        return lEmpty;
+
+    }
 
     private List<String> checkWeaponSlot1Contents() {
         List<String> l = new LinkedList<>();
@@ -1113,6 +1125,39 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
             for(AmmoCube a : grid.getBoard().getW3().getCard3().getReloadCost())
                 l.add(a.getC().getAbbreviation());
         }
+        return l;
+    }
+
+    private List<String> checkWeaponSlot1ContentsReduced() {
+        List<String> l = new LinkedList<>();
+        if(grid.getBoard().getW1().getCard1() != null)
+            l.add(grid.getBoard().getW1().getCard1().getCardName());
+        if(grid.getBoard().getW1().getCard2() != null)
+            l.add(grid.getBoard().getW1().getCard2().getCardName());
+        if(grid.getBoard().getW1().getCard3() != null)
+            l.add(grid.getBoard().getW1().getCard3().getCardName());
+        return l;
+    }
+
+    private List<String> checkWeaponSlot2ContentsReduced() {
+        List<String> l = new LinkedList<>();
+        if(grid.getBoard().getW2().getCard1() != null)
+            l.add(grid.getBoard().getW2().getCard1().getCardName());
+        if(grid.getBoard().getW2().getCard2() != null)
+            l.add(grid.getBoard().getW2().getCard2().getCardName());
+        if(grid.getBoard().getW2().getCard3() != null)
+            l.add(grid.getBoard().getW2().getCard3().getCardName());
+        return l;
+    }
+
+    private List<String> checkWeaponSlot3ContentsReduced() {
+        List<String> l = new LinkedList<>();
+        if(grid.getBoard().getW3().getCard1() != null)
+            l.add(grid.getBoard().getW3().getCard1().getCardName());
+        if(grid.getBoard().getW3().getCard2() != null)
+            l.add(grid.getBoard().getW3().getCard2().getCardName());
+        if(grid.getBoard().getW3().getCard3() != null)
+            l.add(grid.getBoard().getW3().getCard3().getCardName());
         return l;
     }
 

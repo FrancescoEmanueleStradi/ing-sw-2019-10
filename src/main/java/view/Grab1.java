@@ -30,8 +30,9 @@ public class Grab1 extends JPanel {
     private int dirCount;
     private JButton weaponConfirm;
     private JButton ammoConfirm;
-    private JFrame weaponFrame;
-    private JFrame ammoFrame;
+    private JComboBox slotList;
+    private JComboBox slot1List, slot2List, slot3List;
+    private JTextField txt1, txt2, txt3, txt4;
 
     public Grab1(GUI gui, ServerInterface server, int game, int identifier, String nickName) {
         super();
@@ -115,7 +116,55 @@ public class Grab1 extends JPanel {
     }
 
     private void weaponGrab() {
+        Object[] slots = {1, 2, 3};
+        slotList = new JComboBox(slots);
 
+        try {
+            Object[] weapons1 = {server.messageCheckWeaponSlotContentsReduced(game, 1).get(0), server.messageCheckWeaponSlotContentsReduced(game, 1).get(1),
+                    server.messageCheckWeaponSlotContentsReduced(game, 1).get(2)};
+            Object[] weapons2 = {server.messageCheckWeaponSlotContentsReduced(game, 2).get(0), server.messageCheckWeaponSlotContentsReduced(game, 2).get(1),
+                    server.messageCheckWeaponSlotContentsReduced(game, 2).get(2)};
+            Object[] weapons3 = {server.messageCheckWeaponSlotContentsReduced(game, 3).get(0), server.messageCheckWeaponSlotContentsReduced(game, 3).get(1),
+                    server.messageCheckWeaponSlotContentsReduced(game, 3).get(2)};
+            slot1List = new JComboBox(weapons1);
+            slot2List = new JComboBox(weapons2);
+            slot3List = new JComboBox(weapons3);
+            add(new JLabel("Pick a WeaponSlot to grab a card from, and the card you want from it")).doLayout();
+            add(slotList).doLayout();
+            slotList.addActionListener(new SlotSelect());
+            add(slot1List).doLayout();
+            slot1List.setVisible(false);
+            add(slot2List).doLayout();
+            slot2List.setVisible(false);
+            add(slot3List).doLayout();
+            slot3List.setVisible(false);
+
+        } catch (RemoteException | InterruptedException e) {
+
+        }
+
+    }
+
+    private class SlotSelect implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            Integer slot = (Integer)e.getSource();
+            if(slot == 1) {
+                slot1List.setVisible(true);
+                slot2List.setVisible(false);
+                slot3List.setVisible(false);
+            }
+            else if(slot == 2) {
+                slot1List.setVisible(false);
+                slot2List.setVisible(true);
+                slot3List.setVisible(false);
+            }
+            else if(slot == 3) {
+                slot1List.setVisible(false);
+                slot2List.setVisible(false);
+                slot3List.setVisible(true);
+            }
+        }
     }
 
     private void ammoGrab() {

@@ -37,12 +37,12 @@ public class TakeInformation extends JPanel implements ActionListener {
         //txt2 = new JTextField("Write here", 25);
         //txt3 = new JTextField("Write here", 25);
         b.addActionListener(this);
-        add(new JLabel(("Enter your name:")));
+        add(new JLabel(("Enter your name:"))).doLayout();
         add(txt1).doLayout();
-        add(new JLabel("Select your Colour:"));
+        add(new JLabel("Select your Colour:")).doLayout();
         add(colourList).doLayout();
         if(identifier == 1) {
-            add(new JLabel("Select the type of arena:"));
+            add(new JLabel("Select the type of arena:")).doLayout();
             add(arenaList).doLayout();
         }
         add(b);
@@ -78,7 +78,7 @@ public class TakeInformation extends JPanel implements ActionListener {
         }*/
 
         this.server.messageReceiveType(game, type);
-        add(new JLabel("\nGENERATING ARENA . . .\n"));
+        add(new JLabel("\nGENERATING ARENA . . .\n")).doLayout();
         gui.setType(server.getType(game));
         notifyAll();
     }
@@ -86,12 +86,12 @@ public class TakeInformation extends JPanel implements ActionListener {
     private synchronized void getLessInformation() throws RemoteException, InterruptedException {
         String colour = (String)colourList.getSelectedItem();
         gui.setType(server.getType(game));
-        add(new JLabel("\nWAITING FOR PLAYERS TO JOIN . . .\n"));
+        add(new JLabel("\nWAITING FOR PLAYERS TO JOIN . . .\n")).doLayout();
         gui.setNickName(txt1.getText());
         gui.setColour(Colour.valueOf(colour));
         server.setNickName(this.game, this.identifier, txt1.getText());
         while(!this.server.messageIsValidAddPlayer(game, txt1.getText(), Colour.valueOf(colour))) {
-            add(new JLabel("Error retry"));
+            add(new JLabel("Error retry")).doLayout();
             gui.askNameAndColour();
             gui.setNickName(txt1.getText());
             gui.setColour(Colour.valueOf(colour));

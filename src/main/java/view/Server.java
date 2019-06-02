@@ -317,6 +317,10 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
         return games.get(game).checkWeaponSlotContents(n);
     }
 
+    public synchronized List<String> messageCheckWeaponSlotContentsReduced(int game, int n) throws RemoteException {
+        return games.get(game).checkWeaponSlotContentsReduced(n);
+    }
+
     public synchronized boolean messageIsValidPickAndDiscard(int game, String nick, String p1, String c1) throws RemoteException {
         return games.get(game).isValidPickAndDiscard(nick, p1, c1);
     }

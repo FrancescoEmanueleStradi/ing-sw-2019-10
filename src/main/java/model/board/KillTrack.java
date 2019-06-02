@@ -39,7 +39,7 @@ public class KillTrack {
     private List<Colour> colours() {
         LinkedList<Colour> lC = new LinkedList<>();
         for(Colour colour : this.getC()){
-            if(!lC.contains(colour))
+            if(colour != null && !lC.contains(colour))
                 lC.add(colour);
         }
         return lC;
@@ -52,8 +52,10 @@ public class KillTrack {
     private void initializeListNumColour() {
         this.l = new LinkedList<>();
         for(Colour colour : this.colours()){
-            NumColour num = new NumColour(colour);
-            this.l.add(num);
+            if(colour != null) {
+                NumColour num = new NumColour(colour);
+                this.l.add(num);
+            }
         }
     }
 
@@ -84,7 +86,8 @@ public class KillTrack {
     private void listNumColour() {
         this.initializeListNumColour();
         for(int i = 0; i < this.getC().length; i++){
-            giveNumColour(this.getC()[i]).addNum();
+            if(this.getC()[i] != null)
+                giveNumColour(this.getC()[i]).addNum();
             if(this.getSkulls()[i] == 2)
                 giveNumColour(this.getC()[i]).addNum();
         }

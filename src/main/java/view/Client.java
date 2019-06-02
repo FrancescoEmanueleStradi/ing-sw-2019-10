@@ -13,15 +13,16 @@ public class Client {
     private static int identifier;
 
     public static void main(String[] args) throws NamingException, RemoteException, AlreadyBoundException, NotBoundException, MalformedURLException, InterruptedException {
-        //Registry registry = LocateRegistry.getRegistry();
+
         ServerInterface centralServer = (ServerInterface) Naming.lookup("rmi://localhost:5099/central_server");
-        System.out.println("Client --> " + centralServer.echo("Hello there!"));
+        System.out.println("\n                         Welcome to");
+        System.out.println("                A  D  R  E  N  A  L  I  N  E\n");
 
         Scanner in = new Scanner(System.in);
-        System.out.println("Enter the number of the game you want to play: " +
-                "there are " + centralServer.getGames()+ " games now; you can choose one of the current games or you can create a new game entering the number you saw +1");
+        System.out.println("Enter the number of the game you want to play. There are " + centralServer.getGames()+ " games now.\n" +
+                "You can choose one of the current games or you can create a new game entering the number you saw +1.");
         game = in.nextInt()-1;
-        System.out.println("Are you an old Player of this game?");
+        System.out.println("Are you an old player of this game?");
         String n = in.next();
         if(n.equals("yes") || n.equals("Yes") || n.equals("YES")){
             System.out.println("Enter you old identifier:");
@@ -31,22 +32,26 @@ public class Client {
                 identifier = in.nextInt();
             }
             System.out.println("Your identifier is:" + identifier);
-            System.out.println("Do you want to use CLI or GUI?");
-            switch (in.next()) {
-                case "CLI":
-                case "Cli":
-                case "cli":
-                    view = new CLI(game, centralServer);
-                    break;
-                case "GUI":
-                case "Gui":
-                case "gui":
-                    view = new GUI(game, centralServer);
-                    break;
-            }
-            //centralServer.setGame(game);
-            //view.setServer(centralServer);
-            //view.setGame(game);
+            boolean cliGui = false;
+            do {
+                System.out.println("Do you want to use CLI or GUI?");
+                switch (in.next()) {
+                    case "CLI":
+                    case "Cli":
+                    case "cli":
+                        view = new CLI(game, centralServer);
+                        cliGui = true;
+                        break;
+                    case "GUI":
+                    case "Gui":
+                    case "gui":
+                        view = new GUI(game, centralServer);
+                        cliGui = true;
+                        break;
+                    default:
+                        break;
+                }
+            }while(cliGui = false);
             centralServer.setView(game, identifier, view.getView());
             view.setType(centralServer.getType(game));
             view.setInformation(identifier);
@@ -55,12 +60,12 @@ public class Client {
         }
         else {
             while (centralServer.tooMany(game)) {
-                System.out.println("Too many people on this game, choose another one:");
+                System.out.println("Too many people on this game, please choose another one:");
                 game = in.nextInt() - 1;
             }
 
             centralServer.setGame(game);
-            System.out.println("Wait for five players to connect, if time will be out you will start even with three or four players");
+            System.out.println("Wait for five players to connect. When time will be out, the game will start even with three or four players.");
             identifier = centralServer.receiveIdentifier(game);
             centralServer.mergeGroup(game);
 
@@ -70,26 +75,31 @@ public class Client {
             }
 
 
-            System.out.println("Your identifier is:" + identifier);
-            System.out.println("Do you want to use CLI or GUI?");
-            switch (in.next()) {
-                case "CLI":
-                case "Cli":
-                case "cli":
-                    view = new CLI(game, centralServer);
-                    break;
-                case "GUI":
-                case "Gui":
-                case "gui":
-                    view = new GUI(game, centralServer);
-                    break;
-            }
+            System.out.println("\nYour identifier is: " + identifier);
+            boolean cliGui = false;
+            do {
+                System.out.println("\nDo you want to use CLI or GUI?");
+                switch (in.next()) {
+                    case "CLI":
+                    case "Cli":
+                    case "cli":
+                        view = new CLI(game, centralServer);
+                        cliGui = true;
+                        break;
+                    case "GUI":
+                    case "Gui":
+                    case "gui":
+                        view = new GUI(game, centralServer);
+                        cliGui = true;
+                        break;
+                    default:
+                        break;
+                }
+            }while(cliGui = false);
             centralServer.setView(game, identifier, view.getView());
             view.setIdentifier(identifier);
-            //view.setServer(centralServer);
-           // view.setGame(game);
 
-            view.askNameAndColour();                    //identifier 1 has to have the first player  card and he has to choose the type
+            view.askNameAndColour();                    //identifier 1 has to have the first player card and he has to choose the type
             view.selectSpawnPoint();
             view.printType();
         }
@@ -97,6 +107,7 @@ public class Client {
             while (true) {
                 if (centralServer.stopGame(game))
                     break;
+
                 if (centralServer.isMyTurn(game, identifier)) {
                     if (centralServer.isNotFinalFrenzy(game)) {
                         if (view.doYouWantToUsePUC()) {
@@ -132,7 +143,6 @@ public class Client {
                         }
                         view.reload();
                         view.scoring();
-                        //view.newSpawnPoint();
                         view.replace();
                         centralServer.finishTurn(game);
                         if (centralServer.stopGame(game))
@@ -155,14 +165,14 @@ public class Client {
                 if(centralServer.gameIsFinished(game))
                     break;
             }
-            //view.endFinalFrenzy();
-            //if (centralServer.gameIsFinished(game)) {
-            view.finalScoring();                        //TODO at the end of the game every player must go there and not start a new turn
+
+            view.endFinalFrenzy();
+            view.finalScoring();
             System.exit(0);
-            //}
+
         }catch (RemoteException e){
-            centralServer.finishTurn(game);                         //we inserted it here to manage a possible problem during the first part of the game
-            centralServer.manageDisconnection(game, identifier, view.getNickName());
+            centralServer.manageDisconnection(game, identifier, view.getNickName());        //we inserted it here to manage a possible problem during the first part of the game
+            centralServer.finishTurn(game);
             System.exit(0);
         }
     }

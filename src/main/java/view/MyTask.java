@@ -19,14 +19,14 @@ public class MyTask extends TimerTask {
 
     public void run() {
         try{
-            server.finishTurn(game);
             server.manageDisconnection(game, identifier, nickName);
+            server.finishTurn(game);
             System.exit(0);
         }catch (RemoteException e){
             System.exit(0);
         }catch (InterruptedException i){
             System.exit(1);
-            Thread.currentThread().interrupt();
+            //Thread.currentThread().interrupt();
         }
 
     }

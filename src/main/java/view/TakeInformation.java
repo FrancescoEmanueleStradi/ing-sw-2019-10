@@ -67,41 +67,45 @@ public class TakeInformation extends JPanel implements ActionListener {
     private synchronized void getInformation()  throws RemoteException, InterruptedException {
         String colour = (String)colourList.getSelectedItem();
         Integer type = (Integer)arenaList.getSelectedItem();
-        if(!error) {
-            gui.setNickName(txt1.getText());
-            server.setNickName(this.game, this.identifier, txt1.getText());
-            gui.setColour(Colour.valueOf(colour));
-            this.server.messageGameStart(game, txt1.getText(), Colour.valueOf(colour));
-            gui.setType(type);
-        }
-        /*while(!this.server.messageIsValidReceiveType(game, type)) {
-            add(new JLabel("Error, write a valid type"));
-            gui.askNameAndColour();
-        }*/
 
+        gui.setNickName(txt1.getText());
+        server.setNickName(this.game, this.identifier, txt1.getText());
+        gui.setColour(Colour.valueOf(colour));
+        this.server.messageGameStart(game, txt1.getText(), Colour.valueOf(colour));
+        gui.setType(type);
         this.server.messageReceiveType(game, type);
         add(new JLabel("\nGENERATING ARENA . . .\n")).doLayout();
         revalidate();
-        gui.setType(server.getType(game));
         notifyAll();
+        parent.setVisible(false);
+        parent.dispose();
     }
 
     private synchronized void getLessInformation() throws RemoteException, InterruptedException {
         String colour = (String)colourList.getSelectedItem();
+        JLabel errorRetry = new JLabel("Error: retry");
         gui.setType(server.getType(game));
         if(!this.server.messageIsValidAddPlayer(game, txt1.getText(), Colour.valueOf(colour))) {
-            add(new JLabel("Error retry")).doLayout();
-            parent.dispose();
-            gui.askNameAndColour();
+            if(!errorRetry.isVisible()) {
+                errorRetry.doLayout();
+                parent.add(errorRetry);
+                errorRetry.setVisible(true);
+                revalidate();
+            }
+            b.setEnabled(true);
         }
         else {
             add(new JLabel("\nWAITING FOR PLAYERS TO JOIN . . .\n")).doLayout();
+            if(errorRetry.isVisible())
+                errorRetry.setVisible(false);
             revalidate();
             gui.setNickName(txt1.getText());
             gui.setColour(Colour.valueOf(colour));
             server.setNickName(this.game, this.identifier, txt1.getText());
             this.server.messageAddPlayer(game, txt1.getText(), Colour.valueOf(colour));
+            notifyAll();
+            parent.setVisible(false);
+            parent.dispose();
         }
-        notifyAll();
     }
 }

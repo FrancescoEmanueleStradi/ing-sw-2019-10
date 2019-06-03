@@ -17,9 +17,10 @@ public class Grab1 extends JPanel {
     private int identifier;
     private String nickName;
     private List<Integer> directions = new LinkedList<>();
-    private List<Colour> lC;
+    private List<Colour> lC = new LinkedList<>();
     private List<String> lP = new LinkedList<>();
     private List<String> lPC = new LinkedList<>();
+    private CardLinkList cardLink = new CardLinkList();
     private String wCard = "";
     private String weaponSlot = "";
     private JButton leftArrow;
@@ -95,27 +96,32 @@ public class Grab1 extends JPanel {
                 upArrow.setEnabled(true);
                 downArrow.setEnabled(true);
             }
+            else {
+                if(direction == leftArrow)
+                    directions.add(4);
+                else if(direction == rightArrow)
+                    directions.add(2);
+                else if(direction == upArrow)
+                    directions.add(1);
+                else if(direction == downArrow)
+                    directions.add(3);
+                dirCount++;
 
-            if(direction == leftArrow)
-                directions.add(4);
-            else if(direction == rightArrow)
-                directions.add(2);
-            else if(direction == upArrow)
-                directions.add(1);
-            else if(direction == downArrow)
-                directions.add(3);
-            dirCount++;
-
-            if(dirCount == 2) {             //maximum direction count is 2, but isValid will check whether player is or isn't in Adrenaline
-                leftArrow.setEnabled(false);
-                rightArrow.setEnabled(false);
-                upArrow.setEnabled(false);
-                downArrow.setEnabled(false);
+                //maximum direction count is 2, but isValid will check whether player is or isn't in Adrenaline
+                if(dirCount == 2) {
+                    leftArrow.setEnabled(false);
+                    rightArrow.setEnabled(false);
+                    upArrow.setEnabled(false);
+                    downArrow.setEnabled(false);
+            }
             }
         }
     }
 
     private void weaponGrab() {
+        JPanel wGrab = new JPanel();
+        wGrab.add(new JLabel("Grab a Weapon"));
+        this.add(wGrab);
         Object[] slots = {1, 2, 3};
         slotList = new JComboBox(slots);
 
@@ -130,31 +136,31 @@ public class Grab1 extends JPanel {
             slot2List = new JComboBox(weapons2);
             slot3List = new JComboBox(weapons3);
 
-            add(new JLabel("Pick a WeaponSlot to grab a card from, and the card you want from it")).doLayout();
-            add(slotList).doLayout();
+            wGrab.add(new JLabel("Pick a WeaponSlot to grab a card from, and the card you want from it")).doLayout();
+            wGrab.add(slotList).doLayout();
             slotList.addActionListener(new SlotSelect());
-            add(slot1List).doLayout();
+            wGrab.add(slot1List).doLayout();
             slot1List.setVisible(false);
-            add(slot2List).doLayout();
+            wGrab.add(slot2List).doLayout();
             slot2List.setVisible(false);
-            add(slot3List).doLayout();
+            wGrab.add(slot3List).doLayout();
             slot3List.setVisible(false);
 
             List<String> powerUps = server.messageGetPowerUpCard(game, nickName);
             List<String> powerUpColours = server.messageGetPowerUpCardColour(game, nickName);
-            int i = 0;
+
             List<JCheckBox> powerUpBoxes = new LinkedList<>();
             if (!powerUps.isEmpty()) {
                 add(new JLabel("Choose a PowerUpCard/s to pay with if necessary")).doLayout();
-                for(String pC : powerUps) {
-                    powerUpBoxes.add(new JCheckBox(pC/* + " " + powerUpColours.get(i)*/, false));
-                    powerUpBoxes.get(powerUpBoxes.size() - 1).addActionListener(new PowerUpSelect());
-                    // will *probably* not go out of bounds as the two lists must be the same size
-                    i++;
+                for(int i = 0; i < powerUps.size(); i++) {
+                    powerUpBoxes.add(new JCheckBox(cardLink.getImageIconFromName(powerUps.get(i), powerUpColours.get(i))));
+                    wGrab.add(powerUpBoxes.get(i));
+                    powerUpBoxes.get(i).addActionListener(new PowerUpSelect());
                 }
-            } else add(new JLabel("You have no PowerUpCards with which to pay"));
+            } else wGrab.add(new JLabel("You have no PowerUpCards with which to pay"));
 
             finalConfirm = new JButton("Confirm grab");
+            wGrab.add(finalConfirm);
             finalConfirm.setEnabled(false);
 
         } catch (RemoteException /*| InterruptedException*/ e) {
@@ -199,14 +205,16 @@ public class Grab1 extends JPanel {
         @Override
         public void actionPerformed(ActionEvent e) {
             JCheckBox checked = (JCheckBox)e.getSource();
-            String power = checked.getText();
-            if (checked.isSelected()) {
+            ImageIcon power = (ImageIcon)checked.getIcon();
+            if (!checked.isSelected()) {
                 checked.setSelected(false);
-                lP.remove(power);
+                lP.remove(cardLink.getNamefromImageIcon(power));
+                lPC.remove(cardLink.getColourfromImageIcon(power));
             }
-            else if (!checked.isSelected()) {
+            else if (checked.isSelected()) {
                 checked.setSelected(true);
-                lP.add(power);
+                lP.add(cardLink.getNamefromImageIcon(power));
+                lPC.add(cardLink.getColourfromImageIcon(power));
             }
             if (!finalConfirm.isEnabled())
                 finalConfirm.setEnabled(true);
@@ -215,8 +223,10 @@ public class Grab1 extends JPanel {
 
     private void ammoGrab() {
         try {
-            while (!this.server.messageIsValidFirstActionGrab(game, nickName, directions, wCard, weaponSlot, lC, lP, lPC))
+            if(!this.server.messageIsValidFirstActionGrab(game, nickName, directions, wCard, weaponSlot, lC, lP, lPC)) {
                 gui.grabFirstAction();
+
+            }
             server.messageFirstActionGrab(game, nickName, directions, wCard, lC, lP, lPC);
         } catch (RemoteException | InterruptedException e) {
 

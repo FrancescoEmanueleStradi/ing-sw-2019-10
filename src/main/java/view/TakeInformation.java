@@ -49,17 +49,16 @@ public class TakeInformation extends JPanel implements ActionListener {
     }
 
     public synchronized void actionPerformed(ActionEvent e) {
-        if (e.getSource() == b) {
-            try {
-                b.setEnabled(false);
-                if (identifier == 1)
-                    getInformation();
-                else
-                    getLessInformation();
-            } catch (RemoteException | InterruptedException ex) {
-                //TODO?
-            }
+        try {
+            b.setEnabled(false);
+            if (identifier == 1)
+                getInformation();
+            else
+                getLessInformation();
+        } catch (RemoteException | InterruptedException ex) {
+            //TODO?
         }
+
     }
 
     private synchronized void getInformation()  throws RemoteException, InterruptedException {
@@ -79,6 +78,7 @@ public class TakeInformation extends JPanel implements ActionListener {
 
         this.server.messageReceiveType(game, type);
         add(new JLabel("\nGENERATING ARENA . . .\n")).doLayout();
+        revalidate();
         gui.setType(server.getType(game));
         notifyAll();
     }

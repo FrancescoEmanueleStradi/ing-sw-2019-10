@@ -71,7 +71,7 @@ public class Move1 extends JPanel implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             JButton direction = (JButton) e.getSource();
-            while(dirCount >= 1 && dirCount <= 3)
+            if(dirCount >= 1 && dirCount <= 3)
                 b.setEnabled(true);
 
             if(direction == reset) {
@@ -82,22 +82,23 @@ public class Move1 extends JPanel implements ActionListener {
                 upArrow.setEnabled(true);
                 downArrow.setEnabled(true);
             }
+            else {
+                if (direction == leftArrow)
+                    directions.add(4);
+                else if (direction == rightArrow)
+                    directions.add(2);
+                else if (direction == upArrow)
+                    directions.add(1);
+                else if (direction == downArrow)
+                    directions.add(3);
+                dirCount++;
 
-            if(direction == leftArrow)
-                directions.add(4);
-            else if(direction == rightArrow)
-                directions.add(2);
-            else if(direction == upArrow)
-                directions.add(1);
-            else if(direction == downArrow)
-                directions.add(3);
-            dirCount++;
-
-            if(dirCount == 3) {
-                leftArrow.setEnabled(false);
-                rightArrow.setEnabled(false);
-                upArrow.setEnabled(false);
-                downArrow.setEnabled(false);
+                if (dirCount == 3) {
+                    leftArrow.setEnabled(false);
+                    rightArrow.setEnabled(false);
+                    upArrow.setEnabled(false);
+                    downArrow.setEnabled(false);
+                }
             }
         }
     }

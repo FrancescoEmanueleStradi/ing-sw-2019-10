@@ -99,9 +99,9 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
             notifyAll();
         }
         if(connections.get(game).size() == 3) {
-            wait(30000);
+            wait(2000);
             while(connections.get(game).size() < 3)
-                wait(30000);
+                wait(2000);
             canStartList.add(game, true);
         }
     }

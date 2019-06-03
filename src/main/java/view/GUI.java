@@ -93,7 +93,7 @@ public class GUI implements View, Serializable {
             JFrame f = new JFrame("Name, colour and type");
             f.setLocation(10,10);
             Container c = f.getContentPane();
-            TakeInformation p = new TakeInformation(this, this.server, this.game, this.identifier);
+            TakeInformation p = new TakeInformation(this, this.server, this.game, this.identifier, f);
             p.setLayout(new FlowLayout(FlowLayout.LEFT));
             c.add(p);
             //f.addWindowListener( new Terminator());
@@ -105,7 +105,7 @@ public class GUI implements View, Serializable {
             JFrame f = new JFrame("Name and colour");
             f.setLocation(10,10);
             Container c = f.getContentPane();
-            TakeInformation p = new TakeInformation(this, this.server, this.game, this.identifier);
+            TakeInformation p = new TakeInformation(this, this.server, this.game, this.identifier, f);
             p.setLayout(new FlowLayout(FlowLayout.LEFT));
             c.add(p);
             //f.addWindowListener( new Terminator());

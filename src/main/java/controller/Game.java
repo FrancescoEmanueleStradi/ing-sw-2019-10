@@ -94,7 +94,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
     }
 
 
-    public synchronized void addPlayer(String nickName, Colour c) throws RemoteException{
+    public synchronized void addPlayer(String nickName, Colour c) throws RemoteException {
         Player p = new Player(nickName, c, false);
         this.grid.addPlayer(p);
     }
@@ -111,12 +111,19 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         return this.grid.getPlayers().stream().map(Player::getNickName).collect(Collectors.toList());
     }
 
-    public List<String> getWeaponCard(String nickName) {
-        Player p = this.grid.getPlayerObject(nickName);
-        return p.getWeaponCards().stream().map(WeaponCard::getCardName).collect(Collectors.toList());
+    public synchronized List<Colour> getReloadCostReduced(String s) {
+        WeaponCard wC = grid.getWeaponCardObject(s);
+        List<AmmoCube> l = new ArrayList<>(Arrays.asList(wC.getReloadCost()));
+        l.remove(0);
+        List<Colour> lC = new LinkedList<>();
+        if(l.isEmpty())
+            return lC;
+        for(AmmoCube aC : l)
+            lC.add(aC.getC());
+        return lC;
     }
 
-    public List<String> getWeaponCardLoaded(String nickName){
+    /*public List<String> getWeaponCardLoaded(String nickName){
         Player p = this.grid.getPlayerObject(nickName);
         return p.getWeaponCards().stream().filter(WeaponCard::isReloaded).map(WeaponCard::getCardName).collect(Collectors.toList());
     }
@@ -135,7 +142,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
     public List<Colour> getReloadCost(String s, String nickName) {
         Player p = this.grid.getPlayerObject(nickName);
         WeaponCard wC = p.getWeaponCardObject(s);
-        return Arrays.stream(wC.getReloadCost()).map(AmmoCube::getC).collect(Collectors.toList());
+        return Arrays.stream(wC.getPlayerReloadCost()).map(AmmoCube::getC).collect(Collectors.toList());
     }
 
     public List<String> getPowerUpCard(String nickName) {
@@ -153,9 +160,53 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         Colour col = Colour.valueOf(colour);
         PowerUpCard pC = p.getPowerUpCardObject(s, col);
         return pC.getDescription();
+    }*/
+
+    public List<String> getPlayerWeaponCard(String nickName) {
+        Player p = this.grid.getPlayerObject(nickName);
+        return p.getWeaponCards().stream().map(WeaponCard::getCardName).collect(Collectors.toList());
     }
 
-    public List<Integer> getScore(){
+    public List<String> getPlayerWeaponCardLoaded(String nickName) {
+        Player p = this.grid.getPlayerObject(nickName);
+        return p.getWeaponCards().stream().filter(WeaponCard::isReloaded).map(WeaponCard::getCardName).collect(Collectors.toList());
+    }
+
+    public List<String> getPlayerWeaponCardUnloaded(String nickName) {
+        Player p = this.grid.getPlayerObject(nickName);
+        return p.getWeaponCards().stream().filter(a -> !a.isReloaded()).map(WeaponCard::getCardName).collect(Collectors.toList());
+    }
+
+    public String getPlayerDescriptionWC(String s, String nickName) {
+        Player p = this.grid.getPlayerObject(nickName);
+        WeaponCard wC = p.getWeaponCardObject(s);
+        return wC.getDescription();
+    }
+
+    public List<Colour> getPlayerReloadCost(String s, String nickName) {
+        Player p = this.grid.getPlayerObject(nickName);
+        WeaponCard wC = p.getWeaponCardObject(s);
+        return Arrays.stream(wC.getReloadCost()).map(AmmoCube::getC).collect(Collectors.toList());
+    }
+
+    public List<String> getPlayerPowerUpCard(String nickName) {
+        Player p = this.grid.getPlayerObject(nickName);
+        return p.getPowerUpCards().stream().map(PowerUpCard::getCardName).collect(Collectors.toList());
+    }
+
+    public List<String> getPlayerPowerUpCardColour(String nickName) {
+        Player p = this.grid.getPlayerObject(nickName);
+        return p.getPowerUpCards().stream().map(PowerUpCard::getC).map(Colour::getAbbreviation).collect(Collectors.toList());
+    }
+
+    public String getPlayerDescriptionPUC(String s, String colour, String nickName) {
+        Player p = this.grid.getPlayerObject(nickName);
+        Colour col = Colour.valueOf(colour);
+        PowerUpCard pC = p.getPowerUpCardObject(s, col);
+        return pC.getDescription();
+    }
+
+    public List<Integer> getScore() {
         return this.grid.getPlayers().stream().map(Player::getScore).collect(Collectors.toList());
     }
 
@@ -1017,12 +1068,12 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                 count++;
         }
         String damageDetails = "\nYou have received the following amount of damage: " + count + "\n";
-        String posDetails = "You are currently in cell " + p.getCell().getPos().getX() + " " + p.getCell().getPos().getY() +"\n";
+        String posDetails = "You are currently in cell " + p.getCell().getPos().getX() + " " + p.getCell().getPos().getY() + "\n";
 
         String yourWeapons = "These are the WeaponCards currently in your possession:\n";
         for(WeaponCard w : p.getWeaponCards())
             wCards.add(w.getCardName());
-        //wCards = this.getWeaponCard(nickName);
+        //wCards = this.getPlayerWeaponCard(nickName);
 
         String yourPups = "These are the PowerUpCards currently in your possession:\n";
         for(PowerUpCard c : p.getPowerUpCards()) {
@@ -1221,9 +1272,6 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         }
         return false;
     }
-
-
-
 
     public synchronized void firstActionGrab(String nickName, List<Integer> directions, String wCardInput, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) throws RemoteException{ //directions contains where p wants to go. directions contains '0' if p doesn't want to move and only grab
         Player p = this.grid.getPlayerObject(nickName);

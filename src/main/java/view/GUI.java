@@ -94,6 +94,7 @@ public class GUI implements View, Serializable {
             f.setLocation(10,10);
             Container c = f.getContentPane();
             TakeInformation p = new TakeInformation(this, this.server, this.game, this.identifier);
+            p.setLayout(new FlowLayout(FlowLayout.LEFT));
             c.add(p);
             //f.addWindowListener( new Terminator());
             f.setSize(500,500);
@@ -105,6 +106,7 @@ public class GUI implements View, Serializable {
             f.setLocation(10,10);
             Container c = f.getContentPane();
             TakeInformation p = new TakeInformation(this, this.server, this.game, this.identifier);
+            p.setLayout(new FlowLayout(FlowLayout.LEFT));
             c.add(p);
             //f.addWindowListener( new Terminator());
             f.setSize(500,500);

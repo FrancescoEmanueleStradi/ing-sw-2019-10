@@ -1029,7 +1029,7 @@ public class CLI extends UnicastRemoteObject implements View {
                     List<String> lW = new LinkedList<>();
                     while (in.hasNext())
                         lW.add(in.next());
-                    System.out.println("Write the card you want to use: "+this.server.messageGetWeaponCard(game, nickName));
+                    System.out.println("Write the card you want to use: "+this.server.messageGetPlayerWeaponCard(game, nickName));
                     String wC = in.next();
                     List<Integer> lI = new LinkedList<>();
                     List<String> lS = new LinkedList<>();
@@ -1059,7 +1059,7 @@ public class CLI extends UnicastRemoteObject implements View {
                         System.out.println("Write the card(s) you want to reload: "+this.server.messageGetWeaponCardUnloaded(game, nickName));
                         while (in.hasNext())
                             lW.add(in.next());
-                        System.out.println("Write the card you want to use: "+this.server.messageGetWeaponCard(game, nickName));
+                        System.out.println("Write the card you want to use: "+this.server.messageGetPlayerWeaponCard(game, nickName));
                         wC = in.next();
                         System.out.println("Enter the number of the effect you want to use:");
                         while (in.hasNext())
@@ -1165,7 +1165,7 @@ public class CLI extends UnicastRemoteObject implements View {
                     List<String> lW2 = new LinkedList<>();
                     while (in.hasNext())
                         lW2.add(in.next());
-                    System.out.println("Write the card you want to use: "+this.server.messageGetWeaponCard(game, nickName));
+                    System.out.println("Write the card you want to use: "+this.server.messageGetPlayerWeaponCard(game, nickName));
                     String wC2 = in.next();
                     List<Integer> lI2 = new LinkedList<>();
                     List<String> lS2 = new LinkedList<>();
@@ -1196,7 +1196,7 @@ public class CLI extends UnicastRemoteObject implements View {
                         System.out.println("Write the card(s) you want to reload: " + this.server.messageGetWeaponCardUnloaded(game, nickName));
                         while (in.hasNext())
                             lW2.add(in.next());
-                        System.out.println("Write the card you want to use: " + this.server.messageGetWeaponCard(game, nickName));
+                        System.out.println("Write the card you want to use: " + this.server.messageGetPlayerWeaponCard(game, nickName));
                         wC2 = in.next();
                         System.out.println("Enter the number of the effect(s) you want to use:");
                         while (in.hasNext())

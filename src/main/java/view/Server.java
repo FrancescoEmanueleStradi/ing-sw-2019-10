@@ -1,7 +1,6 @@
 package view;
 
 import controller.Game;
-import controller.GameState;
 import model.Colour;
 
 import java.rmi.*;
@@ -309,7 +308,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
     }
 
     public synchronized List<String> messageGetWeaponCardLoaded(int game, String nick) throws RemoteException {
-        return games.get(game).getWeaponCardLoaded(nick);
+        return games.get(game).getPlayerWeaponCardLoaded(nick);
     }
 
     public synchronized boolean messageIsValidCard(int game, String nick, String weaponCard) throws RemoteException {
@@ -317,11 +316,15 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
     }
 
     public synchronized List<Colour> messageGetReloadCost(int game, String s, String nick) throws RemoteException {
-        return games.get(game).getReloadCost(s, nick);
+        return games.get(game).getPlayerReloadCost(s, nick);
+    }
+
+    public synchronized List<Colour> messageGetReloadCostReduced(int game, String s) throws RemoteException {
+        return games.get(game).getReloadCostReduced(s);
     }
 
     public synchronized String messageGetDescriptionWC(int game, String s, String nick) throws RemoteException {
-        return games.get(game).getDescriptionWC(s, nick);
+        return games.get(game).getPlayerDescriptionWC(s, nick);
     }
 
     public synchronized boolean messageIsValidFirstActionGrab(int game, String nick, List<Integer> d, String wC, String wS, List<Colour> lA, List<String> lP, List<String> lPC) throws RemoteException {
@@ -365,15 +368,15 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
     }
 
     public synchronized List<String> messageGetPowerUpCard(int game, String nick) throws RemoteException {
-        return games.get(game).getPowerUpCard(nick);
+        return games.get(game).getPlayerPowerUpCard(nick);
     }
 
     public synchronized List<String> messageGetPowerUpCardColour(int game, String nickName) throws RemoteException {
-        return games.get(game).getPowerUpCardColour(nickName);
+        return games.get(game).getPlayerPowerUpCardColour(nickName);
     }
 
     public synchronized String messageGetDescriptionPUC(int game, String pC, String col, String nick) throws RemoteException {
-        return games.get(game).getDescriptionPUC(pC, col, nick);
+        return games.get(game).getPlayerDescriptionPUC(pC, col, nick);
     }
 
     public synchronized boolean messageIsValidUsePowerUpCard(int game, String nick, String pC, String col, List<String> l, Colour c) throws RemoteException {
@@ -385,7 +388,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
     }
 
     public synchronized List<String> messageGetWeaponCardUnloaded(int game, String nick) throws RemoteException {
-        return games.get(game).getWeaponCardUnloaded(nick);
+        return games.get(game).getPlayerWeaponCardUnloaded(nick);
     }
 
     public synchronized boolean messageIsValidReload(int game, String nick, String s) throws RemoteException {
@@ -428,8 +431,8 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
         return games.get(game).isValidFinalFrenzyAction(nick, l);
     }
 
-    public synchronized List<String> messageGetWeaponCard(int game, String nick) throws RemoteException {
-        return games.get(game).getWeaponCard(nick);
+    public synchronized List<String> messageGetPlayerWeaponCard(int game, String nick) throws RemoteException {
+        return games.get(game).getPlayerWeaponCard(nick);
     }
 
     public synchronized boolean messageIsValidFinalFrenzyAction1(int game, String nick, int d, String wC, List<Integer> lI, List<String> lS, List<Colour> lC, List<String> lP, List<String> lPC) throws RemoteException {

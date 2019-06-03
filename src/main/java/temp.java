@@ -94,15 +94,15 @@
     private void shootFirstAction() {
         Scanner in = new Scanner(System.in);
         System.out.println("Choose one of these cards to shoot:");
-        this.game.getWeaponCardLoaded(this.nickName).stream().forEach(System.out::println);
+        this.game.getPlayerWeaponCardLoaded(this.nickName).stream().forEach(System.out::println);
         String s = in.next();
         while(!this.game.isValidCard(nickName, s)){
             System.out.println("Error: choose one of these cards to shoot:");
-            this.game.getWeaponCardLoaded(this.nickName).stream().forEach(System.out::println);
+            this.game.getPlayerWeaponCardLoaded(this.nickName).stream().forEach(System.out::println);
             s = in.next();
         }
-        System.out.println(this.game.getReloadCost(s, nickName));
-        System.out.println(this.game.getDescriptionWC(s,nickName));
+        System.out.println(this.game.getPlayerReloadCost(s, nickName));
+        System.out.println(this.game.getPlayerDescriptionWC(s,nickName));
 
         switch(s){
             case "Cyberblade":
@@ -272,15 +272,15 @@
     private void shootSecondAction() {
         Scanner in = new Scanner(System.in);
         System.out.println("Choose one of these cards to shoot: ");
-        this.game.getWeaponCardLoaded(this.nickName).stream().forEach(System.out::println);
+        this.game.getPlayerWeaponCardLoaded(this.nickName).stream().forEach(System.out::println);
         String s = in.next();
         while(!this.game.isValidCard(nickName, s)){
             System.out.println("Error: choose one of these cards to shoot: ");
-            this.game.getWeaponCardLoaded(this.nickName).stream().forEach(System.out::println);
+            this.game.getPlayerWeaponCardLoaded(this.nickName).stream().forEach(System.out::println);
             s = in.next();
         }
-        System.out.println(this.game.getReloadCost(s, nickName));
-        System.out.println(this.game.getDescriptionWC(s,nickName));
+        System.out.println(this.game.getPlayerReloadCost(s, nickName));
+        System.out.println(this.game.getPlayerDescriptionWC(s,nickName));
 
         switch(s) {
             case "Cyberblade":
@@ -431,9 +431,9 @@
         String namePC;
         List<String> lS = new LinkedList<>();
         System.out.println("Enter which PowerUpCard you want to use:");
-        this.game.getPowerUpCard(nickName).stream().forEach(System.out::println);
+        this.game.getPlayerPowerUpCard(nickName).stream().forEach(System.out::println);
         namePC = in.next();
-        this.game.getDescriptionPUC(namePC, nickName);
+        this.game.getPlayerDescriptionPUC(namePC, nickName);
         switch (namePC){
             case "Tagback Grenade":
                 System.out.println("Enter the nickname of a player you can see and that gave you damage:");
@@ -499,7 +499,7 @@
     @Override
     public void reload() {               //the player knows everything!
         Scanner in = new Scanner(System.in);
-        this.game.getWeaponCardUnloaded(this.nickName).stream().forEach(System.out::println);
+        this.game.getPlayerWeaponCardUnloaded(this.nickName).stream().forEach(System.out::println);
         int i = 0;
         while(i == 0){
             System.out.println("Choose the weapon card you want to reload");
@@ -564,11 +564,11 @@
                 case "1":
                     System.out.println("write the direction you want to move");
                     int i = in.nextInt();
-                    System.out.println("Write the card(s) you want to reload:"+this.game.getWeaponCardUnloaded(nickName));
+                    System.out.println("Write the card(s) you want to reload:"+this.game.getPlayerWeaponCardUnloaded(nickName));
                     List<String> lW = new LinkedList<>();
                     while (in.hasNext())
                         lW.add(in.next());
-                    System.out.println("Write the card you want to use:"+this.game.getWeaponCard(nickName));
+                    System.out.println("Write the card you want to use:"+this.game.getPlayerWeaponCard(nickName));
                     String wC = in.next();
                     List<Integer> lI = new LinkedList<>();
                     List<String> lS = new LinkedList<>();
@@ -583,7 +583,7 @@
                     System.out.println("Enter the colour(s) of the required AmmoCube(s) needed for the effect:");
                     while (in.hasNext())
                         lC.add(Colour.valueOf(in.next()));
-                    game.getPowerUpCard(nickName).stream().forEach(System.out::println);
+                    game.getPlayerPowerUpCard(nickName).stream().forEach(System.out::println);
                     System.out.println("Enter the PowerUpCard you want to use for paying during your turn:");
                     while (in.hasNext())
                         lP.add(in.next());
@@ -591,10 +591,10 @@
                         System.out.println("Error: repeat");
                         System.out.println("write the direction you want to move");
                         i = in.nextInt();
-                        System.out.println("Write the card(s) you want to reload:"+this.game.getWeaponCardUnloaded(nickName));
+                        System.out.println("Write the card(s) you want to reload:"+this.game.getPlayerWeaponCardUnloaded(nickName));
                         while (in.hasNext())
                             lW.add(in.next());
-                        System.out.println("Write the card you want to use:"+this.game.getWeaponCard(nickName));
+                        System.out.println("Write the card you want to use:"+this.game.getPlayerWeaponCard(nickName));
                         wC = in.next();
                         System.out.println("Enter the number of the effect you want to use:");
                         while (in.hasNext())
@@ -605,7 +605,7 @@
                         System.out.println("Enter the colour(s) of the required AmmoCube(s) needed for the effect:");
                         while (in.hasNext())
                             lC.add(Colour.valueOf(in.next()));
-                        game.getPowerUpCard(nickName).stream().forEach(System.out::println);
+                        game.getPlayerPowerUpCard(nickName).stream().forEach(System.out::println);
                         System.out.println("Enter the PowerUpCard you want to use for paying during your turn:");
                         while (in.hasNext())
                             lP.add(in.next());
@@ -674,11 +674,11 @@
                     List<Integer> list3 = new LinkedList<>();
                     while(in.hasNext())
                         list3.add(in.nextInt());
-                    System.out.println("Write the card(s) you want to reload:"+this.game.getWeaponCardUnloaded(nickName));
+                    System.out.println("Write the card(s) you want to reload:"+this.game.getPlayerWeaponCardUnloaded(nickName));
                     List<String> lW2 = new LinkedList<>();
                     while (in.hasNext())
                         lW2.add(in.next());
-                    System.out.println("Write the card you want to use:"+this.game.getWeaponCard(nickName));
+                    System.out.println("Write the card you want to use:"+this.game.getPlayerWeaponCard(nickName));
                     String wC2 = in.next();
                     List<Integer> lI2 = new LinkedList<>();
                     List<String> lS2 = new LinkedList<>();
@@ -693,7 +693,7 @@
                     System.out.println("Enter the colour(s) of the required AmmoCube(s) needed for the effect:");
                     while (in.hasNext())
                         lC3.add(Colour.valueOf(in.next()));
-                    game.getPowerUpCard(nickName).stream().forEach(System.out::println);
+                    game.getPlayerPowerUpCard(nickName).stream().forEach(System.out::println);
                     System.out.println("Enter the PowerUpCard you want to use for paying during your turn:");
                     while (in.hasNext())
                         lP3.add(in.next());
@@ -702,10 +702,10 @@
                         System.out.println("write the direction(s) you want to move");
                         while (in.hasNext())
                             list3.add(in.nextInt());
-                        System.out.println("Write the card(s) you want to reload:" + this.game.getWeaponCardUnloaded(nickName));
+                        System.out.println("Write the card(s) you want to reload:" + this.game.getPlayerWeaponCardUnloaded(nickName));
                         while (in.hasNext())
                             lW2.add(in.next());
-                        System.out.println("Write the card you want to use:" + this.game.getWeaponCard(nickName));
+                        System.out.println("Write the card you want to use:" + this.game.getPlayerWeaponCard(nickName));
                         wC2 = in.next();
                         System.out.println("Enter the number of the effect you want to use:");
                         while (in.hasNext())
@@ -716,7 +716,7 @@
                         System.out.println("Enter the colour(s) of the required AmmoCube(s) needed for the effect:");
                         while (in.hasNext())
                             lC3.add(Colour.valueOf(in.next()));
-                        game.getPowerUpCard(nickName).stream().forEach(System.out::println);
+                        game.getPlayerPowerUpCard(nickName).stream().forEach(System.out::println);
                         System.out.println("Enter the PowerUpCard you want to use for paying during your turn:");
                         while (in.hasNext())
                             lP3.add(in.next());

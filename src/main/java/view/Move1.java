@@ -80,7 +80,7 @@ public class Move1 extends JPanel implements ActionListener {
                 leftArrow.setEnabled(true);
                 rightArrow.setEnabled(true);
                 upArrow.setEnabled(true);
-                downArrow.setEnabled(false);
+                downArrow.setEnabled(true);
             }
 
             if(direction == leftArrow)

@@ -73,6 +73,8 @@ public interface ServerInterface extends Remote {
     List<String> messageGetWeaponCardLoaded(int game, String nick) throws RemoteException;
     boolean messageIsValidCard(int game, String nick, String weaponCard) throws RemoteException;
     List<Colour> messageGetReloadCost(int game, String s, String nick) throws RemoteException;
+    List<Colour> messageGetReloadCostReduced(int game, String s) throws RemoteException;
+
     String messageGetDescriptionWC(int game, String s, String nick) throws RemoteException;
     boolean messageIsValidFirstActionGrab(int game, String nick, List<Integer> d, String wC, String wS, List<Colour> lA, List<String> lP, List<String> lPC) throws RemoteException;
     void messageFirstActionGrab(int game, String nick, List<Integer> d, String wC, List<Colour> lC, List<String> lP, List<String> lPC) throws RemoteException;
@@ -100,7 +102,7 @@ public interface ServerInterface extends Remote {
     boolean messageIsValidToReplace(int game) throws RemoteException;
     void messageReplace(int game) throws RemoteException;
     boolean messageIsValidFinalFrenzyAction(int game, String nick, List<String> l) throws RemoteException;
-    List<String> messageGetWeaponCard(int game, String nick) throws RemoteException;
+    List<String> messageGetPlayerWeaponCard(int game, String nick) throws RemoteException;
     boolean messageIsValidFinalFrenzyAction1(int game, String nick, int d, String wC, List<Integer> lI, List<String> lS, List<Colour> lC, List<String> lP, List<String> lPC) throws RemoteException;
     void messageFinalFrenzyAction1(int game, String nick, int d, List<String> lW, String wC, List<Integer> lI, List<String> lS, List<Colour> lC, List<String> lP, List<String> lPC) throws RemoteException;
     boolean messageIsValidFinalFrenzyAction2(int game, String nick, List<Integer> d) throws RemoteException;

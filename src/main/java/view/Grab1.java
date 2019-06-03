@@ -17,7 +17,7 @@ public class Grab1 extends JPanel {
     private int identifier;
     private String nickName;
     private List<Integer> directions = new LinkedList<>();
-    private List<Colour> lC = new LinkedList<>();
+    private List<Colour> lC;
     private List<String> lP = new LinkedList<>();
     private List<String> lPC = new LinkedList<>();
     private String wCard = "";
@@ -30,9 +30,9 @@ public class Grab1 extends JPanel {
     private int dirCount;
     private JButton weaponConfirm;
     private JButton ammoConfirm;
+    private JButton finalConfirm;
     private JComboBox slotList;
     private JComboBox slot1List, slot2List, slot3List;
-    private JTextField txt1, txt2, txt3, txt4;
 
     public Grab1(GUI gui, ServerInterface server, int game, int identifier, String nickName) {
         super();
@@ -93,7 +93,7 @@ public class Grab1 extends JPanel {
                 leftArrow.setEnabled(true);
                 rightArrow.setEnabled(true);
                 upArrow.setEnabled(true);
-                downArrow.setEnabled(false);
+                downArrow.setEnabled(true);
             }
 
             if(direction == leftArrow)
@@ -129,6 +129,7 @@ public class Grab1 extends JPanel {
             slot1List = new JComboBox(weapons1);
             slot2List = new JComboBox(weapons2);
             slot3List = new JComboBox(weapons3);
+
             add(new JLabel("Pick a WeaponSlot to grab a card from, and the card you want from it")).doLayout();
             add(slotList).doLayout();
             slotList.addActionListener(new SlotSelect());
@@ -139,7 +140,24 @@ public class Grab1 extends JPanel {
             add(slot3List).doLayout();
             slot3List.setVisible(false);
 
-        } catch (RemoteException | InterruptedException e) {
+            List<String> powerUps = server.messageGetPowerUpCard(game, nickName);
+            List<String> powerUpColours = server.messageGetPowerUpCardColour(game, nickName);
+            int i = 0;
+            List<JCheckBox> powerUpBoxes = new LinkedList<>();
+            if (!powerUps.isEmpty()) {
+                add(new JLabel("Choose a PowerUpCard/s to pay with if necessary")).doLayout();
+                for(String pC : powerUps) {
+                    powerUpBoxes.add(new JCheckBox(pC/* + " " + powerUpColours.get(i)*/, false));
+                    powerUpBoxes.get(powerUpBoxes.size() - 1).addActionListener(new PowerUpSelect());
+                    // will *probably* not go out of bounds as the two lists must be the same size
+                    i++;
+                }
+            } else add(new JLabel("You have no PowerUpCards with which to pay"));
+
+            finalConfirm = new JButton("Confirm grab");
+            finalConfirm.setEnabled(false);
+
+        } catch (RemoteException /*| InterruptedException*/ e) {
 
         }
 
@@ -148,22 +166,50 @@ public class Grab1 extends JPanel {
     private class SlotSelect implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            Integer slot = (Integer)e.getSource();
-            if(slot == 1) {
-                slot1List.setVisible(true);
-                slot2List.setVisible(false);
-                slot3List.setVisible(false);
+            JComboBox slot = (JComboBox) e.getSource();
+            Integer slotNum = (Integer)slot.getSelectedItem();
+
+            try {
+                if(slotNum == 1) {
+                    slot1List.setVisible(true);
+                    slot2List.setVisible(false);
+                    slot3List.setVisible(false);
+                    lC = server.messageGetReloadCostReduced(game, (String)slot1List.getSelectedItem());
+                }
+                else if(slotNum == 2) {
+                    slot1List.setVisible(false);
+                    slot2List.setVisible(true);
+                    slot3List.setVisible(false);
+                    lC = server.messageGetReloadCostReduced(game, (String)slot2List.getSelectedItem());
+                }
+                else if(slotNum == 3) {
+                    slot1List.setVisible(false);
+                    slot2List.setVisible(false);
+                    slot3List.setVisible(true);
+                    lC = server.messageGetReloadCostReduced(game, (String)slot3List.getSelectedItem());
             }
-            else if(slot == 2) {
-                slot1List.setVisible(false);
-                slot2List.setVisible(true);
-                slot3List.setVisible(false);
+
+            } catch (RemoteException ex) {
+
             }
-            else if(slot == 3) {
-                slot1List.setVisible(false);
-                slot2List.setVisible(false);
-                slot3List.setVisible(true);
+        }
+    }
+
+    private class PowerUpSelect implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            JCheckBox checked = (JCheckBox)e.getSource();
+            String power = checked.getText();
+            if (checked.isSelected()) {
+                checked.setSelected(false);
+                lP.remove(power);
             }
+            else if (!checked.isSelected()) {
+                checked.setSelected(true);
+                lP.add(power);
+            }
+            if (!finalConfirm.isEnabled())
+                finalConfirm.setEnabled(true);
         }
     }
 

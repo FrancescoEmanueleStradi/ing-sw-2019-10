@@ -112,6 +112,15 @@ public class CardLinkList {
         return null;
     }
 
+    public String getColourfromImageIcon(ImageIcon cardImages) {
+        for (CardLink c : cards) {
+            if (c.getImage().equals(cardImages))
+                return c.getColour();
+        }
+
+        return null;
+    }
+
 
 
 }

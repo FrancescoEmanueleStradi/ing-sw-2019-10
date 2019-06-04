@@ -17,7 +17,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
     private static List<Integer> types;
     private static List<Boolean> canStartList;
     private static List<List<Connection>> connections;
-    private static List<LinkedList<Integer>>  suspendedIdentifier;
+    private static List<LinkedList<Integer>> suspendedIdentifier;
     private static List<LinkedList<String>> suspendedName;
     private static int frenzyTurn = 0;
 

@@ -5,7 +5,6 @@ import model.Colour;
 import view.View;
 
 import java.rmi.*;
-import java.rmi.registry.*;
 import java.rmi.server.*;
 import java.util.LinkedList;
 import java.util.List;
@@ -30,14 +29,6 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
     }
 
     public static void main(String[] args) throws RemoteException {
-        System.out.println("Generating Adrenaline server...");
-        Server centralServer = new Server();
-
-        System.out.println("Binding server to registry...");
-        Registry registry = LocateRegistry.createRegistry(5099);
-        registry.rebind("central_server", centralServer);
-
-        System.out.println("Client may now invoke methods");
         games = new LinkedList<>();
         types = new LinkedList<>();
         connections = new LinkedList<>();
@@ -45,6 +36,9 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
         suspendedIdentifier = new LinkedList<>();
         suspendedName = new LinkedList<>();
 
+        RMIHandler rmiHandler = new RMIHandler();
+        SocketHandler socketHandler = new SocketHandler(9876);
+        socketHandler.startServer();
     }
 
 

@@ -15,11 +15,11 @@ public class SocketServerClientHandler implements Runnable {
 
     public void run() {
         try {
-            Scanner in = new Scanner(socket.getInputStream());
-            PrintWriter out = new PrintWriter(socket.getOutputStream());
+            Scanner inScanner = new Scanner(socket.getInputStream());
+            PrintWriter outScanner = new PrintWriter(socket.getOutputStream());
 
-            in.close();
-            out.close();
+            inScanner.close();
+            outScanner.close();
         } catch (IOException e ) {
             System.out.println("I/O Exception");
         }

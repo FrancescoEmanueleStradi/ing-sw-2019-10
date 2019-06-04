@@ -8,7 +8,7 @@ import model.cards.weaponcards.*;
 import model.player.AmmoCube;
 import model.player.DamageToken;
 import model.player.Player;
-import view.ServerInterface;
+import network.ServerInterface;
 
 import java.rmi.RemoteException;
 import java.util.*;

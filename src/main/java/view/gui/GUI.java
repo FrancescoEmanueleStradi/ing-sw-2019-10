@@ -1,6 +1,14 @@
-package view;
+package view.gui;
 
 import model.Colour;
+import network.ServerInterface;
+import view.*;
+import view.gui.actions.Action1;
+import view.gui.actions.grab.Grab1;
+import view.gui.actions.move.Move1;
+import view.gui.actions.move.Move2;
+import view.gui.actions.shoot.Shoot1;
+
 import java.awt.*;
 import javax.swing.*;
 
@@ -122,14 +130,14 @@ public class GUI implements View, Serializable {
         CardLinkList l = new CardLinkList();
         JFrame spawnPoint = new JFrame("Spawn point selection");
         spawnPoint.setLocation(10,10);
-        spawnPoint.setSize(500,500);
-        spawnPoint.setVisible(true);
         spawnPoint.add(new JLabel("The following are " + this.nickName +"'s starting PowerUpCards"));
         spawnPoint.add(new JLabel(l.getImageIconFromName(this.server.messageGetPowerUpCard(game, this.nickName).get(0), this.server.messageGetPowerUpCardColour(game, this.nickName).get(0))));
         spawnPoint.add(new JLabel(l.getImageIconFromName(this.server.messageGetPowerUpCard(game, this.nickName).get(1), this.server.messageGetPowerUpCardColour(game, this.nickName).get(1))));
         spawnPoint.add(new JLabel("\nSPAWN POINT SELECT\n"));
         spawnPoint.add(new DiscardPUC(this, server, game, nickName, this.server.messageGetPowerUpCard(game, this.nickName).get(0), this.server.messageGetPowerUpCard(game, this.nickName).get(1), this.server.messageGetPowerUpCardColour(game, this.nickName).get(0), this.server.messageGetPowerUpCardColour(game, this.nickName).get(1)));
         //spawnPoint.addWindowListener( new Terminator());
+        spawnPoint.setSize(500,500);
+        spawnPoint.setVisible(true);
         wait();
     }
 
@@ -154,8 +162,9 @@ public class GUI implements View, Serializable {
         grab.add(new Grab1(this, server, game, identifier, nickName));
     }
 
-    public synchronized void shootFirstAction() throws InterruptedException{
-
+    public synchronized void shootFirstAction() throws RemoteException, InterruptedException{
+        JFrame shoot = new JFrame("First action - shoot");
+        shoot.add(new Shoot1(this, server, game, identifier, nickName));
     }
 
     @Override

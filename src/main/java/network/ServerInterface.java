@@ -1,8 +1,9 @@
-package view;
+package network;
 
 import model.Colour;
 import model.cards.PowerUpCard;
 import model.cards.WeaponCard;
+import view.View;
 
 import java.rmi.*;
 import java.util.List;

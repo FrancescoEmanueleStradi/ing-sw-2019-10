@@ -1,12 +1,11 @@
-package view;
+package view.gui;
 
 import model.Colour;
+import network.ServerInterface;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
 import java.rmi.RemoteException;
 
 public class TakeInformation extends JPanel implements ActionListener {

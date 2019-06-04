@@ -1,4 +1,6 @@
-package view;
+package view.gui;
+
+import network.ServerInterface;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -19,13 +21,14 @@ public class DiscardPUC extends JOptionPane implements ActionListener {
     private String c2;
 
 
-    public DiscardPUC( GUI gui, ServerInterface server, int game, String nickName, String n1, String n2, String c1, String c2){
+    public DiscardPUC(GUI gui, ServerInterface server, int game, String nickName, String n1, String n2, String c1, String c2){
         super();
         this.gui = gui;
         this.server = server;
         this.game = game;
         this.nickName = nickName;
         this.n1 = n1;
+        this.n2 = n2;
         this.c1 = c1;
         this.c2 = c2;
         add(new JLabel("Enter the name of the card you want to keep; you will discard the other one corresponding to the " +

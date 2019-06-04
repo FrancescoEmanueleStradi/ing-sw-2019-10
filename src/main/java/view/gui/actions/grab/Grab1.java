@@ -1,6 +1,9 @@
-package view;
+package view.gui.actions.grab;
 
 import model.Colour;
+import view.gui.CardLinkList;
+import network.ServerInterface;
+import view.gui.GUI;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

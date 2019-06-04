@@ -1,4 +1,7 @@
-package view;
+package view.gui.actions.move;
+
+import network.ServerInterface;
+import view.gui.GUI;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

@@ -1,4 +1,6 @@
-package view;
+package view.gui.actions;
+
+import view.gui.GUI;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

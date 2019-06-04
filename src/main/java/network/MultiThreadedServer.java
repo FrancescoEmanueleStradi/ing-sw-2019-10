@@ -1,4 +1,4 @@
-package view;
+package network;
 
 import java.net.ServerSocket;
 import java.util.concurrent.*;

@@ -1,8 +1,11 @@
-package view;
+package view.gui.actions;
+
+import view.gui.GUI;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.rmi.RemoteException;
 
 public class Action1 extends JOptionPane implements ActionListener {
 
@@ -38,8 +41,8 @@ public class Action1 extends JOptionPane implements ActionListener {
                 gui.shootFirstAction();
             action.setEnabled(false);
             notifyAll();
-        }catch (InterruptedException i){
-
+        }catch (InterruptedException | RemoteException i){
+            //TODO
         }
     }
 }

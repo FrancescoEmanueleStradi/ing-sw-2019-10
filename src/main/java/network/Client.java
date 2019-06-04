@@ -1,4 +1,8 @@
-package view;
+package network;
+
+import view.gui.GUI;
+import view.View;
+import view.cli.CLI;
 
 import java.net.MalformedURLException;
 import java.rmi.*;

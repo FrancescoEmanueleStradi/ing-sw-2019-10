@@ -5,8 +5,8 @@ import model.Grid;
 import model.cards.PowerUpCard;
 import model.player.Player;
 import org.junit.jupiter.api.Test;
-import view.Server;
-import view.ServerInterface;
+import network.Server;
+import network.ServerInterface;
 
 import java.rmi.RemoteException;
 

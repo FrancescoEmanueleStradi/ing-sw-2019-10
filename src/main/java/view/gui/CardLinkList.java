@@ -1,4 +1,6 @@
-package view;
+package view.gui;
+
+import view.gui.CardLink;
 
 import javax.swing.*;
 import java.util.LinkedList;

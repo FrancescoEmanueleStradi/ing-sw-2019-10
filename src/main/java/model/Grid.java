@@ -7,7 +7,7 @@ import model.decks.WeaponDeck;
 import model.cards.*;
 import model.player.DamageToken;
 import model.player.Player;
-import view.ServerInterface;
+import network.ServerInterface;
 
 import java.rmi.RemoteException;
 import java.util.*;

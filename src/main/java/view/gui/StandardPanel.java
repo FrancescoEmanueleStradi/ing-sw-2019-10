@@ -1,8 +1,9 @@
-package view;
+package view.gui;
+
+import network.ServerInterface;
 
 import javax.swing.*;
 import java.awt.*;
-import java.rmi.RemoteException;
 
 public class StandardPanel extends JPanel {
 

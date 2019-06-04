@@ -1,4 +1,6 @@
-package view;
+package network;
+
+import view.View;
 
 public class Connection {
     private View view;

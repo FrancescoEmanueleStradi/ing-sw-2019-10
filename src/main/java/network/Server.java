@@ -1,7 +1,8 @@
-package view;
+package network;
 
 import controller.Game;
 import model.Colour;
+import view.View;
 
 import java.rmi.*;
 import java.rmi.registry.*;

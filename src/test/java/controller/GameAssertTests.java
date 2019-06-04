@@ -9,8 +9,8 @@ import model.cards.weaponcards.*;
 import model.player.AmmoCube;
 import model.player.Player;
 import org.junit.jupiter.api.Test;
-import view.Server;
-import view.ServerInterface;
+import network.Server;
+import network.ServerInterface;
 import static org.mockito.Mockito.*;
 
 import java.rmi.RemoteException;

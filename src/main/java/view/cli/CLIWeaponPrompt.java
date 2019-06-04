@@ -1,6 +1,7 @@
-package view;
+package view.cli;
 
 import model.Colour;
+import network.ServerInterface;
 
 import java.rmi.RemoteException;
 import java.util.LinkedList;

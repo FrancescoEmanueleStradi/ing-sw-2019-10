@@ -1,6 +1,8 @@
-package view;
+package view.cli;
 
 import model.Colour;
+import network.ServerInterface;
+import view.View;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -23,7 +25,7 @@ public class CLI extends UnicastRemoteObject implements View {
     static final String EXITSTRING = "Do you want to go back and change action?";
     static final String YESPROMPT = "(Yes/yes/y)";
 
-    CLI(int game, ServerInterface server) throws RemoteException {
+    public CLI(int game, ServerInterface server) throws RemoteException {
         super();
         this.game = game;
         this.server = server;
@@ -216,8 +218,8 @@ public class CLI extends UnicastRemoteObject implements View {
     }
 
     private void shootFirstAction() throws RemoteException {
-        String inputReminder = "Below are the relevant strings you must enter for this card, with respect to any possible order of effects as " +
-                "described in the manual.\nIn brackets is the additional ammo cost for certain effects and firing modes.\n";
+            String inputReminder = "Below are the relevant strings you must enter for this card, with respect to any possible order of effects as " +
+                    "described in the manual.\nIn brackets is the additional ammo cost for certain effects and firing modes.\n";
         Scanner in = new Scanner(System.in);
         String s = "";
 

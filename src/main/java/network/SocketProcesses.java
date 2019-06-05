@@ -4,6 +4,9 @@ import view.View;
 import view.cli.CLI;
 import view.gui.GUI;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.Socket;
 import java.rmi.RemoteException;
 import java.util.Scanner;
 import java.util.Timer;
@@ -14,21 +17,37 @@ public class SocketProcesses {
     private static int game;
     private static int identifier;
 
-    public static void socketProcesses(ServerInterface centralServer) throws RemoteException, InterruptedException {
+    public static void socketProcesses(Socket socket) throws RemoteException, InterruptedException, IOException {
+        Scanner socketIn = new Scanner(socket.getInputStream());
+        PrintWriter socketOut = new PrintWriter(socket.getOutputStream(), true);
         Scanner in = new Scanner(System.in);
-        System.out.println("Enter the number of the game you want to play. There are " + centralServer.getGames()+ " games now.\n" +
+
+        socketOut.println("Get Games");
+        System.out.println("Enter the number of the game you want to play. There are " + socketIn.nextLine() + " games now.\n" +
                 "You can choose one of the current games or you can create a new game entering the number you saw +1.");
         game = in.nextInt()-1;
+
         System.out.println("Are you an old player of this game?");
         String n = in.next();
-        if(n.equals("yes") || n.equals("Yes") || n.equals("YES")){
+        if(n.equals("yes") || n.equals("Yes") || n.equals("YES")) {
             System.out.println("Enter you old identifier:");
             identifier = in.nextInt();
-            while(!centralServer.isASuspendedIdentifier(game, identifier)){
+            socketOut.println("Is A Suspended Identifier");
+            socketOut.println(game);
+            socketOut.println(identifier);
+            String isASuspendedID = socketIn.nextLine();
+            while (isASuspendedID.equals("false")) {
+                System.out.println("We couldn't find your identifier, please try again.");
                 System.out.println("Enter you old identifier:");
                 identifier = in.nextInt();
+                socketOut.println("Is A Suspended Identifier");
+                socketOut.println(game);
+                socketOut.println(identifier);
+                isASuspendedID = socketIn.nextLine();
             }
             System.out.println("Your identifier is:" + identifier);
+        }
+            /*
             boolean cliGui = false;
             do {
                 System.out.println("Do you want to use CLI or GUI?");
@@ -171,6 +190,6 @@ public class SocketProcesses {
             centralServer.manageDisconnection(game, identifier, view.getNickName());        //we inserted it here to manage a possible problem during the first part of the game
             centralServer.finishTurn(game);
             System.exit(0);
-        }
+        }*/
     }
 }

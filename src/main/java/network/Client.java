@@ -37,7 +37,7 @@ public class Client {
                 case "socket":
                     rmiSocket = true;
                     socket = new Socket("localhost", 9876);
-                    //SocketProcesses.socketProcesses();
+                    SocketProcesses.socketProcesses(socket);
                     break;
                 case "Rmi":
                 case "RMI":

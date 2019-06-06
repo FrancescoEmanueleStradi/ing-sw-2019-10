@@ -8,7 +8,7 @@ import java.rmi.RemoteException;
 import java.util.Scanner;
 import java.util.Timer;
 
-public class RMIProcesses extends Client {
+public class RMIProcesses {
 
     private static View view;
     private static int game;

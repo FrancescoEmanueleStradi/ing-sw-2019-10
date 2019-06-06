@@ -16,7 +16,7 @@ import static org.mockito.Mockito.mock;
 class HeatseekerAssertTests {
 
     private int iD = 1;
-    private ServerInterface server = mock(Server.class);
+    private ServerInterface server = (ServerInterface) mock(Server.class);
 
     @Test
     void HeatseekerCorrectConstructor()  {

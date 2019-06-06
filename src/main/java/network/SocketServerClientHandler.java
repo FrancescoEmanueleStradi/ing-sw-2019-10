@@ -8,9 +8,11 @@ import java.util.Scanner;
 public class SocketServerClientHandler implements Runnable {
 
     private Socket socket;
+    private ServerInterface server;
 
-    public SocketServerClientHandler(Socket socket) {
+    public SocketServerClientHandler(Socket socket, ServerInterface server) {
         this.socket = socket;
+        this.server = server;
     }
 
     public void run() {
@@ -18,21 +20,17 @@ public class SocketServerClientHandler implements Runnable {
             Scanner inScanner = new Scanner(socket.getInputStream());
             PrintWriter outScanner = new PrintWriter(socket.getOutputStream(), true);
 
-            Server server = new Server();
-
             while(true) {
+                boolean exit = false;
                 switch (inScanner.nextLine()) {
                     case "Get Games":
                         outScanner.println(server.getGames());
                         break;
                     case "Is A Suspended Identifier":
-                        if(server.isASuspendedIdentifier(Integer.parseInt(inScanner.nextLine()), Integer.parseInt(inScanner.nextLine())))
-                            outScanner.println("true");
-                        else
-                            outScanner.println("false");
+                        outScanner.println(server.isASuspendedIdentifier(Integer.parseInt(inScanner.nextLine()), Integer.parseInt(inScanner.nextLine())));
                         break;
                 }
-                if(inScanner.nextLine().equals("QUIT"))
+                if(exit)
                     break;
             }
 

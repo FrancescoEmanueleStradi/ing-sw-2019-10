@@ -9,9 +9,11 @@ import java.util.concurrent.Executors;
 public class SocketHandler {
 
     private int port;
+    private ServerInterface server;
 
-    public SocketHandler(int port) {
+    public SocketHandler(int port, ServerInterface server) {
         this.port = port;
+        this.server = server;
     }
 
 
@@ -27,7 +29,7 @@ public class SocketHandler {
         while(true) {
             try {
                 Socket socket = serverSocket.accept();
-                executor.submit(new SocketServerClientHandler(socket));
+                executor.submit(new SocketServerClientHandler(socket, server));
             } catch (IOException e) {
                 break;
             }

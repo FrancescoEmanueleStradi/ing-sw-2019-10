@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class GameAssertTests {
 
     private int iD = 1;
-    private ServerInterface server = mock(Server.class);
+    private ServerInterface server = (ServerInterface) mock(Server.class);
 
     @Test
     void GameStartMoveShootEndTest() throws RemoteException {

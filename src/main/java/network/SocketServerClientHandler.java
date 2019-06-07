@@ -340,7 +340,142 @@ public class SocketServerClientHandler implements Runnable {
                             lPC3.add(inScanner.nextLine());
                         server.messageFinalFrenzyAction3(game11, nickname11, list1, wCard1, lC3, lP3, lPC3);
                         break;
-
+                    case "Message Is Valid Final Frenzy Action 4":
+                        int game12 = inScanner.nextInt();
+                        String nickname12 = inScanner.nextLine();
+                        List<Integer> list2 = new LinkedList<>();
+                        int size27 = inScanner.nextInt();
+                        for(int i = 0; i < size27; i++)
+                            list2.add(inScanner.nextInt());
+                        String wCard2 = inScanner.nextLine();
+                        List<Integer> lI2 = new LinkedList<>();
+                        int size28 = inScanner.nextInt();
+                        for(int i = 0; i < size28; i++)
+                            lI2.add(inScanner.nextInt());
+                        List<String> lS5 = new LinkedList<>();
+                        int size29 = inScanner.nextInt();
+                        for(int i = 0; i < size29; i++)
+                            lS5.add(inScanner.nextLine());
+                        List<Colour> lC4 = new LinkedList<>();
+                        int size30 = inScanner.nextInt();
+                        for(int i = 0; i < size30; i++)
+                            lC4.add(Colour.valueOf(inScanner.nextLine()));
+                        List<String> lP4 = new LinkedList<>();
+                        int size31 = inScanner.nextInt();
+                        for(int i = 0; i < size31; i++)
+                            lP4.add(inScanner.nextLine());
+                        List<String> lPC4 = new LinkedList<>();
+                        int size32 = inScanner.nextInt();
+                        for(int i = 0; i < size32; i++)
+                            lPC4.add(inScanner.nextLine());
+                        outPrinter.println(server.messageIsValidFinalFrenzyAction4(game12, nickname12, list2, wCard2, lI2, lS5, lC4, lP4, lPC4));
+                        break;
+                    case "Message Final Frenzy Action 4":
+                        int game13 = inScanner.nextInt();
+                        String nickname13 = inScanner.nextLine();
+                        List<Integer> list3 = new LinkedList<>();
+                        int size33 = inScanner.nextInt();
+                        for(int i = 0; i < size33; i++)
+                            list3.add(inScanner.nextInt());
+                        List<String> cards = new LinkedList<>();
+                        int size34 = inScanner.nextInt();
+                        for(int i = 0; i < size34; i++)
+                            cards.add(inScanner.nextLine());
+                        String wCard3 = inScanner.nextLine();
+                        List<Integer> lI3 = new LinkedList<>();
+                        int size35 = inScanner.nextInt();
+                        for(int i = 0; i < size35; i++)
+                            lI3.add(inScanner.nextInt());
+                        List<String> lS6 = new LinkedList<>();
+                        int size36 = inScanner.nextInt();
+                        for(int i = 0; i < size36; i++)
+                            lS6.add(inScanner.nextLine());
+                        List<Colour> lC5 = new LinkedList<>();
+                        int size37 = inScanner.nextInt();
+                        for(int i = 0; i < size37; i++)
+                            lC5.add(Colour.valueOf(inScanner.nextLine()));
+                        List<String> lP5 = new LinkedList<>();
+                        int size38 = inScanner.nextInt();
+                        for(int i = 0; i < size38; i++)
+                            lP5.add(inScanner.nextLine());
+                        List<String> lPC5 = new LinkedList<>();
+                        int size39 = inScanner.nextInt();
+                        for(int i = 0; i < size39; i++)
+                            lPC5.add(inScanner.nextLine());
+                        server.messageFinalFrenzyAction4(game13, nickname13, list3, cards, wCard3, lI3, lS6, lC5, lP5, lPC5);
+                        break;
+                    case "Message Is Valid Final Frenzy Action 5":
+                        int game14 = inScanner.nextInt();
+                        String nickname14 = inScanner.nextLine();
+                        List<Integer> list4 = new LinkedList<>();
+                        int size40 = inScanner.nextInt();
+                        for(int i = 0; i < size40; i++)
+                            list4.add(inScanner.nextInt());
+                        String wCard4 = inScanner.nextLine();
+                        String wSlot1 = inScanner.nextLine();
+                        List<Colour> lC6 = new LinkedList<>();
+                        int size41 = inScanner.nextInt();
+                        for(int i = 0; i < size41; i++)
+                            lC6.add(Colour.valueOf(inScanner.nextLine()));
+                        List<String> lP6 = new LinkedList<>();
+                        int size42 = inScanner.nextInt();
+                        for(int i = 0; i < size42; i++)
+                            lP6.add(inScanner.nextLine());
+                        List<String> lPC6 = new LinkedList<>();
+                        int size43 = inScanner.nextInt();
+                        for(int i = 0; i < size43; i++)
+                            lPC6.add(inScanner.nextLine());
+                        outPrinter.println(server.messageIsValidFinalFrenzyAction5(game14, nickname14, list4, wCard4, wSlot1, lC6, lP6, lPC6));
+                        break;
+                    case "Message Final Frenzy Action 5":
+                        int game15 = inScanner.nextInt();
+                        String nickname15 = inScanner.nextLine();
+                        List<Integer> list5 = new LinkedList<>();
+                        int size44 = inScanner.nextInt();
+                        for(int i = 0; i < size44; i++)
+                            list5.add(inScanner.nextInt());
+                        String wCard5 = inScanner.nextLine();
+                        List<Colour> lC7 = new LinkedList<>();
+                        int size45 = inScanner.nextInt();
+                        for(int i = 0; i < size45; i++)
+                            lC7.add(Colour.valueOf(inScanner.nextLine()));
+                        List<String> lP7 = new LinkedList<>();
+                        int size46 = inScanner.nextInt();
+                        for(int i = 0; i < size46; i++)
+                            lP7.add(inScanner.nextLine());
+                        List<String> lPC7 = new LinkedList<>();
+                        int size47 = inScanner.nextInt();
+                        for(int i = 0; i < size47; i++)
+                            lPC7.add(inScanner.nextLine());
+                        server.messageFinalFrenzyAction5(game15, nickname15, list5, wCard5, lC7, lP7, lPC7);
+                        break;
+                    case "Message Final Frenzy Turn Scoring":
+                        server.messageFinalFrenzyTurnScoring(inScanner.nextInt());
+                        break;
+                    case "Message End Turn Final Frenzy":
+                        server.messageEndTurnFinalFrenzy(inScanner.nextInt());
+                        break;
+                    case "Message Final Scoring":
+                        server.messageFinalScoring(inScanner.nextInt());
+                        break;
+                    case "Message Get Players":
+                        int game16 = inScanner.nextInt();
+                        outPrinter.println(game16);
+                        for(int i = 0; i < server.messageGetPlayers(game16).size(); i++)
+                            outPrinter.println(server.messageGetPlayers(game16));
+                        break;
+                    case "Message Get Dead List":
+                        int game17 = inScanner.nextInt();
+                        outPrinter.println(server.messageGetDeadList(game17).size());
+                        for(int i = 0; i < server.messageGetDeadList(game17).size(); i++)
+                            outPrinter.println(server.messageGetDeadList(game17).get(i));
+                        break;
+                    case "Message Is Valid Discard Card For Spawn Point":
+                        outPrinter.println(server.messageIsValidDiscardCardForSpawnPoint(inScanner.nextInt(), inScanner.nextLine(), inScanner.nextLine(), inScanner.nextLine()));
+                        break;
+                    case "Message Discard Card For Spawn Point":
+                        server.messageDiscardCardForSpawnPoint(inScanner.nextInt(), inScanner.nextLine(), inScanner.nextLine(), inScanner.nextLine());
+                        break;
 
 
                 }

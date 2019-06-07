@@ -14,7 +14,7 @@ public class CLI extends UnicastRemoteObject implements View {
 
     private int game;
     private int identifier;
-    private int type;
+    private int type = 0;
     private transient ServerInterface server;
     private String nickName;
     private Colour colour;

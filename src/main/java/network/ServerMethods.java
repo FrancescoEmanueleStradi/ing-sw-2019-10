@@ -4,12 +4,13 @@ import controller.Game;
 import model.Colour;
 import view.View;
 
+import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.LinkedList;
 import java.util.List;
 
-public class ServerMethods extends UnicastRemoteObject implements ServerInterface {
+public class ServerMethods extends UnicastRemoteObject implements ServerInterface, Serializable {
 
     private static List<Game> games;
     private static List<Integer> types;

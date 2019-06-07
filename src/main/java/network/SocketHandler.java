@@ -9,9 +9,9 @@ import java.util.concurrent.Executors;
 public class SocketHandler {
 
     private int port;
-    private ServerInterface server;
+    private ServerMethods server;
 
-    public SocketHandler(int port, ServerInterface server) {
+    public SocketHandler(int port, ServerMethods server) {
         this.port = port;
         this.server = server;
     }

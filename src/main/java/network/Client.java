@@ -21,7 +21,7 @@ public class Client {
 
     private static Socket socket;
 
-    public static void main(String[] args) throws NamingException, RemoteException, AlreadyBoundException, NotBoundException, MalformedURLException, InterruptedException, UnknownHostException, IOException {
+    public static void main(String[] args) throws NamingException, RemoteException, AlreadyBoundException, NotBoundException, MalformedURLException, InterruptedException, UnknownHostException, IOException, ClassNotFoundException {
 
         System.out.println("\n                    Welcome to");
         System.out.println("           A  D  R  E  N  A  L  I  N  E\n");

@@ -20,7 +20,7 @@ public class Server extends UnicastRemoteObject {
 
         ServerMethods methods = new ServerMethods();
 
-        RMIHandler rmiHandler = new RMIHandler();
+        RMIHandler rmiHandler = new RMIHandler(methods);
         SocketHandler socketHandler = new SocketHandler(9876, methods);
         socketHandler.startServer();
     }

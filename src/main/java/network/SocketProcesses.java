@@ -5,6 +5,8 @@ import view.cli.CLI;
 import view.gui.GUI;
 
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.rmi.RemoteException;
@@ -17,9 +19,11 @@ public class SocketProcesses {
     private static int game;
     private static int identifier;
 
-    public static void socketProcesses(Socket socket) throws RemoteException, InterruptedException, IOException {
+    public static void socketProcesses(Socket socket) throws RemoteException, InterruptedException, IOException, ClassNotFoundException {
         Scanner socketIn = new Scanner(socket.getInputStream());
         PrintWriter socketOut = new PrintWriter(socket.getOutputStream(), true);
+        ObjectInputStream socketObjectIn = new ObjectInputStream(socket.getInputStream());
+        ObjectOutputStream socketObjectOut = new ObjectOutputStream(socket.getOutputStream());
         Scanner in = new Scanner(System.in);
 
         socketOut.println("Get Games");
@@ -35,45 +39,57 @@ public class SocketProcesses {
             socketOut.println("Is A Suspended Identifier");
             socketOut.println(game);
             socketOut.println(identifier);
-            boolean isAValidID = socketIn.nextBoolean();
-            while (isAValidID) {
+            while (!socketIn.nextBoolean()) {
                 System.out.println("We couldn't find your identifier, please try again.");
                 System.out.println("Enter you old identifier:");
                 identifier = in.nextInt();
                 socketOut.println("Is A Suspended Identifier");
                 socketOut.println(game);
                 socketOut.println(identifier);
-                isAValidID = socketIn.nextBoolean();
             }
             System.out.println("Your identifier is:" + identifier);
-        }
-            /*
+
             boolean cliGui = false;
+            socketOut.println("Server Methods");
+            ServerMethods server = (ServerMethods) socketObjectIn.readObject();
             do {
                 System.out.println("Do you want to use CLI or GUI?");
                 switch (in.next()) {
                     case "CLI":
                     case "Cli":
                     case "cli":
-                        view = new CLI(game, centralServer);
                         cliGui = true;
+                        view = new CLI(game, server);
                         break;
                     case "GUI":
                     case "Gui":
                     case "gui":
-                        view = new GUI(game, centralServer);
                         cliGui = true;
+                        view = new GUI(game, server);
                         break;
                     default:
                         break;
                 }
-            }while(cliGui = false);
-            centralServer.setView(game, identifier, view.getView());
-            view.setType(centralServer.getType(game));
+            } while (!cliGui);
+
+            socketOut.println("Set View");
+            socketOut.println(game);
+            socketOut.println(identifier);
+            socketObjectOut.writeObject(view.getView());
+
+            socketOut.println("Get Type");
+            socketOut.println(game);
+            view.setType(socketIn.nextInt());
+
             view.setInformation(identifier);
-            centralServer.manageReconnection(game,identifier);
+
+            socketOut.println("Manage Reconnection");
+            socketOut.println(game);
+            socketOut.println(identifier);
+
             view.printType();
         }
+        /*
         else {
             while (centralServer.tooMany(game)) {
                 System.out.println("Too many people on this game, please choose another one:");

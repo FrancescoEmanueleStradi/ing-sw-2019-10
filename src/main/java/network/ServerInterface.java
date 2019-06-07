@@ -5,6 +5,7 @@ import model.cards.PowerUpCard;
 import model.cards.WeaponCard;
 import view.View;
 
+import java.io.Serializable;
 import java.rmi.*;
 import java.util.List;
 

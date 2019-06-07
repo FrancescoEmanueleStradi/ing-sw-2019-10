@@ -2,6 +2,7 @@ package network;
 
 import view.View;
 import view.cli.CLI;
+import view.cli.CLISocket;
 import view.gui.GUI;
 
 import java.io.IOException;
@@ -50,8 +51,6 @@ public class SocketProcesses {
             System.out.println("Your identifier is:" + identifier);
 
             boolean cliGui = false;
-            socketOut.println("Server Methods");
-            ServerMethods server = (ServerMethods) socketObjectIn.readObject();
             do {
                 System.out.println("Do you want to use CLI or GUI?");
                 switch (in.next()) {
@@ -59,14 +58,14 @@ public class SocketProcesses {
                     case "Cli":
                     case "cli":
                         cliGui = true;
-                        view = new CLI(game, server);
+                        view = new CLISocket(game, socket);
                         break;
-                    case "GUI":
+                    /*case "GUI":
                     case "Gui":
                     case "gui":
                         cliGui = true;
-                        view = new GUI(game, server);
-                        break;
+                        view = new GUI(game);
+                        break;*/
                     default:
                         break;
                 }
@@ -122,8 +121,6 @@ public class SocketProcesses {
             System.out.println("\nYour identifier is: " + identifier);
 
             boolean cliGui = false;
-            socketOut.println("Server Methods");
-            ServerMethods server = (ServerMethods) socketObjectIn.readObject();
             do {
                 System.out.println("Do you want to use CLI or GUI?");
                 switch (in.next()) {
@@ -131,14 +128,14 @@ public class SocketProcesses {
                     case "Cli":
                     case "cli":
                         cliGui = true;
-                        view = new CLI(game, server);
+                        view = new CLISocket(game, socket);
                         break;
-                    case "GUI":
+                    /*case "GUI":
                     case "Gui":
                     case "gui":
                         cliGui = true;
-                        view = new GUI(game, server);
-                        break;
+                        view = new GUI(game);
+                        break;*/
                     default:
                         break;
                 }
@@ -155,67 +152,94 @@ public class SocketProcesses {
             view.selectSpawnPoint();
             view.printType();
         }
-        /*
+
         try {
             while (true) {
-                if (centralServer.stopGame(game))
+                socketOut.println("Stop Game");
+                socketOut.println(game);
+                if (socketIn.nextBoolean())
                     break;
 
-                if (centralServer.isMyTurn(game, identifier)) {
-                    if (centralServer.isNotFinalFrenzy(game)) {
+                socketOut.println("Is My Turn");
+                socketOut.println(game);
+                socketOut.println(identifier);
+                if (socketIn.nextBoolean()) {
+                    socketOut.println("Is Not Final Frenzy");
+                    socketOut.println(game);
+                    if (socketIn.nextBoolean()) {
                         if (view.doYouWantToUsePUC()) {
-                            MyTask task = new MyTask(game, identifier, view.getNickName(), centralServer);
+                            MyTaskSocket task = new MyTaskSocket(game, identifier, view.getNickName(), socket);
                             Timer timer = new Timer();
                             timer.schedule(task, 150000);
                             view.usePowerUpCard();
                             timer.cancel();
                         }
-                        MyTask task2 = new MyTask(game, identifier, view.getNickName(), centralServer);
+                        MyTaskSocket task2 = new MyTaskSocket(game, identifier, view.getNickName(), socket);
                         Timer timer2 = new Timer();
                         timer2.schedule(task2, 150000);
                         view.action1();
                         timer2.cancel();
                         if (view.doYouWantToUsePUC()) {
-                            MyTask task3 = new MyTask(game, identifier, view.getNickName(), centralServer);
+                            MyTaskSocket task3 = new MyTaskSocket(game, identifier, view.getNickName(), socket);
                             Timer timer3 = new Timer();
                             timer3.schedule(task3, 150000);
                             view.usePowerUpCard();
                             timer3.cancel();
                         }
-                        MyTask task4 = new MyTask(game, identifier, view.getNickName(), centralServer);
+                        MyTaskSocket task4 = new MyTaskSocket(game, identifier, view.getNickName(), socket);
                         Timer timer4 = new Timer();
                         timer4.schedule(task4, 150000);
                         view.action2();
                         timer4.cancel();
                         if (view.doYouWantToUsePUC()) {
-                            MyTask task5 = new MyTask(game, identifier, view.getNickName(), centralServer);
+                            MyTaskSocket task5 = new MyTaskSocket(game, identifier, view.getNickName(), socket);
                             Timer timer5 = new Timer();
                             timer5.schedule(task5, 150000);
                             view.usePowerUpCard();
                             timer5.cancel();
                         }
+
                         view.reload();
                         view.scoring();
                         view.replace();
-                        centralServer.finishTurn(game);
-                        if (centralServer.stopGame(game))
+
+                        socketOut.println("Stop Game");
+                        socketOut.println(game);
+                        if (socketIn.nextBoolean())
                             break;
+
                     } else {
-                        if (centralServer.stopGame(game))
+
+                        socketOut.println("Stop Game");
+                        socketOut.println(game);
+                        if (socketIn.nextBoolean())
                             break;
-                        centralServer.setFinalTurn(game, identifier, view.getNickName());
-                        MyTask task6 = new MyTask(game, identifier, view.getNickName(), centralServer);
+
+                        socketOut.println("Set Final Turn");
+                        socketOut.println(game);
+                        socketOut.println(identifier);
+                        socketOut.println(view.getNickName());
+
+                        MyTaskSocket task6 = new MyTaskSocket(game, identifier, view.getNickName(), socket);
                         Timer timer6 = new Timer();
                         timer6.schedule(task6, 500000);
                         view.finalFrenzyTurn();
                         timer6.cancel();
-                        centralServer.finishTurn(game);
-                        if (centralServer.stopGame(game))
+
+                        socketOut.println("Finish Turn");
+                        socketOut.println(game);
+
+                        socketOut.println("Stop Game");
+                        socketOut.println(game);
+                        if (socketIn.nextBoolean())
                             break;
                     }
                 }
                 view.newSpawnPoint();
-                if(centralServer.gameIsFinished(game))
+
+                socketOut.println("Game Is Finished");
+                socketOut.println(game);
+                if(socketIn.nextBoolean())
                     break;
             }
 
@@ -224,9 +248,16 @@ public class SocketProcesses {
             System.exit(0);
 
         }catch (RemoteException e){
-            centralServer.manageDisconnection(game, identifier, view.getNickName());        //we inserted it here to manage a possible problem during the first part of the game
-            centralServer.finishTurn(game);
+            //we inserted it here to manage a possible problem during the first part of the game
+            socketOut.println("Manage Disconnection");
+            socketOut.println(game);
+            socketOut.println(identifier);
+            socketOut.println(view.getNickName());
+
+            socketOut.println("Finish Turn");
+            socketOut.println(game);
+
             System.exit(0);
-        }*/
+        }
     }
 }

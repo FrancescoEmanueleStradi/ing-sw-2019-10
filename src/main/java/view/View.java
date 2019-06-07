@@ -9,7 +9,7 @@ import java.util.List;
 public interface View extends Remote {
 
     View getView() throws RemoteException;
-    void setServer(ServerInterface server)throws RemoteException;
+    //void setServer(ServerInterface server)throws RemoteException;
     void setGame(int game)throws RemoteException;
     void setIdentifier(int identifier) throws RemoteException;
     String getNickName() throws RemoteException;

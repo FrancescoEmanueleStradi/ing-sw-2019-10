@@ -89,52 +89,73 @@ public class SocketProcesses {
 
             view.printType();
         }
-        /*
+
         else {
-            while (centralServer.tooMany(game)) {
+            socketOut.println("Too Many");
+            socketOut.println(game);
+            while (socketIn.nextBoolean()) {
                 System.out.println("Too many people on this game, please choose another one:");
                 game = in.nextInt() - 1;
+                socketOut.println("Too Many");
+                socketOut.println(game);
             }
 
-            centralServer.setGame(game);
+            socketOut.println("Set Game");
+            socketOut.println(game);
+
+
             System.out.println("Wait for five players to connect. When time will be out, the game will start even with three or four players.");
-            identifier = centralServer.receiveIdentifier(game);
-            centralServer.mergeGroup(game);
+            socketOut.println("Receive Identifier");
+            socketOut.println(game);
+            identifier = socketIn.nextInt();
+
+            socketOut.println("Merge Group");
+            socketOut.println(game);
 
             while (true) {
-                if (centralServer.canStart(game))
+                socketOut.println("Can Start");
+                socketOut.println(game);
+                if (socketIn.nextBoolean())
                     break;
             }
 
-
             System.out.println("\nYour identifier is: " + identifier);
+
             boolean cliGui = false;
+            socketOut.println("Server Methods");
+            ServerMethods server = (ServerMethods) socketObjectIn.readObject();
             do {
-                System.out.println("\nDo you want to use CLI or GUI?");
+                System.out.println("Do you want to use CLI or GUI?");
                 switch (in.next()) {
                     case "CLI":
                     case "Cli":
                     case "cli":
-                        view = new CLI(game, centralServer);
                         cliGui = true;
+                        view = new CLI(game, server);
                         break;
                     case "GUI":
                     case "Gui":
                     case "gui":
-                        view = new GUI(game, centralServer);
                         cliGui = true;
+                        view = new GUI(game, server);
                         break;
                     default:
                         break;
                 }
-            }while(cliGui = false);
-            centralServer.setView(game, identifier, view.getView());
+            } while (!cliGui);
+
+            socketOut.println("Set View");
+            socketOut.println(game);
+            socketOut.println(identifier);
+            socketObjectOut.writeObject(view.getView());
+
             view.setIdentifier(identifier);
 
             view.askNameAndColour();                    //identifier 1 has to have the first player card and he has to choose the type
             view.selectSpawnPoint();
             view.printType();
         }
+        /*
         try {
             while (true) {
                 if (centralServer.stopGame(game))

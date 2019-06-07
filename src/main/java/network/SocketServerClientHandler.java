@@ -47,6 +47,21 @@ public class SocketServerClientHandler implements Runnable {
                     case "Manage Reconnection":
                         server.manageReconnection(inScanner.nextInt(), inScanner.nextInt());
                         break;
+                    case "Too Many":
+                        outPrinter.println(server.tooMany(inScanner.nextInt()));
+                        break;
+                    case "Set Game":
+                        server.setGame(inScanner.nextInt());
+                        break;
+                    case "Receive Identifier":
+                        outPrinter.println(server.receiveIdentifier(inScanner.nextInt()));
+                        break;
+                    case "Merge Group":
+                        server.mergeGroup(inScanner.nextInt());
+                        break;
+                    case "Can Start":
+                        outPrinter.println(server.canStart(inScanner.nextInt()));
+                        break;
                 }
                 if(exit)
                     break;
@@ -55,7 +70,7 @@ public class SocketServerClientHandler implements Runnable {
             inScanner.close();
             outPrinter.close();
             socket.close();
-        } catch (IOException | ClassNotFoundException e ) {
+        } catch (IOException | ClassNotFoundException | InterruptedException e ) {
             System.out.println("Socket Server Client Handler Exception");
         }
     }

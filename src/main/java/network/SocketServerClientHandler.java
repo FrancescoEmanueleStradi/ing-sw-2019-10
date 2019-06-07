@@ -21,10 +21,10 @@ public class SocketServerClientHandler implements Runnable {
 
     public void run() {
         try {
-            Scanner inScanner = new Scanner(socket.getInputStream());
             PrintWriter outPrinter = new PrintWriter(socket.getOutputStream(), true);
-            ObjectInputStream inObject = new ObjectInputStream(socket.getInputStream());
+            Scanner inScanner = new Scanner(socket.getInputStream());
             ObjectOutputStream outObject = new ObjectOutputStream(socket.getOutputStream());
+            ObjectInputStream inObject = new ObjectInputStream(socket.getInputStream());
 
             while(true) {
                 boolean exit = false;

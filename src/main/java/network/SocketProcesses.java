@@ -20,10 +20,10 @@ public class SocketProcesses {
     private static int identifier;
 
     public static void socketProcesses(Socket socket) throws RemoteException, InterruptedException, IOException, ClassNotFoundException {
-        Scanner socketIn = new Scanner(socket.getInputStream());
         PrintWriter socketOut = new PrintWriter(socket.getOutputStream(), true);
-        ObjectInputStream socketObjectIn = new ObjectInputStream(socket.getInputStream());
+        Scanner socketIn = new Scanner(socket.getInputStream());
         ObjectOutputStream socketObjectOut = new ObjectOutputStream(socket.getOutputStream());
+        ObjectInputStream socketObjectIn = new ObjectInputStream(socket.getInputStream());
         Scanner in = new Scanner(System.in);
 
         socketOut.println("Get Games");

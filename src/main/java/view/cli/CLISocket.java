@@ -286,9 +286,13 @@ public class CLISocket extends UnicastRemoteObject implements View {
     private void moveFirstAction() throws RemoteException {
         Scanner in = new Scanner(System.in);
         Scanner intScan = new Scanner(System.in);
-        boolean x;
         List<Integer> l = new LinkedList<>();
-        System.out.println("The AmmoCards on the Board are as below:\n" + this.server.messageShowCardsOnBoard(game));
+        boolean x;
+
+        socketOut.println("Message Show Cards On Board");
+        socketOut.println(game);
+
+        System.out.println("The AmmoCards on the Board are as below:\n" + socketIn.nextLine());
 
         System.out.println("Enter the sequence of movements you want to do, one integer at a time, up to 3\n" +
                 DIRECTIONS + "\n" +
@@ -296,10 +300,19 @@ public class CLISocket extends UnicastRemoteObject implements View {
         while(true) {
             System.out.println("Next direction (integer):");
             int n = intScan.nextInt();
-            if(n == 0 && this.server.messageIsValidFirstActionMove(game, nickName, l)) {
+
+            socketOut.println("Message Is Valid First Action Move");
+            socketOut.println(game);
+            socketOut.println(nickName);
+            socketOut.println(l.size());
+            for(Integer i : l)
+                socketOut.println(i);
+            boolean validMove = socketIn.nextBoolean();
+
+            if(n == 0 && validMove) {
                 break;
             }
-            else if(n == 0 && !this.server.messageIsValidFirstActionMove(game, nickName, l)) {
+            else if(n == 0 && !validMove) {
                 System.out.println(ERRORRETRY);
                 l.clear();
                 x = exitHandler(in);
@@ -312,7 +325,13 @@ public class CLISocket extends UnicastRemoteObject implements View {
                 l.add(n);
             }
         }
-        this.server.messageFirstActionMove(game, this.nickName, l);
+
+        socketOut.println("Message First Action Move");
+        socketOut.println(game);
+        socketOut.println(nickName);
+        socketOut.println(l.size());
+        for(Integer i : l)
+            socketOut.println(i);
     }
 
     private void shootFirstAction() throws RemoteException {
@@ -615,9 +634,13 @@ public class CLISocket extends UnicastRemoteObject implements View {
     private void moveSecondAction() throws RemoteException {
         Scanner in = new Scanner(System.in);
         Scanner intScan = new Scanner(System.in);
-        boolean x;
         List<Integer> l = new LinkedList<>();
-        System.out.println("The AmmoCards on the Board are as below:\n" + this.server.messageShowCardsOnBoard(game));
+        boolean x;
+
+        socketOut.println("Message Show Cards On Board");
+        socketOut.println(game);
+
+        System.out.println("The AmmoCards on the Board are as below:\n" + socketIn.nextLine());
 
         System.out.println("Enter the sequence of movements you want to do, one integer at a time, up to 3\n" +
                 DIRECTIONS + "\n" +
@@ -625,10 +648,19 @@ public class CLISocket extends UnicastRemoteObject implements View {
         while(true) {
             System.out.println("Next direction (integer):");
             int n = intScan.nextInt();
-            if(n == 0 && this.server.messageIsValidSecondActionMove(game, nickName, l)) {
+
+            socketOut.println("Message Is Valid Second Action Move");
+            socketOut.println(game);
+            socketOut.println(nickName);
+            socketOut.println(l.size());
+            for(Integer i : l)
+                socketOut.println(i);
+            boolean validMove = socketIn.nextBoolean();
+
+            if(n == 0 && validMove) {
                 break;
             }
-            else if(n == 0 && !this.server.messageIsValidSecondActionMove(game, nickName, l)) {
+            else if(n == 0 && !validMove) {
                 System.out.println(ERRORRETRY);
                 l.clear();
                 x = exitHandler(in);
@@ -641,7 +673,13 @@ public class CLISocket extends UnicastRemoteObject implements View {
                 l.add(n);
             }
         }
-        this.server.messageSecondActionMove(game, this.nickName, l);
+
+        socketOut.println("Message Second Action Move");
+        socketOut.println(game);
+        socketOut.println(nickName);
+        socketOut.println(l.size());
+        for(Integer i : l)
+            socketOut.println(i);
     }
 
     private void shootSecondAction() throws RemoteException {
@@ -921,7 +959,7 @@ public class CLISocket extends UnicastRemoteObject implements View {
     }
 
     @Override
-    public void usePowerUpCard() throws RemoteException, {
+    public void usePowerUpCard() throws RemoteException {
         Scanner in = new Scanner(System.in);
         boolean x;
         String namePC;

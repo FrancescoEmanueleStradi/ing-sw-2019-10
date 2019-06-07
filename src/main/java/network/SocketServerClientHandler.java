@@ -476,6 +476,45 @@ public class SocketServerClientHandler implements Runnable {
                     case "Message Discard Card For Spawn Point":
                         server.messageDiscardCardForSpawnPoint(inScanner.nextInt(), inScanner.nextLine(), inScanner.nextLine(), inScanner.nextLine());
                         break;
+                    case "Message Show Cards On Board":
+                        outPrinter.println(server.messageShowCardsOnBoard(inScanner.nextInt()));
+                        break;
+                    case "Message Is Valid First Action Move":
+                        int game18 = inScanner.nextInt();
+                        String nickname16 = inScanner.nextLine();
+                        int size48 = inScanner.nextInt();
+                        List<Integer> directions2 = new LinkedList<>();
+                        for(int i = 0; i < size48; i++)
+                            directions2.add(inScanner.nextInt());
+                        outPrinter.println(server.messageIsValidFirstActionMove(game18, nickname16, directions2));
+                        break;
+                    case "Message First Action Move":
+                        int game19 = inScanner.nextInt();
+                        String nickname17 = inScanner.nextLine();
+                        int size49 = inScanner.nextInt();
+                        List<Integer> directions3 = new LinkedList<>();
+                        for(int i = 0; i < size49; i++)
+                            directions3.add(inScanner.nextInt());
+                        server.messageFirstActionMove(game19, nickname17, directions3);
+                        break;
+                    case "Message Is Valid Second Action Move":
+                        int game20 = inScanner.nextInt();
+                        String nickname18 = inScanner.nextLine();
+                        int size50 = inScanner.nextInt();
+                        List<Integer> directions4 = new LinkedList<>();
+                        for(int i = 0; i < size50; i++)
+                            directions4.add(inScanner.nextInt());
+                        outPrinter.println(server.messageIsValidSecondActionMove(game20, nickname18, directions4));
+                        break;
+                    case "Message Second Action Move":
+                        int game21 = inScanner.nextInt();
+                        String nickname19 = inScanner.nextLine();
+                        int size51 = inScanner.nextInt();
+                        List<Integer> directions5 = new LinkedList<>();
+                        for(int i = 0; i < size51; i++)
+                            directions5.add(inScanner.nextInt());
+                        server.messageSecondActionMove(game21, nickname19, directions5);
+                        break;
 
 
                 }

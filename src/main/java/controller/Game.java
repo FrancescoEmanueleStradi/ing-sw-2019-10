@@ -10,6 +10,9 @@ import model.player.DamageToken;
 import model.player.Player;
 import network.ServerInterface;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.Socket;
 import java.rmi.RemoteException;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -20,7 +23,10 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
 
     private int iD;
-    private ServerInterface server;
+    private ServerInterface server = null;
+    private Socket socket = null;
+    private PrintWriter socketOut;
+    private Scanner socketIn;
     private GameState gameState;
     private boolean init = false;
     private Grid grid;
@@ -32,6 +38,14 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
     public Game(int iD, ServerInterface server){
         this.iD = iD;
         this.server = server;
+        grid = new Grid(iD, server);
+    }
+
+    public Game(int iD, Socket server) throws IOException {
+        this.iD = iD;
+        this.socket = server;
+        this.socketOut = new PrintWriter(socket.getOutputStream(), true);
+        this.socketIn = new Scanner(socket.getInputStream());
         grid = new Grid(iD, server);
     }
 
@@ -1563,7 +1577,16 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
            List<String> information = new LinkedList<>();
            information.add(this.grid.getPlayerObjectByColour(p.getPlayerBoard().getDamage().getDT(11).getC()).getNickName());
            information.add(p.getNickName());
-           server.notifyMark(this.iD, information);
+
+           if(server != null)
+               server.notifyMark(this.iD, information);
+           else {
+               socketOut.println("Notify Mark");
+               socketOut.println(this.iD);
+               socketOut.println(information.size());
+               for(String s : information)
+                   socketOut.println(s);
+           }
         }
         else {
             int n = this.grid.getBoard().substituteSkull(1);
@@ -1609,7 +1632,16 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
             List<String> information = new LinkedList<>();
             information.add(p.getNickName());
             information.add(Integer.toString(p.getScore()));
-            server.notifyScore(this.iD, information);
+
+            if(server != null)
+                server.notifyScore(this.iD, information);
+            else {
+                socketOut.println("Notify Score");
+                socketOut.println(this.iD);
+                socketOut.println(information.size());
+                for(String s : information)
+                    socketOut.println(s);
+            }
         }
 
     }
@@ -1938,7 +1970,16 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
             List<String> information = new LinkedList<>();
             information.add(p.getNickName());
             information.add(Integer.toString(p.getScore()));
-            server.notifyScore(this.iD, information);
+
+            if(server != null)
+                server.notifyScore(this.iD, information);
+            else {
+                socketOut.println("Notify Score");
+                socketOut.println(this.iD);
+                socketOut.println(information.size());
+                for(String s : information)
+                    socketOut.println(s);
+            }
         }
         this.gameState = STARTTURN;
     }

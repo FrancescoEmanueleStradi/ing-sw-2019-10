@@ -360,12 +360,3 @@ public class CLIWeaponPrompt {
         return direction;
     }
 }
-
-
-
-
-
-
-
-
-

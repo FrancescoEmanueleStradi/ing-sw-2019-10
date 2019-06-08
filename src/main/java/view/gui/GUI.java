@@ -63,7 +63,6 @@ public class GUI implements View, Serializable {
         return this;
     }
 
-    @Override
     public void setServer(ServerInterface server) {
         this.server = server;
     }

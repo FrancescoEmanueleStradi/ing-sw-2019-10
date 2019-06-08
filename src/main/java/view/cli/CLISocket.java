@@ -4,10 +4,7 @@ import model.Colour;
 import network.ServerInterface;
 import view.View;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.Socket;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -15,19 +12,17 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
-public class CLISocket extends UnicastRemoteObject implements View {
+public class CLISocket extends UnicastRemoteObject implements View, Serializable {
 
     private int game;
-    private Socket socket;
-    private PrintWriter socketOut;
-    private Scanner socketIn;
-    private ObjectOutputStream socketObjectOut;
-    private ObjectInputStream socketObjectIn;
+    private transient Socket socket;
+    private transient PrintWriter socketOut;
+    private transient Scanner socketIn;
     private int identifier;
     private int type = 0;
     private String nickName;
     private Colour colour;
-    private static CLIWeaponPrompt wPrompt = new CLIWeaponPrompt();
+    private static CLISocketWeaponPrompt wPrompt = new CLISocketWeaponPrompt();
     private static final String ERRORRETRY = "Error: please retry";
     private static final String COLOURED = " coloured ";
     private static final String DIRECTIONS = "1 = north, 2 = east, 3 = south, 4 = west";
@@ -40,8 +35,6 @@ public class CLISocket extends UnicastRemoteObject implements View {
         this.socket = socket;
         this.socketOut = new PrintWriter(socket.getOutputStream(), true);
         this.socketIn = new Scanner(socket.getInputStream());
-        this.socketObjectOut = new ObjectOutputStream(socket.getOutputStream());
-        this.socketObjectIn = new ObjectInputStream(socket.getInputStream());
     }
 
     @Override
@@ -123,6 +116,9 @@ public class CLISocket extends UnicastRemoteObject implements View {
                 System.out.println(ERRORRETRY);
                 System.out.println("Choose the type of arena (1, 2, 3, 4):");
                 typeInput = in.nextInt();
+                socketOut.println("Message Is Valid Receive Type");
+                socketOut.println(game);
+                socketOut.println(typeInput);
             }
             socketOut.println("Message Receive Type");
             socketOut.println(game);
@@ -174,6 +170,11 @@ public class CLISocket extends UnicastRemoteObject implements View {
             System.out.println(yourColour);
             s2 = in.nextLine();
             this.colour = Colour.valueOf(s2);
+
+            socketOut.println("Message Is Valid Add Player");
+            socketOut.println(game);
+            socketOut.println(nickName);
+            socketOut.println(colour.getAbbreviation());
         }
 
         socketOut.println("Message Add Player");
@@ -275,12 +276,16 @@ public class CLISocket extends UnicastRemoteObject implements View {
                 System.out.println(ERRORRETRY);
         }
 
-        if(action.equals("Move") || action.equals("move"))
-            this.moveFirstAction();
-        else if(action.equals("Shoot") || action.equals("shoot"))
-            this.shootFirstAction();
-        else if(action.equals("Grab") || action.equals("grab"))
-            this.grabFirstAction();
+        try {
+            if (action.equals("Move") || action.equals("move"))
+                this.moveFirstAction();
+            else if (action.equals("Shoot") || action.equals("shoot"))
+                this.shootFirstAction();
+            else if (action.equals("Grab") || action.equals("grab"))
+                this.grabFirstAction();
+        } catch(IOException e) {
+            System.out.println("I/O Exception");
+        }
     }
 
     private void moveFirstAction() throws RemoteException {
@@ -334,7 +339,7 @@ public class CLISocket extends UnicastRemoteObject implements View {
             socketOut.println(i);
     }
 
-    private void shootFirstAction() throws RemoteException {
+    private void shootFirstAction() throws RemoteException, IOException {
         String inputReminder = "Below are the relevant strings you must enter for this card, with respect to any possible order of effects as " +
                 "described in the manual.\nIn brackets is the additional ammo cost for certain effects and firing modes.\n";
         Scanner in = new Scanner(System.in);
@@ -380,65 +385,65 @@ public class CLISocket extends UnicastRemoteObject implements View {
                 System.out.println(inputReminder +
                         "basic effect: target in your cell\nshadowstep: direction you want to move to\n" +
                         "slice and dice: different target in your cell [1 yellow]");
-                wPrompt.shootToUser1(game, server, nickName, s);
+                wPrompt.shootToUser1(game, socket, nickName, s);
                 break;
 
             case "Electroscythe":
                 System.out.println(inputReminder +
                         "basic mode: none\nreaper mode: none [1 red 1 blue]");
-                wPrompt.shootToUser2(game, server, nickName, s);
+                wPrompt.shootToUser2(game, socket, nickName, s);
                 break;
 
             case "Flamethrower":
                 System.out.println(inputReminder +
                         "basic mode: target 1 move away, and possibly another target 1 more move away in the same direction\n" +
                         "barbecue mode: coordinates of cell of target(s) 1 move away, and possibly those of another cell 1 more more away in the same direction [2 yellow]");
-                wPrompt.shootToUser1(game, server, nickName, s);
+                wPrompt.shootToUser1(game, socket, nickName, s);
                 break;
 
             case "Furnace":
                 System.out.println(inputReminder +
                         "basic mode: colour of room you can see that isn't your room\ncozy fire mode: coordinates of cell 1 move away");
-                wPrompt.shootToUser3(game, server, nickName, s);
+                wPrompt.shootToUser3(game, socket, nickName, s);
                 break;
 
             case "Grenade Launcher":
                 System.out.println(inputReminder +
                         "basic effect: target you can see, and possibly the direction you wish to move him in\n" +
                         "extra grenade: coordinates of cell you can see [1 red]");
-                wPrompt.shootToUser1(game, server, nickName, s);
+                wPrompt.shootToUser1(game, socket, nickName, s);
                 break;
 
             case "Heatseeker":
                 System.out.println(inputReminder +
                         "effect: target you canNOT see");
-                wPrompt.shootToUser3(game, server, nickName, s);
+                wPrompt.shootToUser3(game, socket, nickName, s);
                 break;
 
             case "Hellion":
                 System.out.println(inputReminder +
                         "basic mode: target you can see at least 1 move away\nnano-tracer mode: as with basic mode [1 red]");
-                wPrompt.shootToUser1(game, server, nickName, s);
+                wPrompt.shootToUser1(game, socket, nickName, s);
                 break;
 
             case "Lock Rifle":
                 System.out.println(inputReminder +
                         "basic effect: target you can see\nsecond lock: different target you can see [1 red]");
-                wPrompt.shootToUser1(game, server, nickName, s);
+                wPrompt.shootToUser1(game, socket, nickName, s);
                 break;
 
             case "Machine Gun":
                 System.out.println(inputReminder +
                         "basic effect: 1 or 2 targets you can see\nfocus shot: one of those targets [1 yellow]\n" +
                         "turret tripod: the other of those targets and/or a different target you can see [1 blue]");
-                wPrompt.shootToUser1(game, server, nickName, s);
+                wPrompt.shootToUser1(game, socket, nickName, s);
                 break;
 
             case "Plasma Gun":
                 System.out.println(inputReminder +
                         "basic effect: target you can see\nphase glide: number of cells you want to move (1 or 2) and the direction(s)\n" +
                         "charged shot: none [1 blue]");
-                wPrompt.shootToUser1(game, server, nickName, s);
+                wPrompt.shootToUser1(game, socket, nickName, s);
                 break;
 
             case "Power Glove":
@@ -446,14 +451,14 @@ public class CLISocket extends UnicastRemoteObject implements View {
                         "basic mode: target 1 move away\n" +
                         "rocket fist mode: coordinates of cell 1 move away, and possibly a target on that cell" +
                         "(you may repeat this once with a cell in the same direction just 1 square away, plus a target on that cell [1 blue]");
-                wPrompt.shootToUser1(game, server, nickName, s);
+                wPrompt.shootToUser1(game, socket, nickName, s);
                 break;
 
             case "Railgun":
                 System.out.println(inputReminder +
                         "basic mode: target in a cardinal direction\npiercing mode: 1 or 2 targets in a cardinal direction" +
                         "(keep in mind this attack ignores walls)");
-                wPrompt.shootToUser3(game, server, nickName, s);
+                wPrompt.shootToUser3(game, socket, nickName, s);
                 break;
 
             case "Rocket Launcher":
@@ -461,60 +466,60 @@ public class CLISocket extends UnicastRemoteObject implements View {
                         "basic effect: target you can see but not in your cell, and possibly the direction in which to move them\n" +
                         "rocket jump: number of cells you want to move (1 or 2) and the direction(s) [1 blue]" +
                         "fragmenting warhead: none [1 yellow]");
-                wPrompt.shootToUser1(game, server, nickName, s);
+                wPrompt.shootToUser1(game, socket, nickName, s);
                 break;
 
             case "Shockwave":
                 System.out.println(inputReminder +
                         "basic mode: up to 3 targets in different cells, each 1 move away\ntsunami mode: none [1 yellow]");
-                wPrompt.shootToUser1(game, server, nickName, s);
+                wPrompt.shootToUser1(game, socket, nickName, s);
                 break;
 
             case "Shotgun":
                 System.out.println(inputReminder +
                         "basic mode: target in your cell, and possibly the direction you want to move them in\n" +
                         "long barrel mode: target 1 move away");
-                wPrompt.shootToUser3(game, server, nickName, s);
+                wPrompt.shootToUser3(game, socket, nickName, s);
                 break;
 
             case "Sledgehammer":
                 System.out.println(inputReminder +
                         "basic mode: target in your cell\npulverize mode: target in your cell, and possibly the number of squares (1 or 2) you want to move them " +
                         "and the direction(s) [1 red]");
-                wPrompt.shootToUser1(game, server, nickName, s);
+                wPrompt.shootToUser1(game, socket, nickName, s);
                 break;
 
             case "T.H.O.R.":
                 System.out.println(inputReminder +
                         "basic effect: target you can see\nchain reaction: target your first target can see [1 blue]\n" +
                         "high voltage: target your second target can see [1 blue]");
-                wPrompt.shootToUser1(game, server, nickName, s);
+                wPrompt.shootToUser1(game, socket, nickName, s);
                 break;
 
             case "Tractor Beam":
                 System.out.println(inputReminder +
                         "basic mode: target you may or may not see, coordinates of a cell you can see up to 2 squares away from you\n" +
                         "punisher mode: target up to 2 moves away [1 red 1 yellow]");
-                wPrompt.shootToUser1(game, server, nickName, s);
+                wPrompt.shootToUser1(game, socket, nickName, s);
                 break;
 
             case "Vortex Cannon":
                 System.out.println(inputReminder +
                         "basic effect: target up to 1 move away from the 'vortex', coordinates of the cell the vortex is to be placed in " +
                         "(must not be your cell)\nblack hole: 1 or 2 targets on the vortex or 1 move away from it [1 red]");
-                wPrompt.shootToUser1(game, server, nickName, s);
+                wPrompt.shootToUser1(game, socket, nickName, s);
                 break;
 
             case "Whisper":
                 System.out.println(inputReminder +
                         "effect: target you can see at least 2 moves away)");
-                wPrompt.shootToUser4(game, server, nickName, s);
+                wPrompt.shootToUser4(game, socket, nickName, s);
                 break;
 
             case "ZX-2":
                 System.out.println(inputReminder +
                         "basic mode: target you can see\nscanner mode: up to 3 targets you can see");
-                wPrompt.shootToUser3(game, server, nickName, s);
+                wPrompt.shootToUser3(game, socket, nickName, s);
                 break;
             default: break;
         }
@@ -698,16 +703,19 @@ public class CLISocket extends UnicastRemoteObject implements View {
             else
                 System.out.println(ERRORRETRY);
         }
-
-        if(action.equals("Move") || action.equals("move"))
-            this.moveSecondAction();
-        if(action.equals("Shoot") || action.equals("shoot"))
-            this.shootSecondAction() ;
-        if(action.equals("Grab") || action.equals("grab"))
-            this.grabSecondAction();
+        try {
+            if (action.equals("Move") || action.equals("move"))
+                this.moveSecondAction();
+            if (action.equals("Shoot") || action.equals("shoot"))
+                this.shootSecondAction();
+            if (action.equals("Grab") || action.equals("grab"))
+                this.grabSecondAction();
+        } catch (IOException e) {
+            System.out.println("I/O Exception");
+        }
     }
 
-    private void moveSecondAction() throws RemoteException {
+    private void moveSecondAction() throws RemoteException, IOException {
         Scanner in = new Scanner(System.in);
         Scanner intScan = new Scanner(System.in);
         List<Integer> l = new LinkedList<>();
@@ -758,7 +766,7 @@ public class CLISocket extends UnicastRemoteObject implements View {
             socketOut.println(i);
     }
 
-    private void shootSecondAction() throws RemoteException {
+    private void shootSecondAction() throws RemoteException, IOException {
         String inputReminder = "Below are the relevant strings you must enter for this card, with respect to any possible order of effects as " +
                 "described in the manual.\nIn brackets is the additional ammo cost for certain effects and firing modes.\n";
         Scanner in = new Scanner(System.in);
@@ -804,65 +812,65 @@ public class CLISocket extends UnicastRemoteObject implements View {
                 System.out.println(inputReminder +
                         "basic effect: target in your cell\nshadowstep: direction you want to move to\n" +
                         "slice and dice: different target in your cell [1 yellow]");
-                wPrompt.shoot2ToUser1(game, server, nickName, s);
+                wPrompt.shoot2ToUser1(game, socket, nickName, s);
                 break;
 
             case "Electroscythe":
                 System.out.println(inputReminder +
                         "basic mode: none\nreaper mode: none [1 red 1 blue]");
-                wPrompt.shoot2ToUser2(game, server, nickName, s);
+                wPrompt.shoot2ToUser2(game, socket, nickName, s);
                 break;
 
             case "Flamethrower":
                 System.out.println(inputReminder +
                         "basic mode: target 1 move away, and possibly another target 1 more move away in the same direction\n" +
                         "barbecue mode: coordinates of cell of target(s) 1 move away, and possibly those of another cell 1 more more away in the same direction [2 yellow]");
-                wPrompt.shoot2ToUser1(game, server, nickName, s);
+                wPrompt.shoot2ToUser1(game, socket, nickName, s);
                 break;
 
             case "Furnace":
                 System.out.println(inputReminder +
                         "basic mode: colour of room you can see that isn't your room\ncozy fire mode: coordinates of cell 1 move away");
-                wPrompt.shoot2ToUser3(game, server, nickName, s);
+                wPrompt.shoot2ToUser3(game, socket, nickName, s);
                 break;
 
             case "Grenade Launcher":
                 System.out.println(inputReminder +
                         "basic effect: target you can see, and possibly the direction you wish to move him in\n" +
                         "extra grenade: coordinates of cell you can see [1 red]");
-                wPrompt.shoot2ToUser1(game, server, nickName, s);
+                wPrompt.shoot2ToUser1(game, socket, nickName, s);
                 break;
 
             case "Heatseeker":
                 System.out.println(inputReminder +
                         "effect: target you canNOT see");
-                wPrompt.shoot2ToUser3(game, server, nickName, s);
+                wPrompt.shoot2ToUser3(game, socket, nickName, s);
                 break;
 
             case "Hellion":
                 System.out.println(inputReminder +
                         "basic mode: target you can see at least 1 move away\nnano-tracer mode: as with basic mode [1 red]");
-                wPrompt.shoot2ToUser1(game, server, nickName, s);
+                wPrompt.shoot2ToUser1(game, socket, nickName, s);
                 break;
 
             case "Lock Rifle":
                 System.out.println(inputReminder +
                         "basic effect: target you can see\nsecond lock: different target you can see [1 red]");
-                wPrompt.shoot2ToUser1(game, server, nickName, s);
+                wPrompt.shoot2ToUser1(game, socket, nickName, s);
                 break;
 
             case "Machine Gun":
                 System.out.println(inputReminder +
                         "basic effect: 1 or 2 targets you can see\nfocus shot: one of those targets [1 yellow]\n" +
                         "turret tripod: the other of those targets and/or a different target you can see [1 blue]");
-                wPrompt.shoot2ToUser1(game, server, nickName, s);
+                wPrompt.shoot2ToUser1(game, socket, nickName, s);
                 break;
 
             case "Plasma Gun":
                 System.out.println(inputReminder +
                         "basic effect: target you can see\nphase glide: number of cells you want to move (1 or 2) and the direction(s)\n" +
                         "charged shot: none [1 blue]");
-                wPrompt.shoot2ToUser1(game, server, nickName, s);
+                wPrompt.shoot2ToUser1(game, socket, nickName, s);
                 break;
 
             case "Power Glove":
@@ -870,14 +878,14 @@ public class CLISocket extends UnicastRemoteObject implements View {
                         "basic mode: target 1 move away\n" +
                         "rocket fist mode: coordinates of cell 1 move away, and possibly a target on that cell" +
                         "(you may repeat this once with a cell in the same direction just 1 square away, plus a target on that cell [1 blue]");
-                wPrompt.shoot2ToUser1(game, server, nickName, s);
+                wPrompt.shoot2ToUser1(game, socket, nickName, s);
                 break;
 
             case "Railgun":
                 System.out.println(inputReminder +
                         "basic mode: target in a cardinal direction\npiercing mode: 1 or 2 targets in a cardinal direction" +
                         "(keep in mind this attack ignores walls)");
-                wPrompt.shoot2ToUser3(game, server, nickName, s);
+                wPrompt.shoot2ToUser3(game, socket, nickName, s);
                 break;
 
             case "Rocket Launcher":
@@ -885,67 +893,67 @@ public class CLISocket extends UnicastRemoteObject implements View {
                         "basic effect: target you can see but not in your cell, and possibly the direction in which to move them\n" +
                         "rocket jump: number of cells you want to move (1 or 2) and the direction(s) [1 blue]" +
                         "fragmenting warhead: none [1 yellow]");
-                wPrompt.shoot2ToUser1(game, server, nickName, s);
+                wPrompt.shoot2ToUser1(game, socket, nickName, s);
                 break;
 
             case "Shockwave":
                 System.out.println(inputReminder +
                         "basic mode: up to 3 targets in different cells, each 1 move away\ntsunami mode: none [1 yellow]");
-                wPrompt.shoot2ToUser1(game, server, nickName, s);
+                wPrompt.shoot2ToUser1(game, socket, nickName, s);
                 break;
 
             case "Shotgun":
                 System.out.println(inputReminder +
                         "basic mode: target in your cell, and possibly the direction you want to move them in\n" +
                         "long barrel mode: target 1 move away");
-                wPrompt.shoot2ToUser3(game, server, nickName, s);
+                wPrompt.shoot2ToUser3(game, socket, nickName, s);
                 break;
 
             case "Sledgehammer":
                 System.out.println(inputReminder +
                         "basic mode: target in your cell\npulverize mode: target in your cell, and possibly the number of squares (1 or 2) you want to move them " +
                         "and the direction(s) [1 red]");
-                wPrompt.shoot2ToUser1(game, server, nickName, s);
+                wPrompt.shoot2ToUser1(game, socket, nickName, s);
                 break;
 
             case "T.H.O.R.":
                 System.out.println(inputReminder +
                         "basic effect: target you can see\nchain reaction: target your first target can see [1 blue]\n" +
                         "high voltage: target your second target can see [1 blue]");
-                wPrompt.shoot2ToUser1(game, server, nickName, s);
+                wPrompt.shoot2ToUser1(game, socket, nickName, s);
                 break;
 
             case "Tractor Beam":
                 System.out.println(inputReminder +
                         "basic mode: target you may or may not see, coordinates of a cell you can see up to 2 squares away from you\n" +
                         "punisher mode: target up to 2 moves away [1 red 1 yellow]");
-                wPrompt.shoot2ToUser1(game, server, nickName, s);
+                wPrompt.shoot2ToUser1(game, socket, nickName, s);
                 break;
 
             case "Vortex Cannon":
                 System.out.println(inputReminder +
                         "basic effect: target up to 1 move away from the 'vortex', coordinates of the cell the vortex is to be placed in " +
                         "(must not be your cell)\nblack hole: 1 or 2 targets on the vortex or 1 move away from it [1 red]");
-                wPrompt.shoot2ToUser1(game, server, nickName, s);
+                wPrompt.shoot2ToUser1(game, socket, nickName, s);
                 break;
 
             case "Whisper":
                 System.out.println(inputReminder +
                         "effect: target you can see at least 2 moves away)");
-                wPrompt.shoot2ToUser4(game, server, nickName, s);
+                wPrompt.shoot2ToUser4(game, socket, nickName, s);
                 break;
 
             case "ZX-2":
                 System.out.println(inputReminder +
                         "basic mode: target you can see\nscanner mode: up to 3 targets you can see");
-                wPrompt.shoot2ToUser3(game, server, nickName, s);
+                wPrompt.shoot2ToUser3(game, socket, nickName, s);
                 break;
             default: break;
         }
         action2();
     }
 
-    private void grabSecondAction() throws RemoteException {
+    private void grabSecondAction() throws RemoteException, IOException {
         Scanner in = new Scanner(System.in);
         Scanner intScan = new Scanner(System.in);
         boolean x;

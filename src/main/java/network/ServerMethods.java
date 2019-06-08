@@ -3,8 +3,11 @@ package network;
 import controller.Game;
 import model.Colour;
 import view.View;
+import view.cli.CLISocket;
 
+import java.io.IOException;
 import java.io.Serializable;
+import java.net.Socket;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.LinkedList;
@@ -51,7 +54,25 @@ public class ServerMethods extends UnicastRemoteObject implements ServerInterfac
             connections.get(numGame).add(new Connection());
     }
 
+    public synchronized void setGameSocket(int numGame, Socket socket) throws RemoteException, IOException {
+        if (games.isEmpty() || games.size() <= numGame){
+            games.add(numGame, new Game(numGame, socket));
+            connections.add(numGame, new LinkedList<>());
+            suspendedName.add(numGame, new LinkedList<>());
+            suspendedIdentifier.add(numGame, new LinkedList<>());
+            canStartList.add(numGame, false);
+            connections.get(numGame).add(new Connection());             //this index should be the identifier - 1
+            connections.get(numGame).get(connections.get(numGame).size()-1).setMyTurn(true);
+        }
+        else
+            connections.get(numGame).add(new Connection());
+    }
+
     public synchronized void setView(int game, int identifier, View view) throws RemoteException{
+        connections.get(game).get(identifier-1).setView(view);
+    }
+
+    public synchronized void setView(int game, int identifier, CLISocket view) throws RemoteException{
         connections.get(game).get(identifier-1).setView(view);
     }
 
@@ -234,7 +255,7 @@ public class ServerMethods extends UnicastRemoteObject implements ServerInterfac
     }
 
     public synchronized boolean messageIsValidReceiveType(int game, int type) throws RemoteException {
-        return games.get(game).isValidReceiveType(type);
+        return (games.size() > game && games.get(game).isValidReceiveType(type));
     }
 
     public synchronized void messageReceiveType(int game, int type) throws RemoteException {
@@ -242,7 +263,7 @@ public class ServerMethods extends UnicastRemoteObject implements ServerInterfac
     }
 
     public synchronized boolean messageIsValidAddPlayer(int game, String nick, Colour c) throws RemoteException {
-        return games.get(game).isValidAddPlayer(nick, c);
+        return (games.size() > game && games.get(game).isValidAddPlayer(nick, c));
     }
 
     public synchronized void messageAddPlayer(int game, String nick, Colour c) throws RemoteException {

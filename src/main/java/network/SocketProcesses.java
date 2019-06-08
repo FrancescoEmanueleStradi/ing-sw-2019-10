@@ -16,7 +16,7 @@ import java.util.Timer;
 
 public class SocketProcesses {
 
-    private static View view;
+    private static CLISocket view;
     private static int game;
     private static int identifier;
 

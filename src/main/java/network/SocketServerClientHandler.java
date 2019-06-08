@@ -1,7 +1,7 @@
 package network;
 
 import model.Colour;
-import view.View;
+import view.cli.CLISocket;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -40,7 +40,7 @@ public class SocketServerClientHandler implements Runnable {
                         outPrinter.println(server.isASuspendedIdentifier(Integer.parseInt(inScanner.nextLine()), Integer.parseInt(inScanner.nextLine())));
                         break;
                     case "Set View":
-                        server.setView(inScanner.nextInt(), inScanner.nextInt(), (View) inObject.readObject());
+                        server.setView(inScanner.nextInt(), inScanner.nextInt(), (CLISocket) inObject.readObject());
                         break;
                     case "Get Type":
                         outPrinter.println(server.getType(inScanner.nextInt()));
@@ -130,7 +130,7 @@ public class SocketServerClientHandler implements Runnable {
                     case "Message Pick And Discard":
                         server.messagePickAndDiscardCard(inScanner.nextInt(), inScanner.nextLine(), inScanner.nextLine(), inScanner.nextLine());
                         break;
-                    case "Message Get PowerUp Card":
+                    case "Message Get PowerUp Card Name And Colour":
                         int game = inScanner.nextInt();
                         String nickname = inScanner.nextLine();
                         int size = server.messageGetPowerUpCard(game, nickname).size();
@@ -632,6 +632,159 @@ public class SocketServerClientHandler implements Runnable {
                         break;
                     case "Message Get Description WC":
                         outPrinter.println(server.messageGetDescriptionWC(inScanner.nextInt(), inScanner.nextLine(), inScanner.nextLine()));
+                        break;
+                    case "Message Is Valid First Action Shoot":
+                        int game28 = inScanner.nextInt();
+                        String nickname25 = inScanner.nextLine();
+                        String weapon = inScanner.nextLine();
+                        List<Integer> lI11 = new LinkedList<>();
+                        int size68 = inScanner.nextInt();
+                        for(int i = 0; i < size68; i++)
+                            lI11.add(inScanner.nextInt());
+                        List<String> lS11 = new LinkedList<>();
+                        int size69 = inScanner.nextInt();
+                        for(int i = 0; i < size69; i++)
+                            lS11.add(inScanner.nextLine());
+                        int adrenaline = inScanner.nextInt();
+                        List<Colour> lC12 = new LinkedList<>();
+                        int size70 = inScanner.nextInt();
+                        for(int i = 0; i < size70; i++)
+                            lC12.add(Colour.valueOf(inScanner.nextLine()));
+                        List<String> lP12 = new LinkedList<>();
+                        int size71 = inScanner.nextInt();
+                        for(int i = 0; i < size71; i++)
+                            lP12.add(inScanner.nextLine());
+                        List<String> lPC12 = new LinkedList<>();
+                        int size72 = inScanner.nextInt();
+                        for(int i = 0; i < size72; i++)
+                            lPC12.add(inScanner.nextLine());
+                        outPrinter.println(server.messageIsValidFirstActionShoot(game28, nickname25, weapon, lI11, lS11, adrenaline, lC12, lP12, lPC12));
+                        break;
+                    case "Message Is Valid Second Action Shoot":
+                        int game29 = inScanner.nextInt();
+                        String nickname26 = inScanner.nextLine();
+                        String weapon1 = inScanner.nextLine();
+                        List<Integer> lI12 = new LinkedList<>();
+                        int size73 = inScanner.nextInt();
+                        for(int i = 0; i < size73; i++)
+                            lI12.add(inScanner.nextInt());
+                        List<String> lS12 = new LinkedList<>();
+                        int size74 = inScanner.nextInt();
+                        for(int i = 0; i < size74; i++)
+                            lS12.add(inScanner.nextLine());
+                        int adrenaline1 = inScanner.nextInt();
+                        List<Colour> lC13 = new LinkedList<>();
+                        int size75 = inScanner.nextInt();
+                        for(int i = 0; i < size75; i++)
+                            lC13.add(Colour.valueOf(inScanner.nextLine()));
+                        List<String> lP13 = new LinkedList<>();
+                        int size76 = inScanner.nextInt();
+                        for(int i = 0; i < size76; i++)
+                            lP13.add(inScanner.nextLine());
+                        List<String> lPC13 = new LinkedList<>();
+                        int size77 = inScanner.nextInt();
+                        for(int i = 0; i < size77; i++)
+                            lPC13.add(inScanner.nextLine());
+                        outPrinter.println(server.messageIsValidSecondActionShoot(game29, nickname26, weapon1, lI12, lS12, adrenaline1, lC13, lP13, lPC13));
+                        break;
+                    case "Message First Action Shoot":
+                        int game30 = inScanner.nextInt();
+                        String nickname27 = inScanner.nextLine();
+                        String weapon2 = inScanner.nextLine();
+                        List<Integer> lI13 = new LinkedList<>();
+                        int size78 = inScanner.nextInt();
+                        for(int i = 0; i < size78; i++)
+                            lI13.add(inScanner.nextInt());
+                        List<String> lS13 = new LinkedList<>();
+                        int size79 = inScanner.nextInt();
+                        for(int i = 0; i < size79; i++)
+                            lS13.add(inScanner.nextLine());
+                        int adrenaline2 = inScanner.nextInt();
+                        List<Colour> lC14 = new LinkedList<>();
+                        int size80 = inScanner.nextInt();
+                        for(int i = 0; i < size80; i++)
+                            lC14.add(Colour.valueOf(inScanner.nextLine()));
+                        List<String> lP14 = new LinkedList<>();
+                        int size81 = inScanner.nextInt();
+                        for(int i = 0; i < size81; i++)
+                            lP14.add(inScanner.nextLine());
+                        List<String> lPC14 = new LinkedList<>();
+                        int size82 = inScanner.nextInt();
+                        for(int i = 0; i < size82; i++)
+                            lPC14.add(inScanner.nextLine());
+                        server.messageFirstActionShoot(game30, nickname27, weapon2, lI13, lS13, adrenaline2, lC14, lP14, lPC14);
+                        break;
+                    case "Message Second Action Shoot":
+                        int game31 = inScanner.nextInt();
+                        String nickname28 = inScanner.nextLine();
+                        String weapon3 = inScanner.nextLine();
+                        List<Integer> lI14 = new LinkedList<>();
+                        int size83 = inScanner.nextInt();
+                        for(int i = 0; i < size83; i++)
+                            lI14.add(inScanner.nextInt());
+                        List<String> lS14 = new LinkedList<>();
+                        int size84 = inScanner.nextInt();
+                        for(int i = 0; i < size84; i++)
+                            lS14.add(inScanner.nextLine());
+                        int adrenaline3 = inScanner.nextInt();
+                        List<Colour> lC15 = new LinkedList<>();
+                        int size85 = inScanner.nextInt();
+                        for(int i = 0; i < size85; i++)
+                            lC15.add(Colour.valueOf(inScanner.nextLine()));
+                        List<String> lP15 = new LinkedList<>();
+                        int size86 = inScanner.nextInt();
+                        for(int i = 0; i < size86; i++)
+                            lP15.add(inScanner.nextLine());
+                        List<String> lPC15 = new LinkedList<>();
+                        int size87 = inScanner.nextInt();
+                        for(int i = 0; i < size87; i++)
+                            lPC15.add(inScanner.nextLine());
+                        server.messageSecondActionShoot(game31, nickname28, weapon3, lI14, lS14, adrenaline3, lC15, lP15, lPC15);
+                        break;
+
+                    //Notify calls
+                    case "Notify Player":
+                        int iD = inScanner.nextInt();
+                        List<String> information = new LinkedList<>();
+                        int informationSize = inScanner.nextInt();
+                        for(int i = 0; i < informationSize; i++)
+                            information.add(inScanner.nextLine());
+                        server.notifyPlayer(iD, information);
+                        break;
+                    case "Notify Score":
+                        int iD1 = inScanner.nextInt();
+                        List<String> information1 = new LinkedList<>();
+                        int information1Size = inScanner.nextInt();
+                        for(int i = 0; i < information1Size; i++)
+                            information1.add(inScanner.nextLine());
+                        server.notifyScore(iD1, information1);
+                        break;
+                    case "Notify Position":
+                        int iD2 = inScanner.nextInt();
+                        List<String> information2 = new LinkedList<>();
+                        int information2Size = inScanner.nextInt();
+                        for(int i = 0; i < information2Size; i++)
+                            information2.add(inScanner.nextLine());
+                        server.notifyPosition(iD2, information2);
+                        break;
+                    case "Notify Mark":
+                        int iD3 = inScanner.nextInt();
+                        List<String> information3 = new LinkedList<>();
+                        int information3Size = inScanner.nextInt();
+                        for(int i = 0; i < information3Size; i++)
+                            information3.add(inScanner.nextLine());
+                        server.notifyMark(iD3, information3);
+                        break;
+                    case "Notify Damage":
+                        int iD4 = inScanner.nextInt();
+                        List<String> information4 = new LinkedList<>();
+                        int information4Size = inScanner.nextInt();
+                        for(int i = 0; i < information4Size; i++)
+                            information4.add(inScanner.nextLine());
+                        server.notifyDamage(iD4, information4);
+                        break;
+                    case "Notify Type":
+                        server.notifyType(inScanner.nextInt(), inScanner.nextInt());
                         break;
                 }
                 if(exit)

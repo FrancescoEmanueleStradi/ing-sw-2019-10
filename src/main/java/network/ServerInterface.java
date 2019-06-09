@@ -6,6 +6,7 @@ import model.cards.WeaponCard;
 import view.View;
 
 import java.io.Serializable;
+import java.net.Socket;
 import java.rmi.*;
 import java.util.List;
 
@@ -24,7 +25,7 @@ public interface ServerInterface extends Remote {
 
     String echo(String input) throws RemoteException;
     int getGames() throws RemoteException;
-    void setGame(int game) throws RemoteException;
+    void setGame(int game, Socket socket) throws RemoteException;
     void setView(int game, int identifier, View view) throws RemoteException;
     void setNickName(int game, int identifier, String nickName) throws RemoteException;
     boolean canStart(int game) throws RemoteException;

@@ -33,8 +33,8 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
         super();
         this.game = game;
         this.socket = socket;
-        this.socketOut = new PrintWriter(socket.getOutputStream(), true);
         this.socketIn = new Scanner(socket.getInputStream());
+        this.socketOut = new PrintWriter(socket.getOutputStream(), true);
     }
 
     @Override
@@ -112,13 +112,15 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
             socketOut.println("Message Is Valid Receive Type");
             socketOut.println(game);
             socketOut.println(typeInput);
-            while (!socketIn.nextBoolean()){
+            boolean test1 = socketIn.nextBoolean();
+            while (!test1){
                 System.out.println(ERRORRETRY);
                 System.out.println("Choose the type of arena (1, 2, 3, 4):");
                 typeInput = in.nextInt();
                 socketOut.println("Message Is Valid Receive Type");
                 socketOut.println(game);
                 socketOut.println(typeInput);
+                test1 = socketIn.nextBoolean();
             }
             socketOut.println("Message Receive Type");
             socketOut.println(game);

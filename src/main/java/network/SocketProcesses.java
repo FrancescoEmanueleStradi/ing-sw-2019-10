@@ -21,10 +21,10 @@ public class SocketProcesses {
     private static int identifier;
 
     public static void socketProcesses(Socket socket) throws RemoteException, InterruptedException, IOException, ClassNotFoundException {
-        PrintWriter socketOut = new PrintWriter(socket.getOutputStream(), true);
         Scanner socketIn = new Scanner(socket.getInputStream());
-        ObjectOutputStream socketObjectOut = new ObjectOutputStream(socket.getOutputStream());
+        PrintWriter socketOut = new PrintWriter(socket.getOutputStream(), true);
         ObjectInputStream socketObjectIn = new ObjectInputStream(socket.getInputStream());
+        ObjectOutputStream socketObjectOut = new ObjectOutputStream(socket.getOutputStream());
         Scanner in = new Scanner(System.in);
 
         socketOut.println("Get Games");
@@ -75,6 +75,7 @@ public class SocketProcesses {
             socketOut.println(game);
             socketOut.println(identifier);
             socketObjectOut.writeObject(view.getView());
+            socketObjectOut.flush();
 
             socketOut.println("Get Type");
             socketOut.println(game);
@@ -145,6 +146,7 @@ public class SocketProcesses {
             socketOut.println(game);
             socketOut.println(identifier);
             socketObjectOut.writeObject(view.getView());
+            socketObjectOut.flush();
 
             view.setIdentifier(identifier);
 

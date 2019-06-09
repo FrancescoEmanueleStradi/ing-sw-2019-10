@@ -4,8 +4,8 @@ import model.Colour;
 import model.Grid;
 import model.cards.WeaponCard;
 import model.player.Player;
+import network.ServerMethods;
 import org.junit.jupiter.api.Test;
-import network.Server;
 import network.ServerInterface;
 
 import java.rmi.RemoteException;
@@ -16,7 +16,7 @@ import static org.mockito.Mockito.mock;
 class MachineGunAssertTests {
 
     private int iD = 1;
-    private ServerInterface server = (ServerInterface) mock(Server.class);
+    private ServerInterface server = mock(ServerMethods.class);
 
     @Test
     void MachineGunCorrectConstructor()  {

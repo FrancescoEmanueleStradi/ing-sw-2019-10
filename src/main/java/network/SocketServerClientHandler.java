@@ -1,6 +1,7 @@
 package network;
 
 import model.Colour;
+import view.View;
 import view.cli.CLISocket;
 
 import java.io.IOException;
@@ -22,15 +23,15 @@ public class SocketServerClientHandler implements Runnable {
         this.server = server;
     }
 
-    public void run() {
+    public synchronized void run() {
         try {
             PrintWriter outPrinter = new PrintWriter(socket.getOutputStream(), true);
             Scanner inScanner = new Scanner(socket.getInputStream());
             ObjectOutputStream outObject = new ObjectOutputStream(socket.getOutputStream());
             ObjectInputStream inObject = new ObjectInputStream(socket.getInputStream());
+            boolean exit = false;
 
-            while(true) {
-                boolean exit = false;
+            while(!exit) {
                 switch (inScanner.nextLine()) {
                     //SocketProcesses calls
                     case "Get Games":
@@ -40,7 +41,7 @@ public class SocketServerClientHandler implements Runnable {
                         outPrinter.println(server.isASuspendedIdentifier(Integer.parseInt(inScanner.nextLine()), Integer.parseInt(inScanner.nextLine())));
                         break;
                     case "Set View":
-                        server.setView(inScanner.nextInt(), inScanner.nextInt(), (CLISocket) inObject.readObject());
+                        server.setView(inScanner.nextInt(), inScanner.nextInt(), (View) inObject.readObject());
                         break;
                     case "Get Type":
                         outPrinter.println(server.getType(inScanner.nextInt()));
@@ -52,7 +53,7 @@ public class SocketServerClientHandler implements Runnable {
                         outPrinter.println(server.tooMany(inScanner.nextInt()));
                         break;
                     case "Set Game":
-                        server.setGame(inScanner.nextInt());
+                        server.setGame(inScanner.nextInt(), socket);
                         break;
                     case "Receive Identifier":
                         outPrinter.println(server.receiveIdentifier(inScanner.nextInt()));
@@ -786,9 +787,15 @@ public class SocketServerClientHandler implements Runnable {
                     case "Notify Type":
                         server.notifyType(inScanner.nextInt(), inScanner.nextInt());
                         break;
+
+
+
+                    case "QUIT":
+                        exit = true;
+                        break;
+
+                    default: break;
                 }
-                if(exit)
-                    break;
             }
 
             inScanner.close();

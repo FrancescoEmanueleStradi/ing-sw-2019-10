@@ -41,12 +41,16 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         grid = new Grid(iD, server);
     }
 
-    public Game(int iD, Socket server) throws IOException {
-        this.iD = iD;
-        this.socket = server;
-        this.socketOut = new PrintWriter(socket.getOutputStream(), true);
-        this.socketIn = new Scanner(socket.getInputStream());
-        grid = new Grid(iD, server);
+    public Game(int iD, Socket server) {
+        try {
+            this.iD = iD;
+            this.socket = server;
+            this.socketOut = new PrintWriter(socket.getOutputStream(), true);
+            this.socketIn = new Scanner(socket.getInputStream());
+            grid = new Grid(iD, server);
+        } catch(IOException e) {
+            System.exit(-1);
+        }
     }
 
     public int getID() {

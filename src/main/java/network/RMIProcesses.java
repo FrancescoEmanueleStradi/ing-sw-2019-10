@@ -61,7 +61,7 @@ public class RMIProcesses {
                 game = in.nextInt() - 1;
             }
 
-            centralServer.setGame(game);
+            centralServer.setGame(game, null);
             System.out.println("Wait for five players to connect. When time will be out, the game will start even with three or four players.");
             identifier = centralServer.receiveIdentifier(game);
             centralServer.mergeGroup(game);

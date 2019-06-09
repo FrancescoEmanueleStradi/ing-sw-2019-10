@@ -22,7 +22,7 @@ public class SocketHandler {
         ServerSocket serverSocket = null;
         try {
             serverSocket = new ServerSocket(port);
-        } catch (IOException e) {
+        } catch (IOException | NullPointerException e) {
             System.out.println("Port not available!");
         }
         System.out.println("\nAdrenaline Socket Server ready.\nClient may now invoke methods.");
@@ -30,7 +30,7 @@ public class SocketHandler {
             try {
                 Socket socket = serverSocket.accept();
                 executor.submit(new SocketServerClientHandler(socket, server));
-            } catch (IOException e) {
+            } catch (IOException | NullPointerException e) {
                 break;
             }
         }

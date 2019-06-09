@@ -8,8 +8,8 @@ import model.cards.powerupcards.*;
 import model.cards.weaponcards.*;
 import model.player.AmmoCube;
 import model.player.Player;
+import network.ServerMethods;
 import org.junit.jupiter.api.Test;
-import network.Server;
 import network.ServerInterface;
 import static org.mockito.Mockito.*;
 
@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class GameAssertTests {
 
     private int iD = 1;
-    private ServerInterface server = (ServerInterface) mock(Server.class);
+    private ServerInterface server = mock(ServerMethods.class);
 
     @Test
     void GameStartMoveShootEndTest() throws RemoteException {

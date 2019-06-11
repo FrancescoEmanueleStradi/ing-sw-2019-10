@@ -26,7 +26,7 @@ public class Client {
         System.out.println("\n                    Welcome to");
         System.out.println("           A  D  R  E  N  A  L  I  N  E\n");
 
-        System.out.println("Choose the type of connection between Socket or RMI:");
+        System.out.println("Choose the type of connection between Socket and RMI:");
         Scanner in = new Scanner(System.in);
 
         boolean rmiSocket = false;

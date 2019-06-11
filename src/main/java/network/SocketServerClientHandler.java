@@ -94,19 +94,36 @@ public class SocketServerClientHandler implements Runnable {
                         outPrinter.println(server.getSuspendedColour(inScanner.nextInt(), inScanner.nextLine()));
                         break;
                     case "Message Game Is Not Started":
-                        outPrinter.println(server.messageGameIsNotStarted(inScanner.nextInt()));
+                        int gameMessageGameIsNotStarted = inScanner.nextInt();
+                        inScanner.nextLine();
+                        outPrinter.println(server.messageGameIsNotStarted(gameMessageGameIsNotStarted));
                         break;
                     case "Set Nickname":
-                        server.setNickName(inScanner.nextInt(), inScanner.nextInt(), inScanner.nextLine());
+                        int gameSetNickname = inScanner.nextInt();
+                        int identifierSetNickname = inScanner.nextInt();
+                        inScanner.nextLine();
+                        String nicknameSetNickname = inScanner.nextLine();
+                        server.setNickName(gameSetNickname, identifierSetNickname, nicknameSetNickname);
                         break;
                     case "Message Game Start":
-                        server.messageGameStart(inScanner.nextInt(), inScanner.nextLine(), Colour.valueOf(inScanner.nextLine()));
+                        int gameMessageGameStart = inScanner.nextInt();
+                        inScanner.nextLine();
+                        String nicknameMessageGameStart = inScanner.nextLine();
+                        Colour colourMessageGameStart = Colour.valueOf(inScanner.nextLine());
+                        server.messageGameStart(gameMessageGameStart, nicknameMessageGameStart, colourMessageGameStart);
                         break;
                     case "Message Is Valid Receive Type":
-                        outPrinter.println(server.messageIsValidReceiveType(inScanner.nextInt(), inScanner.nextInt()));
+                        int gameMessageIsValidReceiveType = inScanner.nextInt();
+                        inScanner.nextLine();
+                        int typeMessageIsValidReceiveType = inScanner.nextInt();
+                        inScanner.nextLine();
+                        outPrinter.println(server.messageIsValidReceiveType(gameMessageIsValidReceiveType, typeMessageIsValidReceiveType));
                         break;
                     case "Message Receive Type":
-                        server.messageReceiveType(inScanner.nextInt(), inScanner.nextInt());
+                        int gameMessageReceiveType = inScanner.nextInt();
+                        inScanner.nextLine();
+                        int typeMessageReceiveType = inScanner.nextInt();
+                        server.messageReceiveType(gameMessageReceiveType, typeMessageReceiveType);
                         break;
                     case "Message Is Valid Add Player":
                         outPrinter.println(server.messageIsValidAddPlayer(inScanner.nextInt(), inScanner.nextLine(), Colour.valueOf(inScanner.nextLine())));

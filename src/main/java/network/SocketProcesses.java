@@ -40,13 +40,15 @@ public class SocketProcesses {
             socketOut.println("Is A Suspended Identifier");
             socketOut.println(game);
             socketOut.println(identifier);
-            while (!socketIn.nextBoolean()) {
+            String isASuspendedID = socketIn.nextLine();
+            while (isASuspendedID.equals("false")) {
                 System.out.println("We couldn't find your identifier, please try again.");
                 System.out.println("Enter you old identifier:");
                 identifier = in.nextInt();
                 socketOut.println("Is A Suspended Identifier");
                 socketOut.println(game);
                 socketOut.println(identifier);
+                isASuspendedID = socketIn.nextLine();
             }
             System.out.println("Your identifier is:" + identifier);
 

@@ -88,8 +88,9 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
 
         socketOut.println("Message Game Is Not Started");
         socketOut.println(game);
+        String gameIsNotStarted = socketIn.nextLine();
 
-        if (socketIn.nextBoolean() && this.identifier == 1) {
+        if (gameIsNotStarted.equals("true") && this.identifier == 1) {
             System.out.println("\n---------- NAME AND COLOUR SELECTION ----------\n");
 
             System.out.println(yourName);
@@ -105,22 +106,22 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
             socketOut.println("Message Game Start");
             socketOut.println(game);
             socketOut.println(nickName);
-            socketOut.println(colour.getAbbreviation());
+            socketOut.println(s1);
 
             System.out.println("Choose the type of arena (1, 2, 3, 4):");
             int typeInput = in.nextInt();
             socketOut.println("Message Is Valid Receive Type");
             socketOut.println(game);
             socketOut.println(typeInput);
-            boolean test1 = socketIn.nextBoolean();
-            while (!test1){
+            String isValidReceiveType = socketIn.nextLine();
+            while (isValidReceiveType.equals("false")){
                 System.out.println(ERRORRETRY);
                 System.out.println("Choose the type of arena (1, 2, 3, 4):");
                 typeInput = in.nextInt();
                 socketOut.println("Message Is Valid Receive Type");
                 socketOut.println(game);
                 socketOut.println(typeInput);
-                test1 = socketIn.nextBoolean();
+                isValidReceiveType = socketIn.nextLine();
             }
             socketOut.println("Message Receive Type");
             socketOut.println(game);
@@ -129,7 +130,8 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
             System.out.println("\n---------- GENERATING ARENA... ----------\n");
             socketOut.println("Get Type");
             socketOut.println(game);
-            this.setType(socketIn.nextInt());
+            int typeReceived = socketIn.nextInt();
+            this.setType(typeReceived);
             return;
         }
 

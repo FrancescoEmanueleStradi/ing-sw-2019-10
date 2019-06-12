@@ -131,17 +131,17 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
             socketOut.println("Get Type");
             socketOut.println(game);
             int typeReceived = socketIn.nextInt();
+            socketIn.nextLine();
             this.setType(typeReceived);
             return;
         }
 
         socketOut.println("Get Type");
         socketOut.println(game);
-        if(socketIn.nextInt() != 0) {
-            socketOut.println("Get Type");
-            socketOut.println(game);
-            this.setType(socketIn.nextInt());
-        }
+        int type = socketIn.nextInt();
+        socketIn.nextLine();
+        if(type != 0)
+            this.setType(type);
 
         System.out.println("\n---------- NAME AND COLOUR SELECTION ----------\n");
 
@@ -159,9 +159,11 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
         socketOut.println("Message Is Valid Add Player");
         socketOut.println(game);
         socketOut.println(nickName);
-        socketOut.println(colour.getAbbreviation());
+        socketOut.println(s2);
 
-        while (!socketIn.nextBoolean()) {
+        String isValidAddPlayer = socketIn.nextLine();
+
+        while (isValidAddPlayer.equals("false")) {
             System.out.println(ERRORRETRY);
 
             System.out.println(yourName);
@@ -178,13 +180,15 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
             socketOut.println("Message Is Valid Add Player");
             socketOut.println(game);
             socketOut.println(nickName);
-            socketOut.println(colour.getAbbreviation());
+            socketOut.println(s2);
+
+            isValidAddPlayer = socketIn.nextLine();
         }
 
         socketOut.println("Message Add Player");
         socketOut.println(game);
         socketOut.println(nickName);
-        socketOut.println(colour.getAbbreviation());
+        socketOut.println(s2);
     }
 
     @Override
@@ -225,7 +229,9 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
             socketOut.println(nickName);
             socketOut.println(p);
             socketOut.println(c);
-            if (socketIn.nextBoolean())
+
+            String isValidPickAndDiscard = socketIn.nextLine();
+            if (isValidPickAndDiscard.equals("true"))
                 break;
             else
                 System.out.println(ERRORRETRY);
@@ -252,11 +258,13 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
 
         socketOut.println("Get Type");
         socketOut.println(game);
-        if(socketIn.nextInt() != 0) {
-            socketOut.println("Get Type");
-            socketOut.println(game);
-            this.setType(socketIn.nextInt());
-        }                                           //in case it has not been set during AskNameAndColour
+
+        socketOut.println("Get Type");
+        socketOut.println(game);
+        int type = socketIn.nextInt();
+        socketIn.nextLine();
+        if(type != 0)
+            this.setType(type);                         //in case it has not been set during AskNameAndColour
     }
 
     @Override
@@ -267,7 +275,7 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
         socketOut.println("Message Check Your Status");
         socketOut.println(game);
         socketOut.println(nickName);
-        System.out.println("Your status:\n" + socketIn.nextLine());
+        System.out.println("\nYour status:\n" + socketIn.nextLine());
 
         System.out.println("\n---------- START OF " + this.nickName + "'s FIRST ACTION ----------\n");
         while(true) {

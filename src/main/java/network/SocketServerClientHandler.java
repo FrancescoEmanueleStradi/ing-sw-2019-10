@@ -935,14 +935,14 @@ public class SocketServerClientHandler implements Runnable {
                         break;
 
                     //Notify calls
-                    case "Notify Player":
+                    /*case "Notify Player":
                         int iD = inScanner.nextInt();
                         List<String> information = new LinkedList<>();
                         int informationSize = inScanner.nextInt();
                         for(int i = 0; i < informationSize; i++)
                             information.add(inScanner.nextLine());
                         server.notifyPlayer(iD, information);
-                        break;
+                        break;*/
                     case "Notify Score":
                         int iD1 = inScanner.nextInt();
                         List<String> information1 = new LinkedList<>();
@@ -975,9 +975,9 @@ public class SocketServerClientHandler implements Runnable {
                             information4.add(inScanner.nextLine());
                         server.notifyDamage(iD4, information4);
                         break;
-                    case "Notify Type":
+                    /*case "Notify Type":
                         server.notifyType(inScanner.nextInt(), inScanner.nextInt());
-                        break;
+                        break;*/
 
 
 

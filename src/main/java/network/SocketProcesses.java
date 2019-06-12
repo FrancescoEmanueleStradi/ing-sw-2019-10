@@ -81,7 +81,9 @@ public class SocketProcesses {
 
             socketOut.println("Get Type");
             socketOut.println(game);
-            view.setType(socketIn.nextInt());
+            int type = socketIn.nextInt();
+            socketIn.nextLine();
+            view.setType(type);
 
             view.setInformation(identifier);
 
@@ -95,11 +97,13 @@ public class SocketProcesses {
         else {
             socketOut.println("Too Many");
             socketOut.println(game);
-            while (socketIn.nextBoolean()) {
+            String tooMany = socketIn.nextLine();
+            while (tooMany.equals("true")) {
                 System.out.println("Too many people on this game, please choose another one:");
                 game = in.nextInt() - 1;
                 socketOut.println("Too Many");
                 socketOut.println(game);
+                tooMany = socketIn.nextLine();
             }
 
             socketOut.println("Set Game");
@@ -110,6 +114,7 @@ public class SocketProcesses {
             socketOut.println("Receive Identifier");
             socketOut.println(game);
             identifier = socketIn.nextInt();
+            socketIn.nextLine();
 
             socketOut.println("Merge Group");
             socketOut.println(game);
@@ -117,7 +122,8 @@ public class SocketProcesses {
             while (true) {
                 socketOut.println("Can Start");
                 socketOut.println(game);
-                if (socketIn.nextBoolean())
+                String canStart = socketIn.nextLine();
+                if (canStart.equals("true"))
                     break;
             }
 
@@ -161,16 +167,21 @@ public class SocketProcesses {
             while (true) {
                 socketOut.println("Stop Game");
                 socketOut.println(game);
-                if (socketIn.nextBoolean())
+                String stopGame = socketIn.nextLine();
+                if (stopGame.equals("true"))
                     break;
 
                 socketOut.println("Is My Turn");
                 socketOut.println(game);
                 socketOut.println(identifier);
-                if (socketIn.nextBoolean()) {
+                String isMyTurn = socketIn.nextLine();
+
+                if (isMyTurn.equals("true")) {
                     socketOut.println("Is Not Final Frenzy");
                     socketOut.println(game);
-                    if (socketIn.nextBoolean()) {
+                    String isNotFF = socketIn.nextLine();
+
+                    if (isNotFF.equals("true")) {
                         if (view.doYouWantToUsePUC()) {
                             MyTaskSocket task = new MyTaskSocket(game, identifier, view.getNickName(), socket);
                             Timer timer = new Timer();
@@ -209,20 +220,23 @@ public class SocketProcesses {
 
                         socketOut.println("Stop Game");
                         socketOut.println(game);
-                        if (socketIn.nextBoolean())
+                        stopGame = socketIn.nextLine();
+                        if (stopGame.equals("true"))
                             break;
 
                     } else {
 
                         socketOut.println("Stop Game");
                         socketOut.println(game);
-                        if (socketIn.nextBoolean())
+                        stopGame = socketIn.nextLine();
+                        if (stopGame.equals("true"))
                             break;
 
                         socketOut.println("Set Final Turn");
                         socketOut.println(game);
                         socketOut.println(identifier);
-                        socketOut.println(view.getNickName());
+                        String nickToSend = view.getNickName();
+                        socketOut.println(nickToSend);
 
                         MyTaskSocket task6 = new MyTaskSocket(game, identifier, view.getNickName(), socket);
                         Timer timer6 = new Timer();
@@ -235,7 +249,8 @@ public class SocketProcesses {
 
                         socketOut.println("Stop Game");
                         socketOut.println(game);
-                        if (socketIn.nextBoolean())
+                        stopGame = socketIn.nextLine();
+                        if (stopGame.equals("true"))
                             break;
                     }
                 }
@@ -243,7 +258,8 @@ public class SocketProcesses {
 
                 socketOut.println("Game Is Finished");
                 socketOut.println(game);
-                if(socketIn.nextBoolean())
+                String gameIsFinished = socketIn.nextLine();
+                if(gameIsFinished.equals("true"))
                     break;
             }
 
@@ -256,7 +272,8 @@ public class SocketProcesses {
             socketOut.println("Manage Disconnection");
             socketOut.println(game);
             socketOut.println(identifier);
-            socketOut.println(view.getNickName());
+            String nickToSend = view.getNickName();
+            socketOut.println(nickToSend);
 
             socketOut.println("Finish Turn");
             socketOut.println(game);

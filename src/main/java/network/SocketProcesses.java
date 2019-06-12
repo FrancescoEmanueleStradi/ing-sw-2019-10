@@ -21,14 +21,15 @@ public class SocketProcesses {
     private static int identifier;
 
     public static void socketProcesses(Socket socket) throws RemoteException, InterruptedException, IOException, ClassNotFoundException {
-        Scanner socketIn = new Scanner(socket.getInputStream());
         PrintWriter socketOut = new PrintWriter(socket.getOutputStream(), true);
+        Scanner socketIn = new Scanner(socket.getInputStream());
         ObjectInputStream socketObjectIn = new ObjectInputStream(socket.getInputStream());
         ObjectOutputStream socketObjectOut = new ObjectOutputStream(socket.getOutputStream());
         Scanner in = new Scanner(System.in);
 
         socketOut.println("Get Games");
-        System.out.println("Enter the number of the game you want to play. There are " + socketIn.nextLine() + " games now.\n" +
+        String numGames = socketIn.nextLine();
+        System.out.println("Enter the number of the game you want to play. There are " + numGames + " games now.\n" +
                 "You can choose one of the current games or you can create a new game entering the number you saw +1.");
         game = in.nextInt()-1;
 
@@ -109,7 +110,6 @@ public class SocketProcesses {
             socketOut.println("Set Game");
             socketOut.println(game);
 
-
             System.out.println("Wait for five players to connect. When time will be out, the game will start even with three or four players.");
             socketOut.println("Receive Identifier");
             socketOut.println(game);
@@ -119,12 +119,13 @@ public class SocketProcesses {
             socketOut.println("Merge Group");
             socketOut.println(game);
 
-            while (true) {
+            socketOut.println("Can Start");
+            socketOut.println(game);
+            String canStart = socketIn.nextLine();
+            while (canStart.equals("false")) {
                 socketOut.println("Can Start");
                 socketOut.println(game);
-                String canStart = socketIn.nextLine();
-                if (canStart.equals("true"))
-                    break;
+                canStart = socketIn.nextLine();
             }
 
             System.out.println("\nYour identifier is: " + identifier);

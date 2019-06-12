@@ -46,6 +46,7 @@ public class ServerMethods extends UnicastRemoteObject implements ServerInterfac
                 games.add(numGame, new Game(numGame, this));
             else
                 games.add(numGame, new Game(numGame, socket));
+
             connections.add(numGame, new LinkedList<>());
             suspendedName.add(numGame, new LinkedList<>());
             suspendedIdentifier.add(numGame, new LinkedList<>());
@@ -258,6 +259,10 @@ public class ServerMethods extends UnicastRemoteObject implements ServerInterfac
 
     public synchronized void messageAddPlayer(int game, String nick, Colour c) throws RemoteException {
         games.get(game).addPlayer(nick, c);
+        List<String> information = new LinkedList<>();
+        information.add(nick);
+        information.add(c.getAbbreviation());
+        notifyPlayer(game, information);
     }
 
     public synchronized void messageGiveTwoPUCard(int game, String nick) throws RemoteException {

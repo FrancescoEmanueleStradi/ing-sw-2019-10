@@ -1085,7 +1085,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
             if(p.getPlayerBoard().getDamage().getDamageTokens()[d] != null)
                 count++;
         }
-        String damageDetails = "\nYou have received the following amount of damage: " + count + "\n";
+        String damageDetails = "You have received the following amount of damage: " + count + "\n";
         String posDetails = "You are currently in cell " + p.getCell().getPos().getX() + " " + p.getCell().getPos().getY() + "\n";
 
         String yourWeapons = "These are the WeaponCards currently in your possession:\n";

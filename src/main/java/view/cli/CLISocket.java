@@ -33,8 +33,8 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
         super();
         this.game = game;
         this.socket = socket;
-        this.socketIn = new Scanner(socket.getInputStream());
         this.socketOut = new PrintWriter(socket.getOutputStream(), true);
+        this.socketIn = new Scanner(socket.getInputStream());
     }
 
     @Override
@@ -237,7 +237,7 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
                 System.out.println(ERRORRETRY);
         }
 
-        if(PUCard1.equals(p) && PUCard1.equals(c)) {
+        if(PUCard1.equals(p) && PUCard1Colour.equals(c)) {
             String spawnColour = PUCard2Colour;
             socketOut.println("Message Pick And Discard");
             socketOut.println(game);
@@ -274,8 +274,9 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
 
         socketOut.println("Message Check Your Status");
         socketOut.println(game);
-        socketOut.println(nickName);
-        System.out.println("\nYour status:\n" + socketIn.nextLine());
+        socketOut.println(this.nickName);
+        String yourStatus = socketIn.nextLine();
+        System.out.println("\nYour status:\n" + yourStatus);
 
         System.out.println("\n---------- START OF " + this.nickName + "'s FIRST ACTION ----------\n");
         while(true) {
@@ -308,8 +309,9 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
 
         socketOut.println("Message Show Cards On Board");
         socketOut.println(game);
+        String cardsOnBoard = socketIn.nextLine();
 
-        System.out.println("The AmmoCards on the Board are as below:\n" + socketIn.nextLine());
+        System.out.println("The AmmoCards on the Board are as below:\n" + cardsOnBoard);
 
         System.out.println("Enter the sequence of movements you want to do, one integer at a time, up to 3\n" +
                 DIRECTIONS + "\n" +

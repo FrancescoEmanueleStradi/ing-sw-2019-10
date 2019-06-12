@@ -292,7 +292,8 @@ public class SocketServerClientHandler implements Runnable {
                         int gameMessageCheckYourStatus = inScanner.nextInt();
                         inScanner.nextLine();
                         String nicknameMessageCheckYourStatus = inScanner.nextLine();
-                        outPrinter.println(server.messageCheckYourStatus(gameMessageCheckYourStatus, nicknameMessageCheckYourStatus));
+                        String messageCheckYourStatus = server.messageCheckYourStatus(gameMessageCheckYourStatus, nicknameMessageCheckYourStatus);
+                        outPrinter.println(messageCheckYourStatus);
                         break;
                     case "Message Get Weapon Card Unloaded":
                         int game3 = inScanner.nextInt();
@@ -690,7 +691,8 @@ public class SocketServerClientHandler implements Runnable {
                     case "Message Show Cards On Board":
                         int gameMessageShowCardsOnBoard = inScanner.nextInt();
                         inScanner.nextLine();
-                        outPrinter.println(server.messageShowCardsOnBoard(gameMessageShowCardsOnBoard));
+                        String messageShowCardsOnBoard = server.messageShowCardsOnBoard(gameMessageShowCardsOnBoard);
+                        outPrinter.println(messageShowCardsOnBoard);
                         break;
                     case "Message Is Valid First Action Move":
                         int game18 = inScanner.nextInt();
@@ -1035,6 +1037,7 @@ public class SocketServerClientHandler implements Runnable {
 
                     //Notify calls
                     //TODO commented are already fixed (inserted in other methods when necessary)
+                    //but they print on server!
                     /*case "Notify Player":
                         int iD = inScanner.nextInt();
                         List<String> information = new LinkedList<>();

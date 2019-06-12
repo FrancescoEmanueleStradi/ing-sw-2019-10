@@ -6,6 +6,7 @@ import view.View;
 
 import java.io.*;
 import java.net.Socket;
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.LinkedList;
@@ -258,13 +259,10 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
 
         socketOut.println("Get Type");
         socketOut.println(game);
-
-        socketOut.println("Get Type");
-        socketOut.println(game);
         int type = socketIn.nextInt();
         socketIn.nextLine();
         if(type != 0)
-            this.setType(type);                         //in case it has not been set during AskNameAndColour
+            this.setType(type);             //in case it has not been set during AskNameAndColour
     }
 
     @Override
@@ -274,8 +272,8 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
 
         socketOut.println("Message Check Your Status");
         socketOut.println(game);
-        socketOut.println(this.nickName);
-        String yourStatus = socketIn.nextLine();
+        socketOut.println(nickName);
+        String yourStatus = socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine();
         System.out.println("\nYour status:\n" + yourStatus);
 
         System.out.println("\n---------- START OF " + this.nickName + "'s FIRST ACTION ----------\n");
@@ -309,7 +307,7 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
 
         socketOut.println("Message Show Cards On Board");
         socketOut.println(game);
-        String cardsOnBoard = socketIn.nextLine();
+        String cardsOnBoard = socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine();
 
         System.out.println("The AmmoCards on the Board are as below:\n" + cardsOnBoard);
 

@@ -238,10 +238,10 @@ public class ServerMethods extends UnicastRemoteObject implements ServerInterfac
 
     public synchronized void messageGameStart(int game, String nick, Colour c) throws RemoteException {
         games.get(game).gameStart(nick,c);
-        List<String> information = new LinkedList<>();
+        /*List<String> information = new LinkedList<>();
         information.add(nick);
         information.add(c.getAbbreviation());
-        notifyPlayer(game, information);
+        notifyPlayer(game, information);*/
     }
 
     public synchronized boolean messageIsValidReceiveType(int game, int type) throws RemoteException {
@@ -259,10 +259,10 @@ public class ServerMethods extends UnicastRemoteObject implements ServerInterfac
 
     public synchronized void messageAddPlayer(int game, String nick, Colour c) throws RemoteException {
         games.get(game).addPlayer(nick, c);
-        List<String> information = new LinkedList<>();
+        /*List<String> information = new LinkedList<>();
         information.add(nick);
         information.add(c.getAbbreviation());
-        notifyPlayer(game, information);
+        notifyPlayer(game, information);*/
     }
 
     public synchronized void messageGiveTwoPUCard(int game, String nick) throws RemoteException {

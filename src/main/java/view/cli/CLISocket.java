@@ -309,7 +309,7 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
         socketOut.println(game);
         String cardsOnBoard = socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine();
 
-        System.out.println("The AmmoCards on the Board are as below:\n" + cardsOnBoard);
+        System.out.println("\nThe AmmoCards on the Board are as below:\n" + cardsOnBoard);
 
         System.out.println("Enter the sequence of movements you want to do, one integer at a time, up to 3\n" +
                 DIRECTIONS + "\n" +
@@ -552,8 +552,9 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
 
         socketOut.println("Message Show Cards On Board");
         socketOut.println(game);
+        String cardsOnBoard = socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine();
 
-        System.out.println("The AmmoCards on the Board are as below:\n" + socketIn.nextLine());
+        System.out.println("\nThe AmmoCards on the Board are as below:\n" + cardsOnBoard);
 
         while(true) {
             System.out.println("If you wish to grab whatever is in your cell (Ammo Card or Weapon Slot), enter 0.\n" +
@@ -581,8 +582,9 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
                 socketOut.println(game);
                 socketOut.println(n);
                 int size = socketIn.nextInt();
+                socketIn.nextLine();
                 for(int i = 0; i < size; i++)
-                    lWS.add(intScan.nextLine());
+                    lWS.add(socketIn.nextLine());
 
                 System.out.println("Below are the cards available in WeaponSlot " + n + ", together with their reload costs:\n");
                 for(String s : lWS)
@@ -646,7 +648,9 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
             for(String s : lPC)
                 socketOut.println(s);
 
-            if(socketIn.nextBoolean())
+            String isValidFirstActionGrab = socketIn.nextLine();
+
+            if(isValidFirstActionGrab.equals("true"))
                 break;
 
             else {
@@ -683,11 +687,13 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
         socketOut.println("Message Is Discard");
         socketOut.println(game);
 
-        if(socketIn.nextBoolean()) {
+        String isDiscard = socketIn.nextLine();
+
+        if(isDiscard.equals("true")) {
             System.out.println("Enter the WeaponCard you want to discard");
             String wCDiscard = in.nextLine();
 
-            socketOut.println("Message Discard Weapon Caard");
+            socketOut.println("Message Discard Weapon Card");
             socketOut.println(game);
             socketOut.println(nickName);
             socketOut.println(weaponSlot);
@@ -703,7 +709,8 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
         socketOut.println("Message Check Your Status");
         socketOut.println(game);
         socketOut.println(nickName);
-        System.out.println("Your status:\n" + socketIn.nextLine());
+        String yourStatus = socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine();
+        System.out.println("\nYour status:\n" + yourStatus);
 
         System.out.println("---------- START OF " + this.nickName + "'s SECOND ACTION ----------");
         while (true) {
@@ -980,8 +987,9 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
 
         socketOut.println("Message Show Cards On Board");
         socketOut.println(game);
+        String cardsOnBoard = socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine();
 
-        System.out.println("The AmmoCards on the Board are as below:\n" + socketIn.nextLine());
+        System.out.println("\nThe AmmoCards on the Board are as below:\n" + cardsOnBoard);
 
         while(true) {
             System.out.println("If you wish to grab whatever is in your cell (Ammo Card or Weapon Slot), enter 0.\n" +
@@ -1009,8 +1017,9 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
                 socketOut.println(game);
                 socketOut.println(n);
                 int size = socketIn.nextInt();
+                socketIn.nextLine();
                 for(int i = 0; i < size; i++)
-                    lWS.add(intScan.nextLine());
+                    lWS.add(socketIn.nextLine());
 
                 System.out.println("Below are the cards available in WeaponSlot " + n + ", together with their reload costs:\n");
                 for(String s : lWS)
@@ -1074,7 +1083,9 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
             for(String s : lPC)
                 socketOut.println(s);
 
-            if(socketIn.nextBoolean())
+            String isValidFirstActionGrab = socketIn.nextLine();
+
+            if(isValidFirstActionGrab.equals("true"))
                 break;
 
             else {
@@ -1111,11 +1122,13 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
         socketOut.println("Message Is Discard");
         socketOut.println(game);
 
-        if(socketIn.nextBoolean()) {
+        String isDiscard = socketIn.nextLine();
+
+        if(isDiscard.equals("true")) {
             System.out.println("Enter the WeaponCard you want to discard");
             String wCDiscard = in.nextLine();
 
-            socketOut.println("Message Discard Weapon Caard");
+            socketOut.println("Message Discard Weapon Card");
             socketOut.println(game);
             socketOut.println(nickName);
             socketOut.println(weaponSlot);

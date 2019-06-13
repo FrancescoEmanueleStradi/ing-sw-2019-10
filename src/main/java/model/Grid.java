@@ -68,6 +68,7 @@ public class Grid {
         WeaponSlot ws2 = new WeaponSlot(2, pickWeaponCard(), pickWeaponCard(), pickWeaponCard());
         WeaponSlot ws3 = new WeaponSlot(3, pickWeaponCard(), pickWeaponCard(), pickWeaponCard());
         this.board = new Board(aType, ws1, ws2, ws3);
+        //Notify Type already called in "messageReceiveType" to avoid problems with socket communication
         /*if(server != null)
             server.notifyType(this.iD, aType);
         else {
@@ -82,9 +83,9 @@ public class Grid {
         List<String> information = new LinkedList<>();
         information.add(p.getNickName());
         information.add(p.getC().toString());
-        /*if(server != null)
+        if(server != null)
             server.notifyPlayer(this.iD, information);
-        else {
+        /*else {
             socketOut.println("Notify Player");
             socketOut.println(this.iD);
             socketOut.println(information.size());
@@ -261,13 +262,13 @@ public class Grid {
 
         if(server != null)
             server.notifyPosition(this.iD, information);
-        else {
+        /*else {
             socketOut.println("Notify Position");
             socketOut.println(this.iD);
             socketOut.println(information.size());
             for(String s : information)
                 socketOut.println(s);
-        }
+        }*/
     }
 
     public void moveWithoutNotify(Player p, int d) {                                //1 up, 2 right, 3 down, 4 left
@@ -311,13 +312,13 @@ public class Grid {
 
         if(server != null)
             server.notifyPosition(this.iD, information);
-        else {
+        /*else {
             socketOut.println("Notify Position");
             socketOut.println(this.iD);
             socketOut.println(information.size());
             for(String s : information)
                 socketOut.println(s);
-        }
+        }*/
     }
 
     public boolean isThereAWall (Player p, Position pT) {            //true if there is a wall between p and pT

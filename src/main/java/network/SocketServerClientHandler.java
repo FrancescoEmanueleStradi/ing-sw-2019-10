@@ -743,7 +743,9 @@ public class SocketServerClientHandler implements Runnable {
                         inScanner.nextLine();
                         int n = inScanner.nextInt();
                         inScanner.nextLine();
-                        for(int i = 0; i < server.messageCheckWeaponSlotContents(game22, n).size(); i++)
+                        int sizeMessageCheckWeaponSlotContents = server.messageCheckWeaponSlotContents(game22, n).size();
+                        outPrinter.println(sizeMessageCheckWeaponSlotContents);
+                        for(int i = 0; i < sizeMessageCheckWeaponSlotContents; i++)
                             outPrinter.println(server.messageCheckWeaponSlotContents(game22, n).get(i));
                         break;
                     case "Message Is Valid First Action Grab":
@@ -754,7 +756,7 @@ public class SocketServerClientHandler implements Runnable {
                         int size52 = inScanner.nextInt();
                         inScanner.nextLine();
                         for(int i = 0; i < size52; i++)
-                            list6.add(inScanner.nextInt());
+                            list6.add(Integer.parseInt(inScanner.nextLine()));
                         String wCard6 = inScanner.nextLine();
                         String wSlot2 = inScanner.nextLine();
                         List<Colour> lC8 = new LinkedList<>();
@@ -782,7 +784,7 @@ public class SocketServerClientHandler implements Runnable {
                         int size56 = inScanner.nextInt();
                         inScanner.nextLine();
                         for(int i = 0; i < size56; i++)
-                            list7.add(inScanner.nextInt());
+                            list7.add(Integer.parseInt(inScanner.nextLine()));
                         String wCard7 = inScanner.nextLine();
                         List<Colour> lC9 = new LinkedList<>();
                         int size57 = inScanner.nextInt();
@@ -822,7 +824,7 @@ public class SocketServerClientHandler implements Runnable {
                         int size60 = inScanner.nextInt();
                         inScanner.nextLine();
                         for(int i = 0; i < size60; i++)
-                            list8.add(inScanner.nextInt());
+                            list8.add(Integer.parseInt(inScanner.nextLine()));
                         String wCard8 = inScanner.nextLine();
                         String wSlot3 = inScanner.nextLine();
                         List<Colour> lC10 = new LinkedList<>();
@@ -850,7 +852,7 @@ public class SocketServerClientHandler implements Runnable {
                         int size64 = inScanner.nextInt();
                         inScanner.nextLine();
                         for(int i = 0; i < size64; i++)
-                            list9.add(inScanner.nextInt());
+                            list9.add(Integer.parseInt(inScanner.nextLine()));
                         String wCard9 = inScanner.nextLine();
                         List<Colour> lC11 = new LinkedList<>();
                         int size65 = inScanner.nextInt();
@@ -907,7 +909,7 @@ public class SocketServerClientHandler implements Runnable {
                         int size68 = inScanner.nextInt();
                         inScanner.nextLine();
                         for(int i = 0; i < size68; i++)
-                            lI11.add(inScanner.nextInt());
+                            lI11.add(Integer.parseInt(inScanner.nextLine()));
                         List<String> lS11 = new LinkedList<>();
                         int size69 = inScanner.nextInt();
                         inScanner.nextLine();
@@ -941,7 +943,7 @@ public class SocketServerClientHandler implements Runnable {
                         int size73 = inScanner.nextInt();
                         inScanner.nextLine();
                         for(int i = 0; i < size73; i++)
-                            lI12.add(inScanner.nextInt());
+                            lI12.add(Integer.parseInt(inScanner.nextLine()));
                         List<String> lS12 = new LinkedList<>();
                         int size74 = inScanner.nextInt();
                         inScanner.nextLine();
@@ -975,7 +977,7 @@ public class SocketServerClientHandler implements Runnable {
                         int size78 = inScanner.nextInt();
                         inScanner.nextLine();
                         for(int i = 0; i < size78; i++)
-                            lI13.add(inScanner.nextInt());
+                            lI13.add(Integer.parseInt(inScanner.nextLine()));
                         List<String> lS13 = new LinkedList<>();
                         int size79 = inScanner.nextInt();
                         inScanner.nextLine();
@@ -1009,7 +1011,7 @@ public class SocketServerClientHandler implements Runnable {
                         int size83 = inScanner.nextInt();
                         inScanner.nextLine();
                         for(int i = 0; i < size83; i++)
-                            lI14.add(inScanner.nextInt());
+                            lI14.add(Integer.parseInt(inScanner.nextLine()));
                         List<String> lS14 = new LinkedList<>();
                         int size84 = inScanner.nextInt();
                         inScanner.nextLine();
@@ -1037,15 +1039,14 @@ public class SocketServerClientHandler implements Runnable {
 
                     //Notify calls
                     //TODO commented are already fixed (inserted in other methods when necessary)
-                    //but they print on server!
-                    /*case "Notify Player":
+                    case "Notify Player":
                         int iD = inScanner.nextInt();
                         List<String> information = new LinkedList<>();
                         int informationSize = inScanner.nextInt();
                         for(int i = 0; i < informationSize; i++)
                             information.add(inScanner.nextLine());
                         server.notifyPlayer(iD, information);
-                        break;*/
+                        break;
                     case "Notify Score":
                         int iD1 = inScanner.nextInt();
                         List<String> information1 = new LinkedList<>();

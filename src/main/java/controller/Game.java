@@ -935,7 +935,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         Player p = this.grid.getPlayerObject(nickName);
         if(this.gameState.equals(ENDTURN))
             this.gameState = STARTTURN;
-        return (this.gameState.equals(STARTTURN) && (!directions.isEmpty()) && (directions.size() < 4) && grid.canGhostMove(p, directions));
+        return (this.gameState.equals(STARTTURN) && (directions.isEmpty() || (directions.size() < 4 && grid.canGhostMove(p, directions))));
    }
 
     public synchronized void firstActionMove(String nickName, List<Integer> directions) throws RemoteException{ //player p moves 1,2,3 cells: directions contains every direction from cell to cell

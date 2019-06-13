@@ -273,7 +273,7 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
         socketOut.println("Message Check Your Status");
         socketOut.println(game);
         socketOut.println(nickName);
-        String yourStatus = socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine();
+        String yourStatus = socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine();
         System.out.println("\nYour status:\n" + yourStatus);
 
         System.out.println("\n---------- START OF " + this.nickName + "'s FIRST ACTION ----------\n");
@@ -307,7 +307,7 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
 
         socketOut.println("Message Show Cards On Board");
         socketOut.println(game);
-        String cardsOnBoard = socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine();
+        String cardsOnBoard = socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine();
 
         System.out.println("The AmmoCards on the Board are as below:\n" + cardsOnBoard);
 
@@ -318,29 +318,29 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
             System.out.println("Next direction (integer):");
             int n = intScan.nextInt();
 
-            socketOut.println("Message Is Valid First Action Move");
-            socketOut.println(game);
-            socketOut.println(nickName);
-            socketOut.println(l.size());
-            for(Integer i : l)
-                socketOut.println(i);
-            boolean validMove = socketIn.nextBoolean();
+            if(n == 0) {
+                socketOut.println("Message Is Valid First Action Move");
+                socketOut.println(game);
+                socketOut.println(nickName);
+                socketOut.println(l.size());
+                for(Integer i : l)
+                    socketOut.println(i);
+                String validMove = socketIn.nextLine();
 
-            if(n == 0 && validMove) {
-                break;
-            }
-            else if(n == 0 && !validMove) {
-                System.out.println(ERRORRETRY);
-                l.clear();
-                x = exitHandler(in);
-                if (x) {
-                    action1();
-                    return;
+                if(validMove.equals("true"))
+                    break;
+                else if(validMove.equals("false")) {
+                    System.out.println(ERRORRETRY);
+                    l.clear();
+                    x = exitHandler(in);
+                    if (x) {
+                        action1();
+                        return;
+                    }
                 }
             }
-            else {
+            else
                 l.add(n);
-            }
         }
 
         socketOut.println("Message First Action Move");
@@ -735,8 +735,9 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
 
         socketOut.println("Message Show Cards On Board");
         socketOut.println(game);
+        String cardsOnBoard = socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine();
 
-        System.out.println("The AmmoCards on the Board are as below:\n" + socketIn.nextLine());
+        System.out.println("The AmmoCards on the Board are as below:\n" + cardsOnBoard);
 
         System.out.println("Enter the sequence of movements you want to do, one integer at a time, up to 3\n" +
                 DIRECTIONS + "\n" +
@@ -745,29 +746,29 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
             System.out.println("Next direction (integer):");
             int n = intScan.nextInt();
 
-            socketOut.println("Message Is Valid Second Action Move");
-            socketOut.println(game);
-            socketOut.println(nickName);
-            socketOut.println(l.size());
-            for(Integer i : l)
-                socketOut.println(i);
-            boolean validMove = socketIn.nextBoolean();
+            if(n == 0) {
+                socketOut.println("Message Is Valid Second Action Move");
+                socketOut.println(game);
+                socketOut.println(nickName);
+                socketOut.println(l.size());
+                for(Integer i : l)
+                    socketOut.println(i);
+                String validMove = socketIn.nextLine();
 
-            if(n == 0 && validMove) {
-                break;
-            }
-            else if(n == 0 && !validMove) {
-                System.out.println(ERRORRETRY);
-                l.clear();
-                x = exitHandler(in);
-                if (x) {
-                    action2();
-                    return;
+                if(validMove.equals("true"))
+                    break;
+                else if(validMove.equals("false")) {
+                    System.out.println(ERRORRETRY);
+                    l.clear();
+                    x = exitHandler(in);
+                    if (x) {
+                        action1();
+                        return;
+                    }
                 }
             }
-            else {
+            else
                 l.add(n);
-            }
         }
 
         socketOut.println("Message Second Action Move");

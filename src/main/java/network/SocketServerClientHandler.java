@@ -702,7 +702,7 @@ public class SocketServerClientHandler implements Runnable {
                         inScanner.nextLine();
                         List<Integer> directions2 = new LinkedList<>();
                         for(int i = 0; i < size48; i++)
-                            directions2.add(inScanner.nextInt());
+                            directions2.add(Integer.parseInt(inScanner.nextLine()));
                         outPrinter.println(server.messageIsValidFirstActionMove(game18, nickname16, directions2));
                         break;
                     case "Message First Action Move":

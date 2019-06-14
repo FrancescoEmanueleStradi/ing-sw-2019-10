@@ -121,7 +121,6 @@ public class SocketProcesses {
             socketOut.println("Receive Identifier");
             socketOut.println(game);
             identifier = Integer.parseInt(socketIn.nextLine());
-            socketIn.nextLine();
 
             socketOut.println("Merge Group");
             socketOut.println(game);

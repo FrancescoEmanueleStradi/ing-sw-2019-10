@@ -5,6 +5,7 @@ import network.ServerInterface;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
+import java.util.Scanner;
 
 public interface View extends Remote {
 

@@ -25,8 +25,8 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
     private static final String ERRORRETRY = "Error: please retry";
     private static final String COLOURED = " coloured ";
     private static final String DIRECTIONS = "1 = north, 2 = east, 3 = south, 4 = west";
-    static final String EXITSTRING = "Do you want to go back and change action?";
-    static final String YESPROMPT = "(Yes/yes/y)";
+    private static final String EXITSTRING = "Do you want to go back and change action?";
+    private static final String YESPROMPT = "(Yes/yes/y)";
 
     public CLISocket(int game, Socket socket) throws IOException {
         super();
@@ -105,7 +105,7 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
             socketOut.println("Message Game Start");
             socketOut.println(game);
             socketOut.println(nickName);
-            socketOut.println(s1);
+            socketOut.println(colour.getAbbreviation());
 
             String isValidReceiveType;
             int counterType = 0;
@@ -169,7 +169,7 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
             socketOut.println("Message Is Valid Add Player");
             socketOut.println(game);
             socketOut.println(nickName);
-            socketOut.println(s2);
+            socketOut.println(colour.getAbbreviation());
 
             isValidAddPlayer = socketIn.nextLine();
             counterAddPlayer++;
@@ -1971,6 +1971,7 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
                     if(doYouWantToUsePUC())
                         usePowerUpCard();
                     break;
+
                 default: break;
             }
         }

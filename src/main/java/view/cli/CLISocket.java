@@ -1,12 +1,10 @@
 package view.cli;
 
 import model.Colour;
-import network.ServerInterface;
 import view.View;
 
 import java.io.*;
 import java.net.Socket;
-import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.LinkedList;
@@ -30,7 +28,7 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
     static final String EXITSTRING = "Do you want to go back and change action?";
     static final String YESPROMPT = "(Yes/yes/y)";
 
-    public CLISocket(int game, Socket socket) throws RemoteException, IOException {
+    public CLISocket(int game, Socket socket) throws IOException {
         super();
         this.game = game;
         this.socket = socket;
@@ -63,7 +61,7 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
     }
 
     @Override
-    public void setInformation(int identifier) throws RemoteException {
+    public void setInformation(int identifier) {
         socketOut.println("Get Suspended Name");
         socketOut.println(game);
         socketOut.println(identifier);
@@ -82,7 +80,7 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
     }
 
     @Override
-    public void askNameAndColour() throws RemoteException {
+    public void askNameAndColour() {
         String yourName = "Enter your name:";
         String yourColour = "Enter your colour in all caps (choose between BLACK, BLUE, GREEN, PURPLE or YELLOW):";
         Scanner in = new Scanner(System.in);
@@ -109,9 +107,9 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
             socketOut.println(nickName);
             socketOut.println(s1);
 
-            String isValidReceiveType = "false";
+            String isValidReceiveType;
             int counterType = 0;
-            int typeInput = 0;
+            int typeInput;
 
             do {
                 if(counterType > 0)
@@ -143,13 +141,13 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
 
         socketOut.println("Get Type");
         socketOut.println(game);
-        int type = Integer.parseInt(socketIn.nextLine());
-        if(type != 0)
-            this.setType(type);
+        int typeReceived = Integer.parseInt(socketIn.nextLine());
+        if(typeReceived != 0)
+            this.setType(typeReceived);
 
         System.out.println("\n---------- NAME AND COLOUR SELECTION ----------\n");
 
-        String isValidAddPlayer = "false";
+        String isValidAddPlayer;
         int counterAddPlayer = 0;
         String s2;
 
@@ -174,6 +172,7 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
             socketOut.println(s2);
 
             isValidAddPlayer = socketIn.nextLine();
+            counterAddPlayer++;
         } while(isValidAddPlayer.equals("false"));
 
         socketOut.println("Message Add Player");
@@ -195,23 +194,26 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
         socketOut.println("Message Get Initial PowerUp Card");
         socketOut.println(game);
         socketOut.println(nickName);
-        String PUCard1 = socketIn.nextLine();
-        String PUCard2 = socketIn.nextLine();
+        String pUCard1 = socketIn.nextLine();
+        String pUCard2 = socketIn.nextLine();
+
         socketOut.println("Message Get Initial PowerUp Card Colour");
         socketOut.println(game);
         socketOut.println(nickName);
-        String PUCard1Colour = socketIn.nextLine();
-        String PUCard2Colour = socketIn.nextLine();
+        String pUCard1Colour = socketIn.nextLine();
+        String pUCard2Colour = socketIn.nextLine();
 
-        System.out.println("The following are " + this.nickName +"'s starting PowerUpCards:");
-        System.out.println(PUCard1 + COLOURED + PUCard1Colour);
-        System.out.println(PUCard2 + COLOURED + PUCard2Colour);
+        System.out.println("The following are " + this.nickName + "'s starting PowerUpCards:");
+        System.out.println(pUCard1 + COLOURED + pUCard1Colour);
+        System.out.println(pUCard2 + COLOURED + pUCard2Colour);
 
         System.out.println("\n---------- SPAWN POINT SELECTION ----------\n");
+
         while(true) {
             System.out.println("Enter the name of the PowerUp card you want to keep.\n" +
                     "You will discard the other one, and its colour will be the colour of your spawn point.");
             p = in.nextLine();
+
             System.out.println("Enter the colour of the chosen PowerUp card:");
             c = in.nextLine();
 
@@ -222,54 +224,57 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
             socketOut.println(c);
 
             String isValidPickAndDiscard = socketIn.nextLine();
+
             if (isValidPickAndDiscard.equals("true"))
                 break;
             else
                 System.out.println(ERRORRETRY);
         }
 
-        if(PUCard1.equals(p) && PUCard1Colour.equals(c)) {
-            String spawnColour = PUCard2Colour;
+        if(pUCard1.equals(p) && pUCard1Colour.equals(c)) {
             socketOut.println("Message Pick And Discard");
             socketOut.println(game);
             socketOut.println(nickName);
-            socketOut.println(PUCard1);
-            socketOut.println(PUCard1Colour);
-            System.out.println("Your spawn point is " + spawnColour + "\n");
+            socketOut.println(pUCard1);
+            socketOut.println(pUCard1Colour);
+            System.out.println("Your spawn point is " + pUCard2Colour + "\n");
         }
         else {
-            String spawnColour = PUCard1Colour;
             socketOut.println("Message Pick And Discard");
             socketOut.println(game);
             socketOut.println(nickName);
-            socketOut.println(PUCard2);
-            socketOut.println(PUCard2Colour);
-            System.out.println("Your spawn point is " + spawnColour + "\n");
+            socketOut.println(pUCard2);
+            socketOut.println(pUCard2Colour);
+            System.out.println("Your spawn point is " + pUCard1Colour + "\n");
         }
 
         socketOut.println("Get Type");
         socketOut.println(game);
-        int type = socketIn.nextInt();
-        socketIn.nextLine();
-        if(type != 0)
-            this.setType(type);             //in case it has not been set during AskNameAndColour
+        int typeInput = Integer.parseInt(socketIn.nextLine());
+        if(typeInput != 0)
+            this.setType(typeInput);             //in case it has not been set during AskNameAndColour
     }
 
     @Override
-    public void action1() throws RemoteException {
+    public void action1() {
         Scanner in = new Scanner(System.in);
         String action;
 
         socketOut.println("Message Check Your Status");
         socketOut.println(game);
         socketOut.println(nickName);
-        String yourStatus = socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine();
+        String yourStatus = socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" +
+                socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" +
+                socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine();
+
         System.out.println("\nYour status:\n" + yourStatus);
 
         System.out.println("\n---------- START OF " + this.nickName + "'s FIRST ACTION ----------\n");
+
         while(true) {
             System.out.println("Choose the first action you want to do (Move, Shoot, Grab):");
             action = in.nextLine();
+
             if((action.equals("Move") || action.equals("Shoot") || action.equals("Grab")
                     || action.equals("move") || action.equals("shoot") || action.equals("grab")))
                 break;
@@ -289,7 +294,7 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
         }
     }
 
-    private void moveFirstAction() throws RemoteException {
+    private void moveFirstAction() {
         Scanner in = new Scanner(System.in);
         Scanner intScan = new Scanner(System.in);
         List<Integer> l = new LinkedList<>();
@@ -297,13 +302,15 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
 
         socketOut.println("Message Show Cards On Board");
         socketOut.println(game);
-        String cardsOnBoard = socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine();
+        String cardsOnBoard = socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" +
+                socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine();
 
         System.out.println("\nThe AmmoCards on the Board are as below:\n" + cardsOnBoard);
 
         System.out.println("Enter the sequence of movements you want to do, one integer at a time, up to 3\n" +
                 DIRECTIONS + "\n" +
                 "Enter 0 to finish");
+
         while(true) {
             System.out.println("Next direction (integer):");
             int n = intScan.nextInt();
@@ -341,11 +348,11 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
             socketOut.println(i);
     }
 
-    private void shootFirstAction() throws RemoteException, IOException {
+    private void shootFirstAction() throws IOException {
         String inputReminder = "Below are the relevant strings you must enter for this card, with respect to any possible order of effects as " +
                 "described in the manual.\nIn brackets is the additional ammo cost for certain effects and firing modes.\n";
         Scanner in = new Scanner(System.in);
-        String s = "";
+        String s;
 
         while(true) {
             System.out.println("Choose one of these cards to shoot:");
@@ -530,7 +537,7 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
         action1();
     }
 
-    private void grabFirstAction() throws RemoteException{
+    private void grabFirstAction() {
         Scanner in = new Scanner(System.in);
         Scanner intScan = new Scanner(System.in);
         boolean x;
@@ -544,7 +551,8 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
 
         socketOut.println("Message Show Cards On Board");
         socketOut.println(game);
-        String cardsOnBoard = socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine();
+        String cardsOnBoard = socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" +
+                socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine();
 
         System.out.println("\nThe AmmoCards on the Board are as below:\n" + cardsOnBoard);
 
@@ -554,6 +562,7 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
                     "if you haven't unlocked the Adrenaline move, up to two otherwise\n" +
                     DIRECTIONS + "\n" +
                     "Then, enter 5 to finish.");
+
             while(intScan.hasNextInt()) {
                 int d = intScan.nextInt();
                 if (d == 5)
@@ -573,8 +582,7 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
                 socketOut.println("Message Check Weapon Slot Contents");
                 socketOut.println(game);
                 socketOut.println(n);
-                int size = socketIn.nextInt();
-                socketIn.nextLine();
+                int size = Integer.parseInt(socketIn.nextLine());
                 for(int i = 0; i < size; i++)
                     lWS.add(socketIn.nextLine());
 
@@ -588,13 +596,14 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
 
             System.out.println("Do you want to buy a WeaponCard? " + YESPROMPT);
             confirm = in.nextLine();
+
             if(confirm.equals("Yes") || confirm.equals("yes") || confirm.equals("y")) {
                 System.out.println("Enter the name of the WeaponCard you wish to buy:");
                 wCard = in.nextLine();
                 System.out.println("Enter the number of the WeaponSlot from which you want to buy the card:");
                 weaponSlot = in.nextLine();
 
-                System.out.println("Enter the colour(s), in order and in all caps, of the required AmmoCube(s) to buy the card; 0 to finish");
+                System.out.println("Enter the colour(s), in order and in all caps, of the required AmmoCube(s) to buy the card, if necessary; 0 to finish");
                 while(true) {
                     String a = in.nextLine();
                     if (a.equals("0"))
@@ -603,7 +612,7 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
                         lC.add(Colour.valueOf(a));
                 }
 
-                System.out.println("Enter the PowerUpCard(s) you want to use to pay during your turn; 0 to finish");
+                System.out.println("Enter the PowerUpCard(s) you want to use to pay during your turn, if necessary; 0 to finish");
                 while(true) {
                     String p = in.nextLine();
                     if (p.equals("0"))
@@ -612,7 +621,7 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
                         lP.add(p);
                 }
 
-                System.out.println("Enter the colour(s) of the PowerUpCard(s) you want to use to pay during your turn; 0 to finish");
+                System.out.println("Enter the colour(s) of the PowerUpCard(s) you want to use to pay during your turn, if necessary; 0 to finish");
                 while(true) {
                     String c = in.nextLine();
                     if (c.equals("0"))
@@ -694,17 +703,21 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
     }
 
     @Override
-    public void action2() throws RemoteException {
+    public void action2() {
         Scanner in = new Scanner(System.in);
         String action;
 
         socketOut.println("Message Check Your Status");
         socketOut.println(game);
         socketOut.println(nickName);
-        String yourStatus = socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine();
+        String yourStatus = socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" +
+                socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" +
+                socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine();
+
         System.out.println("\nYour status:\n" + yourStatus);
 
         System.out.println("---------- START OF " + this.nickName + "'s SECOND ACTION ----------");
+
         while (true) {
             System.out.println("Choose the second action you want to do (Move, Shoot, Grab):");
             action = in.nextLine();
@@ -726,7 +739,7 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
         }
     }
 
-    private void moveSecondAction() throws RemoteException, IOException {
+    private void moveSecondAction() {
         Scanner in = new Scanner(System.in);
         Scanner intScan = new Scanner(System.in);
         List<Integer> l = new LinkedList<>();
@@ -734,13 +747,15 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
 
         socketOut.println("Message Show Cards On Board");
         socketOut.println(game);
-        String cardsOnBoard = socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine();
+        String cardsOnBoard = socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" +
+                socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine();
 
         System.out.println("The AmmoCards on the Board are as below:\n" + cardsOnBoard);
 
         System.out.println("Enter the sequence of movements you want to do, one integer at a time, up to 3\n" +
                 DIRECTIONS + "\n" +
                 "Enter 0 to finish");
+
         while(true) {
             System.out.println("Next direction (integer):");
             int n = intScan.nextInt();
@@ -778,11 +793,11 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
             socketOut.println(i);
     }
 
-    private void shootSecondAction() throws RemoteException, IOException {
+    private void shootSecondAction() throws IOException {
         String inputReminder = "Below are the relevant strings you must enter for this card, with respect to any possible order of effects as " +
                 "described in the manual.\nIn brackets is the additional ammo cost for certain effects and firing modes.\n";
         Scanner in = new Scanner(System.in);
-        String s = "";
+        String s;
 
         while(true) {
             System.out.println("Choose one of these cards to shoot:");
@@ -967,7 +982,7 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
         action2();
     }
 
-    private void grabSecondAction() throws RemoteException, IOException {
+    private void grabSecondAction() {
         Scanner in = new Scanner(System.in);
         Scanner intScan = new Scanner(System.in);
         boolean x;
@@ -981,7 +996,8 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
 
         socketOut.println("Message Show Cards On Board");
         socketOut.println(game);
-        String cardsOnBoard = socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine();
+        String cardsOnBoard = socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" +
+                socketIn.nextLine() + "\n" + socketIn.nextLine() + "\n" + socketIn.nextLine();
 
         System.out.println("\nThe AmmoCards on the Board are as below:\n" + cardsOnBoard);
 
@@ -991,6 +1007,7 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
                     "if you haven't unlocked the Adrenaline move, up to two otherwise\n" +
                     DIRECTIONS + "\n" +
                     "Then, enter 5 to finish");
+
             while(intScan.hasNextInt()) {
                 int d = intScan.nextInt();
                 if (d == 5)
@@ -1010,8 +1027,7 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
                 socketOut.println("Message Check Weapon Slot Contents");
                 socketOut.println(game);
                 socketOut.println(n);
-                int size = socketIn.nextInt();
-                socketIn.nextLine();
+                int size = Integer.parseInt(socketIn.nextLine());
                 for(int i = 0; i < size; i++)
                     lWS.add(socketIn.nextLine());
 
@@ -1025,6 +1041,7 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
 
             System.out.println("Do you want to buy a WeaponCard? " + YESPROMPT);
             confirm = in.nextLine();
+
             if(confirm.equals("Yes") || confirm.equals("yes") || confirm.equals("y")) {
                 System.out.println("Enter the name of the WeaponCard you wish to buy:");
                 wCard = in.nextLine();
@@ -1081,7 +1098,6 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
 
             if(isValidFirstActionGrab.equals("true"))
                 break;
-
             else {
                 System.out.println(ERRORRETRY);
                 lD.clear();
@@ -1131,7 +1147,7 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
     }
 
     @Override
-    public boolean doYouWantToUsePUC() throws RemoteException {
+    public boolean doYouWantToUsePUC() {
         Scanner in = new Scanner(System.in);
         System.out.println("Do you want to use a PowerUpCard now?");
         String confirm = in.next();
@@ -1139,7 +1155,7 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
     }
 
     @Override
-    public void usePowerUpCard() throws RemoteException {
+    public void usePowerUpCard() {
         Scanner in = new Scanner(System.in);
         boolean x;
         String namePC;
@@ -1207,7 +1223,7 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
                 break;
 
             case "Targeting Scope":
-                Colour c = null;
+                Colour c;
 
                 while(true) {
                     System.out.println("Enter the nickname of one or more players you have damaged; 0 to finish");
@@ -1340,11 +1356,12 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
                     socketOut.println(s);
                 socketOut.println("null");
                 break;
+            default: break;
         }
     }
 
     @Override
-    public void reload() throws RemoteException {
+    public void reload() {
         Scanner in = new Scanner(System.in);
 
         socketOut.println("Message Get Weapon Card Unloaded");
@@ -1355,6 +1372,7 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
             System.out.println(socketIn.nextLine());
 
         int i = 0;
+
         while(i == 0) {
             System.out.println("Choose the weapon card you want to reload, or enter 'end' if you don't need/want to");
             String s = in.nextLine();
@@ -1363,6 +1381,7 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
 
             System.out.println("Enter 0 if you want to reload another card, otherwise 1");
             i = in.nextInt();
+
             socketOut.println("Message Is Valid Reload");
             socketOut.println(game);
             socketOut.println(nickName);
@@ -1375,7 +1394,7 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
                 socketOut.println(game);
                 socketOut.println(nickName);
                 socketOut.println(s);
-                socketOut.println(i);;
+                socketOut.println(i);
             }
             else
                 System.out.println("You can't reload now");
@@ -1383,7 +1402,7 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
     }
 
     @Override
-    public void scoring() throws RemoteException {
+    public void scoring() {
         socketOut.println("Message Is Valid Scoring");
         socketOut.println(game);
 
@@ -1399,7 +1418,7 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
     }
 
     @Override
-    public void newSpawnPoint() throws RemoteException {
+    public void newSpawnPoint() {
         Scanner in = new Scanner(System.in);
 
         List<String> deadList = new LinkedList<>();
@@ -1410,8 +1429,8 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
             deadList.add(socketIn.nextLine());
 
         if(deadList.contains(this.nickName)) {
-            String p = "";
-            String c = "";
+            String p;
+            String c;
 
             while(true) {
                 System.out.println("Enter the PowerUp card you want to discard; its colour will be your new spawn point:");
@@ -1443,7 +1462,7 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
     }
 
     @Override
-    public void replace() throws RemoteException {
+    public void replace() {
         socketOut.println("Message Is Valid To Replace");
         socketOut.println(game);
 
@@ -1463,27 +1482,19 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
 
 
     @Override
-    public void finalFrenzyTurn()throws RemoteException{
+    public void finalFrenzyTurn() {
         Scanner in = new Scanner(System.in);
         List<String> l = new LinkedList<>();
-        System.out.println("This is the final turn. Final frenzy mode activated.\n" +
-                "Choose the action(s) you want to do according to the fact you are before or after the player who started the game.");
-        while (in.hasNext())
-            l.add(in.next());
 
-        socketOut.println("Message Is Valid Final Frenzy Action");
-        socketOut.println(game);
-        socketOut.println(nickName);
-        socketOut.println(l.size());
-        for(String s : l)
-            socketOut.println(s);
+        String isValidFFAction;
+        int counterIsValidFFAction = 0;
 
-        String isValidFFAction = socketIn.nextLine();
+        do {
+            if(counterIsValidFFAction > 0)
+                System.out.println(ERRORRETRY);
 
-        while(isValidFFAction.equals("false")){
-            System.out.println(ERRORRETRY);
-            System.out.println("This is the final turn. Final frenzy mode activated.\n" +
-                    "Choose the moves you want to do according to the fact you are before or after the player who started the game.");
+            System.out.println("\nThis is the final turn. Final frenzy mode activated.\n" +
+                    "Choose the action(s) you want to do according to the fact you are before or after the player who started the game.");
             while (in.hasNext())
                 l.add(in.next());
 
@@ -1491,11 +1502,12 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
             socketOut.println(game);
             socketOut.println(nickName);
             socketOut.println(l.size());
-            for(String s : l)
+            for (String s : l)
                 socketOut.println(s);
 
             isValidFFAction = socketIn.nextLine();
-        }
+            counterIsValidFFAction++;
+        } while(isValidFFAction.equals("false"));
 
         for(String s : l){
             switch (s) {
@@ -1503,86 +1515,24 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
                     if(doYouWantToUsePUC())
                         usePowerUpCard();
 
-                    System.out.println("Write the direction you want to move:");
-                    int i = in.nextInt();
-
-                    System.out.println("Write the card(s) you want to reload:");
-                    socketOut.println("Message Get Weapon Card Unloaded");
-                    socketOut.println(game);
-                    socketOut.println(nickName);
-                    int size = Integer.parseInt(socketIn.nextLine());
-                    for(int i1 = 0; i1 < size; i1++)
-                        System.out.println(socketIn.nextLine());
+                    int i;
+                    String wC;
                     List<String> lW = new LinkedList<>();
-                    while (in.hasNext())
-                        lW.add(in.next());
-
-                    System.out.println("Write the card you want to use:");
-                    socketOut.println("Message Get Player Weapon Card");
-                    socketOut.println(game);
-                    socketOut.println(nickName);
-                    int size1 = Integer.parseInt(socketIn.nextLine());
-                    for(int i1 = 0; i1 < size1; i1++)
-                        System.out.println(socketIn.nextLine());
-                    String wC = in.next();
-
                     List<Integer> lI = new LinkedList<>();
                     List<String> lS = new LinkedList<>();
                     List<Colour> lC = new LinkedList<>();
                     List<String> lP = new LinkedList<>();
                     List<String> lPC = new LinkedList<>();
+                    int size;
+                    int size1;
+                    int size2;
 
-                    System.out.println("Enter the number of the effect you want to use:");
-                    while (in.hasNext())
-                        lI.add(in.nextInt());
+                    String isValidFFAction1;
+                    int counterIsValidFFAction1 = 0;
 
-                    System.out.println("Enter the relevant strings for the card:");
-                    while (in.hasNext())
-                        lS.add(in.next());
-
-                    System.out.println("Enter the colour(s) of the required AmmoCube(s) needed for the effect, if necessary:");
-                    while (in.hasNext())
-                        lC.add(Colour.valueOf(in.next()));
-
-                    System.out.println("Enter the PowerUpCard you want to use for paying during your turn, if necessary:");
-                    socketOut.println("Message Get PowerUp Card Name And Colour");
-                    socketOut.println(game);
-                    socketOut.println(nickName);
-                    int size2 = Integer.parseInt(socketIn.nextLine());
-                    for(int i1 = 0; i1 < size2; i1++)
-                        System.out.println(socketIn.nextLine() + COLOURED + socketIn.nextLine());
-                    while (in.hasNext())
-                        lP.add(in.next());
-
-                    System.out.println("Enter the colour of the PowerUpCard you want to use for paying during your turn, if you have chosen one:");
-                    while (in.hasNext())
-                        lPC.add(in.next());
-
-                    socketOut.println("Message Is Valid Final Frenzy Action 1");
-                    socketOut.println(game);
-                    socketOut.println(nickName);
-                    socketOut.println(i);
-                    socketOut.println(wC);
-                    socketOut.println(lI.size());
-                    for(int i1 : lI)
-                        socketOut.println(i1);
-                    socketOut.println(lS.size());
-                    for(String s1 : lS)
-                        socketOut.println(s1);
-                    socketOut.println(lC.size());
-                    for(Colour c : lC)
-                        socketOut.println(c.getAbbreviation());
-                    socketOut.println(lP.size());
-                    for(String s1 : lP)
-                        socketOut.println(s1);
-                    socketOut.println(lPC.size());
-                    for(String s1 : lPC)
-                        socketOut.println(s1);
-
-                    String isValidFFAction1 = socketIn.nextLine();
-
-                    while(isValidFFAction1.equals("false")){
-                        System.out.println(ERRORRETRY);
+                    do {
+                        if(counterIsValidFFAction1 > 0)
+                            System.out.println(ERRORRETRY);
 
                         System.out.println("Write the direction you want to move:");
                         i = in.nextInt();
@@ -1592,7 +1542,7 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
                         socketOut.println(game);
                         socketOut.println(nickName);
                         size = Integer.parseInt(socketIn.nextLine());
-                        for(int i1 = 0; i1 < size; i1++)
+                        for (int i1 = 0; i1 < size; i1++)
                             System.out.println(socketIn.nextLine());
                         while (in.hasNext())
                             lW.add(in.next());
@@ -1602,7 +1552,7 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
                         socketOut.println(game);
                         socketOut.println(nickName);
                         size1 = Integer.parseInt(socketIn.nextLine());
-                        for(int i1 = 0; i1 < size1; i1++)
+                        for (int i1 = 0; i1 < size1; i1++)
                             System.out.println(socketIn.nextLine());
                         wC = in.next();
 
@@ -1614,21 +1564,21 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
                         while (in.hasNext())
                             lS.add(in.next());
 
-                        System.out.println("Enter the colour(s) of the required AmmoCube(s) needed for the effect:");
+                        System.out.println("Enter the colour(s) of the required AmmoCube(s) needed for the effect, if necessary:");
                         while (in.hasNext())
                             lC.add(Colour.valueOf(in.next()));
 
-                        System.out.println("Enter the PowerUpCard you want to use for paying during your turn:");
+                        System.out.println("Enter the PowerUpCard you want to use for paying during your turn, if necessary:");
                         socketOut.println("Message Get PowerUp Card Name And Colour");
                         socketOut.println(game);
                         socketOut.println(nickName);
                         size2 = Integer.parseInt(socketIn.nextLine());
-                        for(int i1 = 0; i1 < size2; i1++)
+                        for (int i1 = 0; i1 < size2; i1++)
                             System.out.println(socketIn.nextLine() + COLOURED + socketIn.nextLine());
                         while (in.hasNext())
                             lP.add(in.next());
 
-                        System.out.println("Enter the colour of the PowerUpCard you want to use for paying during your turn:");
+                        System.out.println("Enter the colour of the PowerUpCard you want to use for paying during your turn, if you have chosen one:");
                         while (in.hasNext())
                             lPC.add(in.next());
 
@@ -1638,23 +1588,24 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
                         socketOut.println(i);
                         socketOut.println(wC);
                         socketOut.println(lI.size());
-                        for(int i1 : lI)
+                        for (int i1 : lI)
                             socketOut.println(i1);
                         socketOut.println(lS.size());
-                        for(String s1 : lS)
+                        for (String s1 : lS)
                             socketOut.println(s1);
                         socketOut.println(lC.size());
-                        for(Colour c : lC)
+                        for (Colour c : lC)
                             socketOut.println(c.getAbbreviation());
                         socketOut.println(lP.size());
-                        for(String s1 : lP)
+                        for (String s1 : lP)
                             socketOut.println(s1);
                         socketOut.println(lPC.size());
-                        for(String s1 : lPC)
+                        for (String s1 : lPC)
                             socketOut.println(s1);
 
                         isValidFFAction1 = socketIn.nextLine();
-                    }
+                        counterIsValidFFAction1++;
+                    } while(isValidFFAction1.equals("false"));
 
                     socketOut.println("Message Frenzy Action 1");
                     socketOut.println(game);
@@ -1688,22 +1639,15 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
                     if(doYouWantToUsePUC())
                         usePowerUpCard();
 
-                    System.out.println("Write the direction(s) you want to move:");
                     List<Integer> list = new LinkedList<>();
-                    while(in.hasNext())
-                        list.add(in.nextInt());
 
-                    socketOut.println("Message Is Valid Final Frenzy Action 2");
-                    socketOut.println(game);
-                    socketOut.println(nickName);
-                    socketOut.println(list.size());
-                    for(int i1 : list)
-                        socketOut.println(i1);
+                    String isValidFFAction2;
+                    int counterIsValidFFAction2 = 0;
 
-                    String isValidFFAction2 = socketIn.nextLine();
+                    do {
+                        if(counterIsValidFFAction2 > 0)
+                            System.out.println(ERRORRETRY);
 
-                    while(isValidFFAction2.equals("false")) {
-                        System.out.println(ERRORRETRY);
                         System.out.println("Write the direction(s) you want to move:");
                         while (in.hasNext())
                             list.add(in.nextInt());
@@ -1712,11 +1656,12 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
                         socketOut.println(game);
                         socketOut.println(nickName);
                         socketOut.println(list.size());
-                        for(int i1 : list)
+                        for (int i1 : list)
                             socketOut.println(i1);
 
                         isValidFFAction2 = socketIn.nextLine();
-                    }
+                        counterIsValidFFAction2++;
+                    } while(isValidFFAction2.equals("false"));
 
                     socketOut.println("Message Final Frenzy Action 2");
                     socketOut.println(game);
@@ -1740,63 +1685,21 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
                     String wCard;
                     String weaponSlot = null;
 
-                    System.out.println("Write the direction(s) you want to move:");
-                    while(in.hasNext())
-                        list2.add(in.nextInt());
+                    String isValidFFAction3;
+                    int counterIsValidFFAction3 = 0;
 
-                    System.out.println("If you want, enter a WeaponCard to buy:");
-                    wCard = in.next();
-
-                    if(!wCard.equals("")) {
-                        System.out.println("Enter the number of the WeaponSlot from which you want to buy the card (1 up, 2 right, 3 left):");
-                        weaponSlot = in.next();
-                        System.out.println("Enter the colour(s) of the required AmmoCube(s) to buy the card, if necessary:");
-                        while ((in.hasNext()))
-                            lC2.add(Colour.valueOf(in.next()));
-                        System.out.println("Enter the PowerUpCard you want to use for paying during your turn, if necessary:");
-                        socketOut.println("Message Get PowerUp Card Name And Colour");
-                        socketOut.println(game);
-                        socketOut.println(nickName);
-                        size2 = Integer.parseInt(socketIn.nextLine());
-                        for(int i1 = 0; i1 < size2; i1++)
-                            System.out.println(socketIn.nextLine() + COLOURED + socketIn.nextLine());
-                        while ((in.hasNext()))
-                            lP2.add(in.next());
-                        System.out.println("Enter the colour of the PowerUpCard you want to use for paying during your turn, if you have chosen one:");
-                        while ((in.hasNext()))
-                            lPC2.add(in.next());
-                    }
-
-                    socketOut.println("Message Is Valid Final Frenzy Action 3");
-                    socketOut.println(game);
-                    socketOut.println(nickName);
-                    socketOut.println(list2.size());
-                    for(int i1 : list2)
-                        socketOut.println(i1);
-                    socketOut.println(wCard);
-                    socketOut.println(weaponSlot);
-                    socketOut.println(lC2.size());
-                    for(Colour c : lC2)
-                        socketOut.println(c.getAbbreviation());
-                    socketOut.println(lP2.size());
-                    for(String s1 : lP2)
-                        socketOut.println(s1);
-                    socketOut.println(lPC2.size());
-                    for(String s1 : lPC2)
-                        socketOut.println(s1);
-
-                    String isValidFFAction3 = socketIn.nextLine();
-
-                    while(isValidFFAction3.equals("false")){
-                        System.out.println(ERRORRETRY);
+                    do {
+                        if(counterIsValidFFAction3 > 0)
+                            System.out.println(ERRORRETRY);
 
                         System.out.println("Write the direction(s) you want to move:");
-                        while(in.hasNext())
+                        while (in.hasNext())
                             list2.add(in.nextInt());
+
                         System.out.println("If you want, enter a WeaponCard to buy:");
                         wCard = in.next();
 
-                        if(!wCard.equals("")) {
+                        if (!wCard.equals("")) {
                             System.out.println("Enter the number of the WeaponSlot from which you want to buy the card (1 up, 2 right, 3 left):");
                             weaponSlot = in.next();
                             System.out.println("Enter the colour(s) of the required AmmoCube(s) to buy the card, if necessary:");
@@ -1807,35 +1710,36 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
                             socketOut.println(game);
                             socketOut.println(nickName);
                             size2 = Integer.parseInt(socketIn.nextLine());
-                            for(int i1 = 0; i1 < size2; i1++)
+                            for (int i1 = 0; i1 < size2; i1++)
                                 System.out.println(socketIn.nextLine() + COLOURED + socketIn.nextLine());
                             while ((in.hasNext()))
                                 lP2.add(in.next());
                             System.out.println("Enter the colour of the PowerUpCard you want to use for paying during your turn, if you have chosen one:");
                             while ((in.hasNext()))
                                 lPC2.add(in.next());
-
-                            socketOut.println("Message Is Valid Final Frenzy Action 3");
-                            socketOut.println(game);
-                            socketOut.println(nickName);
-                            socketOut.println(list2.size());
-                            for(int i1 : list2)
-                                socketOut.println(i1);
-                            socketOut.println(wCard);
-                            socketOut.println(weaponSlot);
-                            socketOut.println(lC2.size());
-                            for(Colour c : lC2)
-                                socketOut.println(c.getAbbreviation());
-                            socketOut.println(lP2.size());
-                            for(String s1 : lP2)
-                                socketOut.println(s1);
-                            socketOut.println(lPC2.size());
-                            for(String s1 : lPC2)
-                                socketOut.println(s1);
-
-                            isValidFFAction3 = socketIn.nextLine();
                         }
-                    }
+
+                        socketOut.println("Message Is Valid Final Frenzy Action 3");
+                        socketOut.println(game);
+                        socketOut.println(nickName);
+                        socketOut.println(list2.size());
+                        for (int i1 : list2)
+                            socketOut.println(i1);
+                        socketOut.println(wCard);
+                        socketOut.println(weaponSlot);
+                        socketOut.println(lC2.size());
+                        for (Colour c : lC2)
+                            socketOut.println(c.getAbbreviation());
+                        socketOut.println(lP2.size());
+                        for (String s1 : lP2)
+                            socketOut.println(s1);
+                        socketOut.println(lPC2.size());
+                        for (String s1 : lPC2)
+                            socketOut.println(s1);
+
+                        isValidFFAction3 = socketIn.nextLine();
+                        counterIsValidFFAction3++;
+                    } while(isValidFFAction3.equals("false"));
 
                     socketOut.println("Message Final Frenzy Action 3");
                     socketOut.println(game);
@@ -1862,90 +1766,24 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
                     if(doYouWantToUsePUC())
                         usePowerUpCard();
 
-                    System.out.println("Write the direction(s) you want to move:");
-                    List<Integer> list3 = new LinkedList<>();
-                    while(in.hasNext())
-                        list3.add(in.nextInt());
-
-                    System.out.println("Write the card(s) you want to reload:");
-                    socketOut.println("Message Get Weapon Card Unloaded");
-                    socketOut.println(game);
-                    socketOut.println(nickName);
-                    int size3 = Integer.parseInt(socketIn.nextLine());
-                    for(int i1 = 0; i1 < size3; i1++)
-                        System.out.println(socketIn.nextLine());
                     List<String> lW2 = new LinkedList<>();
-                    while (in.hasNext())
-                        lW2.add(in.next());
-
-                    System.out.println("Write the card you want to use:");
-                    socketOut.println("Message Get Player Weapon Card");
-                    socketOut.println(game);
-                    socketOut.println(nickName);
-                    int size4 = Integer.parseInt(socketIn.nextLine());
-                    for(int i1 = 0; i1 < size4; i1++)
-                        System.out.println(socketIn.nextLine());
-                    String wC2 = in.next();
-
+                    List<Integer> list3 = new LinkedList<>();
                     List<Integer> lI2 = new LinkedList<>();
                     List<String> lS2 = new LinkedList<>();
                     List<Colour> lC3 = new LinkedList<>();
                     List<String> lP3 = new LinkedList<>();
                     List<String> lPC3 = new LinkedList<>();
+                    String wC2;
+                    int size3;
+                    int size4;
+                    int size5;
 
-                    System.out.println("Enter the number of the effect(s) you want to use:");
-                    while (in.hasNext())
-                        lI2.add(in.nextInt());
+                    String isValidFFAction4;
+                    int counterIsValidFFAction4 = 0;
 
-                    System.out.println("Enter the relevant strings for the card:");
-                    while (in.hasNext())
-                        lS2.add(in.next());
-
-                    System.out.println("Enter the colour(s) of the required AmmoCube(s) needed for the effect, if necessary:");
-                    while (in.hasNext())
-                        lC3.add(Colour.valueOf(in.next()));
-
-                    System.out.println("Enter the PowerUpCard you want to use for paying during your turn, if necessary:");
-                    socketOut.println("Message Get PowerUp Card Name And Colour");
-                    socketOut.println(game);
-                    socketOut.println(nickName);
-                    int size5 = Integer.parseInt(socketIn.nextLine());
-                    for(int i1 = 0; i1 < size5; i1++)
-                        System.out.println(socketIn.nextLine() + COLOURED + socketIn.nextLine());
-                    while (in.hasNext())
-                        lP3.add(in.next());
-
-                    System.out.println("Enter the colour of the PowerUpCard you want to use for paying during your turn, if you have chosen one:");
-                    while ((in.hasNext()))
-                        lPC3.add(in.next());
-
-                    socketOut.println("Message Is Valid Final Frenzy Action 4");
-                    socketOut.println(game);
-                    socketOut.println(nickName);
-                    socketOut.println(list3.size());
-                    for(int i1 : list3)
-                        socketOut.println(i1);
-                    socketOut.println(wC2);
-                    socketOut.println(lI2.size());
-                    for(int i1 : lI2)
-                        socketOut.println(i1);
-                    socketOut.println(lS2.size());
-                    for(String s1 : lS2)
-                        socketOut.println(s1);
-                    socketOut.println(lC3.size());
-                    for(Colour c : lC3)
-                        socketOut.println(c.getAbbreviation());
-                    socketOut.println(lP3.size());
-                    for(String s1 : lP3)
-                        socketOut.println(s1);
-                    socketOut.println(lPC3.size());
-                    for(String s1 : lPC3)
-                        socketOut.println(s1);
-
-                    String isValidFFAction4 = socketIn.nextLine();
-
-                    while(isValidFFAction4.equals("false")) {
-                        System.out.println(ERRORRETRY);
+                    do {
+                        if(counterIsValidFFAction4 > 0)
+                            System.out.println(ERRORRETRY);
 
                         System.out.println("Write the direction(s) you want to move:");
                         while (in.hasNext())
@@ -1956,7 +1794,7 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
                         socketOut.println(game);
                         socketOut.println(nickName);
                         size3 = Integer.parseInt(socketIn.nextLine());
-                        for(int i1 = 0; i1 < size3; i1++)
+                        for (int i1 = 0; i1 < size3; i1++)
                             System.out.println(socketIn.nextLine());
                         while (in.hasNext())
                             lW2.add(in.next());
@@ -1966,7 +1804,7 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
                         socketOut.println(game);
                         socketOut.println(nickName);
                         size4 = Integer.parseInt(socketIn.nextLine());
-                        for(int i1 = 0; i1 < size4; i1++)
+                        for (int i1 = 0; i1 < size4; i1++)
                             System.out.println(socketIn.nextLine());
                         wC2 = in.next();
 
@@ -1987,7 +1825,7 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
                         socketOut.println(game);
                         socketOut.println(nickName);
                         size5 = Integer.parseInt(socketIn.nextLine());
-                        for(int i1 = 0; i1 < size5; i1++)
+                        for (int i1 = 0; i1 < size5; i1++)
                             System.out.println(socketIn.nextLine() + COLOURED + socketIn.nextLine());
                         while (in.hasNext())
                             lP3.add(in.next());
@@ -2000,27 +1838,28 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
                         socketOut.println(game);
                         socketOut.println(nickName);
                         socketOut.println(list3.size());
-                        for(int i1 : list3)
+                        for (int i1 : list3)
                             socketOut.println(i1);
                         socketOut.println(wC2);
                         socketOut.println(lI2.size());
-                        for(int i1 : lI2)
+                        for (int i1 : lI2)
                             socketOut.println(i1);
                         socketOut.println(lS2.size());
-                        for(String s1 : lS2)
+                        for (String s1 : lS2)
                             socketOut.println(s1);
                         socketOut.println(lC3.size());
-                        for(Colour c : lC3)
+                        for (Colour c : lC3)
                             socketOut.println(c.getAbbreviation());
                         socketOut.println(lP3.size());
-                        for(String s1 : lP3)
+                        for (String s1 : lP3)
                             socketOut.println(s1);
                         socketOut.println(lPC3.size());
-                        for(String s1 : lPC3)
+                        for (String s1 : lPC3)
                             socketOut.println(s1);
 
                         isValidFFAction4 = socketIn.nextLine();
-                    }
+                        counterIsValidFFAction4++;
+                    } while(isValidFFAction4.equals("false"));
 
                     socketOut.println("Message Final Frenzy Action 4");
                     socketOut.println(game);
@@ -2060,60 +1899,23 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
                     List<Colour> lC4= new LinkedList<>();
                     List<String> lP4= new LinkedList<>();
                     List<String> lPC4 = new LinkedList<>();
-
-                    System.out.println("Write the direction(s) you want to move:");
                     List<Integer> list4 = new LinkedList<>();
-                    while(in.hasNext())
-                        list4.add(in.nextInt());
 
-                    System.out.println("Enter the WeaponCard you want to buy, if you want:");
-                    wCard = in.next();
+                    String isValidFFAction5;
+                    int counterIsValidFFAction5 = 0;
 
-                    if(!wCard.equals("")) {
-                        System.out.println("Enter the number of the WeaponSlot from which you want to buy the card (1 up, 2 right, 3 left):");
-                        weaponSlot = in.next();
-                        System.out.println("Enter the colour(s) of the required AmmoCube(s) to buy the card, if necessary:");
-                        while ((in.hasNext()))
-                            lC4.add(Colour.valueOf(in.next()));
-                        System.out.println("Enter the PowerUpCard you want to use for paying during your turn, if necessary:");
-                        while ((in.hasNext()))
-                            lP4.add(in.next());
-                        System.out.println("Enter the colour of the PowerUpCard you want to use for paying during your turn, if you have chosen one:");
-                        while ((in.hasNext()))
-                            lPC4.add(in.next());
-                    }
-
-                    socketOut.println("Message Is Valid Final Frenzy Action 5");
-                    socketOut.println(game);
-                    socketOut.println(nickName);
-                    socketOut.println(list4.size());
-                    for(int i1 : list4)
-                        socketOut.println(i1);
-                    socketOut.println(wCard);
-                    socketOut.println(weaponSlot);
-                    socketOut.println(lC4.size());
-                    for(Colour c : lC4)
-                        socketOut.println(c.getAbbreviation());
-                    socketOut.println(lP4.size());
-                    for(String s1 : lP4)
-                        socketOut.println(s1);
-                    socketOut.println(lPC4.size());
-                    for(String s1 : lPC4)
-                        socketOut.println(s1);
-
-                    String isValidFFAction5 = socketIn.nextLine();
-
-                    while(isValidFFAction5.equals("false")){
-                        System.out.println(ERRORRETRY);
+                    do {
+                        if(counterIsValidFFAction5 > 0)
+                            System.out.println(ERRORRETRY);
 
                         System.out.println("Write the direction(s) you want to move:");
-                        while(in.hasNext())
+                        while (in.hasNext())
                             list4.add(in.nextInt());
 
                         System.out.println("Enter the WeaponCard you want to buy, if you want:");
                         wCard = in.next();
 
-                        if(!wCard.equals("")) {
+                        if (!wCard.equals("")) {
                             System.out.println("Enter the number of the WeaponSlot from which you want to buy the card (1 up, 2 right, 3 left):");
                             weaponSlot = in.next();
                             System.out.println("Enter the colour(s) of the required AmmoCube(s) to buy the card, if necessary:");
@@ -2125,28 +1927,29 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
                             System.out.println("Enter the colour of the PowerUpCard you want to use for paying during your turn, if you have chosen one:");
                             while ((in.hasNext()))
                                 lPC4.add(in.next());
-
-                            socketOut.println("Message Is Valid Final Frenzy Action 5");
-                            socketOut.println(game);
-                            socketOut.println(nickName);
-                            socketOut.println(list4.size());
-                            for(int i1 : list4)
-                                socketOut.println(i1);
-                            socketOut.println(wCard);
-                            socketOut.println(weaponSlot);
-                            socketOut.println(lC4.size());
-                            for(Colour c : lC4)
-                                socketOut.println(c.getAbbreviation());
-                            socketOut.println(lP4.size());
-                            for(String s1 : lP4)
-                                socketOut.println(s1);
-                            socketOut.println(lPC4.size());
-                            for(String s1 : lPC4)
-                                socketOut.println(s1);
-
-                            isValidFFAction5 = socketIn.nextLine();
                         }
-                    }
+
+                        socketOut.println("Message Is Valid Final Frenzy Action 5");
+                        socketOut.println(game);
+                        socketOut.println(nickName);
+                        socketOut.println(list4.size());
+                        for (int i1 : list4)
+                            socketOut.println(i1);
+                        socketOut.println(wCard);
+                        socketOut.println(weaponSlot);
+                        socketOut.println(lC4.size());
+                        for (Colour c : lC4)
+                            socketOut.println(c.getAbbreviation());
+                        socketOut.println(lP4.size());
+                        for (String s1 : lP4)
+                            socketOut.println(s1);
+                        socketOut.println(lPC4.size());
+                        for (String s1 : lPC4)
+                            socketOut.println(s1);
+
+                        isValidFFAction5 = socketIn.nextLine();
+                        counterIsValidFFAction5++;
+                    } while(isValidFFAction5.equals("false"));
 
                     socketOut.println("Message Final Frenzy Action 5");
                     socketOut.println(game);
@@ -2177,14 +1980,14 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
     }
 
     @Override
-    public void endFinalFrenzy()throws RemoteException {
+    public void endFinalFrenzy() {
         socketOut.println("Message End Turn Final Frenzy");
         socketOut.println(game);
         System.out.println("Final Frenzy finished: calculating the result...");
     }
 
     @Override
-    public void finalScoring()throws RemoteException {
+    public void finalScoring() {
         socketOut.println("Message Final Scoring");
         socketOut.println(game);
 
@@ -2246,7 +2049,7 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
         this.type = type;
     }
 
-    public boolean exitHandler(Scanner in) {
+    private boolean exitHandler(Scanner in) {
         System.out.println(EXITSTRING + YESPROMPT);
         String exitInput = in.next();
         return (exitInput.equals("Yes") || exitInput.equals("yes") || exitInput.equals("y"));

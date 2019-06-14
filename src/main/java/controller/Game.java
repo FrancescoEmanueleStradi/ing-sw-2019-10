@@ -1584,13 +1584,13 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
            if(server != null)
                server.notifyMark(this.iD, information);
-           else {
+           /*else {
                socketOut.println("Notify Mark");
                socketOut.println(this.iD);
                socketOut.println(information.size());
                for(String s : information)
                    socketOut.println(s);
-           }
+           }*/
         }
         else {
             int n = this.grid.getBoard().substituteSkull(1);
@@ -1639,13 +1639,13 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
             if(server != null)
                 server.notifyScore(this.iD, information);
-            else {
+            /*else {
                 socketOut.println("Notify Score");
                 socketOut.println(this.iD);
                 socketOut.println(information.size());
                 for(String s : information)
                     socketOut.println(s);
-            }
+            }*/
         }
 
     }
@@ -1977,13 +1977,13 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
             if(server != null)
                 server.notifyScore(this.iD, information);
-            else {
+            /*else {
                 socketOut.println("Notify Score");
                 socketOut.println(this.iD);
                 socketOut.println(information.size());
                 for(String s : information)
                     socketOut.println(s);
-            }
+            }*/
         }
         this.gameState = STARTTURN;
     }

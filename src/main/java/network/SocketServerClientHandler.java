@@ -661,15 +661,17 @@ public class SocketServerClientHandler implements Runnable {
                     case "Message Get Players":
                         int game16 = inScanner.nextInt();
                         inScanner.nextLine();
-                        outPrinter.println(game16);
-                        for(int i = 0; i < server.messageGetPlayers(game16).size(); i++)
+                        int sizeMessageGetPlayers = server.messageGetPlayers(game16).size();
+                        outPrinter.println(sizeMessageGetPlayers);
+                        for(int i = 0; i < sizeMessageGetPlayers; i++)
                             outPrinter.println(server.messageGetPlayers(game16));
                         break;
                     case "Message Get Dead List":
                         int game17 = inScanner.nextInt();
                         inScanner.nextLine();
-                        outPrinter.println(server.messageGetDeadList(game17).size());
-                        for(int i = 0; i < server.messageGetDeadList(game17).size(); i++)
+                        int sizeMessageGetDeadList = server.messageGetDeadList(game17).size();
+                        outPrinter.println(sizeMessageGetDeadList);
+                        for(int i = 0; i < sizeMessageGetDeadList; i++)
                             outPrinter.println(server.messageGetDeadList(game17).get(i));
                         break;
                     case "Message Is Valid Discard Card For Spawn Point":

@@ -16,19 +16,25 @@ public class RMIProcesses {
 
     public static void rmiProcesses(ServerInterface centralServer) throws RemoteException, InterruptedException {
         Scanner in = new Scanner(System.in);
+
         System.out.println("Enter the number of the game you want to play. There are " + centralServer.getGames()+ " games now.\n" +
                 "You can choose one of the current games or you can create a new game entering the number you saw +1.");
-        game = in.nextInt()-1;
+        game = in.nextInt() - 1;
+
         System.out.println("Are you an old player of this game?");
         String n = in.next();
+
         if(n.equals("yes") || n.equals("Yes") || n.equals("YES")){
             System.out.println("Enter you old identifier:");
             identifier = in.nextInt();
+
             while(!centralServer.isASuspendedIdentifier(game, identifier)){
-                System.out.println("Enter you old identifier:");
+                System.out.println("We couldn't find your identifier, please try again.\nEnter you old identifier:");
                 identifier = in.nextInt();
             }
-            System.out.println("Your identifier is:" + identifier);
+
+            System.out.println("Welcome back! Your identifier is:" + identifier);
+
             boolean cliGui = false;
             do {
                 System.out.println("Do you want to use CLI or GUI?");
@@ -36,25 +42,27 @@ public class RMIProcesses {
                     case "CLI":
                     case "Cli":
                     case "cli":
-                        view = new CLI(game, centralServer);
                         cliGui = true;
+                        view = new CLI(game, centralServer);
                         break;
-                    case "GUI":
+                    /*case "GUI":
                     case "Gui":
                     case "gui":
-                        view = new GUI(game, centralServer);
                         cliGui = true;
-                        break;
+                        view = new GUI(game, centralServer);
+                        break;*/
                     default:
                         break;
                 }
-            }while(cliGui = false);
+            }while(!cliGui);
+
             centralServer.setView(game, identifier, view.getView());
             view.setType(centralServer.getType(game));
             view.setInformation(identifier);
             centralServer.manageReconnection(game,identifier);
             view.printType();
         }
+
         else {
             while (centralServer.tooMany(game)) {
                 System.out.println("Too many people on this game, please choose another one:");
@@ -62,7 +70,9 @@ public class RMIProcesses {
             }
 
             centralServer.setGame(game, null);
+
             System.out.println("Wait for five players to connect. When time will be out, the game will start even with three or four players.");
+
             identifier = centralServer.receiveIdentifier(game);
             centralServer.mergeGroup(game);
 
@@ -71,8 +81,8 @@ public class RMIProcesses {
                     break;
             }
 
+            System.out.println("\nWelcome! Your identifier is: " + identifier);
 
-            System.out.println("\nYour identifier is: " + identifier);
             boolean cliGui = false;
             do {
                 System.out.println("\nDo you want to use CLI or GUI?");
@@ -80,19 +90,20 @@ public class RMIProcesses {
                     case "CLI":
                     case "Cli":
                     case "cli":
-                        view = new CLI(game, centralServer);
                         cliGui = true;
+                        view = new CLI(game, centralServer);
                         break;
-                    case "GUI":
+                    /*case "GUI":
                     case "Gui":
                     case "gui":
-                        view = new GUI(game, centralServer);
                         cliGui = true;
-                        break;
+                        view = new GUI(game, centralServer);
+                        break;*/
                     default:
                         break;
                 }
-            }while(cliGui = false);
+            }while(!cliGui);
+
             centralServer.setView(game, identifier, view.getView());
             view.setIdentifier(identifier);
 
@@ -100,13 +111,17 @@ public class RMIProcesses {
             view.selectSpawnPoint();
             view.printType();
         }
+
         try {
             while (true) {
+
                 if (centralServer.stopGame(game))
                     break;
 
                 if (centralServer.isMyTurn(game, identifier)) {
+
                     if (centralServer.isNotFinalFrenzy(game)) {
+
                         if (view.doYouWantToUsePUC()) {
                             MyTask task = new MyTask(game, identifier, view.getNickName(), centralServer);
                             Timer timer = new Timer();
@@ -114,11 +129,13 @@ public class RMIProcesses {
                             view.usePowerUpCard();
                             timer.cancel();
                         }
+
                         MyTask task2 = new MyTask(game, identifier, view.getNickName(), centralServer);
                         Timer timer2 = new Timer();
                         timer2.schedule(task2, 150000);
                         view.action1();
                         timer2.cancel();
+
                         if (view.doYouWantToUsePUC()) {
                             MyTask task3 = new MyTask(game, identifier, view.getNickName(), centralServer);
                             Timer timer3 = new Timer();
@@ -126,11 +143,13 @@ public class RMIProcesses {
                             view.usePowerUpCard();
                             timer3.cancel();
                         }
+
                         MyTask task4 = new MyTask(game, identifier, view.getNickName(), centralServer);
                         Timer timer4 = new Timer();
                         timer4.schedule(task4, 150000);
                         view.action2();
                         timer4.cancel();
+
                         if (view.doYouWantToUsePUC()) {
                             MyTask task5 = new MyTask(game, identifier, view.getNickName(), centralServer);
                             Timer timer5 = new Timer();
@@ -138,37 +157,51 @@ public class RMIProcesses {
                             view.usePowerUpCard();
                             timer5.cancel();
                         }
+
                         view.reload();
                         view.scoring();
                         view.replace();
+
                         centralServer.finishTurn(game);
+
                         if (centralServer.stopGame(game))
                             break;
+
                     } else {
+
                         if (centralServer.stopGame(game))
                             break;
+
                         centralServer.setFinalTurn(game, identifier, view.getNickName());
+
                         MyTask task6 = new MyTask(game, identifier, view.getNickName(), centralServer);
                         Timer timer6 = new Timer();
                         timer6.schedule(task6, 500000);
                         view.finalFrenzyTurn();
                         timer6.cancel();
+
                         centralServer.finishTurn(game);
+
                         if (centralServer.stopGame(game))
                             break;
+
                     }
                 }
+
                 view.newSpawnPoint();
+
                 if(centralServer.gameIsFinished(game))
                     break;
+
             }
 
             view.endFinalFrenzy();
             view.finalScoring();
             System.exit(0);
 
-        }catch (RemoteException e){
-            centralServer.manageDisconnection(game, identifier, view.getNickName());        //we inserted it here to manage a possible problem during the first part of the game
+        } catch (RemoteException e){
+            //we inserted it here to manage a possible problem during the first part of the game
+            centralServer.manageDisconnection(game, identifier, view.getNickName());
             centralServer.finishTurn(game);
             System.exit(0);
         }

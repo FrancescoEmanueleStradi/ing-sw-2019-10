@@ -165,13 +165,13 @@ public class Grid {
         informationDamage.add(p1.getNickName());
         if(server != null)
             server.notifyDamage(this.iD, informationDamage);
-        else {
+        /*else {
             socketOut.println("Notify Damage");
             socketOut.println(this.iD);
             socketOut.println(informationDamage.size());
             for(String s : informationDamage)
                 socketOut.println(s);
-        }
+        }*/
         if(p1.isOverkilled()) {
             p.getPlayerBoard().addMark(new DamageToken(p1.getC()));
             List<String> information = new LinkedList<>();
@@ -180,13 +180,13 @@ public class Grid {
 
             if(server != null)
                 server.notifyMark(this.iD, information);
-            else {
+            /*else {
                 socketOut.println("Notify Mark");
                 socketOut.println(this.iD);
                 socketOut.println(information.size());
                 for(String s : information)
                     socketOut.println(s);
-            }
+            }*/
         }
     }
 
@@ -202,13 +202,13 @@ public class Grid {
 
         if(server != null)
             server.notifyMark(this.iD, information);
-        else {
+        /*else {
             socketOut.println("Notify Mark");
             socketOut.println(this.iD);
             socketOut.println(information.size());
             for(String s : information)
                 socketOut.println(s);
-        }
+        }*/
     }
 
     public void removeMarkAndAdd(Player p1, Player p2) throws RemoteException{
@@ -222,13 +222,13 @@ public class Grid {
             informationDamage.add(p2.getNickName());
             if(server != null)
                 server.notifyDamage(this.iD, informationDamage);
-            else {
+            /*else {
                 socketOut.println("Notify Damage");
                 socketOut.println(this.iD);
                 socketOut.println(informationDamage.size());
                 for(String s : informationDamage)
                     socketOut.println(s);
-            }
+            }*/
             p1.getPlayerBoard().clearMark(p2.getC());
         }
     }

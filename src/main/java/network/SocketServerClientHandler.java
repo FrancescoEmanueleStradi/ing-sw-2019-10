@@ -688,7 +688,7 @@ public class SocketServerClientHandler implements Runnable {
                         String nicknameMessageDiscardCardForSpawnPoint = inScanner.nextLine();
                         String cardMessageDiscardCardForSpawnPoint = inScanner.nextLine();
                         String colourMessageDiscardCardForSpawnPoint = inScanner.nextLine();
-                        outPrinter.println(server.messageIsValidDiscardCardForSpawnPoint(gameMessageDiscardCardForSpawnPoint, nicknameMessageDiscardCardForSpawnPoint, cardMessageDiscardCardForSpawnPoint, colourMessageDiscardCardForSpawnPoint));
+                        server.messageDiscardCardForSpawnPoint(gameMessageDiscardCardForSpawnPoint, nicknameMessageDiscardCardForSpawnPoint, cardMessageDiscardCardForSpawnPoint, colourMessageDiscardCardForSpawnPoint);
                         break;
                     case "Message Show Cards On Board":
                         int gameMessageShowCardsOnBoard = inScanner.nextInt();
@@ -1098,8 +1098,11 @@ public class SocketServerClientHandler implements Runnable {
             inScanner.close();
             outPrinter.close();
             socket.close();
-        } catch (IOException | ClassNotFoundException | InterruptedException e ) {
+        } catch (IOException | ClassNotFoundException e ) {
             System.out.println("Socket Server Client Handler Exception");
+        } catch (InterruptedException e) {
+            System.exit(0);
+            Thread.currentThread().interrupt();
         }
     }
 }

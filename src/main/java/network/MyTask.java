@@ -10,7 +10,7 @@ public class MyTask extends TimerTask {
     private ServerInterface server;
 
 
-    public MyTask(int game, int identifier, String nickName, ServerInterface server){
+    MyTask(int game, int identifier, String nickName, ServerInterface server){
         this.game = game;
         this.identifier = identifier;
         this.nickName = nickName;
@@ -26,7 +26,7 @@ public class MyTask extends TimerTask {
             System.exit(0);
         }catch (InterruptedException i){
             System.exit(1);
+            Thread.currentThread().interrupt();
         }
-
     }
 }

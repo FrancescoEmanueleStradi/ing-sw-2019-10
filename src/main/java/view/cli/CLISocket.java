@@ -1984,7 +1984,7 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
     public void endFinalFrenzy() {
         socketOut.println("Message End Turn Final Frenzy");
         socketOut.println(game);
-        System.out.println("Final Frenzy finished: calculating the result...");
+        System.out.println("\nGame finished: calculating the result...");
     }
 
     @Override
@@ -2008,10 +2008,10 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
             score.add(Integer.parseInt(socketIn.nextLine()));
 
         for(int i = 0; i < size; i++) {
-            System.out.println(players.get(i) + "           " + score.get(i));
+            System.out.println(players.get(i) + "\t" + score.get(i));
         }
 
-        System.out.println("The game is over. Thanks for playing!");
+        System.out.println("\nThe game is over. Thanks for playing!\n");
     }
 
 

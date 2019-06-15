@@ -1298,7 +1298,7 @@ public class CLI extends UnicastRemoteObject implements View {
     @Override
     public void endFinalFrenzy()throws RemoteException {
         this.server.messageEndTurnFinalFrenzy(game);
-        System.out.println("Final Frenzy finished: calculating the result...");
+        System.out.println("\nGame finished: calculating the result...");
     }
 
     @Override
@@ -1307,10 +1307,10 @@ public class CLI extends UnicastRemoteObject implements View {
 
         System.out.println("\n\n---------- FINAL SCOREBOARD ----------\n");
         for(int i = 0; i < this.server.messageGetPlayers(game).size(); i++) {
-            System.out.println(this.server.messageGetPlayers(game).get(i) + "           " + this.server.messageGetScore(game).get(i));
+            System.out.println(this.server.messageGetPlayers(game).get(i) + "\t" + this.server.messageGetScore(game).get(i));
         }
 
-        System.out.println("The game is over. Thanks for playing!");
+        System.out.println("\nThe game is over. Thanks for playing!\n");
     }
 
 

@@ -154,6 +154,6 @@ class AmmoDeckAssertTests {
         assertEquals(Colour.BLUE, aDeck.getDeck().get(0).getaC().get(0).getC());
         assertEquals(Colour.RED, aDeck.getDeck().get(0).getaC().get(1).getC());
         assertEquals(Colour.RED, aDeck.getDeck().get(0).getaC().get(2).getC());
-        assertEquals(35, aDeck.getDeck().size());
+        assertEquals(36, aDeck.getDeck().size());
     }
 }

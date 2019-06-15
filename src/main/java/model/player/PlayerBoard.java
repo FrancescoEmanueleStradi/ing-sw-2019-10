@@ -12,7 +12,7 @@ public class PlayerBoard {
     private PointsPlayerBoard points;
     private ArrayList<DamageToken> marks;
 
-    public PlayerBoard() {
+    PlayerBoard() {
         this.damage = new DamageTrack();
         this.points = new PointsPlayerBoard();
         this.marks = new ArrayList<>();
@@ -30,11 +30,11 @@ public class PlayerBoard {
         return points;
     }
 
-    public void setPoints(PointsPlayerBoard points) {
+    void setPoints(PointsPlayerBoard points) {
         this.points = points;
     }
 
-    public boolean mIsEmpty(){
+    boolean mIsEmpty(){
         return this.marks.isEmpty();
     }
 

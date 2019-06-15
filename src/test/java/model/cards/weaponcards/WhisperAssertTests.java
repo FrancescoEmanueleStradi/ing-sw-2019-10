@@ -5,9 +5,8 @@ import model.cards.WeaponCard;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 
-public class WhisperAssertTests {
+class WhisperAssertTests {
     @Test
     void WhisperCorrectConstructor() {
         WeaponCard w = new Whisper();
@@ -20,8 +19,5 @@ public class WhisperAssertTests {
                         "Notes: For example, in the 2-by-2 room, you cannot shoot a target on an adjacent square, but you can shoot a target on the diagonal.\n" +
                         "If you are beside a door, you can't shoot a target on the other side of the door, but you can shoot a target on a different square of that room.\n",
                 w.getDescription());
-
-        assertEquals(0, w.getNumOptionalEffect());
-        assertFalse(w.hasAlternateFireMode());
     }
 }

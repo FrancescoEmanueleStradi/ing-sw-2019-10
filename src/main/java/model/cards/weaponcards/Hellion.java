@@ -9,20 +9,12 @@ import java.rmi.RemoteException;
 
 public class Hellion extends WeaponCard {
 
-    private String alternativeEffect = "Nano-Tracer Mode";
-
     public Hellion() {
         super();
         this.cardName = "Hellion";
         this.reloadCost = new AmmoCube[]{new AmmoCube(Colour.RED), new AmmoCube(Colour.YELLOW)};
-        this.numOptionalEffect = 0;
-        this.alternateFireMode = true;
         this.description = "basic mode: Deal 1 damage to 1 target you can see at least 1 move away. Then give 1 mark to that target and everyone else on that square.\n" +
                              "in nano-tracer mode: Deal 1 damage to 1 target you can see at least 1 move away. Then give 2 marks to that target and everyone else on that square.\n";
-    }
-
-    public String getAlternativeEffect() {
-        return alternativeEffect;
     }
 
     //before: let the player p choose 1 visible target p1 at least 1 move away.

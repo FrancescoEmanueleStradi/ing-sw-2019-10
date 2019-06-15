@@ -5,9 +5,8 @@ import model.cards.WeaponCard;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 
-public class VortexCannonAssertTests {
+class VortexCannonAssertTests {
     @Test
     void VortexCannonCorrectConstructor() {
         WeaponCard vc = new VortexCannon();
@@ -21,8 +20,5 @@ public class VortexCannonAssertTests {
                         "Notes: The 3 targets must be different, but some might start on the same square.\n" +
                         "It is legal to choose targets on your square, on the vortex, or even on squares you can't see. They all end up on the vortex.\n",
                 vc.getDescription());
-
-        assertEquals(1, vc.getNumOptionalEffect());
-        assertFalse(vc.hasAlternateFireMode());
     }
 }

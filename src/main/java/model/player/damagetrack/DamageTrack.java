@@ -23,7 +23,7 @@ public class DamageTrack {
         for(int i = 0; i < damageTokens.length; i++) {
             if(damageTokens[i] == null && numDamage != 0) {
                 damageTokens[i] = new DamageToken(c);
-                numDamage--;                             //Controller will check if damageTokens[10] is occupied (player is dead) and if damageTokens[11] is occupied (player is dead and marked)
+                numDamage--;
                }
             else if(numDamage == 0)
                 break;
@@ -40,17 +40,32 @@ public class DamageTrack {
         }
     }
 
-    private List<Colour> colours() {
-        LinkedList<Colour> lC = new LinkedList<>();
-        for(DamageToken d : this.damageTokens){
-            if(d != null && !lC.contains(d.getC()))
-                lC.add(d.getC());
-        }
-        return lC;
+//-------------------------------------------------------------------------------------------------------
+
+    public Colour getColourPosition(int n){
+        return scoreBoard().get(n);
     }
 
-    public void cleanL() {
-        this.l.clear();
+    public List<Colour> scoreBoard() {
+        this.listNumColour();
+        LinkedList<Colour> colour = new LinkedList<>();
+        for(NumColour n : getOrderedNumColour())
+            colour.add(n.getC());
+        return colour;
+    }
+
+    private void listNumColour() {
+        this.initializeListNumColour();
+        for(DamageToken d : this.damageTokens){
+            if(d != null)
+                giveNumColour(d.getC()).addNum();
+        }
+        this.tie();
+    }
+
+    private List<NumColour> getOrderedNumColour() {
+        l.sort((numColour1, numColour2) -> numColour2.getNum() - numColour1.getNum());
+        return l;
     }
 
     private void initializeListNumColour() {
@@ -70,6 +85,15 @@ public class DamageTrack {
         return nullColour;
     }
 
+    private List<Colour> colours() {
+        LinkedList<Colour> lC = new LinkedList<>();
+        for(DamageToken d : this.damageTokens){
+            if(d != null && !lC.contains(d.getC()))
+                lC.add(d.getC());
+        }
+        return lC;
+    }
+
     private void tie() {
         for(int i = 0; i < this.l.size()-1; i++){
             for(int j = i+1; j < this.l.size() ; j++){
@@ -85,30 +109,7 @@ public class DamageTrack {
         }
     }
 
-    private void listNumColour() {
-        this.initializeListNumColour();
-        for(DamageToken d : this.damageTokens){
-            if(d != null)
-                giveNumColour(d.getC()).addNum();
-        }
-        this.tie();
-    }
-
-    private List<NumColour> getOrderedNumColour() {
-        l.sort((numColour1, numColour2) -> numColour2.getNum() - numColour1.getNum());
-        return l;
-        //return this.l.stream().sorted((a, b) -> (a.colourDifference(b))).collect(Collectors.toList()); this is wrong!
-        }
-
-    public List<Colour> scoreBoard() {
-        this.listNumColour();
-        LinkedList<Colour> colour = new LinkedList<>();
-        for(NumColour n : getOrderedNumColour())
-            colour.add(n.getC());
-        return colour;
-    }
-
-    public Colour getColourPosition(int n){             //remember the clean
-        return scoreBoard().get(n);
+    public void cleanL() {
+        this.l.clear();
     }
 }

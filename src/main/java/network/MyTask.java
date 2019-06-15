@@ -26,7 +26,6 @@ public class MyTask extends TimerTask {
             System.exit(0);
         }catch (InterruptedException i){
             System.exit(1);
-            //Thread.currentThread().interrupt();
         }
 
     }

@@ -13,5 +13,4 @@ public class AmmoCube {
     public Colour getC() {
         return c;
     }
-
 }

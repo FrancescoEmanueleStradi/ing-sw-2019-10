@@ -5,9 +5,8 @@ import model.cards.WeaponCard;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class PowerGloveAssertTests {
+class PowerGloveAssertTests {
     @Test
     void PowerGloveCorrectConstructor() {
         WeaponCard pg = new PowerGlove();
@@ -20,8 +19,5 @@ public class PowerGloveAssertTests {
                         "If you want, you may move 1 more square in that same direction (but only if it is a legal move). You may deal 2 damage to 1 target there, as well.\n" +
                         "Notes: In rocket fist mode, you're flying 2 squares in a straight line, punching 1 person per square.\n",
                 pg.getDescription());
-
-        assertEquals(0, pg.getNumOptionalEffect());
-        assertTrue(pg.hasAlternateFireMode());
     }
 }

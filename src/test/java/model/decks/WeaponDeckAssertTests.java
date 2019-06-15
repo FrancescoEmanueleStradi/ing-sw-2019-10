@@ -32,10 +32,5 @@ class WeaponDeckAssertTests {
         assertEquals("Vortex Cannon", wDeck.getDeck().get(18).getCardName());
         assertEquals("Whisper", wDeck.getDeck().get(19).getCardName());
         assertEquals("ZX-2", wDeck.getDeck().get(20).getCardName());
-
-        WeaponCard fakeCard = new MachineGun();
-
-        wDeck.addCard(fakeCard);
-        assertEquals("Machine Gun", wDeck.getDeck().get(21).getCardName());
     }
 }

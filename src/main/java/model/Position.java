@@ -1,7 +1,7 @@
 package model;
 
 public class Position {
-    private int x;                    //Remember x is for rows, and y is for columns
+    private int x;                    //Remember: x is for rows, and y is for columns
     private int y;
 
     public Position(int x, int y) {
@@ -16,6 +16,4 @@ public class Position {
     public int getY() {
         return y;
     }
-
-
 }

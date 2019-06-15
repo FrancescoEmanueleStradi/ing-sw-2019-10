@@ -15,7 +15,6 @@ import static org.mockito.Mockito.mock;
 
 class HeatseekerAssertTests {
 
-    private int iD = 1;
     private ServerInterface server = mock(ServerMethods.class);
 
     @Test
@@ -29,13 +28,12 @@ class HeatseekerAssertTests {
         assertEquals("effect: Choose 1 target you cannot see and deal 3 damage to it.\n" +
                         "Notes: Yes, this can only hit targets you cannot see.\n",
                 h.getDescription());
-
-        assertEquals(0, h.getNumOptionalEffect());
-        assertFalse(h.hasAlternateFireMode());
     }
 
     @Test
     void HeatseekerMethods() throws RemoteException {
+        int iD = 1;
+
         Heatseeker h = new Heatseeker();
 
         h.reload();

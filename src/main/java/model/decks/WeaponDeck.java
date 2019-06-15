@@ -59,12 +59,8 @@ public class WeaponDeck implements Deck {
         shuffleDeck(this.deck);
     }
 
-    public List<WeaponCard> getDeck() {
+    List<WeaponCard> getDeck() {
         return this.deck;
-    }
-
-    public void addCard(WeaponCard c) {
-        this.getDeck().add(c);
     }
 
     public WeaponCard getTopOfDeck() {

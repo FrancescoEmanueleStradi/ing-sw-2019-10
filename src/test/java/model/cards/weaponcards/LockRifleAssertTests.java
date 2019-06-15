@@ -15,7 +15,6 @@ import static org.mockito.Mockito.mock;
 
 class LockRifleAssertTests {
 
-    private int iD = 1;
     private ServerInterface server = mock(ServerMethods.class);
 
     @Test
@@ -28,21 +27,18 @@ class LockRifleAssertTests {
         assertEquals("basic effect: Deal 2 damage and 1 mark to 1 target you can see.\n" +
                 "with second lock: Deal 1 mark to a different target you can see.\n",
                 lr.getDescription());
-
-        assertEquals(1, lr.getNumOptionalEffect());
-        assertFalse(lr.hasAlternateFireMode());
     }
 
     @Test
     void LockRifleMethods() throws RemoteException {
+        int iD = 1;
+
         LockRifle lr = new LockRifle();
 
         lr.reload();
         assertTrue(lr.isReloaded());
         lr.unload();
         assertFalse(lr.isReloaded());
-
-        assertEquals("Second Lock", lr.getOptionalEffect());
 
         Grid grid = new Grid(iD, server);
         Player player = new Player("Myself", Colour.BLUE, true);
@@ -51,9 +47,9 @@ class LockRifleAssertTests {
 
         lr.applyEffect(grid, player, enemy1);
         assertEquals(Colour.BLUE, enemy1.getPlayerBoard().getDamage().getDamageTokens()[1].getC());
-        assertTrue(enemy1.getPlayerBoard().getMarks().size() == 1);
+        assertEquals(1, enemy1.getPlayerBoard().getMarks().size());
 
         lr.applySpecialEffect(grid, player, enemy2);
-        assertTrue(enemy2.getPlayerBoard().getMarks().size() == 1);
+        assertEquals(1, enemy2.getPlayerBoard().getMarks().size());
     }
 }

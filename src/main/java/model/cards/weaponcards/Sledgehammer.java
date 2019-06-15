@@ -9,21 +9,13 @@ import java.rmi.RemoteException;
 
 public class Sledgehammer extends WeaponCard {
 
-    private String alternativeEffect = "Pulverize Mode";
-
     public Sledgehammer() {
         super();
         this.cardName = "Sledgehammer";
         this.reloadCost = new AmmoCube[]{new AmmoCube(Colour.YELLOW)};
-        this.numOptionalEffect = 0;
-        this.alternateFireMode = true;
         this.description = "basic mode: Deal 2 damage to 1 target on your square.\n" +
                              "in pulverize mode: Deal 3 damage to 1 target on your square, then move that target 0, 1, or 2 squares in one direction.\n" +
                              "Notes: Remember that moves go through doors, but not walls.\n";
-    }
-
-    public String getAlternativeEffect() {
-        return alternativeEffect;
     }
 
     //before: let player p choose a target p1 on his cell.

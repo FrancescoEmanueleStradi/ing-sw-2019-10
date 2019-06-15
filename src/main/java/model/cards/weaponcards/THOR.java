@@ -9,29 +9,16 @@ import java.rmi.RemoteException;
 
 public class THOR extends WeaponCard {
 
-    private String optionalEffect1 = "Chain Reaction";
-    private String optionalEffect2 = "High Voltage";
-
     public THOR() {
         super();
         this.cardName = "T.H.O.R.";
         this.reloadCost = new AmmoCube[]{new AmmoCube(Colour.BLUE), new AmmoCube(Colour.RED)};
-        this.numOptionalEffect = 2;
-        this.alternateFireMode = false;
         this.description = "basic effect: Deal 2 damage to 1 target you can see.\n" +
                 "with chain reaction: Deal 1 damage to a second target that your first target can see.\n" +
                 "with high voltage: Deal 2 damage to a third target that your second target can see.\n" +
                 "You cannot use this effect unless you first use the chain reaction.\n" +
                 "Notes: This card constrains the order in which you can use its effects (most cards don't).\n" +
                 "Also note that each target must be a different player.\n";
-    }
-
-    public String getOptionalEffect1() {
-        return optionalEffect1;
-    }
-
-    public String getOptionalEffect2() {
-        return optionalEffect2;
     }
 
     //before: let the player p choose which player p1 (visible) he wants to attack

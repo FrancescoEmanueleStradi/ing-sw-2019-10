@@ -9,22 +9,14 @@ import java.rmi.RemoteException;
 
 public class TractorBeam extends WeaponCard {
 
-    private String alternativeEffect = "Punisher Mode";
-
     public TractorBeam() {
         super();
         this.cardName = "Tractor Beam";
         this.reloadCost = new AmmoCube[]{new AmmoCube(Colour.BLUE)};
-        this.numOptionalEffect = 0;
-        this.alternateFireMode = true;
         this.description = "basic mode: Move a target 0, 1, or 2 squares to a square you can see, and give it 1 damage.\n" +
                              "in punisher mode: Choose a target 0, 1, or 2 moves away from you. Move the target to your square and deal 3 damage to it.\n" +
                              "Notes: You can move a target even if you can't see it. The target ends up in a place where you can see and damage it.\n" +
                              "The moves do not have to be in the same direction.\n";
-    }
-
-    public String getAlternativeEffect() {
-        return alternativeEffect;
     }
 
     //before: let the player p choose which player p1 he wants to move and damage, letting him choose the visible cell he wants to move the enemy in

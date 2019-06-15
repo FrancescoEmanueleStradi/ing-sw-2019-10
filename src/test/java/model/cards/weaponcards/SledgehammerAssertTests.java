@@ -5,9 +5,8 @@ import model.cards.WeaponCard;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class SledgehammerAssertTests {
+class SledgehammerAssertTests {
     @Test
     void SledgehammerCorrectConstructor() {
         WeaponCard s = new Sledgehammer();
@@ -18,8 +17,5 @@ public class SledgehammerAssertTests {
                         "in pulverize mode: Deal 3 damage to 1 target on your square, then move that target 0, 1, or 2 squares in one direction.\n" +
                         "Notes: Remember that moves go through doors, but not walls.\n",
                 s.getDescription());
-
-        assertEquals(0, s.getNumOptionalEffect());
-        assertTrue(s.hasAlternateFireMode());
     }
 }

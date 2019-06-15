@@ -7,7 +7,7 @@ public class PointsPlayerBoard {
 
     private ArrayList<Integer> points = new ArrayList<>();
 
-    public PointsPlayerBoard() {
+    PointsPlayerBoard() {
         points.add(1);
         points.add(8);
         points.add(6);

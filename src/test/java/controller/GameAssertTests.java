@@ -118,7 +118,7 @@ class GameAssertTests {
         //First Action: Move
 
         List<Integer> directions = new LinkedList<>();
-        assertFalse(game.isValidFirstActionMove(p1.getNickName(), directions));
+        assertTrue(game.isValidFirstActionMove(p1.getNickName(), directions));
 
         int x = p1.getCell().getPos().getX();
         int y = p1.getCell().getPos().getY();

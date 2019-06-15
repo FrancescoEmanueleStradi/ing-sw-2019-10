@@ -4,15 +4,16 @@ import java.io.Serializable;
 
 public enum Colour implements Serializable {
 
-    PURPLE("PURPLE"), YELLOW("YELLOW"), RED("RED"), WHITE("WHITE"), BLUE("BLUE"), GREEN("GREEN"), BLACK("BLACK");
+    PURPLE("PURPLE"), YELLOW("YELLOW"), RED("RED"), WHITE("WHITE"),
+    BLUE("BLUE"), GREEN("GREEN"), BLACK("BLACK");
+
     private String abbreviation;
 
-    Colour(String abbreviation){     //Ask professor about the private
+    Colour(String abbreviation){
         this.abbreviation = abbreviation;
     }
 
     public String getAbbreviation() {
         return abbreviation;
     }
-
 }

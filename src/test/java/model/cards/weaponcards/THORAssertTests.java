@@ -5,9 +5,8 @@ import model.cards.WeaponCard;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 
-public class THORAssertTests {
+class THORAssertTests {
     @Test
     void THORCorrectConstructor() {
         WeaponCard t = new THOR();
@@ -22,8 +21,5 @@ public class THORAssertTests {
                 "Notes: This card constrains the order in which you can use its effects (most cards don't).\n" +
                 "Also note that each target must be a different player.\n",
                 t.getDescription());
-
-        assertEquals(2, t.getNumOptionalEffect());
-        assertFalse(t.hasAlternateFireMode());
     }
 }

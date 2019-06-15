@@ -9,7 +9,7 @@ public abstract class AmmoCard {
 
     protected String ammoCardName;
     protected ArrayList<AmmoCube> aC;
-    protected boolean pC;   //if true the AmmoCard has the PowerUpCard
+    protected boolean pC;                   //if true the AmmoCard has the PowerUpCard
 
     public String getAmmoCardName() {
         return ammoCardName;

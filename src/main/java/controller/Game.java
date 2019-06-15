@@ -73,7 +73,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         return grid;            //to use only for tests!!
     }
 
-    public GameState getGameState() {
+    GameState getGameState() {
         return gameState;
     }
 
@@ -1069,7 +1069,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
             l.addAll(lA);
         if(!lP.isEmpty()) {
             for (PowerUpCard p : lP)
-                l.add(p.getValue());
+                l.add(new AmmoCube(p.getC()));
         }
         return l;
     }
@@ -2024,5 +2024,4 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
             this.gameState = ENDGAME;
         }
     }
-
 }

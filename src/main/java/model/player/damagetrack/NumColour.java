@@ -26,7 +26,7 @@ public class NumColour {
         return num;
     }
 
-    public boolean isTie() {
+    boolean isTie() {
         return tie;
     }
 
@@ -38,7 +38,7 @@ public class NumColour {
         this.c = c;
     }
 
-    public void setNum(int num) {
+    void setNum(int num) {
         this.num = num;
     }
 
@@ -50,11 +50,11 @@ public class NumColour {
         this.tie = tie;
     }
 
-    public void setcTie(List<Colour> cTie) {
+    void setcTie(List<Colour> cTie) {
         this.cTie = cTie;
     }
 
-    public int colourDifference(NumColour n) {
+    int colourDifference(NumColour n) {
         if(this.getNum() >= n.getNum())
             return this.getNum();
         else return n.getNum();

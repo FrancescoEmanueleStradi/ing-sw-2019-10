@@ -15,7 +15,6 @@ import static org.mockito.Mockito.mock;
 
 class TargetingScopeAssertTests {
 
-    private int iD = 1;
     private ServerInterface server = mock(ServerMethods.class);
 
     @Test
@@ -27,11 +26,12 @@ class TargetingScopeAssertTests {
         assertEquals("You may play this card when you are dealing damage to one or more targets.\n" +
                 "Pay 1 ammo cube of any color. Choose 1 of those targets and give it an extra point of damage.\n" +
                 "Note: You cannot use this to do 1 damage to a target that is receiving only marks.\n", pUC.getDescription());
-        assertEquals(Colour.BLUE, pUC.getValue().getC());
     }
 
     @Test
     void TargetingScopeMethods() throws RemoteException {
+        int iD = 1;
+
         TargetingScope targetingScope = new TargetingScope(Colour.RED);
         Grid grid = new Grid(iD, server);
         try {

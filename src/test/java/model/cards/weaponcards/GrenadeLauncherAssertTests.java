@@ -5,9 +5,8 @@ import model.cards.WeaponCard;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 
-public class GrenadeLauncherAssertTests {
+class GrenadeLauncherAssertTests {
     @Test
     void GrenadeLauncherCorrectConstructor() {
         WeaponCard gl = new GrenadeLauncher();
@@ -21,8 +20,5 @@ public class GrenadeLauncherAssertTests {
                         "Or you can deal 1 to an isolated target and 1 to everyone on a different square.\n" +
                         "If you target your own square, you will not be moved or damaged.\n",
                 gl.getDescription());
-
-        assertEquals(1, gl.getNumOptionalEffect());
-        assertFalse(gl.hasAlternateFireMode());
     }
 }

@@ -9,20 +9,12 @@ import java.rmi.RemoteException;
 
 public class Shockwave extends WeaponCard {
 
-    private String alternativeEffect = "Tsunami Mode";
-
     public Shockwave() {
         super();
         this.cardName = "Shockwave";
         this.reloadCost = new AmmoCube[]{new AmmoCube(Colour.YELLOW)};
-        this.numOptionalEffect = 0;
-        this.alternateFireMode = true;
         this.description = "basic mode: Choose up to 3 targets on different squares, each exactly 1 move away. Deal 1 damage to each target.\n" +
                 "in tsunami mode: Deal 1 damage to all targets that are exactly 1 move away.\n";
-    }
-
-    public String getAlternativeEffect() {
-        return alternativeEffect;
     }
 
     //before: let player p choose up to three targets p1, p2, p3 on different cells, each exactly one cell away from p.

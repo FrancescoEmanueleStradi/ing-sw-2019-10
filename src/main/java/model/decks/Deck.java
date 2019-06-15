@@ -5,8 +5,7 @@ import java.util.List;
 
 public interface Deck {
 
-    public default void shuffleDeck(List deck) {
+    default void shuffleDeck(List deck) {
         Collections.shuffle(deck);
     }
-
 }

@@ -76,11 +76,7 @@ public class PowerUpDeck implements Deck {
         return this.deck;
     }
 
-    public void addCard(PowerUpCard c) {
-        this.getDeck().add(c);
-    }
-
-    public PowerUpCard getTopOfDeck() {             //deck ends or not?
+    public PowerUpCard getTopOfDeck() {
         PowerUpCard p = this.deck.get(0);
         this.deck.remove(0);
         return p;

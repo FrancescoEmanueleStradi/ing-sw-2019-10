@@ -1,7 +1,6 @@
 package model.cards.powerupcards;
 
 import model.*;
-import model.player.AmmoCube;
 import model.Colour;
 import model.cards.PowerUpCard;
 import model.player.Player;
@@ -15,7 +14,6 @@ public class Newton extends PowerUpCard  {
         super();
         this.cardName = "Newton";
         this.c = c;
-        this.value = new AmmoCube(c);
         this.description = "You may play this card on your turn before or after any action.\n" +
                             "Choose any other player's figure and move it 1 or 2 squares in one direction.\n" +
                             "(You can't use this to move a figure after it respawns at the end of your turn. That would be too late.)\n";

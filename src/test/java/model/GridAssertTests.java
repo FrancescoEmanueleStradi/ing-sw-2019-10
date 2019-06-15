@@ -151,7 +151,7 @@ class GridAssertTests {
     }
 
     @Test
-    void DistanceTest() throws RemoteException {
+    void DistanceTest() {
         Grid grid = new Grid(iD, server);
         Player p1 = new Player("Player 1", Colour.BLUE, true);
         Player p2 = new Player("Player 2", Colour.YELLOW, false);
@@ -278,7 +278,7 @@ class GridAssertTests {
     }
 
     @Test
-    void GridWeaponCardMethodsTest() throws RemoteException {
+    void GridWeaponCardMethodsTest() {
         Grid grid = new Grid(iD, server);
         try {
             grid.setType(2);
@@ -341,7 +341,7 @@ class GridAssertTests {
     }
 
     @Test
-    void GridPowerUpCardMethodsTest() throws RemoteException {
+    void GridPowerUpCardMethodsTest() {
         Grid grid = new Grid(iD, server);
         try {
             grid.setType(3);
@@ -365,7 +365,7 @@ class GridAssertTests {
     }
 
     @Test
-    void GridAmmoCardMethodsTest() throws RemoteException {
+    void GridAmmoCardMethodsTest() {
         Grid grid = new Grid(iD, server);
         try {
             grid.setType(4);
@@ -408,7 +408,7 @@ class GridAssertTests {
     }
 
     @Test
-    void GridGhostMoveTest() throws RemoteException {
+    void GridGhostMoveTest() {
         Grid grid = new Grid(iD, server);
         Player p1 = new Player("Player 1", Colour.BLUE, true);
         try {

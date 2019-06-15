@@ -13,5 +13,4 @@ public class DamageToken {
     public Colour getC() {
         return c;
     }
-
 }

@@ -3,7 +3,7 @@ package model.board;
 import model.cards.WeaponCard;
 
 public class WeaponSlot {
-    private int n;     //there are 3 WS, it refers to the WS position (1 high, 2 right, 3 left)
+    private int n;              //there are 3 WS, it refers to the WS position (1 high, 2 right, 3 left)
     private WeaponCard card1;
     private WeaponCard card2;
     private WeaponCard card3;
@@ -15,7 +15,7 @@ public class WeaponSlot {
         this.n = n;
     }
 
-    public int getWeaponSlot() {
+    int getWeaponSlot() {
         return n;
     }
 
@@ -43,4 +43,3 @@ public class WeaponSlot {
         this.card3 = card3;
     }
 }
-

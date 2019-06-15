@@ -15,7 +15,6 @@ import static org.mockito.Mockito.mock;
 
 class TeleporterAssertTests {
 
-    private int iD = 1;
     private ServerInterface server = mock(ServerMethods.class);
 
     @Test
@@ -27,11 +26,12 @@ class TeleporterAssertTests {
         assertEquals("You may play this card on your turn before or after any action.\n" +
                 "Pick up your figure and set it down on any square of the board.\n" +
                 "(You can't use this after you see where someone respawns at the end of your turn. By then it is too late.)\n", pUC.getDescription());
-        assertEquals(Colour.BLUE, pUC.getValue().getC());
     }
 
     @Test
     void TeleporterMethods() throws RemoteException {
+        int iD = 1;
+
         Teleporter teleporter = new Teleporter(Colour.YELLOW);
         Grid grid = new Grid(iD, server);
         try {

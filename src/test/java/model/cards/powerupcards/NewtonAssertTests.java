@@ -17,7 +17,6 @@ import static org.mockito.Mockito.mock;
 
 class NewtonAssertTests {
 
-    private int iD = 1;
     private ServerInterface server = mock(ServerMethods.class);
 
     @Test
@@ -29,11 +28,12 @@ class NewtonAssertTests {
         assertEquals("You may play this card on your turn before or after any action.\n" +
                 "Choose any other player's figure and move it 1 or 2 squares in one direction.\n" +
                 "(You can't use this to move a figure after it respawns at the end of your turn. That would be too late.)\n", pUC.getDescription());
-        assertEquals(Colour.BLUE, pUC.getValue().getC());
     }
 
     @Test
     void NewtonMethods() throws RemoteException {
+        int iD = 1;
+
         Newton newton = new Newton(Colour.YELLOW);
         Grid grid = new Grid(iD, server);
         try {

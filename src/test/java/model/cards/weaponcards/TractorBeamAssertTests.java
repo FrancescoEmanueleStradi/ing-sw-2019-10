@@ -5,9 +5,8 @@ import model.cards.WeaponCard;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class TractorBeamAssertTests {
+class TractorBeamAssertTests {
     @Test
     void TractorBeamCorrectConstructor() {
         WeaponCard tb = new TractorBeam();
@@ -19,8 +18,5 @@ public class TractorBeamAssertTests {
                         "Notes: You can move a target even if you can't see it. The target ends up in a place where you can see and damage it.\n" +
                         "The moves do not have to be in the same direction.\n",
                 tb.getDescription());
-
-        assertEquals(0, tb.getNumOptionalEffect());
-        assertTrue(tb.hasAlternateFireMode());
     }
 }

@@ -2,7 +2,6 @@ package model.decks;
 
 import model.Colour;
 import model.cards.PowerUpCard;
-import model.cards.powerupcards.Newton;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -60,11 +59,6 @@ class PowerUpDeckAssertTests {
         assertEquals(Colour.YELLOW, puDeck.getDeck().get(22).getC());
         assertEquals("Teleporter", puDeck.getDeck().get(23).getCardName());
         assertEquals(Colour.YELLOW, puDeck.getDeck().get(23).getC());
-
-        Newton fakeCard = new Newton(Colour.RED);
-
-        puDeck.addCard(fakeCard);
-        assertEquals(fakeCard, puDeck.getDeck().get(24));
 
         PowerUpCard firstCard = puDeck.getTopOfDeck();
         assertEquals("Targeting Scope", firstCard.getCardName());

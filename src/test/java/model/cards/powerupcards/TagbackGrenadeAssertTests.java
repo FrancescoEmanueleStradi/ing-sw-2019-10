@@ -15,7 +15,6 @@ import static org.mockito.Mockito.mock;
 
 class TagbackGrenadeAssertTests {
 
-    private int iD = 1;
     private ServerInterface server = mock(ServerMethods.class);
 
     @Test
@@ -26,11 +25,12 @@ class TagbackGrenadeAssertTests {
         assertEquals(Colour.RED, pUC.getC());
         assertEquals("You may play this card when you receive damage from a player you can see.\n" +
                 "Give that player 1 mark.\n", pUC.getDescription());
-        assertEquals(Colour.RED, pUC.getValue().getC());
     }
 
     @Test
     void TagbackGrenadeMethods() throws RemoteException {
+        int iD = 1;
+
         TagbackGrenade tagbackGrenade = new TagbackGrenade(Colour.YELLOW);
         Grid grid = new Grid(iD, server);
         try {

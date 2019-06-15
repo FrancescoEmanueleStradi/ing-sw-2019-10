@@ -5,9 +5,8 @@ import model.cards.WeaponCard;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class ZX2AssertTests {
+class ZX2AssertTests {
     @Test
     void ZX2CorrectConstructor() {
         WeaponCard z = new ZX2();
@@ -19,8 +18,5 @@ public class ZX2AssertTests {
                 "in scanner mode: Choose up to 3 targets you can see and deal 1 mark to each.\n" +
                 "Notes: Remember that the 3 targets can be in 3 different rooms.\n",
                 z.getDescription());
-
-        assertEquals(0, z.getNumOptionalEffect());
-        assertTrue(z.hasAlternateFireMode());
     }
 }

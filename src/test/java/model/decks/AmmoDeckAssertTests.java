@@ -1,7 +1,6 @@
 package model.decks;
 
 import model.Colour;
-import model.cards.AmmoCard;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -151,19 +150,10 @@ class AmmoDeckAssertTests {
         assertEquals(Colour.RED, aDeck.getDeck().get(35).getaC().get(1).getC());
         assertEquals(Colour.RED, aDeck.getDeck().get(35).getaC().get(2).getC());
 
-
-        AmmoCard top = aDeck.getTopOfDeck();
         assertFalse(aDeck.getDeck().get(0).ispC());
         assertEquals(Colour.BLUE, aDeck.getDeck().get(0).getaC().get(0).getC());
         assertEquals(Colour.RED, aDeck.getDeck().get(0).getaC().get(1).getC());
         assertEquals(Colour.RED, aDeck.getDeck().get(0).getaC().get(2).getC());
         assertEquals(35, aDeck.getDeck().size());
-
-        aDeck.addCard(top);
-        assertFalse(aDeck.getDeck().get(35).ispC());
-        assertEquals(Colour.BLUE, aDeck.getDeck().get(35).getaC().get(0).getC());
-        assertEquals(Colour.RED, aDeck.getDeck().get(35).getaC().get(1).getC());
-        assertEquals(Colour.RED, aDeck.getDeck().get(35).getaC().get(2).getC());
-        assertEquals(36, aDeck.getDeck().size());
     }
 }

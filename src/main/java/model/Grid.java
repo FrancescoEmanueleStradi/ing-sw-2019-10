@@ -141,7 +141,7 @@ public class Grid {
     }
 
 
-    public int getNumPlayers() {
+    int getNumPlayers() {
         return this.players.size();
     }
 
@@ -190,7 +190,7 @@ public class Grid {
         }
     }
 
-    public void clean(Player p) {
+    void clean(Player p) {
         p.getPlayerBoard().getDamage().clean();
     }
 
@@ -211,7 +211,7 @@ public class Grid {
         }*/
     }
 
-    public void removeMarkAndAdd(Player p1, Player p2) throws RemoteException{
+    private void removeMarkAndAdd(Player p1, Player p2) throws RemoteException{
         long x = p1.getPlayerBoard().getMarks().stream().filter(a -> a.getC() == p2.getC()).count();
         if (x > 0) {
             int y = (int) x;
@@ -247,10 +247,6 @@ public class Grid {
 
     public Cell whereAmI(Player p) {
         return p.getCell();
-    }
-
-    public void moveInMyCell(Player p, Player p2) {
-        p2.changeCell(p.getCell());
     }
 
     public void move(Player p, int d) throws RemoteException{                                //1 up, 2 right, 3 down, 4 left
@@ -353,14 +349,7 @@ public class Grid {
         return listPosWalls.contains(direction);
     }
 
-    public void collectCard(Player p) {
-        if(p.getCell().getA().ispC())
-            pickPowerUpCard(p);
-        for(int i = 0; i < p.getCell().getA().getaC().size(); i++)
-            p.addNewAC(p.getCell().getA().getaC().get(i));
-    }
-
-    public boolean isInTheRoom(Player p, Player p2) {
+    boolean isInTheRoom(Player p, Player p2) {
         return (p.getCell().getC().equals(p2.getCell().getC()));
     }
 
@@ -409,7 +398,7 @@ public class Grid {
         return l.stream().distinct().collect(Collectors.toList());
     }
 
-    public List<Player> whoIsInTheRoom(Player p) {
+    List<Player> whoIsInTheRoom(Player p) {
         ArrayList<Player> pRoom = new ArrayList<>();
         for(Player px : players) {
             if(isInTheRoom(p, px) && p!=px)
@@ -418,7 +407,7 @@ public class Grid {
         return pRoom;
     }
 
-    public List<Player> whoIsInTheViewZone(Player p) {
+    List<Player> whoIsInTheViewZone(Player p) {
         ArrayList<Player> pViewZone = new ArrayList<>();
         for (Player px : players) {
             if (isInViewZone(p, px) && p != px)
@@ -449,7 +438,7 @@ public class Grid {
         return null;
     }
 
-    public WeaponCard pickWeaponCard() {
+    private WeaponCard pickWeaponCard() {
         return this.weaponDeck.getTopOfDeck();
     }
 
@@ -499,7 +488,7 @@ public class Grid {
         return powerUpDiscardPile;
     }
 
-    public AmmoCard pickAmmoCard() {
+    private AmmoCard pickAmmoCard() {
         if(ammoDeck.getDeck().isEmpty()) {
             Collections.shuffle(ammoDiscardPile);
             ammoDeck.getDeck().addAll(ammoDiscardPile);

@@ -5,9 +5,8 @@ import model.cards.WeaponCard;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class FlamethrowerAssertTests {
+class FlamethrowerAssertTests {
     @Test
     void FlamethrowerCorrectConstructor() {
         WeaponCard f = new Flamethrower();
@@ -20,8 +19,5 @@ public class FlamethrowerAssertTests {
                         "Notes: This weapon cannot damage anyone in your square. However, it can sometimes damage a target you can't see – the flame won't go through walls, but it will go through doors. Think of it as a straight-line\n" +
                         "blast of flame that can travel 2 squares in a cardinal direction.\n",
                 f.getDescription());
-
-        assertEquals(0, f.getNumOptionalEffect());
-        assertTrue(f.hasAlternateFireMode());
     }
 }

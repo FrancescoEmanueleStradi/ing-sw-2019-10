@@ -5,9 +5,8 @@ import model.cards.WeaponCard;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class RailgunAssertTests {
+class RailgunAssertTests {
     @Test
     void RailgunCorrectConstructor() {
         WeaponCard r = new Railgun();
@@ -24,8 +23,5 @@ public class RailgunAssertTests {
                         "There are only 4 cardinal directions. You imagine facing one wall or door, square-on, and firing in that direction. Anyone on a square in that direction (including yours) is a valid target.\n" +
                         "In piercing mode, the 2 targets can be on the same square or on different squares.\n",
                 r.getDescription());
-
-        assertEquals(0, r.getNumOptionalEffect());
-        assertTrue(r.hasAlternateFireMode());
     }
 }

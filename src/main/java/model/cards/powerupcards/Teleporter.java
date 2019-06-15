@@ -2,7 +2,6 @@ package model.cards.powerupcards;
 
 import model.*;
 import model.cards.PowerUpCard;
-import model.player.AmmoCube;
 import model.player.Player;
 
 import java.rmi.RemoteException;
@@ -13,7 +12,6 @@ public class Teleporter extends PowerUpCard {
         super();
         this.cardName = "Teleporter";
         this.c = c;
-        this.value = new AmmoCube(c);
         this.description = "You may play this card on your turn before or after any action.\n" +
                             "Pick up your figure and set it down on any square of the board.\n" +
                             "(You can't use this after you see where someone respawns at the end of your turn. By then it is too late.)\n";

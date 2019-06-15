@@ -5,9 +5,8 @@ import model.cards.WeaponCard;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 
-public class RocketLauncherAssertTests {
+class RocketLauncherAssertTests {
     @Test
     void RocketLauncherCorrectConstructor() {
         WeaponCard rl = new RocketLauncher();
@@ -22,8 +21,5 @@ public class RocketLauncherAssertTests {
                         "You can even move off a square so you can shoot someone on it.\n" +
                         "If you use the fragmenting warhead, you deal damage to everyone on the target's square before you move the target – your target will take 3 damage total.\n",
                 rl.getDescription());
-
-        assertEquals(2, rl.getNumOptionalEffect());
-        assertFalse(rl.hasAlternateFireMode());
     }
 }

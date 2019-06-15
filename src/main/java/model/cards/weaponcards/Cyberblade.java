@@ -9,28 +9,15 @@ import java.rmi.RemoteException;
 
 public class Cyberblade extends WeaponCard {
 
-    private String optionalEffect1 = "Shadowstep";
-    private String optionalEffect2 = "Slice and Dice";
-
     public Cyberblade() {
         super();
         this.cardName = "Cyberblade";
         this.reloadCost = new AmmoCube[]{new AmmoCube(Colour.YELLOW), new AmmoCube(Colour.RED)};
-        this.numOptionalEffect = 2;
-        this.alternateFireMode = false;
         this.description = "basic effect: Deal 2 damage to 1 target on your square.\n" +
                              "with shadowstep: Move 1 square before or after the basic effect.\n" +
                              "with slice and dice: Deal 2 damage to a different target on your square.\n" +
                              "The shadowstep may be used before or after this effect.\n" +
                              "Notes: Combining all effects allows you to move onto a square and whack 2 people; or whack somebody, move, and whack somebody else; or whack 2 people and then move.\n";
-    }
-
-    public String getOptionalEffect1() {
-        return optionalEffect1;
-    }
-
-    public String getOptionalEffect2() {
-        return optionalEffect2;
     }
 
     //before: let player p choose a player p1 on his cell.

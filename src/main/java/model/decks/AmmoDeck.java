@@ -109,8 +109,4 @@ public class AmmoDeck implements Deck {
         this.deck.remove(0);
         return a;
     }
-
-    public void addCard(AmmoCard a) {                //we don't desire to shuffle
-        deck.add(a);
-    }
 }

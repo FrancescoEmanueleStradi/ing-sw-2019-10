@@ -2,7 +2,6 @@ package model.cards.powerupcards;
 
 import model.*;
 import model.cards.PowerUpCard;
-import model.player.AmmoCube;
 import model.player.Player;
 
 import java.rmi.RemoteException;
@@ -13,7 +12,6 @@ public class TagbackGrenade extends PowerUpCard {
         super();
         this.cardName = "Tagback Grenade";
         this.c = c;
-        this.value = new AmmoCube(c);
         this.description = "You may play this card when you receive damage from a player you can see.\n" +
                             "Give that player 1 mark.\n";
     }

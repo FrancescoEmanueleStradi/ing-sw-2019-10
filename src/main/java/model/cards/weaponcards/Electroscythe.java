@@ -9,20 +9,12 @@ import java.rmi.RemoteException;
 
 public class Electroscythe extends WeaponCard {
 
-    private String alternativeEffect = "Reaper Mode";
-
     public Electroscythe() {
         super();
         this.cardName = "Electroscythe";
         this.reloadCost = new AmmoCube[]{new AmmoCube(Colour.BLUE)};
-        this.numOptionalEffect = 0;
-        this.alternateFireMode = true;
         this.description = "basic mode: Deal 1 damage to every other player on your square.\n" +
                              "in reaper mode: Deal 2 damage to every other player on your square.\n";
-    }
-
-    public String getAlternativeEffect() {
-        return alternativeEffect;
     }
 
     public void applyEffect(Grid grid, Player p) throws RemoteException { //player p damages (1) every enemy on the same square as player p

@@ -12,9 +12,9 @@ public class KillTrack {
     private Colour[] c;
     private List<NumColour> l;
 
-    public KillTrack() {
+    KillTrack() {
         skulls = new int[]{0,0,0,0,0,0,0,0};
-        c = new Colour[8];       //Attention: the array could be exported, we could implement methods that use indexes of the array
+        c = new Colour[8];
     }
 
     public Colour[] getC() {
@@ -34,19 +34,33 @@ public class KillTrack {
     }
 
 //-------------------------------------------------------------------------------------------------------
-    //SCORING: test! Maybe check tiebreaker paragraph in the rules
 
-    private List<Colour> colours() {
-        LinkedList<Colour> lC = new LinkedList<>();
-        for(Colour colour : this.getC()){
-            if(colour != null && !lC.contains(colour))
-                lC.add(colour);
-        }
-        return lC;
+    public Colour getColourPosition(int n){
+        return scoreBoard().get(n);
     }
 
-    public void cleanL() {
-        this.l.clear();
+    public List<Colour> scoreBoard() {
+        this.listNumColour();
+        LinkedList<Colour> colour = new LinkedList<>();
+        for(NumColour n : getOrderedNumColour())
+            colour.add(n.getC());
+        return colour;
+    }
+
+    private void listNumColour() {
+        this.initializeListNumColour();
+        for(int i = 0; i < this.getC().length; i++){
+            if(this.getC()[i] != null)
+                giveNumColour(this.getC()[i]).addNum();
+            if(this.getSkulls()[i] == 2)
+                giveNumColour(this.getC()[i]).addNum();
+        }
+        this.tie();
+    }
+
+    private List<NumColour> getOrderedNumColour() {
+        l.sort((numColour1, numColour2) -> numColour2.getNum() - numColour1.getNum());
+        return l;
     }
 
     private void initializeListNumColour() {
@@ -68,6 +82,15 @@ public class KillTrack {
         return nullColour;
     }
 
+    private List<Colour> colours() {
+        LinkedList<Colour> lC = new LinkedList<>();
+        for(Colour colour : this.getC()){
+            if(colour != null && !lC.contains(colour))
+                lC.add(colour);
+        }
+        return lC;
+    }
+
     private void tie() {
         for(int i = 0; i < this.l.size()-1; i++){
             for(int j = i+1; j < this.l.size() ; j++){
@@ -83,32 +106,7 @@ public class KillTrack {
         }
     }
 
-    private void listNumColour() {
-        this.initializeListNumColour();
-        for(int i = 0; i < this.getC().length; i++){
-            if(this.getC()[i] != null)
-                giveNumColour(this.getC()[i]).addNum();
-            if(this.getSkulls()[i] == 2)
-                giveNumColour(this.getC()[i]).addNum();
-        }
-        this.tie();
-    }
-
-    private List<NumColour> getOrderedNumColour() {
-        l.sort((numColour1, numColour2) -> numColour2.getNum() - numColour1.getNum());
-        return l;
-        //return this.l.stream().sorted((a, b) -> (a.colourDifference(b))).collect(Collectors.toList()); //this is wrong!
-    }
-
-    public List<Colour> scoreBoard() {
-        this.listNumColour();
-        LinkedList<Colour> colour = new LinkedList<>();
-        for(NumColour n : getOrderedNumColour())
-            colour.add(n.getC());
-        return colour;
-    }
-
-    public Colour getColourPosition(int n){             //remember the clean
-        return scoreBoard().get(n);
+    public void cleanL() {
+        this.l.clear();
     }
 }

@@ -44,7 +44,7 @@ public class Board {
         int[] a24 = new int[]{2, 4};
         int[] a34 = new int[]{3, 4};
 
-        if(this.aType == 1) {
+        if(aType == 1) {
             arena[0][0] = new Cell(0, Colour.RED, a14, a2, p);
 
             arena[0][1] = new Cell(0, Colour.BLUE, a1, a34, p1);
@@ -70,7 +70,7 @@ public class Board {
             arena[2][3] = new Cell(1, Colour.YELLOW, a23, a4, p11);
         }
 
-        if(this.aType == 2) {
+        else if(aType == 2) {
             arena[0][0] = new Cell(0, Colour.BLUE, a14, a3, p);
 
             arena[0][1] = new Cell(0, Colour.BLUE, a13, a0, p1);
@@ -96,7 +96,7 @@ public class Board {
             arena[2][3] = new Cell(1, Colour.YELLOW, a23, a4, p11);
         }
 
-        if(this.aType == 3) {
+        else if(aType == 3) {
             arena[0][0] = new Cell(0, Colour.BLUE, a14, a3, p);
 
             arena[0][1] = new Cell(0, Colour.BLUE, a13, a0, p1);
@@ -122,7 +122,7 @@ public class Board {
             arena[2][3] = new Cell(1, Colour.YELLOW, a23, a0, p11);
         }
 
-        if(this.aType == 4) {
+        else if(aType == 4) {
             arena[0][0] = new Cell(0, Colour.RED, a14, a2, p);
 
             arena[0][1] = new Cell(0, Colour.BLUE, a1, a34, p1);
@@ -165,12 +165,12 @@ public class Board {
         return w3;
     }
 
-    public void changeAmmoCard(Position p, AmmoCard a) {
+    void changeAmmoCard(Position p, AmmoCard a) {
         this.arena[p.getX()][p.getY()].setA(a);
     }
 
-    public void changeWeaponCard(WeaponSlot w, WeaponCard wC) {  //replace a void slot in WeaponSlot w with WeaponCard wC
-        if(this.w1.equals(w)) {                                 //when a player pick a card from a WeaponSlot, set that to null!!
+    void changeWeaponCard(WeaponSlot w, WeaponCard wC) {      //replace a void slot in WeaponSlot w with WeaponCard wC
+        if(this.w1.equals(w)) {                               //when a player pick a card from a WeaponSlot, set that to null!!
             if(this.w1.getCard1() == null)
                 this.w1.setCard1(wC);
             else if(this.w1.getCard2() == null)

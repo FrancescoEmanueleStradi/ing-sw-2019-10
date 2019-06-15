@@ -15,7 +15,6 @@ import static org.mockito.Mockito.mock;
 
 class MachineGunAssertTests {
 
-    private int iD = 1;
     private ServerInterface server = mock(ServerMethods.class);
 
     @Test
@@ -31,22 +30,18 @@ class MachineGunAssertTests {
                              "Notes: If you deal both additional points of damage, they must be dealt to 2 different targets. If you see only\n" +
                              "2 targets, you deal 2 to each if you use both optional effects. If you use the basic effect on only 1 target, you can still use the the turret tripod to give it 1 additional damage.\n",
                     mg.getDescription());
-
-        assertEquals(2, mg.getNumOptionalEffect());
-        assertFalse(mg.hasAlternateFireMode());
     }
 
     @Test
     void MachineGunMethods() throws RemoteException {
+        int iD = 1;
+
         MachineGun mg = new MachineGun();
 
         mg.reload();
         assertTrue(mg.isReloaded());
         mg.unload();
         assertFalse(mg.isReloaded());
-
-        assertEquals("Focus Shot", mg.getOptionalEffect1());
-        assertEquals("Turret Tripod", mg.getOptionalEffect2());
 
         Grid grid = new Grid(iD, server);
         Player player = new Player("Test", Colour.BLUE, true);

@@ -15,7 +15,6 @@ import static org.mockito.Mockito.mock;
 
 class CyberbladeAssertTests {
 
-    private int iD = 1;
     private ServerInterface server = mock(ServerMethods.class);
 
     @Test
@@ -30,22 +29,18 @@ class CyberbladeAssertTests {
                 "The shadowstep may be used before or after this effect.\n" +
                 "Notes: Combining all effects allows you to move onto a square and whack 2 people; or whack somebody, move, and whack somebody else; or whack 2 people and then move.\n",
                 c.getDescription());
-
-        assertEquals(2, c.getNumOptionalEffect());
-        assertFalse(c.hasAlternateFireMode());
     }
 
     @Test
     void CyberbladeMethods() throws RemoteException {
+        int iD = 1;
+
         Cyberblade c = new Cyberblade();
 
         c.reload();
         assertTrue(c.isReloaded());
         c.unload();
         assertFalse(c.isReloaded());
-
-        assertEquals("Shadowstep", c.getOptionalEffect1());
-        assertEquals("Slice and Dice", c.getOptionalEffect2());
 
         Grid grid = new Grid(iD, server);
         try {

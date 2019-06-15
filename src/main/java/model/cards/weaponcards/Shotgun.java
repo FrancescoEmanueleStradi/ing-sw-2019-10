@@ -9,20 +9,12 @@ import java.rmi.RemoteException;
 
 public class Shotgun extends WeaponCard {
 
-    private String alternativeEffect = "Long Barrel Mode";
-
     public Shotgun() {
         super();
         this.cardName = "Shotgun";
         this.reloadCost = new AmmoCube[]{new AmmoCube(Colour.YELLOW), new AmmoCube(Colour.YELLOW)};
-        this.numOptionalEffect = 0;
-        this.alternateFireMode = true;
         this.description = "basic mode: Deal 3 damage to 1 target on your square. If you want, you may then move the target 1 square.\n" +
                              "in long barrel mode: Deal 2 damage to 1 target on any square exactly one move away.\n";
-    }
-
-    public String getAlternativeEffect() {
-        return alternativeEffect;
     }
 
     //before: ask player p which player p1 (who must be on the same cell as p) he wants to attack.

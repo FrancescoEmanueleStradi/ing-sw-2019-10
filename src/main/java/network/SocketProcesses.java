@@ -1,9 +1,6 @@
 package network;
 
-import view.View;
-import view.cli.CLI;
 import view.cli.CLISocket;
-import view.gui.GUI;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -20,7 +17,7 @@ public class SocketProcesses {
     private static int game;
     private static int identifier;
 
-    public static void socketProcesses(Socket socket) throws RemoteException, InterruptedException, IOException, ClassNotFoundException {
+    public static void socketProcesses(Socket socket) throws IOException {
         PrintWriter socketOut = new PrintWriter(socket.getOutputStream(), true);
         Scanner socketIn = new Scanner(socket.getInputStream());
         ObjectInputStream socketObjectIn = new ObjectInputStream(socket.getInputStream());
@@ -171,13 +168,12 @@ public class SocketProcesses {
         }
 
         try {
-            while (true) {
-
+            while(true) {
                 socketOut.println("Stop Game");
                 socketOut.println(game);
                 String stopGame = socketIn.nextLine();
 
-                if (stopGame.equals("true"))
+                if(stopGame.equals("true"))
                     break;
 
                 socketOut.println("Is My Turn");
@@ -185,15 +181,13 @@ public class SocketProcesses {
                 socketOut.println(identifier);
                 String isMyTurn = socketIn.nextLine();
 
-                if (isMyTurn.equals("true")) {
-
+                if(isMyTurn.equals("true")) {
                     socketOut.println("Is Not Final Frenzy");
                     socketOut.println(game);
                     String isNotFF = socketIn.nextLine();
 
-                    if (isNotFF.equals("true")) {
-
-                        if (view.doYouWantToUsePUC()) {
+                    if(isNotFF.equals("true")) {
+                        if(view.doYouWantToUsePUC()) {
                             MyTaskSocket task = new MyTaskSocket(game, identifier, view.getNickName(), socket);
                             Timer timer = new Timer();
                             timer.schedule(task, 150000);
@@ -207,7 +201,7 @@ public class SocketProcesses {
                         view.action1();
                         timer2.cancel();
 
-                        if (view.doYouWantToUsePUC()) {
+                        if(view.doYouWantToUsePUC()) {
                             MyTaskSocket task3 = new MyTaskSocket(game, identifier, view.getNickName(), socket);
                             Timer timer3 = new Timer();
                             timer3.schedule(task3, 150000);
@@ -221,7 +215,7 @@ public class SocketProcesses {
                         view.action2();
                         timer4.cancel();
 
-                        if (view.doYouWantToUsePUC()) {
+                        if(view.doYouWantToUsePUC()) {
                             MyTaskSocket task5 = new MyTaskSocket(game, identifier, view.getNickName(), socket);
                             Timer timer5 = new Timer();
                             timer5.schedule(task5, 150000);
@@ -240,15 +234,13 @@ public class SocketProcesses {
                         socketOut.println(game);
                         stopGame = socketIn.nextLine();
 
-                        if (stopGame.equals("true"))
+                        if(stopGame.equals("true"))
                             break;
-
                     } else {
-
                         socketOut.println("Stop Game");
                         socketOut.println(game);
                         stopGame = socketIn.nextLine();
-                        if (stopGame.equals("true"))
+                        if(stopGame.equals("true"))
                             break;
 
                         socketOut.println("Set Final Turn");
@@ -270,9 +262,8 @@ public class SocketProcesses {
                         socketOut.println(game);
                         stopGame = socketIn.nextLine();
 
-                        if (stopGame.equals("true"))
+                        if(stopGame.equals("true"))
                             break;
-
                     }
                 }
 
@@ -284,14 +275,12 @@ public class SocketProcesses {
 
                 if(gameIsFinished.equals("true"))
                     break;
-
             }
 
             view.endFinalFrenzy();
             view.finalScoring();
             System.exit(0);
-
-        } catch(RemoteException e){
+        } catch(RemoteException e) {
             //we inserted it here to manage a possible problem during the first part of the game
             socketOut.println("Manage Disconnection");
             socketOut.println(game);

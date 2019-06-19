@@ -14,7 +14,7 @@ public class Action1 extends JOptionPane implements ActionListener {
     JButton grabButton;
     JButton shootButton;
 
-    public Action1(GUI gui){
+    public Action1(GUI gui) {
         super();
         this.gui = gui;
         add(new JLabel("Choose the first action you want to do"));
@@ -41,7 +41,7 @@ public class Action1 extends JOptionPane implements ActionListener {
                 gui.shootFirstAction();
             action.setEnabled(false);
             notifyAll();
-        }catch (InterruptedException | RemoteException i){
+        }catch (InterruptedException | RemoteException i) {
             //TODO
         }
     }

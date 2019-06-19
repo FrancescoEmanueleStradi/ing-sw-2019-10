@@ -25,13 +25,13 @@ public class Shotgun extends WeaponCard {
 
     //after primary effect: ask player p if he wants to move the attacked player p1 one cell, and in which direction (click on cell and from that we get the direction?).
 
-    public void movePlayer(Grid grid, Player p1, int direction) throws RemoteException{   //right after the primary effect
+    public void movePlayer(Grid grid, Player p1, int direction) throws RemoteException {   //right after the primary effect
         grid.move(p1, direction);
     }
 
     //before: let player p choose one player p1 exactly one cell away.
 
-    public void applySpecialEffect(Grid grid, Player p, Player p1) throws RemoteException{    //player p deals 2 damages to the selected p1
+    public void applySpecialEffect(Grid grid, Player p, Player p1) throws RemoteException {    //player p deals 2 damages to the selected p1
         grid.damage(p, p1, 2);
     }
 }

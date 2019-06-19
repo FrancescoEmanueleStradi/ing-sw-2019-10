@@ -10,7 +10,7 @@ public class WantUsePUCPanel extends JPanel implements ActionListener {
 
     private View view;
 
-    public WantUsePUCPanel(View view){
+    public WantUsePUCPanel(View view) {
         this.view = view;
         add(new JLabel("Do you want to use Power Up card?"));
         add(new JButton("Yes"));
@@ -19,7 +19,7 @@ public class WantUsePUCPanel extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        //if (e.paramString().equals("yes")
+        //if(e.paramString().equals("yes")
 
             //TODO
     }

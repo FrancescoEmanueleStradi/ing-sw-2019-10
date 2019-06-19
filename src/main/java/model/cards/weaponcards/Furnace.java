@@ -28,7 +28,7 @@ public class Furnace extends WeaponCard {
 
     //before: let the player choose a cell one move away from him (it checks this)
 
-    public void applySpecialEffect(Grid grid, Player p, String x, String y) throws RemoteException{    //Cozy Fire Mode: player p gives 1 damage and 1 mark to every enemy in that cell
+    public void applySpecialEffect(Grid grid, Player p, String x, String y) throws RemoteException {    //Cozy Fire Mode: player p gives 1 damage and 1 mark to every enemy in that cell
         for(Player enemy : grid.getPlayers()) {
             if(enemy.getCell().getPos().getX() == Integer.parseInt(x) && enemy.getCell().getPos().getY() == Integer.parseInt(y)) {
                 grid.damage(p, enemy, 1);

@@ -8,7 +8,8 @@ import java.util.List;
 
 public class KillTrack {
 
-    private int[] skulls;     //0 skull, 1 damage, 2 double damage, 3 empty
+    //0 skull, 1 damage, 2 double damage, 3 empty
+    private int[] skulls;
     private Colour[] c;
     private List<NumColour> l;
 
@@ -33,9 +34,7 @@ public class KillTrack {
         this.skulls = skulls;
     }
 
-//-------------------------------------------------------------------------------------------------------
-
-    public Colour getColourPosition(int n){
+    public Colour getColourPosition(int n) {
         return scoreBoard().get(n);
     }
 
@@ -49,7 +48,7 @@ public class KillTrack {
 
     private void listNumColour() {
         this.initializeListNumColour();
-        for(int i = 0; i < this.getC().length; i++){
+        for(int i = 0; i < this.getC().length; i++) {
             if(this.getC()[i] != null)
                 giveNumColour(this.getC()[i]).addNum();
             if(this.getSkulls()[i] == 2)
@@ -65,7 +64,7 @@ public class KillTrack {
 
     private void initializeListNumColour() {
         this.l = new LinkedList<>();
-        for(Colour colour : this.colours()){
+        for(Colour colour : this.colours()) {
             if(colour != null) {
                 NumColour num = new NumColour(colour);
                 this.l.add(num);
@@ -75,7 +74,7 @@ public class KillTrack {
 
     private NumColour giveNumColour(Colour c) {
         NumColour nullColour = new NumColour(null);
-        for(NumColour n : this.l){
+        for(NumColour n : this.l) {
             if(n.getC().equals(c))
                 return n;
         }
@@ -84,7 +83,7 @@ public class KillTrack {
 
     private List<Colour> colours() {
         LinkedList<Colour> lC = new LinkedList<>();
-        for(Colour colour : this.getC()){
+        for(Colour colour : this.getC()) {
             if(colour != null && !lC.contains(colour))
                 lC.add(colour);
         }
@@ -92,9 +91,9 @@ public class KillTrack {
     }
 
     private void tie() {
-        for(int i = 0; i < this.l.size()-1; i++){
-            for(int j = i+1; j < this.l.size() ; j++){
-                if(this.l.get(i).getNum() == this.l.get(j).getNum()){
+        for(int i = 0; i < this.l.size()-1; i++) {
+            for(int j = i+1; j < this.l.size() ; j++) {
+                if(this.l.get(i).getNum() == this.l.get(j).getNum()) {
                     this.l.get(i).setTie(true);
                     if(!(this.l.get(i).getcTie().contains(this.l.get(j).getC())))
                         this.l.get(i).getcTie().add(this.l.get(j).getC());

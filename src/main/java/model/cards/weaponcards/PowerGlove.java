@@ -30,13 +30,13 @@ public class PowerGlove extends WeaponCard {
 
     //before Rocket Fist Mode: Player p chooses one cell to go to.
 
-    public void applySpecialEffectPart1(Player p, Grid grid, String x, String y) throws RemoteException{  //player p moves in the first cell selected
+    public void applySpecialEffectPart1(Player p, Grid grid, String x, String y) throws RemoteException {  //player p moves in the first cell selected
         grid.move(p, Integer.parseInt(x), Integer.parseInt(y));
     }
 
     //Then, he can attack a player p1 there.
 
-    public void applySpecialEffectPart2(Grid grid, Player p, Player p1) throws RemoteException{   //player p deals 2 damage to a target in his cell
+    public void applySpecialEffectPart2(Grid grid, Player p, Player p1) throws RemoteException {   //player p deals 2 damage to a target in his cell
         grid.damage(p, p1, 2);
     }
 
@@ -44,13 +44,13 @@ public class PowerGlove extends WeaponCard {
 
     //Then, if he wants, he can move again in the same direction (check if the direction is the same).
 
-    public void applySpecialEffectPart3(Player p, Grid grid, String x2, String y2) throws RemoteException{ //player p moves in the second cell selected
+    public void applySpecialEffectPart3(Player p, Grid grid, String x2, String y2) throws RemoteException { //player p moves in the second cell selected
         grid.move(p, Integer.parseInt(x2), Integer.parseInt(y2));
     }
 
     //Eventually, he can attack a player p2 there.
 
-    public void applySpecialEffectPart4(Grid grid, Player p, Player p2) throws RemoteException{   //player p deals 2 damage to a target in his cell
+    public void applySpecialEffectPart4(Grid grid, Player p, Player p2) throws RemoteException {   //player p deals 2 damage to a target in his cell
         grid.damage(p, p2, 2);
     }
 }

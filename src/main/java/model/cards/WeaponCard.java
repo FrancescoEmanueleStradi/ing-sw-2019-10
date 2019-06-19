@@ -2,7 +2,7 @@ package model.cards;
 
 import model.player.AmmoCube;
 
-public abstract class WeaponCard implements Card {
+public abstract class WeaponCard {
 
     protected String cardName;
     protected AmmoCube[] reloadCost;      //first cube is the default one

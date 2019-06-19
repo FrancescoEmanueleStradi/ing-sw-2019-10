@@ -13,12 +13,12 @@ class AmmoCubeAssertTests {
         AmmoCube cube3 = new AmmoCube(Colour.RED);
 
         assertEquals(Colour.BLUE, cube1.getC());
-        assertEquals("BLUE", cube1.getC().getAbbreviation());
+        assertEquals("BLUE", cube1.getC().getColourId());
 
         assertEquals(Colour.YELLOW, cube2.getC());
-        assertEquals("YELLOW", cube2.getC().getAbbreviation());
+        assertEquals("YELLOW", cube2.getC().getColourId());
 
         assertEquals(Colour.RED, cube3.getC());
-        assertEquals("RED", cube3.getC().getAbbreviation());
+        assertEquals("RED", cube3.getC().getColourId());
     }
 }

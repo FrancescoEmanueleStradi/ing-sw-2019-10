@@ -28,7 +28,7 @@ public class MachineGun extends WeaponCard {
             grid.damage(p, p2, 1);
     }
 
-    public void applySpecialEffect(Grid grid, Player p, Player p1) throws RemoteException{ //Focus Shot: player damages p1 (controller asks player p if he wants to attack p1 or p2)
+    public void applySpecialEffect(Grid grid, Player p, Player p1) throws RemoteException { //Focus Shot: player damages p1 (controller asks player p if he wants to attack p1 or p2)
         grid.damage(p, p1, 1);
     }
 

@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 
 import static controller.GameState.*;
 
-public class Game {                                 //Cli or Gui -- Rmi or Socket
+public class Game {
 
 
     private int iD;
@@ -35,7 +35,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
     private boolean finalFrenzy = false;
     private int cardToPickAfterDeath;
 
-    public Game(int iD, ServerInterface server){
+    public Game(int iD, ServerInterface server) {
         this.iD = iD;
         this.server = server;
         grid = new Grid(iD, server);
@@ -81,7 +81,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         return this.grid.getPlayers().isEmpty();
     }
 
-    public void gameStart(String nickName, Colour c) throws RemoteException{
+    public void gameStart(String nickName, Colour c) throws RemoteException {
        if(!init) {
            init = true;
            Player p = new Player(nickName, c, true);
@@ -102,7 +102,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 //----------------------------------------------------------------------------------------------------
 
 
-    public Colour getColour(String nickName){
+    public Colour getColour(String nickName) {
         return this.grid.getPlayerColour(nickName);
     }
 
@@ -141,7 +141,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         return lC;
     }
 
-    /*public List<String> getWeaponCardLoaded(String nickName){
+    /*public List<String> getWeaponCardLoaded(String nickName) {
         Player p = this.grid.getPlayerObject(nickName);
         return p.getWeaponCards().stream().filter(WeaponCard::isReloaded).map(WeaponCard::getCardName).collect(Collectors.toList());
     }
@@ -170,7 +170,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
     public List<String> getPowerUpCardColour(String nickName) {
         Player p = this.grid.getPlayerObject(nickName);
-        return p.getPowerUpCards().stream().map(PowerUpCard::getC).map(Colour::getAbbreviation).collect(Collectors.toList());
+        return p.getPowerUpCards().stream().map(PowerUpCard::getC).map(Colour::getColourId).collect(Collectors.toList());
     }
 
     public String getDescriptionPUC(String s, String colour, String nickName) {
@@ -214,7 +214,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
     public List<String> getPlayerPowerUpCardColour(String nickName) {
         Player p = this.grid.getPlayerObject(nickName);
-        return p.getPowerUpCards().stream().map(PowerUpCard::getC).map(Colour::getAbbreviation).collect(Collectors.toList());
+        return p.getPowerUpCards().stream().map(PowerUpCard::getC).map(Colour::getColourId).collect(Collectors.toList());
     }
 
     public String getPlayerDescriptionPUC(String s, String colour, String nickName) {
@@ -231,19 +231,17 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 //----------------------------------------------------------------------------------------------------
 
 
-
-
     public synchronized boolean isValidReceiveType(int type) {
         return this.gameState.equals(START) && (type == 1 || type == 2 || type == 3 || type == 4);
     }
 
-   public synchronized void receiveType(int type) throws RemoteException {
+    public synchronized void receiveType(int type) throws RemoteException {
         this.grid.setType(type);                 //find a condition
         this.grid.setUpAmmoCard();
         this.gameState = INITIALIZED;
    }
 
-   public synchronized void giveTwoPUCard(String nickName) {
+    public synchronized void giveTwoPUCard(String nickName) {
         Player p = this.grid.getPlayerObject(nickName);
         if(p.getCell() == null) {
             p.addPowerUpCard(this.grid.pickPowerUpCard());
@@ -251,13 +249,13 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         }
    }
 
-   public synchronized boolean isValidPickAndDiscard(String nickName, String p1, String c1) {
+    public synchronized boolean isValidPickAndDiscard(String nickName, String p1, String c1) {
         Player p = this.grid.getPlayerObject(nickName);
         return (p.getCell() == null &&
                 (p1.equals(p.getPowerUpCards().get(0).getCardName()) && Colour.valueOf(c1).equals(p.getPowerUpCards().get(0).getC()) || p1.equals(p.getPowerUpCards().get(1).getCardName()) && Colour.valueOf(c1).equals(p.getPowerUpCards().get(1).getC())));
    }
 
-   public synchronized void pickAndDiscardCard(String nickName, String p1, String c1) {     //p1 and c1 name and colour of the card the player want to keep
+    public synchronized void pickAndDiscardCard(String nickName, String p1, String c1) {     //p1 and c1 name and colour of the card the player want to keep
        Player p = this.grid.getPlayerObject(nickName);
        if(p1.equals(p.getPowerUpCards().get(0).getCardName()) && Colour.valueOf(c1).equals(p.getPowerUpCards().get(0).getC())) {
            this.grid.getPowerUpDiscardPile().add(p.getPowerUpCards().get(1));
@@ -295,10 +293,10 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
    private boolean isValidShootNotAdrenaline(Player p, String nameWC, List<Integer> lI, List<String> lS, List<AmmoCube> lA, List<PowerUpCard> lP) {
        boolean x = false;
-       if(p.getWeaponCardObject(nameWC).isReloaded()){
+       if(p.getWeaponCardObject(nameWC).isReloaded()) {
            List<AmmoCube> l = choosePayment(lA, lP);
            List<Colour> lC = l.stream().map(AmmoCube::getC).collect(Collectors.toList());
-           switch(nameWC){
+           switch(nameWC) {
                case "Cyberblade":
                    List<Integer> move2 = new LinkedList<>();
                    if(!lS.get(1).isEmpty())
@@ -313,7 +311,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                            x = true;
                    }
                    else if(lI.size() == 2 && lI.contains(1) && lI.contains(3) && lS.size() > 2) {
-                       if (p.getCell().equals(this.grid.getPlayerObject(lS.get(0)).getCell()) &&
+                       if(p.getCell().equals(this.grid.getPlayerObject(lS.get(0)).getCell()) &&
                                p.getCell().equals(this.grid.getPlayerObject(lS.get(2)).getCell()) &&
                                !this.grid.getPlayerObject(lS.get(0)).equals(this.grid.getPlayerObject(lS.get(2))) && lC.contains(Colour.YELLOW))
                            x = true;
@@ -348,7 +346,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                            x = true;
                    break;
                case "Grenade Launcher":
-                   if(lI.size() == 1 && lI.get(0) == 1 && lS.size() > 1 && !lS.get(0).isEmpty()){
+                   if(lI.size() == 1 && lI.get(0) == 1 && lS.size() > 1 && !lS.get(0).isEmpty()) {
                        if(this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(0))) && (lS.get(1).isEmpty() || this.grid.canMove(this.grid.getPlayerObject(lS.get(0)), Integer.parseInt(lS.get(1))) && Integer.parseInt(lS.get(1)) >= 0 && Integer.parseInt(lS.get(1)) <= 4))
                            x = true;
                    }
@@ -467,10 +465,10 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                            (p.getCell().getPos().getX() == this.grid.getPlayerObject(lS.get(0)).getCell().getPos().getX() || p.getCell().getPos().getY() == this.grid.getPlayerObject(lS.get(0)).getCell().getPos().getY()))
                            x = true;
                    else if(!lI.contains(1) && lI.contains(2) && lS.size() > 1 && !lS.get(0).isEmpty()) {
-                       if (lS.get(1).isEmpty()) {
-                           if (p.getCell().getPos().getX() == this.grid.getPlayerObject(lS.get(0)).getCell().getPos().getX() || p.getCell().getPos().getY() == this.grid.getPlayerObject(lS.get(0)).getCell().getPos().getY())
+                       if(lS.get(1).isEmpty()) {
+                           if(p.getCell().getPos().getX() == this.grid.getPlayerObject(lS.get(0)).getCell().getPos().getX() || p.getCell().getPos().getY() == this.grid.getPlayerObject(lS.get(0)).getCell().getPos().getY())
                                x = true;
-                       } else if (!lS.get(1).isEmpty() &&
+                       } else if(!lS.get(1).isEmpty() &&
                                (p.getCell().getPos().getX() == this.grid.getPlayerObject(lS.get(0)).getCell().getPos().getX() && p.getCell().getPos().getX() == this.grid.getPlayerObject(lS.get(1)).getCell().getPos().getX() && (p.getCell().getPos().getY() <= this.grid.getPlayerObject(lS.get(0)).getCell().getPos().getY() && p.getCell().getPos().getY() <= this.grid.getPlayerObject(lS.get(1)).getCell().getPos().getY() || p.getCell().getPos().getY() >= this.grid.getPlayerObject(lS.get(0)).getCell().getPos().getY() && p.getCell().getPos().getY() >= this.grid.getPlayerObject(lS.get(1)).getCell().getPos().getY()) ||
                                        p.getCell().getPos().getY() == this.grid.getPlayerObject(lS.get(0)).getCell().getPos().getY() && p.getCell().getPos().getY() == this.grid.getPlayerObject(lS.get(1)).getCell().getPos().getY() && (p.getCell().getPos().getX() <= this.grid.getPlayerObject(lS.get(0)).getCell().getPos().getX() && p.getCell().getPos().getX() <= this.grid.getPlayerObject(lS.get(1)).getCell().getPos().getX() || p.getCell().getPos().getX() >= this.grid.getPlayerObject(lS.get(0)).getCell().getPos().getX() && p.getCell().getPos().getX() >= this.grid.getPlayerObject(lS.get(1)).getCell().getPos().getX())))
                            x = true;
@@ -655,19 +653,19 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
 
 
-   private void shootNotAdrenaline(Player p, String nameWC, List<Integer> lI, List<String> lS, List<AmmoCube> lA, List<PowerUpCard> lP) throws RemoteException{                    //is better to use a file?
+   private void shootNotAdrenaline(Player p, String nameWC, List<Integer> lI, List<String> lS, List<AmmoCube> lA, List<PowerUpCard> lP) throws RemoteException {                    //is better to use a file?
         switch(nameWC) {
             case "Cyberblade":
                 int x = 0;
                 for(Integer i : lI) {
-                    if (i == 1) {
+                    if(i == 1) {
                         ((Cyberblade) p.getWeaponCardObject(nameWC)).applyEffect(this.grid, p, this.grid.getPlayerObject(lS.get(0)));
                         x = 1;
                     }
-                    if (i == 2) {
+                    if(i == 2) {
                         ((Cyberblade) p.getWeaponCardObject(nameWC)).applySpecialEffect(this.grid, p, lS.get(1));
                     }
-                    if ((x == 1) && i == 3)
+                    if((x == 1) && i == 3)
                         ((Cyberblade) p.getWeaponCardObject(nameWC)).applySpecialEffect2(this.grid, p , this.grid.getPlayerObject(lS.get(2)));
                 }
                 break;
@@ -694,8 +692,8 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                     ((Furnace) p.getWeaponCardObject(nameWC)).applySpecialEffect(this.grid, p, lS.get(0), lS.get(1));
                 break;
             case "Grenade Launcher":
-                for(Integer i : lI){
-                    if(i == 1){
+                for(Integer i : lI) {
+                    if(i == 1) {
                         ((GrenadeLauncher) p.getWeaponCardObject(nameWC)).applyEffect(this.grid, p, this.grid.getPlayerObject(lS.get(0)));
                         if(!lS.get(1).isEmpty())
                             ((GrenadeLauncher) p.getWeaponCardObject(nameWC)).moveEnemy(this.grid, this.grid.getPlayerObject(lS.get(0)), Integer.parseInt(lS.get(1)));
@@ -732,7 +730,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                 break;
             case "Plasma Gun":
                 int z = 0;
-                for(int i : lI){
+                for(int i : lI) {
                     if(i == 1) {
                         ((PlasmaGun) p.getWeaponCardObject(nameWC)).applyEffect(this.grid, p, this.grid.getPlayerObject(lS.get(0)));
                         z = 1;
@@ -748,9 +746,9 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                 }
                 break;
             case "Power Glove":
-                if (lI.get(0) == 1)
+                if(lI.get(0) == 1)
                     ((PowerGlove) p.getWeaponCardObject(nameWC)).applyEffect(this.grid, p, this.grid.getPlayerObject(lS.get(0)));
-                else if (lI.get(0) == 2) {
+                else if(lI.get(0) == 2) {
                     ((PowerGlove) p.getWeaponCardObject(nameWC)).applySpecialEffectPart1(p, this.grid, lS.get(0), lS.get(1));
                     if(lI.contains(3))
                         ((PowerGlove) p.getWeaponCardObject(nameWC)).applySpecialEffectPart2(this.grid, p, this.grid.getPlayerObject(lS.get(2)));
@@ -769,14 +767,14 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
             case "Rocket Launcher":
                 int h = 0;
                 for(int i : lI) {
-                    if (i == 1) {
+                    if(i == 1) {
                         ((RocketLauncher) p.getWeaponCardObject(nameWC)).applyEffect(this.grid, p, this.grid.getPlayerObject(lS.get(0)));
                         h = 1;
                         if(lI.size() > 1 && lI.get(lI.indexOf(1) + 1) == 2)
                             ((RocketLauncher) p.getWeaponCardObject(nameWC)).movePlayer(this.grid,this.grid.getPlayerObject(lS.get(0)), Integer.parseInt(lS.get(1)));
                     }
                     else if(i == 3) {
-                        if (!lS.get(4).isEmpty())
+                        if(!lS.get(4).isEmpty())
                             ((RocketLauncher) p.getWeaponCardObject(nameWC)).applySpecialEffect(this.grid, p, Integer.parseInt(lS.get(2)), Integer.parseInt(lS.get(3)), Integer.parseInt(lS.get(4)));
                         else
                             ((RocketLauncher) p.getWeaponCardObject(nameWC)).applySpecialEffect(this.grid, p, Integer.parseInt(lS.get(2)), Integer.parseInt(lS.get(3)), 0);
@@ -824,7 +822,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                     ((TractorBeam) p.getWeaponCardObject(nameWC)).applySpecialEffect(this.grid, p, this.grid.getPlayerObject(lS.get(0)));
                 break;
             case "Vortex Cannon":
-                if(lI.get(0) == 1){
+                if(lI.get(0) == 1) {
                     ((VortexCannon) p.getWeaponCardObject(nameWC)).applyEffect(this.grid, p, this.grid.getPlayerObject(lS.get(0)), lS.get(1), lS.get(2));
                     if(lI.size() == 2 && lI.get(1) == 2)
                         ((VortexCannon) p.getWeaponCardObject(nameWC)).applySpecialEffect(this.grid, p, this.grid.getPlayerObject(lS.get(3)), this.grid.getPlayerObject(lS.get(4)));
@@ -862,7 +860,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         }
     }
 
-    private void shootAdrenaline(Player p, String nameWC, List<Integer> lI, List<String> lS, int direction, List<AmmoCube> lA, List<PowerUpCard> lP) throws RemoteException{
+    private void shootAdrenaline(Player p, String nameWC, List<Integer> lI, List<String> lS, int direction, List<AmmoCube> lA, List<PowerUpCard> lP) throws RemoteException {
         this.grid.moveWithoutNotify(p, direction);
         this.shootNotAdrenaline(p, nameWC, lI, lS, lA, lP);
     }
@@ -879,21 +877,21 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         if(lIset.size() < lI.size())                //to check if there are repetitions in lI, which means that player wants to apply the same effect multiple times
             return false;
 
-        for (Colour c : lAInput)
+        for(Colour c : lAInput)
             lA.add(new AmmoCube(c));
         AmmoCube[] cubeArray = new AmmoCube[lA.size()];
         lA.toArray(cubeArray);
-        if (!p.checkAmmoCube(cubeArray))
+        if(!p.checkAmmoCube(cubeArray))
             return false;
 
-        for (int i = 0; i < lPInput.size(); i++) {
-            if (p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))) == null)
+        for(int i = 0; i < lPInput.size(); i++) {
+            if(p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))) == null)
                 return false;
             lP.add(p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))));
         }
 
         if(this.gameState.equals(STARTTURN)) {
-            if (!p.isAdrenaline2())
+            if(!p.isAdrenaline2())
                 return isValidShootNotAdrenaline(p, nameWC, lI, lS, lA, lP);
             else
                 return isValidShootAdrenaline(p, nameWC, lI, lS, direction, lA, lP);
@@ -901,16 +899,16 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         return false;
     }
 
-    public synchronized void firstActionShoot(String nickName, String nameWC, List<Integer> lI, List<String> lS, int direction, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) throws RemoteException{
+    public synchronized void firstActionShoot(String nickName, String nameWC, List<Integer> lI, List<String> lS, int direction, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) throws RemoteException {
         Player p = this.grid.getPlayerObject(nickName);
         List<AmmoCube> lA= new LinkedList<>();
         if(!lAInput.isEmpty()) {
-            for (Colour c : lAInput)
+            for(Colour c : lAInput)
                 lA.add(new AmmoCube(c));
         }
         List<PowerUpCard> lP= new LinkedList<>();
         if(!lPInput.isEmpty()) {
-            for (int i = 0; i < lPInput.size(); i++)
+            for(int i = 0; i < lPInput.size(); i++)
                 lP.add(p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))));
         }
         if(!p.isAdrenaline2())
@@ -924,21 +922,21 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
 
 
-   private void move(Player p, List<Integer> directions) throws RemoteException{
+   private void move(Player p, List<Integer> directions) throws RemoteException {
        for(Integer i : directions) {
            this.grid.move(p, i);    //view will tell player if there's a wall
        }
    }
 
 
-   public boolean isValidFirstActionMove(String nickName, List<Integer> directions) {
+    public boolean isValidFirstActionMove(String nickName, List<Integer> directions) {
         Player p = this.grid.getPlayerObject(nickName);
         if(this.gameState.equals(ENDTURN))
             this.gameState = STARTTURN;
         return (this.gameState.equals(STARTTURN) && (directions.isEmpty() || (directions.size() < 4 && grid.canGhostMove(p, directions))));
    }
 
-    public synchronized void firstActionMove(String nickName, List<Integer> directions) throws RemoteException{ //player p moves 1,2,3 cells: directions contains every direction from cell to cell
+    public synchronized void firstActionMove(String nickName, List<Integer> directions) throws RemoteException { //player p moves 1,2,3 cells: directions contains every direction from cell to cell
         Player p = this.grid.getPlayerObject(nickName);
         move(p, directions);
         this.gameState = ACTION1;
@@ -979,7 +977,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         return lInput.containsAll(lCost);
     }
 
-    private void grabNotAdrenaline(Player p, List<Integer> d, WeaponCard w, List<AmmoCube> lA, List<PowerUpCard> lP) throws RemoteException{
+    private void grabNotAdrenaline(Player p, List<Integer> d, WeaponCard w, List<AmmoCube> lA, List<PowerUpCard> lP) throws RemoteException {
         if(!d.isEmpty())
             this.grid.move(p, d.get(0));
         if(p.getCell().getStatus() == 0) {
@@ -997,28 +995,28 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
     }
 
     private void removeFromWeaponSlot(WeaponCard wCard) {
-        if (this.checkWeaponSlotContents(1).contains(wCard.getCardName())) {
-            if (grid.getBoard().getW1().getCard1().equals(wCard))
+        if(this.checkWeaponSlotContents(1).contains(wCard.getCardName())) {
+            if(grid.getBoard().getW1().getCard1().equals(wCard))
                 grid.getBoard().getW1().setCard1(null);
-            else if (grid.getBoard().getW1().getCard2().equals(wCard))
+            else if(grid.getBoard().getW1().getCard2().equals(wCard))
                 grid.getBoard().getW1().setCard2(null);
-            else if (grid.getBoard().getW1().getCard3().equals(wCard))
+            else if(grid.getBoard().getW1().getCard3().equals(wCard))
                 grid.getBoard().getW1().setCard3(null);
         }
-        else if (this.checkWeaponSlotContents(2).contains(wCard.getCardName())) {
-            if (grid.getBoard().getW2().getCard1().equals(wCard))
+        else if(this.checkWeaponSlotContents(2).contains(wCard.getCardName())) {
+            if(grid.getBoard().getW2().getCard1().equals(wCard))
                 grid.getBoard().getW2().setCard1(null);
-            else if (grid.getBoard().getW2().getCard2().equals(wCard))
+            else if(grid.getBoard().getW2().getCard2().equals(wCard))
                 grid.getBoard().getW2().setCard2(null);
-            else if (grid.getBoard().getW2().getCard3().equals(wCard))
+            else if(grid.getBoard().getW2().getCard3().equals(wCard))
                 grid.getBoard().getW2().setCard3(null);
         }
-        else if (this.checkWeaponSlotContents(3).contains(wCard.getCardName())) {
-            if (grid.getBoard().getW3().getCard1().equals(wCard))
+        else if(this.checkWeaponSlotContents(3).contains(wCard.getCardName())) {
+            if(grid.getBoard().getW3().getCard1().equals(wCard))
                 grid.getBoard().getW3().setCard1(null);
-            else if (grid.getBoard().getW3().getCard2().equals(wCard))
+            else if(grid.getBoard().getW3().getCard2().equals(wCard))
                 grid.getBoard().getW3().setCard2(null);
-            else if (grid.getBoard().getW3().getCard3().equals(wCard))
+            else if(grid.getBoard().getW3().getCard3().equals(wCard))
                 grid.getBoard().getW3().setCard3(null);
         }
     }
@@ -1032,11 +1030,11 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
        WeaponCard wC = p.getWeaponCardObject(wCInput);
        WeaponSlot wS = this.grid.getWeaponSlotObject(wSInput);
        p.removeWeaponCard(wC);
-       if(wS.getCard1() == null){
+       if(wS.getCard1() == null) {
            wS.setCard1(wC);
            return;
        }
-        if(wS.getCard2() == null){
+        if(wS.getCard2() == null) {
             wS.setCard2(wC);
             return;
         }
@@ -1044,7 +1042,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
             wS.setCard3(wC);
     }
 
-    private void grabAdrenaline(Player p, List<Integer> d, WeaponCard w, List<AmmoCube> lA, List<PowerUpCard> lP) throws RemoteException{
+    private void grabAdrenaline(Player p, List<Integer> d, WeaponCard w, List<AmmoCube> lA, List<PowerUpCard> lP) throws RemoteException {
         if(!d.isEmpty())
             this.grid.move(p, d.get(0));
         if(d.size() == 2)
@@ -1068,7 +1066,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         if(!lA.isEmpty())
             l.addAll(lA);
         if(!lP.isEmpty()) {
-            for (PowerUpCard p : lP)
+            for(PowerUpCard p : lP)
                 l.add(new AmmoCube(p.getC()));
         }
         return l;
@@ -1095,13 +1093,13 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
         String yourPups = "These are the PowerUpCards currently in your possession:\n";
         for(PowerUpCard c : p.getPowerUpCards()) {
-            pCards.add(c.getCardName() + " coloured " + c.getC().getAbbreviation());
+            pCards.add(c.getCardName() + " coloured " + c.getC().getColourId());
         }
 
         String yourAmmo = "These are the AmmoCubes currently in your possession:\n";
         for(int i = 0; i < 9; i++) {
             if(p.getAmmoCubes()[i] != null)
-                aCubes.add(p.getAmmoCubes()[i].getC().getAbbreviation());
+                aCubes.add(p.getAmmoCubes()[i].getC().getColourId());
         }
 
         String joinWC = String.join(", ", wCards);
@@ -1142,17 +1140,17 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         if(grid.getBoard().getW1().getCard1() != null) {
             l.add(grid.getBoard().getW1().getCard1().getCardName());
             for(AmmoCube a : grid.getBoard().getW1().getCard1().getReloadCost())
-                l.add(a.getC().getAbbreviation());
+                l.add(a.getC().getColourId());
         }
         if(grid.getBoard().getW1().getCard2() != null) {
             l.add(grid.getBoard().getW1().getCard2().getCardName());
             for(AmmoCube a : grid.getBoard().getW1().getCard2().getReloadCost())
-                l.add(a.getC().getAbbreviation());
+                l.add(a.getC().getColourId());
         }
         if(grid.getBoard().getW1().getCard3() != null) {
             l.add(grid.getBoard().getW1().getCard3().getCardName());
             for(AmmoCube a : grid.getBoard().getW1().getCard3().getReloadCost())
-                l.add(a.getC().getAbbreviation());
+                l.add(a.getC().getColourId());
         }
         return l;
     }
@@ -1162,17 +1160,17 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         if(grid.getBoard().getW2().getCard1() != null) {
             l.add(grid.getBoard().getW2().getCard1().getCardName());
             for(AmmoCube a : grid.getBoard().getW2().getCard1().getReloadCost())
-                l.add(a.getC().getAbbreviation());
+                l.add(a.getC().getColourId());
         }
         if(grid.getBoard().getW2().getCard2() != null) {
             l.add(grid.getBoard().getW2().getCard2().getCardName());
             for(AmmoCube a : grid.getBoard().getW2().getCard2().getReloadCost())
-                l.add(a.getC().getAbbreviation());
+                l.add(a.getC().getColourId());
         }
         if(grid.getBoard().getW2().getCard3() != null) {
             l.add(grid.getBoard().getW2().getCard3().getCardName());
             for(AmmoCube a : grid.getBoard().getW2().getCard3().getReloadCost())
-                l.add(a.getC().getAbbreviation());
+                l.add(a.getC().getColourId());
         }
         return l;
     }
@@ -1182,17 +1180,17 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         if(grid.getBoard().getW3().getCard1() != null) {
             l.add(grid.getBoard().getW3().getCard1().getCardName());
             for(AmmoCube a : grid.getBoard().getW3().getCard1().getReloadCost())
-                l.add(a.getC().getAbbreviation());
+                l.add(a.getC().getColourId());
         }
         if(grid.getBoard().getW3().getCard2() != null) {
             l.add(grid.getBoard().getW3().getCard2().getCardName());
             for(AmmoCube a : grid.getBoard().getW3().getCard2().getReloadCost())
-                l.add(a.getC().getAbbreviation());
+                l.add(a.getC().getColourId());
         }
         if(grid.getBoard().getW3().getCard3() != null) {
             l.add(grid.getBoard().getW3().getCard3().getCardName());
             for(AmmoCube a : grid.getBoard().getW3().getCard3().getReloadCost())
-                l.add(a.getC().getAbbreviation());
+                l.add(a.getC().getColourId());
         }
         return l;
     }
@@ -1232,13 +1230,13 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
     public String showCardsOnBoard() {
         List<String> rows = new LinkedList<>();
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 4; j++) {
-                if (grid.getBoard().getArena()[i][j].getStatus() == 0 && grid.getBoard().getArena()[i][j].getA() != null)
+        for(int i = 0; i < 3; i++) {
+            for(int j = 0; j < 4; j++) {
+                if(grid.getBoard().getArena()[i][j].getStatus() == 0 && grid.getBoard().getArena()[i][j].getA() != null)
                     rows.add(grid.getBoard().getArena()[i][j].getA().getAmmoCardName() + "   ");
-                else if (grid.getBoard().getArena()[i][j].getStatus() == 0 && grid.getBoard().getArena()[i][j].getA() == null)
+                else if(grid.getBoard().getArena()[i][j].getStatus() == 0 && grid.getBoard().getArena()[i][j].getA() == null)
                     rows.add("empty ");
-                else if (grid.getBoard().getArena()[i][j].getStatus() == 1)
+                else if(grid.getBoard().getArena()[i][j].getStatus() == 1)
                     rows.add("spawn ");
                 else
                     rows.add("N/A   ");
@@ -1260,30 +1258,30 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
             List<AmmoCube> lA = new LinkedList<>();
             List<PowerUpCard> lP = new LinkedList<>();
 
-            if ((!p.isAdrenaline1() && directionList.size() > 1) || (p.isAdrenaline1() && directionList.size() > 2))
+            if((!p.isAdrenaline1() && directionList.size() > 1) || (p.isAdrenaline1() && directionList.size() > 2))
                 return false;
 
             if(!this.grid.canGhostMove(p, directionList))
                 return false;
 
-            for (Colour c : lAInput)
+            for(Colour c : lAInput)
                 lA.add(new AmmoCube(c));
             AmmoCube[] cubeArray = new AmmoCube[lA.size()];
             lA.toArray(cubeArray);
 
-            if (wCard != null && wSlotInput.isEmpty())
+            if(wCard != null && wSlotInput.isEmpty())
                 return false;
-            else if (wCard != null && ((wSlotInput.equals("1") && (this.grid.ghostMove(p, directionList).getCell().getPos().getX() == 0 && this.grid.ghostMove(p, directionList).getCell().getPos().getY() == 2) && this.checkWeaponSlotContents(1).contains(wCardInput)) ||
+            else if(wCard != null && ((wSlotInput.equals("1") && (this.grid.ghostMove(p, directionList).getCell().getPos().getX() == 0 && this.grid.ghostMove(p, directionList).getCell().getPos().getY() == 2) && this.checkWeaponSlotContents(1).contains(wCardInput)) ||
                         (wSlotInput.equals("2") && (this.grid.ghostMove(p, directionList).getCell().getPos().getX() == 2 && this.grid.ghostMove(p, directionList).getCell().getPos().getY() == 3) && this.checkWeaponSlotContents(2).contains(wCardInput)) ||
                         (wSlotInput.equals("3") && (this.grid.ghostMove(p, directionList).getCell().getPos().getX() == 1 && this.grid.ghostMove(p, directionList).getCell().getPos().getY() == 0) && this.checkWeaponSlotContents(3).contains(wCardInput)))) {
-                    if (cubeArray.length != 0 && !p.checkAmmoCube(cubeArray))
+                    if(cubeArray.length != 0 && !p.checkAmmoCube(cubeArray))
                         return false;
-                    for (int i = 0; i < lPInput.size(); i++) {
-                        if (p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))) == null)
+                    for(int i = 0; i < lPInput.size(); i++) {
+                        if(p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))) == null)
                             return false;
                         lP.add(p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))));
                     }
-                    if (!canPay(wCard, choosePayment(lA, lP)))
+                    if(!canPay(wCard, choosePayment(lA, lP)))
                         return false;
                 }
             return true;
@@ -1291,23 +1289,23 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         return false;
     }
 
-    public synchronized void firstActionGrab(String nickName, List<Integer> directions, String wCardInput, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) throws RemoteException{ //directions contains where p wants to go. directions contains '0' if p doesn't want to move and only grab
+    public synchronized void firstActionGrab(String nickName, List<Integer> directions, String wCardInput, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) throws RemoteException { //directions contains where p wants to go. directions contains '0' if p doesn't want to move and only grab
         Player p = this.grid.getPlayerObject(nickName);
         WeaponCard wCard = this.grid.getWeaponCardObject(wCardInput);
         List<AmmoCube> l = new LinkedList<>();
         if(!lAInput.isEmpty()) {
-            for (Colour c : lAInput)
+            for(Colour c : lAInput)
                 l.add(new AmmoCube(c));
         }
         List<PowerUpCard> lP = new LinkedList<>();
         if(!lPInput.isEmpty()) {
-            for (int i = 0; i < lPInput.size(); i++)
+            for(int i = 0; i < lPInput.size(); i++)
                 lP.add(p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))));
         }
         if(!(p.isAdrenaline1()))
                 grabNotAdrenaline(p, directions, wCard, l, lP);
 
-        if(p.isAdrenaline1()||p.isAdrenaline2()){
+        if(p.isAdrenaline1()||p.isAdrenaline2()) {
                 grabAdrenaline(p, directions, wCard, l, lP);
         }
         this.gameState = ACTION1;
@@ -1319,18 +1317,13 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 //----------------------------------------------------------------------------------------------------
 
 
-
-
-
-
     public boolean isValidSecondActionMove(String nickName, List<Integer> directions) {
         Player p = this.grid.getPlayerObject(nickName);
         return (this.gameState.equals(ACTION1) && (!directions.isEmpty()) && (directions.size() < 4) && grid.canGhostMove(p, directions));
     }
 
 
-
-    public synchronized void secondActionMove(String nickName, List<Integer> directions ) throws RemoteException{ //player p moves 1,2,3 cells: directions contains every direction from cell to cell
+    public synchronized void secondActionMove(String nickName, List<Integer> directions ) throws RemoteException { //player p moves 1,2,3 cells: directions contains every direction from cell to cell
         Player p = this.grid.getPlayerObject(nickName);
         move(p, directions);
         this.gameState = ACTION2;
@@ -1343,9 +1336,6 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 //----------------------------------------------------------------------------------------------------
 
 
-
-
-
     public boolean isValidSecondActionGrab(String nickName, List<Integer> directionList, String wCardInput, String wSlotInput, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) {
         if(this.gameState.equals(ACTION1)) {
             Player p = this.grid.getPlayerObject(nickName);
@@ -1355,30 +1345,30 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
             List<AmmoCube> lA = new LinkedList<>();
             List<PowerUpCard> lP = new LinkedList<>();
 
-            if ((!p.isAdrenaline1() && directionList.size() > 1) || (p.isAdrenaline1() && directionList.size() > 2))
+            if((!p.isAdrenaline1() && directionList.size() > 1) || (p.isAdrenaline1() && directionList.size() > 2))
                 return false;
 
             if(!this.grid.canGhostMove(p, directionList))
                 return false;
 
-            for (Colour c : lAInput)
+            for(Colour c : lAInput)
                 lA.add(new AmmoCube(c));
             AmmoCube[] cubeArray = new AmmoCube[lA.size()];
             lA.toArray(cubeArray);
 
-            if (wCard != null && wSlotInput.isEmpty())
+            if(wCard != null && wSlotInput.isEmpty())
                 return false;
-            else if (wCard != null && ((wSlotInput.equals("1") && (this.grid.ghostMove(p, directionList).getCell().getPos().getX() == 0 && this.grid.ghostMove(p, directionList).getCell().getPos().getY() == 2) && this.checkWeaponSlotContents(1).contains(wCardInput)) ||
+            else if(wCard != null && ((wSlotInput.equals("1") && (this.grid.ghostMove(p, directionList).getCell().getPos().getX() == 0 && this.grid.ghostMove(p, directionList).getCell().getPos().getY() == 2) && this.checkWeaponSlotContents(1).contains(wCardInput)) ||
                         (wSlotInput.equals("2") && (this.grid.ghostMove(p, directionList).getCell().getPos().getX() == 2 && this.grid.ghostMove(p, directionList).getCell().getPos().getY() == 3) && this.checkWeaponSlotContents(2).contains(wCardInput)) ||
                         (wSlotInput.equals("3") && (this.grid.ghostMove(p, directionList).getCell().getPos().getX() == 1 && this.grid.ghostMove(p, directionList).getCell().getPos().getY() == 0) && this.checkWeaponSlotContents(3).contains(wCardInput)))) {
-                    if (cubeArray.length != 0 && !p.checkAmmoCube(cubeArray))
+                    if(cubeArray.length != 0 && !p.checkAmmoCube(cubeArray))
                         return false;
-                    for (int i = 0; i < lPInput.size(); i++) {
-                        if (p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))) == null)
+                    for(int i = 0; i < lPInput.size(); i++) {
+                        if(p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))) == null)
                             return false;
                         lP.add(p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))));
                     }
-                    if (!canPay(wCard, choosePayment(lA, lP)))
+                    if(!canPay(wCard, choosePayment(lA, lP)))
                         return false;
                 }
             return true;
@@ -1386,23 +1376,23 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         return false;
     }
 
-    public synchronized void secondActionGrab(String nickName, List<Integer> directions, String wCardInput, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) throws RemoteException{ //directions contains where p wants to go. directions contains '0' if p doesn't want to move and only grab
+    public synchronized void secondActionGrab(String nickName, List<Integer> directions, String wCardInput, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) throws RemoteException { //directions contains where p wants to go. directions contains '0' if p doesn't want to move and only grab
         Player p = this.grid.getPlayerObject(nickName);
         WeaponCard wCard = this.grid.getWeaponCardObject(wCardInput);
         List<AmmoCube> l = new LinkedList<>();
         if(!lAInput.isEmpty()) {
-            for (Colour c : lAInput)
+            for(Colour c : lAInput)
                 l.add(new AmmoCube(c));
         }
         List<PowerUpCard> lP = new LinkedList<>();
         if(!lPInput.isEmpty()) {
-            for (int i = 0; i < lPInput.size(); i++)
+            for(int i = 0; i < lPInput.size(); i++)
                 lP.add(p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))));
         }
         if(!(p.isAdrenaline1()))
             grabNotAdrenaline(p, directions, wCard, l, lP);
 
-        if(p.isAdrenaline1()||p.isAdrenaline2()){
+        if(p.isAdrenaline1()||p.isAdrenaline2()) {
             grabAdrenaline(p, directions, wCard, l, lP);
         }
         this.gameState = ACTION2;
@@ -1419,21 +1409,21 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         if(lIset.size() < lI.size())                //to check if there are repetitions in lI, which means that player wants to apply the same effect multiple times
             return false;
 
-        for (Colour c : lAInput)
+        for(Colour c : lAInput)
             lA.add(new AmmoCube(c));
         AmmoCube[] cubeArray = new AmmoCube[lA.size()];
         lA.toArray(cubeArray);
-        if (!p.checkAmmoCube(cubeArray))
+        if(!p.checkAmmoCube(cubeArray))
             return false;
 
-        for (int i = 0; i < lPInput.size(); i++) {
-            if (p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))) == null)
+        for(int i = 0; i < lPInput.size(); i++) {
+            if(p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))) == null)
                 return false;
             lP.add(p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))));
         }
 
         if(this.gameState.equals(ACTION1)) {
-            if (!p.isAdrenaline2())
+            if(!p.isAdrenaline2())
                 return isValidShootNotAdrenaline(p, nameWC, lI, lS, lA, lP);
             else
                 return isValidShootAdrenaline(p, nameWC, lI, lS, direction, lA, lP);
@@ -1441,15 +1431,15 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         return false;
     }
 
-    public synchronized void secondActionShoot(String nickName, String nameWC, List<Integer> lI, List<String> lS, int direction, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) throws RemoteException{
+    public synchronized void secondActionShoot(String nickName, String nameWC, List<Integer> lI, List<String> lS, int direction, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) throws RemoteException {
         Player p = this.grid.getPlayerObject(nickName);
 
         List<AmmoCube> lA= new LinkedList<>();
-        for (Colour c : lAInput)
+        for(Colour c : lAInput)
             lA.add(new AmmoCube(c));
 
         List<PowerUpCard> lP= new LinkedList<>();
-        for (int i = 0; i < lPInput.size(); i++)
+        for(int i = 0; i < lPInput.size(); i++)
             lP.add(p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))));
 
         if(!p.isAdrenaline2())
@@ -1467,11 +1457,11 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         boolean x = false;
         if(this.gameState.equals(ACTION1) || this.gameState.equals(ACTION2)) {
             if(namePC.equals("Tagback Grenade")) {
-                if (p.getPowerUpCardObject(namePC, Colour.valueOf(colourPC)) != null && this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(0))))
+                if(p.getPowerUpCardObject(namePC, Colour.valueOf(colourPC)) != null && this.grid.isInViewZone(p, this.grid.getPlayerObject(lS.get(0))))
                     x = true;
                 boolean exit = false;
-                for (DamageToken dT : p.getPlayerBoard().getDamage().getDamageTokens()) {
-                    if (dT != null && dT.getC().equals(this.grid.getPlayerObject(lS.get(0)).getC())) {
+                for(DamageToken dT : p.getPlayerBoard().getDamage().getDamageTokens()) {
+                    if(dT != null && dT.getC().equals(this.grid.getPlayerObject(lS.get(0)).getC())) {
                         exit = true;
                         break;
                     }
@@ -1480,7 +1470,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
                     x = false;
             }
             else if(namePC.equals("Targeting Scope")) {
-                    if (p.getPowerUpCardObject(namePC, Colour.valueOf(colourPC)) != null && p.checkAmmoCube(new AmmoCube[]{new AmmoCube(c)}))
+                    if(p.getPowerUpCardObject(namePC, Colour.valueOf(colourPC)) != null && p.checkAmmoCube(new AmmoCube[]{new AmmoCube(c)}))
                         x = true;
                     boolean exit = false;
                     for(int i = 0; i < this.grid.getPlayerObject(lS.get(0)).getPlayerBoard().getDamage().getDamageTokens().length - 1; i++) {
@@ -1496,14 +1486,14 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         if(this.gameState.equals(STARTTURN) || this.gameState.equals(ACTION1) || this.gameState.equals(ACTION2)) {
                 if(namePC.equals("Newton")) {
                     List<Integer> directions = new LinkedList<>();
-                    if (lS.size() == 2) {
-                        if (p.getPowerUpCardObject(namePC, Colour.valueOf(colourPC)) != null && this.grid.canMove(this.grid.getPlayerObject(lS.get(0)), Integer.parseInt(lS.get(1))) &&
+                    if(lS.size() == 2) {
+                        if(p.getPowerUpCardObject(namePC, Colour.valueOf(colourPC)) != null && this.grid.canMove(this.grid.getPlayerObject(lS.get(0)), Integer.parseInt(lS.get(1))) &&
                                 (Integer.parseInt(lS.get(1)) == 1 || Integer.parseInt(lS.get(1)) == 2 || Integer.parseInt(lS.get(1)) == 3 || Integer.parseInt(lS.get(1)) == 4))
                             x = true;
-                    } else if (lS.size() == 3) {
+                    } else if(lS.size() == 3) {
                         directions.add(Integer.parseInt(lS.get(1)));
                         directions.add(Integer.parseInt(lS.get(2)));
-                        if (p.getPowerUpCardObject(namePC, Colour.valueOf(colourPC)) != null && this.grid.canGhostMove(this.grid.getPlayerObject(lS.get(0)), directions) &&
+                        if(p.getPowerUpCardObject(namePC, Colour.valueOf(colourPC)) != null && this.grid.canGhostMove(this.grid.getPlayerObject(lS.get(0)), directions) &&
                                 (Integer.parseInt(lS.get(1)) == 1 || Integer.parseInt(lS.get(1)) == 2 || Integer.parseInt(lS.get(1)) == 3 || Integer.parseInt(lS.get(1)) == 4) && (Integer.parseInt(lS.get(2)) == 1 || Integer.parseInt(lS.get(2)) == 2 || Integer.parseInt(lS.get(2)) == 3 || Integer.parseInt(lS.get(2)) == 4))
                             x = true;
                     }
@@ -1515,7 +1505,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         return x;
     }
 
-    public synchronized void usePowerUpCard(String nickName, String namePC, String colourPC, List<String> lS, Colour c) throws RemoteException{
+    public synchronized void usePowerUpCard(String nickName, String namePC, String colourPC, List<String> lS, Colour c) throws RemoteException {
         Player p = this.grid.getPlayerObject(nickName);
         switch(namePC) {
             case "Newton" :
@@ -1555,9 +1545,6 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 //----------------------------------------------------------------------------------------------------
 
 
-
-
-
     public boolean isValidReload(String nickName, String s) {
         Player p = this.grid.getPlayerObject(nickName);
         return (p.checkAmmoCube(p.getWeaponCardObject(s).getReloadCost()) && this.gameState.equals(ACTION2));
@@ -1572,7 +1559,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
     }
 
 
-    private void death(Player p) throws RemoteException{
+    private void death(Player p) throws RemoteException {
        p.changeCell(null);
        if(p.getPlayerBoard().getDamage().getDamageTokens()[11] != null) {
            int n = this.grid.getBoard().substituteSkull(2);
@@ -1609,7 +1596,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         return this.gameState.equals(RELOADED) && (!this.grid.whoIsDead().isEmpty());
     }
 
-    public synchronized void scoring() throws RemoteException{
+    public synchronized void scoring() throws RemoteException {
         int c = 0;
         cardToPickAfterDeath = 0;
         for(Player p : this.grid.whoIsDead()) {
@@ -1699,10 +1686,10 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
     }
 
     public boolean isValidFinalFrenzyAction(String nickName, List<String> lS) {
-        if (!(this.gameState == STARTTURN && finalFrenzy))
+        if(!(this.gameState == STARTTURN && finalFrenzy))
             return false;
         Player p = this.grid.getPlayerObject(nickName);
-        if ((p.getTurnFinalFrenzy() == 0 && lS.size() == 2 && (lS.get(0).equals("1") || lS.get(0).equals("2") || lS.get(0).equals("3")) &&
+        if((p.getTurnFinalFrenzy() == 0 && lS.size() == 2 && (lS.get(0).equals("1") || lS.get(0).equals("2") || lS.get(0).equals("3")) &&
                 (lS.get(1).equals("1") || lS.get(1).equals("2") || lS.get(1).equals("3"))) ||
                 (p.getTurnFinalFrenzy() != 0 && lS.size() == 1 && (lS.get(0).equals("4") || lS.get(0).equals("5"))))
             return true;
@@ -1719,16 +1706,16 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
             return false;
 
         List<AmmoCube> lA = new LinkedList<>();
-        for (Colour c : lAInput)
+        for(Colour c : lAInput)
             lA.add(new AmmoCube(c));
         AmmoCube[] cubeArray = new AmmoCube[lA.size()];
         lA.toArray(cubeArray);
-        if (!p.checkAmmoCube(cubeArray))
+        if(!p.checkAmmoCube(cubeArray))
             return false;
 
         List<PowerUpCard> lP = new LinkedList<>();
-        for (int i = 0; i < lPInput.size(); i++) {
-            if (p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))) == null)
+        for(int i = 0; i < lPInput.size(); i++) {
+            if(p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))) == null)
                 return false;
             lP.add(p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))));
         }
@@ -1737,21 +1724,21 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
 
     }
 
-    public synchronized void finalFrenzyAction1(String nickName, int direction, List<String> weaponToReload, String weaponToUse, List<Integer> lI, List<String> lS, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) throws RemoteException{
+    public synchronized void finalFrenzyAction1(String nickName, int direction, List<String> weaponToReload, String weaponToUse, List<Integer> lI, List<String> lS, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) throws RemoteException {
         Player p = this.grid.getPlayerObject(nickName);
 
         List<AmmoCube> lA = new LinkedList<>();
-        for (Colour c : lAInput)
+        for(Colour c : lAInput)
             lA.add(new AmmoCube(c));
 
         List<PowerUpCard> lP = new LinkedList<>();
-        for (int i = 0; i < lPInput.size(); i++)
+        for(int i = 0; i < lPInput.size(); i++)
             lP.add(p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))));
 
-        if (direction != 0)
+        if(direction != 0)
             this.grid.move(p, direction);
-        if (!weaponToReload.isEmpty()) {
-            for (String weapon : weaponToReload)
+        if(!weaponToReload.isEmpty()) {
+            for(String weapon : weaponToReload)
                 this.reloadFrenzy(p, weapon);
         }
 
@@ -1772,7 +1759,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         return(finalFrenzy && directions.size() <= 4 && this.grid.canGhostMove(p, directions));
     }
 
-    public synchronized void finalFrenzyAction2(String nickName, List<Integer> directions) throws RemoteException{
+    public synchronized void finalFrenzyAction2(String nickName, List<Integer> directions) throws RemoteException {
         Player p = this.grid.getPlayerObject(nickName);
         for(int i : directions)
             this.grid.move(p, i);
@@ -1791,16 +1778,16 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         return(finalFrenzy && directions.size() <= 2 && this.grid.canGhostMove(p, directions) && isValidFrenzyGrab(nickName, wCardInput, wSlotInput, lAInput, lPInput, lPColourInput));
     }
 
-    public synchronized void finalFrenzyAction3(String nickName, List<Integer> directions, String wCardInput, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) throws RemoteException{
+    public synchronized void finalFrenzyAction3(String nickName, List<Integer> directions, String wCardInput, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) throws RemoteException {
         Player p = this.grid.getPlayerObject(nickName);
         WeaponCard wCard = this.grid.getWeaponCardObject(wCardInput);
 
         List<AmmoCube> lA = new LinkedList<>();
-        for (Colour c : lAInput)
+        for(Colour c : lAInput)
             lA.add(new AmmoCube(c));
 
         List<PowerUpCard> lP = new LinkedList<>();
-        for (int i = 0; i < lPInput.size(); i++) {
+        for(int i = 0; i < lPInput.size(); i++) {
             lP.add(p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))));
         }
         for(int i : directions)
@@ -1818,16 +1805,16 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         Player p = this.grid.getPlayerObject(nickName);
 
         List<AmmoCube> lA = new LinkedList<>();
-        for (Colour c : lAInput)
+        for(Colour c : lAInput)
             lA.add(new AmmoCube(c));
         AmmoCube[] cubeArray = new AmmoCube[lA.size()];
         lA.toArray(cubeArray);
-        if (!p.checkAmmoCube(cubeArray))
+        if(!p.checkAmmoCube(cubeArray))
             return false;
 
         List<PowerUpCard> lP = new LinkedList<>();
-        for (int i = 0; i < lPInput.size(); i++) {
-            if (p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))) == null)
+        for(int i = 0; i < lPInput.size(); i++) {
+            if(p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))) == null)
                 return false;
             lP.add(p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))));
         }
@@ -1839,15 +1826,15 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         return (finalFrenzy && directions.size() <= 2 && this.grid.canGhostMove(p, directions) && this.isValidShootNotAdrenaline(p, weaponToUse, lI, lS, lA, lP));
     }
 
-    public synchronized void finalFrenzyAction4(String nickName, List<Integer> directions, List<String> weaponToReload, String weaponToUse, List<Integer> lI, List<String> lS, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) throws RemoteException{
+    public synchronized void finalFrenzyAction4(String nickName, List<Integer> directions, List<String> weaponToReload, String weaponToUse, List<Integer> lI, List<String> lS, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) throws RemoteException {
         Player p = this.grid.getPlayerObject(nickName);
 
         List<AmmoCube> lA = new LinkedList<>();
-        for (Colour c : lAInput)
+        for(Colour c : lAInput)
             lA.add(new AmmoCube(c));
 
         List<PowerUpCard> lP = new LinkedList<>();
-        for (int i = 0; i < lPInput.size(); i++) {
+        for(int i = 0; i < lPInput.size(); i++) {
             lP.add(p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))));
         }
 
@@ -1874,16 +1861,16 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         return(finalFrenzy && directions.size() <= 3 && this.grid.canGhostMove(p, directions) && isValidFrenzyGrab(nickName, wCardInput, wSlotInput, lAInput, lPInput, lPColourInput));
     }
 
-    public synchronized void finalFrenzyAction5(String nickName, List<Integer> directions, String wCardInput, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) throws RemoteException{
+    public synchronized void finalFrenzyAction5(String nickName, List<Integer> directions, String wCardInput, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) throws RemoteException {
         Player p = this.grid.getPlayerObject(nickName);
         WeaponCard wCard = this.grid.getWeaponCardObject(wCardInput);
 
         List<AmmoCube> lA = new LinkedList<>();
-        for (Colour c : lAInput)
+        for(Colour c : lAInput)
             lA.add(new AmmoCube(c));
 
         List<PowerUpCard> lP = new LinkedList<>();
-        for (int i = 0; i < lPInput.size(); i++) {
+        for(int i = 0; i < lPInput.size(); i++) {
             lP.add(p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))));
         }
 
@@ -1898,7 +1885,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
     //useful methods for frenzy actions
 
     private void reloadFrenzy(Player p, String s) {
-        if(p.checkAmmoCube(p.getWeaponCardObject(s).getReloadCost())){
+        if(p.checkAmmoCube(p.getWeaponCardObject(s).getReloadCost())) {
             p.getWeaponCardObject(s).reload();
             p.removeArrayAC(p.getWeaponCardObject(s).getReloadCost());
         }
@@ -1910,28 +1897,28 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
         List<AmmoCube> lA = new LinkedList<>();
         List<PowerUpCard> lP = new LinkedList<>();
 
-        for (Colour c : lAInput)
+        for(Colour c : lAInput)
             lA.add(new AmmoCube(c));
         AmmoCube[] cubeArray = new AmmoCube[lA.size()];
         lA.toArray(cubeArray);
-        if (!p.checkAmmoCube(cubeArray))
+        if(!p.checkAmmoCube(cubeArray))
             return false;
 
         if(wCard != null && wSlotInput.isEmpty())
             return false;
         else if(wCard != null) {
-            if ((wSlotInput.equals("1") && (p.getCell().getPos().getX() == 0 && p.getCell().getPos().getY() == 2) && this.checkWeaponSlotContents(1).contains(wCardInput)) ||
+            if((wSlotInput.equals("1") && (p.getCell().getPos().getX() == 0 && p.getCell().getPos().getY() == 2) && this.checkWeaponSlotContents(1).contains(wCardInput)) ||
                     (wSlotInput.equals("2") && (p.getCell().getPos().getX() == 2 && p.getCell().getPos().getY() == 3) && this.checkWeaponSlotContents(2).contains(wCardInput)) ||
                     (wSlotInput.equals("3") && (p.getCell().getPos().getX() == 1 && p.getCell().getPos().getY() == 0) && this.checkWeaponSlotContents(3).contains(wCardInput))) {
-                if (cubeArray.length != 0 && !p.checkAmmoCube(cubeArray))
+                if(cubeArray.length != 0 && !p.checkAmmoCube(cubeArray))
                     return false;
-                for (int i = 0; i < lPInput.size(); i++) {
-                    if (p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))) == null)
+                for(int i = 0; i < lPInput.size(); i++) {
+                    if(p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))) == null)
                         return false;
                     lP.add(p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))));
                 }
             }
-            if (!canPay(wCard, choosePayment(lA, lP)))
+            if(!canPay(wCard, choosePayment(lA, lP)))
                 return false;
         }
         return true;
@@ -1953,7 +1940,7 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
     }
 
 
-    public synchronized void finalFrenzyTurnScoring() throws RemoteException{
+    public synchronized void finalFrenzyTurnScoring() throws RemoteException {
         int c = 0;
         for(Player p : this.grid.whoIsDead()) {
             this.deadList.add(p.getNickName());
@@ -1993,9 +1980,9 @@ public class Game {                                 //Cli or Gui -- Rmi or Socke
     }
 
     public synchronized void finalScoring() {
-        if (this.gameState == ENDALLTURN) {
-            for (Player p : this.grid.getPlayers()) {
-                if (p.getPlayerBoard().getDamage().getDamageTokens()[0] == null) {
+        if(this.gameState == ENDALLTURN) {
+            for(Player p : this.grid.getPlayers()) {
+                if(p.getPlayerBoard().getDamage().getDamageTokens()[0] == null) {
                     if(!p.getPlayerBoard().getDamage().scoreBoard().isEmpty())
                         this.grid.scoringByColour(p.getPlayerBoard().getDamage().getColourPosition(0), 2);
                     if(p.getPlayerBoard().getDamage().scoreBoard().size() >= 2)

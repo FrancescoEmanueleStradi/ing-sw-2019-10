@@ -1,7 +1,8 @@
 package model.cards;
+
 import model.Colour;
 
-public abstract class PowerUpCard implements Card {
+public abstract class PowerUpCard {
 
     protected String cardName;
     protected Colour c;         //useful? Maybe AmmoCube value is enough

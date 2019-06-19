@@ -21,7 +21,7 @@ public class DiscardPUC extends JOptionPane implements ActionListener {
     private String c2;
 
 
-    public DiscardPUC(GUI gui, ServerInterface server, int game, String nickName, String n1, String n2, String c1, String c2){
+    public DiscardPUC(GUI gui, ServerInterface server, int game, String nickName, String n1, String n2, String c1, String c2) {
         super();
         this.gui = gui;
         this.server = server;
@@ -45,20 +45,20 @@ public class DiscardPUC extends JOptionPane implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         try {
             JButton action = (JButton)e.getSource();
-            if (action == firstButton){
+            if(action == firstButton) {
                 while(!this.server.messageIsValidPickAndDiscard(game, nickName, n1, c1))
                     gui.selectSpawnPoint();
                 server.messagePickAndDiscardCard(game, nickName, n1, c1);
             }
-            else if (action == secondButton) {
+            else if(action == secondButton) {
                 while(!this.server.messageIsValidPickAndDiscard(game, nickName, n2, c2))
                     gui.selectSpawnPoint();
                 server.messagePickAndDiscardCard(game, nickName, n2, c2);
             }
             notifyAll();
-        }catch (RemoteException r){
+        }catch (RemoteException r) {
 
-        }catch (InterruptedException i){
+        }catch (InterruptedException i) {
 
         }
     }

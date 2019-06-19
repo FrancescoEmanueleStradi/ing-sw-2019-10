@@ -13,7 +13,7 @@ public class Action2 extends JOptionPane implements ActionListener {
     JButton grabButton;
     JButton shootButton;
 
-    public Action2(GUI gui){
+    public Action2(GUI gui) {
         super();
         this.gui = gui;
         add(new JLabel("Choose the second action you want to do"));
@@ -40,7 +40,7 @@ public class Action2 extends JOptionPane implements ActionListener {
                 gui.shootSecondAction();
             action.setEnabled(false);
             notifyAll();
-        }catch (InterruptedException i){
+        }catch (InterruptedException i) {
 
         }
     }

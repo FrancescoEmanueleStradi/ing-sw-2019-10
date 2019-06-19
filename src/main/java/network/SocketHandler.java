@@ -16,7 +16,6 @@ public class SocketHandler {
         this.server = server;
     }
 
-
     public void startServer() {
         ExecutorService executor = Executors.newCachedThreadPool();
         ServerSocket serverSocket = null;

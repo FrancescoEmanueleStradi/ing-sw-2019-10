@@ -9,8 +9,10 @@ public class Board {
     private WeaponSlot w1;
     private WeaponSlot w2;
     private WeaponSlot w3;
-    private Cell[][] arena = new Cell[3][4];        //3 rows 4 columns
-    private int aType;                              // From 1 to 4 --> From the highest (the biggest) to the lowest in the rule file
+    private Cell[][] arena = new Cell[3][4];
+
+    // From 1 to 4 --> From the highest to the lowest according to the order of the images in the rules
+    private int aType;
 
     public Board(int type, WeaponSlot ws1, WeaponSlot ws2, WeaponSlot ws3) {
         this.k = new KillTrack();
@@ -169,8 +171,9 @@ public class Board {
         this.arena[p.getX()][p.getY()].setA(a);
     }
 
-    void changeWeaponCard(WeaponSlot w, WeaponCard wC) {      //replace a void slot in WeaponSlot w with WeaponCard wC
-        if(this.w1.equals(w)) {                               //when a player pick a card from a WeaponSlot, set that to null!!
+    //replaces an empty slot in WeaponSlot w with WeaponCard wC
+    void changeWeaponCard(WeaponSlot w, WeaponCard wC) {
+        if(this.w1.equals(w)) {
             if(this.w1.getCard1() == null)
                 this.w1.setCard1(wC);
             else if(this.w1.getCard2() == null)

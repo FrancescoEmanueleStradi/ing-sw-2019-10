@@ -11,7 +11,7 @@ public class NumColour {
     private boolean  tie;
     private List<Colour> cTie;
 
-    public NumColour(Colour c){
+    public NumColour(Colour c) {
         this.c = c;
         this.num = 0;
         this.tie = false;
@@ -42,7 +42,7 @@ public class NumColour {
         this.num = num;
     }
 
-    public void addNum(){
+    public void addNum() {
         this.num++;
     }
 

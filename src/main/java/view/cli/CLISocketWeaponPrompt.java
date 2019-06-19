@@ -35,7 +35,7 @@ public class CLISocketWeaponPrompt implements Serializable {
         List<String> lP;
         List<String> lPC;
 
-        while (true) {
+        while(true) {
             System.out.println(ENTER_EFFECT);
             lI = enterEffect(intScan);
 
@@ -75,7 +75,7 @@ public class CLISocketWeaponPrompt implements Serializable {
             socketOut.println(i);
             socketOut.println(lC.size());
             for(Colour c : lC)
-                socketOut.println(c.getAbbreviation());
+                socketOut.println(c.getColourId());
             socketOut.println(lP.size());
             for(String s1 : lP)
                 socketOut.println(s1);
@@ -85,13 +85,13 @@ public class CLISocketWeaponPrompt implements Serializable {
 
             String isValidFirstActionShoot = socketIn.nextLine();
 
-            if (isValidFirstActionShoot.equals("true"))
+            if(isValidFirstActionShoot.equals("true"))
                 break;
             else {
                 System.out.println(PROMPT_ERROR_RETRY);
                 System.out.println(EXIT + YES_PROMPT);
                 String exitInput = in.next();
-                if (exitInput.equals("Yes") || exitInput.equals("yes") || exitInput.equals("y")) {
+                if(exitInput.equals("Yes") || exitInput.equals("yes") || exitInput.equals("y")) {
                     return;
                 }
             }
@@ -110,7 +110,7 @@ public class CLISocketWeaponPrompt implements Serializable {
         socketOut.println(i);
         socketOut.println(lC.size());
         for(Colour c : lC)
-            socketOut.println(c.getAbbreviation());
+            socketOut.println(c.getColourId());
         socketOut.println(lP.size());
         for(String s1 : lP)
             socketOut.println(s1);
@@ -132,7 +132,7 @@ public class CLISocketWeaponPrompt implements Serializable {
         List<String> lP;
         List<String> lPC;
 
-        while (true) {
+        while(true) {
             System.out.println(ENTER_EFFECT);
             lI = enterEffect(intScan);
 
@@ -172,7 +172,7 @@ public class CLISocketWeaponPrompt implements Serializable {
             socketOut.println(i);
             socketOut.println(lC.size());
             for(Colour c : lC)
-                socketOut.println(c.getAbbreviation());
+                socketOut.println(c.getColourId());
             socketOut.println(lP.size());
             for(String s1 : lP)
                 socketOut.println(s1);
@@ -182,13 +182,13 @@ public class CLISocketWeaponPrompt implements Serializable {
 
             String isValidSecondActionShoot = socketIn.nextLine();
 
-            if (isValidSecondActionShoot.equals("true"))
+            if(isValidSecondActionShoot.equals("true"))
                 break;
             else {
                 System.out.println(PROMPT_ERROR_RETRY);
                 System.out.println(EXIT + YES_PROMPT);
                 String exitInput = in.next();
-                if (exitInput.equals("Yes") || exitInput.equals("yes") || exitInput.equals("y")) {
+                if(exitInput.equals("Yes") || exitInput.equals("yes") || exitInput.equals("y")) {
                     return;
                 }
             }
@@ -207,7 +207,7 @@ public class CLISocketWeaponPrompt implements Serializable {
         socketOut.println(i);
         socketOut.println(lC.size());
         for(Colour c : lC)
-            socketOut.println(c.getAbbreviation());
+            socketOut.println(c.getColourId());
         socketOut.println(lP.size());
         for(String s1 : lP)
             socketOut.println(s1);
@@ -229,7 +229,7 @@ public class CLISocketWeaponPrompt implements Serializable {
         List<String> lP;
         List<String> lPC;
 
-        while (true) {
+        while(true) {
             System.out.println(ENTER_EFFECT);
             lI = enterEffect(intScan);
 
@@ -266,7 +266,7 @@ public class CLISocketWeaponPrompt implements Serializable {
             socketOut.println(i);
             socketOut.println(lC.size());
             for(Colour c : lC)
-                socketOut.println(c.getAbbreviation());
+                socketOut.println(c.getColourId());
             socketOut.println(lP.size());
             for(String s1 : lP)
                 socketOut.println(s1);
@@ -276,13 +276,13 @@ public class CLISocketWeaponPrompt implements Serializable {
 
             String isValidFirstActionShoot = socketIn.nextLine();
 
-            if (isValidFirstActionShoot.equals("true"))
+            if(isValidFirstActionShoot.equals("true"))
                 break;
             else {
                 System.out.println(PROMPT_ERROR_RETRY);
                 System.out.println(EXIT + YES_PROMPT);
                 String exitInput = in.next();
-                if (exitInput.equals("Yes") || exitInput.equals("yes") || exitInput.equals("y")) {
+                if(exitInput.equals("Yes") || exitInput.equals("yes") || exitInput.equals("y")) {
                     return;
                 }
             }
@@ -301,7 +301,7 @@ public class CLISocketWeaponPrompt implements Serializable {
         socketOut.println(i);
         socketOut.println(lC.size());
         for(Colour c : lC)
-            socketOut.println(c.getAbbreviation());
+            socketOut.println(c.getColourId());
         socketOut.println(lP.size());
         for(String s1 : lP)
             socketOut.println(s1);
@@ -323,7 +323,7 @@ public class CLISocketWeaponPrompt implements Serializable {
         List<String> lP;
         List<String> lPC;
 
-        while (true) {
+        while(true) {
             System.out.println(ENTER_EFFECT);
             lI = enterEffect(intScan);
 
@@ -360,7 +360,7 @@ public class CLISocketWeaponPrompt implements Serializable {
             socketOut.println(i);
             socketOut.println(lC.size());
             for(Colour c : lC)
-                socketOut.println(c.getAbbreviation());
+                socketOut.println(c.getColourId());
             socketOut.println(lP.size());
             for(String s1 : lP)
                 socketOut.println(s1);
@@ -370,13 +370,13 @@ public class CLISocketWeaponPrompt implements Serializable {
 
             String isValidSecondActionShoot = socketIn.nextLine();
 
-            if (isValidSecondActionShoot.equals("true"))
+            if(isValidSecondActionShoot.equals("true"))
                 break;
             else {
                 System.out.println(PROMPT_ERROR_RETRY);
                 System.out.println(EXIT + YES_PROMPT);
                 String exitInput = in.next();
-                if (exitInput.equals("Yes") || exitInput.equals("yes") || exitInput.equals("y")) {
+                if(exitInput.equals("Yes") || exitInput.equals("yes") || exitInput.equals("y")) {
                     return;
                 }
             }
@@ -395,7 +395,7 @@ public class CLISocketWeaponPrompt implements Serializable {
         socketOut.println(i);
         socketOut.println(lC.size());
         for(Colour c : lC)
-            socketOut.println(c.getAbbreviation());
+            socketOut.println(c.getColourId());
         socketOut.println(lP.size());
         for(String s1 : lP)
             socketOut.println(s1);
@@ -417,7 +417,7 @@ public class CLISocketWeaponPrompt implements Serializable {
         List<String> lP = new LinkedList<>();
         List<String> lPC = new LinkedList<>();
 
-        while (true) {
+        while(true) {
             System.out.println(ENTER_EFFECT);
             lI = enterEffect(intScan);
 
@@ -440,7 +440,7 @@ public class CLISocketWeaponPrompt implements Serializable {
             socketOut.println(i);
             socketOut.println(lC.size());
             for(Colour c : lC)
-                socketOut.println(c.getAbbreviation());
+                socketOut.println(c.getColourId());
             socketOut.println(lP.size());
             for(String s1 : lP)
                 socketOut.println(s1);
@@ -450,13 +450,13 @@ public class CLISocketWeaponPrompt implements Serializable {
 
             String isValidFirstActionShoot = socketIn.nextLine();
 
-            if (isValidFirstActionShoot.equals("true"))
+            if(isValidFirstActionShoot.equals("true"))
                 break;
             else {
                 System.out.println(PROMPT_ERROR_RETRY);
                 System.out.println(EXIT + YES_PROMPT);
                 String exitInput = in.next();
-                if (exitInput.equals("Yes") || exitInput.equals("yes") || exitInput.equals("y")) {
+                if(exitInput.equals("Yes") || exitInput.equals("yes") || exitInput.equals("y")) {
                     return;
                 }
             }
@@ -475,7 +475,7 @@ public class CLISocketWeaponPrompt implements Serializable {
         socketOut.println(i);
         socketOut.println(lC.size());
         for(Colour c : lC)
-            socketOut.println(c.getAbbreviation());
+            socketOut.println(c.getColourId());
         socketOut.println(lP.size());
         for(String s1 : lP)
             socketOut.println(s1);
@@ -497,7 +497,7 @@ public class CLISocketWeaponPrompt implements Serializable {
         List<String> lP = new LinkedList<>();
         List<String> lPC = new LinkedList<>();
 
-        while (true) {
+        while(true) {
             System.out.println(ENTER_EFFECT);
             lI = enterEffect(intScan);
 
@@ -520,7 +520,7 @@ public class CLISocketWeaponPrompt implements Serializable {
             socketOut.println(i);
             socketOut.println(lC.size());
             for(Colour c : lC)
-                socketOut.println(c.getAbbreviation());
+                socketOut.println(c.getColourId());
             socketOut.println(lP.size());
             for(String s1 : lP)
                 socketOut.println(s1);
@@ -530,13 +530,13 @@ public class CLISocketWeaponPrompt implements Serializable {
 
             String isValidSecondActionShoot = socketIn.nextLine();
 
-            if (isValidSecondActionShoot.equals("true"))
+            if(isValidSecondActionShoot.equals("true"))
                 break;
             else {
                 System.out.println(PROMPT_ERROR_RETRY);
                 System.out.println(EXIT + YES_PROMPT);
                 String exitInput = in.next();
-                if (exitInput.equals("Yes") || exitInput.equals("yes") || exitInput.equals("y")) {
+                if(exitInput.equals("Yes") || exitInput.equals("yes") || exitInput.equals("y")) {
                     return;
                 }
             }
@@ -555,7 +555,7 @@ public class CLISocketWeaponPrompt implements Serializable {
         socketOut.println(i);
         socketOut.println(lC.size());
         for(Colour c : lC)
-            socketOut.println(c.getAbbreviation());
+            socketOut.println(c.getColourId());
         socketOut.println(lP.size());
         for(String s1 : lP)
             socketOut.println(s1);
@@ -577,7 +577,7 @@ public class CLISocketWeaponPrompt implements Serializable {
         List<String> lP = new LinkedList<>();
         List<String> lPC = new LinkedList<>();
 
-        while (true) {
+        while(true) {
             System.out.println(ENTER_RELEVANT_STRING);
             lS = enterRelevantString(in);
 
@@ -597,7 +597,7 @@ public class CLISocketWeaponPrompt implements Serializable {
             socketOut.println(i);
             socketOut.println(lC.size());
             for(Colour c : lC)
-                socketOut.println(c.getAbbreviation());
+                socketOut.println(c.getColourId());
             socketOut.println(lP.size());
             for(String s1 : lP)
                 socketOut.println(s1);
@@ -607,13 +607,13 @@ public class CLISocketWeaponPrompt implements Serializable {
 
             String isValidFirstActionShoot = socketIn.nextLine();
 
-            if (isValidFirstActionShoot.equals("true"))
+            if(isValidFirstActionShoot.equals("true"))
                 break;
             else {
                 System.out.println(PROMPT_ERROR_RETRY);
                 System.out.println(EXIT + YES_PROMPT);
                 String exitInput = in.next();
-                if (exitInput.equals("Yes") || exitInput.equals("yes") || exitInput.equals("y")) {
+                if(exitInput.equals("Yes") || exitInput.equals("yes") || exitInput.equals("y")) {
                     return;
                 }
             }
@@ -632,7 +632,7 @@ public class CLISocketWeaponPrompt implements Serializable {
         socketOut.println(i);
         socketOut.println(lC.size());
         for(Colour c : lC)
-            socketOut.println(c.getAbbreviation());
+            socketOut.println(c.getColourId());
         socketOut.println(lP.size());
         for(String s1 : lP)
             socketOut.println(s1);
@@ -654,7 +654,7 @@ public class CLISocketWeaponPrompt implements Serializable {
         List<String> lP = new LinkedList<>();
         List<String> lPC = new LinkedList<>();
 
-        while (true) {
+        while(true) {
             System.out.println(ENTER_RELEVANT_STRING);
             lS = enterRelevantString(in);
 
@@ -674,7 +674,7 @@ public class CLISocketWeaponPrompt implements Serializable {
             socketOut.println(i);
             socketOut.println(lC.size());
             for(Colour c : lC)
-                socketOut.println(c.getAbbreviation());
+                socketOut.println(c.getColourId());
             socketOut.println(lP.size());
             for(String s1 : lP)
                 socketOut.println(s1);
@@ -684,13 +684,13 @@ public class CLISocketWeaponPrompt implements Serializable {
 
             String isValidSecondActionShoot = socketIn.nextLine();
 
-            if (isValidSecondActionShoot.equals("true"))
+            if(isValidSecondActionShoot.equals("true"))
                 break;
             else {
                 System.out.println(PROMPT_ERROR_RETRY);
                 System.out.println(EXIT + YES_PROMPT);
                 String exitInput = in.next();
-                if (exitInput.equals("Yes") || exitInput.equals("yes") || exitInput.equals("y")) {
+                if(exitInput.equals("Yes") || exitInput.equals("yes") || exitInput.equals("y")) {
                     return;
                 }
             }
@@ -709,7 +709,7 @@ public class CLISocketWeaponPrompt implements Serializable {
         socketOut.println(i);
         socketOut.println(lC.size());
         for(Colour c : lC)
-            socketOut.println(c.getAbbreviation());
+            socketOut.println(c.getColourId());
         socketOut.println(lP.size());
         for(String s1 : lP)
             socketOut.println(s1);
@@ -721,9 +721,9 @@ public class CLISocketWeaponPrompt implements Serializable {
     private List<Integer> enterEffect(Scanner in) {
         int effect;
         List<Integer> l = new LinkedList<>();
-        while (in.hasNextInt()) {
+        while(in.hasNextInt()) {
             effect = in.nextInt();
-            if (effect == 0)
+            if(effect == 0)
                 break;
             l.add(effect);
         }
@@ -733,9 +733,9 @@ public class CLISocketWeaponPrompt implements Serializable {
     private List<String> enterRelevantString(Scanner in) {
         String str;
         List<String> l = new LinkedList<>();
-        while (true) {
+        while(true) {
             str = in.nextLine();
-            if (str.equals("0")) {
+            if(str.equals("0")) {
                 break;
             } else
                 l.add(str);
@@ -746,9 +746,9 @@ public class CLISocketWeaponPrompt implements Serializable {
     private List<Colour> enterAmmoColour(Scanner in) {
         String colour;
         List<Colour> l = new LinkedList<>();
-        while (true) {
+        while(true) {
             colour = in.nextLine();
-            if (colour.equals("0")) {
+            if(colour.equals("0")) {
                 break;
             } else
                 l.add(Colour.valueOf(colour));
@@ -759,9 +759,9 @@ public class CLISocketWeaponPrompt implements Serializable {
     private List<String> enterPowerUp(Scanner in) {
         String pUC;
         List<String> l = new LinkedList<>();
-        while (true) {
+        while(true) {
             pUC = in.next();
-            if (pUC.equals("0")) {
+            if(pUC.equals("0")) {
                 break;
             } else
                 l.add(pUC);
@@ -772,9 +772,9 @@ public class CLISocketWeaponPrompt implements Serializable {
     private List<String> enterPowerUpColour(Scanner in) {
         String colour;
         List<String> l = new LinkedList<>();
-        while (true) {
+        while(true) {
             colour = in.next();
-            if (colour.equals("0")) {
+            if(colour.equals("0")) {
                 break;
             } else
                 l.add(colour);
@@ -784,7 +784,7 @@ public class CLISocketWeaponPrompt implements Serializable {
 
     private int enterAdrenalineDir(Scanner in) {
         int direction = in.nextInt();
-        while (direction < 0 || direction > 4 ) {
+        while(direction < 0 || direction > 4 ) {
             System.out.println("Make sure the direction is between 0 and 4");
             direction = in.nextInt();
         }

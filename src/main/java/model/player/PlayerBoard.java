@@ -34,7 +34,7 @@ public class PlayerBoard {
         this.points = points;
     }
 
-    boolean mIsEmpty(){
+    boolean mIsEmpty() {
         return this.marks.isEmpty();
     }
 
@@ -45,7 +45,7 @@ public class PlayerBoard {
     public void addMark(DamageToken d) {
         int i = 0;
         for(DamageToken dT : this.marks) {
-            if (d.getC().equals(dT.getC()))
+            if(d.getC().equals(dT.getC()))
                 i++;
             if(i == 3)
                 return;
@@ -54,7 +54,7 @@ public class PlayerBoard {
     }
 
     public void clearMark(Colour c) {
-        for(int i = this.marks.size() - 1; i >= 0 ; i--){
+        for(int i = this.marks.size() - 1; i >= 0 ; i--) {
             if(this.marks.get(i).getC() == c)
                 this.marks.remove(i);
         }

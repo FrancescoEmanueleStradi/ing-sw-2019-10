@@ -373,35 +373,35 @@ class GridAssertTests {
             e.printStackTrace();
         }
 
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 4; j++) {
+        for(int i = 0; i < 3; i++) {
+            for(int j = 0; j < 4; j++) {
                 assertNull(grid.getBoard().getArena()[i][j].getA());
             }
         }
 
         grid.setUpAmmoCard();
 
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 4; j++) {
-                if (grid.getBoard().getArena()[i][j].getStatus() == 0)
+        for(int i = 0; i < 3; i++) {
+            for(int j = 0; j < 4; j++) {
+                if(grid.getBoard().getArena()[i][j].getStatus() == 0)
                     assertNotNull(grid.getBoard().getArena()[i][j].getA());
             }
         }
 
         grid.getBoard().getArena()[0][0].setA(null);
 
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 4; j++) {
-                if (grid.getBoard().getArena()[i][j].getStatus() == 0 && i != 0 && j != 0)
+        for(int i = 0; i < 3; i++) {
+            for(int j = 0; j < 4; j++) {
+                if(grid.getBoard().getArena()[i][j].getStatus() == 0 && i != 0 && j != 0)
                     assertNotNull(grid.getBoard().getArena()[i][j].getA());
             }
         }
 
         grid.replaceAmmoCard();
 
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 4; j++) {
-                if (grid.getBoard().getArena()[i][j].getStatus() == 0)
+        for(int i = 0; i < 3; i++) {
+            for(int j = 0; j < 4; j++) {
+                if(grid.getBoard().getArena()[i][j].getStatus() == 0)
                     assertNotNull(grid.getBoard().getArena()[i][j].getA());
             }
         }

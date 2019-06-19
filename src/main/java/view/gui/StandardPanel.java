@@ -11,7 +11,7 @@ public class StandardPanel extends JPanel {
     private ServerInterface server;
     private int disconnected;
 
-    public StandardPanel(int game, ServerInterface server){
+    public StandardPanel(int game, ServerInterface server) {
         super();
         this.game = game;
         this.server = server;
@@ -22,7 +22,7 @@ public class StandardPanel extends JPanel {
     }
 
     @Override
-    public void paintComponent(Graphics g){
+    public void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.setColor(Color.green);
         g.fillRect(40,20, 140,40);

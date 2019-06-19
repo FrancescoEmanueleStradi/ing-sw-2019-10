@@ -1,17 +1,11 @@
 package network;
 
-import view.gui.GUI;
 import view.View;
-import view.cli.CLI;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.rmi.*;
 import java.util.Scanner;
-import java.util.Timer;
-import javax.naming.*;
 
 public class Client {
 
@@ -21,7 +15,7 @@ public class Client {
 
     private static Socket socket;
 
-    public static void main(String[] args) throws NamingException, RemoteException, AlreadyBoundException, NotBoundException, MalformedURLException, InterruptedException, UnknownHostException, IOException, ClassNotFoundException {
+    public static void main(String[] args) throws NotBoundException, InterruptedException, IOException, ClassNotFoundException {
 
         System.out.println("\n                    Welcome to");
         System.out.println("           A  D  R  E  N  A  L  I  N  E\n");

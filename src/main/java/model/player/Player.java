@@ -68,7 +68,7 @@ public class Player {
         this.turnFinalFrenzy = turnFinalFrenzy;
     }
 
-    public boolean checkAmmoCube(AmmoCube[] a){
+    public boolean checkAmmoCube(AmmoCube[] a) {
         List<AmmoCube> l2 = new ArrayList<>(Arrays.asList(a));          //this way the original array is not modified
 
         if(l2.isEmpty())
@@ -102,8 +102,8 @@ public class Player {
     }
 
     private void addNewACRED(AmmoCube ac) {
-        for (int i = 0; i < 3; i++) {
-            if (this.ammoCubes[i] == null) {
+        for(int i = 0; i < 3; i++) {
+            if(this.ammoCubes[i] == null) {
                 this.ammoCubes[i] = ac;
                 break;
             }
@@ -111,8 +111,8 @@ public class Player {
     }
 
     private void addNewACBLUE(AmmoCube ac) {
-        for (int i = 3; i < 6; i++) {
-            if (this.ammoCubes[i] == null) {
+        for(int i = 3; i < 6; i++) {
+            if(this.ammoCubes[i] == null) {
                 this.ammoCubes[i] = ac;
                 break;
             }
@@ -120,18 +120,18 @@ public class Player {
     }
 
     private void addNewACYELLOW(AmmoCube ac) {
-        for (int i = 6; i < 9; i++) {
-            if (this.ammoCubes[i] == null) {
+        for(int i = 6; i < 9; i++) {
+            if(this.ammoCubes[i] == null) {
                 this.ammoCubes[i] = ac;
                 break;
             }
         }
     }
 
-    private void removeAC(AmmoCube a){
+    private void removeAC(AmmoCube a) {
         int i = 0;
-        for(AmmoCube a1 : this.getAmmoCubes()){
-            if((a1 != null) && a1.getC().equals(a.getC())){
+        for(AmmoCube a1 : this.getAmmoCubes()) {
+            if((a1 != null) && a1.getC().equals(a.getC())) {
                 this.ammoCubes[i] = null;
                 return;
             }
@@ -139,18 +139,18 @@ public class Player {
         }
     }
 
-    public void removeArrayAC(AmmoCube[] a){
+    public void removeArrayAC(AmmoCube[] a) {
         for(AmmoCube a1 : a)
             removeAC(a1);
     }
 
-    public void payCard(List<AmmoCube> lA, List<PowerUpCard> lP){
+    public void payCard(List<AmmoCube> lA, List<PowerUpCard> lP) {
         if(!lA.isEmpty()) {
             for(AmmoCube a : lA)
                 this.removeAC(a);
         }
         if(!lP.isEmpty()) {
-            for (PowerUpCard p : lP)
+            for(PowerUpCard p : lP)
                 this.powerUpCards.remove(p);
         }
     }
@@ -159,16 +159,16 @@ public class Player {
         return weaponCards;
     }
 
-    public void addWeaponCard(WeaponCard w){
+    public void addWeaponCard(WeaponCard w) {
         this.weaponCards.add(w);
     }
 
-    public void removeWeaponCard(WeaponCard w){
+    public void removeWeaponCard(WeaponCard w) {
         this.weaponCards.remove(w);
     }
 
-    public WeaponCard getWeaponCardObject(String s){
-        for (WeaponCard w: this.weaponCards){
+    public WeaponCard getWeaponCardObject(String s) {
+        for(WeaponCard w: this.weaponCards) {
             if(w.getCardName().equals(s))
                 return w;
         }
@@ -179,23 +179,23 @@ public class Player {
         return powerUpCards;
     }
 
-    public void addPowerUpCard(PowerUpCard p){
+    public void addPowerUpCard(PowerUpCard p) {
         this.powerUpCards.add(p);
     }
 
-    public void removePowerUpCard(PowerUpCard p){
+    public void removePowerUpCard(PowerUpCard p) {
         this.powerUpCards.remove(p);
     }
 
-    public PowerUpCard getPowerUpCardObject(String s, Colour colour){
-        for (PowerUpCard p: this.powerUpCards){
+    public PowerUpCard getPowerUpCardObject(String s, Colour colour) {
+        for(PowerUpCard p: this.powerUpCards) {
             if(p.getCardName().equals(s) && p.getC().equals(colour))
                 return p;
         }
         return null;
     }
 
-    public void changeCell(Cell c){
+    public void changeCell(Cell c) {
         if(c != null && c.getStatus() != -1)
             this.cell = c;
         else if(c == null)
@@ -214,11 +214,11 @@ public class Player {
         return (this.playerBoard.getDamage().getDamageTokens()[5]!=null);
     }
 
-    public boolean isDead(){
+    public boolean isDead() {
         return (this.playerBoard.getDamage().getDamageTokens()[10]!=null);
     }
 
-    public boolean isOverkilled(){
+    public boolean isOverkilled() {
         return (this.playerBoard.getDamage().getDamageTokens()[11]!=null);
     }
 }

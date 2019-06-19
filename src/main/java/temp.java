@@ -3,7 +3,7 @@
     /*@Override
     public void askNameAndColour() {
         Scanner in = new Scanner(System.in);
-        if (this.game.gameIsNotStarted()) {
+        if(this.game.gameIsNotStarted()) {
             System.out.println("Enter your name:");
             this.nickName = in.nextLine();
             System.out.println("Enter your colour (YELLOW, BLUE, GREEN, PURPLE, BLACK):");
@@ -12,7 +12,7 @@
             this.game.gameStart(nickName, colour);
             System.out.println("Choose the type of arena (1, 2, 3, 4):");
             int type = in.nextInt();
-            while(!this.game.isValidReceiveType(type)){
+            while(!this.game.isValidReceiveType(type)) {
                 System.out.println("Error: retry");
                 System.out.println("Choose the type of arena (1, 2, 3, 4):");
                 type = in.nextInt();
@@ -27,7 +27,7 @@
         System.out.println("Enter your colour:");
         String stringColour = in.nextLine();
         this.colour = Colour.valueOf(stringColour);
-        while(!this.game.isValidAddPlayer(this.nickName, this.colour)){
+        while(!this.game.isValidAddPlayer(this.nickName, this.colour)) {
             System.out.println("Error: retry");
             System.out.println("Enter your name:");
             this.nickName = in.nextLine();
@@ -42,7 +42,7 @@
     public void selectSpawnPoint() {
         Scanner in = new Scanner(System.in);
         List<PowerUpCard> l = new LinkedList<>();
-        for(PowerUpCard p : this.game.giveTwoPUCard(this.nickName)){
+        for(PowerUpCard p : this.game.giveTwoPUCard(this.nickName)) {
             System.out.println(p.getCardName());
             l.add(p);
         }
@@ -68,7 +68,7 @@
         System.out.println("---------START FIRST ACTION---------");
         System.out.println("Choose the action you want to do (Move, Shoot, Grab):");
         String action = in.nextLine();
-        while (!(action.equals("Move") || action.equals("Shoot") || action.equals("Grab"))){
+        while(!(action.equals("Move") || action.equals("Shoot") || action.equals("Grab"))) {
             System.out.println("Choose the action you want to do (Move, Shoot, Grab):");
             action = in.nextLine();
         }
@@ -85,7 +85,7 @@
         List<Integer> l = new LinkedList<>();
         while(!this.game.isValidFirstActionMove(l)) {
             System.out.println("Choose the sequence of movement you want to do");
-            while (in.hasNext())
+            while(in.hasNext())
                 l.add(in.nextInt());
         }
         this.game.firstActionMove(this.nickName, l);
@@ -96,7 +96,7 @@
         System.out.println("Choose one of these cards to shoot:");
         this.game.getPlayerWeaponCardLoaded(this.nickName).stream().forEach(System.out::println);
         String s = in.next();
-        while(!this.game.isValidCard(nickName, s)){
+        while(!this.game.isValidCard(nickName, s)) {
             System.out.println("Error: choose one of these cards to shoot:");
             this.game.getPlayerWeaponCardLoaded(this.nickName).stream().forEach(System.out::println);
             s = in.next();
@@ -104,7 +104,7 @@
         System.out.println(this.game.getPlayerReloadCost(s, nickName));
         System.out.println(this.game.getPlayerDescriptionWC(s,nickName));
 
-        switch(s){
+        switch(s) {
             case "Cyberblade":
                 wPrompt.shootToUser1(game, nickName);
                 break;
@@ -200,7 +200,7 @@
         String wCard;
         String weaponSlot = null;
         System.out.println("Enter the direction(s) where you want to move, or 0 if you want to remain in your cell:");
-        while (in.hasNext())
+        while(in.hasNext())
             l.add(in.nextInt());
         System.out.println("Enter the WeaponCard you want to buy, if you want:");
         wCard = in.next();
@@ -208,16 +208,16 @@
             System.out.println("Enter the number of the WeaponSlot from which you want to buy the card:");
             weaponSlot = in.next();
             System.out.println("Enter the colour(s) of the required AmmoCube(s) to buy the card, if necessary");
-            while ((in.hasNext()))
+            while((in.hasNext()))
                 lC.add(Colour.valueOf(in.next()));
             System.out.println("Enter the PowerUpCard you want to use for paying during your turn:");
-            while ((in.hasNext()))
+            while((in.hasNext()))
                 lP.add(in.next());
         }
-        while (!this.game.isValidFirstActionGrab(nickName, l.toArray(directions), wCard, weaponSlot, lC, lP)){
+        while(!this.game.isValidFirstActionGrab(nickName, l.toArray(directions), wCard, weaponSlot, lC, lP)) {
             System.out.println("Error: retry");
             System.out.println("Enter the direction(s) where you want to move");
-            while (in.hasNext())
+            while(in.hasNext())
                 l.add(in.nextInt());
             System.out.println("Enter the WeaponCard you want to buy, if you want:");
             wCard = in.next();
@@ -225,10 +225,10 @@
                 System.out.println("Enter the number of the WeaponSlot from which you want to buy the card:");
                 weaponSlot = in.next();
                 System.out.println("Enter the colour(s) of the required AmmoCube(s) to buy the card, if necessary");
-                while ((in.hasNext()))
+                while((in.hasNext()))
                     lC.add(Colour.valueOf(in.next()));
                 System.out.println("Enter the PowerUpCard you want to use for paying during your turn:");
-                while ((in.hasNext()))
+                while((in.hasNext()))
                     lP.add(in.next());
             }
         }
@@ -246,7 +246,7 @@
         Scanner in = new Scanner(System.in);
         System.out.println("Choose the action you want to do (Move, Shoot, Grab):");
         String action = in.nextLine();
-        while (!(action.equals("Move") || action.equals("Shoot") || action.equals("Grab"))){
+        while(!(action.equals("Move") || action.equals("Shoot") || action.equals("Grab"))) {
             System.out.println("Choose the action you want to do (Move, Shoot, Grab):");
             action = in.nextLine();
         }
@@ -263,7 +263,7 @@
         List<Integer> l = new LinkedList<>();
         while(!this.game.isValidSecondActionMove(l)) {
             System.out.println("Choose the sequence of movement you want to do");
-            while (in.hasNext())
+            while(in.hasNext())
                 l.add(in.nextInt());
         }
         this.game.secondActionMove(this.nickName, l);
@@ -274,7 +274,7 @@
         System.out.println("Choose one of these cards to shoot: ");
         this.game.getPlayerWeaponCardLoaded(this.nickName).stream().forEach(System.out::println);
         String s = in.next();
-        while(!this.game.isValidCard(nickName, s)){
+        while(!this.game.isValidCard(nickName, s)) {
             System.out.println("Error: choose one of these cards to shoot: ");
             this.game.getPlayerWeaponCardLoaded(this.nickName).stream().forEach(System.out::println);
             s = in.next();
@@ -378,7 +378,7 @@
         String wCard;
         String weaponSlot = null;
         System.out.println("Enter the direction(s) where you want to move, or 0 if you want to remain in your cell:");
-        while (in.hasNext())
+        while(in.hasNext())
             l.add(in.nextInt());
         System.out.println("Enter the WeaponCard you want to buy, if you want:");
         wCard = in.next();
@@ -386,16 +386,16 @@
             System.out.println("Enter the number of the WeaponSlot from which you want to buy the card:");
             weaponSlot = in.next();
             System.out.println("Enter the colour(s) of the required AmmoCube(s) to buy the card, if necessary:");
-            while ((in.hasNext()))
+            while((in.hasNext()))
                 lC.add(Colour.valueOf(in.next()));
             System.out.println("Enter the PowerUpCard you want to use for paying during your turn:");
-            while ((in.hasNext()))
+            while((in.hasNext()))
                 lP.add(in.next());
         }
-        while (!this.game.isValidSecondActionGrab(nickName, l.toArray(directions), wCard, weaponSlot, lC, lP)){
+        while(!this.game.isValidSecondActionGrab(nickName, l.toArray(directions), wCard, weaponSlot, lC, lP)) {
             System.out.println("Error: repeat");
             System.out.println("Enter the direction(s) where you want to move, or 0 if you want to remain in your cell:");
-            while (in.hasNext())
+            while(in.hasNext())
                 l.add(in.nextInt());
             System.out.println("Write the Weapon card you want to buy, if you want:");
             wCard = in.next();
@@ -403,10 +403,10 @@
                 System.out.println("Write the number of the WeaponSlot from which you want to buy the card:");
                 weaponSlot = in.next();
                 System.out.println("Enter the colour(s) of the required AmmoCube(s) to buy the card, if necessary:");
-                while ((in.hasNext()))
+                while((in.hasNext()))
                     lC.add(Colour.valueOf(in.next()));
                 System.out.println("Enter the PowerUpCard you want to use for paying during your turn:");
-                while ((in.hasNext()))
+                while((in.hasNext()))
                     lP.add(in.next());
             }
         }
@@ -419,7 +419,7 @@
     }
 
     @Override
-    public boolean doYouWantToUsePUC(){
+    public boolean doYouWantToUsePUC() {
         Scanner in = new Scanner(System.in);
         System.out.println("Do you want to use the power up card now?");
         return (in.next().equals("Yes") || in.next().equals("yes"));
@@ -434,11 +434,11 @@
         this.game.getPlayerPowerUpCard(nickName).stream().forEach(System.out::println);
         namePC = in.next();
         this.game.getPlayerDescriptionPUC(namePC, nickName);
-        switch (namePC){
+        switch (namePC) {
             case "Tagback Grenade":
                 System.out.println("Enter the nickname of a player you can see and that gave you damage:");
                 lS.add(in.next());
-                while(!this.game.isValidUsePowerUpCard(nickName, namePC, lS, null)){
+                while(!this.game.isValidUsePowerUpCard(nickName, namePC, lS, null)) {
                     System.out.println("Error: retry");
                     System.out.println("Enter the nickname of a player you can see and that gave you damage:");
                     lS.add(in.next());
@@ -452,7 +452,7 @@
                     lS.add(in.next());
                 System.out.println("Enter the colour of the AmmoCube you want to use to pay:");
                 Colour c = Colour.valueOf(in.next());
-                while(!this.game.isValidUsePowerUpCard(nickName, namePC, lS, c)){
+                while(!this.game.isValidUsePowerUpCard(nickName, namePC, lS, c)) {
                     System.out.println("Error: retry");
                     System.out.println("Enter the nickname of one or more players you have damaged:");
                     while(in.hasNext())
@@ -469,7 +469,7 @@
                 System.out.println("Enter the direction(s) where you want the enemy to go:");
                 while(in.hasNext())
                     lS.add(in.next());
-                while(!this.game.isValidUsePowerUpCard(nickName, namePC, lS, null)){
+                while(!this.game.isValidUsePowerUpCard(nickName, namePC, lS, null)) {
                     System.out.println("Error: retryt");
                     System.out.println("Enter the nickname of a player:");
                     lS.add(in.next());
@@ -501,7 +501,7 @@
         Scanner in = new Scanner(System.in);
         this.game.getPlayerWeaponCardUnloaded(this.nickName).stream().forEach(System.out::println);
         int i = 0;
-        while(i == 0){
+        while(i == 0) {
             System.out.println("Choose the weapon card you want to reload");
             String s = in.nextLine();
             System.out.println("Enter 0 if you want to reload another card, otherwise 1");
@@ -527,7 +527,7 @@
             System.out.println("Enter the PowerUp card you want to discard:");
             Scanner in = new Scanner(System.in);
             String s = in.nextLine();
-            while(!this.game.isValidDiscardCardForSpawnPoint()){
+            while(!this.game.isValidDiscardCardForSpawnPoint()) {
                 System.out.println("Enter the PowerUp card you want to discard:");
                 s = in.nextLine();
             }
@@ -547,26 +547,26 @@
 
 
     @Override
-    public void finalFrenzyTurn(){
+    public void finalFrenzyTurn() {
         Scanner in = new Scanner(System.in);
         List<String> l = new LinkedList<>();
         System.out.println("This is the final turn. final frenzy mode:\nchoose the moves you want to do according to the fact you are before or after the player who started the game");
-        while (in.hasNext())
+        while(in.hasNext())
             l.add(in.next());
-        while(!this.game.isValidFinalFrenzyAction(nickName, l)){
+        while(!this.game.isValidFinalFrenzyAction(nickName, l)) {
             System.out.println("Error: repeat");
             System.out.println("This is the final turn. final frenzy mode:\nchoose the moves you want to do according to the fact you are before or after the player who started the game");
-            while (in.hasNext())
+            while(in.hasNext())
                 l.add(in.next());
         }
-        for(String s : l){
+        for(String s : l) {
             switch (s) {
                 case "1":
                     System.out.println("write the direction you want to move");
                     int i = in.nextInt();
                     System.out.println("Write the card(s) you want to reload:"+this.game.getPlayerWeaponCardUnloaded(nickName));
                     List<String> lW = new LinkedList<>();
-                    while (in.hasNext())
+                    while(in.hasNext())
                         lW.add(in.next());
                     System.out.println("Write the card you want to use:"+this.game.getPlayerWeaponCard(nickName));
                     String wC = in.next();
@@ -575,39 +575,39 @@
                     List<Colour> lC = new LinkedList<>();
                     List<String> lP = new LinkedList<>();
                     System.out.println("Enter the number of the effect you want to use:");
-                    while (in.hasNext())
+                    while(in.hasNext())
                         lI.add(in.nextInt());
                     System.out.println("Enter the relevant strings for the card:");
-                    while (in.hasNext())
+                    while(in.hasNext())
                         lS.add(in.next());
                     System.out.println("Enter the colour(s) of the required AmmoCube(s) needed for the effect:");
-                    while (in.hasNext())
+                    while(in.hasNext())
                         lC.add(Colour.valueOf(in.next()));
                     game.getPlayerPowerUpCard(nickName).stream().forEach(System.out::println);
                     System.out.println("Enter the PowerUpCard you want to use for paying during your turn:");
-                    while (in.hasNext())
+                    while(in.hasNext())
                         lP.add(in.next());
-                    while(!this.game.isValidFinalFrenzyAction1(nickName, i, wC, lI, lS, lC, lP)){
+                    while(!this.game.isValidFinalFrenzyAction1(nickName, i, wC, lI, lS, lC, lP)) {
                         System.out.println("Error: repeat");
                         System.out.println("write the direction you want to move");
                         i = in.nextInt();
                         System.out.println("Write the card(s) you want to reload:"+this.game.getPlayerWeaponCardUnloaded(nickName));
-                        while (in.hasNext())
+                        while(in.hasNext())
                             lW.add(in.next());
                         System.out.println("Write the card you want to use:"+this.game.getPlayerWeaponCard(nickName));
                         wC = in.next();
                         System.out.println("Enter the number of the effect you want to use:");
-                        while (in.hasNext())
+                        while(in.hasNext())
                             lI.add(in.nextInt());
                         System.out.println("Enter the relevant strings for the card:");
-                        while (in.hasNext())
+                        while(in.hasNext())
                             lS.add(in.next());
                         System.out.println("Enter the colour(s) of the required AmmoCube(s) needed for the effect:");
-                        while (in.hasNext())
+                        while(in.hasNext())
                             lC.add(Colour.valueOf(in.next()));
                         game.getPlayerPowerUpCard(nickName).stream().forEach(System.out::println);
                         System.out.println("Enter the PowerUpCard you want to use for paying during your turn:");
-                        while (in.hasNext())
+                        while(in.hasNext())
                             lP.add(in.next());
                     }
                     this.game.finalFrenzyAction1(nickName, i, lW, wC, lI, lS, lC, lP);
@@ -621,7 +621,7 @@
                      while(!this.game.isValidFinalFrenzyAction2(nickName, list)) {
                          System.out.println("Error: repeat");
                          System.out.println("write the direction(s) you want to move");
-                         while (in.hasNext())
+                         while(in.hasNext())
                              list.add(in.nextInt());
                      }
                      this.game.finalFrenzyAction2(nickName, list);
@@ -642,13 +642,13 @@
                         System.out.println("Enter the number of the WeaponSlot from which you want to buy the card:");
                         weaponSlot = in.next();
                         System.out.println("Enter the colour(s) of the required AmmoCube(s) to buy the card, if necessary:");
-                        while ((in.hasNext()))
+                        while((in.hasNext()))
                             lC2.add(Colour.valueOf(in.next()));
                         System.out.println("Enter the PowerUpCard you want to use for paying during your turn:");
-                        while ((in.hasNext()))
+                        while((in.hasNext()))
                             lP2.add(in.next());
                     }
-                    while(!this.game.isValidFinalFrenzyAction3(nickName, list2, wCard, weaponSlot, lC2, lP2)){
+                    while(!this.game.isValidFinalFrenzyAction3(nickName, list2, wCard, weaponSlot, lC2, lP2)) {
                         System.out.println("Error: repeat");
                         System.out.println("write the direction(s) you want to move");
                         while(in.hasNext())
@@ -659,10 +659,10 @@
                             System.out.println("Enter the number of the WeaponSlot from which you want to buy the card:");
                             weaponSlot = in.next();
                             System.out.println("Enter the colour(s) of the required AmmoCube(s) to buy the card, if necessary:");
-                            while ((in.hasNext()))
+                            while((in.hasNext()))
                                 lC2.add(Colour.valueOf(in.next()));
                             System.out.println("Enter the PowerUpCard you want to use for paying during your turn:");
-                            while ((in.hasNext()))
+                            while((in.hasNext()))
                                 lP2.add(in.next());
                         }
                     }
@@ -676,7 +676,7 @@
                         list3.add(in.nextInt());
                     System.out.println("Write the card(s) you want to reload:"+this.game.getPlayerWeaponCardUnloaded(nickName));
                     List<String> lW2 = new LinkedList<>();
-                    while (in.hasNext())
+                    while(in.hasNext())
                         lW2.add(in.next());
                     System.out.println("Write the card you want to use:"+this.game.getPlayerWeaponCard(nickName));
                     String wC2 = in.next();
@@ -685,40 +685,40 @@
                     List<Colour> lC3 = new LinkedList<>();
                     List<String> lP3 = new LinkedList<>();
                     System.out.println("Enter the number of the effect you want to use:");
-                    while (in.hasNext())
+                    while(in.hasNext())
                         lI2.add(in.nextInt());
                     System.out.println("Enter the relevant strings for the card:");
-                    while (in.hasNext())
+                    while(in.hasNext())
                         lS2.add(in.next());
                     System.out.println("Enter the colour(s) of the required AmmoCube(s) needed for the effect:");
-                    while (in.hasNext())
+                    while(in.hasNext())
                         lC3.add(Colour.valueOf(in.next()));
                     game.getPlayerPowerUpCard(nickName).stream().forEach(System.out::println);
                     System.out.println("Enter the PowerUpCard you want to use for paying during your turn:");
-                    while (in.hasNext())
+                    while(in.hasNext())
                         lP3.add(in.next());
                     while(!this.game.isValidFinalFrenzyAction4(nickName, list3, wC2, lI2, lS2, lC3, lP3)) {
                         System.out.println("Error: repeat");
                         System.out.println("write the direction(s) you want to move");
-                        while (in.hasNext())
+                        while(in.hasNext())
                             list3.add(in.nextInt());
                         System.out.println("Write the card(s) you want to reload:" + this.game.getPlayerWeaponCardUnloaded(nickName));
-                        while (in.hasNext())
+                        while(in.hasNext())
                             lW2.add(in.next());
                         System.out.println("Write the card you want to use:" + this.game.getPlayerWeaponCard(nickName));
                         wC2 = in.next();
                         System.out.println("Enter the number of the effect you want to use:");
-                        while (in.hasNext())
+                        while(in.hasNext())
                             lI2.add(in.nextInt());
                         System.out.println("Enter the relevant strings for the card:");
-                        while (in.hasNext())
+                        while(in.hasNext())
                             lS2.add(in.next());
                         System.out.println("Enter the colour(s) of the required AmmoCube(s) needed for the effect:");
-                        while (in.hasNext())
+                        while(in.hasNext())
                             lC3.add(Colour.valueOf(in.next()));
                         game.getPlayerPowerUpCard(nickName).stream().forEach(System.out::println);
                         System.out.println("Enter the PowerUpCard you want to use for paying during your turn:");
-                        while (in.hasNext())
+                        while(in.hasNext())
                             lP3.add(in.next());
                     }
                     this.game.finalFrenzyAction4(nickName, list3, lW2, wC2, lI2, lS2, lC3, lP3);
@@ -738,13 +738,13 @@
                         System.out.println("Enter the number of the WeaponSlot from which you want to buy the card:");
                         weaponSlot = in.next();
                         System.out.println("Enter the colour(s) of the required AmmoCube(s) to buy the card, if necessary:");
-                        while ((in.hasNext()))
+                        while((in.hasNext()))
                             lC4.add(Colour.valueOf(in.next()));
                         System.out.println("Enter the PowerUpCard you want to use for paying during your turn:");
-                        while ((in.hasNext()))
+                        while((in.hasNext()))
                             lP4.add(in.next());
                     }
-                    while(!this.game.isValidFinalFrenzyAction5(nickName, list4, wCard, weaponSlot, lC4, lP4)){
+                    while(!this.game.isValidFinalFrenzyAction5(nickName, list4, wCard, weaponSlot, lC4, lP4)) {
                         System.out.println("Error: repeat");
                         System.out.println("write the direction(s) you want to move");
                         while(in.hasNext())
@@ -755,10 +755,10 @@
                             System.out.println("Enter the number of the WeaponSlot from which you want to buy the card:");
                             weaponSlot = in.next();
                             System.out.println("Enter the colour(s) of the required AmmoCube(s) to buy the card, if necessary:");
-                            while ((in.hasNext()))
+                            while((in.hasNext()))
                                 lC4.add(Colour.valueOf(in.next()));
                             System.out.println("Enter the PowerUpCard you want to use for paying during your turn:");
-                            while ((in.hasNext()))
+                            while((in.hasNext()))
                                 lP4.add(in.next());
                         }
                     }
@@ -770,13 +770,13 @@
     }
 
     @Override
-    public void endFinalFrenzy(){
+    public void endFinalFrenzy() {
         this.game.endTurnFinalFrenzy();
         System.out.println("We are calculating the result");
     }
 
     @Override
-    public void finalScoring(){
+    public void finalScoring() {
         this.game.finalScoring();
         System.out.println("FINAL SCORE");
         this.game.getPlayers().stream().forEach(System.out::print);
@@ -789,43 +789,43 @@
 */
 
     //Server
-    /*public void messageAskNameAndColour(int game, int identifier) throws RemoteException{        // just a doubt, does view print on the right terminal?
+    /*public void messageAskNameAndColour(int game, int identifier) throws RemoteException {        // just a doubt, does view print on the right terminal?
         views.get(game).get(identifier).askNameAndColour();
     }
-    public void messageSelectSpawnPoint(int game, int identifier)throws RemoteException{
+    public void messageSelectSpawnPoint(int game, int identifier)throws RemoteException {
         views.get(game).get(identifier).selectSpawnPoint();
     }
-    public boolean messageDoYouWantToUsePUC(int game, int identifier)throws RemoteException{
+    public boolean messageDoYouWantToUsePUC(int game, int identifier)throws RemoteException {
         return views.get(game).get(identifier).doYouWantToUsePUC();
     }
-    public void messageUsePowerUpCard(int game, int identifier)throws RemoteException{
+    public void messageUsePowerUpCard(int game, int identifier)throws RemoteException {
         views.get(game).get(identifier).usePowerUpCard();
     }
-    public void messageAction1(int game, int identifier)throws RemoteException{
+    public void messageAction1(int game, int identifier)throws RemoteException {
         views.get(game).get(identifier).action1();
     }
-    public void messageAction2(int game, int identifier)throws RemoteException{
+    public void messageAction2(int game, int identifier)throws RemoteException {
         views.get(game).get(identifier).action2();
     }
-    public void messageReload(int game, int identifier)throws RemoteException{
+    public void messageReload(int game, int identifier)throws RemoteException {
         views.get(game).get(identifier).reload();
     }
-    public void messageScoring(int game, int identifier)throws RemoteException{
+    public void messageScoring(int game, int identifier)throws RemoteException {
         views.get(game).get(identifier).scoring();
     }
-    public void messageNewSpawnPoint(int game, int identifier)throws RemoteException{
+    public void messageNewSpawnPoint(int game, int identifier)throws RemoteException {
         views.get(game).get(identifier).newSpawnPoint();
     }
-    public void messageReplace(int game, int identifier)throws RemoteException{
+    public void messageReplace(int game, int identifier)throws RemoteException {
         views.get(game).get(identifier).replace();
     }
-    public void messageFinalFrenzyTurn(int game, int identifier)throws RemoteException{
+    public void messageFinalFrenzyTurn(int game, int identifier)throws RemoteException {
         views.get(game).get(identifier).finalFrenzyTurn();
     }
-    public void messageEndFinalFrenzy(int game, int identifier)throws RemoteException{
+    public void messageEndFinalFrenzy(int game, int identifier)throws RemoteException {
         views.get(game).get(identifier).endFinalFrenzy();
     }
-    public void messageFinalScoring(int game, int identifier)throws RemoteException{
+    public void messageFinalScoring(int game, int identifier)throws RemoteException {
         views.get(game).get(identifier).finalScoring();
     }*/
 

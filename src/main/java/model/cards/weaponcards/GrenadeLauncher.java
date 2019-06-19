@@ -29,13 +29,13 @@ public class GrenadeLauncher extends WeaponCard {
 
     //after primary effect: ask player p if he wants to move the attacked player p1 one cell, and in which direction (click on cell and from that we get the direction?)
 
-    public void moveEnemy(Grid grid, Player p1, int direction) throws RemoteException{    //right after the primary effect
+    public void moveEnemy(Grid grid, Player p1, int direction) throws RemoteException {    //right after the primary effect
         grid.move(p1, direction);
     }
 
     //before: let the player p choose a Cell cell he can see. PLAYER CAN DO THIS BEFORE OR AFTER THE BASIC EFFECT!
 
-    public void applySpecialEffect(Grid grid, Player p, String x, String y) throws RemoteException{  //Extra Grenade: player p deals 1 damage to every enemy on the selected Cell cell
+    public void applySpecialEffect(Grid grid, Player p, String x, String y) throws RemoteException {  //Extra Grenade: player p deals 1 damage to every enemy on the selected Cell cell
         for(Player enemy : grid.getPlayers()) {
             if(enemy.getCell().getPos().getX() == Integer.parseInt(x) && enemy.getCell().getPos().getY() == Integer.parseInt(y) && enemy != p)
                 grid.damage(p, enemy, 1);

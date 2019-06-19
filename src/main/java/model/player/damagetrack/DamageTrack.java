@@ -8,7 +8,8 @@ import java.util.List;
 
 public class DamageTrack {
 
-    private DamageToken[] damageTokens;                  //0,1 Normal -- 2,3,4 first power up -- 5,6,7,8,9 second power up -- 10 death -- 11 mark
+    //0,1 Normal -- 2,3,4 first power up -- 5,6,7,8,9 second power up -- 10 death -- 11 mark
+    private DamageToken[] damageTokens;
     private List<NumColour> l;
 
     public DamageTrack() {
@@ -35,14 +36,12 @@ public class DamageTrack {
     }
 
     public void clean() {
-        for(int i=0; i<12; i++){
+        for(int i=0; i<12; i++) {
             damageTokens[i] = null;
         }
     }
 
-//-------------------------------------------------------------------------------------------------------
-
-    public Colour getColourPosition(int n){
+    public Colour getColourPosition(int n) {
         return scoreBoard().get(n);
     }
 
@@ -56,7 +55,7 @@ public class DamageTrack {
 
     private void listNumColour() {
         this.initializeListNumColour();
-        for(DamageToken d : this.damageTokens){
+        for(DamageToken d : this.damageTokens) {
             if(d != null)
                 giveNumColour(d.getC()).addNum();
         }
@@ -70,7 +69,7 @@ public class DamageTrack {
 
     private void initializeListNumColour() {
         this.l = new LinkedList<>();
-        for(Colour c : this.colours()){
+        for(Colour c : this.colours()) {
             NumColour num = new NumColour(c);
             this.l.add(num);
         }
@@ -78,7 +77,7 @@ public class DamageTrack {
 
     private NumColour giveNumColour(Colour c) {
         NumColour nullColour = new NumColour(null);
-        for(NumColour n : this.l){
+        for(NumColour n : this.l) {
             if(n.getC().equals(c))
                 return n;
         }
@@ -87,7 +86,7 @@ public class DamageTrack {
 
     private List<Colour> colours() {
         LinkedList<Colour> lC = new LinkedList<>();
-        for(DamageToken d : this.damageTokens){
+        for(DamageToken d : this.damageTokens) {
             if(d != null && !lC.contains(d.getC()))
                 lC.add(d.getC());
         }
@@ -95,9 +94,9 @@ public class DamageTrack {
     }
 
     private void tie() {
-        for(int i = 0; i < this.l.size()-1; i++){
-            for(int j = i+1; j < this.l.size() ; j++){
-                if(this.l.get(i).getNum() == this.l.get(j).getNum()){
+        for(int i = 0; i < this.l.size()-1; i++) {
+            for(int j = i+1; j < this.l.size() ; j++) {
+                if(this.l.get(i).getNum() == this.l.get(j).getNum()) {
                     this.l.get(i).setTie(true);
                     if(!(this.l.get(i).getcTie().contains(this.l.get(j).getC())))
                         this.l.get(i).getcTie().add(this.l.get(j).getC());

@@ -24,11 +24,11 @@ public class RMIProcesses {
         System.out.println("Are you an old player of this game?");
         String n = in.next();
 
-        if(n.equals("yes") || n.equals("Yes") || n.equals("YES")){
+        if(n.equals("yes") || n.equals("Yes") || n.equals("YES")) {
             System.out.println("Enter you old identifier:");
             identifier = in.nextInt();
 
-            while(!centralServer.isASuspendedIdentifier(game, identifier)){
+            while(!centralServer.isASuspendedIdentifier(game, identifier)) {
                 System.out.println("We couldn't find your identifier, please try again.\nEnter you old identifier:");
                 identifier = in.nextInt();
             }
@@ -64,7 +64,7 @@ public class RMIProcesses {
         }
 
         else {
-            while (centralServer.tooMany(game)) {
+            while(centralServer.tooMany(game)) {
                 System.out.println("Too many people on this game, please choose another one:");
                 game = in.nextInt() - 1;
             }
@@ -76,8 +76,8 @@ public class RMIProcesses {
             identifier = centralServer.receiveIdentifier(game);
             centralServer.mergeGroup(game);
 
-            while (true) {
-                if (centralServer.canStart(game))
+            while(true) {
+                if(centralServer.canStart(game))
                     break;
             }
 
@@ -113,16 +113,16 @@ public class RMIProcesses {
         }
 
         try {
-            while (true) {
+            while(true) {
 
-                if (centralServer.stopGame(game))
+                if(centralServer.stopGame(game))
                     break;
 
-                if (centralServer.isMyTurn(game, identifier)) {
+                if(centralServer.isMyTurn(game, identifier)) {
 
-                    if (centralServer.isNotFinalFrenzy(game)) {
+                    if(centralServer.isNotFinalFrenzy(game)) {
 
-                        if (view.doYouWantToUsePUC()) {
+                        if(view.doYouWantToUsePUC()) {
                             MyTask task = new MyTask(game, identifier, view.getNickName(), centralServer);
                             Timer timer = new Timer();
                             timer.schedule(task, 150000);
@@ -136,7 +136,7 @@ public class RMIProcesses {
                         view.action1();
                         timer2.cancel();
 
-                        if (view.doYouWantToUsePUC()) {
+                        if(view.doYouWantToUsePUC()) {
                             MyTask task3 = new MyTask(game, identifier, view.getNickName(), centralServer);
                             Timer timer3 = new Timer();
                             timer3.schedule(task3, 150000);
@@ -150,7 +150,7 @@ public class RMIProcesses {
                         view.action2();
                         timer4.cancel();
 
-                        if (view.doYouWantToUsePUC()) {
+                        if(view.doYouWantToUsePUC()) {
                             MyTask task5 = new MyTask(game, identifier, view.getNickName(), centralServer);
                             Timer timer5 = new Timer();
                             timer5.schedule(task5, 150000);
@@ -164,12 +164,12 @@ public class RMIProcesses {
 
                         centralServer.finishTurn(game);
 
-                        if (centralServer.stopGame(game))
+                        if(centralServer.stopGame(game))
                             break;
 
                     } else {
 
-                        if (centralServer.stopGame(game))
+                        if(centralServer.stopGame(game))
                             break;
 
                         centralServer.setFinalTurn(game, identifier, view.getNickName());
@@ -182,7 +182,7 @@ public class RMIProcesses {
 
                         centralServer.finishTurn(game);
 
-                        if (centralServer.stopGame(game))
+                        if(centralServer.stopGame(game))
                             break;
 
                     }
@@ -199,7 +199,7 @@ public class RMIProcesses {
             view.finalScoring();
             System.exit(0);
 
-        } catch (RemoteException e){
+        } catch (RemoteException e) {
             //we inserted it here to manage a possible problem during the first part of the game
             centralServer.manageDisconnection(game, identifier, view.getNickName());
             centralServer.finishTurn(game);

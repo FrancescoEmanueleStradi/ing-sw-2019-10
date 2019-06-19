@@ -153,7 +153,7 @@ public class Grab1 extends JPanel {
             List<String> powerUpColours = server.messageGetPowerUpCardColour(game, nickName);
 
             List<JCheckBox> powerUpBoxes = new LinkedList<>();
-            if (!powerUps.isEmpty()) {
+            if(!powerUps.isEmpty()) {
                 add(new JLabel("Choose a PowerUpCard/s to pay with if necessary")).doLayout();
                 for(int i = 0; i < powerUps.size(); i++) {
                     powerUpBoxes.add(new JCheckBox(cardLink.getImageIconFromName(powerUps.get(i), powerUpColours.get(i))));
@@ -209,17 +209,17 @@ public class Grab1 extends JPanel {
         public void actionPerformed(ActionEvent e) {
             JCheckBox checked = (JCheckBox)e.getSource();
             ImageIcon power = (ImageIcon)checked.getIcon();
-            if (!checked.isSelected()) {
+            if(!checked.isSelected()) {
                 checked.setSelected(false);
                 lP.remove(cardLink.getNamefromImageIcon(power));
                 lPC.remove(cardLink.getColourfromImageIcon(power));
             }
-            else if (checked.isSelected()) {
+            else if(checked.isSelected()) {
                 checked.setSelected(true);
                 lP.add(cardLink.getNamefromImageIcon(power));
                 lPC.add(cardLink.getColourfromImageIcon(power));
             }
-            if (!finalConfirm.isEnabled())
+            if(!finalConfirm.isEnabled())
                 finalConfirm.setEnabled(true);
         }
     }

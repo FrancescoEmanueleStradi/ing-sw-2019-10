@@ -10,7 +10,7 @@ public class CardLinkList {
 
     private List<CardLink> cards;
 
-    public CardLinkList(){
+    public CardLinkList() {
         cards = new LinkedList<>();
         cards.add(new CardLink("BlackPlayerBoard", null, new ImageIcon("Images/BlackPlayerBoard.png")));
         cards.add(new CardLink("BlackPlayerBoardFF", null, new ImageIcon("Images/BlackPlayerBoardFF.png")));
@@ -74,31 +74,31 @@ public class CardLinkList {
     }
 
 
-    public List<ImageIcon> getImageIconFromName(List<String> cardName, List<String> cardColour){
+    public List<ImageIcon> getImageIconFromName(List<String> cardName, List<String> cardColour) {
         List<ImageIcon> l = new LinkedList<>();
         for(int i = 0; i < cardName.size(); i++) {
-            for (CardLink c : cards) {
-                if (c.getCard().equals(cardName.get(i)) && (c.getColour() == null || (cardColour.size() == cardName.size() && c.getColour().equals(cardColour.get(i)))))
+            for(CardLink c : cards) {
+                if(c.getCard().equals(cardName.get(i)) && (c.getColour() == null || (cardColour.size() == cardName.size() && c.getColour().equals(cardColour.get(i)))))
                     l.add(c.getImage());
             }
         }
         return l;
     }
 
-    public ImageIcon getImageIconFromName(String cardName, String cardColour){
-        for (CardLink c : cards) {
-            if (c.getCard().equals(cardName) && (c.getColour() == null || (!cardColour.isEmpty() && c.getColour().equals(cardColour))))
+    public ImageIcon getImageIconFromName(String cardName, String cardColour) {
+        for(CardLink c : cards) {
+            if(c.getCard().equals(cardName) && (c.getColour() == null || (!cardColour.isEmpty() && c.getColour().equals(cardColour))))
                 return c.getImage();
             }
             return null;
         }
 
 
-    public List<String> getNamefromImageIcon(List<ImageIcon> cardImages){
+    public List<String> getNamefromImageIcon(List<ImageIcon> cardImages) {
         List<String> l = new LinkedList<>();
         for(ImageIcon i : cardImages) {
-            for (CardLink c : cards) {
-                if (c.getImage().equals(i))
+            for(CardLink c : cards) {
+                if(c.getImage().equals(i))
                     l.add(c.getCard());
             }
         }
@@ -106,8 +106,8 @@ public class CardLinkList {
     }
 
     public String getNamefromImageIcon(ImageIcon cardImages) {
-        for (CardLink c : cards) {
-            if (c.getImage().equals(cardImages))
+        for(CardLink c : cards) {
+            if(c.getImage().equals(cardImages))
                 return c.getCard();
         }
 
@@ -115,8 +115,8 @@ public class CardLinkList {
     }
 
     public String getColourfromImageIcon(ImageIcon cardImages) {
-        for (CardLink c : cards) {
-            if (c.getImage().equals(cardImages))
+        for(CardLink c : cards) {
+            if(c.getImage().equals(cardImages))
                 return c.getColour();
         }
 

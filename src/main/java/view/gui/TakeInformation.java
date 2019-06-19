@@ -53,7 +53,7 @@ public class TakeInformation extends JPanel implements ActionListener {
     public synchronized void actionPerformed(ActionEvent e) {
         try {
             b.setEnabled(false);
-            if (identifier == 1)
+            if(identifier == 1)
                 getInformation();
             else
                 getLessInformation();

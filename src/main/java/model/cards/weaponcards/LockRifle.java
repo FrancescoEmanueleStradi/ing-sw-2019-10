@@ -22,7 +22,7 @@ public class LockRifle extends WeaponCard {
         grid.addMark(p, p1);
     }
 
-    public void applySpecialEffect(Grid grid, Player p, Player p2) throws RemoteException{ //Second Lock: player p attacks p2 (visible), who is different from the p1 selected for the primary effect: the controller will check this!
+    public void applySpecialEffect(Grid grid, Player p, Player p2) throws RemoteException { //Second Lock: player p attacks p2 (visible), who is different from the p1 selected for the primary effect: the controller will check this!
         grid.addMark(p, p2);
     }
 }

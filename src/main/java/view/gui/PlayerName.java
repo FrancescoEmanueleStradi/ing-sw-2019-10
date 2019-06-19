@@ -13,7 +13,7 @@ public class PlayerName extends JTextField {
     private JLabel jname;
     private JLabel jidentifier;
 
-    public PlayerName(String nickName, String c, String identifier){
+    public PlayerName(String nickName, String c, String identifier) {
         this.nickName = nickName;
         this.c = Color.getColor(c);
         jname = new JLabel(this.nickName);

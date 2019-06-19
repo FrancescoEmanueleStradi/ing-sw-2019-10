@@ -78,7 +78,7 @@ public class Grid {
         }*/
     }
 
-    public void addPlayer(Player p) throws RemoteException{
+    public void addPlayer(Player p) throws RemoteException {
         this.players.add(p);
         List<String> information = new LinkedList<>();
         information.add(p.getNickName());
@@ -94,7 +94,7 @@ public class Grid {
         }*/
     }
 
-    public void removePlayer(Player p){
+    public void removePlayer(Player p) {
         this.players.remove(p);
     }
 
@@ -109,8 +109,8 @@ public class Grid {
         return l;
     }
 
-    public Colour getPlayerColour(String name){
-        for(Player p: this.getPlayers()){
+    public Colour getPlayerColour(String name) {
+        for(Player p: this.getPlayers()) {
             if(p.getNickName().equals(name))
                 return p.getC();
         }
@@ -125,7 +125,7 @@ public class Grid {
     }
 
     public Player getPlayerObject(String name) {
-        for (Player p : players ){
+        for(Player p : players ) {
             if(p.getNickName().equals(name))
                 return p;
         }
@@ -133,13 +133,12 @@ public class Grid {
     }
 
     public Player getPlayerObjectByColour(Colour c) {
-        for (Player p : players ){
+        for(Player p : players ) {
             if(p.getC().equals(c))
                 return p;
         }
         return null;
     }
-
 
     int getNumPlayers() {
         return this.players.size();
@@ -156,7 +155,7 @@ public class Grid {
         return board;
     }
 
-    public void damage(Player p, Player p1, int numDamage) throws RemoteException{ //p attacks, p1 is attacked
+    public void damage(Player p, Player p1, int numDamage) throws RemoteException { //p attacks, p1 is attacked
         removeMarkAndAdd(p1, p);
         p1.getPlayerBoard().getDamage().addDamage(numDamage, p.getC());
         List<String> informationDamage = new LinkedList<>();
@@ -194,7 +193,7 @@ public class Grid {
         p.getPlayerBoard().getDamage().clean();
     }
 
-    public void addMark(Player p1, Player p2) throws RemoteException{
+    public void addMark(Player p1, Player p2) throws RemoteException {
         p2.getPlayerBoard().addMark(new DamageToken(p1.getC()));
         List<String> information = new LinkedList<>();
         information.add(p1.getNickName());
@@ -211,9 +210,9 @@ public class Grid {
         }*/
     }
 
-    private void removeMarkAndAdd(Player p1, Player p2) throws RemoteException{
+    private void removeMarkAndAdd(Player p1, Player p2) throws RemoteException {
         long x = p1.getPlayerBoard().getMarks().stream().filter(a -> a.getC() == p2.getC()).count();
-        if (x > 0) {
+        if(x > 0) {
             int y = (int) x;
             p1.getPlayerBoard().getDamage().addDamage(y, p2.getC());
             List<String> informationDamage = new LinkedList<>();
@@ -249,10 +248,12 @@ public class Grid {
         return p.getCell();
     }
 
-    public void move(Player p, int d) throws RemoteException{                                //1 up, 2 right, 3 down, 4 left
+    public void move(Player p, int d) throws RemoteException {
         moveWithoutNotify(p, d);
         List<String> information = new LinkedList<>();
         information.add(p.getNickName());
+
+        //1 up, 2 right, 3 down, 4 left
         information.add(Integer.toString(p.getCell().getPos().getX()));
         information.add(Integer.toString(p.getCell().getPos().getY()));
 
@@ -267,31 +268,32 @@ public class Grid {
         }*/
     }
 
-    public void moveWithoutNotify(Player p, int d) {                                //1 up, 2 right, 3 down, 4 left
+    public void moveWithoutNotify(Player p, int d) {
         int n = 0;
 
-        for(int i =0; i<p.getCell().getPosWall().length; i++) {
-            if (p.getCell().getPosWall()[i] == d) {                     //player can't move
-                n=1;
+        for(int i = 0; i<p.getCell().getPosWall().length; i++) {
+            //player can't move
+            if(p.getCell().getPosWall()[i] == d) {
+                n = 1;
             }
         }
 
-        if(n==0) {
-            if((d==1) && (p.getCell().getPos().getX()>0))
+        //1 up, 2 right, 3 down, 4 left
+        if(n == 0) {
+            if((d == 1) && (p.getCell().getPos().getX()>0))
                 p.changeCell(board.getArena()[p.getCell().getPos().getX()-1][p.getCell().getPos().getY()]);
-            else if((d==2) && (p.getCell().getPos().getY()<3))
+            else if((d == 2) && (p.getCell().getPos().getY()<3))
                 p.changeCell(board.getArena()[p.getCell().getPos().getX()][p.getCell().getPos().getY()+1]);
-            else if((d==3) && (p.getCell().getPos().getX()<2))
+            else if((d == 3) && (p.getCell().getPos().getX()<2))
                 p.changeCell(board.getArena()[p.getCell().getPos().getX()+1][p.getCell().getPos().getY()]);
-            else if((d==4) && (p.getCell().getPos().getY()>0))
+            else if((d == 4) && (p.getCell().getPos().getY()>0))
                 p.changeCell(board.getArena()[p.getCell().getPos().getX()][p.getCell().getPos().getY()-1]);
         }
     }
 
-    public boolean canMove(Player p, int d) {                                //1 up, 2 right, 3 down, 4 left
-
-        for(int i =0; i<p.getCell().getPosWall().length; i++) {
-            if (p.getCell().getPosWall()[i] == d) {
+    public boolean canMove(Player p, int d) {
+        for(int i = 0; i<p.getCell().getPosWall().length; i++) {
+            if(p.getCell().getPosWall()[i] == d) {
                 return false;
             }
         }
@@ -299,7 +301,7 @@ public class Grid {
     }
 
 
-    public void move(Player p, int x, int y) throws RemoteException{
+    public void move(Player p, int x, int y) throws RemoteException {
         p.changeCell(board.getArena()[x][y]);
         List<String> information = new LinkedList<>();
         information.add(p.getNickName());
@@ -317,7 +319,8 @@ public class Grid {
         }*/
     }
 
-    public boolean isThereAWall (Player p, Position pT) {            //true if there is a wall between p and pT
+    //true if there is a wall between p and pT
+    public boolean isThereAWall (Player p, Position pT) {
         int direction = 0;
         if(p.getCell().getPos().getX() > pT.getX())
             direction = 1;
@@ -327,13 +330,16 @@ public class Grid {
             direction = 4;
         else if(p.getCell().getPos().getY() < pT.getY())
             direction = 2;
-        List<Integer> listPosWalls = new LinkedList<>();        //need to do this because cell.posWalls is int[] and list.contains checks for Integer
+        //cell.posWalls is int[] and list.contains checks for Integer
+        List<Integer> listPosWalls = new LinkedList<>();
         for(int i : this.board.getArena()[p.getCell().getPos().getX()][p.getCell().getPos().getY()].getPosWall())
             listPosWalls.add(i);
         return listPosWalls.contains(direction);
     }
 
-    public boolean isThereAWall (Position pT1, Position pT2) {            //true if there is a wall between pT1 and pT2
+    //TODO
+    //true if there is a wall between pT1 and pT2
+    public boolean isThereAWall (Position pT1, Position pT2) {
         int direction = 0;
         if(pT1.getX() > pT2.getX())
             direction = 1;
@@ -343,7 +349,7 @@ public class Grid {
             direction = 4;
         else if(pT1.getY() < pT2.getY())
             direction = 2;
-        List<Integer> listPosWalls = new LinkedList<>();        //need to do this because cell.posWalls is int[] and list.contains checks for Integer
+        List<Integer> listPosWalls = new LinkedList<>();
         for(int i : this.board.getArena()[pT1.getX()][pT1.getY()].getPosWall())
             listPosWalls.add(i);
         return listPosWalls.contains(direction);
@@ -355,8 +361,8 @@ public class Grid {
 
     public boolean isInViewZone(Player p, Player p2) {
         boolean b = false;
-        for(int i=0; i<p.getCell().getPosDoor().length; i++) {
-            if ((!b) && ((p.getCell().getPosDoor()[i] == 1 && p.getCell().getPos().getX() - 1 >= 0 && p2.getCell().getC().equals(this.board.getArena()[p.getCell().getPos().getX() - 1][p.getCell().getPos().getY()].getC())) ||
+        for(int i = 0; i<p.getCell().getPosDoor().length; i++) {
+            if((!b) && ((p.getCell().getPosDoor()[i] == 1 && p.getCell().getPos().getX() - 1 >= 0 && p2.getCell().getC().equals(this.board.getArena()[p.getCell().getPos().getX() - 1][p.getCell().getPos().getY()].getC())) ||
                     (p.getCell().getPosDoor()[i] == 2 && p.getCell().getPos().getY() + 1 <= 3 && p2.getCell().getC().equals(this.board.getArena()[p.getCell().getPos().getX()][p.getCell().getPos().getY() + 1].getC())) ||
                     (p.getCell().getPosDoor()[i] == 3 && p.getCell().getPos().getX() + 1 <= 2 && p2.getCell().getC().equals(this.board.getArena()[p.getCell().getPos().getX() + 1][p.getCell().getPos().getY()].getC())) ||
                     p.getCell().getPosDoor()[i] == 4 && p.getCell().getPos().getY() - 1 >= 0 && p2.getCell().getC().equals(this.board.getArena()[p.getCell().getPos().getX()][p.getCell().getPos().getY() - 1].getC())))
@@ -368,8 +374,8 @@ public class Grid {
     public boolean isInViewZone(Player p, Position pos) {
         if(this.board.getArena()[pos.getX()][pos.getY()].getC().equals(p.getCell().getC()))
             return true;
-        for(int i=0; i<p.getCell().getPosDoor().length; i++)
-            if ((p.getCell().getPosDoor()[i] == 1 && p.getCell().getPos().getX() - 1 >= 0 &&
+        for(int i = 0; i<p.getCell().getPosDoor().length; i++)
+            if((p.getCell().getPosDoor()[i] == 1 && p.getCell().getPos().getX() - 1 >= 0 &&
                     this.board.getArena()[p.getCell().getPos().getX() - 1][p.getCell().getPos().getY()].getC().equals(this.board.getArena()[pos.getX()][pos.getY()].getC())) ||
                     (p.getCell().getPosDoor()[i] == 2 && p.getCell().getPos().getY() + 1 <= 3 &&
                             this.board.getArena()[p.getCell().getPos().getX()][p.getCell().getPos().getY() + 1].getC().equals(this.board.getArena()[pos.getX()][pos.getY()].getC())) ||
@@ -381,18 +387,18 @@ public class Grid {
         return false;
     }
 
-    //returns a list of the colours of the rooms which are in the view zone of player p,
-    //except for the colour of the room player p is in
-    public List<Colour> colourOfOtherViewZone(Player p){
+    /*returns a list of the colours of the rooms which are in the view zone of player p,
+     *except for the colour of the room player p is in*/
+    public List<Colour> colourOfOtherViewZone(Player p) {
         List<Colour> l = new LinkedList<>();
-        for(int i=0; i<p.getCell().getPosDoor().length; i++){
-            if (p.getCell().getPosDoor()[i] == 1)
+        for(int i = 0; i<p.getCell().getPosDoor().length; i++) {
+            if(p.getCell().getPosDoor()[i] == 1)
                 l.add(this.board.getArena()[p.getCell().getPos().getX() - 1][p.getCell().getPos().getY()].getC());
-            else if (p.getCell().getPosDoor()[i] == 2)
+            else if(p.getCell().getPosDoor()[i] == 2)
                 l.add(this.board.getArena()[p.getCell().getPos().getX()][p.getCell().getPos().getY() + 1].getC());
-            else if (p.getCell().getPosDoor()[i] == 3)
+            else if(p.getCell().getPosDoor()[i] == 3)
                 l.add(this.board.getArena()[p.getCell().getPos().getX() + 1][p.getCell().getPos().getY()].getC());
-            else if (p.getCell().getPosDoor()[i] == 4)
+            else if(p.getCell().getPosDoor()[i] == 4)
                 l.add(this.board.getArena()[p.getCell().getPos().getX()][p.getCell().getPos().getY() - 1].getC());
         }
         return l.stream().distinct().collect(Collectors.toList());
@@ -409,14 +415,14 @@ public class Grid {
 
     List<Player> whoIsInTheViewZone(Player p) {
         ArrayList<Player> pViewZone = new ArrayList<>();
-        for (Player px : players) {
-            if (isInViewZone(p, px) && p != px)
+        for(Player px : players) {
+            if(isInViewZone(p, px) && p != px)
                 pViewZone.add(px);
         }
         return pViewZone;
     }
 
-    public WeaponCard getWeaponCardObject(String wCardName){
+    public WeaponCard getWeaponCardObject(String wCardName) {
         if(board.getW1().getCard1() != null && board.getW1().getCard1().getCardName().equals(wCardName))
             return board.getW1().getCard1();
         else if(board.getW1().getCard2() != null && board.getW1().getCard2().getCardName().equals(wCardName))
@@ -463,8 +469,8 @@ public class Grid {
             this.board.getW3().setCard3(pickWeaponCard());
     }
 
-
-    public void pickPowerUpCard(Player p) {     //use this every time a player wants a PowerUpCard, except for the final "pick and discard" when he is dead
+    //use this every time a player wants a PowerUpCard, except for the final "pick and discard" when he is dead
+    public void pickPowerUpCard(Player p) {
         if(p.getPowerUpCards().size() < 3) {
             if(powerUpDeck.getDeck().isEmpty()) {
                 Collections.shuffle(powerUpDiscardPile);
@@ -475,7 +481,8 @@ public class Grid {
         }
     }
 
-    public PowerUpCard pickPowerUpCard() {      //use this for the final "pick and discard" when the player is dead
+    //use this for the final "pick and discard" when the player is dead
+    public PowerUpCard pickPowerUpCard() {
         if(powerUpDeck.getDeck().isEmpty()) {
             Collections.shuffle(powerUpDiscardPile);
             powerUpDeck.getDeck().addAll(powerUpDiscardPile);
@@ -508,7 +515,7 @@ public class Grid {
     public void replaceAmmoCard() {
         for(int i = 0; i < 3; i++) {
             for(int j = 0; j < 4; j++) {
-                if(this.board.getArena()[i][j].getStatus() == 0 && this.board.getArena()[i][j].getA() == null)              //check that when we pick up the card from the cell it will be null
+                if(this.board.getArena()[i][j].getStatus() == 0 && this.board.getArena()[i][j].getA() == null)
                     this.board.getArena()[i][j].setA(this.pickAmmoCard());
             }
         }

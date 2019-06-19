@@ -68,12 +68,12 @@ public class GUI implements View, Serializable {
     }
 
     @Override
-    public void setGame(int game){
+    public void setGame(int game) {
         this.game = game;
     }
 
     @Override
-    public void setIdentifier(int identifier) throws RemoteException{
+    public void setIdentifier(int identifier) throws RemoteException {
         this.identifier = identifier;
     }
 
@@ -83,20 +83,20 @@ public class GUI implements View, Serializable {
     }
 
     @Override
-    public void setInformation(int identifier) throws RemoteException{
+    public void setInformation(int identifier) throws RemoteException {
         this.nickName = server.getSuspendedName(game, identifier);
         this.colour = server.getSuspendedColour(game, this.nickName);
     }
 
     @Override
-    public void disconnected(int disconnected) throws RemoteException, InterruptedException{
+    public void disconnected(int disconnected) throws RemoteException, InterruptedException {
         textArea.append("Player number " + disconnected + " is disconnected");
         this.gameGraphic.revalidate();
     }
 
     @Override
-    public synchronized void askNameAndColour() throws RemoteException, InterruptedException{
-        if (this.server.messageGameIsNotStarted(game) && this.identifier == 1) {
+    public synchronized void askNameAndColour() throws RemoteException, InterruptedException {
+        if(this.server.messageGameIsNotStarted(game) && this.identifier == 1) {
             JFrame f = new JFrame("Name, colour and type");
             f.setLocation(10,10);
             Container c = f.getContentPane();
@@ -108,7 +108,7 @@ public class GUI implements View, Serializable {
             f.setVisible(true);
             wait();
         }
-        else{
+        else {
             JFrame f = new JFrame("Name and colour");
             f.setLocation(10,10);
             Container c = f.getContentPane();
@@ -124,7 +124,7 @@ public class GUI implements View, Serializable {
 
 
     @Override
-    public synchronized void selectSpawnPoint() throws RemoteException, InterruptedException{
+    public synchronized void selectSpawnPoint() throws RemoteException, InterruptedException {
         this.server.messageGiveTwoPUCard(game, this.nickName);
         CardLinkList l = new CardLinkList();
         JFrame spawnPoint = new JFrame("Spawn point selection");
@@ -142,60 +142,60 @@ public class GUI implements View, Serializable {
 
 
     @Override
-    public synchronized void action1() throws InterruptedException{
+    public synchronized void action1() throws InterruptedException {
         JFrame action = new JFrame(this.nickName + "'s FIRST ACTION");
         action.add(new Action1(this));
         action.setVisible(true);
         wait();
     }
 
-    public synchronized void moveFirstAction() throws InterruptedException{
+    public synchronized void moveFirstAction() throws InterruptedException {
         JFrame move = new JFrame("First action - move");
         move.add(new Move1(this, server, game, identifier, nickName));
         move.setVisible(true);
         wait();
     }
 
-    public synchronized void grabFirstAction() throws InterruptedException{
+    public synchronized void grabFirstAction() throws InterruptedException {
         JFrame grab = new JFrame("First action - grab");
         grab.add(new Grab1(this, server, game, identifier, nickName));
     }
 
-    public synchronized void shootFirstAction() throws RemoteException, InterruptedException{
+    public synchronized void shootFirstAction() throws RemoteException, InterruptedException {
         JFrame shoot = new JFrame("First action - shoot");
         shoot.add(new Shoot1(this, server, game, identifier, nickName));
     }
 
     @Override
-    public void action2() throws InterruptedException{
+    public void action2() throws InterruptedException {
         JFrame action = new JFrame(this.nickName + "'s SECOND ACTION");
         action.add(new Action1(this));
         action.setVisible(true);
         wait();
     }
 
-    public synchronized void moveSecondAction() throws InterruptedException{
+    public synchronized void moveSecondAction() throws InterruptedException {
         JFrame move = new JFrame("Second action - move");                     //TODO
         move.add(new Move2(this, server, game, identifier, nickName));
         move.setVisible(true);
         wait();
     }
 
-    public synchronized void grabSecondAction() throws InterruptedException{
+    public synchronized void grabSecondAction() throws InterruptedException {
         JFrame move = new JFrame("Second action - grab");
     }
 
-    public synchronized void shootSecondAction() throws InterruptedException{
+    public synchronized void shootSecondAction() throws InterruptedException {
 
     }
 
     @Override
-    public void usePowerUpCard(){
+    public void usePowerUpCard() {
         //TODO
     }
 
     @Override
-    public boolean doYouWantToUsePUC(){
+    public boolean doYouWantToUsePUC() {
         JFrame jF = new JFrame();
         jF.add(new Label("Do you want to use Power-Up Card)"));
 
@@ -203,12 +203,12 @@ public class GUI implements View, Serializable {
     }
 
     @Override
-    public void reload() throws RemoteException, InterruptedException{
+    public void reload() throws RemoteException, InterruptedException {
         CardLinkList l = new CardLinkList();
         JFrame jF = new JFrame();
         ReloadPanel reloadPanel = new ReloadPanel();
         jF.add(new Label("Choose the weapon card you want to reload, or 'end' if you don't need/want to"));
-        for(ImageIcon i : l.getImageIconFromName(this.server.messageGetWeaponCardUnloaded(game, this.nickName), new LinkedList<>())){
+        for(ImageIcon i : l.getImageIconFromName(this.server.messageGetWeaponCardUnloaded(game, this.nickName), new LinkedList<>())) {
             jF.add(new JLabel(i));
             reloadPanel.addButton(l.getNamefromImageIcon(i));
         }
@@ -235,14 +235,14 @@ public class GUI implements View, Serializable {
 
         /*this.server.messageGetWeaponCardUnloaded(game, this.nickName).forEach(System.out::println);
         int i = 0;
-        while (i == 0) {
+        while(i == 0) {
             System.out.println("Choose the weapon card you want to reload, or 'end' if you don't need/want to");
             String s = in.nextLine();
-            if (s.equals("end"))
+            if(s.equals("end"))
                 break;
             System.out.println("Enter 0 if you want to reload another card, otherwise 1");
             i = in.nextInt();
-            if (this.server.messageIsValidReload(game, this.nickName, s))
+            if(this.server.messageIsValidReload(game, this.nickName, s))
                 this.server.messageReload(game, this.nickName, s, i);
             else
                 System.out.println("You can't reload now");
@@ -250,18 +250,18 @@ public class GUI implements View, Serializable {
     }
 
     @Override
-    public void scoring() throws RemoteException{
+    public void scoring() throws RemoteException {
         if(this.server.messageIsValidScoring(game))
             this.server.messageScoring(game);
     }
 
     @Override
-    public void newSpawnPoint() throws RemoteException{
+    public void newSpawnPoint() throws RemoteException {
         //TODO
     }
 
     @Override
-    public void replace() throws RemoteException{
+    public void replace() throws RemoteException {
         if(this.server.messageIsValidToReplace(game))
             this.server.messageReplace(game);
     }
@@ -272,14 +272,14 @@ public class GUI implements View, Serializable {
     }
 
     @Override
-    public void endFinalFrenzy() throws RemoteException{
+    public void endFinalFrenzy() throws RemoteException {
         this.server.messageEndTurnFinalFrenzy(game);
         textArea.append("We are calculating the result");
         this.gameGraphic.revalidate();
     }
 
     @Override
-    public void finalScoring() throws RemoteException{
+    public void finalScoring() throws RemoteException {
         this.server.messageFinalScoring(game);
         textArea.append("FINAL SCORE");
         this.server.messageGetPlayers(game).forEach(textArea::append);
@@ -291,7 +291,7 @@ public class GUI implements View, Serializable {
     }
 
     @Override
-    public void printPlayer(List<String> information) throws RemoteException{
+    public void printPlayer(List<String> information) throws RemoteException {
         this.players = new JPanel();
         players.add(new PlayerName(information.get(0), information.get(1), information.get(2)));
         players.setBounds(0,350, 50, 0);
@@ -301,35 +301,35 @@ public class GUI implements View, Serializable {
     }
 
     @Override
-    public void printScore(List<String> information) throws RemoteException{
+    public void printScore(List<String> information) throws RemoteException {
         textArea.append("Player: " + information.get(0) + " has now this score: " + information.get(1));
         this.gameGraphic.revalidate();
     }
 
     @Override
-    public void printPosition(List<String> information) throws RemoteException{
+    public void printPosition(List<String> information) throws RemoteException {
         textArea.append("Now Player: " + information.get(0) + " is in the cell " + information.get(1) + " " + information.get(2));
         //TODO
         this.gameGraphic.revalidate();
     }
 
     @Override
-    public void printMark(List<String> information) throws RemoteException{
+    public void printMark(List<String> information) throws RemoteException {
         textArea.append("Player: " + information.get(0) + "give a new Mark to Player" + information.get(1));
         this.gameGraphic.revalidate();
     }
 
     @Override
-    public void printDamage(List<String> information) throws RemoteException{
+    public void printDamage(List<String> information) throws RemoteException {
         textArea.append("Player: " + information.get(0) + " give " + information.get(1) + " damages to Player: " + information.get(2));
         //TODO
         this.gameGraphic.revalidate();
     }
 
     @Override
-    public void printType() throws RemoteException{
+    public void printType() throws RemoteException {
         this.gameGraphic.setSize(700, 700);
-        if(type == 1){
+        if(type == 1) {
             ImageIcon Left14Grid = new ImageIcon("Images/Left14Grid.png");
             ImageIcon Right12Grid = new ImageIcon("Images/Right12Grid.png");
             JLabel L14Grid = new JLabel(Left14Grid);
@@ -337,7 +337,7 @@ public class GUI implements View, Serializable {
             this.gameGraphic.add(L14Grid).setBounds(350, 600, 125, 0);
             this.gameGraphic.add(R12Grid).setBounds(475, 600, 350, 0);
         }
-        if(type == 2){
+        if(type == 2) {
             ImageIcon Left23Grid = new ImageIcon("Images/Left23Grid.png");
             ImageIcon Right12Grid = new ImageIcon("Images/Right12Grid.png");
             JLabel L23Grid = new JLabel(Left23Grid);
@@ -345,7 +345,7 @@ public class GUI implements View, Serializable {
             this.gameGraphic.add(L23Grid).setBounds(350, 600, 125, 0);
             this.gameGraphic.add(R12Grid).setBounds(475, 600, 350, 0);
         }
-        if(type == 3){
+        if(type == 3) {
             ImageIcon Left23Grid = new ImageIcon("Images/Left23Grid.png");
             ImageIcon Right34Grid = new ImageIcon("Images/Right34Grid.png");
             JLabel L23Grid = new JLabel(Left23Grid);
@@ -353,7 +353,7 @@ public class GUI implements View, Serializable {
             this.gameGraphic.add(L23Grid).setBounds(350, 600, 125, 0);
             this.gameGraphic.add(R34Grid).setBounds(475, 600, 350, 0);
         }
-        if(type == 4){
+        if(type == 4) {
             ImageIcon Left14Grid = new ImageIcon("Images/Left14Grid.png");
             ImageIcon Right34Grid = new ImageIcon("Images/Right34Grid.png");
             JLabel L14Grid = new JLabel(Left14Grid);
@@ -370,7 +370,7 @@ public class GUI implements View, Serializable {
     }
 
     @Override
-    public void setType(int type) throws RemoteException{
+    public void setType(int type) throws RemoteException {
         this.type = type;
     }
 

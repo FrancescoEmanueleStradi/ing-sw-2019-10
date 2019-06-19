@@ -4,13 +4,14 @@ import model.Colour;
 import network.ServerInterface;
 import view.View;
 
+import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
-public class CLI extends UnicastRemoteObject implements View {
+public class CLI extends UnicastRemoteObject implements View, Serializable {
 
     private int game;
     private int identifier;
@@ -77,7 +78,7 @@ public class CLI extends UnicastRemoteObject implements View {
         String yourColour = "Enter your colour in all caps (choose between BLACK, BLUE, GREEN, PURPLE or YELLOW):";
         Scanner in = new Scanner(System.in);
 
-        if (this.server.messageGameIsNotStarted(game) && this.identifier == 1) {
+        if(this.server.messageGameIsNotStarted(game) && this.identifier == 1) {
             System.out.println("\n---------- NAME AND COLOUR SELECTION ----------\n");
 
             System.out.println(yourName);
@@ -154,7 +155,7 @@ public class CLI extends UnicastRemoteObject implements View {
             System.out.println("Enter the colour of the chosen PowerUp card:");
             c = in.nextLine();
 
-            if (this.server.messageIsValidPickAndDiscard(game, this.nickName, p, c))
+            if(this.server.messageIsValidPickAndDiscard(game, this.nickName, p, c))
                 break;
             else
                 System.out.println(ERRORRETRY);
@@ -224,7 +225,7 @@ public class CLI extends UnicastRemoteObject implements View {
                 System.out.println(ERRORRETRY);
                 l.clear();
                 x = exitHandler(in);
-                if (x) {
+                if(x) {
                     action1();
                     return;
                 }
@@ -401,7 +402,7 @@ public class CLI extends UnicastRemoteObject implements View {
         action1();
     }
 
-    private void grabFirstAction() throws RemoteException{
+    private void grabFirstAction() throws RemoteException {
         Scanner in = new Scanner(System.in);
         Scanner intScan = new Scanner(System.in);
         boolean x;
@@ -423,7 +424,7 @@ public class CLI extends UnicastRemoteObject implements View {
                     "Then, enter 5 to finish.");
             while(intScan.hasNextInt()) {
                 int d = intScan.nextInt();
-                if (d == 5)
+                if(d == 5)
                     break;
                 else
                     lD.add(d);
@@ -456,7 +457,7 @@ public class CLI extends UnicastRemoteObject implements View {
                 System.out.println("Enter the colour(s), in order and in all caps, of the required AmmoCube(s) to buy the card; 0 to finish");
                 while(true) {
                     String a = in.nextLine();
-                    if (a.equals("0"))
+                    if(a.equals("0"))
                         break;
                     else
                         lC.add(Colour.valueOf(a));
@@ -465,7 +466,7 @@ public class CLI extends UnicastRemoteObject implements View {
                 System.out.println("Enter the PowerUpCard(s) you want to use to pay during your turn; 0 to finish");
                 while(true) {
                     String p = in.nextLine();
-                    if (p.equals("0"))
+                    if(p.equals("0"))
                         break;
                     else
                         lP.add(p);
@@ -474,7 +475,7 @@ public class CLI extends UnicastRemoteObject implements View {
                 System.out.println("Enter the colour(s) of the PowerUpCard(s) you want to use to pay during your turn; 0 to finish");
                 while(true) {
                     String c = in.nextLine();
-                    if (c.equals("0"))
+                    if(c.equals("0"))
                         break;
                     else
                         lPC.add(c);
@@ -513,10 +514,10 @@ public class CLI extends UnicastRemoteObject implements View {
         System.out.println("Your status:\n" + this.server.messageCheckYourStatus(game, nickName));
 
         System.out.println("---------- START OF " + this.nickName + "'s SECOND ACTION ----------");
-        while (true) {
+        while(true) {
             System.out.println("Choose the second action you want to do (Move, Shoot, Grab):");
             action = in.nextLine();
-            if ((action.equals("Move") || action.equals("Shoot") || action.equals("Grab")
+            if((action.equals("Move") || action.equals("Shoot") || action.equals("Grab")
                     || action.equals("move") || action.equals("shoot") || action.equals("grab")))
                 break;
             else
@@ -553,7 +554,7 @@ public class CLI extends UnicastRemoteObject implements View {
                 System.out.println(ERRORRETRY);
                 l.clear();
                 x = exitHandler(in);
-                if (x) {
+                if(x) {
                     action2();
                     return;
                 }
@@ -752,7 +753,7 @@ public class CLI extends UnicastRemoteObject implements View {
                     "Then, enter 5 to finish");
             while(intScan.hasNextInt()) {
                 int d = intScan.nextInt();
-                if (d == 5)
+                if(d == 5)
                     break;
                 else
                     lD.add(d);
@@ -784,7 +785,7 @@ public class CLI extends UnicastRemoteObject implements View {
                 System.out.println("Enter the colour(s), in order and in all caps, of the required AmmoCube(s) to buy the card; 0 to finish");
                 while(true) {
                     String a = in.nextLine();
-                    if (a.equals("0"))
+                    if(a.equals("0"))
                         break;
                     else
                         lC.add(Colour.valueOf(a));
@@ -793,7 +794,7 @@ public class CLI extends UnicastRemoteObject implements View {
                 System.out.println("Enter the PowerUpCard(s) you want to use to pay during your turn; 0 to finish");
                 while(true) {
                     String p = in.nextLine();
-                    if (p.equals("0"))
+                    if(p.equals("0"))
                         break;
                     else
                         lP.add(p);
@@ -802,7 +803,7 @@ public class CLI extends UnicastRemoteObject implements View {
                 System.out.println("Enter the colour(s) of the PowerUpCard(s) you want to use to pay during your turn; 0 to finish");
                 while(true) {
                     String c = in.nextLine();
-                    if (c.equals("0"))
+                    if(c.equals("0"))
                         break;
                     else
                         lPC.add(c);
@@ -873,7 +874,7 @@ public class CLI extends UnicastRemoteObject implements View {
                         System.out.println(ERRORRETRY);
                         lS.clear();
                         x = exitHandler(in);
-                        if (x)
+                        if(x)
                             return;
                     }
                 }
@@ -887,7 +888,7 @@ public class CLI extends UnicastRemoteObject implements View {
                     System.out.println("Enter the nickname of one or more players you have damaged; 0 to finish");
                     while(true) {
                         String p = in.nextLine();
-                        if (p.equals("0"))
+                        if(p.equals("0"))
                             break;
                         else
                             lS.add(p);
@@ -1033,7 +1034,7 @@ public class CLI extends UnicastRemoteObject implements View {
 
 
     @Override
-    public void finalFrenzyTurn()throws RemoteException{
+    public void finalFrenzyTurn()throws RemoteException {
         Scanner in = new Scanner(System.in);
         List<String> l = new LinkedList<>();
 
@@ -1045,13 +1046,13 @@ public class CLI extends UnicastRemoteObject implements View {
 
             System.out.println("This is the final turn. Final frenzy mode activated.\n" +
                     "Choose the action(s) you want to do according to the fact you are before or after the player who started the game.");
-            while (in.hasNext())
+            while(in.hasNext())
                 l.add(in.next());
 
             counterFinalFrenzyAction++;
         } while(!this.server.messageIsValidFinalFrenzyAction(game, nickName, l));
 
-        for(String s : l){
+        for(String s : l) {
             switch (s) {
                 case "1":
                     if(doYouWantToUsePUC())
@@ -1076,31 +1077,31 @@ public class CLI extends UnicastRemoteObject implements View {
                         i = in.nextInt();
 
                         System.out.println("Write the card(s) you want to reload: " + this.server.messageGetWeaponCardUnloaded(game, nickName));
-                        while (in.hasNext())
+                        while(in.hasNext())
                             lW.add(in.next());
 
                         System.out.println("Write the card you want to use: " + this.server.messageGetPlayerWeaponCard(game, nickName));
                         wC = in.next();
 
                         System.out.println("Enter the number of the effect you want to use:");
-                        while (in.hasNext())
+                        while(in.hasNext())
                             lI.add(in.nextInt());
 
                         System.out.println("Enter the relevant strings for the card:");
-                        while (in.hasNext())
+                        while(in.hasNext())
                             lS.add(in.next());
 
                         System.out.println("Enter the colour(s) of the required AmmoCube(s) needed for the effect:");
-                        while (in.hasNext())
+                        while(in.hasNext())
                             lC.add(Colour.valueOf(in.next()));
 
                         System.out.println("Enter the PowerUpCard you want to use for paying during your turn:");
                         this.server.messageGetPowerUpCard(game, nickName).forEach(System.out::println);
-                        while (in.hasNext())
+                        while(in.hasNext())
                             lP.add(in.next());
 
                         System.out.println("Enter the colour of the PowerUpCard you want to use for paying during your turn:");
-                        while (in.hasNext())
+                        while(in.hasNext())
                             lPC.add(in.next());
 
                         counterFinalFrenzyAction1++;
@@ -1125,7 +1126,7 @@ public class CLI extends UnicastRemoteObject implements View {
                             System.out.println(ERRORRETRY);
 
                         System.out.println("Write the direction(s) you want to move:");
-                        while (in.hasNext())
+                        while(in.hasNext())
                             list.add(in.nextInt());
 
                         counterFinalFrenzyAction2++;
@@ -1155,23 +1156,23 @@ public class CLI extends UnicastRemoteObject implements View {
                             System.out.println(ERRORRETRY);
 
                         System.out.println("Write the direction(s) you want to move:");
-                        while (in.hasNext())
+                        while(in.hasNext())
                             list2.add(in.nextInt());
 
                         System.out.println("If you want, enter a WeaponCard to buy:");
                         wCard = in.next();
 
-                        if (!wCard.equals("")) {
+                        if(!wCard.equals("")) {
                             System.out.println("Enter the number of the WeaponSlot from which you want to buy the card (1 up, 2 right, 3 left):");
                             weaponSlot = in.next();
                             System.out.println("Enter the colour(s) of the required AmmoCube(s) to buy the card, if necessary:");
-                            while ((in.hasNext()))
+                            while((in.hasNext()))
                                 lC2.add(Colour.valueOf(in.next()));
                             System.out.println("Enter the PowerUpCard you want to use for paying during your turn, if necessary:");
-                            while ((in.hasNext()))
+                            while((in.hasNext()))
                                 lP2.add(in.next());
                             System.out.println("Enter the colour of the PowerUpCard you want to use for paying during your turn, if you have chosen one:");
-                            while ((in.hasNext()))
+                            while((in.hasNext()))
                                 lPC2.add(in.next());
                         }
 
@@ -1204,34 +1205,34 @@ public class CLI extends UnicastRemoteObject implements View {
                             System.out.println(ERRORRETRY);
 
                         System.out.println("Write the direction(s) you want to move:");
-                        while (in.hasNext())
+                        while(in.hasNext())
                             list3.add(in.nextInt());
 
                         System.out.println("Write the card(s) you want to reload: " + this.server.messageGetWeaponCardUnloaded(game, nickName));
-                        while (in.hasNext())
+                        while(in.hasNext())
                             lW2.add(in.next());
 
                         System.out.println("Write the card you want to use: " + this.server.messageGetPlayerWeaponCard(game, nickName));
 
                         System.out.println("Enter the number of the effect(s) you want to use:");
-                        while (in.hasNext())
+                        while(in.hasNext())
                             lI2.add(in.nextInt());
 
                         System.out.println("Enter the relevant strings for the card:");
-                        while (in.hasNext())
+                        while(in.hasNext())
                             lS2.add(in.next());
 
                         System.out.println("Enter the colour(s) of the required AmmoCube(s) needed for the effect, if necessary:");
-                        while (in.hasNext())
+                        while(in.hasNext())
                             lC3.add(Colour.valueOf(in.next()));
 
                         System.out.println("Enter the PowerUpCard you want to use for paying during your turn, if necessary:");
                         server.messageGetPowerUpCard(game, nickName).forEach(System.out::println);
-                        while (in.hasNext())
+                        while(in.hasNext())
                             lP3.add(in.next());
 
                         System.out.println("Enter the colour of the PowerUpCard you want to use for paying during your turn, if you have chosen one:");
-                        while ((in.hasNext()))
+                        while((in.hasNext()))
                             lPC3.add(in.next());
 
                         counterFinalFrenzyAction4++;
@@ -1260,23 +1261,23 @@ public class CLI extends UnicastRemoteObject implements View {
                             System.out.println(ERRORRETRY);
 
                         System.out.println("Write the direction(s) you want to move:");
-                        while (in.hasNext())
+                        while(in.hasNext())
                             list4.add(in.nextInt());
 
                         System.out.println("Enter the WeaponCard you want to buy, if you want:");
                         wCard = in.next();
 
-                        if (!wCard.equals("")) {
+                        if(!wCard.equals("")) {
                             System.out.println("Enter the number of the WeaponSlot from which you want to buy the card (1 up, 2 right, 3 left):");
                             weaponSlot = in.next();
                             System.out.println("Enter the colour(s) of the required AmmoCube(s) to buy the card, if necessary:");
-                            while ((in.hasNext()))
+                            while((in.hasNext()))
                                 lC4.add(Colour.valueOf(in.next()));
                             System.out.println("Enter the PowerUpCard you want to use for paying during your turn, if necessary:");
-                            while ((in.hasNext()))
+                            while((in.hasNext()))
                                 lP4.add(in.next());
                             System.out.println("Enter the colour of the PowerUpCard you want to use for paying during your turn, if you have chosen one:");
-                            while ((in.hasNext()))
+                            while((in.hasNext()))
                                 lPC4.add(in.next());
                         }
 

@@ -10,7 +10,7 @@ public class MyTask extends TimerTask {
     private ServerInterface server;
 
 
-    MyTask(int game, int identifier, String nickName, ServerInterface server){
+    MyTask(int game, int identifier, String nickName, ServerInterface server) {
         this.game = game;
         this.identifier = identifier;
         this.nickName = nickName;
@@ -22,9 +22,9 @@ public class MyTask extends TimerTask {
             server.manageDisconnection(game, identifier, nickName);
             server.finishTurn(game);
             System.exit(0);
-        }catch (RemoteException e){
+        }catch (RemoteException e) {
             System.exit(0);
-        }catch (InterruptedException i){
+        }catch (InterruptedException i) {
             System.exit(1);
             Thread.currentThread().interrupt();
         }

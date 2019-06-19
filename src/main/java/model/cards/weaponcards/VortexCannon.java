@@ -34,7 +34,7 @@ public class VortexCannon extends WeaponCard {
 
     //before: let the player p choose up to 2 other targets on the vortex or 1 move away from it
 
-    public void applySpecialEffect(Grid grid, Player p, Player p1, Player p2) throws RemoteException{ //p2 can be null. p1 and p2 are moved into the vortex and damaged
+    public void applySpecialEffect(Grid grid, Player p, Player p1, Player p2) throws RemoteException { //p2 can be null. p1 and p2 are moved into the vortex and damaged
         grid.move(p1, this.xVortex, this.yVortex);
         if(p2 != null) {
             grid.move(p2, this.xVortex, this.yVortex);

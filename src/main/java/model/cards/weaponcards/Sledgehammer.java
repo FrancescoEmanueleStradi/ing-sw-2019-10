@@ -26,13 +26,13 @@ public class Sledgehammer extends WeaponCard {
 
     //before: let player p choose a target p1 on his cell.
 
-    public void applySpecialEffect(Grid grid, Player p, Player p1) throws RemoteException{    //Pulverize Mode (First Part): player p deals 3 damages to the chosen p1
+    public void applySpecialEffect(Grid grid, Player p, Player p1) throws RemoteException {    //Pulverize Mode (First Part): player p deals 3 damages to the chosen p1
         grid.damage(p, p1, 3);
     }
 
     //then (optional): if player p wants, he can move the attacked p1 0, 1, 2 cells in one direction. Player p will click the cell. ALTERNATIVE: numMoves and direction as parameters and if.
 
-    public void moveEnemy(Player p1, Grid grid, int moves, int direction) throws RemoteException{   //Pulverize Mode (Second Part): enemy p1 is moved where player p has decided
+    public void moveEnemy(Player p1, Grid grid, int moves, int direction) throws RemoteException {   //Pulverize Mode (Second Part): enemy p1 is moved where player p has decided
         for(int i = 0; i < moves; i++)
             grid.move(p1, direction);
     }

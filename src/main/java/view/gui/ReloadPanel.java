@@ -12,7 +12,7 @@ public class ReloadPanel extends JPanel implements ActionListener {
     private JTextField txt2;
     private JTextField txt3;
 
-    public ReloadPanel(){
+    public ReloadPanel() {
         super();
         add(new JLabel("Click on the name of the card you want to discard, or on exit if you have finished"));
         add(new JButton("exit"));
@@ -20,16 +20,16 @@ public class ReloadPanel extends JPanel implements ActionListener {
 
 
 
-    public void addButton(String name){
+    public void addButton(String name) {
         add(new JButton(name));
     }
 
 
-    public void actionPerformed(ActionEvent e){
+    public void actionPerformed(ActionEvent e) {
         /*try {
 
 
-        }catch(RemoteException ex){
+        }catch(RemoteException ex) {
             //TODO?
         }*/
     }

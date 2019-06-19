@@ -35,13 +35,13 @@ public class RocketLauncher extends WeaponCard {
 
     //after primary effect: ask player p if he wants to move p1 one cell, and in which direction (click on cell and from that we get the direction?).
 
-    public void movePlayer(Grid grid, Player p1, int direction) throws RemoteException{   //right after the primary effect
+    public void movePlayer(Grid grid, Player p1, int direction) throws RemoteException {   //right after the primary effect
         grid.move(p1, direction);
     }
 
     //before: ask player p if he wants to move one or two cells, and in which direction (alternative: let him select the cell he wants to go to). PLAYER CAN USE THIS BEFORE OR AFTER THE PRIMARY EFFECT
 
-    public void applySpecialEffect(Grid grid, Player p, int moves, int direction1, int direction2) throws RemoteException{    //Rocket Jump: p moves one or two cells, according to what he has chosen
+    public void applySpecialEffect(Grid grid, Player p, int moves, int direction1, int direction2) throws RemoteException {    //Rocket Jump: p moves one or two cells, according to what he has chosen
         if(moves == 1)
             grid.move(p, direction1);
         else if(moves == 2) {
@@ -50,7 +50,7 @@ public class RocketLauncher extends WeaponCard {
         }
     }
 
-    public void applySpecialEffect2(Grid grid, Player p) throws RemoteException{  //player p deals 1 damage to every player enemy in the original cell of p1 selected for the primary effect, including p1 even if he was moved
+    public void applySpecialEffect2(Grid grid, Player p) throws RemoteException {  //player p deals 1 damage to every player enemy in the original cell of p1 selected for the primary effect, including p1 even if he was moved
         for(Player enemy : grid.getPlayers()) {
             if(enemy.getCell().equals(firstEnemyOriginalCell) && enemy != firstEnemy)
                 grid.damage(p, enemy, 1);

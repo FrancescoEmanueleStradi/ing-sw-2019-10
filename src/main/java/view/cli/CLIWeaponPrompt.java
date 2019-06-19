@@ -31,7 +31,7 @@ public class CLIWeaponPrompt {
         List<String> lP;
         List<String> lPC;
 
-        while (true) {
+        while(true) {
             System.out.println(ENTER_EFFECT);
             lI = enterEffect(intScan);
 
@@ -52,13 +52,13 @@ public class CLIWeaponPrompt {
             System.out.println(ENTER_ADRENALINE_DIR);
             i = enterAdrenalineDir(intScan);
 
-            if (server.messageIsValidFirstActionShoot(game, nickName, s, lI, lS, i, lC, lP, lPC))
+            if(server.messageIsValidFirstActionShoot(game, nickName, s, lI, lS, i, lC, lP, lPC))
                 break;
             else {
                 System.out.println(PROMPT_ERROR_RETRY);
                 System.out.println(EXIT + YES_PROMPT);
                 String exit = in.next();
-                if (exit.equals("Yes") || exit.equals("yes") || exit.equals("y")) {
+                if(exit.equals("Yes") || exit.equals("yes") || exit.equals("y")) {
                     return;
                 }
             }
@@ -77,7 +77,7 @@ public class CLIWeaponPrompt {
         List<String> lP;
         List<String> lPC;
 
-        while (true) {
+        while(true) {
             System.out.println(ENTER_EFFECT);
             lI = enterEffect(intScan);
 
@@ -98,13 +98,13 @@ public class CLIWeaponPrompt {
             System.out.println(ENTER_ADRENALINE_DIR);
             i = enterAdrenalineDir(intScan);
 
-            if (server.messageIsValidSecondActionShoot(game, nickName, s, lI, lS, i, lC, lP, lPC))
+            if(server.messageIsValidSecondActionShoot(game, nickName, s, lI, lS, i, lC, lP, lPC))
                 break;
             else {
                 System.out.println(PROMPT_ERROR_RETRY);
                 System.out.println(EXIT + YES_PROMPT);
                 String exit = in.next();
-                if (exit.equals("Yes") || exit.equals("yes") || exit.equals("y")) {
+                if(exit.equals("Yes") || exit.equals("yes") || exit.equals("y")) {
                     return;
                 }
             }
@@ -123,7 +123,7 @@ public class CLIWeaponPrompt {
        List<String> lP;
        List<String> lPC;
 
-       while (true) {
+       while(true) {
            System.out.println(ENTER_EFFECT);
            lI = enterEffect(intScan);
 
@@ -141,13 +141,13 @@ public class CLIWeaponPrompt {
            System.out.println(ENTER_ADRENALINE_DIR);
            i = enterAdrenalineDir(intScan);
 
-           if (server.messageIsValidFirstActionShoot(game, nickName, s, lI, lS, i, lC, lP, lPC))
+           if(server.messageIsValidFirstActionShoot(game, nickName, s, lI, lS, i, lC, lP, lPC))
                break;
            else {
                System.out.println(PROMPT_ERROR_RETRY);
                System.out.println(EXIT + YES_PROMPT);
                String exit = in.next();
-               if (exit.equals("Yes") || exit.equals("yes") || exit.equals("y")) {
+               if(exit.equals("Yes") || exit.equals("yes") || exit.equals("y")) {
                    return;
                }
            }
@@ -166,7 +166,7 @@ public class CLIWeaponPrompt {
         List<String> lP;
         List<String> lPC;
 
-        while (true) {
+        while(true) {
             System.out.println(ENTER_EFFECT);
             lI = enterEffect(intScan);
 
@@ -184,13 +184,13 @@ public class CLIWeaponPrompt {
             System.out.println(ENTER_ADRENALINE_DIR);
             i = enterAdrenalineDir(intScan);
 
-            if (server.messageIsValidSecondActionShoot(game, nickName, s, lI, lS, i, lC, lP, lPC))
+            if(server.messageIsValidSecondActionShoot(game, nickName, s, lI, lS, i, lC, lP, lPC))
                 break;
             else {
                 System.out.println(PROMPT_ERROR_RETRY);
                 System.out.println(EXIT + YES_PROMPT);
                 String exit = in.next();
-                if (exit.equals("Yes") || exit.equals("yes") || exit.equals("y")) {
+                if(exit.equals("Yes") || exit.equals("yes") || exit.equals("y")) {
                     return;
                 }
             }
@@ -209,7 +209,7 @@ public class CLIWeaponPrompt {
         List<String> lP = new LinkedList<>();
         List<String> lPC = new LinkedList<>();
 
-        while (true) {
+        while(true) {
             System.out.println(ENTER_EFFECT);
             lI = enterEffect(intScan);
 
@@ -219,13 +219,13 @@ public class CLIWeaponPrompt {
             System.out.println(ENTER_ADRENALINE_DIR);
             i = enterAdrenalineDir(intScan);
 
-            if (server.messageIsValidFirstActionShoot(game, nickName, s, lI, lS, i, lC, lP, lPC))
+            if(server.messageIsValidFirstActionShoot(game, nickName, s, lI, lS, i, lC, lP, lPC))
                 break;
             else {
                 System.out.println(PROMPT_ERROR_RETRY);
                 System.out.println(EXIT + YES_PROMPT);
                 String exit = in.next();
-                if (exit.equals("Yes") || exit.equals("yes") || exit.equals("y")) {
+                if(exit.equals("Yes") || exit.equals("yes") || exit.equals("y")) {
                     return;
                 }
             }
@@ -244,7 +244,7 @@ public class CLIWeaponPrompt {
         List<String> lP = new LinkedList<>();
         List<String> lPC = new LinkedList<>();
 
-        while (true) {
+        while(true) {
             System.out.println(ENTER_EFFECT);
             lI = enterEffect(intScan);
 
@@ -254,13 +254,13 @@ public class CLIWeaponPrompt {
             System.out.println(ENTER_ADRENALINE_DIR);
             i = enterAdrenalineDir(intScan);
 
-            if (server.messageIsValidSecondActionShoot(game, nickName, s, lI, lS, i, lC, lP, lPC))
+            if(server.messageIsValidSecondActionShoot(game, nickName, s, lI, lS, i, lC, lP, lPC))
                 break;
             else {
                 System.out.println(PROMPT_ERROR_RETRY);
                 System.out.println(EXIT + YES_PROMPT);
                 String exit = in.next();
-                if (exit.equals("Yes") || exit.equals("yes") || exit.equals("y")) {
+                if(exit.equals("Yes") || exit.equals("yes") || exit.equals("y")) {
                     return;
                 }
             }
@@ -279,20 +279,20 @@ public class CLIWeaponPrompt {
         List<String> lP = new LinkedList<>();
         List<String> lPC = new LinkedList<>();
 
-        while (true) {
+        while(true) {
             System.out.println(ENTER_RELEVANT_STRING);
             lS = enterRelevantString(in);
 
             System.out.println(ENTER_ADRENALINE_DIR);
             i = enterAdrenalineDir(intScan);
 
-            if (server.messageIsValidFirstActionShoot(game, nickName, s, lI, lS, i, lC, lP, lPC))
+            if(server.messageIsValidFirstActionShoot(game, nickName, s, lI, lS, i, lC, lP, lPC))
                 break;
             else {
                 System.out.println(PROMPT_ERROR_RETRY);
                 System.out.println(EXIT + YES_PROMPT);
                 String exit = in.next();
-                if (exit.equals("Yes") || exit.equals("yes") || exit.equals("y")) {
+                if(exit.equals("Yes") || exit.equals("yes") || exit.equals("y")) {
                     return;
                 }
             }
@@ -311,20 +311,20 @@ public class CLIWeaponPrompt {
         List<String> lP = new LinkedList<>();
         List<String> lPC = new LinkedList<>();
 
-        while (true) {
+        while(true) {
             System.out.println(ENTER_RELEVANT_STRING);
             lS = enterRelevantString(in);
 
             System.out.println(ENTER_ADRENALINE_DIR);
             i = enterAdrenalineDir(intScan);
 
-            if (server.messageIsValidSecondActionShoot(game, nickName, s, lI, lS, i, lC, lP, lPC))
+            if(server.messageIsValidSecondActionShoot(game, nickName, s, lI, lS, i, lC, lP, lPC))
                 break;
             else {
                 System.out.println(PROMPT_ERROR_RETRY);
                 System.out.println(EXIT + YES_PROMPT);
                 String exit = in.next();
-                if (exit.equals("Yes") || exit.equals("yes") || exit.equals("y")) {
+                if(exit.equals("Yes") || exit.equals("yes") || exit.equals("y")) {
                     return;
                 }
             }
@@ -335,9 +335,9 @@ public class CLIWeaponPrompt {
     private List<Integer> enterEffect(Scanner in) {
         int effect;
         List<Integer> l = new LinkedList<>();
-        while (in.hasNextInt()) {
+        while(in.hasNextInt()) {
             effect = in.nextInt();
-            if (effect == 0)
+            if(effect == 0)
                 break;
             l.add(effect);
         }
@@ -347,9 +347,9 @@ public class CLIWeaponPrompt {
     private List<String> enterRelevantString(Scanner in) {
         String str;
         List<String> l = new LinkedList<>();
-        while (true) {
+        while(true) {
             str = in.nextLine();
-            if (str.equals("0")) {
+            if(str.equals("0")) {
                 break;
             } else
                 l.add(str);
@@ -360,9 +360,9 @@ public class CLIWeaponPrompt {
     private List<Colour> enterAmmoColour(Scanner in) {
         String colour;
         List<Colour> l = new LinkedList<>();
-        while (true) {
+        while(true) {
             colour = in.nextLine();
-            if (colour.equals("0")) {
+            if(colour.equals("0")) {
                 break;
             } else
                 l.add(Colour.valueOf(colour));
@@ -373,9 +373,9 @@ public class CLIWeaponPrompt {
     private List<String> enterPowerUp(Scanner in) {
         String pUC;
         List<String> l = new LinkedList<>();
-        while (true) {
+        while(true) {
             pUC = in.next();
-            if (pUC.equals("0")) {
+            if(pUC.equals("0")) {
                 break;
             } else
                 l.add(pUC);
@@ -386,9 +386,9 @@ public class CLIWeaponPrompt {
     private List<String> enterPowerUpColour(Scanner in) {
         String colour;
         List<String> l = new LinkedList<>();
-        while (true) {
+        while(true) {
             colour = in.next();
-            if (colour.equals("0")) {
+            if(colour.equals("0")) {
                 break;
             } else
                 l.add(colour);
@@ -398,7 +398,7 @@ public class CLIWeaponPrompt {
 
     private int enterAdrenalineDir(Scanner in) {
         int direction = in.nextInt();
-        while (direction < 0 || direction > 4 ) {
+        while(direction < 0 || direction > 4 ) {
             System.out.println("Make sure the direction is between 0 and 4");
             direction = in.nextInt();
         }

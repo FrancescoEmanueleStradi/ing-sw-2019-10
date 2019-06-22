@@ -11,7 +11,7 @@ public interface ServerInterface extends Remote {
 
     int getGames() throws RemoteException;
 
-    void setGame(int game, Socket socket) throws RemoteException;
+    void setGame(int game) throws RemoteException;
 
     void setView(int game, int identifier, View view) throws RemoteException;
 

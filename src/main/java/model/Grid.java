@@ -9,9 +9,6 @@ import model.player.DamageToken;
 import model.player.Player;
 import network.ServerInterface;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.net.Socket;
 import java.rmi.RemoteException;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -21,10 +18,7 @@ import static java.lang.Math.abs;
 public class Grid {
 
     private int iD;
-    private ServerInterface server = null;
-    private Socket socket = null;
-    private PrintWriter socketOut;
-    private Scanner socketIn;
+    private ServerInterface server;
     private ArrayList<Player> players;
     private Board board;
     private WeaponDeck weaponDeck;
@@ -47,35 +41,12 @@ public class Grid {
         this.powerUpDiscardPile = new LinkedList<>();
     }
 
-    public Grid(int iD, Socket server) throws IOException {
-        this.iD = iD;
-        this.socket = server;
-        this.socketOut = new PrintWriter(socket.getOutputStream(), true);
-        this.socketIn = new Scanner(socket.getInputStream());
-        this.players = new ArrayList<>();
-        this.weaponDeck = new WeaponDeck();
-        this.weaponDeck.startingShuffle();
-        this.powerUpDeck = new PowerUpDeck();
-        this.powerUpDeck.startingShuffle();
-        this.ammoDeck = new AmmoDeck();
-        this.ammoDeck.startingShuffle();
-        this.ammoDiscardPile = new LinkedList<>();
-        this.powerUpDiscardPile = new LinkedList<>();
-    }
-
     public void setType(int aType) throws RemoteException {
         WeaponSlot ws1 = new WeaponSlot(1, pickWeaponCard(), pickWeaponCard(), pickWeaponCard());
         WeaponSlot ws2 = new WeaponSlot(2, pickWeaponCard(), pickWeaponCard(), pickWeaponCard());
         WeaponSlot ws3 = new WeaponSlot(3, pickWeaponCard(), pickWeaponCard(), pickWeaponCard());
         this.board = new Board(aType, ws1, ws2, ws3);
-        //Notify Type already called in "messageReceiveType" to avoid problems with socket communication
-        /*if(server != null)
-            server.notifyType(this.iD, aType);
-        else {
-            socketOut.println("Notify Type");
-            socketOut.println(this.iD);
-            socketOut.println(aType);
-        }*/
+        server.notifyType(this.iD, aType);
     }
 
     public void addPlayer(Player p) throws RemoteException {
@@ -83,15 +54,7 @@ public class Grid {
         List<String> information = new LinkedList<>();
         information.add(p.getNickName());
         information.add(p.getC().toString());
-        if(server != null)
-            server.notifyPlayer(this.iD, information);
-        /*else {
-            socketOut.println("Notify Player");
-            socketOut.println(this.iD);
-            socketOut.println(information.size());
-            for(String s : information)
-                socketOut.println(s);
-        }*/
+        server.notifyPlayer(this.iD, information);
     }
 
     public void removePlayer(Player p) {
@@ -162,30 +125,14 @@ public class Grid {
         informationDamage.add(p.getNickName());
         informationDamage.add(Integer.toString(numDamage));
         informationDamage.add(p1.getNickName());
-        if(server != null)
-            server.notifyDamage(this.iD, informationDamage);
-        /*else {
-            socketOut.println("Notify Damage");
-            socketOut.println(this.iD);
-            socketOut.println(informationDamage.size());
-            for(String s : informationDamage)
-                socketOut.println(s);
-        }*/
+        server.notifyDamage(this.iD, informationDamage);
+
         if(p1.isOverkilled()) {
             p.getPlayerBoard().addMark(new DamageToken(p1.getC()));
             List<String> information = new LinkedList<>();
             information.add(p.getNickName());
             information.add(p1.getNickName());
-
-            if(server != null)
-                server.notifyMark(this.iD, information);
-            /*else {
-                socketOut.println("Notify Mark");
-                socketOut.println(this.iD);
-                socketOut.println(information.size());
-                for(String s : information)
-                    socketOut.println(s);
-            }*/
+            server.notifyMark(this.iD, information);
         }
     }
 
@@ -198,16 +145,7 @@ public class Grid {
         List<String> information = new LinkedList<>();
         information.add(p1.getNickName());
         information.add(p2.getNickName());
-
-        if(server != null)
-            server.notifyMark(this.iD, information);
-        /*else {
-            socketOut.println("Notify Mark");
-            socketOut.println(this.iD);
-            socketOut.println(information.size());
-            for(String s : information)
-                socketOut.println(s);
-        }*/
+        server.notifyMark(this.iD, information);
     }
 
     private void removeMarkAndAdd(Player p1, Player p2) throws RemoteException {
@@ -219,15 +157,7 @@ public class Grid {
             informationDamage.add(p1.getNickName());
             informationDamage.add(Integer.toString(y));
             informationDamage.add(p2.getNickName());
-            if(server != null)
-                server.notifyDamage(this.iD, informationDamage);
-            /*else {
-                socketOut.println("Notify Damage");
-                socketOut.println(this.iD);
-                socketOut.println(informationDamage.size());
-                for(String s : informationDamage)
-                    socketOut.println(s);
-            }*/
+            server.notifyDamage(this.iD, informationDamage);
             p1.getPlayerBoard().clearMark(p2.getC());
         }
     }
@@ -257,15 +187,7 @@ public class Grid {
         information.add(Integer.toString(p.getCell().getPos().getX()));
         information.add(Integer.toString(p.getCell().getPos().getY()));
 
-        if(server != null)
-            server.notifyPosition(this.iD, information);
-        /*else {
-            socketOut.println("Notify Position");
-            socketOut.println(this.iD);
-            socketOut.println(information.size());
-            for(String s : information)
-                socketOut.println(s);
-        }*/
+        server.notifyPosition(this.iD, information);
     }
 
     public void moveWithoutNotify(Player p, int d) {
@@ -307,16 +229,7 @@ public class Grid {
         information.add(p.getNickName());
         information.add(Integer.toString(x));
         information.add(Integer.toString(y));
-
-        if(server != null)
-            server.notifyPosition(this.iD, information);
-        /*else {
-            socketOut.println("Notify Position");
-            socketOut.println(this.iD);
-            socketOut.println(information.size());
-            for(String s : information)
-                socketOut.println(s);
-        }*/
+        server.notifyPosition(this.iD, information);
     }
 
     //true if there is a wall between p and pT

@@ -72,7 +72,7 @@ public class SocketServerClientHandler implements Runnable {
                     case "Set Game":
                         int gameSetGame = inScanner.nextInt();
                         inScanner.nextLine();
-                        server.setGame(gameSetGame, socket);
+                        server.setGame(gameSetGame);
                         break;
                     case "Receive Identifier":
                         int gameReceiveIdentifier = inScanner.nextInt();

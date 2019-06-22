@@ -38,12 +38,9 @@ public class ServerMethods extends UnicastRemoteObject implements ServerInterfac
         return games.size();
     }
 
-    public synchronized void setGame(int numGame, Socket socket) throws RemoteException {
+    public synchronized void setGame(int numGame) throws RemoteException {
         if(games.isEmpty() || games.size() <= numGame) {
-            if(socket == null)
-                games.add(numGame, new Game(numGame, this));
-            else
-                games.add(numGame, new Game(numGame, socket));
+            games.add(numGame, new Game(numGame, this));
 
             connections.add(numGame, new LinkedList<>());
             suspendedName.add(numGame, new LinkedList<>());
@@ -238,10 +235,6 @@ public class ServerMethods extends UnicastRemoteObject implements ServerInterfac
 
     public synchronized void messageGameStart(int game, String nick, Colour c) throws RemoteException {
         games.get(game).gameStart(nick,c);
-        /*List<String> information = new LinkedList<>();
-        information.add(nick);
-        information.add(c.getColourId());
-        notifyPlayer(game, information);*/
     }
 
     public synchronized boolean messageIsValidReceiveType(int game, int type) throws RemoteException {
@@ -250,7 +243,6 @@ public class ServerMethods extends UnicastRemoteObject implements ServerInterfac
 
     public synchronized void messageReceiveType(int game, int type) throws RemoteException {
         games.get(game).receiveType(type);
-        notifyType(game, type);
     }
 
     public synchronized boolean messageIsValidAddPlayer(int game, String nick, Colour c) throws RemoteException {
@@ -259,10 +251,6 @@ public class ServerMethods extends UnicastRemoteObject implements ServerInterfac
 
     public synchronized void messageAddPlayer(int game, String nick, Colour c) throws RemoteException {
         games.get(game).addPlayer(nick, c);
-        /*List<String> information = new LinkedList<>();
-        information.add(nick);
-        information.add(c.getColourId());
-        notifyPlayer(game, information);*/
     }
 
     public synchronized void messageGiveTwoPUCard(int game, String nick) throws RemoteException {

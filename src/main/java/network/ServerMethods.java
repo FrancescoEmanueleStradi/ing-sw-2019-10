@@ -183,35 +183,140 @@ public class ServerMethods extends UnicastRemoteObject implements ServerInterfac
             if(c.getView()!=null && !suspendedIdentifier.get(game).contains(c.getIdentifier())) {
                 c.getView().printPlayer(information);
             }
+            else if(!suspendedIdentifier.get(game).contains(c.getIdentifier()))
+                c.setPrintPlayerList(information);
         }
+    }
+
+    public int notifyPlayerSize(int game, int identifier) {
+        for(Connection c : connections.get(game)) {
+            if(c.getIdentifier() == identifier)
+                return c.getPrintPlayerList().size();
+        }
+        return 0;
+    }
+
+    public List<List<String>> getNotifyPlayer(int game, int identifier) {
+        for(Connection c : connections.get(game)) {
+            if(c.getIdentifier() == identifier) {
+                List<List<String>> listNotifyPlayer = c.getPrintPlayerList();
+                c.removeFirstPrintPlayerList();
+                return listNotifyPlayer;
+            }
+        }
+        return new LinkedList<>();
     }
 
     public synchronized void notifyScore(int game, List<String> information) throws RemoteException {
         for(Connection c : connections.get(game)) {
             if(c.getView()!=null && !suspendedIdentifier.get(game).contains(c.getIdentifier()))
                 c.getView().printScore(information);
+            else if(!suspendedIdentifier.get(game).contains(c.getIdentifier()))
+                c.setPrintScoreList(information);
         }
+    }
+
+    public int notifyScoreSize(int game, int identifier) {
+        for(Connection c : connections.get(game)) {
+            if(c.getIdentifier() == identifier)
+                return c.getPrintScoreList().size();
+        }
+        return 0;
+    }
+
+    public List<List<String>> getNotifyScore(int game, int identifier) {
+        for(Connection c : connections.get(game)) {
+            if(c.getIdentifier() == identifier) {
+                List<List<String>> listNotifyScore = c.getPrintScoreList();
+                c.removeFirstPrintScoreList();
+                return listNotifyScore;
+            }
+        }
+        return new LinkedList<>();
     }
 
     public  synchronized void notifyPosition(int game, List<String> information) throws RemoteException {
         for(Connection c : connections.get(game)) {
             if(c.getView()!=null && !suspendedIdentifier.get(game).contains(c.getIdentifier()))
                 c.getView().printPosition(information);
+            else if(!suspendedIdentifier.get(game).contains(c.getIdentifier()))
+                c.setPrintPositionList(information);
         }
+    }
+
+    public int notifyPositionSize(int game, int identifier) {
+        for(Connection c : connections.get(game)) {
+            if(c.getIdentifier() == identifier)
+                return c.getPrintPositionList().size();
+        }
+        return 0;
+    }
+
+    public List<List<String>> getNotifyPosition(int game, int identifier) {
+        for(Connection c : connections.get(game)) {
+            if(c.getIdentifier() == identifier) {
+                List<List<String>> listNotifyPosition = c.getPrintPositionList();
+                c.removeFirstPrintPositionList();
+                return listNotifyPosition;
+            }
+        }
+        return new LinkedList<>();
     }
 
     public synchronized void notifyMark(int game, List<String> information) throws RemoteException {
         for(Connection c : connections.get(game)) {
             if(c.getView()!=null && !suspendedIdentifier.get(game).contains(c.getIdentifier()))
                 c.getView().printMark(information);
+            else if(!suspendedIdentifier.get(game).contains(c.getIdentifier()))
+                c.setPrintMarkList(information);
         }
+    }
+
+    public int notifyMarkSize(int game, int identifier) {
+        for(Connection c : connections.get(game)) {
+            if(c.getIdentifier() == identifier)
+                return c.getPrintMarkList().size();
+        }
+        return 0;
+    }
+
+    public List<List<String>> getNotifyMark(int game, int identifier) {
+        for(Connection c : connections.get(game)) {
+            if(c.getIdentifier() == identifier) {
+                List<List<String>> listNotifyMark = c.getPrintMarkList();
+                c.removeFirstPrintMarkList();
+                return listNotifyMark;
+            }
+        }
+        return new LinkedList<>();
     }
 
     public synchronized void notifyDamage(int game, List<String> information) throws RemoteException {
         for(Connection c : connections.get(game)) {
             if(c.getView()!=null && !suspendedIdentifier.get(game).contains(c.getIdentifier()))
                 c.getView().printDamage(information);
+            else if(!suspendedIdentifier.get(game).contains(c.getIdentifier()))
+                c.setPrintDamageList(information);
         }
+    }
+
+    public int notifyDamageSize(int game, int identifier) {
+        for(Connection c : connections.get(game)) {
+            if(c.getIdentifier() == identifier)
+                return c.getPrintDamageList().size();
+        }
+        return 0;
+    }
+
+    public List<List<String>> getNotifyDamage(int game, int identifier) {
+        for(Connection c : connections.get(game)) {
+            if(c.getIdentifier() == identifier) {
+                List<List<String>> listNotifyDamage = c.getPrintDamageList();
+                c.removeFirstPrintDamageList();
+                return listNotifyDamage;
+            }
+        }
+        return new LinkedList<>();
     }
 
     public synchronized void notifyType(int game, int type) throws RemoteException {

@@ -17,11 +17,16 @@ public class SocketProcesses {
     private static int game;
     private static int identifier;
 
+    private static PrintWriter socketOut;
+    private static Scanner socketIn;
+    private static ObjectInputStream socketObjectIn;
+    private static ObjectOutputStream socketObjectOut;
+
     public static void socketProcesses(Socket socket) throws IOException {
-        PrintWriter socketOut = new PrintWriter(socket.getOutputStream(), true);
-        Scanner socketIn = new Scanner(socket.getInputStream());
-        ObjectInputStream socketObjectIn = new ObjectInputStream(socket.getInputStream());
-        ObjectOutputStream socketObjectOut = new ObjectOutputStream(socket.getOutputStream());
+        socketOut = new PrintWriter(socket.getOutputStream(), true);
+        socketIn = new Scanner(socket.getInputStream());
+        socketObjectIn = new ObjectInputStream(socket.getInputStream());
+        socketObjectOut = new ObjectOutputStream(socket.getOutputStream());
         Scanner in = new Scanner(System.in);
 
         socketOut.println("Get Games");
@@ -75,11 +80,11 @@ public class SocketProcesses {
                 }
             } while(!cliGui);
 
-            socketOut.println("Set View");
+            /*socketOut.println("Set View");
             socketOut.println(game);
             socketOut.println(identifier);
             socketObjectOut.writeObject(view.getView());
-            socketObjectOut.flush();
+            socketObjectOut.flush();*/
 
             socketOut.println("Get Type");
             socketOut.println(game);
@@ -154,11 +159,11 @@ public class SocketProcesses {
                 }
             } while(!cliGui);
 
-            socketOut.println("Set View");
+            /*socketOut.println("Set View");
             socketOut.println(game);
             socketOut.println(identifier);
             socketObjectOut.writeObject(view.getView());
-            socketObjectOut.flush();
+            socketObjectOut.flush();*/
 
             view.setIdentifier(identifier);
 
@@ -176,6 +181,8 @@ public class SocketProcesses {
                 if(stopGame.equals("true"))
                     break;
 
+                notifyHandler();
+
                 socketOut.println("Is My Turn");
                 socketOut.println(game);
                 socketOut.println(identifier);
@@ -187,6 +194,8 @@ public class SocketProcesses {
                     String isNotFF = socketIn.nextLine();
 
                     if(isNotFF.equals("true")) {
+                        notifyHandler();
+
                         if(view.doYouWantToUsePUC()) {
                             MyTaskSocket task = new MyTaskSocket(game, identifier, view.getNickName(), socket);
                             Timer timer = new Timer();
@@ -195,11 +204,15 @@ public class SocketProcesses {
                             timer.cancel();
                         }
 
+                        notifyHandler();
+
                         MyTaskSocket task2 = new MyTaskSocket(game, identifier, view.getNickName(), socket);
                         Timer timer2 = new Timer();
                         timer2.schedule(task2, 150000);
                         view.action1();
                         timer2.cancel();
+
+                        notifyHandler();
 
                         if(view.doYouWantToUsePUC()) {
                             MyTaskSocket task3 = new MyTaskSocket(game, identifier, view.getNickName(), socket);
@@ -209,11 +222,15 @@ public class SocketProcesses {
                             timer3.cancel();
                         }
 
+                        notifyHandler();
+
                         MyTaskSocket task4 = new MyTaskSocket(game, identifier, view.getNickName(), socket);
                         Timer timer4 = new Timer();
                         timer4.schedule(task4, 150000);
                         view.action2();
                         timer4.cancel();
+
+                        notifyHandler();
 
                         if(view.doYouWantToUsePUC()) {
                             MyTaskSocket task5 = new MyTaskSocket(game, identifier, view.getNickName(), socket);
@@ -223,9 +240,13 @@ public class SocketProcesses {
                             timer5.cancel();
                         }
 
+                        notifyHandler();
+
                         view.reload();
                         view.scoring();
                         view.replace();
+
+                        notifyHandler();
 
                         socketOut.println("Finish Turn");
                         socketOut.println(game);
@@ -243,6 +264,8 @@ public class SocketProcesses {
                         if(stopGame.equals("true"))
                             break;
 
+                        notifyHandler();
+
                         socketOut.println("Set Final Turn");
                         socketOut.println(game);
                         socketOut.println(identifier);
@@ -254,6 +277,8 @@ public class SocketProcesses {
                         timer6.schedule(task6, 500000);
                         view.finalFrenzyTurn();
                         timer6.cancel();
+
+                        notifyHandler();
 
                         socketOut.println("Finish Turn");
                         socketOut.println(game);
@@ -268,6 +293,8 @@ public class SocketProcesses {
                 }
 
                 view.newSpawnPoint();
+
+                notifyHandler();
 
                 socketOut.println("Game Is Finished");
                 socketOut.println(game);
@@ -292,6 +319,93 @@ public class SocketProcesses {
             socketOut.println(game);
 
             System.exit(0);
+        }
+    }
+
+    private static void notifyHandler() {
+        //Notify Player
+        socketOut.println("Notify Player Size");
+        socketOut.println(game);
+        socketOut.println(identifier);
+
+        int notifyPlayerSize = Integer.parseInt(socketIn.nextLine());
+
+        if(notifyPlayerSize > 0) {
+            for(int i = 0; i < notifyPlayerSize; i++) {
+                socketOut.println("Get Notify Player");
+                socketOut.println(game);
+                socketOut.println(identifier);
+
+                System.out.println("Player " + socketIn.nextLine() + " (identifier " + socketIn.nextLine() + ") whose colour is " + socketIn.nextLine() + " is now a player of this game.");
+            }
+        }
+
+        //Notify Score
+        socketOut.println("Notify Score Size");
+        socketOut.println(game);
+        socketOut.println(identifier);
+
+        int notifyScoreSize = Integer.parseInt(socketIn.nextLine());
+
+        if(notifyScoreSize > 0) {
+            for(int i = 0; i < notifyScoreSize; i++) {
+                socketOut.println("Get Notify Score");
+                socketOut.println(game);
+                socketOut.println(identifier);
+
+                System.out.println("Player " + socketIn.nextLine() + "'s current score is " + socketIn.nextLine());
+            }
+        }
+
+        //Notify Position
+        socketOut.println("Notify Position Size");
+        socketOut.println(game);
+        socketOut.println(identifier);
+
+        int notifyPositionSize = Integer.parseInt(socketIn.nextLine());
+
+        if(notifyPositionSize > 0) {
+            for(int i = 0; i < notifyPositionSize; i++) {
+                socketOut.println("Get Notify Position");
+                socketOut.println(game);
+                socketOut.println(identifier);
+
+                System.out.println("Player " + socketIn.nextLine() + " is now in cell " + socketIn.nextLine() + " " + socketIn.nextLine());
+            }
+        }
+
+        //Notify Mark
+        socketOut.println("Notify Mark Size");
+        socketOut.println(game);
+        socketOut.println(identifier);
+
+        int notifyMarkSize = Integer.parseInt(socketIn.nextLine());
+
+        if(notifyMarkSize > 0) {
+            for(int i = 0; i < notifyMarkSize; i++) {
+                socketOut.println("Get Notify Mark");
+                socketOut.println(game);
+                socketOut.println(identifier);
+
+                System.out.println("Player " + socketIn.nextLine() + "has given a new mark to player " + socketIn.nextLine());
+            }
+        }
+
+        //Notify Damage
+        socketOut.println("Notify Damage Size");
+        socketOut.println(game);
+        socketOut.println(identifier);
+
+        int notifyDamageSize = Integer.parseInt(socketIn.nextLine());
+
+        if(notifyDamageSize > 0) {
+            for(int i = 0; i < notifyDamageSize; i++) {
+                socketOut.println("Get Notify Damage");
+                socketOut.println(game);
+                socketOut.println(identifier);
+
+                System.out.println("Player " + socketIn.nextLine() + " has dealt " + socketIn.nextLine() + " damage to player " + socketIn.nextLine());
+            }
         }
     }
 }

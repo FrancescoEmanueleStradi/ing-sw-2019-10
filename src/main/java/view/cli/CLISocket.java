@@ -27,16 +27,6 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
     private static final String DIRECTIONS = "1 = north, 2 = east, 3 = south, 4 = west";
     private static final String EXITSTRING = "Do you want to go back and change action?";
     private static final String YESPROMPT = "(Yes/yes/y)";
-    private boolean printPlayer = false;
-    private List<List<String>> printPlayerList = new LinkedList<>();
-    private boolean printScore = false;
-    private List<List<String>> printScoreList = new LinkedList<>();
-    private boolean printPosition = false;
-    private List<List<String>> printPositionList = new LinkedList<>();
-    private boolean printMark = false;
-    private List<List<String>> printMarkList = new LinkedList<>();
-    private boolean printDamage = false;
-    private List<List<String>> printDamageList = new LinkedList<>();
 
     public CLISocket(int game, Socket socket) throws IOException {
         super();
@@ -2027,73 +2017,27 @@ public class CLISocket extends UnicastRemoteObject implements View, Serializable
 
     @Override
     public void printPlayer(List<String> information) {
-        printPlayer = true;
-        printPlayerList.add(information);
-    }
-
-    public boolean getPrintPlayer() {
-        return printPlayer;
     }
 
     @Override
     public void printScore(List<String> information) {
-        printScore = true;
-        printScoreList.add(information);
     }
 
     @Override
     public void printPosition(List<String> information) {
-        printPosition = true;
-        printPositionList.add(information);
     }
 
     @Override
     public void printMark(List<String> information) {
-        printMark = true;
-        printMarkList.add(information);
     }
 
     @Override
     public void printDamage(List<String> information) {
-        printDamage = true;
-        printDamageList.add(information);
     }
 
     @Override
     public void printType() {
         System.out.println("The type of the arena is: " + type);
-    }
-
-    public void printNotify() {
-        if(printPlayer) {
-            for(List information : printPlayerList)
-                System.out.println("Player " + information.get(0) + " (identifier " + information.get(2) + ") whose colour is " + information.get(1) + " is now a player of this game.");
-            printPlayerList.clear();
-            printPlayer = false;
-        }
-        if(printScore) {
-            for (List information : printScoreList)
-                System.out.println("Player " + information.get(0) + "'s current score is " + information.get(1));
-            printScoreList.clear();
-            printScore = false;
-        }
-        if(printPosition) {
-            for(List information : printPositionList)
-                System.out.println("Player " + information.get(0) + " is now in cell " + information.get(1) + " " + information.get(2));
-            printPositionList.clear();
-            printPosition = false;
-        }
-        if(printMark) {
-            for(List information : printMarkList)
-                System.out.println("Player " + information.get(0) + "has given a new mark to player " + information.get(1));
-            printMarkList.clear();
-            printMark = false;
-        }
-        if(printDamage)
-            for(List information : printDamageList)
-                System.out.println("Player " + information.get(0) + " has dealt " + information.get(1) + " damage to player " + information.get(2));
-            printDamageList.clear();
-            printDamage = false;
     }
 
     @Override

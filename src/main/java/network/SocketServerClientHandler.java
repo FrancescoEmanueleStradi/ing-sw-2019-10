@@ -1040,53 +1040,71 @@ public class SocketServerClientHandler implements Runnable {
                         break;
 
                     //Notify calls
-                    //TODO commented are already fixed (inserted in other methods when necessary)
-                    case "Notify Player":
-                        int iD = inScanner.nextInt();
-                        List<String> information = new LinkedList<>();
-                        int informationSize = inScanner.nextInt();
-                        for(int i = 0; i < informationSize; i++)
-                            information.add(inScanner.nextLine());
-                        server.notifyPlayer(iD, information);
+                    case "Notify Player Size":
+                        int gameNotifyPlayerSize = Integer.parseInt(inScanner.nextLine());
+                        int idNotifyPlayerSize = Integer.parseInt(inScanner.nextLine());
+                        outPrinter.println(server.notifyPlayerSize(gameNotifyPlayerSize, idNotifyPlayerSize));
                         break;
-                    case "Notify Score":
-                        int iD1 = inScanner.nextInt();
-                        List<String> information1 = new LinkedList<>();
-                        int information1Size = inScanner.nextInt();
-                        for(int i = 0; i < information1Size; i++)
-                            information1.add(inScanner.nextLine());
-                        server.notifyScore(iD1, information1);
+                    case "Get Notify Player":
+                        int gameGetNotifyPlayer = Integer.parseInt(inScanner.nextLine());
+                        int idGetNotifyPlayer = Integer.parseInt(inScanner.nextLine());
+                        List<List<String>> notifyPlayerList = server.getNotifyPlayer(gameGetNotifyPlayer, idGetNotifyPlayer);
+                        outPrinter.println(notifyPlayerList.get(0).get(0));
+                        outPrinter.println(notifyPlayerList.get(0).get(2));
+                        outPrinter.println(notifyPlayerList.get(0).get(1));
                         break;
-                    case "Notify Position":
-                        int iD2 = inScanner.nextInt();
-                        List<String> information2 = new LinkedList<>();
-                        int information2Size = inScanner.nextInt();
-                        for(int i = 0; i < information2Size; i++)
-                            information2.add(inScanner.nextLine());
-                        server.notifyPosition(iD2, information2);
+                    case "Notify Score Size":
+                        int gameNotifyScoreSize = Integer.parseInt(inScanner.nextLine());
+                        int idNotifyScoreSize = Integer.parseInt(inScanner.nextLine());
+                        outPrinter.println(server.notifyScoreSize(gameNotifyScoreSize, idNotifyScoreSize));
                         break;
-                    case "Notify Mark":
-                        int iD3 = inScanner.nextInt();
-                        List<String> information3 = new LinkedList<>();
-                        int information3Size = inScanner.nextInt();
-                        for(int i = 0; i < information3Size; i++)
-                            information3.add(inScanner.nextLine());
-                        server.notifyMark(iD3, information3);
+                    case "Get Notify Score":
+                        int gameGetNotifyScore = Integer.parseInt(inScanner.nextLine());
+                        int idGetNotifyScore = Integer.parseInt(inScanner.nextLine());
+                        List<List<String>> notifyScoreList = server.getNotifyScore(gameGetNotifyScore, idGetNotifyScore);
+                        outPrinter.println(notifyScoreList.get(0).get(0));
+                        outPrinter.println(notifyScoreList.get(0).get(1));
                         break;
-                    case "Notify Damage":
-                        int iD4 = inScanner.nextInt();
-                        List<String> information4 = new LinkedList<>();
-                        int information4Size = inScanner.nextInt();
-                        for(int i = 0; i < information4Size; i++)
-                            information4.add(inScanner.nextLine());
-                        server.notifyDamage(iD4, information4);
+                    case "Notify Position Size":
+                        int gameNotifyPositionSize = Integer.parseInt(inScanner.nextLine());
+                        int idNotifyPositionSize = Integer.parseInt(inScanner.nextLine());
+                        outPrinter.println(server.notifyPositionSize(gameNotifyPositionSize, idNotifyPositionSize));
                         break;
-                    /*case "Notify Type":
-                        server.notifyType(inScanner.nextInt(), inScanner.nextInt());
-                        break;*/
+                    case "Get Notify Position":
+                        int gameGetNotifyPosition = Integer.parseInt(inScanner.nextLine());
+                        int idGetNotifyPosition = Integer.parseInt(inScanner.nextLine());
+                        List<List<String>> notifyPositionList = server.getNotifyPosition(gameGetNotifyPosition, idGetNotifyPosition);
+                        outPrinter.println(notifyPositionList.get(0).get(0));
+                        outPrinter.println(notifyPositionList.get(0).get(1));
+                        outPrinter.println(notifyPositionList.get(0).get(2));
+                        break;
+                    case "Notify Mark Size":
+                        int gameNotifyMarkSize = Integer.parseInt(inScanner.nextLine());
+                        int idNotifyMarkSize = Integer.parseInt(inScanner.nextLine());
+                        outPrinter.println(server.notifyMarkSize(gameNotifyMarkSize, idNotifyMarkSize));
+                        break;
+                    case "Get Notify Mark":
+                        int gameGetNotifyMark = Integer.parseInt(inScanner.nextLine());
+                        int idGetNotifyMark = Integer.parseInt(inScanner.nextLine());
+                        List<List<String>> notifyMarkList = server.getNotifyMark(gameGetNotifyMark, idGetNotifyMark);
+                        outPrinter.println(notifyMarkList.get(0).get(0));
+                        outPrinter.println(notifyMarkList.get(0).get(1));
+                        break;
+                    case "Notify Damage Size":
+                        int gameNotifyDamageSize = Integer.parseInt(inScanner.nextLine());
+                        int idNotifyDamageSize = Integer.parseInt(inScanner.nextLine());
+                        outPrinter.println(server.notifyDamageSize(gameNotifyDamageSize, idNotifyDamageSize));
+                        break;
+                    case "Get Notify Damage":
+                        int gameGetNotifyDamage = Integer.parseInt(inScanner.nextLine());
+                        int idGetNotifyDamage = Integer.parseInt(inScanner.nextLine());
+                        List<List<String>> notifyDamageList = server.getNotifyDamage(gameGetNotifyDamage, idGetNotifyDamage);
+                        outPrinter.println(notifyDamageList.get(0).get(0));
+                        outPrinter.println(notifyDamageList.get(0).get(1));
+                        outPrinter.println(notifyDamageList.get(0).get(2));
+                        break;
 
-
-
+                    //it can be useful
                     case "QUIT":
                         exit = true;
                         break;

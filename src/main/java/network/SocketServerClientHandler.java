@@ -1,12 +1,8 @@
 package network;
 
 import model.Colour;
-import view.View;
-import view.cli.CLISocket;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.LinkedList;
@@ -27,8 +23,6 @@ public class SocketServerClientHandler implements Runnable {
         try {
             PrintWriter outPrinter = new PrintWriter(socket.getOutputStream(), true);
             Scanner inScanner = new Scanner(socket.getInputStream());
-            ObjectOutputStream outObject = new ObjectOutputStream(socket.getOutputStream());
-            ObjectInputStream inObject = new ObjectInputStream(socket.getInputStream());
             boolean exit = false;
 
             while(!exit) {
@@ -43,14 +37,6 @@ public class SocketServerClientHandler implements Runnable {
                         int identifierIsASuspendedIdentifier = inScanner.nextInt();
                         inScanner.nextLine();
                         outPrinter.println(server.isASuspendedIdentifier(gameIsASuspendedIdentifier, identifierIsASuspendedIdentifier));
-                        break;
-                    case "Set View":
-                        int gameSetView = inScanner.nextInt();
-                        inScanner.nextLine();
-                        int identifierSetView = inScanner.nextInt();
-                        inScanner.nextLine();
-                        View viewSetView = (View) inObject.readObject();
-                        server.setView(gameSetView, identifierSetView, viewSetView);
                         break;
                     case "Get Type":
                         int typeGetType = inScanner.nextInt();
@@ -1116,8 +1102,8 @@ public class SocketServerClientHandler implements Runnable {
             inScanner.close();
             outPrinter.close();
             socket.close();
-        } catch (IOException | ClassNotFoundException e ) {
-            System.out.println("Socket Server Client Handler Exception");
+        } catch (IOException e ) {
+            System.out.println("Socket Server Client Handler IO Exception");
         } catch (InterruptedException e) {
             System.exit(0);
             Thread.currentThread().interrupt();

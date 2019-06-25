@@ -1,5 +1,6 @@
 package network;
 
+import view.View;
 import view.cli.CLISocket;
 import view.gui.GUI;
 
@@ -14,20 +15,16 @@ import java.util.Timer;
 
 public class SocketProcesses {
 
-    private static CLISocket view;
+    private static View view;
     private static int game;
     private static int identifier;
 
     private static PrintWriter socketOut;
     private static Scanner socketIn;
-    private static ObjectInputStream socketObjectIn;
-    private static ObjectOutputStream socketObjectOut;
 
-    public static void socketProcesses(Socket socket) throws IOException {
+    public static void socketProcesses(Socket socket) throws IOException, InterruptedException {
         socketOut = new PrintWriter(socket.getOutputStream(), true);
         socketIn = new Scanner(socket.getInputStream());
-        socketObjectIn = new ObjectInputStream(socket.getInputStream());
-        socketObjectOut = new ObjectOutputStream(socket.getOutputStream());
         Scanner in = new Scanner(System.in);
 
         socketOut.println("Get Games");
@@ -41,7 +38,7 @@ public class SocketProcesses {
         String n = in.next();
 
         if(n.equals("yes") || n.equals("Yes") || n.equals("YES")) {
-            String isASuspendedID = "false";
+            String isASuspendedID;
             int counterOldID = 0;
             do {
                 if(counterOldID > 0)
@@ -74,12 +71,6 @@ public class SocketProcesses {
                 }
             }while(!cliGui);
 
-            /*socketOut.println("Set View");
-            socketOut.println(game);
-            socketOut.println(identifier);
-            socketObjectOut.writeObject(view.getView());
-            socketObjectOut.flush();*/
-
             socketOut.println("Get Type");
             socketOut.println(game);
             int type = Integer.parseInt(socketIn.nextLine());
@@ -95,7 +86,7 @@ public class SocketProcesses {
         }
 
         else {
-            String tooMany = "false";
+            String tooMany;
             int counterTooMany = 0;
 
             do {
@@ -121,7 +112,7 @@ public class SocketProcesses {
             socketOut.println("Merge Group");
             socketOut.println(game);
 
-            String canStart = "false";
+            String canStart;
 
             do {
                 socketOut.println("Can Start");
@@ -152,12 +143,6 @@ public class SocketProcesses {
                         break;
                 }
             } while(!cliGui);
-
-            /*socketOut.println("Set View");
-            socketOut.println(game);
-            socketOut.println(identifier);
-            socketObjectOut.writeObject(view.getView());
-            socketObjectOut.flush();*/
 
             view.setIdentifier(identifier);
 

@@ -11,12 +11,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
-public class CLISocket extends UnicastRemoteObject implements View, Serializable {
+public class CLISocket extends UnicastRemoteObject implements View {
 
     private int game;
-    private transient Socket socket;
-    private transient PrintWriter socketOut;
-    private transient Scanner socketIn;
+    private Socket socket;
+    private PrintWriter socketOut;
+    private Scanner socketIn;
     private int identifier;
     private int type = 0;
     private String nickName;

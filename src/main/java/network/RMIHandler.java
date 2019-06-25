@@ -7,7 +7,7 @@ import java.rmi.registry.Registry;
 public class RMIHandler {
 
     public RMIHandler(ServerMethods methods) throws RemoteException {
-        System.out.println("\nGenerating RMI Adrenaline server...");
+        System.out.println("\nGenerating Adrenaline RMI Server...");
 
         System.out.println("Binding server to registry...");
         Registry registry = LocateRegistry.createRegistry(5099);

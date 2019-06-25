@@ -20,6 +20,7 @@ public class SocketHandler {
         ExecutorService executor = Executors.newCachedThreadPool();
         ServerSocket serverSocket = null;
         try {
+            System.out.println("\nGenerating Adrenaline Socket Server...");
             serverSocket = new ServerSocket(port);
         } catch (IOException | NullPointerException e) {
             System.out.println("Port not available!");

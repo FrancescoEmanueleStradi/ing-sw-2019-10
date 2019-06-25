@@ -35,19 +35,19 @@ public class RMIProcesses {
 
             System.out.println("Welcome back! Your identifier is:" + identifier);
 
-            boolean cliGui = false;
+            boolean flag = false;
             do {
                 System.out.println("Do you want to use CLI or GUI?");
                 String s = in.next();
                 if(s.equals("CLI") || s.equals("Cli") || s.equals("cli")) {
-                    cliGui = true;
+                    flag = true;
                     view = new CLI(game, centralServer);
                 }
-                if(s.equals("GUI") || s.equals("Gui") || s.equals("gui")) {
-                    cliGui = true;
+                else if(s.equals("GUI") || s.equals("Gui") || s.equals("gui")) {
+                    flag = true;
                     view = new GUI(game, centralServer);
                 }
-            }while(!cliGui);
+            }while(!flag);
 
             centralServer.setView(game, identifier, view.getView());
             view.setType(centralServer.getType(game));

@@ -292,11 +292,9 @@ public class GUI implements View, Serializable {
 
     @Override
     public void printPlayer(List<String> information) throws RemoteException {
-        this.players = new JPanel();
         players.add(new PlayerName(information.get(0), information.get(1), information.get(2)));
-        players.setBounds(0,350, 50, 0);
         this.gameGraphic.add(players);
-        //TODO
+        textArea.append("Player " + information.get(0) + " (identifier " + information.get(2)+ ") whose colour is " + information.get(1) + " is now a player of this game.");
         gameGraphic.revalidate();
     }
 
@@ -309,7 +307,6 @@ public class GUI implements View, Serializable {
     @Override
     public void printPosition(List<String> information) throws RemoteException {
         textArea.append("Now Player: " + information.get(0) + " is in the cell " + information.get(1) + " " + information.get(2));
-        //TODO
         this.gameGraphic.revalidate();
     }
 
@@ -322,7 +319,6 @@ public class GUI implements View, Serializable {
     @Override
     public void printDamage(List<String> information) throws RemoteException {
         textArea.append("Player: " + information.get(0) + " give " + information.get(1) + " damages to Player: " + information.get(2));
-        //TODO
         this.gameGraphic.revalidate();
     }
 
@@ -364,8 +360,12 @@ public class GUI implements View, Serializable {
         textArea = new TextArea();
         scrollPane = new JScrollPane (textArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         scrollPane.setBounds(0, 100, 100, 0);
+        players = new JPanel();
+        players.doLayout();
+        //players.setBounds(0,350, 50, 0);
         gameGraphic.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         gameGraphic.add(scrollPane);
+        gameGraphic.add(players);
         gameGraphic.setVisible(true);
     }
 

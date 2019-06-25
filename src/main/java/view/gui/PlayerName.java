@@ -16,6 +16,7 @@ public class PlayerName extends JTextField {
     public PlayerName(String nickName, String c, String identifier) {
         this.nickName = nickName;
         this.c = Color.getColor(c);
+        this.identifier = identifier;
         jname = new JLabel(this.nickName);
         jname.setBackground(this.c);
         jidentifier = new  JLabel(this.identifier);

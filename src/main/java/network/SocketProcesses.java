@@ -126,23 +126,16 @@ public class SocketProcesses {
             boolean cliGui = false;
             do {
                 System.out.println("Do you want to use CLI or GUI?");
-                switch (in.next()) {
-                    case "CLI":
-                    case "Cli":
-                    case "cli":
-                        cliGui = true;
-                        view = new CLISocket(game, socket);
-                        break;
-                    /*case "GUI":
-                    case "Gui":
-                    case "gui":
-                        cliGui = true;
-                        view = new GUI(game);
-                        break;*/
-                    default:
-                        break;
+                String s = in.next();
+                if(s.equals("CLI") || s.equals("Cli") || s.equals("cli")) {
+                    cliGui = true;
+                    view = new CLISocket(game, socket);
                 }
-            } while(!cliGui);
+                if(s.equals("GUI") || s.equals("Gui") || s.equals("gui")) {
+                    cliGui = true;
+                    //view = new GUI(game, centralServer);
+                }
+            }while(!cliGui);
 
             view.setIdentifier(identifier);
 

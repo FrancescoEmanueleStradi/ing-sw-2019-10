@@ -25,7 +25,7 @@ public class SocketHandler {
         } catch (IOException | NullPointerException e) {
             System.out.println("Port not available!");
         }
-        System.out.println("\nAdrenaline Socket Server ready.\nClient may now invoke methods.");
+        System.out.println("Adrenaline Socket Server ready.\nClient may now invoke methods.");
         while(true) {
             try {
                 Socket socket = serverSocket.accept();

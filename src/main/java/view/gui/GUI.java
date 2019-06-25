@@ -39,6 +39,9 @@ public class GUI implements View, Serializable {
         this.game = game;
         this.server = server;
         this.gameGraphic = new JFrame();
+        textArea = new TextArea();
+        scrollPane = new JScrollPane (textArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        players = new JPanel();
         //Enjoy = new ImageIcon("Images/Enjoy.png");
     }
 
@@ -107,8 +110,10 @@ public class GUI implements View, Serializable {
             f.setSize(500,500);
             f.setVisible(true);
             flag = false;
-            while (!isFlag())
-                wait();
+            while (true) {
+                if(isFlag())
+                    break;
+            }
         }
         else {
             JFrame f = new JFrame("Name and colour");
@@ -120,8 +125,12 @@ public class GUI implements View, Serializable {
             //f.addWindowListener( new Terminator());
             f.setSize(500,500);
             f.setVisible(true);
-            while (!isFlag())
-                wait();
+            flag = false;
+            while (true) {
+                if(isFlag())
+                    break;
+            }
+
         }
     }
 
@@ -141,8 +150,11 @@ public class GUI implements View, Serializable {
         spawnPoint.setSize(500,500);
         spawnPoint.setVisible(true);
         flag = false;
-        while (!isFlag())
-            wait();
+        while (true) {
+            if(isFlag())
+                break;
+        }
+
     }
 
 
@@ -370,10 +382,7 @@ public class GUI implements View, Serializable {
             this.gameGraphic.add(L14Grid).setBounds(350, 600, 125, 0);
             this.gameGraphic.add(R34Grid).setBounds(475, 600, 350, 0);
         }
-        textArea = new TextArea();
-        scrollPane = new JScrollPane (textArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         scrollPane.setBounds(0, 100, 100, 0);
-        players = new JPanel();
         players.doLayout();
         //players.setBounds(0,350, 50, 0);
         gameGraphic.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -22,7 +22,7 @@ public class GUI implements View, Serializable {
     private int game;
     private int identifier;
     private int type;
-    private boolean block = false;
+    private boolean flag = true;
     private ServerInterface server;
     private String nickName;
     private Colour colour;
@@ -50,12 +50,12 @@ public class GUI implements View, Serializable {
         this.colour = colour;
     }
 
-    public void setBlock(boolean block) {
-        this.block = block;
+    public void setFlag(boolean flag) {
+        this.flag = flag;
     }
 
-    public boolean isBlock() {
-        return block;
+    public boolean isFlag() {
+        return flag;
     }
 
     @Override
@@ -106,7 +106,9 @@ public class GUI implements View, Serializable {
             //f.addWindowListener( new Terminator());
             f.setSize(500,500);
             f.setVisible(true);
-            wait();
+            flag = false;
+            while (!isFlag())
+                wait();
         }
         else {
             JFrame f = new JFrame("Name and colour");
@@ -118,7 +120,8 @@ public class GUI implements View, Serializable {
             //f.addWindowListener( new Terminator());
             f.setSize(500,500);
             f.setVisible(true);
-            wait();
+            while (!isFlag())
+                wait();
         }
     }
 
@@ -137,7 +140,9 @@ public class GUI implements View, Serializable {
         //spawnPoint.addWindowListener( new Terminator());
         spawnPoint.setSize(500,500);
         spawnPoint.setVisible(true);
-        wait();
+        flag = false;
+        while (!isFlag())
+            wait();
     }
 
 
@@ -146,14 +151,18 @@ public class GUI implements View, Serializable {
         JFrame action = new JFrame(this.nickName + "'s FIRST ACTION");
         action.add(new Action1(this));
         action.setVisible(true);
-        wait();
+        flag = false;
+        while (!isFlag())
+            wait();
     }
 
     public synchronized void moveFirstAction() throws InterruptedException {
         JFrame move = new JFrame("First action - move");
         move.add(new Move1(this, server, game, identifier, nickName));
         move.setVisible(true);
-        wait();
+        flag = false;
+        while (!isFlag())
+            wait();
     }
 
     public synchronized void grabFirstAction() throws InterruptedException {
@@ -167,18 +176,22 @@ public class GUI implements View, Serializable {
     }
 
     @Override
-    public void action2() throws InterruptedException {
+    public synchronized void action2() throws InterruptedException {
         JFrame action = new JFrame(this.nickName + "'s SECOND ACTION");
         action.add(new Action1(this));
         action.setVisible(true);
-        wait();
+        flag = false;
+        while (!isFlag())
+            wait();
     }
 
     public synchronized void moveSecondAction() throws InterruptedException {
         JFrame move = new JFrame("Second action - move");                     //TODO
         move.add(new Move2(this, server, game, identifier, nickName));
         move.setVisible(true);
-        wait();
+        flag = false;
+        while (!isFlag())
+            wait();
     }
 
     public synchronized void grabSecondAction() throws InterruptedException {

@@ -76,6 +76,7 @@ public class TakeInformation extends JPanel implements ActionListener {
         add(new JLabel("\nGENERATING ARENA . . .\n")).doLayout();
         revalidate();
         notifyAll();
+        gui.setFlag(true);
         parent.setVisible(false);
         parent.dispose();
     }
@@ -103,6 +104,7 @@ public class TakeInformation extends JPanel implements ActionListener {
             server.setNickName(this.game, this.identifier, txt1.getText());
             this.server.messageAddPlayer(game, txt1.getText(), Colour.valueOf(colour));
             notifyAll();
+            gui.setFlag(true);
             parent.setVisible(false);
             parent.dispose();
         }

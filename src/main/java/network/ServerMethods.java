@@ -350,8 +350,8 @@ public class ServerMethods extends UnicastRemoteObject implements ServerInterfac
         games.get(game).receiveType(type);
     }
 
-    public synchronized boolean messageIsValidAddPlayer(int game, String nick, Colour c) throws RemoteException {
-        return (games.size() > game && games.get(game).isValidAddPlayer(nick, c));
+    public synchronized int messageIsValidAddPlayer(int game, String nick, Colour c) throws RemoteException {
+        return games.get(game).isValidAddPlayer(nick, c);
     }
 
     public synchronized void messageAddPlayer(int game, String nick, Colour c) throws RemoteException {

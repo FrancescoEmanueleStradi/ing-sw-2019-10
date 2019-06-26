@@ -69,7 +69,7 @@ public interface ServerInterface extends Remote {
 
     void messageReceiveType(int game, int type) throws RemoteException;
 
-    boolean messageIsValidAddPlayer(int game, String nick, Colour c) throws RemoteException;
+    int messageIsValidAddPlayer(int game, String nick, Colour c) throws RemoteException;
 
     void messageAddPlayer(int game, String nick, Colour c) throws RemoteException;
 

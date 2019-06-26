@@ -84,7 +84,7 @@ public class TakeInformation extends JPanel implements ActionListener {
         String colour = (String)colourList.getSelectedItem();
         JLabel errorRetry = new JLabel("Error: retry");
         gui.setType(server.getType(game));
-        if(!this.server.messageIsValidAddPlayer(game, txt1.getText(), Colour.valueOf(colour))) {
+        if(this.server.messageIsValidAddPlayer(game, txt1.getText(), Colour.valueOf(colour)) != 3) {
             if(!errorRetry.isVisible()) {
                 errorRetry.doLayout();
                 parent.add(errorRetry);

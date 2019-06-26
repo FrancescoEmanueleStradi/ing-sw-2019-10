@@ -89,8 +89,14 @@ public class Game {
     }
 
 
-    public boolean isValidAddPlayer(String nickName, Colour c) {
-       return ((init) && !(this.grid.getPlayersNickName().contains(nickName)) && !(this.grid.getPlayersColour().contains(c)));
+    public int isValidAddPlayer(String nickName, Colour c) {
+        if(!init)
+            return 0;       //first player have not chosen yet
+        else if(this.grid.getPlayersNickName().contains(nickName))
+            return 1;       //first player have chosen but nick is already picked
+        else if((this.grid.getPlayersColour().contains(c)))
+            return 2;       //first player have chosen but colour is already picked
+        else return 3;      //first player hve chosen and nick and colour are available
     }
 
 

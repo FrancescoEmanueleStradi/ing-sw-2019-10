@@ -10,6 +10,8 @@ import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.rmi.RemoteException;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Scanner;
 import java.util.Timer;
 
@@ -294,7 +296,7 @@ public class SocketProcesses {
         }
     }
 
-    private static void notifyHandler() {
+    private static void notifyHandler() throws RemoteException   {
         //Notify Player
         socketOut.println("Notify Player Size");
         socketOut.println(game);
@@ -302,13 +304,18 @@ public class SocketProcesses {
 
         int notifyPlayerSize = Integer.parseInt(socketIn.nextLine());
 
-        if(notifyPlayerSize > 0) {
-            for(int i = 0; i < notifyPlayerSize; i++) {
+        if (notifyPlayerSize > 0) {
+            for (int i = 0; i < notifyPlayerSize; i++) {
                 socketOut.println("Get Notify Player");
                 socketOut.println(game);
                 socketOut.println(identifier);
 
-                System.out.println("Player " + socketIn.nextLine() + " (identifier " + socketIn.nextLine() + ") whose colour is " + socketIn.nextLine() + " is now a player of this game.");
+                List<String> information = new LinkedList<>();
+                information.add(socketIn.nextLine());
+                information.add(socketIn.nextLine());
+                information.add(socketIn.nextLine());
+
+                view.printPlayer(information);
             }
         }
 
@@ -319,13 +326,17 @@ public class SocketProcesses {
 
         int notifyScoreSize = Integer.parseInt(socketIn.nextLine());
 
-        if(notifyScoreSize > 0) {
-            for(int i = 0; i < notifyScoreSize; i++) {
+        if (notifyScoreSize > 0) {
+            for (int i = 0; i < notifyScoreSize; i++) {
                 socketOut.println("Get Notify Score");
                 socketOut.println(game);
                 socketOut.println(identifier);
 
-                System.out.println("Player " + socketIn.nextLine() + "'s current score is " + socketIn.nextLine());
+                List<String> information = new LinkedList<>();
+                information.add(socketIn.nextLine());
+                information.add(socketIn.nextLine());
+
+                view.printScore(information);
             }
         }
 
@@ -336,13 +347,18 @@ public class SocketProcesses {
 
         int notifyPositionSize = Integer.parseInt(socketIn.nextLine());
 
-        if(notifyPositionSize > 0) {
-            for(int i = 0; i < notifyPositionSize; i++) {
+        if (notifyPositionSize > 0) {
+            for (int i = 0; i < notifyPositionSize; i++) {
                 socketOut.println("Get Notify Position");
                 socketOut.println(game);
                 socketOut.println(identifier);
 
-                System.out.println("Player " + socketIn.nextLine() + " is now in cell " + socketIn.nextLine() + " " + socketIn.nextLine());
+                List<String> information = new LinkedList<>();
+                information.add(socketIn.nextLine());
+                information.add(socketIn.nextLine());
+                information.add(socketIn.nextLine());
+
+                view.printPosition(information);
             }
         }
 
@@ -353,13 +369,17 @@ public class SocketProcesses {
 
         int notifyMarkSize = Integer.parseInt(socketIn.nextLine());
 
-        if(notifyMarkSize > 0) {
-            for(int i = 0; i < notifyMarkSize; i++) {
+        if (notifyMarkSize > 0) {
+            for (int i = 0; i < notifyMarkSize; i++) {
                 socketOut.println("Get Notify Mark");
                 socketOut.println(game);
                 socketOut.println(identifier);
 
-                System.out.println("Player " + socketIn.nextLine() + "has given a new mark to player " + socketIn.nextLine());
+                List<String> information = new LinkedList<>();
+                information.add(socketIn.nextLine());
+                information.add(socketIn.nextLine());
+
+                view.printMark(information);
             }
         }
 
@@ -370,13 +390,18 @@ public class SocketProcesses {
 
         int notifyDamageSize = Integer.parseInt(socketIn.nextLine());
 
-        if(notifyDamageSize > 0) {
-            for(int i = 0; i < notifyDamageSize; i++) {
+        if (notifyDamageSize > 0) {
+            for (int i = 0; i < notifyDamageSize; i++) {
                 socketOut.println("Get Notify Damage");
                 socketOut.println(game);
                 socketOut.println(identifier);
 
-                System.out.println("Player " + socketIn.nextLine() + " has dealt " + socketIn.nextLine() + " damage to player " + socketIn.nextLine());
+                List<String> information = new LinkedList<>();
+                information.add(socketIn.nextLine());
+                information.add(socketIn.nextLine());
+                information.add(socketIn.nextLine());
+
+                view.printDamage(information);
             }
         }
     }

@@ -147,14 +147,10 @@ public class CLISocket extends UnicastRemoteObject implements View {
 
         System.out.println("\n---------- NAME AND COLOUR SELECTION ----------\n");
 
-        String isValidAddPlayer;
-        int counterAddPlayer = 0;
+        int isValidAddPlayer;
         String s2;
 
         do {
-            if(counterAddPlayer > 0)
-                System.out.println(ERRORRETRY);
-
             System.out.println(yourName);
             this.nickName = in.nextLine();
             socketOut.println("Set Nickname");
@@ -171,9 +167,15 @@ public class CLISocket extends UnicastRemoteObject implements View {
             socketOut.println(nickName);
             socketOut.println(colour.getColourId());
 
-            isValidAddPlayer = socketIn.nextLine();
-            counterAddPlayer++;
-        } while(isValidAddPlayer.equals("false"));
+            isValidAddPlayer = Integer.parseInt(socketIn.nextLine());
+            if(isValidAddPlayer == 0)
+                System.out.println("The first player have not chosen his name and colour yet. Please wait for it and retry.");
+            else if(isValidAddPlayer == 1)
+                System.out.println("The nickname you have chosen is already picked. Choose another one and try again.");
+            else if(isValidAddPlayer == 2)
+                System.out.println("The colour you have chosen is already picked. Choose another one and try again.");
+
+        } while(isValidAddPlayer != 3);
 
         socketOut.println("Message Add Player");
         socketOut.println(game);
@@ -247,12 +249,6 @@ public class CLISocket extends UnicastRemoteObject implements View {
             socketOut.println(pUCard2Colour);
             System.out.println("Your spawn point is " + pUCard1Colour + "\n");
         }
-
-        socketOut.println("Get Type");
-        socketOut.println(game);
-        int typeInput = Integer.parseInt(socketIn.nextLine());
-        if(typeInput != 0)
-            this.setType(typeInput);             //in case it has not been set during AskNameAndColour
     }
 
     @Override
@@ -2085,23 +2081,29 @@ public class CLISocket extends UnicastRemoteObject implements View {
 
     @Override
     public void printPlayer(List<String> information) {
+        System.out.println("Player " + information.get(0) + " (identifier " + information.get(2)+ ") whose colour is " + information.get(1) + " is now a player of this game.");
     }
 
     @Override
     public void printScore(List<String> information) {
+        System.out.println("Player " + information.get(0) + "'s current score is " + information.get(1));
     }
 
     @Override
     public void printPosition(List<String> information) {
+        System.out.println("Player " + information.get(0) + " is now in cell " + information.get(1) + " " + information.get(2));
     }
 
     @Override
     public void printMark(List<String> information) {
+        System.out.println("Player " + information.get(0) + "has given a new mark to player " + information.get(1));
     }
 
     @Override
     public void printDamage(List<String> information) {
+        System.out.println("Player " + information.get(0) + " has dealt " + information.get(1) + " damage to player " + information.get(2));
     }
+
 
     @Override
     public void printType() {

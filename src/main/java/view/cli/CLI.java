@@ -4,14 +4,13 @@ import model.Colour;
 import network.ServerInterface;
 import view.View;
 
-import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
-public class CLI extends UnicastRemoteObject implements View, Serializable {
+public class CLI extends UnicastRemoteObject implements View {
 
     private int game;
     private int identifier;
@@ -114,12 +113,9 @@ public class CLI extends UnicastRemoteObject implements View, Serializable {
 
         System.out.println("\n---------- NAME AND COLOUR SELECTION ----------\n");
 
-        int counterAddPlayer = 0;
+        int isValidAddPlayer;
 
         do {
-            if(counterAddPlayer > 0)
-                System.out.println(ERRORRETRY);
-
             System.out.println(yourName);
             this.nickName = in.nextLine();
             server.setNickName(this.game, this.identifier, this.nickName);
@@ -128,8 +124,15 @@ public class CLI extends UnicastRemoteObject implements View, Serializable {
             String s2 = in.nextLine();
             this.colour = Colour.valueOf(s2);
 
-            counterAddPlayer++;
-        } while(!this.server.messageIsValidAddPlayer(game, this.nickName, this.colour));
+            isValidAddPlayer = this.server.messageIsValidAddPlayer(game, this.nickName, this.colour);
+            if(isValidAddPlayer == 0)
+                System.out.println("The first player have not chosen his name and colour yet. Please wait for it and retry.");
+            else if(isValidAddPlayer == 1)
+                System.out.println("The nickname you have chosen is already picked. Choose another one and try again.");
+            else if(isValidAddPlayer == 2)
+                System.out.println("The colour you have chosen is already picked. Choose another one and try again.");
+
+        } while(isValidAddPlayer != 3);
 
         this.server.messageAddPlayer(game, this.nickName, this.colour);
     }
@@ -171,9 +174,6 @@ public class CLI extends UnicastRemoteObject implements View, Serializable {
             this.server.messagePickAndDiscardCard(game, this.nickName, this.server.messageGetPowerUpCard(game, this.nickName).get(1), this.server.messageGetPowerUpCardColour(game, this.nickName).get(1));
             System.out.println("Your spawn point is " + spawnColour + "\n");
         }
-
-        if(server.getType(game) != 0)
-            this.setType(server.getType(game));     //in case it has not been set during AskNameAndColour
     }
 
     @Override

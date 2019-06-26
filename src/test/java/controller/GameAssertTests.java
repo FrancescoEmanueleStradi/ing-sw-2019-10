@@ -31,7 +31,7 @@ class GameAssertTests {
         Grid grid = game.getGrid();
 
         assertTrue(game.gameIsNotStarted());
-        assertFalse(game.isValidAddPlayer("Player", YELLOW));
+        assertEquals(0, game.isValidAddPlayer("Player", YELLOW));
 
         game.gameStart("Player 1", BLUE);
         assertEquals(GameState.START, game.getGameState());
@@ -40,9 +40,9 @@ class GameAssertTests {
         assertEquals(BLUE, p1.getC());
         assertEquals("Player 1", p1.getNickName());
 
-        assertFalse(game.isValidAddPlayer("Player 1", YELLOW));
-        assertFalse(game.isValidAddPlayer("Player", BLUE));
-        assertFalse(game.isValidAddPlayer("Player 1", BLUE));
+        assertEquals(1, game.isValidAddPlayer("Player 1", YELLOW));
+        assertEquals(2, game.isValidAddPlayer("Player", BLUE));
+        assertEquals(1, game.isValidAddPlayer("Player 1", BLUE));
 
         game.addPlayer("Player 2", YELLOW);
         Player p2 = grid.getPlayerObject("Player 2");

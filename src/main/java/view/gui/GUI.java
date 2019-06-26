@@ -17,7 +17,7 @@ import java.rmi.RemoteException;
 import java.util.LinkedList;
 import java.util.List;
 
-public class GUI implements View, Serializable {
+public class GUI implements View {
 
     private int game;
     private int identifier;

@@ -53,12 +53,16 @@ public class TakeInformation extends JPanel implements ActionListener {
     public synchronized void actionPerformed(ActionEvent e) {
         try {
             b.setEnabled(false);
-            if(identifier == 1)
+            if(identifier == 1) {
                 getInformation();
-            else
+                gui.selectSpawnPoint();
+            }
+            else {
                 getLessInformation();
+                gui.selectSpawnPoint();
+            }
         } catch (RemoteException | InterruptedException ex) {
-            //TODO?
+
         }
 
     }
@@ -73,9 +77,8 @@ public class TakeInformation extends JPanel implements ActionListener {
         this.server.messageGameStart(game, txt1.getText(), Colour.valueOf(colour));
         gui.setType(type);
         this.server.messageReceiveType(game, type);
-        //add(new JLabel("\nGENERATING ARENA . . .\n")).doLayout();
-        //revalidate();
-        gui.setFlag(true);
+        add(new JLabel("\nGENERATING ARENA . . .\n")).doLayout();
+        revalidate();
         parent.setVisible(false);
         parent.dispose();
     }
@@ -102,7 +105,6 @@ public class TakeInformation extends JPanel implements ActionListener {
             gui.setColour(Colour.valueOf(colour));
             server.setNickName(this.game, this.identifier, txt1.getText());
             this.server.messageAddPlayer(game, txt1.getText(), Colour.valueOf(colour));
-            gui.setFlag(true);
             parent.setVisible(false);
             parent.dispose();
         }

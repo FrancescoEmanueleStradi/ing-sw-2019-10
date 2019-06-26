@@ -17,7 +17,7 @@ import java.rmi.RemoteException;
 import java.util.LinkedList;
 import java.util.List;
 
-public class GUI implements View {
+public class GUI implements View, Serializable {
 
     private int game;
     private int identifier;
@@ -53,11 +53,11 @@ public class GUI implements View {
         this.colour = colour;
     }
 
-    public void setFlag(boolean flag) {
+    public synchronized void setFlag(boolean flag) {
         this.flag = flag;
     }
 
-    public boolean isFlag() {
+    public synchronized boolean isFlag() {
         return flag;
     }
 
@@ -106,14 +106,8 @@ public class GUI implements View {
             TakeInformation p = new TakeInformation(this, this.server, this.game, this.identifier, f);
             p.setLayout(new FlowLayout(FlowLayout.LEFT));
             c.add(p);
-            //f.addWindowListener( new Terminator());
             f.setSize(500,500);
             f.setVisible(true);
-            flag = false;
-            while (true) {
-                if(isFlag())
-                    break;
-            }
         }
         else {
             JFrame f = new JFrame("Name and colour");
@@ -122,14 +116,8 @@ public class GUI implements View {
             TakeInformation p = new TakeInformation(this, this.server, this.game, this.identifier, f);
             p.setLayout(new FlowLayout(FlowLayout.LEFT));
             c.add(p);
-            //f.addWindowListener( new Terminator());
             f.setSize(500,500);
             f.setVisible(true);
-            flag = false;
-            while (true) {
-                if(isFlag())
-                    break;
-            }
 
         }
     }
@@ -138,22 +126,14 @@ public class GUI implements View {
     @Override
     public synchronized void selectSpawnPoint() throws RemoteException, InterruptedException {
         this.server.messageGiveTwoPUCard(game, this.nickName);
-        CardLinkList l = new CardLinkList();
         JFrame spawnPoint = new JFrame("Spawn point selection");
         spawnPoint.setLocation(10,10);
-        spawnPoint.add(new JLabel("The following are " + this.nickName +"'s starting PowerUpCards"));
-        spawnPoint.add(new JLabel(l.getImageIconFromName(this.server.messageGetPowerUpCard(game, this.nickName).get(0), this.server.messageGetPowerUpCardColour(game, this.nickName).get(0))));
-        spawnPoint.add(new JLabel(l.getImageIconFromName(this.server.messageGetPowerUpCard(game, this.nickName).get(1), this.server.messageGetPowerUpCardColour(game, this.nickName).get(1))));
-        spawnPoint.add(new JLabel("\nSPAWN POINT SELECT\n"));
-        spawnPoint.add(new DiscardPUC(this, server, game, nickName, this.server.messageGetPowerUpCard(game, this.nickName).get(0), this.server.messageGetPowerUpCard(game, this.nickName).get(1), this.server.messageGetPowerUpCardColour(game, this.nickName).get(0), this.server.messageGetPowerUpCardColour(game, this.nickName).get(1)));
-        //spawnPoint.addWindowListener( new Terminator());
+        Container c = spawnPoint.getContentPane();
+        DiscardPUC d = new DiscardPUC(this, server, game, nickName, this.server.messageGetPowerUpCard(game, this.nickName).get(0), this.server.messageGetPowerUpCard(game, this.nickName).get(1), this.server.messageGetPowerUpCardColour(game, this.nickName).get(0), this.server.messageGetPowerUpCardColour(game, this.nickName).get(1));
+        d.setLayout(new FlowLayout(FlowLayout.LEFT));
+        c.add(d);
         spawnPoint.setSize(500,500);
         spawnPoint.setVisible(true);
-        flag = false;
-        while (true) {
-            if(isFlag())
-                break;
-        }
 
     }
 

@@ -16,6 +16,7 @@ public class RMIProcesses {
 
     public static void rmiProcesses(ServerInterface centralServer) throws RemoteException, InterruptedException {
         Scanner in = new Scanner(System.in);
+        String s;
 
         System.out.println("Enter the number of the game you want to play. There are " + centralServer.getGames()+ " games now.\n" +
                 "You can choose one of the current games or you can create a new game entering the number you saw +1.");
@@ -38,7 +39,7 @@ public class RMIProcesses {
             boolean flag = false;
             do {
                 System.out.println("Do you want to use CLI or GUI?");
-                String s = in.next();
+                s = in.next();
                 if(s.equals("CLI") || s.equals("Cli") || s.equals("cli")) {
                     flag = true;
                     view = new CLI(game, centralServer);
@@ -79,7 +80,7 @@ public class RMIProcesses {
             boolean cliGui = false;
             do {
                 System.out.println("Do you want to use CLI or GUI?");
-                String s = in.next();
+                s = in.next();
                 if(s.equals("CLI") || s.equals("Cli") || s.equals("cli")) {
                     cliGui = true;
                     view = new CLI(game, centralServer);
@@ -93,9 +94,17 @@ public class RMIProcesses {
             centralServer.setView(game, identifier, view.getView());
             view.setIdentifier(identifier);
 
-            view.askNameAndColour();                    //identifier 1 has to have the first player card and he has to choose the type
-            view.selectSpawnPoint();
-            view.printType();
+            if(s.equals("CLI") || s.equals("Cli") || s.equals("cli")) {
+                view.askNameAndColour();                    //identifier 1 has to have the first player card and he has to choose the type
+                view.selectSpawnPoint();
+                view.printType();
+            }
+
+            else if(s.equals("GUI") || s.equals("Gui") || s.equals("gui")){
+                view.askNameAndColour();
+            }
+
+
         }
 
         try {
@@ -108,47 +117,54 @@ public class RMIProcesses {
 
                     if(centralServer.isNotFinalFrenzy(game)) {
 
-                        if(view.doYouWantToUsePUC()) {
-                            MyTask task = new MyTask(game, identifier, view.getNickName(), centralServer);
-                            Timer timer = new Timer();
-                            timer.schedule(task, 150000);
-                            view.usePowerUpCard();
-                            timer.cancel();
+                        if(s.equals("CLI") || s.equals("Cli") || s.equals("cli")) {
+
+                            if (view.doYouWantToUsePUC()) {
+                                MyTask task = new MyTask(game, identifier, view.getNickName(), centralServer);
+                                Timer timer = new Timer();
+                                timer.schedule(task, 150000);
+                                view.usePowerUpCard();
+                                timer.cancel();
+                            }
+
+                            MyTask task2 = new MyTask(game, identifier, view.getNickName(), centralServer);
+                            Timer timer2 = new Timer();
+                            timer2.schedule(task2, 150000);
+                            view.action1();
+                            timer2.cancel();
+
+                            if (view.doYouWantToUsePUC()) {
+                                MyTask task3 = new MyTask(game, identifier, view.getNickName(), centralServer);
+                                Timer timer3 = new Timer();
+                                timer3.schedule(task3, 150000);
+                                view.usePowerUpCard();
+                                timer3.cancel();
+                            }
+
+                            MyTask task4 = new MyTask(game, identifier, view.getNickName(), centralServer);
+                            Timer timer4 = new Timer();
+                            timer4.schedule(task4, 150000);
+                            view.action2();
+                            timer4.cancel();
+
+                            if (view.doYouWantToUsePUC()) {
+                                MyTask task5 = new MyTask(game, identifier, view.getNickName(), centralServer);
+                                Timer timer5 = new Timer();
+                                timer5.schedule(task5, 150000);
+                                view.usePowerUpCard();
+                                timer5.cancel();
+                            }
+
+                            view.reload();
+                            view.scoring();
+                            view.replace();
+
+                            centralServer.finishTurn(game);
                         }
 
-                        MyTask task2 = new MyTask(game, identifier, view.getNickName(), centralServer);
-                        Timer timer2 = new Timer();
-                        timer2.schedule(task2, 150000);
-                        view.action1();
-                        timer2.cancel();
+                        else if(s.equals("GUI") || s.equals("Gui") || s.equals("gui")){
 
-                        if(view.doYouWantToUsePUC()) {
-                            MyTask task3 = new MyTask(game, identifier, view.getNickName(), centralServer);
-                            Timer timer3 = new Timer();
-                            timer3.schedule(task3, 150000);
-                            view.usePowerUpCard();
-                            timer3.cancel();
                         }
-
-                        MyTask task4 = new MyTask(game, identifier, view.getNickName(), centralServer);
-                        Timer timer4 = new Timer();
-                        timer4.schedule(task4, 150000);
-                        view.action2();
-                        timer4.cancel();
-
-                        if(view.doYouWantToUsePUC()) {
-                            MyTask task5 = new MyTask(game, identifier, view.getNickName(), centralServer);
-                            Timer timer5 = new Timer();
-                            timer5.schedule(task5, 150000);
-                            view.usePowerUpCard();
-                            timer5.cancel();
-                        }
-
-                        view.reload();
-                        view.scoring();
-                        view.replace();
-
-                        centralServer.finishTurn(game);
 
                         if(centralServer.stopGame(game))
                             break;
@@ -158,15 +174,22 @@ public class RMIProcesses {
                         if(centralServer.stopGame(game))
                             break;
 
-                        centralServer.setFinalTurn(game, identifier, view.getNickName());
+                        if(s.equals("CLI") || s.equals("Cli") || s.equals("cli")) {
 
-                        MyTask task6 = new MyTask(game, identifier, view.getNickName(), centralServer);
-                        Timer timer6 = new Timer();
-                        timer6.schedule(task6, 500000);
-                        view.finalFrenzyTurn();
-                        timer6.cancel();
+                            centralServer.setFinalTurn(game, identifier, view.getNickName());
 
-                        centralServer.finishTurn(game);
+                            MyTask task6 = new MyTask(game, identifier, view.getNickName(), centralServer);
+                            Timer timer6 = new Timer();
+                            timer6.schedule(task6, 500000);
+                            view.finalFrenzyTurn();
+                            timer6.cancel();
+
+                            centralServer.finishTurn(game);
+                        }
+
+                        else if(s.equals("GUI") || s.equals("Gui") || s.equals("gui")){
+
+                        }
 
                         if(centralServer.stopGame(game))
                             break;

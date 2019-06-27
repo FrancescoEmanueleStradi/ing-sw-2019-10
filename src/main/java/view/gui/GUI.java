@@ -26,8 +26,9 @@ public class GUI implements View, Serializable {
     private ServerInterface server;
     private String nickName;
     private Colour colour;
+    private Container container;
     private JFrame gameGraphic;
-    private Window gridGraphic;
+    private JPanel gridGraphic;
     private JScrollPane scrollPane;
     private TextArea textArea;
     private JPanel players;
@@ -38,10 +39,12 @@ public class GUI implements View, Serializable {
         super();
         this.game = game;
         this.server = server;
+        this.container = new Container();
         this.gameGraphic = new JFrame();
-        textArea = new TextArea();
-        scrollPane = new JScrollPane (textArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-        players = new JPanel();
+        this.gridGraphic = new JPanel();
+        this.textArea = new TextArea();
+        this.scrollPane = new JScrollPane (textArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        this.players = new JPanel();
         //Enjoy = new ImageIcon("Images/Enjoy.png");
     }
 
@@ -129,7 +132,7 @@ public class GUI implements View, Serializable {
         JFrame spawnPoint = new JFrame("Spawn point selection");
         spawnPoint.setLocation(10,10);
         Container c = spawnPoint.getContentPane();
-        DiscardPUC d = new DiscardPUC(this, server, game, nickName, this.server.messageGetPowerUpCard(game, this.nickName).get(0), this.server.messageGetPowerUpCard(game, this.nickName).get(1), this.server.messageGetPowerUpCardColour(game, this.nickName).get(0), this.server.messageGetPowerUpCardColour(game, this.nickName).get(1));
+        DiscardPUC d = new DiscardPUC(this, server, game, nickName, this.server.messageGetPowerUpCard(game, this.nickName).get(0), this.server.messageGetPowerUpCard(game, this.nickName).get(1), this.server.messageGetPowerUpCardColour(game, this.nickName).get(0), this.server.messageGetPowerUpCardColour(game, this.nickName).get(1), spawnPoint);
         d.setLayout(new FlowLayout(FlowLayout.LEFT));
         c.add(d);
         spawnPoint.setSize(500,500);
@@ -143,18 +146,12 @@ public class GUI implements View, Serializable {
         JFrame action = new JFrame(this.nickName + "'s FIRST ACTION");
         action.add(new Action1(this));
         action.setVisible(true);
-        flag = false;
-        while (!isFlag())
-            wait();
     }
 
     public synchronized void moveFirstAction() throws InterruptedException {
         JFrame move = new JFrame("First action - move");
         move.add(new Move1(this, server, game, identifier, nickName));
         move.setVisible(true);
-        flag = false;
-        while (!isFlag())
-            wait();
     }
 
     public synchronized void grabFirstAction() throws InterruptedException {
@@ -172,18 +169,12 @@ public class GUI implements View, Serializable {
         JFrame action = new JFrame(this.nickName + "'s SECOND ACTION");
         action.add(new Action1(this));
         action.setVisible(true);
-        flag = false;
-        while (!isFlag())
-            wait();
     }
 
     public synchronized void moveSecondAction() throws InterruptedException {
         JFrame move = new JFrame("Second action - move");                     //TODO
         move.add(new Move2(this, server, game, identifier, nickName));
         move.setVisible(true);
-        flag = false;
-        while (!isFlag())
-            wait();
     }
 
     public synchronized void grabSecondAction() throws InterruptedException {
@@ -329,42 +320,45 @@ public class GUI implements View, Serializable {
 
     @Override
     public void printType() throws RemoteException {
-        this.gameGraphic.setSize(700, 700);
+        this.gameGraphic.setSize(1400, 1400);
+        this.container = gameGraphic.getContentPane();
         if(type == 1) {
             ImageIcon Left14Grid = new ImageIcon("Images/Left14Grid.png");
             ImageIcon Right12Grid = new ImageIcon("Images/Right12Grid.png");
             JLabel L14Grid = new JLabel(Left14Grid);
             JLabel R12Grid = new JLabel(Right12Grid);
-            this.gameGraphic.add(L14Grid).setBounds(350, 600, 125, 0);
-            this.gameGraphic.add(R12Grid).setBounds(475, 600, 350, 0);
+            this.gridGraphic.add(L14Grid).setBounds(350, 600, 125, 0);
+            this.gridGraphic.add(R12Grid).setBounds(475, 600, 350, 0);
         }
         if(type == 2) {
             ImageIcon Left23Grid = new ImageIcon("Images/Left23Grid.png");
             ImageIcon Right12Grid = new ImageIcon("Images/Right12Grid.png");
             JLabel L23Grid = new JLabel(Left23Grid);
             JLabel R12Grid = new JLabel(Right12Grid);
-            this.gameGraphic.add(L23Grid).setBounds(350, 600, 125, 0);
-            this.gameGraphic.add(R12Grid).setBounds(475, 600, 350, 0);
+            this.gridGraphic.add(L23Grid).setBounds(350, 600, 125, 0);
+            this.gridGraphic.add(R12Grid).setBounds(475, 600, 350, 0);
         }
         if(type == 3) {
             ImageIcon Left23Grid = new ImageIcon("Images/Left23Grid.png");
             ImageIcon Right34Grid = new ImageIcon("Images/Right34Grid.png");
             JLabel L23Grid = new JLabel(Left23Grid);
             JLabel R34Grid = new JLabel(Right34Grid);
-            this.gameGraphic.add(L23Grid).setBounds(350, 600, 125, 0);
-            this.gameGraphic.add(R34Grid).setBounds(475, 600, 350, 0);
+            this.gridGraphic.add(L23Grid).setBounds(350, 600, 125, 0);
+            this.gridGraphic.add(R34Grid).setBounds(475, 600, 350, 0);
         }
         if(type == 4) {
             ImageIcon Left14Grid = new ImageIcon("Images/Left14Grid.png");
             ImageIcon Right34Grid = new ImageIcon("Images/Right34Grid.png");
             JLabel L14Grid = new JLabel(Left14Grid);
             JLabel R34Grid = new JLabel(Right34Grid);
-            this.gameGraphic.add(L14Grid).setBounds(350, 600, 125, 0);
-            this.gameGraphic.add(R34Grid).setBounds(475, 600, 350, 0);
+            this.gridGraphic.add(L14Grid).setBounds(350, 600, 125, 0);
+            this.gridGraphic.add(R34Grid).setBounds(475, 600, 350, 0);
         }
         scrollPane.setBounds(0, 100, 100, 0);
         players.doLayout();
-        //players.setBounds(0,350, 50, 0);
+        players.setBounds(0,350, 50, 0);
+        container.add(gridGraphic);
+        container.add(players);
         gameGraphic.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         gameGraphic.add(scrollPane);
         gameGraphic.add(players);

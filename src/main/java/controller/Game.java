@@ -18,7 +18,6 @@ import static controller.GameState.*;
 
 public class Game {
 
-
     private int iD;
     private ServerInterface server;
     private GameState gameState;

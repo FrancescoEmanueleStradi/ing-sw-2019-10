@@ -6,8 +6,16 @@ import model.player.Player;
 
 import java.rmi.RemoteException;
 
+/**
+ * The Targeting Scope powerup card.
+ */
 public class TargetingScope extends PowerUpCard {
 
+    /**
+     * Creates a new Targeting Scope powerup card.
+     *
+     * @param c card colour
+     */
     public TargetingScope(Colour c) {
         super();
         this.cardName = "Targeting Scope";
@@ -17,8 +25,16 @@ public class TargetingScope extends PowerUpCard {
                             "Note: You cannot use this to do 1 damage to a target that is receiving only marks.\n";
     }
 
-    //before: let player p choose one player p1 who is being attacked by p. p1 can't receive only marks from the attack that p is using against him.
-
+    /**
+     * Applies the card's effect.
+     * Prior to effect: let player p choose one player p1 who is being attacked by p. p1 can't solely receive marks from
+     * the attack that p is using against him.
+     *
+     * @param grid grid
+     * @param p    player (self)
+     * @param p1   opposing player
+     * @throws RemoteException RMI exception
+     */
     public void applyEffect(Grid grid, Player p, Player p1) throws RemoteException {   //p deals 1 additional damage to p1
         grid.damage(p, p1, 1);
     }

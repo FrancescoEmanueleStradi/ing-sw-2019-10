@@ -6,8 +6,16 @@ import model.player.Player;
 
 import java.rmi.RemoteException;
 
+/**
+ * The Tagback Grenade powerup card.
+ */
 public class TagbackGrenade extends PowerUpCard {
 
+    /**
+     * Creates a new Tagback Grenade card.
+     *
+     * @param c card colour
+     */
     public TagbackGrenade(Colour c) {
         super();
         this.cardName = "Tagback Grenade";
@@ -16,8 +24,15 @@ public class TagbackGrenade extends PowerUpCard {
                             "Give that player 1 mark.\n";
     }
 
-    //before: let player p use this card only when he is receiving damage from a player he can see.
-
+    /**
+     * Applies the card's effect.
+     * Prior to effect: let player p use this card only when he is receiving damage from a player he can see.
+     *
+     * @param grid grid
+     * @param p    player (self)
+     * @param p1   opposing player
+     * @throws RemoteException RMI exception
+     */
     public void applyEffect(Grid grid, Player p, Player p1) throws RemoteException {   //p gives 1 mark to p1
         grid.addMark(p, p1);
     }

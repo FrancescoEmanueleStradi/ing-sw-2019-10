@@ -6,8 +6,14 @@ import model.cards.AmmoCard;
 
 import java.util.ArrayList;
 
-public class PYB extends AmmoCard {     //PYB stands for "Powerup Yellow Blue", referring to the items on the card
-    //all other cards will have the same naming scheme
+/**
+ * Ammo card containing 1 powerup card, 1 yellow ammo cube and 1 blue ammo cube.
+ */
+public class PYB extends AmmoCard {
+
+    /**
+     * Creates a new PYB card.
+     */
     public PYB() {
         super();
         this.ammoCardName = "PYB";

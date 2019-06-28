@@ -6,8 +6,14 @@ import model.cards.AmmoCard;
 
 import java.util.ArrayList;
 
+/**
+ * Ammo card containing 1 blue and 2 red ammo cubes.
+ */
 public class BRR extends AmmoCard {
 
+    /**
+     * Creates a new BRR card.
+     */
     public BRR() {
         super();
         this.ammoCardName = "BRR";

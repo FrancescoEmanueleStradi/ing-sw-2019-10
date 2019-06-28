@@ -6,7 +6,8 @@ import java.rmi.*;
 import java.util.Scanner;
 
 /**
- * The Client class is self-explanatory. Up to 5 clients may be run at any one time.
+ * The Client class is self-explanatory. An arbitrary amount of clients may be opened, but up to 5 are permitted
+ * per game.
  * Users may use either a socket or an RMI connection.
  */
 public class Client {

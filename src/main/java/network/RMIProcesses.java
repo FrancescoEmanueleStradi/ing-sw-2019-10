@@ -174,7 +174,11 @@ public class RMIProcesses {
                         }
 
                         else if(s.equals("GUI") || s.equals("Gui") || s.equals("gui")){
+                            MyTask taskGui = new MyTask(game, identifier, view.getNickName(), centralServer);
+                            Timer timerGui = new Timer();
+                            timerGui.schedule(taskGui, 5000000);
                             view.doYouWantToUsePUC();
+                            timerGui.cancel();
                         }
 
                             centralServer.finishTurn(game);
@@ -198,13 +202,18 @@ public class RMIProcesses {
                             timer6.schedule(task6, 500000);
                             view.finalFrenzyTurn();
                             timer6.cancel();
-
-                            centralServer.finishTurn(game);
                         }
 
                         else if(s.equals("GUI") || s.equals("Gui") || s.equals("gui")){
-
+                            MyTask task6 = new MyTask(game, identifier, view.getNickName(), centralServer);
+                            Timer timer6 = new Timer();
+                            timer6.schedule(task6, 500000);
+                            view.finalFrenzyTurn();
+                            timer6.cancel();
                         }
+
+                            centralServer.finishTurn(game);
+
 
                         if(centralServer.stopGame(game))
                             break;
@@ -219,9 +228,17 @@ public class RMIProcesses {
 
             }
 
-            view.endFinalFrenzy();
-            view.finalScoring();
-            System.exit(0);
+            if(s.equals("CLI") || s.equals("Cli") || s.equals("cli")) {
+                view.endFinalFrenzy();
+                view.finalScoring();
+                System.exit(0);
+            }
+
+            else if(s.equals("GUI") || s.equals("Gui") || s.equals("gui")){
+                view.endFinalFrenzy();
+                System.exit(0);
+            }
+
 
         } catch (RemoteException e) {
             //we inserted it here to manage a possible problem during the first part of the game

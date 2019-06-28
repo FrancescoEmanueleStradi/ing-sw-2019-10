@@ -4,8 +4,17 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
+/**
+ * Purpose of this class is to abstract binding to RMI server from anything socket-related.
+ */
 public class RMIHandler {
 
+    /**
+     * Creates an RMIHandler, binding the server to the registry with fixed port number.
+     *
+     * @param methods server methods
+     * @throws RemoteException RMI exception
+     */
     public RMIHandler(ServerMethods methods) throws RemoteException {
         System.out.println("\nGenerating Adrenaline RMI Server...");
 

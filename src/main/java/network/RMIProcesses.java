@@ -8,12 +8,25 @@ import java.rmi.RemoteException;
 import java.util.Scanner;
 import java.util.Timer;
 
+/**
+ * Contains the necessary RMI functions for client-server communication and controlling game flow.
+ */
 public class RMIProcesses {
 
     private static View view;
     private static int game;
     private static int identifier;
 
+    /**
+     * Client-side, this asks the user to choose a game, reconnect with their old identifier if they were
+     * previously disconnected. A first-time user has to choose their type of view and is then asked to pick
+     * a unique name and colour. Throughout the game, the method sets up tasks for each action the player takes
+     * and communicates with the server to manage disconnections accordingly.
+     *
+     * @param centralServer central server
+     * @throws RemoteException RMI exception
+     * @throws InterruptedException Thread interruption
+     */
     public static void rmiProcesses(ServerInterface centralServer) throws RemoteException, InterruptedException {
         Scanner in = new Scanner(System.in);
         String s;
@@ -48,7 +61,7 @@ public class RMIProcesses {
                     flag = true;
                     view = new GUI(game, centralServer);
                 }
-            }while(!flag);
+            } while(!flag);
 
             centralServer.setView(game, identifier, view.getView());
             view.setType(centralServer.getType(game));
@@ -89,7 +102,7 @@ public class RMIProcesses {
                     cliGui = true;
                     view = new GUI(game, centralServer);
                 }
-            }while(!cliGui);
+            } while(!cliGui);
 
             centralServer.setView(game, identifier, view.getView());
             view.setIdentifier(identifier);
@@ -100,7 +113,7 @@ public class RMIProcesses {
                 view.printType();
             }
 
-            else if(s.equals("GUI") || s.equals("Gui") || s.equals("gui")){
+            else if(s.equals("GUI") || s.equals("Gui") || s.equals("gui")) {
                 view.askNameAndColour();
             }
 

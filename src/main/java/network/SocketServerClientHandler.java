@@ -9,16 +9,30 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Handles socket input from client (multiple threads w/ more sockets originating from the Executor thread pool) so
+ * that it is sent to the server safely.
+ */
 public class SocketServerClientHandler implements Runnable {
 
     private Socket socket;
     private ServerMethods server;
 
+    /**
+     * Creates a SocketServerClientHandler.
+     *
+     * @param socket socket
+     * @param server server
+     */
     public SocketServerClientHandler(Socket socket, ServerMethods server) {
         this.socket = socket;
         this.server = server;
     }
 
+    /**
+     * A thread is launched in order handle I/O between the client and server as well as message... and notify...
+     * methods. outPrinter and inScanner are used to that end.
+     */
     public synchronized void run() {
         try {
             PrintWriter outPrinter = new PrintWriter(socket.getOutputStream(), true);

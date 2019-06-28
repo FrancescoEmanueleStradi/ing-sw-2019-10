@@ -7,6 +7,12 @@ import java.net.Socket;
 import java.rmi.*;
 import java.util.List;
 
+/**
+ * RMI server interface.
+ * Documentation for the methods in this class are specified in ServerMethods which implements them.
+ * This excludes the "message..." methods which serve as a bridge between the client and the controller (Game class)
+ * and are specified (without the "message prefix") in the controller.
+ */
 public interface ServerInterface extends Remote {
 
     int getGames() throws RemoteException;

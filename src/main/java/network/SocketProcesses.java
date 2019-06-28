@@ -15,6 +15,9 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.Timer;
 
+/**
+ * Contains the necessary functions socket functions for client-server communication and controlling game flow.
+ */
 public class SocketProcesses {
 
     private static View view;
@@ -24,6 +27,16 @@ public class SocketProcesses {
     private static PrintWriter socketOut;
     private static Scanner socketIn;
 
+    /**
+     * Client-side, this asks the user to choose a game, reconnect with their old identifier if they were
+     * previously disconnected. A first-time user has to choose their type of view and is then asked to pick
+     * a unique name and colour. Throughout the game, the method sets up tasks for each action the player takes
+     * and communicates with the server to manage disconnections accordingly.
+     *
+     * @param socket socket
+     * @throws IOException          some I/O exception
+     * @throws InterruptedException thread interruption
+     */
     public static void socketProcesses(Socket socket) throws IOException, InterruptedException {
         socketOut = new PrintWriter(socket.getOutputStream(), true);
         socketIn = new Scanner(socket.getInputStream());
@@ -296,6 +309,11 @@ public class SocketProcesses {
         }
     }
 
+    /**
+     * Socket has a dedicated handler for notify methods.
+     *
+     * @throws RemoteException RMI exception
+     */
     private static void notifyHandler() throws RemoteException   {
         //Notify Player
         socketOut.println("Notify Player Size");

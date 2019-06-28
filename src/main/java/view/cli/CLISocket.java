@@ -36,7 +36,6 @@ public class CLISocket extends UnicastRemoteObject implements View {
         this.socketIn = new Scanner(socket.getInputStream());
     }
 
-    @Override
     public View getView() {
         return this;
     }
@@ -45,22 +44,18 @@ public class CLISocket extends UnicastRemoteObject implements View {
         return game;
     }
 
-    @Override
     public void setGame(int game) {
         this.game = game;
     }
 
-    @Override
     public void setIdentifier(int identifier) {
         this.identifier = identifier;
     }
 
-    @Override
     public String getNickName() {
         return nickName;
     }
 
-    @Override
     public void setInformation(int identifier) {
         socketOut.println("Get Suspended Name");
         socketOut.println(game);
@@ -74,12 +69,10 @@ public class CLISocket extends UnicastRemoteObject implements View {
         this.identifier = identifier;
     }
 
-    @Override
     public void disconnected(int disconnected) {
         System.out.println("Player with identifier " + disconnected + " has disconnected from the game.");
     }
 
-    @Override
     public void askNameAndColour() {
         String yourName = "Enter your name:";
         String yourColour = "Enter your colour in all caps (choose between BLACK, BLUE, GREEN, PURPLE or YELLOW):";
@@ -183,7 +176,6 @@ public class CLISocket extends UnicastRemoteObject implements View {
         socketOut.println(s2);
     }
 
-    @Override
     public void selectSpawnPoint() throws RemoteException {
         Scanner in = new Scanner(System.in);
         String p;
@@ -251,7 +243,6 @@ public class CLISocket extends UnicastRemoteObject implements View {
         }
     }
 
-    @Override
     public void action1() {
         Scanner in = new Scanner(System.in);
         String action;
@@ -732,7 +723,6 @@ public class CLISocket extends UnicastRemoteObject implements View {
         }
     }
 
-    @Override
     public void action2() {
         Scanner in = new Scanner(System.in);
         String action;
@@ -1210,7 +1200,6 @@ public class CLISocket extends UnicastRemoteObject implements View {
         }
     }
 
-    @Override
     public boolean doYouWantToUsePUC() {
         Scanner in = new Scanner(System.in);
         System.out.println("Do you want to use a PowerUpCard now?");
@@ -1218,7 +1207,6 @@ public class CLISocket extends UnicastRemoteObject implements View {
         return (confirm.equals("Yes") || confirm.equals("yes") || confirm.equals("y"));
     }
 
-    @Override
     public void usePowerUpCard() {
         Scanner in = new Scanner(System.in);
         boolean x;
@@ -1424,7 +1412,6 @@ public class CLISocket extends UnicastRemoteObject implements View {
         }
     }
 
-    @Override
     public void reload() {
         Scanner in = new Scanner(System.in);
 
@@ -1465,7 +1452,6 @@ public class CLISocket extends UnicastRemoteObject implements View {
         }
     }
 
-    @Override
     public void scoring() {
         socketOut.println("Message Is Valid Scoring");
         socketOut.println(game);
@@ -1481,7 +1467,6 @@ public class CLISocket extends UnicastRemoteObject implements View {
             System.out.println("No scoring yet");
     }
 
-    @Override
     public void newSpawnPoint() {
         Scanner in = new Scanner(System.in);
 
@@ -1525,7 +1510,6 @@ public class CLISocket extends UnicastRemoteObject implements View {
         }
     }
 
-    @Override
     public void replace() {
         socketOut.println("Message Is Valid To Replace");
         socketOut.println(game);
@@ -1544,8 +1528,6 @@ public class CLISocket extends UnicastRemoteObject implements View {
         }
     }
 
-
-    @Override
     public void finalFrenzyTurn() {
         Scanner in = new Scanner(System.in);
         List<String> l = new LinkedList<>();
@@ -2044,14 +2026,12 @@ public class CLISocket extends UnicastRemoteObject implements View {
         socketOut.println(game);
     }
 
-    @Override
     public void endFinalFrenzy() {
         socketOut.println("Message End Turn Final Frenzy");
         socketOut.println(game);
         System.out.println("\nGame finished: calculating the result...");
     }
 
-    @Override
     public void finalScoring() {
         socketOut.println("Message Final Scoring");
         socketOut.println(game);
@@ -2079,38 +2059,30 @@ public class CLISocket extends UnicastRemoteObject implements View {
     }
 
 
-    @Override
     public void printPlayer(List<String> information) {
         System.out.println("Player " + information.get(0) + " (identifier " + information.get(2)+ ") whose colour is " + information.get(1) + " is now a player of this game.");
     }
 
-    @Override
     public void printScore(List<String> information) {
         System.out.println("Player " + information.get(0) + "'s current score is " + information.get(1));
     }
 
-    @Override
     public void printPosition(List<String> information) {
         System.out.println("Player " + information.get(0) + " is now in cell " + information.get(1) + " " + information.get(2));
     }
 
-    @Override
     public void printMark(List<String> information) {
         System.out.println("Player " + information.get(0) + "has given a new mark to player " + information.get(1));
     }
 
-    @Override
     public void printDamage(List<String> information) {
         System.out.println("Player " + information.get(0) + " has dealt " + information.get(1) + " damage to player " + information.get(2));
     }
 
-
-    @Override
     public void printType() {
         System.out.println("The type of the arena is: " + type);
     }
 
-    @Override
     public void setType(int type) {
         this.type = type;
     }
@@ -2121,7 +2093,6 @@ public class CLISocket extends UnicastRemoteObject implements View {
         return (exitInput.equals("Yes") || exitInput.equals("yes") || exitInput.equals("y"));
     }
 
-    @Override
     public void exit() {
         System.exit(0);
     }

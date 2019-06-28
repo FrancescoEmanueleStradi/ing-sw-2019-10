@@ -31,7 +31,6 @@ public class CLI extends UnicastRemoteObject implements View {
         this.server = server;
     }
 
-    @Override
     public View getView() {
         return this;
     }
@@ -40,17 +39,14 @@ public class CLI extends UnicastRemoteObject implements View {
         return game;
     }
 
-    @Override
     public void setGame(int game) {
         this.game = game;
     }
 
-    @Override
     public void setIdentifier(int identifier) {
         this.identifier = identifier;
     }
 
-    @Override
     public String getNickName() {
         return nickName;
     }
@@ -59,19 +55,16 @@ public class CLI extends UnicastRemoteObject implements View {
         this.server = server;
     }
 
-    @Override
     public void setInformation(int identifier) throws RemoteException {
         this.nickName = server.getSuspendedName(game, identifier);
         this.colour = server.getSuspendedColour(game, this.nickName);
         this.identifier = identifier;
     }
 
-    @Override
     public void disconnected(int disconnected) {
         System.out.println("Player with identifier " + disconnected + " has disconnected from the game.");
     }
 
-    @Override
     public void askNameAndColour() throws RemoteException {
         String yourName = "Enter your name:";
         String yourColour = "Enter your colour in all caps (choose between BLACK, BLUE, GREEN, PURPLE or YELLOW):";
@@ -137,7 +130,6 @@ public class CLI extends UnicastRemoteObject implements View {
         this.server.messageAddPlayer(game, this.nickName, this.colour);
     }
 
-    @Override
     public void selectSpawnPoint() throws RemoteException {
         Scanner in = new Scanner(System.in);
         String p;
@@ -176,7 +168,6 @@ public class CLI extends UnicastRemoteObject implements View {
         }
     }
 
-    @Override
     public void action1() throws RemoteException {
         Scanner in = new Scanner(System.in);
         String action;
@@ -541,7 +532,6 @@ public class CLI extends UnicastRemoteObject implements View {
         }
     }
 
-    @Override
     public void action2() throws RemoteException {
         String action;
         Scanner in = new Scanner(System.in);
@@ -903,7 +893,6 @@ public class CLI extends UnicastRemoteObject implements View {
         }
     }
 
-    @Override
     public boolean doYouWantToUsePUC() {
         Scanner in = new Scanner(System.in);
         System.out.println("Do you want to use a PowerUpCard now?");
@@ -911,7 +900,6 @@ public class CLI extends UnicastRemoteObject implements View {
         return (confirm.equals("Yes") || confirm.equals("yes") || confirm.equals("y"));
     }
 
-    @Override
     public void usePowerUpCard() throws RemoteException {
         Scanner in = new Scanner(System.in);
         boolean x;
@@ -1028,8 +1016,7 @@ public class CLI extends UnicastRemoteObject implements View {
         }
 
     }
-    
-    @Override
+
     public void reload() throws RemoteException {
         Scanner in = new Scanner(System.in);
         this.server.messageGetWeaponCardUnloaded(game, this.nickName).forEach(System.out::println);
@@ -1052,7 +1039,6 @@ public class CLI extends UnicastRemoteObject implements View {
         }
     }
 
-    @Override
     public void scoring() throws RemoteException {
         if(this.server.messageIsValidScoring(game)) {
             System.out.println("Scoring this turn...");
@@ -1062,7 +1048,6 @@ public class CLI extends UnicastRemoteObject implements View {
             System.out.println("No scoring yet");
     }
 
-    @Override
     public void newSpawnPoint() throws RemoteException {
         Scanner in = new Scanner(System.in);
 
@@ -1087,7 +1072,6 @@ public class CLI extends UnicastRemoteObject implements View {
         }
     }
 
-    @Override
     public void replace() throws RemoteException {
         if(this.server.messageIsValidToReplace(game)) {
             System.out.println("Replacing...");
@@ -1100,8 +1084,6 @@ public class CLI extends UnicastRemoteObject implements View {
         }
     }
 
-
-    @Override
     public void finalFrenzyTurn()throws RemoteException {
         Scanner in = new Scanner(System.in);
         List<String> l = new LinkedList<>();
@@ -1370,7 +1352,6 @@ public class CLI extends UnicastRemoteObject implements View {
         System.out.println("\nGame finished: calculating the result...");
     }
 
-    @Override
     public void finalScoring()throws RemoteException {
         this.server.messageFinalScoring(game);
 
@@ -1383,37 +1364,30 @@ public class CLI extends UnicastRemoteObject implements View {
     }
 
 
-    @Override
     public void printPlayer(List<String> information) {
         System.out.println("Player " + information.get(0) + " (identifier " + information.get(2)+ ") whose colour is " + information.get(1) + " is now a player of this game.");
     }
 
-    @Override
     public void printScore(List<String> information) {
         System.out.println("Player " + information.get(0) + "'s current score is " + information.get(1));
     }
 
-    @Override
     public void printPosition(List<String> information) {
         System.out.println("Player " + information.get(0) + " is now in cell " + information.get(1) + " " + information.get(2));
     }
 
-    @Override
     public void printMark(List<String> information) {
         System.out.println("Player " + information.get(0) + "has given a new mark to player " + information.get(1));
     }
 
-    @Override
     public void printDamage(List<String> information) {
         System.out.println("Player " + information.get(0) + " has dealt " + information.get(1) + " damage to player " + information.get(2));
     }
 
-    @Override
     public void printType() {
         System.out.println("The type of the arena is: " + type);
     }
 
-    @Override
     public void setType(int type) {
         this.type = type;
     }
@@ -1424,7 +1398,6 @@ public class CLI extends UnicastRemoteObject implements View {
         return (exitInput.equals("Yes") || exitInput.equals("yes") || exitInput.equals("y"));
     }
 
-    @Override
     public void exit() {
         System.exit(0);
     }

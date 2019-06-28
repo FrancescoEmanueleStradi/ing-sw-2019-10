@@ -5,12 +5,16 @@ import model.Colour;
 import view.View;
 
 import java.io.Serializable;
-import java.net.Socket;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Handles the server-side information about each game for every connection, including the suspended identifiers
+ * (determining initial turn order) and nicknames of disconnected players. It also contains the message... methods
+ * for RMI and notify... methods used by both socket and RMI to communicate with the controller.
+ */
 public class ServerMethods extends UnicastRemoteObject implements ServerInterface, Serializable {
 
     private static List<Game> games;
@@ -21,6 +25,12 @@ public class ServerMethods extends UnicastRemoteObject implements ServerInterfac
     private static List<LinkedList<String>> suspendedName;
     private static int frenzyTurn = 0;
 
+    /**
+     * Creates the lists for each game number, arena type, connection, list of players who can start the game,
+     * identifiers and names of suspended players.
+     *
+     * @throws RemoteException RMI exception
+     */
     public ServerMethods() throws RemoteException {
         games = new LinkedList<>();
         types = new LinkedList<>();
@@ -30,14 +40,23 @@ public class ServerMethods extends UnicastRemoteObject implements ServerInterfac
         suspendedName = new LinkedList<>();
     }
 
-    public String echo(String input) {
-        return "From server: " + input;
-    }
 
+    /**
+     * Gets number of games, active or not.
+     *
+     * @return number of games
+     * @throws RemoteException RMI exception
+     */
     public synchronized int getGames() throws RemoteException {
         return games.size();
     }
 
+    /**
+     * Adds lists to newly created game or if there are no games. Adds only new connection to existing game.
+     *
+     * @param numGame number of the game
+     * @throws RemoteException RMI exception
+     */
     public synchronized void setGame(int numGame) throws RemoteException {
         if(games.isEmpty() || games.size() <= numGame) {
             games.add(numGame, new Game(numGame, this));
@@ -53,23 +72,60 @@ public class ServerMethods extends UnicastRemoteObject implements ServerInterfac
             connections.get(numGame).add(new Connection());
     }
 
+    /**
+     * Sets player's view in a given game.
+     *
+     * @param game game number
+     * @param identifier player identifier
+     * @param view player view
+     * @throws RemoteException RMI exception
+     */
     public synchronized void setView(int game, int identifier, View view) throws RemoteException {
         connections.get(game).get(identifier-1).setView(view);
     }
 
+    /**
+     * Sets player nickname in a given game.
+     *
+     * @param game game number
+     * @param identifier player identifier
+     * @param nickName player nickname
+     * @throws RemoteException RMI exception
+     */
     public synchronized void setNickName(int game, int identifier, String nickName) throws RemoteException {
         connections.get(game).get(identifier-1).setNickName(nickName);
     }
 
+    /**
+     * Determines whether or not the game can start with the players in the game.
+     *
+     * @param game game number
+     * @return boolean
+     * @throws RemoteException RMI exception
+     */
     public synchronized boolean canStart(int game) throws RemoteException {
         return canStartList.get(game);
     }
 
+    /**
+     * Determines whether or not there are too many players in game.
+     * Even if a player is suspended, the total number of players can't be more than five.
+     *
+     * @param game game number
+     * @return boolean
+     * @throws RemoteException RMI exception
+     */
     public synchronized boolean tooMany(int game) throws RemoteException {
-        //Even if a Player is suspended, the total number of players can't be more than five
         return (!connections.isEmpty() && (games.size() > game) &&  connections.get(game).size() == 5);
     }
 
+    /**
+     * Determines whether or not the game should be stopped due to missing players.
+     *
+     * @param game game number
+     * @return boolean
+     * @throws RemoteException RMI exception
+     */
     public synchronized boolean stopGame(int game) throws RemoteException {
         if(suspendedIdentifier.isEmpty())
             return (connections.get(game).size() < 3);
@@ -77,11 +133,26 @@ public class ServerMethods extends UnicastRemoteObject implements ServerInterfac
             return (connections.get(game).size()-suspendedIdentifier.get(game).size() < 3);
     }
 
+    /**
+     * Determines the identifier for the player who is just joining based on number of players already in the game.
+     *
+     * @param game game number
+     * @return number of connections in game
+     * @throws RemoteException RMI exception
+     */
     public synchronized int receiveIdentifier(int game) throws RemoteException {
         connections.get(game).get(connections.get(game).size()-1).setIdentifier(connections.get(game).size());
         return connections.get(game).size();
     }
 
+    /**
+     * Waits for five players to join in which case the game starts immediately, otherwise a timer starts if
+     * there are just three or four players. After 30 seconds have passed the game will start regardless.
+     *
+     * @param game game number
+     * @throws RemoteException RMI exception
+     * @throws InterruptedException Thread interruption
+     */
     public synchronized void mergeGroup(int game) throws RemoteException, InterruptedException {
         if(connections.get(game).size() == 5) {
             canStartList.add(game, true);
@@ -95,6 +166,16 @@ public class ServerMethods extends UnicastRemoteObject implements ServerInterfac
         }
     }
 
+    /**
+     * Determines whether or not it is the player with given identifier's turn.
+     * By default player 1 goes first and player 5 goes last, but the method is recursive and works even
+     * if some players are missing, and loops around to min{identifiers} after max{identifiers} has had its turn.
+     *
+     * @param game game number
+     * @param identifier player identifier
+     * @return boolean
+     * @throws RemoteException RMI exception
+     */
     public synchronized boolean isMyTurn(int game, int identifier) throws RemoteException {
         if(suspendedIdentifier.get(game).isEmpty())
             return(connections.get(game).get(identifier-1).isMyTurn()  && (connections.get(game).size()-1 != frenzyTurn));
@@ -102,6 +183,13 @@ public class ServerMethods extends UnicastRemoteObject implements ServerInterfac
             return(connections.get(game).get(identifier-1).isMyTurn() && (connections.get(game).size()-1-suspendedIdentifier.get(game).size()-1 != frenzyTurn));
     }
 
+    /**
+     * Determines if the game is not in Final Frenzy. If it is, frenzyTurn must be updated.
+     *
+     * @param game game number
+     * @return boolean
+     * @throws RemoteException RMI exception
+     */
     public synchronized boolean isNotFinalFrenzy(int game) throws RemoteException {
         boolean n = !games.get(game).isFinalFrenzy();
         if(!n)
@@ -109,19 +197,40 @@ public class ServerMethods extends UnicastRemoteObject implements ServerInterfac
         return n;
     }
 
+    /**
+     * Sets the player's Final Frenzy turn based on the turn order at the start of the game.
+     * This assumes player 1 has the first player card.
+     *
+     * @param game game number
+     * @param identifier player identifier
+     * @param nickName player nickname
+     */
     public synchronized void setFinalTurn(int game, int identifier, String nickName) {
-        //Assume identifier 1 has the first player card
         if(identifier-frenzyTurn > 0)
             games.get(game).changeTurnFinalFrenzy(nickName, 0);
         if(identifier-frenzyTurn < 0 )
             games.get(game).changeTurnFinalFrenzy(nickName, 2);
     }
 
+    /**
+     * Determines whether or not the game has finished, i.e. everyone has had their Frenzy turn or fewer than three
+     * players have remained.
+     *
+     * @param game game number
+     * @return boolean
+     * @throws RemoteException RMI exception
+     */
     public synchronized boolean gameIsFinished(int game) throws RemoteException {
         return (connections.get(game).size()-suspendedIdentifier.get(game).size() == frenzyTurn ||
                 connections.get(game).size()-suspendedIdentifier.get(game).size() < 3);
     }
 
+    /**
+     * Gets number of player's turn in a given game.
+     *
+     * @param game game number
+     * @return player turn
+     */
     private int getPlayerTurn(int game) {
         for(Connection c : connections.get(game)) {
             if(c.isMyTurn())
@@ -130,6 +239,13 @@ public class ServerMethods extends UnicastRemoteObject implements ServerInterfac
         return -1;
     }
 
+    /**
+     * Properly handles a player's turn ending. Players may disconnect before someone ends their turn, so the next
+     * turn must be assigned to the next remaining player.
+     *
+     * @param game game number
+     * @throws RemoteException RMI exception
+     */
     public synchronized void finishTurn(int game) throws RemoteException {
         if(connections.get(game).size() - suspendedIdentifier.get(game).size() >= 3) {
             do {
@@ -144,6 +260,16 @@ public class ServerMethods extends UnicastRemoteObject implements ServerInterfac
         }
     }
 
+
+    /**
+     * Adds disconnected player to suspended list and notifies of the disconnection.
+     *
+     * @param game game number
+     * @param identifier player identifier
+     * @param nickName player nickname
+     * @throws RemoteException RMI exception
+     * @throws InterruptedException thread interruption
+     */
     public synchronized void manageDisconnection(int game, int identifier, String nickName) throws RemoteException, InterruptedException {
         suspendedIdentifier.get(game).add(identifier);
         suspendedName.get(game).add(nickName);
@@ -154,26 +280,64 @@ public class ServerMethods extends UnicastRemoteObject implements ServerInterfac
         }
     }
 
+    /**
+     * Determines whether or not player with some identifier is suspended.
+     *
+     * @param game game number
+     * @param identifier player identifier
+     * @return boolean
+     * @throws RemoteException RMI exception
+     */
     public synchronized boolean isASuspendedIdentifier(int game, int identifier) throws RemoteException {
         return (suspendedIdentifier.size() > game && suspendedIdentifier.get(game).contains(identifier));
     }
 
+    /**
+     * Removes reconnected player's identifier from suspended list.
+     *
+     * @param game game number
+     * @param identifier player identifier
+     * @throws RemoteException RMI exception
+     */
     public synchronized void manageReconnection(int game, int identifier) throws RemoteException {
         suspendedIdentifier.get(game).removeFirstOccurrence(identifier);
     }
 
+    /**
+     * Gets suspended player's name while removing it from the list.
+     *
+     * @param game game number
+     * @param identifier player identifier
+     * @return suspended player name
+     * @throws RemoteException RMI exception
+     */
     public String getSuspendedName(int game, int identifier) throws RemoteException {
         String s = suspendedName.get(game).get(suspendedIdentifier.get(game).indexOf(identifier));
         suspendedName.get(game).remove(s);
         return s;
     }
 
+    /**
+     * Gets suspended player's colour.
+     *
+     * @param game game number
+     * @param nickName player nickname
+     * @return suspended player colour
+     * @throws RemoteException RMI exception
+     */
     public Colour getSuspendedColour(int game, String nickName) throws RemoteException {
         return games.get(game).getColour(nickName);
     }
 
     //notify to client
 
+    /**
+     * Notifies of nickname and colour of the player who has just joined the game.
+     *
+     * @param game game number
+     * @param information player information
+     * @throws RemoteException RMI exception
+     */
     public synchronized void notifyPlayer(int game, List<String> information) throws RemoteException {
         for(Connection c : connections.get(game)) {
             if(information.get(0).equals(c.getNickName()))
@@ -188,6 +352,14 @@ public class ServerMethods extends UnicastRemoteObject implements ServerInterfac
         }
     }
 
+    /**
+     * Notifies of number of players in game.
+     * Socket-exclusive.
+     *
+     * @param game       game number
+     * @param identifier player identifier
+     * @return player list size
+     */
     public int notifyPlayerSize(int game, int identifier) {
         for(Connection c : connections.get(game)) {
             if(c.getIdentifier() == identifier)
@@ -196,6 +368,14 @@ public class ServerMethods extends UnicastRemoteObject implements ServerInterfac
         return 0;
     }
 
+    /**
+     * Gets list of notify player lists (see notifyPlayer() and printPlayerList()).
+     * Socket-exclusive.
+     *
+     * @param game       game number
+     * @param identifier player identifier
+     * @return notify player lists
+     */
     public List<List<String>> getNotifyPlayer(int game, int identifier) {
         for(Connection c : connections.get(game)) {
             if(c.getIdentifier() == identifier) {
@@ -207,6 +387,13 @@ public class ServerMethods extends UnicastRemoteObject implements ServerInterfac
         return new LinkedList<>();
     }
 
+    /**
+     * Notifies of players' scores.
+     *
+     * @param game game number
+     * @param information player information
+     * @throws RemoteException RMI exception
+     */
     public synchronized void notifyScore(int game, List<String> information) throws RemoteException {
         for(Connection c : connections.get(game)) {
             if(c.getView()!=null && !suspendedIdentifier.get(game).contains(c.getIdentifier()))
@@ -216,6 +403,14 @@ public class ServerMethods extends UnicastRemoteObject implements ServerInterfac
         }
     }
 
+    /**
+     * Notifies of size of score list.
+     * Socket-exclusive.
+     *
+     * @param game       game number
+     * @param identifier player identifier
+     * @return score list size
+     */
     public int notifyScoreSize(int game, int identifier) {
         for(Connection c : connections.get(game)) {
             if(c.getIdentifier() == identifier)
@@ -224,6 +419,14 @@ public class ServerMethods extends UnicastRemoteObject implements ServerInterfac
         return 0;
     }
 
+    /**
+     * Gets list of notify score lists (see notifyScore() and printScoreList()).
+     * Socket-exclusive.
+     *
+     * @param game       game number
+     * @param identifier player identifier
+     * @return notify score lists
+     */
     public List<List<String>> getNotifyScore(int game, int identifier) {
         for(Connection c : connections.get(game)) {
             if(c.getIdentifier() == identifier) {
@@ -235,6 +438,13 @@ public class ServerMethods extends UnicastRemoteObject implements ServerInterfac
         return new LinkedList<>();
     }
 
+    /**
+     * Notifies of player's position.
+     *
+     * @param game game number
+     * @param information player information
+     * @throws RemoteException RMI exception
+     */
     public  synchronized void notifyPosition(int game, List<String> information) throws RemoteException {
         for(Connection c : connections.get(game)) {
             if(c.getView()!=null && !suspendedIdentifier.get(game).contains(c.getIdentifier()))
@@ -244,6 +454,14 @@ public class ServerMethods extends UnicastRemoteObject implements ServerInterfac
         }
     }
 
+    /**
+     * Notifies of size of position list.
+     * Socket-exclusive.
+     *
+     * @param game       game number
+     * @param identifier player identifier
+     * @return position list size
+     */
     public int notifyPositionSize(int game, int identifier) {
         for(Connection c : connections.get(game)) {
             if(c.getIdentifier() == identifier)
@@ -252,6 +470,14 @@ public class ServerMethods extends UnicastRemoteObject implements ServerInterfac
         return 0;
     }
 
+    /**
+     * Gets list of notify position lists (see notifyPosition() and printPositionList()).
+     * Socket-exclusive.
+     *
+     * @param game       game number
+     * @param identifier game identifier
+     * @return notify position lists
+     */
     public List<List<String>> getNotifyPosition(int game, int identifier) {
         for(Connection c : connections.get(game)) {
             if(c.getIdentifier() == identifier) {
@@ -263,6 +489,13 @@ public class ServerMethods extends UnicastRemoteObject implements ServerInterfac
         return new LinkedList<>();
     }
 
+    /**
+     * Notifies of player receiving a mark.
+     *
+     * @param game game number
+     * @param information player information
+     * @throws RemoteException RMI exception
+     */
     public synchronized void notifyMark(int game, List<String> information) throws RemoteException {
         for(Connection c : connections.get(game)) {
             if(c.getView()!=null && !suspendedIdentifier.get(game).contains(c.getIdentifier()))
@@ -272,6 +505,14 @@ public class ServerMethods extends UnicastRemoteObject implements ServerInterfac
         }
     }
 
+    /**
+     * Notifies of number of players who have received marks.
+     * Socket-exclusive.
+     *
+     * @param game       game number
+     * @param identifier player identifier
+     * @return mark list size
+     */
     public int notifyMarkSize(int game, int identifier) {
         for(Connection c : connections.get(game)) {
             if(c.getIdentifier() == identifier)
@@ -280,6 +521,14 @@ public class ServerMethods extends UnicastRemoteObject implements ServerInterfac
         return 0;
     }
 
+    /**
+     * Gets list of notify mark lists (see notifyMark() and printMarkList()).
+     * Socket-exclusive.
+     *
+     * @param game       game number
+     * @param identifier player identifier
+     * @return notify mark lists
+     */
     public List<List<String>> getNotifyMark(int game, int identifier) {
         for(Connection c : connections.get(game)) {
             if(c.getIdentifier() == identifier) {
@@ -291,6 +540,13 @@ public class ServerMethods extends UnicastRemoteObject implements ServerInterfac
         return new LinkedList<>();
     }
 
+    /**
+     * Notifies of player receiving damage.
+     *
+     * @param game game number
+     * @param information player information
+     * @throws RemoteException RMI exception
+     */
     public synchronized void notifyDamage(int game, List<String> information) throws RemoteException {
         for(Connection c : connections.get(game)) {
             if(c.getView()!=null && !suspendedIdentifier.get(game).contains(c.getIdentifier()))
@@ -300,6 +556,14 @@ public class ServerMethods extends UnicastRemoteObject implements ServerInterfac
         }
     }
 
+    /**
+     * Notifies of number of players who have received damage.
+     * Socket-exclusive.
+     *
+     * @param game       game number
+     * @param identifier player identifier
+     * @return damage list size
+     */
     public int notifyDamageSize(int game, int identifier) {
         for(Connection c : connections.get(game)) {
             if(c.getIdentifier() == identifier)
@@ -308,6 +572,14 @@ public class ServerMethods extends UnicastRemoteObject implements ServerInterfac
         return 0;
     }
 
+    /**
+     * Gets list of notify damage lists (see notifyDamage() and printDamageList()).
+     * Socket-exclusive.
+     *
+     * @param game       game number
+     * @param identifier player identifier
+     * @return notify damage lists
+     */
     public List<List<String>> getNotifyDamage(int game, int identifier) {
         for(Connection c : connections.get(game)) {
             if(c.getIdentifier() == identifier) {
@@ -319,10 +591,24 @@ public class ServerMethods extends UnicastRemoteObject implements ServerInterfac
         return new LinkedList<>();
     }
 
+    /**
+     * Notifies of game's arena type.
+     *
+     * @param game game number
+     * @param type arena type
+     * @throws RemoteException RMI exception
+     */
     public synchronized void notifyType(int game, int type) throws RemoteException {
         types.add(game, type);
     }
 
+    /**
+     * Gets game's arena type.
+     *
+     * @param game game number
+     * @return arena type
+     * @throws RemoteException RMI exception
+     */
     public synchronized int getType(int game) throws RemoteException {
         if(types.size() > game)
             return types.get(game);

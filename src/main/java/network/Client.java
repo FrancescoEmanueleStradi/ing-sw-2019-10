@@ -5,8 +5,20 @@ import java.net.Socket;
 import java.rmi.*;
 import java.util.Scanner;
 
+/**
+ * The Client class is self-explanatory. Up to 5 clients may be run at any one time.
+ * Users may use either a socket or an RMI connection.
+ */
 public class Client {
 
+    /**
+     * The main method from which the client is launched.
+     *
+     * @param args input arguments
+     * @throws NotBoundException    Failure to bind to RMI socket
+     * @throws InterruptedException Thread interruption
+     * @throws IOException          I/O exception of some sort
+     */
     public static void main(String[] args) throws NotBoundException, InterruptedException, IOException {
 
         Scanner in = new Scanner(System.in);

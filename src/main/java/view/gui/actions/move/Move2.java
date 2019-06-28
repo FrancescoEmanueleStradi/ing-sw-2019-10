@@ -14,6 +14,7 @@ public class Move2 extends JPanel implements ActionListener {
 
     private GUI gui;
     private ServerInterface server;
+    private JFrame parent;
     private int game;
     private int identifier;
     private String nickName;
@@ -29,10 +30,11 @@ public class Move2 extends JPanel implements ActionListener {
     private JTextField txt2;
     private JTextField txt3;*/
 
-    public Move2(GUI gui, ServerInterface server, int game, int identifier, String nickName) {
+    public Move2(GUI gui, ServerInterface server, int game, int identifier, String nickName, JFrame parent) {
         super();
         this.gui = gui;
         this.server = server;
+        this.parent = parent;
         this.game = game;
         this.identifier = identifier;
         this.nickName = nickName;
@@ -114,7 +116,8 @@ public class Move2 extends JPanel implements ActionListener {
             while(!server.messageIsValidSecondActionMove(game, nickName, directions))
                 gui.moveFirstAction();
             server.messageSecondActionMove(game, nickName, directions);
-            notifyAll();
+            gui.doYouWantToUsePUC3();
+            parent.dispose();
         } catch (RemoteException | InterruptedException ex) {
 
         }

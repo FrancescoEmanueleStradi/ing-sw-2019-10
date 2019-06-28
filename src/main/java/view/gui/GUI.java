@@ -4,6 +4,7 @@ import model.Colour;
 import network.ServerInterface;
 import view.*;
 import view.gui.actions.Action1;
+import view.gui.actions.Action2;
 import view.gui.actions.grab.Grab1;
 import view.gui.actions.move.Move1;
 import view.gui.actions.move.Move2;
@@ -175,13 +176,21 @@ public class GUI implements View, Serializable {
     @Override
     public synchronized void action2() throws InterruptedException {
         JFrame action = new JFrame(this.nickName + "'s SECOND ACTION");
-        //action.add(new Action1(this));
+        action.setLocation(50,50);
+        Container c = action.getContentPane();
+        Action2 a = new Action2(this, action);
+        c.add(a);
+        action.setSize(400, 400);
         action.setVisible(true);
     }
 
     public synchronized void moveSecondAction() throws InterruptedException {
-        JFrame move = new JFrame("Second action - move");                     //TODO
-        move.add(new Move2(this, server, game, identifier, nickName));
+        JFrame move = new JFrame("First action - move");
+        move.setLocation(50,50);
+        Container c = move.getContentPane();
+        Move2 move2 = new Move2(this, server, game, identifier, nickName, move);
+        c.add(move2);
+        move.setSize(400, 400);
         move.setVisible(true);
     }
 

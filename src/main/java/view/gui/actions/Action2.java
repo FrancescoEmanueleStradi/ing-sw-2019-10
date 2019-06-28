@@ -9,13 +9,15 @@ import java.awt.event.ActionListener;
 public class Action2 extends JOptionPane implements ActionListener {
 
     private GUI gui;
+    private JFrame parent;
     JButton moveButton;
     JButton grabButton;
     JButton shootButton;
 
-    public Action2(GUI gui) {
+    public Action2(GUI gui, JFrame parent) {
         super();
         this.gui = gui;
+        this.parent = parent;
         add(new JLabel("Choose the second action you want to do"));
         moveButton = new JButton("Move");
         add(moveButton).doLayout();
@@ -39,7 +41,7 @@ public class Action2 extends JOptionPane implements ActionListener {
             else if(action == shootButton)
                 gui.shootSecondAction();
             action.setEnabled(false);
-            notifyAll();
+            parent.dispose();
         }catch (InterruptedException i) {
 
         }

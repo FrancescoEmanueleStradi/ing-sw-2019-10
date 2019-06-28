@@ -7,16 +7,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
 
-public class Action1 extends JOptionPane implements ActionListener {
+public class Action1 extends JPanel implements ActionListener {
 
     private GUI gui;
+    JFrame parent;
     JButton moveButton;
     JButton grabButton;
     JButton shootButton;
 
-    public Action1(GUI gui) {
+    public Action1(GUI gui, JFrame parent) {
         super();
         this.gui = gui;
+        this.parent = parent;
         add(new JLabel("Choose the first action you want to do"));
         moveButton = new JButton("Move");
         add(moveButton).doLayout();
@@ -40,7 +42,7 @@ public class Action1 extends JOptionPane implements ActionListener {
             else if(action == shootButton)
                 gui.shootFirstAction();
             action.setEnabled(false);
-            notifyAll();
+            parent.dispose();
         }catch (InterruptedException | RemoteException i) {
             //TODO
         }

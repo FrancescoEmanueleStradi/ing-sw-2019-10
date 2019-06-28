@@ -17,6 +17,8 @@ import java.rmi.RemoteException;
 import java.util.LinkedList;
 import java.util.List;
 
+import static javax.swing.ScrollPaneConstants.LOWER_LEFT_CORNER;
+
 public class GUI implements View, Serializable {
 
     private int game;
@@ -48,6 +50,11 @@ public class GUI implements View, Serializable {
         //Enjoy = new ImageIcon("Images/Enjoy.png");
     }
 
+    @Override
+    public int getGame() {
+        return game;
+    }
+
     public void setNickName(String nickName) {
         this.nickName = nickName;
     }
@@ -56,13 +63,6 @@ public class GUI implements View, Serializable {
         this.colour = colour;
     }
 
-    public synchronized void setFlag(boolean flag) {
-        this.flag = flag;
-    }
-
-    public synchronized boolean isFlag() {
-        return flag;
-    }
 
     @Override
     public View getView() {
@@ -135,7 +135,7 @@ public class GUI implements View, Serializable {
         DiscardPUC d = new DiscardPUC(this, server, game, nickName, this.server.messageGetPowerUpCard(game, this.nickName).get(0), this.server.messageGetPowerUpCard(game, this.nickName).get(1), this.server.messageGetPowerUpCardColour(game, this.nickName).get(0), this.server.messageGetPowerUpCardColour(game, this.nickName).get(1), spawnPoint);
         d.setLayout(new FlowLayout(FlowLayout.LEFT));
         c.add(d);
-        spawnPoint.setSize(500,500);
+        spawnPoint.setSize(900,500);
         spawnPoint.setVisible(true);
 
     }
@@ -144,13 +144,21 @@ public class GUI implements View, Serializable {
     @Override
     public synchronized void action1() throws InterruptedException {
         JFrame action = new JFrame(this.nickName + "'s FIRST ACTION");
-        action.add(new Action1(this));
+        action.setLocation(50,50);
+        Container c = action.getContentPane();
+        Action1 a = new Action1(this, action);
+        c.add(a);
+        action.setSize(400, 400);
         action.setVisible(true);
     }
 
     public synchronized void moveFirstAction() throws InterruptedException {
         JFrame move = new JFrame("First action - move");
-        move.add(new Move1(this, server, game, identifier, nickName));
+        move.setLocation(50,50);
+        Container c = move.getContentPane();
+        Move1 move1 = new Move1(this, server, game, identifier, nickName, move)
+        c.add(move1);
+        move.setSize(400, 400);
         move.setVisible(true);
     }
 
@@ -167,7 +175,7 @@ public class GUI implements View, Serializable {
     @Override
     public synchronized void action2() throws InterruptedException {
         JFrame action = new JFrame(this.nickName + "'s SECOND ACTION");
-        action.add(new Action1(this));
+        //action.add(new Action1(this));
         action.setVisible(true);
     }
 
@@ -190,8 +198,30 @@ public class GUI implements View, Serializable {
         //TODO
     }
 
+    public void usePowerUpCard2() {
+        //TODO
+    }
+
+    public void usePowerUpCard3() {
+        //TODO
+    }
+
     @Override
     public boolean doYouWantToUsePUC() {
+        JFrame jF = new JFrame();
+        jF.add(new Label("Do you want to use Power-Up Card)"));
+
+        return true;
+    }
+
+    public boolean doYouWantToUsePUC2() {
+        JFrame jF = new JFrame();
+        jF.add(new Label("Do you want to use Power-Up Card)"));
+
+        return true;
+    }
+
+    public boolean doYouWantToUsePUC3() {
         JFrame jF = new JFrame();
         jF.add(new Label("Do you want to use Power-Up Card)"));
 
@@ -327,16 +357,20 @@ public class GUI implements View, Serializable {
             ImageIcon Right12Grid = new ImageIcon("Images/Right12Grid.png");
             JLabel L14Grid = new JLabel(Left14Grid);
             JLabel R12Grid = new JLabel(Right12Grid);
-            this.gridGraphic.add(L14Grid).setBounds(350, 600, 125, 0);
-            this.gridGraphic.add(R12Grid).setBounds(475, 600, 350, 0);
+            this.container.add(L14Grid);
+            this.container.add(R12Grid);
         }
         if(type == 2) {
             ImageIcon Left23Grid = new ImageIcon("Images/Left23Grid.png");
             ImageIcon Right12Grid = new ImageIcon("Images/Right12Grid.png");
             JLabel L23Grid = new JLabel(Left23Grid);
             JLabel R12Grid = new JLabel(Right12Grid);
-            this.gridGraphic.add(L23Grid).setBounds(350, 600, 125, 0);
-            this.gridGraphic.add(R12Grid).setBounds(475, 600, 350, 0);
+            L23Grid.setMaximumSize(new Dimension(300, 300));
+            R12Grid.setMaximumSize(new Dimension(300, 300));
+            L23Grid.setDisplayedMnemonic(SwingConstants.CENTER);
+            R12Grid.doLayout();
+            this.gridGraphic.add(L23Grid);
+            this.gridGraphic.add(R12Grid);
         }
         if(type == 3) {
             ImageIcon Left23Grid = new ImageIcon("Images/Left23Grid.png");
@@ -354,14 +388,11 @@ public class GUI implements View, Serializable {
             this.gridGraphic.add(L14Grid).setBounds(350, 600, 125, 0);
             this.gridGraphic.add(R34Grid).setBounds(475, 600, 350, 0);
         }
-        scrollPane.setBounds(0, 100, 100, 0);
-        players.doLayout();
-        players.setBounds(0,350, 50, 0);
-        container.add(gridGraphic);
-        container.add(players);
+        //scrollPane.setCorner(LOWER_LEFT_CORNER, new JPanel());
+        //players.setLayout(new FlowLayout(FlowLayout.LEFT));
+        //container.add(players);
+        //container.add(scrollPane);
         gameGraphic.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        gameGraphic.add(scrollPane);
-        gameGraphic.add(players);
         gameGraphic.setVisible(true);
     }
 

@@ -171,13 +171,15 @@ public class RMIProcesses {
                             view.reload();
                             view.scoring();
                             view.replace();
-
-                            centralServer.finishTurn(game);
                         }
 
                         else if(s.equals("GUI") || s.equals("Gui") || s.equals("gui")){
-
+                            view.doYouWantToUsePUC();
                         }
+
+                            centralServer.finishTurn(game);
+
+
 
                         if(centralServer.stopGame(game))
                             break;

@@ -117,7 +117,7 @@ public class Move1 extends JPanel implements ActionListener {
             while(!server.messageIsValidFirstActionMove(game, nickName, directions))
                 gui.moveFirstAction();
             server.messageFirstActionMove(game, nickName, directions);
-            gui.action2();
+            gui.doYouWantToUsePUC2();
             parent.dispose();
         } catch (RemoteException | InterruptedException ex) {
 

@@ -5,8 +5,6 @@ import view.cli.CLISocket;
 import view.gui.GUI;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.rmi.RemoteException;
@@ -41,6 +39,7 @@ public class SocketProcesses {
         socketOut = new PrintWriter(socket.getOutputStream(), true);
         socketIn = new Scanner(socket.getInputStream());
         Scanner in = new Scanner(System.in);
+        String s;
 
         socketOut.println("Get Games");
         String numGames = socketIn.nextLine();
@@ -75,12 +74,12 @@ public class SocketProcesses {
             boolean cliGui = false;
             do {
                 System.out.println("Do you want to use CLI or GUI?");
-                String s = in.next();
+                s = in.next();
                 if(s.equals("CLI") || s.equals("Cli") || s.equals("cli")) {
                     cliGui = true;
                     view = new CLISocket(game, socket);
                 }
-                if(s.equals("GUI") || s.equals("Gui") || s.equals("gui")) {
+                else if(s.equals("GUI") || s.equals("Gui") || s.equals("gui")) {
                     cliGui = true;
                     //view = new GUI(game, centralServer);
                 }
@@ -141,12 +140,12 @@ public class SocketProcesses {
             boolean cliGui = false;
             do {
                 System.out.println("Do you want to use CLI or GUI?");
-                String s = in.next();
+                s = in.next();
                 if(s.equals("CLI") || s.equals("Cli") || s.equals("cli")) {
                     cliGui = true;
                     view = new CLISocket(game, socket);
                 }
-                if(s.equals("GUI") || s.equals("Gui") || s.equals("gui")) {
+                else if(s.equals("GUI") || s.equals("Gui") || s.equals("gui")) {
                     cliGui = true;
                     //view = new GUI(game, centralServer);
                 }
@@ -154,9 +153,15 @@ public class SocketProcesses {
 
             view.setIdentifier(identifier);
 
-            view.askNameAndColour();                    //identifier 1 has to have the first player card and he has to choose the type
-            view.selectSpawnPoint();
-            view.printType();
+            if(s.equals("CLI") || s.equals("Cli") || s.equals("cli")) {
+                view.askNameAndColour();                    //identifier 1 has to have the first player card and he has to choose the type
+                view.selectSpawnPoint();
+                view.printType();
+            }
+
+            else if(s.equals("GUI") || s.equals("Gui") || s.equals("gui")) {
+                view.askNameAndColour();
+            }
         }
 
         try {
@@ -181,57 +186,69 @@ public class SocketProcesses {
                     String isNotFF = socketIn.nextLine();
 
                     if(isNotFF.equals("true")) {
+
                         notifyHandler();
 
-                        if(view.doYouWantToUsePUC()) {
-                            MyTaskSocket task = new MyTaskSocket(game, identifier, view.getNickName(), socket);
-                            Timer timer = new Timer();
-                            timer.schedule(task, 150000);
-                            view.usePowerUpCard();
-                            timer.cancel();
+                        if(s.equals("CLI") || s.equals("Cli") || s.equals("cli")) {
+
+                            if (view.doYouWantToUsePUC()) {
+                                MyTaskSocket task = new MyTaskSocket(game, identifier, view.getNickName(), socket);
+                                Timer timer = new Timer();
+                                timer.schedule(task, 150000);
+                                view.usePowerUpCard();
+                                timer.cancel();
+                            }
+
+                            notifyHandler();
+
+                            MyTaskSocket task2 = new MyTaskSocket(game, identifier, view.getNickName(), socket);
+                            Timer timer2 = new Timer();
+                            timer2.schedule(task2, 150000);
+                            view.action1();
+                            timer2.cancel();
+
+                            notifyHandler();
+
+                            if (view.doYouWantToUsePUC()) {
+                                MyTaskSocket task3 = new MyTaskSocket(game, identifier, view.getNickName(), socket);
+                                Timer timer3 = new Timer();
+                                timer3.schedule(task3, 150000);
+                                view.usePowerUpCard();
+                                timer3.cancel();
+                            }
+
+                            notifyHandler();
+
+                            MyTaskSocket task4 = new MyTaskSocket(game, identifier, view.getNickName(), socket);
+                            Timer timer4 = new Timer();
+                            timer4.schedule(task4, 150000);
+                            view.action2();
+                            timer4.cancel();
+
+                            notifyHandler();
+
+                            if (view.doYouWantToUsePUC()) {
+                                MyTaskSocket task5 = new MyTaskSocket(game, identifier, view.getNickName(), socket);
+                                Timer timer5 = new Timer();
+                                timer5.schedule(task5, 150000);
+                                view.usePowerUpCard();
+                                timer5.cancel();
+                            }
+
+                            notifyHandler();
+
+                            view.reload();
+                            view.scoring();
+                            view.replace();
                         }
 
-                        notifyHandler();
-
-                        MyTaskSocket task2 = new MyTaskSocket(game, identifier, view.getNickName(), socket);
-                        Timer timer2 = new Timer();
-                        timer2.schedule(task2, 150000);
-                        view.action1();
-                        timer2.cancel();
-
-                        notifyHandler();
-
-                        if(view.doYouWantToUsePUC()) {
-                            MyTaskSocket task3 = new MyTaskSocket(game, identifier, view.getNickName(), socket);
-                            Timer timer3 = new Timer();
-                            timer3.schedule(task3, 150000);
-                            view.usePowerUpCard();
-                            timer3.cancel();
+                        else if(s.equals("GUI") || s.equals("Gui") || s.equals("gui")){
+                            MyTaskSocket taskGui = new MyTaskSocket(game, identifier, view.getNickName(), socket);
+                            Timer timerGui = new Timer();
+                            timerGui.schedule(taskGui, 5000000);
+                            view.doYouWantToUsePUC();
+                            timerGui.cancel();
                         }
-
-                        notifyHandler();
-
-                        MyTaskSocket task4 = new MyTaskSocket(game, identifier, view.getNickName(), socket);
-                        Timer timer4 = new Timer();
-                        timer4.schedule(task4, 150000);
-                        view.action2();
-                        timer4.cancel();
-
-                        notifyHandler();
-
-                        if(view.doYouWantToUsePUC()) {
-                            MyTaskSocket task5 = new MyTaskSocket(game, identifier, view.getNickName(), socket);
-                            Timer timer5 = new Timer();
-                            timer5.schedule(task5, 150000);
-                            view.usePowerUpCard();
-                            timer5.cancel();
-                        }
-
-                        notifyHandler();
-
-                        view.reload();
-                        view.scoring();
-                        view.replace();
 
                         notifyHandler();
 
@@ -253,17 +270,29 @@ public class SocketProcesses {
 
                         notifyHandler();
 
-                        socketOut.println("Set Final Turn");
-                        socketOut.println(game);
-                        socketOut.println(identifier);
-                        String nickToSend = view.getNickName();
-                        socketOut.println(nickToSend);
+                        if(s.equals("CLI") || s.equals("Cli") || s.equals("cli")) {
 
-                        MyTaskSocket task6 = new MyTaskSocket(game, identifier, view.getNickName(), socket);
-                        Timer timer6 = new Timer();
-                        timer6.schedule(task6, 500000);
-                        view.finalFrenzyTurn();
-                        timer6.cancel();
+                            socketOut.println("Set Final Turn");
+                            socketOut.println(game);
+                            socketOut.println(identifier);
+                            String nickToSend = view.getNickName();
+                            socketOut.println(nickToSend);
+
+                            MyTaskSocket task6 = new MyTaskSocket(game, identifier, view.getNickName(), socket);
+                            Timer timer6 = new Timer();
+                            timer6.schedule(task6, 500000);
+                            view.finalFrenzyTurn();
+                            timer6.cancel();
+
+                        }
+
+                        else if(s.equals("GUI") || s.equals("Gui") || s.equals("gui")){
+                            MyTaskSocket task6 = new MyTaskSocket(game, identifier, view.getNickName(), socket);
+                            Timer timer6 = new Timer();
+                            timer6.schedule(task6, 500000);
+                            view.finalFrenzyTurn();
+                            timer6.cancel();
+                        }
 
                         notifyHandler();
 
@@ -291,9 +320,18 @@ public class SocketProcesses {
                     break;
             }
 
-            view.endFinalFrenzy();
-            view.finalScoring();
-            System.exit(0);
+            if(s.equals("CLI") || s.equals("Cli") || s.equals("cli")) {
+                view.endFinalFrenzy();
+                view.finalScoring();
+                System.exit(0);
+            }
+
+            else if(s.equals("GUI") || s.equals("Gui") || s.equals("gui")){
+                view.endFinalFrenzy();
+                System.exit(0);
+            }
+
+
         } catch(RemoteException e) {
             //we inserted it here to manage a possible problem during the first part of the game
             socketOut.println("Manage Disconnection");

@@ -1,20 +1,17 @@
 package view.gui;
 
-import view.View;
-
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.rmi.RemoteException;
 
-public class WantUsePUCPanel extends JPanel implements ActionListener {
+public class WantUsePUCPanel2 extends JPanel implements ActionListener {
 
     private GUI gui;
     private JFrame parent;
     private JButton firstButton;
     private JButton secondButton;
 
-    public WantUsePUCPanel(GUI gui, JFrame parent) {
+    public WantUsePUCPanel2(GUI gui, JFrame parent) {
         this.gui = gui;
         this.parent = parent;
         add(new JLabel("Do you want to use Power Up card?"));
@@ -38,7 +35,7 @@ public class WantUsePUCPanel extends JPanel implements ActionListener {
             else if(action == secondButton) {
                 parent.setVisible(false);
                 parent.dispose();
-                gui.action1();
+                gui.action2();
             }
 
         }catch (InterruptedException i) {

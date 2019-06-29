@@ -217,23 +217,35 @@ public class GUI implements View, Serializable {
 
     @Override
     public boolean doYouWantToUsePUC() {
-        JFrame jF = new JFrame();
-        jF.add(new Label("Do you want to use Power-Up Card)"));
-
+        JFrame jF = new JFrame("Power-Up Card");
+        jF.setLocation(50,50);
+        Container c = jF.getContentPane();
+        WantUsePUCPanel w = new WantUsePUCPanel(this, jF);
+        c.add(w);
+        jF.setSize(400,400);
+        jF.setVisible(true);
         return true;
     }
 
     public boolean doYouWantToUsePUC2() {
-        JFrame jF = new JFrame();
-        jF.add(new Label("Do you want to use Power-Up Card)"));
-
+        JFrame jF = new JFrame("Power-Up Card");
+        jF.setLocation(50,50);
+        Container c = jF.getContentPane();
+        WantUsePUCPanel2 w = new WantUsePUCPanel2(this, jF);
+        c.add(w);
+        jF.setSize(400,400);
+        jF.setVisible(true);
         return true;
     }
 
     public boolean doYouWantToUsePUC3() {
-        JFrame jF = new JFrame();
-        jF.add(new Label("Do you want to use Power-Up Card)"));
-
+        JFrame jF = new JFrame("Power-Up Card");
+        jF.setLocation(50,50);
+        Container c = jF.getContentPane();
+        WantUsePUCPanel3 w = new WantUsePUCPanel3(this, jF);
+        c.add(w);
+        jF.setSize(400,400);
+        jF.setVisible(true);
         return true;
     }
 
@@ -249,7 +261,6 @@ public class GUI implements View, Serializable {
         }
         jF.add(reloadPanel);
         jF.setVisible(true);
-        wait();
         //TODO
 
 

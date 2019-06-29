@@ -375,9 +375,11 @@ public class GUI implements View, Serializable {
             ImageIcon Left14Grid = new ImageIcon("Images/Left14Grid.png");
             ImageIcon Right12Grid = new ImageIcon("Images/Right12Grid.png");
             JLabel L14Grid = new JLabel(Left14Grid);
+            L14Grid.setSize(300, 300);
             JLabel R12Grid = new JLabel(Right12Grid);
-            this.container.add(L14Grid);
-            this.container.add(R12Grid);
+            R12Grid.setSize(300, 300);
+            this.container.add(L14Grid).doLayout();
+            this.container.add(R12Grid).doLayout();
         }
         if(type == 2) {
             ImageIcon Left23Grid = new ImageIcon("Images/Left23Grid.png");

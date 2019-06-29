@@ -30,7 +30,7 @@ public class WantUsePUCPanel2 extends JPanel implements ActionListener {
             if(action == firstButton) {
                 parent.setVisible(false);
                 parent.dispose();
-                gui.usePowerUpCard();
+                gui.usePowerUpCard2();
             }
             else if(action == secondButton) {
                 parent.setVisible(false);

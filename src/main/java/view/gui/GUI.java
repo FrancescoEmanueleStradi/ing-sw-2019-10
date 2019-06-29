@@ -25,7 +25,6 @@ public class GUI implements View, Serializable {
     private int game;
     private int identifier;
     private int type;
-    private boolean flag = true;
     private ServerInterface server;
     private String nickName;
     private Colour colour;

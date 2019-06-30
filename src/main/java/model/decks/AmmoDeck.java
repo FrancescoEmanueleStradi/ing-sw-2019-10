@@ -6,10 +6,16 @@ import model.cards.ammocards.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The deck of ammo cards on the game board.
+ */
 public class AmmoDeck implements Deck {
 
     private ArrayList<AmmoCard> deck = new ArrayList<>();
 
+    /**
+     * Creates a new ammo deck, instantiating 2-4 of each ammo card.
+     */
     public AmmoDeck () {
         BRR c1 = new BRR();
         deck.add(c1);
@@ -96,17 +102,33 @@ public class AmmoDeck implements Deck {
         deck.add(c36);
     }
 
+    /**
+     * Shuffle done at the start of the game.
+     */
     public void startingShuffle() {
         shuffleDeck(deck);
     }
 
+    /**
+     * Gets ammo deck.
+     *
+     * @return ammo deck
+     */
     public List<AmmoCard> getDeck() {
         return deck;
     }
 
+    /**
+     * Removes the top (first card) of the deck.
+     *
+     * @return ammo card, null (default)
+     */
     public AmmoCard getTopOfDeck() {
-        AmmoCard a = this.deck.get(0);
-        this.deck.remove(0);
-        return a;
+        if(!this.deck.isEmpty()) {
+            AmmoCard a = this.deck.get(0);
+            this.deck.remove(0);
+            return a;
+        }
+        return null;
     }
 }

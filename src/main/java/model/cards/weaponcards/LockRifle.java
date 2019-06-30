@@ -7,8 +7,14 @@ import model.player.Player;
 
 import java.rmi.RemoteException;
 
+/**
+ * The type Lock rifle.
+ */
 public class LockRifle extends WeaponCard {
 
+    /**
+     * Instantiates a new Lock rifle.
+     */
     public LockRifle() {
         super();
         this.cardName = "Lock Rifle";
@@ -17,11 +23,27 @@ public class LockRifle extends WeaponCard {
                              "with second lock: Deal 1 mark to a different target you can see.\n";
     }
 
+    /**
+     * Apply effect.
+     *
+     * @param grid the grid
+     * @param p    the p
+     * @param p1   the p 1
+     * @throws RemoteException the remote exception
+     */
     public void applyEffect(Grid grid, Player p, Player p1) throws RemoteException { //player p attacks p1 (visible), giving him 2 damage and 1 mark
         grid.damage(p, p1, 2);
         grid.addMark(p, p1);
     }
 
+    /**
+     * Apply special effect.
+     *
+     * @param grid the grid
+     * @param p    the p
+     * @param p2   the p 2
+     * @throws RemoteException the remote exception
+     */
     public void applySpecialEffect(Grid grid, Player p, Player p2) throws RemoteException { //Second Lock: player p attacks p2 (visible), who is different from the p1 selected for the primary effect: the controller will check this!
         grid.addMark(p, p2);
     }

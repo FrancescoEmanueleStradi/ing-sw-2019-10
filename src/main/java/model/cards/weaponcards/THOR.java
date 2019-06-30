@@ -7,8 +7,14 @@ import model.player.Player;
 
 import java.rmi.RemoteException;
 
+/**
+ * The type Thor.
+ */
 public class THOR extends WeaponCard {
 
+    /**
+     * Instantiates a new Thor.
+     */
     public THOR() {
         super();
         this.cardName = "T.H.O.R.";
@@ -21,20 +27,44 @@ public class THOR extends WeaponCard {
                 "Also note that each target must be a different player.\n";
     }
 
-    //before: let the player p choose which player p1 (visible) he wants to attack
+    //prior to effect: let the player p choose which player p1 (visible) he wants to attack
 
+    /**
+     * Apply effect.
+     *
+     * @param grid the grid
+     * @param p    the p
+     * @param p1   the p 1
+     * @throws RemoteException the remote exception
+     */
     public void applyEffect(Grid grid, Player p, Player p1) throws RemoteException { //player p gives 2 damages to p1
         grid.damage(p, p1, 2);
     }
 
-    //before: let the player p choose which player p2 (visible by p1) he wants to attack
+    //prior to effect: let the player p choose which player p2 (visible by p1) he wants to attack
 
+    /**
+     * Apply special effect.
+     *
+     * @param grid the grid
+     * @param p    the p
+     * @param p2   the p 2
+     * @throws RemoteException the remote exception
+     */
     public void applySpecialEffect(Grid grid, Player p, Player p2) throws RemoteException { //Chain Reaction: player p gives 1 damage to p2, who is a second target that the first target p1 can see
         grid.damage(p, p2, 1);
     }
 
-    //before: check if player p has used applySpecialEffect. At this point, player p can choose which player p3 (visible by p2) he wants to attack
+    //prior to effect: check if player p has used applySpecialEffect. At this point, player p can choose which player p3 (visible by p2) he wants to attack
 
+    /**
+     * Apply special effect 2.
+     *
+     * @param grid the grid
+     * @param p    the p
+     * @param p3   the p 3
+     * @throws RemoteException the remote exception
+     */
     public void applySpecialEffect2(Grid grid, Player p, Player p3) throws RemoteException { //High Voltage: player p gives 2 damage to player p3, who is a third target that the second target p2 can see
         grid.damage(p, p3, 2);
     }

@@ -7,8 +7,14 @@ import model.player.Player;
 
 import java.rmi.RemoteException;
 
+/**
+ * The type Electroscythe.
+ */
 public class Electroscythe extends WeaponCard {
 
+    /**
+     * Instantiates a new Electroscythe.
+     */
     public Electroscythe() {
         super();
         this.cardName = "Electroscythe";
@@ -17,6 +23,13 @@ public class Electroscythe extends WeaponCard {
                              "in reaper mode: Deal 2 damage to every other player on your square.\n";
     }
 
+    /**
+     * Apply effect.
+     *
+     * @param grid the grid
+     * @param p    the p
+     * @throws RemoteException the remote exception
+     */
     public void applyEffect(Grid grid, Player p) throws RemoteException { //player p damages (1) every enemy on the same square as player p
         for(Player enemy : grid.getPlayers()) {
             if(grid.whereAmI(enemy).equals(grid.whereAmI(p)) && !(enemy.equals(p)))
@@ -24,6 +37,13 @@ public class Electroscythe extends WeaponCard {
         }
     }
 
+    /**
+     * Apply special effect.
+     *
+     * @param grid the grid
+     * @param p    the p
+     * @throws RemoteException the remote exception
+     */
     public void applySpecialEffect(Grid grid, Player p) throws RemoteException { //Reaper Mode: player p damages (2) every enemy on the same square as player p
         for(Player enemy : grid.getPlayers()) {
             if(grid.whereAmI(enemy).equals(grid.whereAmI(p)) && !(enemy.equals(p)))

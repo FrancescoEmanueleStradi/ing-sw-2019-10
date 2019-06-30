@@ -13,7 +13,9 @@ import java.util.List;
  */
 public class Connection {
 
-    //null if client uses socket
+    /**
+     * Set to null if client uses socket
+     */
     private View view;
 
     private String nickName;

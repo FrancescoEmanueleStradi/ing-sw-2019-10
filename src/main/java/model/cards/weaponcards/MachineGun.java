@@ -7,8 +7,14 @@ import model.player.Player;
 
 import java.rmi.RemoteException;
 
+/**
+ * The type Machine gun.
+ */
 public class MachineGun extends WeaponCard {
 
+    /**
+     * Instantiates a new Machine gun.
+     */
     public MachineGun() {
         super();
         this.cardName = "Machine Gun";
@@ -22,12 +28,29 @@ public class MachineGun extends WeaponCard {
 
     //before applying effects: let player p selecting player(s) to attack, checking if they are visible
 
+    /**
+     * Apply effect.
+     *
+     * @param grid the grid
+     * @param p    the p
+     * @param p1   the p 1
+     * @param p2   the p 2
+     * @throws RemoteException the remote exception
+     */
     public void applyEffect(Grid grid, Player p, Player p1, Player p2) throws RemoteException { //primary attack if 2 visible targets are selected: player p attacks p1 and p2
         grid.damage(p, p1, 1);
         if(p2 != null)
             grid.damage(p, p2, 1);
     }
 
+    /**
+     * Apply special effect.
+     *
+     * @param grid the grid
+     * @param p    the p
+     * @param p1   the p 1
+     * @throws RemoteException the remote exception
+     */
     public void applySpecialEffect(Grid grid, Player p, Player p1) throws RemoteException { //Focus Shot: player damages p1 (controller asks player p if he wants to attack p1 or p2)
         grid.damage(p, p1, 1);
     }

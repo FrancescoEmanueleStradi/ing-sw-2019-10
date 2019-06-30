@@ -7,8 +7,14 @@ import model.player.Player;
 
 import java.rmi.RemoteException;
 
+/**
+ * The type Furnace.
+ */
 public class Furnace extends WeaponCard {
 
+    /**
+     * Instantiates a new Furnace.
+     */
     public Furnace() {
         super();
         this.cardName = "Furnace";
@@ -17,8 +23,16 @@ public class Furnace extends WeaponCard {
                              "in cozy fire mode: Choose a square exactly one move away. Deal 1 damage and 1 mark to everyone on that square.";
     }
 
-    //before: let the player p choose a room he can see (excluding the room the player is in)
+    //prior to effect: let the player p choose a room he can see (excluding the room the player is in)
 
+    /**
+     * Apply effect.
+     *
+     * @param grid the grid
+     * @param p    the p
+     * @param c    the c
+     * @throws RemoteException the remote exception
+     */
     public void applyEffect(Grid grid, Player p, Colour c) throws RemoteException {    //damage every enemy in that room
         for(Player enemy : grid.getPlayers()) {
             if(enemy.getCell().getC().equals(c))
@@ -26,8 +40,17 @@ public class Furnace extends WeaponCard {
         }
     }
 
-    //before: let the player choose a cell one move away from him (it checks this)
+    //prior to effect: let the player choose a cell one move away from him (it checks this)
 
+    /**
+     * Apply special effect.
+     *
+     * @param grid the grid
+     * @param p    the p
+     * @param x    the x
+     * @param y    the y
+     * @throws RemoteException the remote exception
+     */
     public void applySpecialEffect(Grid grid, Player p, String x, String y) throws RemoteException {    //Cozy Fire Mode: player p gives 1 damage and 1 mark to every enemy in that cell
         for(Player enemy : grid.getPlayers()) {
             if(enemy.getCell().getPos().getX() == Integer.parseInt(x) && enemy.getCell().getPos().getY() == Integer.parseInt(y)) {

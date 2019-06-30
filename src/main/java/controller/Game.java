@@ -74,7 +74,7 @@ public class Game {
 
     public void changeTurnFinalFrenzy(String nickName, int turn) {
         Player p = this.grid.getPlayerObject(nickName);
-        if(!p.isFirstPlayerCard())
+        if(!p.hasFirstPlayerCard())
             p.setTurnFinalFrenzy(turn);
     }
 
@@ -838,7 +838,7 @@ public class Game {
         if(!this.grid.canMove(p, direction))
             return false;
         else {
-            Player future = new Player("?fUtUrE!", p.getC(), p.isFirstPlayerCard());
+            Player future = new Player("?fUtUrE!", p.getC(), p.hasFirstPlayerCard());
             future.changeCell(p.getCell());
             for(WeaponCard w : p.getWeaponCards())
                 future.addWeaponCard(w);
@@ -939,7 +939,7 @@ public class Game {
 
 
     private void giveWhatIsOnAmmoCard(Player p, AmmoCard card) {
-       if(card.ispC())
+       if(card.haspC())
            this.grid.pickPowerUpCard(p);
        for(AmmoCube cube : card.getaC())
            p.addNewAC(cube);

@@ -7,8 +7,14 @@ import model.player.Player;
 
 import java.rmi.RemoteException;
 
+/**
+ * The type Cyberblade.
+ */
 public class Cyberblade extends WeaponCard {
 
+    /**
+     * Instantiates a new Cyberblade.
+     */
     public Cyberblade() {
         super();
         this.cardName = "Cyberblade";
@@ -20,20 +26,44 @@ public class Cyberblade extends WeaponCard {
                              "Notes: Combining all effects allows you to move onto a square and whack 2 people; or whack somebody, move, and whack somebody else; or whack 2 people and then move.\n";
     }
 
-    //before: let player p choose a player p1 on his cell.
+    //prior to effect: let player p choose a player p1 on his cell.
 
+    /**
+     * Apply effect.
+     *
+     * @param grid the grid
+     * @param p    the p
+     * @param p1   the p 1
+     * @throws RemoteException the remote exception
+     */
     public void applyEffect(Grid grid, Player p, Player p1) throws RemoteException {   //player p deals 1 damage to p1
         grid.damage(p, p1, 2);
     }
 
-    //before: This Special Effect can be done before or after the other effects. Let player p choose a cell he wants to go to.
+    //prior to effect: This Special Effect can be done before or after the other effects. Let player p choose a cell he wants to go to.
 
+    /**
+     * Apply special effect.
+     *
+     * @param grid      the grid
+     * @param p         the p
+     * @param direction the direction
+     * @throws RemoteException the remote exception
+     */
     public void applySpecialEffect(Grid grid, Player p, String direction) throws RemoteException {   //Shadowstep: player p moves in the chosen cell
         grid.move(p, Integer.parseInt(direction));
     }
 
-    //before: let player p choose a different target p2 than p1. p2 must be on the same cell of p.
+    //prior to effect: let player p choose a different target p2 than p1. p2 must be on the same cell of p.
 
+    /**
+     * Apply special effect 2.
+     *
+     * @param grid the grid
+     * @param p    the p
+     * @param p2   the p 2
+     * @throws RemoteException the remote exception
+     */
     public void applySpecialEffect2(Grid grid, Player p, Player p2) throws RemoteException {   //Slice and dice: player p deals 2 damage to the chosen p2
         grid.damage(p, p2, 2);
     }

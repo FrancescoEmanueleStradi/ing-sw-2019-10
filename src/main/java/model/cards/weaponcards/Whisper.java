@@ -7,8 +7,14 @@ import model.player.Player;
 
 import java.rmi.RemoteException;
 
+/**
+ * The type Whisper.
+ */
 public class Whisper extends WeaponCard {
 
+    /**
+     * Instantiates a new Whisper.
+     */
     public Whisper () {
         super();
         this.cardName = "Whisper";
@@ -18,8 +24,16 @@ public class Whisper extends WeaponCard {
                              "If you are beside a door, you can't shoot a target on the other side of the door, but you can shoot a target on a different square of that room.\n";
     }
 
-    //before: let the player p choose 1 target p1 he can see: it has to be at least 2 moves away from player p, so check this.
+    //prior to effect: let the player p choose 1 target p1 he can see: it has to be at least 2 moves away from player p, so check this.
 
+    /**
+     * Apply effect.
+     *
+     * @param grid the grid
+     * @param p    the p
+     * @param p1   the p 1
+     * @throws RemoteException the remote exception
+     */
     public void applyEffect(Grid grid, Player p, Player p1) throws RemoteException {   //Player p deals 3 damages and adds 1 mark to player p1
         grid.damage(p, p1, 3);
         grid.addMark(p, p1);

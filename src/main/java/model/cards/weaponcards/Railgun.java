@@ -7,8 +7,14 @@ import model.player.Player;
 
 import java.rmi.RemoteException;
 
+/**
+ * The type Railgun.
+ */
 public class Railgun extends WeaponCard {
 
+    /**
+     * Instantiates a new Railgun.
+     */
     public Railgun() {
         super();
         this.cardName = "Railgun";
@@ -21,14 +27,31 @@ public class Railgun extends WeaponCard {
                 "In piercing mode, the 2 targets can be on the same square or on different squares.\n";
     }
 
-    //before: let player p choose a cardinal direction (1, 2, 3, 4) and a player p1 in that direction, even if there is a wall. LET HIM CHOOSE ENEMIES ON HIS SAME CELL TOO!!
+    //prior to effect: let player p choose a cardinal direction (1, 2, 3, 4) and a player p1 in that direction, even if there is a wall. LET HIM CHOOSE ENEMIES ON HIS SAME CELL TOO!!
 
+    /**
+     * Apply effect.
+     *
+     * @param grid the grid
+     * @param p    the p
+     * @param p1   the p 1
+     * @throws RemoteException the remote exception
+     */
     public void applyEffect(Grid grid, Player p, Player p1) throws RemoteException {   //player p deals 3 damages to p1
         grid.damage(p, p1, 3);
     }
 
-    //before: let player p choose a cardinal direction (1, 2, 3, 4) and one or two players p1, p2 in that direction, even if there is a wall. LET HIM CHOOSE ENEMIES ON HIS SAME CELL TOO!! P1 AND P2 CAN BE ON THE SAME CELL!
+    //prior to effect: let player p choose a cardinal direction (1, 2, 3, 4) and one or two players p1, p2 in that direction, even if there is a wall. LET HIM CHOOSE ENEMIES ON HIS SAME CELL TOO!! P1 AND P2 CAN BE ON THE SAME CELL!
 
+    /**
+     * Apply special effect.
+     *
+     * @param grid the grid
+     * @param p    the p
+     * @param p1   the p 1
+     * @param p2   the p 2
+     * @throws RemoteException the remote exception
+     */
     public void applySpecialEffect(Grid grid, Player p, Player p1, Player p2) throws RemoteException { //player p deals 2 damage to p1 and, if selected, 2 damages to p2 too
         grid.damage(p, p1, 2);
         if(p2 != null)

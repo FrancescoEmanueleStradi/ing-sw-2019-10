@@ -3,6 +3,10 @@ package model.board;
 import model.*;
 import model.cards.*;
 
+/**
+ * The board consists of the arena, modelled as a 3x4 matrix in which some cells are invalid, as well as the
+ * killtrack and weapon slots.
+ */
 public class Board {
 
     private KillTrack k;
@@ -11,9 +15,19 @@ public class Board {
     private WeaponSlot w3;
     private Cell[][] arena = new Cell[3][4];
 
-    // From 1 to 4 --> From the highest to the lowest according to the order of the images in the rules
+    /**
+     * Types are 1, 2, 3 and 4, corresponding to the layouts in the manual from the highest to the lowest
+     */
     private int aType;
 
+    /**
+     * Creates a new board of some arena type.
+     *
+     * @param type type number
+     * @param ws1  weapon slot 1
+     * @param ws2  wepaon slot 2
+     * @param ws3  weapon slot 3
+     */
     public Board(int type, WeaponSlot ws1, WeaponSlot ws2, WeaponSlot ws3) {
         this.k = new KillTrack();
         this.aType = type;
@@ -151,27 +165,58 @@ public class Board {
         }
     }
 
+    /**
+     * Gets killtrack.
+     *
+     * @return killtrack
+     */
     public KillTrack getK() {
         return k;
     }
 
+    /**
+     * Gets weapon slot 1.
+     *
+     * @return weapon slot 1
+     */
     public WeaponSlot getW1() {
         return w1;
     }
 
+    /**
+     * Gets weapon slot 2.
+     *
+     * @return weapon slot 2
+     */
     public WeaponSlot getW2() {
         return w2;
     }
 
+    /**
+     * Gets weapon slot 3
+     *
+     * @return weapon slot 3
+     */
     public WeaponSlot getW3() {
         return w3;
     }
 
+    /**
+     * Swaps the ammo card with another in some cell of the arena.
+     *
+     * @param p position
+     * @param a ammo card
+     */
     void changeAmmoCard(Position p, AmmoCard a) {
         this.arena[p.getX()][p.getY()].setA(a);
     }
 
-    //replaces an empty slot in WeaponSlot w with WeaponCard wC
+    /**
+     * Fills a single given empty weapon slot with a given weapon card.
+     *
+     * @param w  weapon slot
+     * @param wC weapon card
+     */
     void changeWeaponCard(WeaponSlot w, WeaponCard wC) {
         if(this.w1.equals(w)) {
             if(this.w1.getCard1() == null)
@@ -201,6 +246,13 @@ public class Board {
         }
     }
 
+    //TODO
+    /**
+     * Substitute
+     *
+     * @param n the n
+     * @return the int
+     */
     public int substituteSkull(int n) {
         for(int i = 0; i <this.k.getSkulls().length; i++) {
             if(this.k.getSkulls()[i] == 0) {
@@ -212,10 +264,20 @@ public class Board {
         return -1;
     }
 
+    /**
+     * Get arena cell.
+     *
+     * @return cell
+     */
     public Cell[][] getArena() {
         return arena;
     }
 
+    /**
+     * Gets arena type
+     *
+     * @return num type
+     */
     public int getaType() {
         return aType;
     }

@@ -43,11 +43,6 @@
             <version>2.27.0</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.openjfx</groupId>
-            <artifactId>javafx-controls</artifactId>
-            <version>12.0.1</version>
-        </dependency>
     </dependencies>
 
     <build>
@@ -91,15 +86,6 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.openjfx</groupId>
-                <artifactId>javafx-maven-plugin</artifactId>
-                <version>0.0.2</version>
-                <configuration>
-                    <mainClass>HelloFX</mainClass>
-                </configuration>
             </plugin>
         </plugins>
 

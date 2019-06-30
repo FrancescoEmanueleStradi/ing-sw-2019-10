@@ -6,10 +6,16 @@ import model.cards.weaponcards.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The deck of weapon cards on the game board.
+ */
 public class WeaponDeck implements Deck {
 
     private ArrayList<WeaponCard> deck = new ArrayList<>();
 
+    /**
+     * Creates a new weapon deck, instatiating one of each weapon card included in the game.
+     */
     public WeaponDeck() {
         Cyberblade c1 = new Cyberblade();
             deck.add(c1);
@@ -55,14 +61,27 @@ public class WeaponDeck implements Deck {
             deck.add(c21);
     }
 
+    /**
+     * Shuffle done at the start of the game.
+     */
     public void startingShuffle() {
         shuffleDeck(this.deck);
     }
 
+    /**
+     * Gets weapon deck.
+     *
+     * @return weapon deck
+     */
     List<WeaponCard> getDeck() {
         return this.deck;
     }
 
+    /**
+     * Removes the top (first card) of the deck.
+     *
+     * @return weapon card, null (default)
+     */
     public WeaponCard getTopOfDeck() {
         if(!this.deck.isEmpty()) {
             WeaponCard w = this.deck.get(0);

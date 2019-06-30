@@ -31,14 +31,14 @@ class GridAssertTests {
         assertEquals(1, grid.getPlayers().size());
         assertEquals("Player 1", grid.getPlayers().get(0).getNickName());
         assertEquals(Colour.YELLOW, grid.getPlayers().get(0).getC());
-        assertTrue(grid.getPlayers().get(0).isFirstPlayerCard());
+        assertTrue(grid.getPlayers().get(0).hasFirstPlayerCard());
 
         assertEquals("Player 1", grid.getPlayersNickName().get(0));
         assertEquals(Colour.YELLOW, grid.getPlayersColour().get(0));
 
         assertEquals("Player 1", grid.getPlayerObject("Player 1").getNickName());
         assertEquals(Colour.YELLOW, grid.getPlayerObject("Player 1").getC());
-        assertTrue(grid.getPlayerObject("Player 1").isFirstPlayerCard());
+        assertTrue(grid.getPlayerObject("Player 1").hasFirstPlayerCard());
 
         assertEquals(1, grid.getNumPlayers());
 
@@ -48,7 +48,7 @@ class GridAssertTests {
         assertEquals(2, grid.getPlayers().size());
         assertEquals("Player 2", grid.getPlayers().get(1).getNickName());
         assertEquals(Colour.BLUE, grid.getPlayers().get(1).getC());
-        assertFalse(grid.getPlayers().get(1).isFirstPlayerCard());
+        assertFalse(grid.getPlayers().get(1).hasFirstPlayerCard());
 
         assertEquals("Player 1", grid.getPlayersNickName().get(0));
         assertEquals("Player 2", grid.getPlayersNickName().get(1));
@@ -57,7 +57,7 @@ class GridAssertTests {
 
         assertEquals("Player 2", grid.getPlayerObject("Player 2").getNickName());
         assertEquals(Colour.BLUE, grid.getPlayerObject("Player 2").getC());
-        assertFalse(grid.getPlayerObject("Player 2").isFirstPlayerCard());
+        assertFalse(grid.getPlayerObject("Player 2").hasFirstPlayerCard());
 
         assertEquals(2, grid.getNumPlayers());
 
@@ -66,14 +66,14 @@ class GridAssertTests {
         assertEquals(1, grid.getPlayers().size());
         assertEquals("Player 1", grid.getPlayers().get(0).getNickName());
         assertEquals(Colour.YELLOW, grid.getPlayers().get(0).getC());
-        assertTrue(grid.getPlayers().get(0).isFirstPlayerCard());
+        assertTrue(grid.getPlayers().get(0).hasFirstPlayerCard());
 
         assertEquals("Player 1", grid.getPlayersNickName().get(0));
         assertEquals(Colour.YELLOW, grid.getPlayersColour().get(0));
 
         assertEquals("Player 1", grid.getPlayerObject("Player 1").getNickName());
         assertEquals(Colour.YELLOW, grid.getPlayerObject("Player 1").getC());
-        assertTrue(grid.getPlayerObject("Player 1").isFirstPlayerCard());
+        assertTrue(grid.getPlayerObject("Player 1").hasFirstPlayerCard());
 
         assertEquals(1, grid.getNumPlayers());
         assertNull(grid.getPlayerObject("Player 2"));

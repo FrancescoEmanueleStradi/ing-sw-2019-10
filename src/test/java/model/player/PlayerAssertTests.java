@@ -23,7 +23,7 @@ class PlayerAssertTests {
         assertEquals("Test", p1.getNickName());
         assertEquals(Colour.BLUE, p1.getC());
         assertTrue(p1.getPlayerBoard().mIsEmpty());
-        assertTrue(p1.isFirstPlayerCard());
+        assertTrue(p1.hasFirstPlayerCard());
         assertEquals(0, p1.getScore());
 
         assertEquals(9, p1.getAmmoCubes().length);

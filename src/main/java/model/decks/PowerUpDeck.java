@@ -10,10 +10,16 @@ import model.cards.powerupcards.Teleporter;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The deck of powerup cards on the game board.
+ */
 public class PowerUpDeck implements Deck {
 
     private ArrayList<PowerUpCard> deck = new ArrayList<>();
 
+    /**
+     * Creates a new weapon deck, instantiating 6 of each of the 4 powerup cards included in the game.
+     */
     public PowerUpDeck() {
         TargetingScope c1 = new TargetingScope(Colour.RED);
             deck.add(c1);
@@ -68,17 +74,33 @@ public class PowerUpDeck implements Deck {
             deck.add(c24);
     }
 
+    /**
+     * Shuffle done at the start of the game.
+     */
     public void startingShuffle() {
         shuffleDeck(this.deck);
     }
 
+    /**
+     * Gets powerup deck.
+     *
+     * @return powerup deck
+     */
     public List<PowerUpCard> getDeck() {
         return this.deck;
     }
 
+    /**
+     * Removes the top (first card) of the deck.
+     *
+     * @return powerup card, null (default)
+     */
     public PowerUpCard getTopOfDeck() {
-        PowerUpCard p = this.deck.get(0);
-        this.deck.remove(0);
-        return p;
+        if(!this.deck.isEmpty()) {
+            PowerUpCard p = this.deck.get(0);
+            this.deck.remove(0);
+            return p;
+        }
+        return null;
     }
 }

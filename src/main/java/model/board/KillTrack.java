@@ -6,46 +6,98 @@ import model.player.damagetrack.NumColour;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Represents the sole killshot track on the game board from which skulls are removed and to which damage tokens are
+ * added as players die.
+ * Only the standard rules whereby the game goes into Final Frenzy on the 8th and final skull are considered.
+ */
 public class KillTrack {
 
-    //0 skull, 1 damage, 2 double damage, 3 empty
+    /**
+     * 0 skull, 1 damage, 2 double damage, 3 empty
+     */
     private int[] skulls;
+
     private Colour[] c;
     private List<NumColour> l;
 
+    //TODO colour?
+    /**
+     * Creates a new killtrack filled with skulls.
+     */
     KillTrack() {
         skulls = new int[]{0,0,0,0,0,0,0,0};
         c = new Colour[8];
     }
 
+    //TODO
+    /**
+     * Gets colours of damage token(s) on killtrack.
+     *
+     * @return colours
+     */
     public Colour[] getC() {
         return c;
     }
 
+    /**
+     * Gets skulls array.
+     *
+     * @return skulls
+     */
     public int[] getSkulls() {
         return skulls;
     }
 
+    /**
+     * Sets colours.
+     *
+     * @param c the c
+     */
     public void setC(Colour[] c) {
         this.c = c;
     }
 
+    /**
+     * Sets skulls on killtrack.
+     *
+     * @param skulls skulls
+     */
     public void setSkulls(int[] skulls) {
         this.skulls = skulls;
     }
 
-    public Colour getColourPosition(int n) {
-        return scoreBoard().get(n);
+    /**
+     * Returns list containing the distinct colour of damage tokens on the killtrack.
+     *
+     * @return colour list
+     */
+    private List<Colour> colours() {
+        LinkedList<Colour> lC = new LinkedList<>();
+        for(Colour colour : this.getC()) {
+            if(colour != null && !lC.contains(colour))
+                lC.add(colour);
+        }
+        return lC;
     }
 
-    public List<Colour> scoreBoard() {
-        this.listNumColour();
-        LinkedList<Colour> colour = new LinkedList<>();
-        for(NumColour n : getOrderedNumColour())
-            colour.add(n.getC());
-        return colour;
+    /**
+     * Creates a NumColour list and adds a new instance of NumColour for every member of colours().
+     */
+    private void initializeListNumColour() {
+        this.l = new LinkedList<>();
+        for(Colour colour : this.colours()) {
+            if(colour != null) {
+                NumColour num = new NumColour(colour);
+                this.l.add(num);
+            }
+        }
     }
 
+    /**
+     * Calls initializeListNumColour() and adds occurrences of each colour in the killtrack to the list.
+     * This is the final step before calling tie().
+     */
     private void listNumColour() {
         this.initializeListNumColour();
         for(int i = 0; i < this.getC().length; i++) {
@@ -57,21 +109,47 @@ public class KillTrack {
         this.tie();
     }
 
+    //TODO
+    /**
+     * Player's scoreboard.
+     *
+     * @return the list
+     */
+    public List<Colour> scoreBoard() {
+        this.listNumColour();
+        LinkedList<Colour> colour = new LinkedList<>();
+        for(NumColour n : getOrderedNumColour())
+            colour.add(n.getC());
+        return colour;
+    }
+
+    /**
+     * Gets colour position in scoreboard.
+     *
+     * @param n index
+     * @return position
+     */
+    public Colour getColourPosition(int n) {
+        return scoreBoard().get(n);
+    }
+
+    //TODO
+    /**
+     * Sorts NumColour list in ascending order based on the difference between colour occurrences.
+     *
+     * @return NumColour list
+     */
     private List<NumColour> getOrderedNumColour() {
         l.sort((numColour1, numColour2) -> numColour2.getNum() - numColour1.getNum());
         return l;
     }
 
-    private void initializeListNumColour() {
-        this.l = new LinkedList<>();
-        for(Colour colour : this.colours()) {
-            if(colour != null) {
-                NumColour num = new NumColour(colour);
-                this.l.add(num);
-            }
-        }
-    }
-
+    /**
+     * Returns a specific NumColour member from the list.
+     *
+     * @param c colour
+     * @return NumColour, nullColour (default)
+     */
     private NumColour giveNumColour(Colour c) {
         NumColour nullColour = new NumColour(null);
         for(NumColour n : this.l) {
@@ -81,15 +159,10 @@ public class KillTrack {
         return nullColour;
     }
 
-    private List<Colour> colours() {
-        LinkedList<Colour> lC = new LinkedList<>();
-        for(Colour colour : this.getC()) {
-            if(colour != null && !lC.contains(colour))
-                lC.add(colour);
-        }
-        return lC;
-    }
-
+    /**
+     * Searches numColour list for a tie based on number of colours and setTie is naturally set to true if a tie
+     * is found.
+     */
     private void tie() {
         for(int i = 0; i < this.l.size()-1; i++) {
             for(int j = i+1; j < this.l.size() ; j++) {
@@ -105,6 +178,9 @@ public class KillTrack {
         }
     }
 
+    /**
+     * Cleans NumColour list.
+     */
     public void cleanL() {
         this.l.clear();
     }

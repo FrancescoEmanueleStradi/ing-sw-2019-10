@@ -13,7 +13,6 @@ public class MyTask extends TimerTask {
     private String nickName;
     private ServerInterface server;
 
-
     /**
      * Creates new instance of MyTask.
      *

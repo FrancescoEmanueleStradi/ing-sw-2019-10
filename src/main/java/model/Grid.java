@@ -372,7 +372,6 @@ public class Grid {
         return true;
     }
 
-
     /**
      * Moves a player to the cell corresponding to the given coordinates.
      *
@@ -713,7 +712,7 @@ public class Grid {
         }
         return l;
     }
-    
+
     /**
      * A "ghost move" is used in certain card effects to mock an imaginary player's movement. It does not affect
      * the game itself.
@@ -723,7 +722,7 @@ public class Grid {
      * @return ghost player
      */
     public Player ghostMove(Player p, List<Integer> directions) {
-        Player ghost = new Player("?gHoSt!", p.getC(), p.isFirstPlayerCard());
+        Player ghost = new Player("?gHoSt!", p.getC(), p.hasFirstPlayerCard());
         ghost.changeCell(p.getCell());
 
         for(Integer i : directions)
@@ -740,7 +739,7 @@ public class Grid {
      * @return boolean
      */
     public boolean canGhostMove(Player p, List<Integer> directions) {
-        Player ghost = new Player("?gHoSt!", p.getC(), p.isFirstPlayerCard());
+        Player ghost = new Player("?gHoSt!", p.getC(), p.hasFirstPlayerCard());
         ghost.changeCell(p.getCell());
         Position initialPos = ghost.getCell().getPos();
 

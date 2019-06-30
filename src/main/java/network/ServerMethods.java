@@ -379,7 +379,7 @@ public class ServerMethods extends UnicastRemoteObject implements ServerInterfac
     public List<List<String>> getNotifyPlayer(int game, int identifier) {
         for(Connection c : connections.get(game)) {
             if(c.getIdentifier() == identifier) {
-                List<List<String>> listNotifyPlayer = c.getPrintPlayerList();
+                List<List<String>> listNotifyPlayer = new LinkedList<>(c.getPrintPlayerList());
                 c.removeFirstPrintPlayerList();
                 return listNotifyPlayer;
             }
@@ -430,7 +430,7 @@ public class ServerMethods extends UnicastRemoteObject implements ServerInterfac
     public List<List<String>> getNotifyScore(int game, int identifier) {
         for(Connection c : connections.get(game)) {
             if(c.getIdentifier() == identifier) {
-                List<List<String>> listNotifyScore = c.getPrintScoreList();
+                List<List<String>> listNotifyScore = new LinkedList<>(c.getPrintScoreList());
                 c.removeFirstPrintScoreList();
                 return listNotifyScore;
             }
@@ -481,7 +481,7 @@ public class ServerMethods extends UnicastRemoteObject implements ServerInterfac
     public List<List<String>> getNotifyPosition(int game, int identifier) {
         for(Connection c : connections.get(game)) {
             if(c.getIdentifier() == identifier) {
-                List<List<String>> listNotifyPosition = c.getPrintPositionList();
+                List<List<String>> listNotifyPosition = new LinkedList<>(c.getPrintPositionList());
                 c.removeFirstPrintPositionList();
                 return listNotifyPosition;
             }
@@ -532,7 +532,7 @@ public class ServerMethods extends UnicastRemoteObject implements ServerInterfac
     public List<List<String>> getNotifyMark(int game, int identifier) {
         for(Connection c : connections.get(game)) {
             if(c.getIdentifier() == identifier) {
-                List<List<String>> listNotifyMark = c.getPrintMarkList();
+                List<List<String>> listNotifyMark = new LinkedList<>(c.getPrintMarkList());
                 c.removeFirstPrintMarkList();
                 return listNotifyMark;
             }
@@ -583,7 +583,7 @@ public class ServerMethods extends UnicastRemoteObject implements ServerInterfac
     public List<List<String>> getNotifyDamage(int game, int identifier) {
         for(Connection c : connections.get(game)) {
             if(c.getIdentifier() == identifier) {
-                List<List<String>> listNotifyDamage = c.getPrintDamageList();
+                List<List<String>> listNotifyDamage = new LinkedList<>(c.getPrintDamageList());
                 c.removeFirstPrintDamageList();
                 return listNotifyDamage;
             }

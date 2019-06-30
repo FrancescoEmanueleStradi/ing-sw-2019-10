@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.Timer;
 
+import static java.lang.Thread.sleep;
+
 /**
  * Contains the necessary functions socket functions for client-server communication and controlling game flow.
  */
@@ -161,35 +163,37 @@ public class SocketProcesses {
 
             else if(s.equals("GUI") || s.equals("Gui") || s.equals("gui")) {
                 view.askNameAndColour();
+                sleep(10000);
             }
         }
 
         try {
-            while(true) {
-                socketOut.println("Stop Game");
-                socketOut.println(game);
-                String stopGame = socketIn.nextLine();
 
-                if(stopGame.equals("true"))
-                    break;
+            if(s.equals("CLI") || s.equals("Cli") || s.equals("cli")) {
 
-                notifyHandler();
-
-                socketOut.println("Is My Turn");
-                socketOut.println(game);
-                socketOut.println(identifier);
-                String isMyTurn = socketIn.nextLine();
-
-                if(isMyTurn.equals("true")) {
-                    socketOut.println("Is Not Final Frenzy");
+                while (true) {
+                    socketOut.println("Stop Game");
                     socketOut.println(game);
-                    String isNotFF = socketIn.nextLine();
+                    String stopGame = socketIn.nextLine();
 
-                    if(isNotFF.equals("true")) {
+                    if (stopGame.equals("true"))
+                        break;
 
-                        notifyHandler();
+                    notifyHandler();
 
-                        if(s.equals("CLI") || s.equals("Cli") || s.equals("cli")) {
+                    socketOut.println("Is My Turn");
+                    socketOut.println(game);
+                    socketOut.println(identifier);
+                    String isMyTurn = socketIn.nextLine();
+
+                    if (isMyTurn.equals("true")) {
+                        socketOut.println("Is Not Final Frenzy");
+                        socketOut.println(game);
+                        String isNotFF = socketIn.nextLine();
+
+                        if (isNotFF.equals("true")) {
+
+                            notifyHandler();
 
                             if (view.doYouWantToUsePUC()) {
                                 MyTaskSocket task = new MyTaskSocket(game, identifier, view.getNickName(), socket);
@@ -240,37 +244,28 @@ public class SocketProcesses {
                             view.reload();
                             view.scoring();
                             view.replace();
-                        }
 
-                        else if(s.equals("GUI") || s.equals("Gui") || s.equals("gui")){
-                            MyTaskSocket taskGui = new MyTaskSocket(game, identifier, view.getNickName(), socket);
-                            Timer timerGui = new Timer();
-                            timerGui.schedule(taskGui, 5000000);
-                            view.doYouWantToUsePUC();
-                            timerGui.cancel();
-                        }
+                            notifyHandler();
 
-                        notifyHandler();
+                            socketOut.println("Finish Turn");
+                            socketOut.println(game);
 
-                        socketOut.println("Finish Turn");
-                        socketOut.println(game);
+                            socketOut.println("Stop Game");
+                            socketOut.println(game);
+                            stopGame = socketIn.nextLine();
 
-                        socketOut.println("Stop Game");
-                        socketOut.println(game);
-                        stopGame = socketIn.nextLine();
+                            if (stopGame.equals("true"))
+                                break;
 
-                        if(stopGame.equals("true"))
-                            break;
-                    } else {
-                        socketOut.println("Stop Game");
-                        socketOut.println(game);
-                        stopGame = socketIn.nextLine();
-                        if(stopGame.equals("true"))
-                            break;
+                        } else {
 
-                        notifyHandler();
+                            socketOut.println("Stop Game");
+                            socketOut.println(game);
+                            stopGame = socketIn.nextLine();
+                            if (stopGame.equals("true"))
+                                break;
 
-                        if(s.equals("CLI") || s.equals("Cli") || s.equals("cli")) {
+                            notifyHandler();
 
                             socketOut.println("Set Final Turn");
                             socketOut.println(game);
@@ -284,51 +279,38 @@ public class SocketProcesses {
                             view.finalFrenzyTurn();
                             timer6.cancel();
 
+                            notifyHandler();
+
+                            socketOut.println("Finish Turn");
+                            socketOut.println(game);
+
+                            socketOut.println("Stop Game");
+                            socketOut.println(game);
+                            stopGame = socketIn.nextLine();
+
+                            if (stopGame.equals("true"))
+                                break;
                         }
-
-                        else if(s.equals("GUI") || s.equals("Gui") || s.equals("gui")){
-                            MyTaskSocket task6 = new MyTaskSocket(game, identifier, view.getNickName(), socket);
-                            Timer timer6 = new Timer();
-                            timer6.schedule(task6, 500000);
-                            view.finalFrenzyTurn();
-                            timer6.cancel();
-                        }
-
-                        notifyHandler();
-
-                        socketOut.println("Finish Turn");
-                        socketOut.println(game);
-
-                        socketOut.println("Stop Game");
-                        socketOut.println(game);
-                        stopGame = socketIn.nextLine();
-
-                        if(stopGame.equals("true"))
-                            break;
                     }
+
+                    view.newSpawnPoint();
+
+                    notifyHandler();
+
+                    socketOut.println("Game Is Finished");
+                    socketOut.println(game);
+                    String gameIsFinished = socketIn.nextLine();
+
+                    if (gameIsFinished.equals("true"))
+                        break;
                 }
 
-                view.newSpawnPoint();
-
-                notifyHandler();
-
-                socketOut.println("Game Is Finished");
-                socketOut.println(game);
-                String gameIsFinished = socketIn.nextLine();
-
-                if(gameIsFinished.equals("true"))
-                    break;
-            }
-
-            if(s.equals("CLI") || s.equals("Cli") || s.equals("cli")) {
                 view.endFinalFrenzy();
                 view.finalScoring();
                 System.exit(0);
             }
-
             else if(s.equals("GUI") || s.equals("Gui") || s.equals("gui")){
-                view.endFinalFrenzy();
-                System.exit(0);
+                view.doYouWantToUsePUC();
             }
 
 

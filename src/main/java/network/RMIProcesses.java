@@ -8,6 +8,8 @@ import java.rmi.RemoteException;
 import java.util.Scanner;
 import java.util.Timer;
 
+import static java.lang.Thread.sleep;
+
 /**
  * Contains the necessary RMI functions for client-server communication and controlling game flow.
  */
@@ -115,22 +117,26 @@ public class RMIProcesses {
 
             else if(s.equals("GUI") || s.equals("Gui") || s.equals("gui")) {
                 view.askNameAndColour();
+                sleep(10000);
+
             }
 
 
         }
 
         try {
-            while(true) {
 
-                if(centralServer.stopGame(game))
-                    break;
+            if(s.equals("CLI") || s.equals("Cli") || s.equals("cli")) {
 
-                if(centralServer.isMyTurn(game, identifier)) {
+                while (true) {
 
-                    if(centralServer.isNotFinalFrenzy(game)) {
+                    if (centralServer.stopGame(game))
+                        break;
 
-                        if(s.equals("CLI") || s.equals("Cli") || s.equals("cli")) {
+                    if (centralServer.isMyTurn(game, identifier)) {
+
+                        if (centralServer.isNotFinalFrenzy(game)) {
+
 
                             if (view.doYouWantToUsePUC()) {
                                 MyTask task = new MyTask(game, identifier, view.getNickName(), centralServer);
@@ -171,72 +177,49 @@ public class RMIProcesses {
                             view.reload();
                             view.scoring();
                             view.replace();
-                        }
+                            centralServer.finishTurn(game);
 
-                        else if(s.equals("GUI") || s.equals("Gui") || s.equals("gui")){
-                            MyTask taskGui = new MyTask(game, identifier, view.getNickName(), centralServer);
-                            Timer timerGui = new Timer();
-                            timerGui.schedule(taskGui, 5000000);
-                            view.doYouWantToUsePUC();
-                            timerGui.cancel();
-                        }
+
+                            if (centralServer.stopGame(game))
+                                break;
+
+                        } else {
+
+                            if (centralServer.stopGame(game))
+                                break;
+
+
+                            centralServer.setFinalTurn(game, identifier, view.getNickName());
+                            MyTask task6 = new MyTask(game, identifier, view.getNickName(), centralServer);
+                            Timer timer6 = new Timer();
+                            timer6.schedule(task6, 500000);
+                            view.finalFrenzyTurn();
+                            timer6.cancel();
+
 
                             centralServer.finishTurn(game);
 
 
+                            if (centralServer.stopGame(game))
+                                break;
 
-                        if(centralServer.stopGame(game))
-                            break;
-
-                    } else {
-
-                        if(centralServer.stopGame(game))
-                            break;
-
-                        if(s.equals("CLI") || s.equals("Cli") || s.equals("cli")) {
-
-                            centralServer.setFinalTurn(game, identifier, view.getNickName());
-
-                            MyTask task6 = new MyTask(game, identifier, view.getNickName(), centralServer);
-                            Timer timer6 = new Timer();
-                            timer6.schedule(task6, 500000);
-                            view.finalFrenzyTurn();
-                            timer6.cancel();
                         }
-
-                        else if(s.equals("GUI") || s.equals("Gui") || s.equals("gui")){
-                            MyTask task6 = new MyTask(game, identifier, view.getNickName(), centralServer);
-                            Timer timer6 = new Timer();
-                            timer6.schedule(task6, 500000);
-                            view.finalFrenzyTurn();
-                            timer6.cancel();
-                        }
-
-                        centralServer.finishTurn(game);
-
-
-                        if(centralServer.stopGame(game))
-                            break;
-
                     }
+
+                    view.newSpawnPoint();
+
+                    if (centralServer.gameIsFinished(game))
+                        break;
+
                 }
 
-                view.newSpawnPoint();
-
-                if(centralServer.gameIsFinished(game))
-                    break;
-
-            }
-
-            if(s.equals("CLI") || s.equals("Cli") || s.equals("cli")) {
                 view.endFinalFrenzy();
                 view.finalScoring();
                 System.exit(0);
-            }
 
+            }
             else if(s.equals("GUI") || s.equals("Gui") || s.equals("gui")){
-                view.endFinalFrenzy();
-                System.exit(0);
+                view.doYouWantToUsePUC();
             }
 
 

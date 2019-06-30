@@ -132,12 +132,6 @@ public class CLISocket extends UnicastRemoteObject implements View {
             return;
         }
 
-        socketOut.println("Get Type");
-        socketOut.println(game);
-        int typeReceived = Integer.parseInt(socketIn.nextLine());
-        if(typeReceived != 0)
-            this.setType(typeReceived);
-
         System.out.println("\n---------- NAME AND COLOUR SELECTION ----------\n");
 
         int isValidAddPlayer;
@@ -180,6 +174,14 @@ public class CLISocket extends UnicastRemoteObject implements View {
         Scanner in = new Scanner(System.in);
         String p;
         String c;
+
+        //To retrieve the type of arena selected from the first player
+        if(identifier != 1) {
+            socketOut.println("Get Type");
+            socketOut.println(game);
+            int typeReceived = Integer.parseInt(socketIn.nextLine());
+            this.setType(typeReceived);
+        }
 
         socketOut.println("Message Give Two PU Card");
         socketOut.println(game);

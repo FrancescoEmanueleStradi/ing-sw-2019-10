@@ -101,9 +101,6 @@ public class CLI extends UnicastRemoteObject implements View {
             return;
         }
 
-        if(server.getType(game) != 0)
-            this.setType(server.getType(game));
-
         System.out.println("\n---------- NAME AND COLOUR SELECTION ----------\n");
 
         int isValidAddPlayer;
@@ -134,6 +131,10 @@ public class CLI extends UnicastRemoteObject implements View {
         Scanner in = new Scanner(System.in);
         String p;
         String c;
+
+        //To retrieve the type of arena selected from the first player
+        if(identifier != 1)
+            this.setType(server.getType(game));
 
         this.server.messageGiveTwoPUCard(game, this.nickName);
 

@@ -8,12 +8,12 @@ import model.player.Player;
 import java.rmi.RemoteException;
 
 /**
- * The type Hellion.
+ * Hellion weapon card.
  */
 public class Hellion extends WeaponCard {
 
     /**
-     * Instantiates a new Hellion.
+     * Creates a new Hellion.
      */
     public Hellion() {
         super();
@@ -23,17 +23,17 @@ public class Hellion extends WeaponCard {
                              "in nano-tracer mode: Deal 1 damage to 1 target you can see at least 1 move away. Then give 2 marks to that target and everyone else on that square.\n";
     }
 
-    //prior to effect: let the player p choose 1 visible target p1 at least 1 move away.
-
     /**
-     * Apply effect.
+     * Applies the card's effect.
+     * Prior to effect: let player p choose 1 visible target p1 at least 1 move away.
+     * Player p deals 1 damage to p1 and adds a mark to p1 and to every enemy in his cell.
      *
-     * @param grid the grid
-     * @param p    the p
-     * @param p1   the p 1
-     * @throws RemoteException the remote exception
+     * @param grid grid
+     * @param p    player (self)
+     * @param p1   opponent 1
+     * @throws RemoteException RMI exception
      */
-    public void applyEffect(Grid grid, Player p, Player p1) throws RemoteException {   //player p deals 1 damage to p1 and adds a mark to p1 and to every enemy in his cell
+    public void applyEffect(Grid grid, Player p, Player p1) throws RemoteException {
         grid.damage(p, p1, 1);
         for(Player enemy : grid.getPlayers()) {
             if(enemy.getCell().equals(p1.getCell()))
@@ -41,17 +41,17 @@ public class Hellion extends WeaponCard {
         }
     }
 
-    //prior to effect: let the player p choose 1 visible target p1 at least 1 move away.
-
     /**
-     * Apply special effect.
+     * Applies the card's special effect.
+     * Prior to effect: let player p choose 1 visible target p1 at least 1 move away.
+     * Player p deals 1 damage to p1 and adds 2 marks to p1 and to every enemy in his cell.
      *
-     * @param grid the grid
-     * @param p    the p
-     * @param p1   the p 1
-     * @throws RemoteException the remote exception
+     * @param grid grid
+     * @param p    player (self)
+     * @param p1   opponent 1
+     * @throws RemoteException RMI exception
      */
-    public void applySpecialEffect(Grid grid, Player p, Player p1) throws RemoteException {    //player p deals 1 damage to p1 and adds 2 marks to p1 and to every enemy in his cell
+    public void applySpecialEffect(Grid grid, Player p, Player p1) throws RemoteException {
         grid.damage(p, p1, 1);
         for(Player enemy : grid.getPlayers()) {
             if(enemy.getCell().equals(p1.getCell())) {

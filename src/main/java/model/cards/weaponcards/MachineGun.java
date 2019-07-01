@@ -8,12 +8,12 @@ import model.player.Player;
 import java.rmi.RemoteException;
 
 /**
- * The type Machine gun.
+ * Machine Gun weapon card.
  */
 public class MachineGun extends WeaponCard {
 
     /**
-     * Instantiates a new Machine gun.
+     * Creates a new Machine Gun.
      */
     public MachineGun() {
         super();
@@ -26,35 +26,33 @@ public class MachineGun extends WeaponCard {
                 "2 targets, you deal 2 to each if you use both optional effects. If you use the basic effect on only 1 target, you can still use the the turret tripod to give it 1 additional damage.\n";
     }
 
-    //before applying effects: let player p selecting player(s) to attack, checking if they are visible
-
     /**
-     * Apply effect.
+     * Applies the card's effect.
+     * Prior to effect: let player p select player(s) to attack, checking if they are visible.
+     * Primary attack if 2 visible targets are selected: player p attacks p1 and p2.
      *
-     * @param grid the grid
+     * @param grid grid
      * @param p    the p
-     * @param p1   the p 1
-     * @param p2   the p 2
-     * @throws RemoteException the remote exception
+     * @param p1   opponent 1
+     * @param p2   opponent 2
+     * @throws RemoteException RMI exception
      */
-    public void applyEffect(Grid grid, Player p, Player p1, Player p2) throws RemoteException { //primary attack if 2 visible targets are selected: player p attacks p1 and p2
+    public void applyEffect(Grid grid, Player p, Player p1, Player p2) throws RemoteException {
         grid.damage(p, p1, 1);
         if(p2 != null)
             grid.damage(p, p2, 1);
     }
 
     /**
-     * Apply special effect.
+     * Applies the card's special effect.
+     * Focus Shot: player damages p1.
      *
-     * @param grid the grid
+     * @param grid grid
      * @param p    the p
-     * @param p1   the p 1
-     * @throws RemoteException the remote exception
+     * @param p1   opponent 1
+     * @throws RemoteException RMI exception
      */
-    public void applySpecialEffect(Grid grid, Player p, Player p1) throws RemoteException { //Focus Shot: player damages p1 (controller asks player p if he wants to attack p1 or p2)
+    public void applySpecialEffect(Grid grid, Player p, Player p1) throws RemoteException {
         grid.damage(p, p1, 1);
     }
-
-    //if player p only sees 2 enemies, he can use applyEffect to damage both, and then applySpecialEffect2bis to damage both again, or applySpecialEffect2 to damage one of them
-    //maybe reuse the methods? Controller checks how many players and chooses one out of only 2 methods.
 }

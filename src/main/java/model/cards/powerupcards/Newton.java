@@ -34,7 +34,7 @@ public class Newton extends PowerUpCard  {
      * Also let player p select a cell one or two cells away from p1.
      *
      * @param grid       grid
-     * @param p1         opposing player
+     * @param p1         opponent
      * @param directions direction list
      * @throws RemoteException RMI exception
      */

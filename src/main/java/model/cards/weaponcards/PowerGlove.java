@@ -8,12 +8,12 @@ import model.player.Player;
 import java.rmi.RemoteException;
 
 /**
- * The type Power glove.
+ * Power Glove weapon card.
  */
 public class PowerGlove extends WeaponCard {
 
     /**
-     * Instantiates a new Power glove.
+     * Creates a new Power Glove.
      */
     public PowerGlove() {
         super();
@@ -25,80 +25,77 @@ public class PowerGlove extends WeaponCard {
                 "Notes: In rocket fist mode, you're flying 2 squares in a straight line, punching 1 person per square.\n";
     }
 
-    //prior to effect: let player p choose a target p1 in a cell exactly one move away from him.
-
     /**
-     * Apply effect.
+     * Applies the card's effect.
+     * Prior to effect: let player p choose a target p1 in a cell exactly one move away from him.
+     * Player p moves in the same cell as the selected p1, deals him 1 damage and 2 marks.
      *
-     * @param grid the grid
-     * @param p    the p
-     * @param p1   the p 1
-     * @throws RemoteException the remote exception
+     * @param grid grid
+     * @param p    player (self)
+     * @param p1   opponent 1
+     * @throws RemoteException RMI exception
      */
-    public void applyEffect(Grid grid, Player p, Player p1) throws RemoteException {   //player p moves in the same cell as the selected p1, deals him 1 damage and 2 marks
+    public void applyEffect(Grid grid, Player p, Player p1) throws RemoteException {
         p.changeCell(p1.getCell());
         grid.damage(p, p1, 1);
         grid.addMark(p, p1);
         grid.addMark(p, p1);
     }
 
-    //before Rocket Fist Mode: Player p chooses one cell to go to.
-
     /**
-     * Apply special effect part 1.
+     * Applies the card's special effect, step 1. Later steps are optional.
+     * Before Rocket Fist Mode: Player p chooses one cell to go to.
+     * Player p moves in the first cell selected.
      *
-     * @param p    the p
-     * @param grid the grid
-     * @param x    the x
-     * @param y    the y
-     * @throws RemoteException the remote exception
+     * @param p    player (self)
+     * @param grid grid
+     * @param x    x coordinate
+     * @param y    y coordinate
+     * @throws RemoteException RMI exception
      */
-    public void applySpecialEffectPart1(Player p, Grid grid, String x, String y) throws RemoteException {  //player p moves in the first cell selected
+    public void applySpecialEffectPart1(Player p, Grid grid, String x, String y) throws RemoteException {
         grid.move(p, Integer.parseInt(x), Integer.parseInt(y));
     }
 
-    //Then, he can attack a player p1 there.
-
     /**
-     * Apply special effect part 2.
+     * Applies the card's special effect, step 2.
+     * Player p deals 2 damage to a target in his cell.
      *
-     * @param grid the grid
-     * @param p    the p
-     * @param p1   the p 1
-     * @throws RemoteException the remote exception
+     * @param grid grid
+     * @param p    player (self)
+     * @param p1   opponent 1
+     * @throws RemoteException RMI exception
      */
-    public void applySpecialEffectPart2(Grid grid, Player p, Player p1) throws RemoteException {   //player p deals 2 damage to a target in his cell
+    public void applySpecialEffectPart2(Grid grid, Player p, Player p1) throws RemoteException {
         grid.damage(p, p1, 2);
     }
 
-    //Optional from here:
-
-    //Then, if he wants, he can move again in the same direction (check if the direction is the same).
-
     /**
-     * Apply special effect part 3.
+     * Applies card's special effect, step 3.
+     * If he wants, he can move again in the same direction.
+     * Player p moves in the second cell selected.
      *
-     * @param p    the p
-     * @param grid the grid
-     * @param x2   the x 2
-     * @param y2   the y 2
-     * @throws RemoteException the remote exception
+     * @param p    player (self)
+     * @param grid grid
+     * @param x2   x coordinate
+     * @param y2   y coordinate
+     * @throws RemoteException RMI exception
      */
-    public void applySpecialEffectPart3(Player p, Grid grid, String x2, String y2) throws RemoteException { //player p moves in the second cell selected
-        grid.move(p, Integer.parseInt(x2), Integer.parseInt(y2));
+        public void applySpecialEffectPart3(Player p, Grid grid, String x2, String y2) throws RemoteException {
+            grid.move(p, Integer.parseInt(x2), Integer.parseInt(y2));
     }
 
-    //Eventually, he can attack a player p2 there.
-
     /**
-     * Apply special effect part 4.
+     * Applies card;s special effect, step 4.
+     * Finally, he can attack a player p2 there.
+     * Player p deals 2 damage to a target in his cell.
      *
-     * @param grid the grid
-     * @param p    the p
-     * @param p2   the p 2
-     * @throws RemoteException the remote exception
+     * @param grid grid
+     * @param p    player (self)
+     * @param p2   opponent 2
+     * @throws RemoteException RMI exception
      */
-    public void applySpecialEffectPart4(Grid grid, Player p, Player p2) throws RemoteException {   //player p deals 2 damage to a target in his cell
+    public void applySpecialEffectPart4(Grid grid, Player p, Player p2) throws RemoteException {
         grid.damage(p, p2, 2);
     }
 }

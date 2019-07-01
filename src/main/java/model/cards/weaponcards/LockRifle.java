@@ -8,12 +8,12 @@ import model.player.Player;
 import java.rmi.RemoteException;
 
 /**
- * The type Lock rifle.
+ * Lock Rifle weapon card.
  */
 public class LockRifle extends WeaponCard {
 
     /**
-     * Instantiates a new Lock rifle.
+     * Creates a new Lock Rifle.
      */
     public LockRifle() {
         super();
@@ -24,27 +24,29 @@ public class LockRifle extends WeaponCard {
     }
 
     /**
-     * Apply effect.
+     * Applies the card's effect.
+     * Player p attacks p1 (visible), giving him 2 damage and 1 mark.
      *
-     * @param grid the grid
-     * @param p    the p
-     * @param p1   the p 1
-     * @throws RemoteException the remote exception
+     * @param grid grid
+     * @param p    player (self)
+     * @param p1   opponent 1
+     * @throws RemoteException RMI exception
      */
-    public void applyEffect(Grid grid, Player p, Player p1) throws RemoteException { //player p attacks p1 (visible), giving him 2 damage and 1 mark
+    public void applyEffect(Grid grid, Player p, Player p1) throws RemoteException {
         grid.damage(p, p1, 2);
         grid.addMark(p, p1);
     }
 
     /**
-     * Apply special effect.
+     * Applies the card's special effect.
+     * Second Lock: player p attacks p2 (visible), who is different from the p1 selected for the primary effect.
      *
-     * @param grid the grid
-     * @param p    the p
-     * @param p2   the p 2
-     * @throws RemoteException the remote exception
+     * @param grid grid
+     * @param p    player (self)
+     * @param p2   opponent 2
+     * @throws RemoteException RMI exception
      */
-    public void applySpecialEffect(Grid grid, Player p, Player p2) throws RemoteException { //Second Lock: player p attacks p2 (visible), who is different from the p1 selected for the primary effect: the controller will check this!
+    public void applySpecialEffect(Grid grid, Player p, Player p2) throws RemoteException {
         grid.addMark(p, p2);
     }
 }

@@ -8,12 +8,12 @@ import model.player.Player;
 import java.rmi.RemoteException;
 
 /**
- * The type Cyberblade.
+ * Cyberblade weapon card.
  */
 public class Cyberblade extends WeaponCard {
 
     /**
-     * Instantiates a new Cyberblade.
+     * Creates a new Cyberblade.
      */
     public Cyberblade() {
         super();
@@ -26,45 +26,46 @@ public class Cyberblade extends WeaponCard {
                              "Notes: Combining all effects allows you to move onto a square and whack 2 people; or whack somebody, move, and whack somebody else; or whack 2 people and then move.\n";
     }
 
-    //prior to effect: let player p choose a player p1 on his cell.
-
     /**
-     * Apply effect.
+     * Applies the card's effect.
+     * Prior to effect: let player p choose a player p1 in his cell.
+     * Player p deals 1 damage to p1.
      *
-     * @param grid the grid
-     * @param p    the p
-     * @param p1   the p 1
-     * @throws RemoteException the remote exception
+     * @param grid grid
+     * @param p    player (self)
+     * @param p1   opponent
+     * @throws RemoteException RMI exception
      */
-    public void applyEffect(Grid grid, Player p, Player p1) throws RemoteException {   //player p deals 1 damage to p1
+    public void applyEffect(Grid grid, Player p, Player p1) throws RemoteException {   //
         grid.damage(p, p1, 2);
     }
 
-    //prior to effect: This Special Effect can be done before or after the other effects. Let player p choose a cell he wants to go to.
-
     /**
-     * Apply special effect.
+     * Applies the card's special effect.
+     * Prior to effect: This effect can be used before or after the other effects. Let player p choose a cell he wants
+     * to go to.
+     * Shadowstep: Player p moves in the chosen cell.
      *
-     * @param grid      the grid
-     * @param p         the p
+     * @param grid      grid
+     * @param p         player (self)
      * @param direction the direction
-     * @throws RemoteException the remote exception
+     * @throws RemoteException RMI exception
      */
-    public void applySpecialEffect(Grid grid, Player p, String direction) throws RemoteException {   //Shadowstep: player p moves in the chosen cell
+    public void applySpecialEffect(Grid grid, Player p, String direction) throws RemoteException {
         grid.move(p, Integer.parseInt(direction));
     }
 
-    //prior to effect: let player p choose a different target p2 than p1. p2 must be on the same cell of p.
-
     /**
-     * Apply special effect 2.
+     * Applies the card's second special effect.
+     * Prior to effect: let player p choose a different target p2. p2 must be in the same cell as p.
+     * Slice and dice: player p deals 2 damage to the chosen p2.
      *
-     * @param grid the grid
-     * @param p    the p
-     * @param p2   the p 2
-     * @throws RemoteException the remote exception
+     * @param grid grid
+     * @param p    player (self)
+     * @param p2   opponent 2
+     * @throws RemoteException RMI exception
      */
-    public void applySpecialEffect2(Grid grid, Player p, Player p2) throws RemoteException {   //Slice and dice: player p deals 2 damage to the chosen p2
+    public void applySpecialEffect2(Grid grid, Player p, Player p2) throws RemoteException {
         grid.damage(p, p2, 2);
     }
 }

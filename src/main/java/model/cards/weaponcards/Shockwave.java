@@ -8,12 +8,12 @@ import model.player.Player;
 import java.rmi.RemoteException;
 
 /**
- * The type Shockwave.
+ * Shockwave weapon card.
  */
 public class Shockwave extends WeaponCard {
 
     /**
-     * Instantiates a new Shockwave.
+     * Creates a new Shockwave.
      */
     public Shockwave() {
         super();
@@ -23,19 +23,20 @@ public class Shockwave extends WeaponCard {
                 "in tsunami mode: Deal 1 damage to all targets that are exactly 1 move away.\n";
     }
 
-    //prior to effect: let player p choose up to three targets p1, p2, p3 on different cells, each exactly one cell away from p.
-
     /**
-     * Apply effect.
+     * Applies the card's effect.
+     * Prior to effect: let player p choose up to three targets p1, p2, p3 on different cells, each exactly one cell
+     * away from p.
+     * Player p deals 1 damage to p1 and, if p2/p3 is selected, deals 1 damage to him/them too.
      *
-     * @param grid the grid
-     * @param p    the p
-     * @param p1   the p 1
-     * @param p2   the p 2
-     * @param p3   the p 3
-     * @throws RemoteException the remote exception
+     * @param grid grid
+     * @param p    player (self)
+     * @param p1   opponent 1
+     * @param p2   opponent 2
+     * @param p3   opponent 3
+     * @throws RemoteException RMI exception
      */
-    public void applyEffect(Grid grid, Player p, Player p1, Player p2, Player p3) throws RemoteException { //player p deals 1 damage to p1 and, if p2/p3 is selected, he deals 1 damage to him/them too.
+    public void applyEffect(Grid grid, Player p, Player p1, Player p2, Player p3) throws RemoteException {
         grid.damage(p, p1, 1);
         if(p2 != null)
             grid.damage(p, p2, 1);
@@ -44,13 +45,14 @@ public class Shockwave extends WeaponCard {
     }
 
     /**
-     * Apply special effect.
+     * Applies the card's special effect.
+     * Tsunami Mode: player p deals 1 damage to every enemy who is in a cell exactly one move away from him.
      *
-     * @param grid the grid
-     * @param p    the p
-     * @throws RemoteException the remote exception
+     * @param grid grid
+     * @param p    player (self)
+     * @throws RemoteException RMI exception
      */
-    public void applySpecialEffect(Grid grid, Player p) throws RemoteException {   //Tsunami Mode: player p deals 1 damage to every enemy who is in a cell exactly one move away from him
+    public void applySpecialEffect(Grid grid, Player p) throws RemoteException {
         for(Player enemy : grid.getPlayers()) {
             if((enemy.getCell().getPos().getX() == p.getCell().getPos().getX()+1) ||
                     enemy.getCell().getPos().getX() == p.getCell().getPos().getX()-1 ||

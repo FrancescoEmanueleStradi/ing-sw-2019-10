@@ -8,12 +8,12 @@ import model.player.Player;
 import java.rmi.RemoteException;
 
 /**
- * The type Heatseeker.
+ * Heatseeker weapon card.
  */
 public class Heatseeker extends WeaponCard {
 
     /**
-     * Instantiates a new Heatseeker.
+     * Creates a new Heatseeker.
      */
     public Heatseeker() {
         super();
@@ -23,17 +23,17 @@ public class Heatseeker extends WeaponCard {
                              "Notes: Yes, this can only hit targets you cannot see.\n";
     }
 
-    //prior to effect: let the player p choose 1 target he cannot see (it checks that condition)
-
     /**
-     * Apply effect.
+     * Applies the card's effect.
+     * Prior to effect: let player p choose 1 target he cannot see.
+     * Player p deals 3 damages to the chosen player p1.
      *
-     * @param grid the grid
-     * @param p    the p
-     * @param p1   the p 1
-     * @throws RemoteException the remote exception
+     * @param grid grid
+     * @param p    player (self)
+     * @param p1   opponent 1
+     * @throws RemoteException RMI exception
      */
-    public void applyEffect(Grid grid, Player p, Player p1) throws RemoteException {   //Player p deals 3 damages to the chosen player p1
+    public void applyEffect(Grid grid, Player p, Player p1) throws RemoteException {
         grid.damage(p, p1, 3);
     }
 }

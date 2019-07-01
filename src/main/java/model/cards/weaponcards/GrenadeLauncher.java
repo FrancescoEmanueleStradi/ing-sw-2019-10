@@ -8,12 +8,12 @@ import model.player.Player;
 import java.rmi.RemoteException;
 
 /**
- * The type Grenade launcher.
+ * Grenade Launcher weapon card.
  */
 public class GrenadeLauncher extends WeaponCard {
 
     /**
-     * Instantiates a new Grenade launcher.
+     * Creates a new Grenade launcher.
      */
     public GrenadeLauncher() {
         super();
@@ -27,46 +27,45 @@ public class GrenadeLauncher extends WeaponCard {
                              "If you target your own square, you will not be moved or damaged.\n";
     }
 
-    //prior to effect: let player p choose a target p1 he can see.
-
     /**
-     * Apply effect.
+     * Applies the card's effect.
+     * Prior to effect: let player p choose a target p1 he can see.
+     * player p deals 1 damage to p1.
      *
-     * @param grid the grid
-     * @param p    the p
-     * @param p1   the p 1
-     * @throws RemoteException the remote exception
+     * @param grid grid
+     * @param p    player (self)
+     * @param p1   opponent 1
+     * @throws RemoteException RMI exception
      */
-    public void applyEffect(Grid grid, Player p, Player p1) throws RemoteException { //player p deals 1 damage to p1
+    public void applyEffect(Grid grid, Player p, Player p1) throws RemoteException {
         grid.damage(p, p1, 1);
     }
 
-    //after primary effect: ask player p if he wants to move the attacked player p1 one cell, and in which direction (click on cell and from that we get the direction?)
-
     /**
      * Move enemy.
+     * After primary effect: ask player p if he wants to move the attacked player p1 one cell, and in which direction.
      *
-     * @param grid      the grid
-     * @param p1        the p 1
-     * @param direction the direction
-     * @throws RemoteException the remote exception
+     * @param grid      grid
+     * @param p1        opponent 1
+     * @param direction direction
+     * @throws RemoteException RMI exception
      */
-    public void moveEnemy(Grid grid, Player p1, int direction) throws RemoteException {    //right after the primary effect
+    public void moveEnemy(Grid grid, Player p1, int direction) throws RemoteException {
         grid.move(p1, direction);
     }
 
-    //prior to effect: let the player p choose a Cell cell he can see. PLAYER CAN DO THIS BEFORE OR AFTER THE BASIC EFFECT!
-
     /**
-     * Apply special effect.
+     * Applies the card's special effect.
+     * Prior to effect: let player p choose a Cell cell he can see. PLAYER CAN DO THIS BEFORE OR AFTER THE BASIC EFFECT!
+     * Extra Grenade: player p deals 1 damage to every enemy in the selected cell.
      *
-     * @param grid the grid
-     * @param p    the p
-     * @param x    the x
-     * @param y    the y
-     * @throws RemoteException the remote exception
+     * @param grid grid
+     * @param p    player (self)
+     * @param x    x coordinate
+     * @param y    y coordinate
+     * @throws RemoteException RMI exception
      */
-    public void applySpecialEffect(Grid grid, Player p, String x, String y) throws RemoteException {  //Extra Grenade: player p deals 1 damage to every enemy on the selected Cell cell
+    public void applySpecialEffect(Grid grid, Player p, String x, String y) throws RemoteException {
         for(Player enemy : grid.getPlayers()) {
             if(enemy.getCell().getPos().getX() == Integer.parseInt(x) && enemy.getCell().getPos().getY() == Integer.parseInt(y) && enemy != p)
                 grid.damage(p, enemy, 1);

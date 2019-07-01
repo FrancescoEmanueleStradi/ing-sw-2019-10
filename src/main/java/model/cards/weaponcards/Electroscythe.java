@@ -8,12 +8,12 @@ import model.player.Player;
 import java.rmi.RemoteException;
 
 /**
- * The type Electroscythe.
+ * Electroscythe weapon card,
  */
 public class Electroscythe extends WeaponCard {
 
     /**
-     * Instantiates a new Electroscythe.
+     * Creates a new Electroscythe.
      */
     public Electroscythe() {
         super();
@@ -24,13 +24,14 @@ public class Electroscythe extends WeaponCard {
     }
 
     /**
-     * Apply effect.
+     * Applies the card's effect.
+     * Player p damages (1) every enemy on the same square as player p.
      *
-     * @param grid the grid
-     * @param p    the p
-     * @throws RemoteException the remote exception
+     * @param grid grid
+     * @param p    player (self)
+     * @throws RemoteException RMI exception
      */
-    public void applyEffect(Grid grid, Player p) throws RemoteException { //player p damages (1) every enemy on the same square as player p
+    public void applyEffect(Grid grid, Player p) throws RemoteException {
         for(Player enemy : grid.getPlayers()) {
             if(grid.whereAmI(enemy).equals(grid.whereAmI(p)) && !(enemy.equals(p)))
                 grid.damage(p, enemy, 1);
@@ -38,13 +39,14 @@ public class Electroscythe extends WeaponCard {
     }
 
     /**
-     * Apply special effect.
+     * Applies the card's special effect.
+     * Reaper Mode: player p damages (2) every enemy on the same square as player p.
      *
-     * @param grid the grid
-     * @param p    the p
-     * @throws RemoteException the remote exception
+     * @param grid grid
+     * @param p    player (self)
+     * @throws RemoteException RMI exception
      */
-    public void applySpecialEffect(Grid grid, Player p) throws RemoteException { //Reaper Mode: player p damages (2) every enemy on the same square as player p
+    public void applySpecialEffect(Grid grid, Player p) throws RemoteException {
         for(Player enemy : grid.getPlayers()) {
             if(grid.whereAmI(enemy).equals(grid.whereAmI(p)) && !(enemy.equals(p)))
                 grid.damage(p, enemy, 2);

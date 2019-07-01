@@ -27,15 +27,16 @@ public class TargetingScope extends PowerUpCard {
 
     /**
      * Applies the card's effect.
+     * p deals 1 additional damage to p1.
      * Prior to effect: let player p choose one player p1 who is being attacked by p. p1 can't solely receive marks from
      * the attack that p is using against him.
      *
      * @param grid grid
      * @param p    player (self)
-     * @param p1   opposing player
+     * @param p1   opponent
      * @throws RemoteException RMI exception
      */
-    public void applyEffect(Grid grid, Player p, Player p1) throws RemoteException {   //p deals 1 additional damage to p1
+    public void applyEffect(Grid grid, Player p, Player p1) throws RemoteException {
         grid.damage(p, p1, 1);
     }
 }

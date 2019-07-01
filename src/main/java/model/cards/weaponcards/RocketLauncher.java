@@ -9,7 +9,7 @@ import model.player.Player;
 import java.rmi.RemoteException;
 
 /**
- * The type Rocket launcher.
+ * Rocket Launcher weapon card.
  */
 public class RocketLauncher extends WeaponCard {
 
@@ -17,7 +17,7 @@ public class RocketLauncher extends WeaponCard {
     private Cell firstEnemyOriginalCell;
 
     /**
-     * Instantiates a new Rocket launcher.
+     * Creates a new Rocket Launcher.
      */
     public RocketLauncher() {
         super();
@@ -31,49 +31,49 @@ public class RocketLauncher extends WeaponCard {
                              "If you use the fragmenting warhead, you deal damage to everyone on the target's square before you move the target – your target will take 3 damage total.\n";
     }
 
-    //prior to effect: let player p choose one visible player p1 who is not on the same cell as p.
-
     /**
-     * Apply effect.
+     * Applies the card's effect.
+     * Prior to effect: let player p choose one visible player p1 who is not in the same cell as p.
+     *Pplayer p deals 2 damages to p1. p1's original cell is saved in case p uses Fragmenting Warhead.
      *
-     * @param grid the grid
-     * @param p    the p
-     * @param p1   the p 1
-     * @throws RemoteException the remote exception
+     * @param grid grid
+     * @param p    player (self)
+     * @param p1   opponent 1
+     * @throws RemoteException RMI exception
      */
-    public void applyEffect(Grid grid, Player p, Player p1) throws RemoteException {   //player p deals 2 damages to p1. We save the original cell of p1, in case p uses Fragmenting Warhead
+    public void applyEffect(Grid grid, Player p, Player p1) throws RemoteException {
         grid.damage(p, p1, 2);
         firstEnemy = p1;
         firstEnemyOriginalCell = p1.getCell();
     }
 
-    //after primary effect: ask player p if he wants to move p1 one cell, and in which direction (click on cell and from that we get the direction?).
-
     /**
-     * Move player.
+     * Moves player.
+     * After primary effect: ask player p if he wants to move p1 one cell, and in which direction.
      *
-     * @param grid      the grid
-     * @param p1        the p 1
-     * @param direction the direction
-     * @throws RemoteException the remote exception
+     * @param grid      grid
+     * @param p1        opponent 1
+     * @param direction direction
+     * @throws RemoteException RMI exception
      */
-    public void movePlayer(Grid grid, Player p1, int direction) throws RemoteException {   //right after the primary effect
+    public void movePlayer(Grid grid, Player p1, int direction) throws RemoteException {
         grid.move(p1, direction);
     }
 
-    //prior to effect: ask player p if he wants to move one or two cells, and in which direction (alternative: let him select the cell he wants to go to). PLAYER CAN USE THIS BEFORE OR AFTER THE PRIMARY EFFECT
-
     /**
-     * Apply special effect.
+     * Applies the card's special effect.
+     * Prior to effect: ask player p if he wants to move one or two cells, and in which direction.
+     * PLAYER CAN USE THIS BEFORE OR AFTER THE PRIMARY EFFECT.
+     * Rocket Jump: p moves one or two cells.
      *
-     * @param grid       the grid
-     * @param p          the p
-     * @param moves      the moves
-     * @param direction1 the direction 1
-     * @param direction2 the direction 2
-     * @throws RemoteException the remote exception
+     * @param grid       grid
+     * @param p          player (self)
+     * @param moves      move count
+     * @param direction1 direction 1
+     * @param direction2 direction 2
+     * @throws RemoteException RMI exception
      */
-    public void applySpecialEffect(Grid grid, Player p, int moves, int direction1, int direction2) throws RemoteException {    //Rocket Jump: p moves one or two cells, according to what he has chosen
+    public void applySpecialEffect(Grid grid, Player p, int moves, int direction1, int direction2) throws RemoteException {
         if(moves == 1)
             grid.move(p, direction1);
         else if(moves == 2) {
@@ -83,13 +83,15 @@ public class RocketLauncher extends WeaponCard {
     }
 
     /**
-     * Apply special effect 2.
+     * Applies the card's second special effect.
+     * Player p deals 1 damage to every player enemy in the original cell of p1 selected for the primary effect,
+     * including p1 even if he was moved.
      *
-     * @param grid the grid
-     * @param p    the p
-     * @throws RemoteException the remote exception
+     * @param grid grid
+     * @param p    player (self)
+     * @throws RemoteException RMI exception
      */
-    public void applySpecialEffect2(Grid grid, Player p) throws RemoteException {  //player p deals 1 damage to every player enemy in the original cell of p1 selected for the primary effect, including p1 even if he was moved
+    public void applySpecialEffect2(Grid grid, Player p) throws RemoteException {
         for(Player enemy : grid.getPlayers()) {
             if(enemy.getCell().equals(firstEnemyOriginalCell) && enemy != firstEnemy)
                 grid.damage(p, enemy, 1);

@@ -26,14 +26,15 @@ public class TagbackGrenade extends PowerUpCard {
 
     /**
      * Applies the card's effect.
+     * p gives 1 mark to p1.
      * Prior to effect: let player p use this card only when he is receiving damage from a player he can see.
      *
      * @param grid grid
      * @param p    player (self)
-     * @param p1   opposing player
+     * @param p1   opponent
      * @throws RemoteException RMI exception
      */
-    public void applyEffect(Grid grid, Player p, Player p1) throws RemoteException {   //p gives 1 mark to p1
+    public void applyEffect(Grid grid, Player p, Player p1) throws RemoteException {
         grid.addMark(p, p1);
     }
 }

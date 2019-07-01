@@ -8,12 +8,12 @@ import model.player.Player;
 import java.rmi.RemoteException;
 
 /**
- * The type Flamethrower.
+ * Flamethrower weapon card.
  */
 public class Flamethrower extends WeaponCard {
 
     /**
-     * Instantiates a new Flamethrower.
+     * Creates a new Flamethrower.
      */
     public Flamethrower() {
         super();
@@ -26,37 +26,41 @@ public class Flamethrower extends WeaponCard {
                              "blast of flame that can travel 2 squares in a cardinal direction.\n";
     }
 
-    //prior to effect: let the player p choose a cell one move away from him, and possibly a second cell one more move away in the same direction (not through walls but ok if through doors). Let him choose one player for each cell he has selected (p1 and p2 respectively). It can be useful to implement a method here.
-
     /**
-     * Apply effect.
+     * Applies the card's effect.
+     * Prior to effect: let player p choose a cell one move away from him, and possibly a second cell one more move
+     * away in the same direction (not through walls but ok if through doors). Let him choose one player for each cell
+     * he has selected (p1 and p2 respectively).
+     * Player p deals 1 damage to p1 and p2. p2 can be null.
      *
-     * @param grid the grid
-     * @param p    the p
-     * @param p1   the p 1
-     * @param p2   the p 2
-     * @throws RemoteException the remote exception
+     * @param grid grid
+     * @param p    player (self)
+     * @param p1   opponent 1
+     * @param p2   opponent 2
+     * @throws RemoteException RMI exception
      */
-    public void applyEffect(Grid grid, Player p, Player p1, Player p2) throws RemoteException {    //player p deals 1 damage to p1 and p2. p2 can be null
+    public void applyEffect(Grid grid, Player p, Player p1, Player p2) throws RemoteException {
         grid.damage(p, p1, 1);
         if(p2 != null)
             grid.damage(p, p2, 1);
     }
 
-    //prior to effect: let the player p choose one or two cells as above. This time, however, he does not select the player(s)
-
     /**
-     * Apply special effect.
+     * Applies the card's special effect.
+     * Prior to effect: let player p choose one or two cells as above. This time, however, he does not select the
+     * player(s).
+     * Barbecue Mode: player p deals 2 damage to every enemy in the first cell c1, and 1 damage to every enemy in
+     * the second cell c2. c2 can be null.
      *
-     * @param grid the grid
-     * @param p    the p
-     * @param x1   the x 1
-     * @param y1   the y 1
-     * @param x2   the x 2
-     * @param y2   the y 2
-     * @throws RemoteException the remote exception
+     * @param grid grid
+     * @param p    player (self)
+     * @param x1   x coordinate 1
+     * @param y1   y coordinate 1
+     * @param x2   x coordinate 2
+     * @param y2   y coordinate 2
+     * @throws RemoteException RMI exception
      */
-    public void applySpecialEffect(Grid grid, Player p, String x1, String y1, String x2, String y2) throws RemoteException { //Barbecue Mode: player p deals 2 damage to every enemy in the first cell c1, and 1 damage to every enemy in the second cell c2. c2 can be null
+    public void applySpecialEffect(Grid grid, Player p, String x1, String y1, String x2, String y2) throws RemoteException {
         for(Player enemy : grid.getPlayers()) {
             if(enemy.getCell().getPos().getX() == Integer.parseInt(x1) && enemy.getCell().getPos().getY() == Integer.parseInt(y1))
                 grid.damage(p, enemy, 2);

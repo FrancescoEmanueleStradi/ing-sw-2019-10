@@ -8,12 +8,12 @@ import model.player.Player;
 import java.rmi.RemoteException;
 
 /**
- * The type Plasma gun.
+ * Plasma Gun weapon card.
  */
 public class PlasmaGun extends WeaponCard {
 
     /**
-     * Instantiates a new Plasma gun.
+     * Creates a new Plasma Gun.
      */
     public PlasmaGun() {
         super();
@@ -26,33 +26,34 @@ public class PlasmaGun extends WeaponCard {
                 "For example, you can move 2 squares and shoot a target you now see. You cannot use 1 move before shooting and 1 move after.\n";
     }
 
-    //prior to effect: let the player p choose one target he can see
-
     /**
-     * Apply effect.
+     * Applies the card's effect.
+     * Prior to effect: let player p choose one target he can see.
+     * Player p damages the chosen player p1.
      *
-     * @param grid the grid
-     * @param p    the p
-     * @param p1   the p 1
-     * @throws RemoteException the remote exception
+     * @param grid grid
+     * @param p    player (self)
+     * @param p1   opponent 1
+     * @throws RemoteException RMI exception
      */
-    public void applyEffect(Grid grid, Player p, Player p1) throws RemoteException {   //player p damages the chosen player p1
+    public void applyEffect(Grid grid, Player p, Player p1) throws RemoteException {
         grid.damage(p, p1, 2);
     }
 
-    //prior to effect: ask the player p how many cells he wants to move (1 or 2) (alternative: let him click the cell he wants to go to). PLAYER CAN USE THIS BEFORE OR AFTER THE PRIMARY EFFECT
-
     /**
-     * Apply special effect.
+     * Applies the card's special effect.
+     * Prior to effect: ask player p how many cells he wants to move (1 or 2).
+     * Phase Glide: player p moves 1 or 2 cells: he can change direction (i.e. one move up and one right)
+     * PLAYER CAN USE THIS BEFORE OR AFTER THE PRIMARY EFFECT.
      *
-     * @param grid       the grid
-     * @param p          the p
-     * @param moves      the moves
-     * @param direction1 the direction 1
+     * @param grid       grid
+     * @param p          player (self)
+     * @param moves      move count
+     * @param direction1 direction 1
      * @param direction2 the direction 2
-     * @throws RemoteException the remote exception
+     * @throws RemoteException RMI exception
      */
-    public void applySpecialEffect(Grid grid, Player p, int moves, int direction1, int direction2) throws RemoteException {   //Phase Glide: player p moves 1 or 2 cells: he can change direction (i.e. one move up and one right)
+    public void applySpecialEffect(Grid grid, Player p, int moves, int direction1, int direction2) throws RemoteException {
         if(moves == 1)
             grid.move(p, direction1);
         else if(moves == 2) {
@@ -62,14 +63,15 @@ public class PlasmaGun extends WeaponCard {
     }
 
     /**
-     * Apply special effect 2.
+     * Applies the card's second special effect.
+     * Charged Shots: player p deals 1 additional damage to the same player p1 attacked with the primary effect.
      *
-     * @param grid the grid
-     * @param p    the p
-     * @param p1   the p 1
-     * @throws RemoteException the remote exception
+     * @param grid grid
+     * @param p    player (self)
+     * @param p1   opponent 1
+     * @throws RemoteException RMI exception
      */
-    public void applySpecialEffect2(Grid grid, Player p, Player p1) throws RemoteException {   //Charged Shots: player p deals 1 additional damage to the same player p1 attacked with the primary effect
+    public void applySpecialEffect2(Grid grid, Player p, Player p1) throws RemoteException {
         grid.damage(p, p1, 1);
     }
 }

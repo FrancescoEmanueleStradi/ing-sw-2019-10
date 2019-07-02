@@ -6,6 +6,7 @@ import view.gui.socket.GUISocket;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 public class Action2 extends JPanel implements ActionListener {
 
@@ -63,6 +64,8 @@ public class Action2 extends JPanel implements ActionListener {
             action.setEnabled(false);
             parent.dispose();
         }catch (InterruptedException i) {
+
+        }catch (IOException er){
 
         }
     }

@@ -374,7 +374,9 @@ public class CLISocket extends UnicastRemoteObject implements View {
         socketOut.println(game);
         socketOut.println(s);
         socketOut.println(nickName);
-        System.out.println(socketIn.nextLine());
+        int sizeReloadCost = Integer.parseInt(socketIn.nextLine());
+        for(int i = 0; i < sizeReloadCost; i++)
+            System.out.println(socketIn.nextLine());
 
         socketOut.println("Message Get Description WC");
         socketOut.println(game);
@@ -852,7 +854,9 @@ public class CLISocket extends UnicastRemoteObject implements View {
         socketOut.println(game);
         socketOut.println(s);
         socketOut.println(nickName);
-        System.out.println(socketIn.nextLine());
+        int sizeReloadCost = Integer.parseInt(socketIn.nextLine());
+        for(int i = 0; i < sizeReloadCost; i++)
+            System.out.println(socketIn.nextLine());
 
         socketOut.println("Message Get Description WC");
         socketOut.println(game);

@@ -1,6 +1,7 @@
 package view.gui.actions;
 
 import view.gui.GUI;
+import view.gui.socket.GUISocket;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -8,15 +9,21 @@ import java.awt.event.ActionListener;
 
 public class Action2 extends JOptionPane implements ActionListener {
 
-    private GUI gui;
+    private GUI gui = null;
+    private GUISocket guiSocket = null;
     private JFrame parent;
     JButton moveButton;
     JButton grabButton;
     JButton shootButton;
 
-    public Action2(GUI gui, JFrame parent) {
+    public Action2(GUI gui, GUISocket guiSocket, JFrame parent) {
         super();
-        this.gui = gui;
+
+        if(gui != null)
+            this.gui = gui;
+        else
+            this.guiSocket = guiSocket;
+
         this.parent = parent;
         add(new JLabel("Choose the second action you want to do"));
         moveButton = new JButton("Move");
@@ -34,12 +41,25 @@ public class Action2 extends JOptionPane implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         try {
             JButton action = (JButton)e.getSource();
-            if(action == moveButton)
-                gui.moveSecondAction();
-            else if(action == grabButton)
-                gui.grabSecondAction();
-            else if(action == shootButton)
-                gui.shootSecondAction();
+            if(action == moveButton) {
+                if(gui != null)
+                    gui.moveSecondAction();
+                else
+                    guiSocket.moveFirstAction();
+            }
+            else if(action == grabButton) {
+                if(gui != null)
+                    gui.grabSecondAction();
+                else
+                    guiSocket.grabFirstAction();
+            }
+            else if(action == shootButton) {
+                if(gui != null)
+                    gui.shootSecondAction();
+                else
+                    guiSocket.shootSecondAction();
+            }
+
             action.setEnabled(false);
             parent.dispose();
         }catch (InterruptedException i) {
@@ -47,4 +67,3 @@ public class Action2 extends JOptionPane implements ActionListener {
         }
     }
 }
-

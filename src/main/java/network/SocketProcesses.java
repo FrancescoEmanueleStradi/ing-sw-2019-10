@@ -3,6 +3,7 @@ package network;
 import view.View;
 import view.cli.CLISocket;
 import view.gui.GUI;
+import view.gui.socket.GUISocket;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -83,7 +84,7 @@ public class SocketProcesses {
                 }
                 else if(s.equals("GUI") || s.equals("Gui") || s.equals("gui")) {
                     cliGui = true;
-                    //view = new GUI(game, centralServer);
+                    view = new GUISocket(game, socket);
                 }
             }while(!cliGui);
 
@@ -149,7 +150,7 @@ public class SocketProcesses {
                 }
                 else if(s.equals("GUI") || s.equals("Gui") || s.equals("gui")) {
                     cliGui = true;
-                    //view = new GUI(game, centralServer);
+                    view = new GUISocket(game, socket);
                 }
             }while(!cliGui);
 

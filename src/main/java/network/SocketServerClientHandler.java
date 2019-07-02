@@ -617,6 +617,14 @@ public class SocketServerClientHandler implements Runnable {
                         for(int i = 0; i < sizeMessageCheckWeaponSlotContents; i++)
                             outPrinter.println(server.messageCheckWeaponSlotContents(game22, n).get(i));
                         break;
+                    case "Message Check Weapon Slot Contents Reduced":
+                        int gameSlotReduced = Integer.parseInt(inScanner.nextLine());
+                        int nSlotReduced = Integer.parseInt(inScanner.nextLine());
+                        int sizeMessageCheckWeaponSlotContentsReduced = server.messageCheckWeaponSlotContentsReduced(gameSlotReduced, nSlotReduced).size();
+                        outPrinter.println(sizeMessageCheckWeaponSlotContentsReduced);
+                        for(int i = 0; i < sizeMessageCheckWeaponSlotContentsReduced; i++)
+                            outPrinter.println(server.messageCheckWeaponSlotContentsReduced(gameSlotReduced, nSlotReduced).get(i));
+                        break;
                     case "Message Is Valid First Action Grab":
                         int game23 = Integer.parseInt(inScanner.nextLine());
                         String nickname20 = inScanner.nextLine();
@@ -735,7 +743,13 @@ public class SocketServerClientHandler implements Runnable {
                         int gameMessageGetReloadCost = Integer.parseInt(inScanner.nextLine());
                         String selectionMessageGetReloadCost = inScanner.nextLine();
                         String nicknameMessageGetReloadCost = inScanner.nextLine();
+                        outPrinter.println(server.messageGetReloadCost(gameMessageGetReloadCost, selectionMessageGetReloadCost, nicknameMessageGetReloadCost).size());
                         outPrinter.println(server.messageGetReloadCost(gameMessageGetReloadCost, selectionMessageGetReloadCost, nicknameMessageGetReloadCost));
+                        break;
+                    case "Message Get Reload Cost Reduced":
+                        int gameMessageGetReloadCostReduced = Integer.parseInt(inScanner.nextLine());
+                        String selectionMessageGetReloadCostReduced = inScanner.nextLine();
+                        outPrinter.println(server.messageGetReloadCostReduced(gameMessageGetReloadCostReduced, selectionMessageGetReloadCostReduced));
                         break;
                     case "Message Get Description WC":
                         int gameMessageGetDescriptionWC = Integer.parseInt(inScanner.nextLine());

@@ -1,6 +1,7 @@
 package view.gui.actions;
 
-import view.gui.GUI;
+import view.gui.*;
+import view.gui.socket.GUISocket;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -9,15 +10,21 @@ import java.rmi.RemoteException;
 
 public class Action1 extends JPanel implements ActionListener {
 
-    private GUI gui;
+    private GUI gui = null;
+    private GUISocket guiSocket = null;
     JFrame parent;
     JButton moveButton;
     JButton grabButton;
     JButton shootButton;
 
-    public Action1(GUI gui, JFrame parent) {
+    public Action1(GUI gui, GUISocket guiSocket, JFrame parent) {
         super();
-        this.gui = gui;
+
+        if(gui != null)
+            this.gui = gui;
+        else
+            this.guiSocket = guiSocket;
+
         this.parent = parent;
         add(new JLabel("Choose the first action you want to do"));
         moveButton = new JButton("Move");
@@ -35,12 +42,25 @@ public class Action1 extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         try {
             JButton action = (JButton)e.getSource();
-            if(action == moveButton)
-                gui.moveFirstAction();
-            else if(action == grabButton)
-                gui.grabFirstAction();
-            else if(action == shootButton)
-                gui.shootFirstAction();
+            if(action == moveButton) {
+                if(gui != null)
+                    gui.moveFirstAction();
+                else
+                    guiSocket.moveFirstAction();
+            }
+            else if(action == grabButton) {
+                if(gui != null)
+                    gui.grabFirstAction();
+                else
+                    guiSocket.grabFirstAction();
+            }
+            else if(action == shootButton) {
+                if(gui != null)
+                    gui.shootFirstAction();
+                else
+                    guiSocket.shootFirstAction();
+            }
+
             action.setEnabled(false);
             parent.dispose();
         }catch (InterruptedException | RemoteException i) {

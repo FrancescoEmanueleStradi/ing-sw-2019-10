@@ -37,7 +37,6 @@ public class GUI implements View, Serializable {
     private JScrollPane scrollPane;
     private TextArea textArea;
     private JPanel players;
-    //private ImageIcon Enjoy;
 
 
     public GUI(int game, ServerInterface server) throws RemoteException {
@@ -50,7 +49,6 @@ public class GUI implements View, Serializable {
         this.textArea = new TextArea();
         this.scrollPane = new JScrollPane (textArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         this.players = new JPanel();
-        //Enjoy = new ImageIcon("Images/Enjoy.png");
     }
 
     @Override
@@ -296,48 +294,13 @@ public class GUI implements View, Serializable {
 
     @Override
     public void reload() throws RemoteException, InterruptedException {
-        CardLinkList l = new CardLinkList();
-        JFrame jF = new JFrame();
-        ReloadPanel reloadPanel = new ReloadPanel();
-        jF.add(new Label("Choose the weapon card you want to reload, or 'end' if you don't need/want to"));
-        for(ImageIcon i : l.getImageIconFromName(this.server.messageGetWeaponCardUnloaded(game, this.nickName), new LinkedList<>())) {
-            jF.add(new JLabel(i));
-            reloadPanel.addButton(l.getNamefromImageIcon(i));
-        }
-        jF.add(reloadPanel);
+        JFrame jF = new JFrame("Reload");
+        jF.setLocation(50,50);
+        Container c = jF.getContentPane();
+        ReloadPanel reloadPanel = new ReloadPanel(this, server, jF, game, nickName);
+        c.add(reloadPanel);
+        jF.setSize(400,400);
         jF.setVisible(true);
-        //TODO
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        /*this.server.messageGetWeaponCardUnloaded(game, this.nickName).forEach(System.out::println);
-        int i = 0;
-        while(i == 0) {
-            System.out.println("Choose the weapon card you want to reload, or 'end' if you don't need/want to");
-            String s = in.nextLine();
-            if(s.equals("end"))
-                break;
-            System.out.println("Enter 0 if you want to reload another card, otherwise 1");
-            i = in.nextInt();
-            if(this.server.messageIsValidReload(game, this.nickName, s))
-                this.server.messageReload(game, this.nickName, s, i);
-            else
-                System.out.println("You can't reload now");
-        }*/
     }
 
     @Override
@@ -349,7 +312,15 @@ public class GUI implements View, Serializable {
 
     @Override
     public void newSpawnPoint() throws RemoteException {
-        //TODO
+        if(this.server.messageGetDeadList(game).contains(this.nickName)){
+            JFrame jF = new JFrame("Reload");
+            jF.setLocation(50,50);
+            Container c = jF.getContentPane();
+            NewSpawnPointPanel newSpawnPointPanel =  new NewSpawnPointPanel(this, server, jF, game, nickName);
+            c.add(newSpawnPointPanel);
+            jF.setSize(400,400);
+            jF.setVisible(true);
+        }
 
         while(true){
             if(server.stopGame(game))

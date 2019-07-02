@@ -336,8 +336,7 @@ public class GUI implements View, Serializable {
 
     @Override
     public void replace() throws RemoteException {
-        if(this.server.messageIsValidToReplace(game))
-            this.server.messageReplace(game);
+        this.server.messageReplace(game);
         server.finishTurn(game);
         if(server.stopGame(game))
             this.endFinalFrenzy();

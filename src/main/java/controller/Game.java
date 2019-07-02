@@ -16,6 +16,10 @@ import java.util.stream.Collectors;
 
 import static controller.GameState.*;
 
+/**
+ * The dedicated controller class. Contains methods modifying the model through the Grid class and a myriad of
+ * useful functions.
+ */
 public class Game {
 
     private int iD;
@@ -28,40 +32,88 @@ public class Game {
     private boolean finalFrenzy = false;
     private int cardToPickAfterDeath;
 
+    /**
+     * Creates a new Game class, linking the game to the server and creating a grid.
+     *
+     * @param iD     game identifier
+     * @param server server
+     */
     public Game(int iD, ServerInterface server) {
         this.iD = iD;
         this.server = server;
         grid = new Grid(iD, server);
     }
 
+    /**
+     * Gets game id.
+     *
+     * @return id
+     */
     public int getID() {
         return iD;
     }
 
+    /**
+     * Sets game id.
+     *
+     * @param iD id
+     */
     public void setID(int iD) {
         this.iD = iD;
     }
 
+    /**
+     * Gets server.
+     *
+     * @return server
+     */
     public ServerInterface getServer() {
         return server;
     }
 
+    /**
+     * Sets server.
+     *
+     * @param server server
+     */
     public void setServer(ServerInterface server) {
         this.server = server;
     }
 
+    /**
+     * Gets grid.
+     *
+     * @return grid
+     */
     public Grid getGrid() {
-        return grid;            //to use only for tests!!
+        return grid;
     }
 
+    /**
+     * Gets game state.
+     *
+     * @return game state
+     */
     GameState getGameState() {
         return gameState;
     }
 
+    /**
+     * Determines whether or not game has not started.
+     *
+     * @return boolean
+     */
     public boolean gameIsNotStarted() {
         return this.grid.getPlayers().isEmpty();
     }
 
+    /**
+     * Very first state.
+     *
+     * @param nickName nickname
+     * @param c        colour
+     * @throws RemoteException RMI exception
+     */
     public void gameStart(String nickName, Colour c) throws RemoteException {
        if(!init) {
            init = true;
@@ -72,22 +124,36 @@ public class Game {
        }
     }
 
+    /**
+     * Sets player's FF turn apart from first player's.
+     *
+     * @param nickName nickname
+     * @param turn     turn
+     */
     public void changeTurnFinalFrenzy(String nickName, int turn) {
         Player p = this.grid.getPlayerObject(nickName);
         if(!p.hasFirstPlayerCard())
             p.setTurnFinalFrenzy(turn);
     }
 
-
-
-//----------------------------------------------------------------------------------------------------
-
-
+    /**
+     * Gets player colour.
+     *
+     * @param nickName nickname
+     * @return colour
+     */
     public Colour getColour(String nickName) {
         return this.grid.getPlayerColour(nickName);
     }
 
-
+    /**
+     * Determines whether or not the added player is valid.
+     * Returns a flag as int , not a boolean.
+     *
+     * @param nickName nickname
+     * @param c        colour
+     * @return flag
+     */
     public int isValidAddPlayer(String nickName, Colour c) {
         if(!init)
             return 0;       //first player have not chosen yet
@@ -98,12 +164,24 @@ public class Game {
         else return 3;      //first player hve chosen and nick and colour are available
     }
 
-
+    /**
+     * Adds player.
+     *
+     * @param nickName nickname
+     * @param c        colour
+     * @throws RemoteException RMI exception
+     */
     public synchronized void addPlayer(String nickName, Colour c) throws RemoteException {
         Player p = new Player(nickName, c, false);
         this.grid.addPlayer(p);
     }
 
+    /**
+     * Removes player.
+     *
+     * @param nickName nickname
+     * @return boolean
+     */
     public boolean removePlayer(String nickName) {
         if(init) {
             this.grid.removePlayer(this.grid.getPlayerObject(nickName));
@@ -112,10 +190,21 @@ public class Game {
         return false;
     }
 
+    /**
+     * Returns list of players.
+     *
+     * @return player list
+     */
     public synchronized List<String> getPlayers() {
         return this.grid.getPlayers().stream().map(Player::getNickName).collect(Collectors.toList());
     }
 
+    /**
+     * Returns reduced reload cost.
+     *
+     * @param s weapon name
+     * @return reload cost
+     */
     public synchronized List<Colour> getReloadCostReduced(String s) {
         WeaponCard wC = grid.getWeaponCardObject(s);
         List<AmmoCube> l = new ArrayList<>(Arrays.asList(wC.getReloadCost()));
@@ -128,6 +217,7 @@ public class Game {
         return lC;
     }
 
+    //TODO remove?
     /*public List<String> getWeaponCardLoaded(String nickName) {
         Player p = this.grid.getPlayerObject(nickName);
         return p.getWeaponCards().stream().filter(WeaponCard::isReloaded).map(WeaponCard::getCardName).collect(Collectors.toList());
@@ -167,43 +257,95 @@ public class Game {
         return pC.getDescription();
     }*/
 
+    /**
+     * Returns player's weapon cards.
+     *
+     * @param nickName nickname
+     * @return weapon card list
+     */
     public List<String> getPlayerWeaponCard(String nickName) {
         Player p = this.grid.getPlayerObject(nickName);
         return p.getWeaponCards().stream().map(WeaponCard::getCardName).collect(Collectors.toList());
     }
 
+    /**
+     * Returns player's loaded weapon cards.
+     *
+     * @param nickName nickname
+     * @return weapon card list
+     */
     public List<String> getPlayerWeaponCardLoaded(String nickName) {
         Player p = this.grid.getPlayerObject(nickName);
         return p.getWeaponCards().stream().filter(WeaponCard::isReloaded).map(WeaponCard::getCardName).collect(Collectors.toList());
     }
 
+    /**
+     * Returns player's unloaded weapon cards.
+     *
+     * @param nickName nickname
+     * @return weapon card list
+     */
     public List<String> getPlayerWeaponCardUnloaded(String nickName) {
         Player p = this.grid.getPlayerObject(nickName);
         return p.getWeaponCards().stream().filter(a -> !a.isReloaded()).map(WeaponCard::getCardName).collect(Collectors.toList());
     }
 
+    /**
+     * Returns description of player's given weapon card.
+     *
+     * @param s        weapon name
+     * @param nickName nickname
+     * @return weapon description
+     */
     public String getPlayerDescriptionWC(String s, String nickName) {
         Player p = this.grid.getPlayerObject(nickName);
         WeaponCard wC = p.getWeaponCardObject(s);
         return wC.getDescription();
     }
 
+    /**
+     * Returns reload cost of player's given weapon card.
+     *
+     * @param s        weapon name
+     * @param nickName nickname
+     * @return reload cost
+     */
     public List<Colour> getPlayerReloadCost(String s, String nickName) {
         Player p = this.grid.getPlayerObject(nickName);
         WeaponCard wC = p.getWeaponCardObject(s);
         return Arrays.stream(wC.getReloadCost()).map(AmmoCube::getC).collect(Collectors.toList());
     }
 
+    /**
+     * Returns player's powerup cards.
+     *
+     * @param nickName nickname
+     * @return powerup list
+     */
     public List<String> getPlayerPowerUpCard(String nickName) {
         Player p = this.grid.getPlayerObject(nickName);
         return p.getPowerUpCards().stream().map(PowerUpCard::getCardName).collect(Collectors.toList());
     }
 
+    /**
+     * Returns colours of player's powerup cards.
+     *
+     * @param nickName nickname
+     * @return powerup colour list
+     */
     public List<String> getPlayerPowerUpCardColour(String nickName) {
         Player p = this.grid.getPlayerObject(nickName);
         return p.getPowerUpCards().stream().map(PowerUpCard::getC).map(Colour::getColourId).collect(Collectors.toList());
     }
 
+    /**
+     * Returns description of player's given powerup card.
+     *
+     * @param s        powerup name
+     * @param colour   colour
+     * @param nickName nickname
+     * @return powerup description
+     */
     public String getPlayerDescriptionPUC(String s, String colour, String nickName) {
         Player p = this.grid.getPlayerObject(nickName);
         Colour col = Colour.valueOf(colour);
@@ -211,37 +353,71 @@ public class Game {
         return pC.getDescription();
     }
 
+    /**
+     * Gets player's scores.
+     *
+     * @return score list
+     */
     public List<Integer> getScore() {
         return this.grid.getPlayers().stream().map(Player::getScore).collect(Collectors.toList());
     }
 
-//----------------------------------------------------------------------------------------------------
-
-
+    /**
+     * Determines whether or not the arena type given is valid.
+     *
+     * @param type type
+     * @return boolean
+     */
     public synchronized boolean isValidReceiveType(int type) {
         return this.gameState.equals(START) && (type == 1 || type == 2 || type == 3 || type == 4);
     }
 
+    /**
+     * Receives arena type.
+     *
+     * @param type type
+     * @throws RemoteException RMI exception
+     */
     public synchronized void receiveType(int type) throws RemoteException {
         this.grid.setType(type);                 //find a condition
         this.grid.setUpAmmoCard();
         this.gameState = INITIALIZED;
-   }
+    }
 
+    /**
+     * Gives 2 powerup cards to player (who should then pick one).
+     *
+     * @param nickName nickname
+     */
     public synchronized void giveTwoPUCard(String nickName) {
         Player p = this.grid.getPlayerObject(nickName);
         if(p.getCell() == null) {
             p.addPowerUpCard(this.grid.pickPowerUpCard());
             p.addPowerUpCard(this.grid.pickPowerUpCard());
         }
-   }
+    }
 
+    /**
+     * Determines whether or not the action of a powerup card discard is valid.
+     *
+     * @param nickName nickname
+     * @param p1       player
+     * @param c1       colour
+     * @return boolean
+     */
     public synchronized boolean isValidPickAndDiscard(String nickName, String p1, String c1) {
         Player p = this.grid.getPlayerObject(nickName);
         return (p.getCell() == null &&
                 (p1.equals(p.getPowerUpCards().get(0).getCardName()) && Colour.valueOf(c1).equals(p.getPowerUpCards().get(0).getC()) || p1.equals(p.getPowerUpCards().get(1).getCardName()) && Colour.valueOf(c1).equals(p.getPowerUpCards().get(1).getC())));
-   }
+    }
 
+    /**
+     * Performs the action if isValidPickAndDiscard returns true.
+     *
+     * @param nickName nickname
+     * @param p1       player
+     * @param c1       colou
+     */
     public synchronized void pickAndDiscardCard(String nickName, String p1, String c1) {     //p1 and c1 name and colour of the card the player want to keep
        Player p = this.grid.getPlayerObject(nickName);
        if(p1.equals(p.getPowerUpCards().get(0).getCardName()) && Colour.valueOf(c1).equals(p.getPowerUpCards().get(0).getC())) {
@@ -254,33 +430,51 @@ public class Game {
            chooseSpawnPoint(p.getPowerUpCards().get(0).getC(), p);
            p.removePowerUpCard(p.getPowerUpCards().get(0));
        }
-   }
+    }
 
-
-   private synchronized void chooseSpawnPoint(Colour c, Player p) {
+    /**
+     * Assigns the player's spawn point.
+     *
+     * @param c colour
+     * @param p player
+     */
+    private synchronized void chooseSpawnPoint(Colour c, Player p) {
        if(c.equals(Colour.YELLOW))
            p.changeCell(this.grid.getBoard().getArena()[2][3]);
        if(c.equals(Colour.RED))
-           p.changeCell(this.grid.getBoard().getArena()[1][0]);            //view ask the choice
+           p.changeCell(this.grid.getBoard().getArena()[1][0]);
        if(c.equals(Colour.BLUE))
            p.changeCell(this.grid.getBoard().getArena()[0][2]);
        if(this.gameState == INITIALIZED)
            this.gameState = STARTTURN;
-   }
+    }
 
-
-
-   //----------------------------------------------------------------------------------------------------
-
-
+    /**
+     * Determines whether or not the player's given weapon card is reloaded.
+     *
+     * @param nickName   nickname
+     * @param weaponCard weapon card
+     * @return boolean
+     */
     public boolean isValidCard(String nickName, String weaponCard) {
         return this.grid.getPlayerObject(nickName).getWeaponCardObject(weaponCard)!= null && this.grid.getPlayerObject(nickName).getWeaponCardObject(weaponCard).isReloaded();
     }
 
-
-   private boolean isValidShootNotAdrenaline(Player p, String nameWC, List<Integer> lI, List<String> lS, List<AmmoCube> lA, List<PowerUpCard> lP) {
-       boolean x = false;
-       if(p.getWeaponCardObject(nameWC).isReloaded()) {
+    /**
+     * Determines whether or not the shoot (non-adrenaline) parameters are valid. There are case statements for every
+     * weapon card in the game.
+     *
+     * @param p player
+     * @param nameWC weapon card
+     * @param lI effect number list
+     * @param lS various string list
+     * @param lA ammocube list
+     * @param lP powerup list
+     * @return boolean
+     */
+    private boolean isValidShootNotAdrenaline(Player p, String nameWC, List<Integer> lI, List<String> lS, List<AmmoCube> lA, List<PowerUpCard> lP) {
+        boolean x = false;
+        if(p.getWeaponCardObject(nameWC).isReloaded()) {
            List<AmmoCube> l = choosePayment(lA, lP);
            List<Colour> lC = l.stream().map(AmmoCube::getC).collect(Collectors.toList());
            switch(nameWC) {
@@ -634,13 +828,22 @@ public class Game {
                    break;
                default: x = false;
            }
-       }
-       return x;
+        }
+        return x;
     }
 
-
-
-   private void shootNotAdrenaline(Player p, String nameWC, List<Integer> lI, List<String> lS, List<AmmoCube> lA, List<PowerUpCard> lP) throws RemoteException {                    //is better to use a file?
+    /**
+     * Performs the shoot (non-adrenaline) action associated with the isValid.
+     *
+     * @param p player
+     * @param nameWC weapon card
+     * @param lI effect number list
+     * @param lS various string list
+     * @param lA ammocube list
+     * @param lP powerup list
+     * @throws RemoteException RMI exception
+     */
+    private void shootNotAdrenaline(Player p, String nameWC, List<Integer> lI, List<String> lS, List<AmmoCube> lA, List<PowerUpCard> lP) throws RemoteException {
         switch(nameWC) {
             case "Cyberblade":
                 int x = 0;
@@ -831,9 +1034,20 @@ public class Game {
         p.getWeaponCardObject(nameWC).unload();
         p.payCard(lA, lP);
         this.grid.getPowerUpDiscardPile().addAll(lP);
-
     }
 
+    /**
+     * Determines whether or not the adrenaline shoot parameters are valid.
+     *
+     * @param p player
+     * @param nameWC weapon card
+     * @param lI effect number list
+     * @param lS various string list
+     * @param direction direction
+     * @param lA ammo cube list
+     * @param lP powerup list
+     * @return boolean
+     */
     private boolean isValidShootAdrenaline(Player p, String nameWC, List<Integer> lI, List<String> lS, int direction, List<AmmoCube> lA, List<PowerUpCard> lP) {
         if(!this.grid.canMove(p, direction))
             return false;
@@ -847,12 +1061,37 @@ public class Game {
         }
     }
 
+    /**
+     * Performs the adrenaline shoot action associated with the isValid.
+     *
+     * @param p player
+     * @param nameWC weapon card
+     * @param lI effect number list
+     * @param lS various string list
+     * @param direction direction
+     * @param lA ammo cube list
+     * @param lP powerup list
+     * @throws RemoteException RMI exception
+     */
     private void shootAdrenaline(Player p, String nameWC, List<Integer> lI, List<String> lS, int direction, List<AmmoCube> lA, List<PowerUpCard> lP) throws RemoteException {
         this.grid.moveWithoutNotify(p, direction);
         this.shootNotAdrenaline(p, nameWC, lI, lS, lA, lP);
     }
 
 
+    /**
+     * Determines whether or not the shoot (first action) parameters are valid.
+     *
+     * @param nickName      nickname
+     * @param nameWC        weapon card
+     * @param lI            effect number list
+     * @param lS            various string list
+     * @param direction     direction
+     * @param lAInput       colour list
+     * @param lPInput       powerup list
+     * @param lPColourInput powerup colour list
+     * @return boolean
+     */
     public boolean isValidFirstActionShoot(String nickName, String nameWC, List<Integer> lI, List<String> lS, int direction, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) {
         Player p = this.grid.getPlayerObject(nickName);
         if(this.gameState.equals(ENDTURN))
@@ -886,6 +1125,19 @@ public class Game {
         return false;
     }
 
+    /**
+     * Performs shoot (first action) associated with the isValid.
+     *
+     * @param nickName      nickname
+     * @param nameWC        weapon card
+     * @param lI            effect number list
+     * @param lS            various string list
+     * @param direction     direction
+     * @param lAInput       colour list
+     * @param lPInput       powerup list
+     * @param lPColourInput powerup colour list
+     * @throws RemoteException RMI exception
+     */
     public synchronized void firstActionShoot(String nickName, String nameWC, List<Integer> lI, List<String> lS, int direction, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) throws RemoteException {
         Player p = this.grid.getPlayerObject(nickName);
         List<AmmoCube> lA= new LinkedList<>();
@@ -905,39 +1157,53 @@ public class Game {
         this.gameState = ACTION1;
     }
 
-//----------------------------------------------------------------------------------------------------
+    /**
+     * Moves player in the given directions.
+     *
+     * @param p player
+     * @param directions  direction list
+     * @throws RemoteException RMI exception
+     */
+    private void move(Player p, List<Integer> directions) throws RemoteException {
+        for(Integer i : directions) {
+            this.grid.move(p, i);    //view will tell player if there's a wall
+        }
+    }
 
 
-
-   private void move(Player p, List<Integer> directions) throws RemoteException {
-       for(Integer i : directions) {
-           this.grid.move(p, i);    //view will tell player if there's a wall
-       }
-   }
-
-
+    /**
+     * Determines whether or not the move (first action) parameters are valid.
+     *
+     * @param nickName   nickname
+     * @param directions direction list
+     * @return boolean
+     */
     public boolean isValidFirstActionMove(String nickName, List<Integer> directions) {
         Player p = this.grid.getPlayerObject(nickName);
         if(this.gameState.equals(ENDTURN))
             this.gameState = STARTTURN;
         return (this.gameState.equals(STARTTURN) && (directions.isEmpty() || (directions.size() < 4 && grid.canGhostMove(p, directions))));
-   }
+    }
 
+    /**
+     * Performs the move (first action) associated with the isValid.
+     *
+     * @param nickName   nickname
+     * @param directions direction list
+     * @throws RemoteException RMI exception
+     */
     public synchronized void firstActionMove(String nickName, List<Integer> directions) throws RemoteException { //player p moves 1,2,3 cells: directions contains every direction from cell to cell
         Player p = this.grid.getPlayerObject(nickName);
         move(p, directions);
         this.gameState = ACTION1;
     }
 
-
-
-
-
-//----------------------------------------------------------------------------------------------------
-
-
-
-
+    /**
+     * Gives player the contents of the given ammo card.
+     *
+     * @param p player
+     * @param card ammo card
+     */
     private void giveWhatIsOnAmmoCard(Player p, AmmoCard card) {
        if(card.haspC())
            this.grid.pickPowerUpCard(p);
@@ -946,9 +1212,16 @@ public class Game {
        this.grid.getAmmoDiscardPile().add(card);
     }
 
+    /**
+     * Determines whether or not the given ammo cube list can fulfill the given weapon's reload cost.
+     *
+     * @param w weapon card
+     * @param l ammo cube list
+     * @return boolean
+     */
     private boolean canPay(WeaponCard w, List<AmmoCube> l) {
         List<AmmoCube> l2 = new ArrayList<>(Arrays.asList(w.getReloadCost()));          //this way the original array is not modified
-        l2.remove(0);                                                               //containsAll does not work: AmmoCubes have not the same references!
+        l2.remove(0);
 
         if(l2.isEmpty())
             return true;
@@ -964,6 +1237,103 @@ public class Game {
         return lInput.containsAll(lCost);
     }
 
+    /**
+     * Determines whether or not the grab (first action) parameters are valid.
+     *
+     * @param nickName      nickname
+     * @param directionList direction list
+     * @param wCardInput    weapon card
+     * @param wSlotInput    weapon slot
+     * @param lAInput       colour list
+     * @param lPInput       powerup list
+     * @param lPColourInput powerup colour list
+     * @return boolean
+     */
+    public boolean isValidFirstActionGrab(String nickName, List<Integer> directionList, String wCardInput, String wSlotInput, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) {
+        if(this.gameState.equals(ENDTURN))
+            this.gameState = STARTTURN;
+        if(this.gameState.equals(STARTTURN)) {
+            Player p = this.grid.getPlayerObject(nickName);
+            WeaponCard wCard = null;
+            if(!wCardInput.equals(""))
+                wCard = this.grid.getWeaponCardObject(wCardInput);
+            List<AmmoCube> lA = new LinkedList<>();
+            List<PowerUpCard> lP = new LinkedList<>();
+
+            if((!p.isAdrenaline1() && directionList.size() > 1) || (p.isAdrenaline1() && directionList.size() > 2))
+                return false;
+
+            if(!this.grid.canGhostMove(p, directionList))
+                return false;
+
+            for(Colour c : lAInput)
+                lA.add(new AmmoCube(c));
+            AmmoCube[] cubeArray = new AmmoCube[lA.size()];
+            lA.toArray(cubeArray);
+
+            if(wCard != null && wSlotInput.isEmpty())
+                return false;
+            else if(wCard != null && ((wSlotInput.equals("1") && (this.grid.ghostMove(p, directionList).getCell().getPos().getX() == 0 && this.grid.ghostMove(p, directionList).getCell().getPos().getY() == 2) && this.checkWeaponSlotContents(1).contains(wCardInput)) ||
+                    (wSlotInput.equals("2") && (this.grid.ghostMove(p, directionList).getCell().getPos().getX() == 2 && this.grid.ghostMove(p, directionList).getCell().getPos().getY() == 3) && this.checkWeaponSlotContents(2).contains(wCardInput)) ||
+                    (wSlotInput.equals("3") && (this.grid.ghostMove(p, directionList).getCell().getPos().getX() == 1 && this.grid.ghostMove(p, directionList).getCell().getPos().getY() == 0) && this.checkWeaponSlotContents(3).contains(wCardInput)))) {
+                if(cubeArray.length != 0 && !p.checkAmmoCube(cubeArray))
+                    return false;
+                for(int i = 0; i < lPInput.size(); i++) {
+                    if(p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))) == null)
+                        return false;
+                    lP.add(p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))));
+                }
+                if(!canPay(wCard, choosePayment(lA, lP)))
+                    return false;
+            }
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Performs the grab (first action) associated with the isValid.
+     *
+     * @param nickName      nickname
+     * @param directions direction list
+     * @param wCardInput    weapon card
+     * @param lAInput       colour list
+     * @param lPInput       powerup list
+     * @param lPColourInput powerup colour list
+     * @throws RemoteException RMI exception
+     */
+    public synchronized void firstActionGrab(String nickName, List<Integer> directions, String wCardInput, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) throws RemoteException { //directions contains where p wants to go. directions contains '0' if p doesn't want to move and only grab
+        Player p = this.grid.getPlayerObject(nickName);
+        WeaponCard wCard = this.grid.getWeaponCardObject(wCardInput);
+        List<AmmoCube> l = new LinkedList<>();
+        if(!lAInput.isEmpty()) {
+            for(Colour c : lAInput)
+                l.add(new AmmoCube(c));
+        }
+        List<PowerUpCard> lP = new LinkedList<>();
+        if(!lPInput.isEmpty()) {
+            for(int i = 0; i < lPInput.size(); i++)
+                lP.add(p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))));
+        }
+        if(!(p.isAdrenaline1()))
+            grabNotAdrenaline(p, directions, wCard, l, lP);
+
+        if(p.isAdrenaline1()||p.isAdrenaline2()) {
+            grabAdrenaline(p, directions, wCard, l, lP);
+        }
+        this.gameState = ACTION1;
+    }
+
+    /**
+     * Performs the non-adrenaline grab action.
+     *
+     * @param p player
+     * @param d direction list (considers only first member)
+     * @param w weapon card
+     * @param lA ammo cube list
+     * @param lP powerup list
+     * @throws RemoteException RMI exception
+     */
     private void grabNotAdrenaline(Player p, List<Integer> d, WeaponCard w, List<AmmoCube> lA, List<PowerUpCard> lP) throws RemoteException {
         if(!d.isEmpty())
             this.grid.move(p, d.get(0));
@@ -981,6 +1351,11 @@ public class Game {
             this.discard = true;
     }
 
+    /**
+     * Removes weapon card from the weapon slot containing it.
+     *
+     * @param wCard weapon card
+     */
     private void removeFromWeaponSlot(WeaponCard wCard) {
         if(this.checkWeaponSlotContents(1).contains(wCard.getCardName())) {
             if(grid.getBoard().getW1().getCard1().equals(wCard))
@@ -1008,10 +1383,23 @@ public class Game {
         }
     }
 
+    //TODO what does this do again?
+    /**
+     *
+     *
+     * @return boolean
+     */
     public boolean isDiscard() {
         return discard;
     }
 
+    /**
+     * Discards weapon card.
+     *
+     * @param nickName nickname
+     * @param wSInput  weapon slot
+     * @param wCInput  weapon card
+     */
     public void discardWeaponCard(String nickName, String wSInput, String wCInput) {
        Player p = this.grid.getPlayerObject(nickName);
        WeaponCard wC = p.getWeaponCardObject(wCInput);
@@ -1029,6 +1417,16 @@ public class Game {
             wS.setCard3(wC);
     }
 
+    /**
+     * Performs the adrenaline grab action associated with the isValid.
+     *
+     * @param p player
+     * @param d direction list
+     * @param w weapon card
+     * @param lA ammo cube list
+     * @param lP powerup list
+     * @throws RemoteException RMI exception.
+     */
     private void grabAdrenaline(Player p, List<Integer> d, WeaponCard w, List<AmmoCube> lA, List<PowerUpCard> lP) throws RemoteException {
         if(!d.isEmpty())
             this.grid.move(p, d.get(0));
@@ -1048,6 +1446,14 @@ public class Game {
             this.discard = true;
     }
 
+    /**
+     * Returns list merging the ammocubes and the powerups' colour values (acting as ammo cubes) which should then
+     * be used for paying a reload cost, for example.
+     *
+     * @param lA ammo cube list
+     * @param lP powerup list
+     * @return merged ammo cube list
+     */
     private List<AmmoCube> choosePayment(List<AmmoCube> lA, List<PowerUpCard> lP) {
         List<AmmoCube> l = new LinkedList<>();
         if(!lA.isEmpty())
@@ -1059,6 +1465,13 @@ public class Game {
         return l;
     }
 
+    /**
+     * Returns string containing information about the player's own damage taken, position, weapon cards,
+     * powerup cards, and ammo. Broadcast only to the client calling it.
+     *
+     * @param nickName nickname
+     * @return player info
+     */
     public String checkYourStatus(String nickName) {
         Player p = grid.getPlayerObject(nickName);
         List<String> wCards = new LinkedList<>();
@@ -1076,7 +1489,6 @@ public class Game {
         String yourWeapons = "These are the WeaponCards currently in your possession:\n";
         for(WeaponCard w : p.getWeaponCards())
             wCards.add(w.getCardName());
-        //wCards = this.getPlayerWeaponCard(nickName);
 
         String yourPups = "These are the PowerUpCards currently in your possession:\n";
         for(PowerUpCard c : p.getPowerUpCards()) {
@@ -1096,6 +1508,12 @@ public class Game {
         return damageDetails + posDetails + yourWeapons + joinWC + "\n" + yourPups + joinPC + "\n" + yourAmmo + joinAC + "\n";
     }
 
+    /**
+     * Checks contents of given weapon slot.
+     *
+     * @param n weapon slot
+     * @return weapon list (default: null)
+     */
     public List<String> checkWeaponSlotContents(int n) {
         List<String> lEmpty = new LinkedList<>();
         if(n == 1)
@@ -1108,7 +1526,13 @@ public class Game {
         return lEmpty;
     }
 
-    //GUI exclusive method
+    /**
+     * Checks contents of weapon slot.
+     * GUI-exclusive method.
+     *
+     * @param n weapon slot
+     * @return weapon list (default: null)
+     */
     public List<String> checkWeaponSlotContentsReduced(int n) {
         List<String> lEmpty = new LinkedList<>();
         if(n == 1)
@@ -1122,6 +1546,11 @@ public class Game {
 
     }
 
+    /**
+     * Checks contents of weapon slot 1.
+     *
+     * @return weapon list
+     */
     private List<String> checkWeaponSlot1Contents() {
         List<String> l = new LinkedList<>();
         if(grid.getBoard().getW1().getCard1() != null) {
@@ -1142,6 +1571,11 @@ public class Game {
         return l;
     }
 
+    /**
+     * Checks contents of weapon slot 2.
+     *
+     * @return weapon list
+     */
     private List<String> checkWeaponSlot2Contents() {
         List<String> l = new LinkedList<>();
         if(grid.getBoard().getW2().getCard1() != null) {
@@ -1162,6 +1596,11 @@ public class Game {
         return l;
     }
 
+    /**
+     * Checks contents of weapon slot 3.
+     *
+     * @return weapon list
+     */
     private List<String> checkWeaponSlot3Contents() {
         List<String> l = new LinkedList<>();
         if(grid.getBoard().getW3().getCard1() != null) {
@@ -1182,6 +1621,12 @@ public class Game {
         return l;
     }
 
+    /**
+     * Checks contents of weapon slot 1.
+     * GUI-exclusive method.
+     *
+     * @return weapon list
+     */
     private List<String> checkWeaponSlot1ContentsReduced() {
         List<String> l = new LinkedList<>();
         if(grid.getBoard().getW1().getCard1() != null)
@@ -1193,6 +1638,12 @@ public class Game {
         return l;
     }
 
+    /**
+     * Checks contents of weapon slot 1.
+     * GUI-exclusive method.
+     *
+     * @return weapon list
+     */
     private List<String> checkWeaponSlot2ContentsReduced() {
         List<String> l = new LinkedList<>();
         if(grid.getBoard().getW2().getCard1() != null)
@@ -1204,6 +1655,12 @@ public class Game {
         return l;
     }
 
+    /**
+     * Checks contents of weapon slot 3.
+     * GUI-exclusive method.
+     *
+     * @return weapon list
+     */
     private List<String> checkWeaponSlot3ContentsReduced() {
         List<String> l = new LinkedList<>();
         if(grid.getBoard().getW3().getCard1() != null)
@@ -1215,6 +1672,11 @@ public class Game {
         return l;
     }
 
+    /**
+     * Reveals ammo cards on each cell in an ASCII representation of the arena.
+     *
+     * @return ASCII arena
+     */
     public String showCardsOnBoard() {
         List<String> rows = new LinkedList<>();
         for(int i = 0; i < 3; i++) {
@@ -1234,95 +1696,43 @@ public class Game {
                 rows.get(8) + rows.get(9) + rows.get(10) + rows.get(11) +"\n";
     }
 
-    public boolean isValidFirstActionGrab(String nickName, List<Integer> directionList, String wCardInput, String wSlotInput, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) {
-        if(this.gameState.equals(ENDTURN))
-            this.gameState = STARTTURN;
-        if(this.gameState.equals(STARTTURN)) {
-            Player p = this.grid.getPlayerObject(nickName);
-            WeaponCard wCard = null;
-            if(!wCardInput.equals(""))
-                wCard = this.grid.getWeaponCardObject(wCardInput);
-            List<AmmoCube> lA = new LinkedList<>();
-            List<PowerUpCard> lP = new LinkedList<>();
-
-            if((!p.isAdrenaline1() && directionList.size() > 1) || (p.isAdrenaline1() && directionList.size() > 2))
-                return false;
-
-            if(!this.grid.canGhostMove(p, directionList))
-                return false;
-
-            for(Colour c : lAInput)
-                lA.add(new AmmoCube(c));
-            AmmoCube[] cubeArray = new AmmoCube[lA.size()];
-            lA.toArray(cubeArray);
-
-            if(wCard != null && wSlotInput.isEmpty())
-                return false;
-            else if(wCard != null && ((wSlotInput.equals("1") && (this.grid.ghostMove(p, directionList).getCell().getPos().getX() == 0 && this.grid.ghostMove(p, directionList).getCell().getPos().getY() == 2) && this.checkWeaponSlotContents(1).contains(wCardInput)) ||
-                        (wSlotInput.equals("2") && (this.grid.ghostMove(p, directionList).getCell().getPos().getX() == 2 && this.grid.ghostMove(p, directionList).getCell().getPos().getY() == 3) && this.checkWeaponSlotContents(2).contains(wCardInput)) ||
-                        (wSlotInput.equals("3") && (this.grid.ghostMove(p, directionList).getCell().getPos().getX() == 1 && this.grid.ghostMove(p, directionList).getCell().getPos().getY() == 0) && this.checkWeaponSlotContents(3).contains(wCardInput)))) {
-                    if(cubeArray.length != 0 && !p.checkAmmoCube(cubeArray))
-                        return false;
-                    for(int i = 0; i < lPInput.size(); i++) {
-                        if(p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))) == null)
-                            return false;
-                        lP.add(p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))));
-                    }
-                    if(!canPay(wCard, choosePayment(lA, lP)))
-                        return false;
-                }
-            return true;
-        }
-        return false;
-    }
-
-    public synchronized void firstActionGrab(String nickName, List<Integer> directions, String wCardInput, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) throws RemoteException { //directions contains where p wants to go. directions contains '0' if p doesn't want to move and only grab
-        Player p = this.grid.getPlayerObject(nickName);
-        WeaponCard wCard = this.grid.getWeaponCardObject(wCardInput);
-        List<AmmoCube> l = new LinkedList<>();
-        if(!lAInput.isEmpty()) {
-            for(Colour c : lAInput)
-                l.add(new AmmoCube(c));
-        }
-        List<PowerUpCard> lP = new LinkedList<>();
-        if(!lPInput.isEmpty()) {
-            for(int i = 0; i < lPInput.size(); i++)
-                lP.add(p.getPowerUpCardObject(lPInput.get(i), Colour.valueOf(lPColourInput.get(i))));
-        }
-        if(!(p.isAdrenaline1()))
-                grabNotAdrenaline(p, directions, wCard, l, lP);
-
-        if(p.isAdrenaline1()||p.isAdrenaline2()) {
-                grabAdrenaline(p, directions, wCard, l, lP);
-        }
-        this.gameState = ACTION1;
-    }
-
-
-
-
-//----------------------------------------------------------------------------------------------------
-
-
+    /**
+     * Determines whether or not the move (second action) parameters are valid.
+     *
+     * @param nickName   nickname
+     * @param directions direction list
+     * @return boolean
+     */
     public boolean isValidSecondActionMove(String nickName, List<Integer> directions) {
         Player p = this.grid.getPlayerObject(nickName);
         return (this.gameState.equals(ACTION1) && (!directions.isEmpty()) && (directions.size() < 4) && grid.canGhostMove(p, directions));
     }
 
-
+    /**
+     * Performs the move (second action) associated with the isValid.
+     *
+     * @param nickName   nickname
+     * @param directions direction list
+     * @throws RemoteException RMI exception
+     */
     public synchronized void secondActionMove(String nickName, List<Integer> directions ) throws RemoteException { //player p moves 1,2,3 cells: directions contains every direction from cell to cell
         Player p = this.grid.getPlayerObject(nickName);
         move(p, directions);
         this.gameState = ACTION2;
     }
 
-
-
-
-
-//----------------------------------------------------------------------------------------------------
-
-
+    /**
+     * Determines whether or not the grab (second action) parameters are valid.
+     *
+     * @param nickName      nickname
+     * @param directionList direction list
+     * @param wCardInput    weapon card
+     * @param wSlotInput    weapon slot input
+     * @param lAInput       colour list
+     * @param lPInput       powerup list
+     * @param lPColourInput powerup colour input
+     * @return boolean
+     */
     public boolean isValidSecondActionGrab(String nickName, List<Integer> directionList, String wCardInput, String wSlotInput, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) {
         if(this.gameState.equals(ACTION1)) {
             Player p = this.grid.getPlayerObject(nickName);
@@ -1363,6 +1773,17 @@ public class Game {
         return false;
     }
 
+    /**
+     * Performs the grab (second action) associated with the isValid.
+     *
+     * @param nickName      nickname
+     * @param directions direction list
+     * @param wCardInput    weapon card
+     * @param lAInput       colour list
+     * @param lPInput       powerup list
+     * @param lPColourInput powerup colour input
+     * @throws RemoteException RMI exception
+     */
     public synchronized void secondActionGrab(String nickName, List<Integer> directions, String wCardInput, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) throws RemoteException { //directions contains where p wants to go. directions contains '0' if p doesn't want to move and only grab
         Player p = this.grid.getPlayerObject(nickName);
         WeaponCard wCard = this.grid.getWeaponCardObject(wCardInput);
@@ -1385,8 +1806,19 @@ public class Game {
         this.gameState = ACTION2;
     }
 
-//----------------------------------------------------------------------------------------------------
-
+    /**
+     * Determines whether or not the shoot (second action) parameters are valid.
+     *
+     * @param nickName      nickname
+     * @param nameWC        weapon card
+     * @param lI            effect number list
+     * @param lS            various string list
+     * @param direction     direction
+     * @param lAInput       colour list
+     * @param lPInput       powerup list
+     * @param lPColourInput powerup colour list
+     * @return boolean
+     */
     public boolean isValidSecondActionShoot(String nickName, String nameWC, List<Integer> lI, List<String> lS, int direction, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) {
         Player p = this.grid.getPlayerObject(nickName);
         List<AmmoCube> lA = new LinkedList<>();
@@ -1418,6 +1850,19 @@ public class Game {
         return false;
     }
 
+    /**
+     * Performs the shoot (second action) associated with the isValid.
+     *
+     * @param nickName      nickname
+     * @param nameWC        weapon card
+     * @param lI            effect number list
+     * @param lS            various string list
+     * @param direction     direction
+     * @param lAInput       colour list
+     * @param lPInput       powerup list
+     * @param lPColourInput powerup colour list
+     * @throws RemoteException RMI exception
+     */
     public synchronized void secondActionShoot(String nickName, String nameWC, List<Integer> lI, List<String> lS, int direction, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) throws RemoteException {
         Player p = this.grid.getPlayerObject(nickName);
 
@@ -1436,9 +1881,17 @@ public class Game {
         this.gameState = ACTION2;
     }
 
-//----------------------------------------------------------------------------------------------------
-
-
+    /**
+     * Determines whether or not the powerup card use conditions are valid. There is a case statement for evvery
+     * powerup in the game.
+     *
+     * @param nickName nickname
+     * @param namePC   powerup card
+     * @param colourPC powerup colour
+     * @param lS       various string list
+     * @param c        ammo cube colour
+     * @return boolean
+     */
     public boolean isValidUsePowerUpCard(String nickName, String namePC, String colourPC, List<String> lS, Colour c) {
         Player p = this.grid.getPlayerObject(nickName);
         boolean x = false;
@@ -1492,6 +1945,16 @@ public class Game {
         return x;
     }
 
+    /**
+     * Performs the use powerup card action associated with the isValid.
+     *
+     * @param nickName nickname
+     * @param namePC   powerup card
+     * @param colourPC powerup colour
+     * @param lS       various string list
+     * @param c        ammo cube colour
+     * @throws RemoteException RMI exception
+     */
     public synchronized void usePowerUpCard(String nickName, String namePC, String colourPC, List<String> lS, Colour c) throws RemoteException {
         Player p = this.grid.getPlayerObject(nickName);
         switch(namePC) {
@@ -1524,19 +1987,25 @@ public class Game {
         this.grid.getPowerUpDiscardPile().add(p.getPowerUpCardObject(namePC, Colour.valueOf(colourPC)));
     }
 
-
-
-
-
-
-//----------------------------------------------------------------------------------------------------
-
-
+    /**
+     * Determines whether or not the reload is valid.
+     *
+     * @param nickName nickname
+     * @param s        weapon name
+     * @return boolean
+     */
     public boolean isValidReload(String nickName, String s) {
         Player p = this.grid.getPlayerObject(nickName);
         return (p.checkAmmoCube(p.getWeaponCardObject(s).getReloadCost()) && this.gameState.equals(ACTION2));
     }
 
+    /**
+     * Reloads a given weapon.
+     *
+     * @param nickName nickname
+     * @param s        weapon name
+     * @param end      end flag
+     */
     public synchronized void reload(String nickName, String s, int end) {  // end is 1 if the player has finished to reload
            Player p = this.grid.getPlayerObject(nickName);
            p.getWeaponCardObject(s).reload();
@@ -1545,7 +2014,12 @@ public class Game {
                this.gameState = RELOADED;
     }
 
-
+    /**
+     * Carries out the necessary modifications upon a player's death.
+     *
+     * @param p player
+     * @throws RemoteException RMI exception
+     */
     private void death(Player p) throws RemoteException {
        p.changeCell(null);
        if(p.getPlayerBoard().getDamage().getDamageTokens()[11] != null) {
@@ -1569,12 +2043,22 @@ public class Game {
         cardToPickAfterDeath++;
     }
 
+    /**
+     * Determines whether or not scoring should occur, i.e. at the end of a player's turn in which some player died.
+     *
+     * @return boolean
+     */
     public boolean isValidScoring() {
         if(this.gameState.equals(ACTION2))
             this.gameState = RELOADED;
         return this.gameState.equals(RELOADED) && (!this.grid.whoIsDead().isEmpty());
     }
 
+    /**
+     * Performs the scoring associated with the isValid.
+     *
+     * @throws RemoteException RMI exception
+     */
     public synchronized void scoring() throws RemoteException {
         int c = 0;
         cardToPickAfterDeath = 0;
@@ -1608,15 +2092,35 @@ public class Game {
 
     }
 
+    /**
+     * Gets dead player list.
+     *
+     * @return player list
+     */
     public List<String> getDeadList() {
         return deadList;
     }
 
+    /**
+     * Determines whether or not the action of discarding a powerup when choosing a new spawn point is valid.
+     *
+     * @param nickName nickname
+     * @param s1       powerup name
+     * @param c1       powerup colour
+     * @return boolean
+     */
     public boolean isValidDiscardCardForSpawnPoint(String nickName, String s1, String c1) {
         Player p = this.grid.getPlayerObject(nickName);
         return (p.getPowerUpCardObject(s1, Colour.valueOf(c1)) != null);
     }
 
+    /**
+     * Performs the discard powerup card action associated with the isValid.
+     *
+     * @param nickName nickname
+     * @param s1       powerup name
+     * @param c1       powerup colour
+     */
     public synchronized void discardCardForSpawnPoint(String nickName, String s1, String c1) {      //Attention to the view
         Player p = this.grid.getPlayerObject(nickName);
         PowerUpCard p1 = p.getPowerUpCardObject(s1, Colour.valueOf(c1));
@@ -1630,12 +2134,20 @@ public class Game {
             this.gameState = STARTTURN;
     }
 
+    /**
+     * Determines whether or not the elements on the board should be replaced accordingly.
+     *
+     * @return boolean
+     */
     public boolean isValidToReplace() {
         if(this.gameState.equals(RELOADED))
             this.gameState = ENDTURN;
         return this.gameState == ENDTURN;
     }
 
+    /**
+     * Replaces necessary board elements.
+     */
     public synchronized void replace() {
        this.grid.replaceAmmoCard();
        this.grid.replaceWeaponCard();
@@ -1643,19 +2155,27 @@ public class Game {
            finalFrenzy = true;
     }
 
-
-
-//-------------------------------------------------------------------------------------------------------------
     //FINAL FRENZY ACTIONS
 
     //player can do 2 actions (choosing between 1, 2, 3) if he takes his final turn before the first player
     //player can do 1 action (choosing between 4, 5) if he is the first player, or takes his final turn after the first player
 
-
+    /**
+     * Determines whether or not the game is in Final Frenzy mode.
+     *
+     * @return boolean
+     */
     public boolean isFinalFrenzy() {
         return finalFrenzy;
     }
 
+    /**
+     * Determines whether or not the chosen FF actions are valid.
+     *
+     * @param nickName nickname
+     * @param lS       action list
+     * @return boolean
+     */
     public boolean isValidFinalFrenzyAction(String nickName, List<String> lS) {
         if(!(this.gameState == STARTTURN && finalFrenzy))
             return false;
@@ -1670,6 +2190,19 @@ public class Game {
     //first action available for players who take their final turn before the first player
     //player can move up to 1 cell, reload if he wants, and then shoot
 
+    /**
+     * Determines whether or not the FF action 1 (move 1, reload, shoot) parameters are valid.
+     *
+     * @param nickName      nickname
+     * @param direction     direction
+     * @param weaponToUse   weapon name
+     * @param lI            effect number list
+     * @param lS            various strings list
+     * @param lAInput       colour list
+     * @param lPInput       powerup list
+     * @param lPColourInput powerup colour input
+     * @return boolean
+     */
     public boolean isValidFinalFrenzyAction1(String nickName, int direction, String weaponToUse, List<Integer> lI, List<String> lS, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) {
         Player p = this.grid.getPlayerObject(nickName);
         Set<Integer> lIset = new HashSet<>(lI);
@@ -1695,6 +2228,19 @@ public class Game {
 
     }
 
+    /**
+     * Performs the FF action 1 associated with the isValid.
+     *
+     * @param nickName       nickname
+     * @param direction      the direction
+     * @param weaponToUse    the weapon to use
+     * @param lI             the l i
+     * @param lS             the l s
+     * @param lAInput        the l a input
+     * @param lPInput        the l p input
+     * @param lPColourInput  the l p colour input
+     * @throws RemoteException RMI exception
+     */
     public synchronized void finalFrenzyAction1(String nickName, int direction, List<String> weaponToReload, String weaponToUse, List<Integer> lI, List<String> lS, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) throws RemoteException {
         Player p = this.grid.getPlayerObject(nickName);
 
@@ -1717,10 +2263,13 @@ public class Game {
         this.gameState = ENDTURN;
     }
 
-
-    //second action available for players who take their final turn before the first player
-    //player can move up to 4 cells
-
+    /**
+     * Determines whether or not the FF action 2 (move up to 4) parameters are valid.
+     *
+     * @param nickName   nickname
+     * @param directions direction list
+     * @return boolean
+     */
     public boolean isValidFinalFrenzyAction2(String nickName, List<Integer> directions) {
         Player p = this.grid.getPlayerObject(nickName);
         for(Integer i : directions) {
@@ -1730,6 +2279,13 @@ public class Game {
         return(finalFrenzy && directions.size() <= 4 && this.grid.canGhostMove(p, directions));
     }
 
+    /**
+     * Performs the FF action 2 associated with the isValid.
+     *
+     * @param nickName   nickname
+     * @param directions direction list
+     * @throws RemoteException RMI exception
+     */
     public synchronized void finalFrenzyAction2(String nickName, List<Integer> directions) throws RemoteException {
         Player p = this.grid.getPlayerObject(nickName);
         for(int i : directions)
@@ -1740,6 +2296,18 @@ public class Game {
     //third action available for players who take their final turn before the first player
     //player can move up to 2 cells and grab something there
 
+    /**
+     * Determines whether or not the FF action 3 (move up to 2, grab) parameters are valid.
+     *
+     * @param nickName      nickname
+     * @param directions     direction list
+     * @param wCardInput    weapon name
+     * @param wSlotInput    weapon slot
+     * @param lAInput       colour list
+     * @param lPInput       powerup list
+     * @param lPColourInput powerup colour input
+     * @return boolean
+     */
     public boolean isValidFinalFrenzyAction3(String nickName, List<Integer> directions, String wCardInput, String wSlotInput, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) {
         Player p = this.grid.getPlayerObject(nickName);
         for(Integer i : directions) {
@@ -1749,6 +2317,17 @@ public class Game {
         return(finalFrenzy && directions.size() <= 2 && this.grid.canGhostMove(p, directions) && isValidFrenzyGrab(nickName, wCardInput, wSlotInput, lAInput, lPInput, lPColourInput));
     }
 
+    /**
+     * Performs the FF action 3 associated with the isValid.
+     *
+     * @param nickName      nickname
+     * @param directions     direction list
+     * @param wCardInput    weapon name
+     * @param lAInput       colour list
+     * @param lPInput       powerup list
+     * @param lPColourInput powerup colour input
+     * @throws RemoteException RMI exception
+     */
     public synchronized void finalFrenzyAction3(String nickName, List<Integer> directions, String wCardInput, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) throws RemoteException {
         Player p = this.grid.getPlayerObject(nickName);
         WeaponCard wCard = this.grid.getWeaponCardObject(wCardInput);
@@ -1768,10 +2347,19 @@ public class Game {
         this.gameState = ENDTURN;
     }
 
-
-    //first action available for player who are the first player, or take their final turn after the first player
-    //player can move up to two cells, reload if he wants, and then shoot
-
+    /**
+     * Determines whether or not the FF action 4 parameters are valid.
+     *
+     * @param nickName      nickname
+     * @param directions    direction list
+     * @param weaponToUse   weapon name
+     * @param lI            effect number list
+     * @param lS            various strings list
+     * @param lAInput       colour list
+     * @param lPInput       powerup list
+     * @param lPColourInput powerup colour input
+     * @return boolean
+     */
     public boolean isValidFinalFrenzyAction4(String nickName, List<Integer> directions, String weaponToUse, List<Integer> lI, List<String> lS, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) {
         Player p = this.grid.getPlayerObject(nickName);
 
@@ -1797,6 +2385,20 @@ public class Game {
         return (finalFrenzy && directions.size() <= 2 && this.grid.canGhostMove(p, directions) && this.isValidShootNotAdrenaline(p, weaponToUse, lI, lS, lA, lP));
     }
 
+    /**
+     * Performs the FF action 4 associated with the isValid.
+     *
+     * @param nickName      nickname
+     * @param directions    direction list
+     * @param weaponToReload weapon to reload list
+     * @param weaponToUse   weapon name
+     * @param lI            effect number list
+     * @param lS            various strings list
+     * @param lAInput       colour list
+     * @param lPInput       powerup list
+     * @param lPColourInput powerup colour input
+     * @throws RemoteException RMI exception
+     */
     public synchronized void finalFrenzyAction4(String nickName, List<Integer> directions, List<String> weaponToReload, String weaponToUse, List<Integer> lI, List<String> lS, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) throws RemoteException {
         Player p = this.grid.getPlayerObject(nickName);
 
@@ -1820,9 +2422,18 @@ public class Game {
         this.gameState = ENDTURN;
     }
 
-    //second action available for player who are the first player, or take their final turn after the first player
-    //player can move up to three cells and grab something there
-
+    /**
+     * Determines whether or not the FF action 5 (move up to 3, grab) parameters are valid.
+     *
+     * @param nickName      nickname
+     * @param directions    direction list
+     * @param wCardInput    weapon name
+     * @param wSlotInput    weapon slot
+     * @param lAInput       colour list
+     * @param lPInput       powerup list
+     * @param lPColourInput powerup colour input
+     * @return boolean
+     */
     public boolean isValidFinalFrenzyAction5(String nickName, List<Integer> directions, String wCardInput, String wSlotInput, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) {
         Player p = this.grid.getPlayerObject(nickName);
         for(Integer i : directions) {
@@ -1832,6 +2443,17 @@ public class Game {
         return(finalFrenzy && directions.size() <= 3 && this.grid.canGhostMove(p, directions) && isValidFrenzyGrab(nickName, wCardInput, wSlotInput, lAInput, lPInput, lPColourInput));
     }
 
+    /**
+     * Performs the FF action 5 associated with the isValid.
+     *
+     * @param nickName      nickname
+     * @param directions    direction list
+     * @param wCardInput    weapon name
+     * @param lAInput       colour list
+     * @param lPInput       powerup list
+     * @param lPColourInput powerup colour input
+     * @throws RemoteException RMI exception
+     */
     public synchronized void finalFrenzyAction5(String nickName, List<Integer> directions, String wCardInput, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) throws RemoteException {
         Player p = this.grid.getPlayerObject(nickName);
         WeaponCard wCard = this.grid.getWeaponCardObject(wCardInput);
@@ -1852,9 +2474,12 @@ public class Game {
         this.gameState = ENDTURN;
     }
 
-
-    //useful methods for frenzy actions
-
+    /**
+     * Special reload case during Final Frenzy.
+     *
+     * @param p player
+     * @param s weapon name
+     */
     private void reloadFrenzy(Player p, String s) {
         if(p.checkAmmoCube(p.getWeaponCardObject(s).getReloadCost())) {
             p.getWeaponCardObject(s).reload();
@@ -1862,6 +2487,17 @@ public class Game {
         }
     }
 
+    /**
+     * Determines whether or not the FF grab parameters are valid.
+     *
+     * @param nickName player
+     * @param wCardInput weapon name
+     * @param wSlotInput weapon slot
+     * @param lAInput colour list
+     * @param lPInput powerup list
+     * @param lPColourInput powerup colour list
+     * @return boolean
+     */
     private boolean isValidFrenzyGrab(String nickName, String wCardInput, String wSlotInput, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) {
         Player p = this.grid.getPlayerObject(nickName);
         WeaponCard wCard = this.grid.getWeaponCardObject(wCardInput);
@@ -1895,6 +2531,14 @@ public class Game {
         return true;
     }
 
+    /**
+     * Performs the FF grab action assocaited with the is valid.
+     *
+     * @param p player
+     * @param wCard weapon card
+     * @param lA ammo cube list
+     * @param lP powerup list
+     */
     private void frenzyGrab(Player p, WeaponCard wCard, List<AmmoCube> lA, List<PowerUpCard> lP) {
         if(p.getCell().getStatus() == 0) {
             giveWhatIsOnAmmoCard(p, p.getCell().getA());
@@ -1910,7 +2554,11 @@ public class Game {
             this.discard = true;                    //View saved the Weapon Slot
     }
 
-
+    /**
+     * Special scoring case during Final Frenzy.
+     *
+     * @throws RemoteException RMI exception
+     */
     public synchronized void finalFrenzyTurnScoring() throws RemoteException {
         int c = 0;
         for(Player p : this.grid.whoIsDead()) {
@@ -1938,10 +2586,16 @@ public class Game {
         this.gameState = STARTTURN;
     }
 
+    /**
+     * Sets the game state to ENDALLTURN when each player has had their turn in Final Frenzy.
+     */
     public synchronized void endTurnFinalFrenzy() {
         this.gameState = ENDALLTURN;
     }
 
+    /**
+     * Final scoring of all player boards plus any bonus points before the game ends.
+     */
     public synchronized void finalScoring() {
         if(this.gameState == ENDALLTURN) {
             for(Player p : this.grid.getPlayers()) {

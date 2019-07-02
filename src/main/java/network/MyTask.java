@@ -21,7 +21,7 @@ public class MyTask extends TimerTask {
      * @param nickName   player nickname
      * @param server     server
      */
-    MyTask(int game, int identifier, String nickName, ServerInterface server) {
+    public MyTask(int game, int identifier, String nickName, ServerInterface server) {
         this.game = game;
         this.identifier = identifier;
         this.nickName = nickName;

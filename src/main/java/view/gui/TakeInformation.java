@@ -77,30 +77,17 @@ public class TakeInformation extends JPanel implements ActionListener {
         this.server.messageGameStart(game, txt1.getText(), Colour.valueOf(colour));
         gui.setType(type);
         this.server.messageReceiveType(game, type);
-        add(new JLabel("\nGENERATING ARENA . . .\n")).doLayout();
-        revalidate();
         parent.setVisible(false);
         parent.dispose();
     }
 
     private synchronized void getLessInformation() throws RemoteException, InterruptedException {
         String colour = (String)colourList.getSelectedItem();
-        JLabel errorRetry = new JLabel("Error: retry");
         gui.setType(server.getType(game));
         if(this.server.messageIsValidAddPlayer(game, txt1.getText(), Colour.valueOf(colour)) != 3) {
-            if(!errorRetry.isVisible()) {
-                errorRetry.doLayout();
-                parent.add(errorRetry);
-                errorRetry.setVisible(true);
-                revalidate();
-            }
-            b.setEnabled(true);
+            gui.askNameAndColour();
         }
         else {
-            add(new JLabel("\nWAITING FOR PLAYERS TO JOIN . . .\n")).doLayout();
-            if(errorRetry.isVisible())
-                errorRetry.setVisible(false);
-            revalidate();
             gui.setNickName(txt1.getText());
             gui.setColour(Colour.valueOf(colour));
             server.setNickName(this.game, this.identifier, txt1.getText());

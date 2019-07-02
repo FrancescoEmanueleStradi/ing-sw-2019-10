@@ -1,6 +1,7 @@
 package view.gui;
 
 import model.Colour;
+import network.MyTask;
 import network.ServerInterface;
 import view.*;
 import view.gui.actions.Action1;
@@ -17,6 +18,7 @@ import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Timer;
 
 import static javax.swing.ScrollPaneConstants.LOWER_LEFT_CORNER;
 
@@ -131,7 +133,7 @@ public class GUI implements View, Serializable {
         this.server.messageGiveTwoPUCard(game, this.nickName);
         JFrame spawnPoint = new JFrame("Spawn point selection");
         spawnPoint.setLocation(10,10);
-        Container c = spawnPoint.getContentPane();
+        Container c = spawnPoint.getContentPane();                  //TODO image
         DiscardPUC d = new DiscardPUC(this, server, game, nickName, this.server.messageGetPowerUpCard(game, this.nickName).get(0), this.server.messageGetPowerUpCard(game, this.nickName).get(1), this.server.messageGetPowerUpCardColour(game, this.nickName).get(0), this.server.messageGetPowerUpCardColour(game, this.nickName).get(1), spawnPoint);
         d.setLayout(new FlowLayout(FlowLayout.LEFT));
         c.add(d);
@@ -203,19 +205,31 @@ public class GUI implements View, Serializable {
 
     @Override
     public void usePowerUpCard() {
-        //TODO
+        MyTask task = new MyTask(game, identifier, this.getNickName(), server);
+        java.util.Timer timer = new Timer();
+        timer.schedule(task, 150000);
+
+        //todo cancel the timer
     }
 
     public void usePowerUpCard2() {
+        MyTask task = new MyTask(game, identifier, this.getNickName(), server);
+        java.util.Timer timer = new Timer();
+        timer.schedule(task, 150000);
         //TODO
     }
 
     public void usePowerUpCard3() {
+        MyTask task = new MyTask(game, identifier, this.getNickName(), server);
+        java.util.Timer timer = new Timer();
+        timer.schedule(task, 150000);
         //TODO
     }
 
     @Override
-    public boolean doYouWantToUsePUC() {
+    public boolean doYouWantToUsePUC() throws RemoteException{
+        if(server.stopGame(game))
+            this.endFinalFrenzy();
         JFrame jF = new JFrame("Power-Up Card");
         jF.setLocation(50,50);
         Container c = jF.getContentPane();
@@ -298,17 +312,33 @@ public class GUI implements View, Serializable {
     public void scoring() throws RemoteException {
         if(this.server.messageIsValidScoring(game))
             this.server.messageScoring(game);
+        this.replace();
     }
 
     @Override
     public void newSpawnPoint() throws RemoteException {
         //TODO
+
+        while(true){
+            if(server.stopGame(game))
+                this.endFinalFrenzy();
+            if(server.isMyTurn(game, identifier))
+                break;
+        }
+        if(server.isNotFinalFrenzy(game))
+            this.doYouWantToUsePUC();
+        else
+            this.finalFrenzyTurn();
     }
 
     @Override
     public void replace() throws RemoteException {
         if(this.server.messageIsValidToReplace(game))
             this.server.messageReplace(game);
+        server.finishTurn(game);
+        if(server.stopGame(game))
+            this.endFinalFrenzy();
+        this.newSpawnPoint();
     }
 
     @Override
@@ -321,6 +351,7 @@ public class GUI implements View, Serializable {
         this.server.messageEndTurnFinalFrenzy(game);
         textArea.append("We are calculating the result");
         this.gameGraphic.revalidate();
+        this.finalScoring();
     }
 
     @Override
@@ -368,7 +399,7 @@ public class GUI implements View, Serializable {
     }
 
     @Override
-    public void printType() throws RemoteException {
+    public void printType() throws RemoteException {                            //TODO image
         this.gameGraphic.setSize(1400, 1400);
         this.container = gameGraphic.getContentPane();
         if(type == 1) {

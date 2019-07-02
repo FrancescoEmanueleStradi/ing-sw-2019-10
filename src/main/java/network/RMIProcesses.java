@@ -219,6 +219,10 @@ public class RMIProcesses {
 
             }
             else if(s.equals("GUI") || s.equals("Gui") || s.equals("gui")){
+                while(true){
+                    if(centralServer.isMyTurn(game, identifier))
+                        break;
+                }
                 view.doYouWantToUsePUC();
             }
 

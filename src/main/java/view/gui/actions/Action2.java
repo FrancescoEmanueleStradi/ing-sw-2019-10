@@ -7,7 +7,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class Action2 extends JOptionPane implements ActionListener {
+public class Action2 extends JPanel implements ActionListener {
 
     private GUI gui = null;
     private GUISocket guiSocket = null;

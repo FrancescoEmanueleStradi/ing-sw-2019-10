@@ -284,13 +284,11 @@ class GameAssertTests {
 
         assertFalse(p1.getWeaponCards().get(0).isReloaded());
         assertTrue(game.isValidReload("Player 1", "Machine Gun"));
-        game.reload("Player 1", "Machine Gun", 1);
+        game.reload("Player 1", "Machine Gun");
         assertTrue(p1.getWeaponCards().get(0).isReloaded());
         for(AmmoCube ac : p1.getAmmoCubes()) {
             assertNull(ac);
         }
-
-        assertEquals(GameState.RELOADED, game.getGameState());
 
 
         //Scoring

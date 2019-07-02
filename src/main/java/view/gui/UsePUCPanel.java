@@ -29,22 +29,24 @@ public class UsePUCPanel extends JPanel implements ActionListener {
         add(new JLabel("The following are " + this.nickName + "'s PowerUpCards")).setBounds(0, 0, 5, 5);
         add(new JLabel("Enter the name of the card you want to use")).doLayout();
 
-        for (int i = 0; i < this.server.messageGetPowerUpCard(game, nickName).size(); i++)
+        for (int i = 0; i < this.server.messageGetPowerUpCard(game, nickName).size(); i++) {
             add(new JButton(this.server.messageGetPowerUpCard(game, nickName).get(i) + "coloured" + this.server.messageGetPowerUpCardColour(game, nickName).get(i))).doLayout();
+            add(new JLabel(server.messageGetDescriptionPUC(game, this.server.messageGetPowerUpCard(game, nickName).get(i), this.server.messageGetPowerUpCardColour(game, nickName).get(i), this.nickName))).doLayout();
+        }
 
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        try {
+        //try {
             String action = e.getSource().toString();
             switch(action){
-                case "Tagback Grenade":
-                    gui.TGPUC(timer, turn);
+                /*case "Tagback Grenade coloured BLUE ":                //TODO
+                    gui.TGPUC(timer, turn, BLUE);
                     break;
 
                 case "Targeting Scope":
-                    gui.TSPUC(timer, turn);
+                    gui.TSPUCPanel(timer, turn);
                     break;
 
                 case "Newton":
@@ -54,17 +56,17 @@ public class UsePUCPanel extends JPanel implements ActionListener {
                 case "Teleporter":
                     gui.TPUC(timer, turn);
                     break;
-                default: break;
+                default: break;*/
             }
             parent.setVisible(false);
             parent.dispose();
 
-        }
-         catch (RemoteException r) {
+       //}
+         /*catch (RemoteException r) {
 
         } catch (InterruptedException i) {
 
-        }
+        }*/
     }
 
 }

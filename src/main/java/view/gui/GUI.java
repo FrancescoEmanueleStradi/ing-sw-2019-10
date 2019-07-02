@@ -242,20 +242,44 @@ public class GUI implements View, Serializable {
         jF.setVisible(true);
     }
 
-    public void TGPUC(Timer timer, int turn) throws RemoteException, InterruptedException{
-
+    public void TGPUC(Timer timer, int turn, String col) throws RemoteException, InterruptedException{
+        JFrame jF = new JFrame("Effect");
+        jF.setLocation(150,150);
+        Container c = jF.getContentPane();
+        TGPUCPanel u = new TGPUCPanel(this, server, jF , game, nickName, timer, turn, col);
+        c.add(u);
+        jF.setSize(400,400);
+        jF.setVisible(true);
     }
 
-    public void TSPUC(Timer timer, int turn) throws RemoteException, InterruptedException{
-
+    public void TSPUC(Timer timer, int turn, String col) throws RemoteException, InterruptedException{
+        JFrame jF = new JFrame("Effect");
+        jF.setLocation(150,150);
+        Container c = jF.getContentPane();
+        TSPUCPanel u = new TSPUCPanel(this, server, jF , game, nickName, timer, turn, col);
+        c.add(u);
+        jF.setSize(400,400);
+        jF.setVisible(true);
     }
 
-    public void NPUC(Timer timer, int turn) throws RemoteException, InterruptedException{
-
+    public void NPUC(Timer timer, int turn, String col) throws RemoteException, InterruptedException{
+        JFrame jF = new JFrame("Effect");
+        jF.setLocation(150,150);
+        Container c = jF.getContentPane();
+        NPUCPanel u = new NPUCPanel(this, server, jF , game, nickName, timer, turn, col);
+        c.add(u);
+        jF.setSize(400,400);
+        jF.setVisible(true);
     }
 
-    public void TPUC(Timer timer, int turn) throws RemoteException, InterruptedException{
-
+    public void TPUC(Timer timer, int turn, String col) throws RemoteException, InterruptedException{
+        JFrame jF = new JFrame("Effect");
+        jF.setLocation(150,150);
+        Container c = jF.getContentPane();
+        TPUCPanel u = new TPUCPanel(this, server, jF , game, nickName, timer, turn, col);
+        c.add(u);
+        jF.setSize(400,400);
+        jF.setVisible(true);
     }
 
     @Override

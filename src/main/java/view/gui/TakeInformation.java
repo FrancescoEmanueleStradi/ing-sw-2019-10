@@ -50,7 +50,7 @@ public class TakeInformation extends JPanel implements ActionListener {
         add(b);
     }
 
-    public synchronized void actionPerformed(ActionEvent e) {
+    public void actionPerformed(ActionEvent e) {
         try {
             b.setEnabled(false);
             if(identifier == 1) {
@@ -67,7 +67,7 @@ public class TakeInformation extends JPanel implements ActionListener {
 
     }
 
-    private synchronized void getInformation()  throws RemoteException, InterruptedException {
+    private void getInformation()  throws RemoteException, InterruptedException {
         String colour = (String)colourList.getSelectedItem();
         Integer type = (Integer)arenaList.getSelectedItem();
 
@@ -81,7 +81,7 @@ public class TakeInformation extends JPanel implements ActionListener {
         parent.dispose();
     }
 
-    private synchronized void getLessInformation() throws RemoteException, InterruptedException {
+    private void getLessInformation() throws RemoteException, InterruptedException {
         String colour = (String)colourList.getSelectedItem();
         gui.setType(server.getType(game));
         if(this.server.messageIsValidAddPlayer(game, txt1.getText(), Colour.valueOf(colour)) != 3) {

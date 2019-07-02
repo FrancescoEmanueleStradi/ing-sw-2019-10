@@ -3,6 +3,7 @@ package view.gui;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.rmi.RemoteException;
 
 public class WantUsePUCPanel2 extends JPanel implements ActionListener {
 
@@ -39,6 +40,8 @@ public class WantUsePUCPanel2 extends JPanel implements ActionListener {
             }
 
         }catch (InterruptedException i) {
+
+        }catch (RemoteException ex){
 
         }
     }

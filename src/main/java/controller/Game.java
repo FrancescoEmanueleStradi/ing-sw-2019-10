@@ -2004,14 +2004,11 @@ public class Game {
      *
      * @param nickName nickname
      * @param s        weapon name
-     * @param end      end flag
      */
-    public synchronized void reload(String nickName, String s, int end) {  // end is 1 if the player has finished to reload
+    public synchronized void reload(String nickName, String s) {
            Player p = this.grid.getPlayerObject(nickName);
            p.getWeaponCardObject(s).reload();
            p.removeArrayAC(p.getWeaponCardObject(s).getReloadCost());
-           if(end == 1)
-               this.gameState = RELOADED;
     }
 
     /**
@@ -2049,9 +2046,7 @@ public class Game {
      * @return boolean
      */
     public boolean isValidScoring() {
-        if(this.gameState.equals(ACTION2))
-            this.gameState = RELOADED;
-        return this.gameState.equals(RELOADED) && (!this.grid.whoIsDead().isEmpty());
+        return this.gameState.equals(ACTION2) && (!this.grid.whoIsDead().isEmpty());
     }
 
     /**
@@ -2132,17 +2127,6 @@ public class Game {
         this.deadList.remove(nickName);
         if(this.deadList.isEmpty())
             this.gameState = STARTTURN;
-    }
-
-    /**
-     * Determines whether or not the elements on the board should be replaced accordingly.
-     *
-     * @return boolean
-     */
-    public boolean isValidToReplace() {
-        if(this.gameState.equals(RELOADED))
-            this.gameState = ENDTURN;
-        return this.gameState == ENDTURN;
     }
 
     /**

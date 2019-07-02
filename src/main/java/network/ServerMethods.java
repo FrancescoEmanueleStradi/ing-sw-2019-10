@@ -776,8 +776,8 @@ public class ServerMethods extends UnicastRemoteObject implements ServerInterfac
         return games.get(game).isValidReload(nick, s);
     }
 
-    public synchronized void messageReload(int game, String nick, String s, int end) throws RemoteException {
-        games.get(game).reload(nick, s, end);
+    public synchronized void messageReload(int game, String nick, String s) throws RemoteException {
+        games.get(game).reload(nick, s);
     }
 
     public synchronized boolean messageIsValidScoring(int game) throws RemoteException {
@@ -798,10 +798,6 @@ public class ServerMethods extends UnicastRemoteObject implements ServerInterfac
 
     public synchronized void messageDiscardCardForSpawnPoint(int game, String nick, String s, String c) throws RemoteException {
         games.get(game).discardCardForSpawnPoint(nick, s, c);
-    }
-
-    public synchronized boolean messageIsValidToReplace(int game) throws RemoteException {
-        return games.get(game).isValidToReplace();
     }
 
     public synchronized void messageReplace(int game) throws RemoteException {

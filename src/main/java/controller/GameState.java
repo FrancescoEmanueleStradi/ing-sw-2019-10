@@ -18,8 +18,6 @@ public enum GameState {
 
     ENDTURN("ET"),
 
-    RELOADED("R"),
-
     ENDGAME("EG"),
 
     ENDALLTURN("EAT");

@@ -1021,23 +1021,18 @@ public class CLI extends UnicastRemoteObject implements View {
     public void reload() throws RemoteException {
         Scanner in = new Scanner(System.in);
         this.server.messageGetWeaponCardUnloaded(game, this.nickName).forEach(System.out::println);
-        int i = 0;
 
-        while(i == 0) {
+        String reloadChoice;
+
+        do {
             System.out.println("Choose the weapon card you want to reload, or enter 'end' if you don't need/want to");
-            String s = in.nextLine();
+            reloadChoice = in.nextLine();
 
-            if(s.equals("end"))
-                break;
-
-            System.out.println("Enter 0 if you want to reload another card, otherwise 1");
-            i = in.nextInt();
-
-            if(this.server.messageIsValidReload(game, this.nickName, s))
-                this.server.messageReload(game, this.nickName, s, i);
+            if (this.server.messageIsValidReload(game, this.nickName, reloadChoice))
+                this.server.messageReload(game, this.nickName, reloadChoice);
             else
-                System.out.println("You can't reload now");
-        }
+                System.out.println("You don't have enough ammo to reload the chosen weapon :(");
+        }while(!reloadChoice.equals("end"));
     }
 
     public void scoring() throws RemoteException {
@@ -1074,15 +1069,9 @@ public class CLI extends UnicastRemoteObject implements View {
     }
 
     public void replace() throws RemoteException {
-        if(this.server.messageIsValidToReplace(game)) {
-            System.out.println("Replacing...");
-            this.server.messageReplace(game);
-            System.out.println("Your turn has ended. Wait for other players to play their turn.");
-        }
-        else {
-            System.out.println("It's not time to replace yet.");
-            System.out.println("Your turn has ended. Wait for other players to play their turn.");
-        }
+        System.out.println("Replacing...");
+        this.server.messageReplace(game);
+        System.out.println("Your turn has ended. Wait for other players to play their turn.");
     }
 
     public void finalFrenzyTurn()throws RemoteException {

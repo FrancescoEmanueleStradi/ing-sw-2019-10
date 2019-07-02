@@ -145,7 +145,7 @@ public interface ServerInterface extends Remote {
 
     boolean messageIsValidReload(int game, String nick, String s) throws RemoteException;
 
-    void messageReload(int game, String nick, String s, int end) throws RemoteException;
+    void messageReload(int game, String nick, String s) throws RemoteException;
 
     boolean messageIsValidScoring(int game) throws RemoteException;
 
@@ -156,8 +156,6 @@ public interface ServerInterface extends Remote {
     boolean messageIsValidDiscardCardForSpawnPoint(int game, String nick, String s, String c) throws RemoteException;
 
     void messageDiscardCardForSpawnPoint(int game, String nick, String s, String c) throws RemoteException;
-
-    boolean messageIsValidToReplace(int game) throws RemoteException;
 
     void messageReplace(int game) throws RemoteException;
 

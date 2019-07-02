@@ -1424,21 +1424,16 @@ public class CLISocket extends UnicastRemoteObject implements View {
         for(int i = 0; i < size; i++)
             System.out.println(socketIn.nextLine());
 
-        int i = 0;
+        String reloadChoice;
 
-        while(i == 0) {
+        do {
             System.out.println("Choose the weapon card you want to reload, or enter 'end' if you don't need/want to");
-            String s = in.nextLine();
-            if(s.equals("end"))
-                break;
-
-            System.out.println("Enter 0 if you want to reload another card, otherwise 1");
-            i = in.nextInt();
+            reloadChoice = in.nextLine();
 
             socketOut.println("Message Is Valid Reload");
             socketOut.println(game);
             socketOut.println(nickName);
-            socketOut.println(s);
+            socketOut.println(reloadChoice);
 
             String isValidReload = socketIn.nextLine();
 
@@ -1446,12 +1441,11 @@ public class CLISocket extends UnicastRemoteObject implements View {
                 socketOut.println("Message Reload");
                 socketOut.println(game);
                 socketOut.println(nickName);
-                socketOut.println(s);
-                socketOut.println(i);
+                socketOut.println(reloadChoice);
             }
             else
-                System.out.println("You can't reload now");
-        }
+                System.out.println("You don't have enough ammo to reload the chosen weapon :(");
+        }while(!reloadChoice.equals("end"));
     }
 
     public void scoring() {
@@ -1513,21 +1507,10 @@ public class CLISocket extends UnicastRemoteObject implements View {
     }
 
     public void replace() {
-        socketOut.println("Message Is Valid To Replace");
+        System.out.println("Replacing...");
+        socketOut.println("Message Replace");
         socketOut.println(game);
-
-        String isValidReplace = socketIn.nextLine();
-
-        if(isValidReplace.equals("true")) {
-            System.out.println("Replacing...");
-            socketOut.println("Message Replace");
-            socketOut.println(game);
-            System.out.println("Your turn has ended. Wait for other players to play their turn.");
-        }
-        else {
-            System.out.println("It's not time to replace yet.");
-            System.out.println("Your turn has ended. Wait for other players to play their turn.");
-        }
+        System.out.println("Your turn has ended. Wait for other players to play their turn.");
     }
 
     public void finalFrenzyTurn() {

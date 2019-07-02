@@ -15,6 +15,7 @@ import java.awt.*;
 import javax.swing.*;
 
 import java.io.Serializable;
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.LinkedList;
 import java.util.List;
@@ -204,26 +205,59 @@ public class GUI implements View, Serializable {
     }
 
     @Override
-    public void usePowerUpCard() {
+    public void usePowerUpCard() throws RemoteException{                    //TODO image
         MyTask task = new MyTask(game, identifier, this.getNickName(), server);
-        java.util.Timer timer = new Timer();
+        Timer timer = new Timer();
         timer.schedule(task, 150000);
-
-        //todo cancel the timer
+        JFrame jF = new JFrame("Use Power-Up Card");
+        jF.setLocation(150,150);
+        Container c = jF.getContentPane();
+        UsePUCPanel u = new UsePUCPanel(this, server, jF , game, nickName, timer, 1);
+        c.add(u);
+        jF.setSize(400,400);
+        jF.setVisible(true);
     }
 
-    public void usePowerUpCard2() {
+    public void usePowerUpCard2() throws RemoteException{
         MyTask task = new MyTask(game, identifier, this.getNickName(), server);
-        java.util.Timer timer = new Timer();
+        Timer timer = new Timer();
         timer.schedule(task, 150000);
-        //TODO
+        JFrame jF = new JFrame("Use Power-Up Card");
+        jF.setLocation(150,150);
+        Container c = jF.getContentPane();
+        UsePUCPanel u = new UsePUCPanel(this, server, jF , game, nickName, timer, 2);
+        c.add(u);
+        jF.setSize(400,400);
+        jF.setVisible(true);
     }
 
-    public void usePowerUpCard3() {
+    public void usePowerUpCard3() throws RemoteException {
         MyTask task = new MyTask(game, identifier, this.getNickName(), server);
-        java.util.Timer timer = new Timer();
+        Timer timer = new Timer();
         timer.schedule(task, 150000);
-        //TODO
+        JFrame jF = new JFrame("Use Power-Up Card");
+        jF.setLocation(150,150);
+        Container c = jF.getContentPane();
+        UsePUCPanel u = new UsePUCPanel(this, server, jF , game, nickName, timer, 3);
+        c.add(u);
+        jF.setSize(400,400);
+        jF.setVisible(true);
+    }
+
+    public void TGPUC(Timer timer, int turn) throws RemoteException, InterruptedException{
+
+    }
+
+    public void TSPUC(Timer timer, int turn) throws RemoteException, InterruptedException{
+
+    }
+
+    public void NPUC(Timer timer, int turn) throws RemoteException, InterruptedException{
+
+    }
+
+    public void TPUC(Timer timer, int turn) throws RemoteException, InterruptedException{
+
     }
 
     @Override

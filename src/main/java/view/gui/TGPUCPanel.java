@@ -56,6 +56,8 @@ public class TGPUCPanel extends JPanel implements ActionListener {
             else {
                 gui.usePowerUpCard();
             }
+            parent.setVisible(false);
+            parent.dispose();
         } catch (RemoteException ex) {
 
         } catch (InterruptedException exc){

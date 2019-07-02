@@ -1,17 +1,22 @@
-package view.gui;
+package view.gui.socket;
 
-import network.ServerInterface;
+import view.gui.CardLinkList;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.Socket;
 import java.rmi.RemoteException;
+import java.util.Scanner;
 
-public class DiscardPUC extends JPanel implements ActionListener {
+public class DiscardPUCSocket extends JPanel implements ActionListener {
 
-    private GUI gui;
-    private ServerInterface server;
+    private GUISocket gui;
+    private Socket socket;
+    private PrintWriter socketOut;
+    private Scanner socketIn;
     private JFrame parent;
     private int game;
     private JButton firstButton;
@@ -23,10 +28,12 @@ public class DiscardPUC extends JPanel implements ActionListener {
     private String c2;
 
 
-    public DiscardPUC(GUI gui, ServerInterface server, int game, String nickName, String n1, String n2, String c1, String c2, JFrame parent) throws RemoteException{
+    public DiscardPUCSocket(GUISocket gui, Socket socket, int game, String nickName, String n1, String n2, String c1, String c2, JFrame parent) throws IOException {
         super();
         this.gui = gui;
-        this.server = server;
+        this.socket = socket;
+        this.socketOut = new PrintWriter(socket.getOutputStream(), true);
+        this.socketIn = new Scanner(socket.getInputStream());
         this.parent = parent;
         this.game = game;
         this.nickName = nickName;
@@ -52,18 +59,49 @@ public class DiscardPUC extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         try {
             JButton action = (JButton)e.getSource();
+            String isValidPickAndDiscard;
             if(action == firstButton) {
-                while(!this.server.messageIsValidPickAndDiscard(game, nickName, n1, c1))
+                do {
+                    socketOut.println("Message Is Valid Pick And Discard");
+                    socketOut.println(game);
+                    socketOut.println(nickName);
+                    socketOut.println(n1);
+                    socketOut.println(c1);
+
+                    isValidPickAndDiscard = socketIn.nextLine();
+
                     gui.selectSpawnPoint();
-                server.messagePickAndDiscardCard(game, nickName, n1, c1);
+                }while(isValidPickAndDiscard.equals("true"));
+
+                socketOut.println("Message Pick And Discard");
+                socketOut.println(game);
+                socketOut.println(nickName);
+                socketOut.println(n1);
+                socketOut.println(c1);
+
                 parent.setVisible(false);
                 parent.dispose();
                 gui.printType();
             }
             else if(action == secondButton) {
-                while(!this.server.messageIsValidPickAndDiscard(game, nickName, n2, c2))
+                do {
+                    socketOut.println("Message Is Valid Pick And Discard");
+                    socketOut.println(game);
+                    socketOut.println(nickName);
+                    socketOut.println(n2);
+                    socketOut.println(c2);
+
+                    isValidPickAndDiscard = socketIn.nextLine();
+
                     gui.selectSpawnPoint();
-                server.messagePickAndDiscardCard(game, nickName, n2, c2);
+                }while(isValidPickAndDiscard.equals("true"));
+
+                socketOut.println("Message Pick And Discard");
+                socketOut.println(game);
+                socketOut.println(nickName);
+                socketOut.println(n2);
+                socketOut.println(c2);
+
                 parent.setVisible(false);
                 parent.dispose();
                 gui.printType();

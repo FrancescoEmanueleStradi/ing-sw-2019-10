@@ -43,6 +43,8 @@ public class WantUsePUCPanel extends JPanel implements ActionListener {
 
         }catch (InterruptedException i) {
 
+        }catch (RemoteException ex){
+
         }
     }
 }

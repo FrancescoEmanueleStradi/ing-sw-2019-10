@@ -27,10 +27,13 @@ public class UsePUCPanel extends JPanel implements ActionListener {
         this.timer = timer;
         this.turn = turn;
         add(new JLabel("The following are " + this.nickName + "'s PowerUpCards")).setBounds(0, 0, 5, 5);
-        add(new JLabel("Enter the name of the card you want to use")).doLayout();
+        add(new JLabel("Press the button near the card you want to use")).doLayout();
 
-        for (int i = 0; i < this.server.messageGetPowerUpCard(game, nickName).size(); i++)
-            add(new JButton(this.server.messageGetPowerUpCard(game, nickName).get(i) + "coloured" + this.server.messageGetPowerUpCardColour(game, nickName).get(i))).doLayout();
+        for (int i = 0; i < this.server.messageGetPowerUpCard(game, nickName).size(); i++) {
+            add(new JLabel(this.server.messageGetPowerUpCard(game, nickName).get(i) + "coloured" + this.server.messageGetPowerUpCardColour(game, nickName).get(i))).doLayout();
+            add(new JButton(Integer.toString(i))).doLayout();
+            add(new JLabel(server.messageGetDescriptionPUC(game, this.server.messageGetPowerUpCard(game, nickName).get(i), this.server.messageGetPowerUpCardColour(game, nickName).get(i), this.nickName))).doLayout();
+        }
 
     }
 
@@ -38,28 +41,28 @@ public class UsePUCPanel extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         try {
             String action = e.getSource().toString();
-            switch(action){
+            switch(this.server.messageGetPowerUpCard(game, nickName).get(Integer.parseInt(action))){
                 case "Tagback Grenade":
-                    gui.TGPUC(timer, turn);
+                    gui.TGPUC(timer, turn, this.server.messageGetPowerUpCardColour(game, nickName).get(Integer.parseInt(action)));
                     break;
 
                 case "Targeting Scope":
-                    gui.TSPUC(timer, turn);
+                    gui.TSPUC(timer, turn, this.server.messageGetPowerUpCardColour(game, nickName).get(Integer.parseInt(action)));
                     break;
 
                 case "Newton":
-                    gui.NPUC(timer, turn);
+                    gui.NPUC(timer, turn, this.server.messageGetPowerUpCardColour(game, nickName).get(Integer.parseInt(action)));
                     break;
 
                 case "Teleporter":
-                    gui.TPUC(timer, turn);
+                    gui.TPUC(timer, turn, this.server.messageGetPowerUpCardColour(game, nickName).get(Integer.parseInt(action)));
                     break;
                 default: break;
             }
             parent.setVisible(false);
             parent.dispose();
 
-        }
+       }
          catch (RemoteException r) {
 
         } catch (InterruptedException i) {

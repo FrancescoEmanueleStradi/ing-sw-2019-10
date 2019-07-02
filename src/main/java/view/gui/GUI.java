@@ -274,7 +274,7 @@ public class GUI implements View, Serializable {
         return true;
     }
 
-    public boolean doYouWantToUsePUC2() {
+    public void doYouWantToUsePUC2() {
         JFrame jF = new JFrame("Power-Up Card");
         jF.setLocation(50,50);
         Container c = jF.getContentPane();
@@ -282,10 +282,9 @@ public class GUI implements View, Serializable {
         c.add(w);
         jF.setSize(400,400);
         jF.setVisible(true);
-        return true;
     }
 
-    public boolean doYouWantToUsePUC3() {
+    public void doYouWantToUsePUC3() {
         JFrame jF = new JFrame("Power-Up Card");
         jF.setLocation(50,50);
         Container c = jF.getContentPane();
@@ -293,7 +292,6 @@ public class GUI implements View, Serializable {
         c.add(w);
         jF.setSize(400,400);
         jF.setVisible(true);
-        return true;
     }
 
     @Override

@@ -65,8 +65,6 @@ public class Action2 extends JPanel implements ActionListener {
             parent.dispose();
         }catch (InterruptedException i) {
 
-        }catch (IOException er){
-
         }
     }
 }

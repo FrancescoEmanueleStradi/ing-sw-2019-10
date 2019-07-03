@@ -166,12 +166,22 @@ public class GUI implements View, Serializable {
 
     public synchronized void grabFirstAction() throws InterruptedException {
         JFrame grab = new JFrame("First action - grab");
-        grab.add(new Grab1(this, server, game, identifier, nickName));
+        grab.setLocation(50,50);
+        Container c = grab.getContentPane();
+        Grab1 grab1 = new Grab1(this, server, game, identifier, nickName);
+        c.add(grab1);
+        grab.setSize(500,500);
+        grab.setVisible(true);
     }
 
     public synchronized void shootFirstAction() throws RemoteException, InterruptedException {
         JFrame shoot = new JFrame("First action - shoot");
-        shoot.add(new Shoot1(this, server, game, identifier, nickName));
+        shoot.setLocation(50,50);
+        Container c = shoot.getContentPane();
+        Shoot1 shoot1 = new Shoot1(this, server, game, identifier, nickName);
+        c.add(shoot1);
+        shoot.setSize(500,500);
+        shoot.setVisible(true);
     }
 
     @Override
@@ -196,11 +206,23 @@ public class GUI implements View, Serializable {
     }
 
     public synchronized void grabSecondAction() throws InterruptedException {
-        JFrame move = new JFrame("Second action - grab");
+        JFrame grab = new JFrame("Second action - grab");
+        grab.setLocation(50,50);
+        Container c = grab.getContentPane();
+        //Grab2 grab2 = new Grab2(this, server, game, identifier, nickName);
+        //c.add(grab2);
+        grab.setSize(500,500);
+        grab.setVisible(true);
     }
 
     public synchronized void shootSecondAction() throws InterruptedException {
-
+        JFrame shoot = new JFrame("Second action - shoot");
+        shoot.setLocation(50,50);
+        Container c = shoot.getContentPane();
+        //Shoot2 shoot2 = new Shoot2(this, server, game, identifier, nickName);
+        //c.add(shoot2);
+        shoot.setSize(500,500);
+        shoot.setVisible(true);
     }
 
     @Override

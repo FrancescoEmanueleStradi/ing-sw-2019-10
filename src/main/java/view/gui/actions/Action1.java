@@ -32,10 +32,10 @@ public class Action1 extends JPanel implements ActionListener {
         add(moveButton).doLayout();
         moveButton.addActionListener(this);
         grabButton = new JButton("Grab");
-        add(moveButton).doLayout();
+        add(grabButton).doLayout();
         grabButton.addActionListener(this);
         shootButton = new JButton("Shoot");
-        add(moveButton).doLayout();
+        add(shootButton).doLayout();
         shootButton.addActionListener(this);
     }
 

@@ -190,19 +190,27 @@ public class GUISocket implements View, Serializable {
         action.setVisible(true);
     }
 
-    public synchronized void moveFirstAction() throws IOException {
-        JFrame move = new JFrame("First action - move");
-        move.setLocation(50,50);
-        Container c = move.getContentPane();
-        Move1Socket move1 = new Move1Socket(this, socket, game, identifier, nickName, move);
-        c.add(move1);
-        move.setSize(400, 400);
-        move.setVisible(true);
+    public synchronized void moveFirstAction(){
+        try {
+            JFrame move = new JFrame("First action - move");
+            move.setLocation(50, 50);
+            Container c = move.getContentPane();
+            Move1Socket move1 = new Move1Socket(this, socket, game, identifier, nickName, move);
+            c.add(move1);
+            move.setSize(400, 400);
+            move.setVisible(true);
+        }catch (IOException e){
+
+        }
     }
 
-    public synchronized void grabFirstAction() throws IOException {
-        JFrame grab = new JFrame("First action - grab");
-        grab.add(new Grab1Socket(this, socket, game, identifier, nickName));
+    public synchronized void grabFirstAction()  {
+        try {
+            JFrame grab = new JFrame("First action - grab");
+            grab.add(new Grab1Socket(this, socket, game, identifier, nickName));
+        }catch (IOException e){
+
+        }
     }
 
     public synchronized void shootFirstAction() throws RemoteException, InterruptedException {

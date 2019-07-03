@@ -31,10 +31,10 @@ public class Action2 extends JPanel implements ActionListener {
         add(moveButton).doLayout();
         moveButton.addActionListener(this);
         grabButton = new JButton("Grab");
-        add(moveButton).doLayout();
+        add(grabButton).doLayout();
         grabButton.addActionListener(this);
         shootButton = new JButton("Shoot");
-        add(moveButton).doLayout();
+        add(shootButton).doLayout();
         shootButton.addActionListener(this);
     }
 
@@ -64,8 +64,6 @@ public class Action2 extends JPanel implements ActionListener {
             action.setEnabled(false);
             parent.dispose();
         }catch (InterruptedException i) {
-
-        }catch (IOException er){
 
         }
     }

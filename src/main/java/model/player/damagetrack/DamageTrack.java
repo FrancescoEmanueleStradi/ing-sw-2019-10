@@ -108,11 +108,10 @@ public class DamageTrack {
         this.tie();
     }
 
-    //TODO
     /**
-     * Player's scoreboard.
+     * Player's scoreboard, calculated at the end of each turn, if kills are made.
      *
-     * @return the list
+     * @return the scoreboard list
      */
     public List<Colour> scoreBoard() {
         this.listNumColour();
@@ -132,7 +131,6 @@ public class DamageTrack {
         return scoreBoard().get(n);
     }
 
-    //TODO
     /**
      * Sorts NumColour list in ascending order based on the difference between colour occurrences.
      *

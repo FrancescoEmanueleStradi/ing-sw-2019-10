@@ -21,18 +21,18 @@ public class KillTrack {
     private Colour[] c;
     private List<NumColour> l;
 
-    //TODO colour?
     /**
      * Creates a new killtrack filled with skulls.
+     * It also creates an empty array of Colour: every time a player is killed, the colour of the killer is added
+     * in the array, at the same position as the removed skull.
      */
     KillTrack() {
         skulls = new int[]{0,0,0,0,0,0,0,0};
         c = new Colour[8];
     }
 
-    //TODO
     /**
-     * Gets colours of damage token(s) on killtrack.
+     * Gets colours of damage token(s) on killtrack, representing the colour of the killers.
      *
      * @return colours
      */
@@ -109,11 +109,10 @@ public class KillTrack {
         this.tie();
     }
 
-    //TODO
     /**
-     * Player's scoreboard.
+     * Player's scoreboard, calculated at the end of the game and based on the killtrack.
      *
-     * @return the list
+     * @return the scoreboard list
      */
     public List<Colour> scoreBoard() {
         this.listNumColour();
@@ -133,7 +132,6 @@ public class KillTrack {
         return scoreBoard().get(n);
     }
 
-    //TODO
     /**
      * Sorts NumColour list in ascending order based on the difference between colour occurrences.
      *

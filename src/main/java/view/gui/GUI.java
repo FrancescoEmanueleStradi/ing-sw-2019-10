@@ -449,6 +449,7 @@ public class GUI implements View, Serializable {
             //R12Grid.setSize(10, 10);
             gameGraphic.add(L14Grid).setBounds(700, 700, 400, 400);
             gameGraphic.add(R12Grid).setBounds(1000, 700, 400, 400);
+            gameGraphic.pack();
             //this.container.add(L14Grid).setSize(10,10);
             //this.container.add(R12Grid).setSize(10,10);
         }

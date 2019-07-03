@@ -1,4 +1,4 @@
-package model;
+package model.board;
 
 /**
  * A position is merely one of the cell's properties expressed in x and y coordinates.

@@ -1,7 +1,7 @@
 package model.player;
 
 import model.Colour;
-import model.Position;
+import model.board.Position;
 import model.board.Cell;
 import model.cards.PowerUpCard;
 import model.cards.WeaponCard;

@@ -1,7 +1,6 @@
 package model.board;
 
 import model.Colour;
-import model.Position;
 import model.cards.AmmoCard;
 import model.cards.WeaponCard;
 import model.cards.ammocards.PRB;

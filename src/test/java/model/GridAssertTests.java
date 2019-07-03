@@ -1,6 +1,7 @@
 package model;
 
 import model.board.Cell;
+import model.board.Position;
 import model.cards.PowerUpCard;
 import model.cards.WeaponCard;
 import model.player.Player;

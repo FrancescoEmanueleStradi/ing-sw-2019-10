@@ -65,7 +65,7 @@ public class Action1 extends JPanel implements ActionListener {
             action.setEnabled(false);
             parent.dispose();
         }catch (InterruptedException | RemoteException i) {
-            //TODO
+
         }catch (IOException er){
 
         }

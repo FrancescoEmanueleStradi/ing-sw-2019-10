@@ -1,5 +1,6 @@
 package view.gui.socket;
 
+import network.ServerInterface;
 import view.gui.GUI;
 
 import javax.swing.*;
@@ -8,12 +9,13 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.rmi.RemoteException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Timer;
 
-public class Move1Socket extends JPanel implements ActionListener {
+public class Move2Socket extends JPanel implements ActionListener {
 
     private GUISocket gui;
     private Socket socket;
@@ -36,7 +38,7 @@ public class Move1Socket extends JPanel implements ActionListener {
     private JTextField txt2;
     private JTextField txt3;*/
 
-    public Move1Socket(GUISocket gui, Socket socket, int game, int identifier, String nickName, JFrame parent, Timer timer) throws IOException {
+    public Move2Socket(GUISocket gui, Socket socket, int game, int identifier, String nickName, JFrame parent, Timer timer) throws IOException {
         super();
         this.gui = gui;
         this.socket = socket;
@@ -85,7 +87,7 @@ public class Move1Socket extends JPanel implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             JButton direction = (JButton) e.getSource();
-            if(dirCount >= 1 && dirCount <= 3)
+            while(dirCount >= 1 && dirCount <= 3)
                 b.setEnabled(true);
 
             if(direction == reset) {
@@ -96,63 +98,67 @@ public class Move1Socket extends JPanel implements ActionListener {
                 upArrow.setEnabled(true);
                 downArrow.setEnabled(true);
             }
-            else {
-                if(direction == leftArrow)
-                    directions.add(4);
-                else if(direction == rightArrow)
-                    directions.add(2);
-                else if(direction == upArrow)
-                    directions.add(1);
-                else if(direction == downArrow)
-                    directions.add(3);
-                dirCount++;
 
-                if(dirCount == 3) {
-                    leftArrow.setEnabled(false);
-                    rightArrow.setEnabled(false);
-                    upArrow.setEnabled(false);
-                    downArrow.setEnabled(false);
-                }
+            if(direction == leftArrow)
+                directions.add(4);
+            else if(direction == rightArrow)
+                directions.add(2);
+            else if(direction == upArrow)
+                directions.add(1);
+            else if(direction == downArrow)
+                directions.add(3);
+            dirCount++;
+
+            if(dirCount == 3) {
+                leftArrow.setEnabled(false);
+                rightArrow.setEnabled(false);
+                upArrow.setEnabled(false);
+                downArrow.setEnabled(false);
             }
         }
     }
 
     public synchronized void actionPerformed(ActionEvent e) {
-        timer.cancel();
-        /*List<Integer> l = new LinkedList<>();
-        l.add(Integer.parseInt(txt1.getText()));
-        l.add(Integer.parseInt(txt2.getText()));
-        l.add(Integer.parseInt(txt3.getText()));*/
+        try {
+            timer.cancel();
+            /*List<Integer> l = new LinkedList<>();
+            l.add(Integer.parseInt(txt1.getText()));
+            l.add(Integer.parseInt(txt2.getText()));
+            l.add(Integer.parseInt(txt3.getText()));*/
 
-        String validMove;
-        int counterValidMove = 0;
+            String validMove;
+            int counterValidMove = 0;
 
-        do {
-            if(counterValidMove > 0) {
-                gui.moveFirstAction();
-                parent.dispose();
-            }
+            do {
+                if(counterValidMove > 0) {
+                    gui.moveSecondAction();
+                    parent.dispose();
+                }
 
-            socketOut.println("Message Is Valid First Action Move");
+                socketOut.println("Message Is Valid Second Action Move");
+                socketOut.println(game);
+                socketOut.println(nickName);
+                socketOut.println(directions.size());
+                for(Integer i : directions)
+                    socketOut.println(i);
+                validMove = socketIn.nextLine();
+
+                counterValidMove++;
+
+            }while(!validMove.equals("true"));
+
+            socketOut.println("Message Second Action Move");
             socketOut.println(game);
             socketOut.println(nickName);
             socketOut.println(directions.size());
             for(Integer i : directions)
                 socketOut.println(i);
-            validMove = socketIn.nextLine();
 
-            counterValidMove++;
+            gui.doYouWantToUsePUC3();
+            parent.dispose();
 
-        }while(!validMove.equals("true"));
+        } catch (InterruptedException ex) {
 
-        socketOut.println("Message First Action Move");
-        socketOut.println(game);
-        socketOut.println(nickName);
-        socketOut.println(directions.size());
-        for(Integer i : directions)
-            socketOut.println(i);
-
-        gui.doYouWantToUsePUC2();
-        parent.dispose();
+        }
     }
 }

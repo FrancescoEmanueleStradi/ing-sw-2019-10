@@ -2,7 +2,9 @@ package view.gui.socket;
 
 import model.Colour;
 import network.MyTask;
+import network.MyTaskSocket;
 import view.*;
+import view.gui.*;
 import view.gui.actions.Action1;
 import view.gui.actions.Action2;
 import view.gui.actions.grab.Grab1;
@@ -180,10 +182,13 @@ public class GUISocket implements View, Serializable {
 
     public synchronized void moveFirstAction(){
         try {
+            MyTaskSocket task = new MyTaskSocket(game, identifier, this.getNickName(), socket);
+            Timer timer = new Timer();
+            timer.schedule(task, 150000);
             JFrame move = new JFrame("First action - move");
             move.setLocation(50, 50);
             Container c = move.getContentPane();
-            Move1Socket move1 = new Move1Socket(this, socket, game, identifier, nickName, move);
+            Move1Socket move1 = new Move1Socket(this, socket, game, identifier, nickName, move, timer);
             c.add(move1);
             move.setSize(400, 400);
             move.setVisible(true);
@@ -194,16 +199,33 @@ public class GUISocket implements View, Serializable {
 
     public synchronized void grabFirstAction()  {
         try {
+            MyTaskSocket task = new MyTaskSocket(game, identifier, this.getNickName(), socket);
+            Timer timer = new Timer();
+            timer.schedule(task, 150000);
             JFrame grab = new JFrame("First action - grab");
-            grab.add(new Grab1Socket(this, socket, game, identifier, nickName));
+            grab.setLocation(50,50);
+            Container c = grab.getContentPane();
+            Grab1Socket grab1 = new Grab1Socket(this, socket, game, identifier, nickName, grab, timer);
+            c.add(grab1);
+            grab.setSize(500,500);
+            grab.setVisible(true);
         }catch (IOException e){
 
         }
     }
 
-    public synchronized void shootFirstAction() throws RemoteException, InterruptedException {
-        JFrame shoot = new JFrame("First action - shoot");
-        //shoot.add(new Shoot1(this, socket, game, identifier, nickName));
+    public synchronized void shootFirstAction() {
+        try {
+            JFrame shoot = new JFrame("First action - shoot");
+            shoot.setLocation(50, 50);
+            Container c = shoot.getContentPane();
+            Shoot1Socket shoot1 = new Shoot1Socket(this, socket, game, identifier, nickName);
+            c.add(shoot1);
+            shoot.setSize(500, 500);
+            shoot.setVisible(true);
+        }catch (IOException ex) {
+
+        }
     }
 
     public synchronized void action2() throws InterruptedException {
@@ -217,77 +239,155 @@ public class GUISocket implements View, Serializable {
     }
 
     public synchronized void moveSecondAction() throws InterruptedException {
-        JFrame move = new JFrame("First action - move");
-        move.setLocation(50,50);
-        Container c = move.getContentPane();
-        /*Move2 move2 = new Move2(this, socket, game, identifier, nickName, move);
-        c.add(move2);*/
-        move.setSize(400, 400);
-        move.setVisible(true);
+        try {
+            MyTaskSocket task = new MyTaskSocket(game, identifier, this.getNickName(), socket);
+            Timer timer = new Timer();
+            timer.schedule(task, 150000);
+            JFrame move = new JFrame("First action - move");
+            move.setLocation(50, 50);
+            Container c = move.getContentPane();
+            Move2Socket move2 = new Move2Socket(this, socket, game, identifier, nickName, move, timer);
+            c.add(move2);
+            move.setSize(400, 400);
+            move.setVisible(true);
+        }catch (IOException ex) {
+
+        }
     }
 
     public synchronized void grabSecondAction() throws InterruptedException {
-        JFrame move = new JFrame("Second action - grab");
+        try {
+            MyTaskSocket task = new MyTaskSocket(game, identifier, this.getNickName(), socket);
+            Timer timer = new Timer();
+            timer.schedule(task, 150000);
+            JFrame grab = new JFrame("Second action - grab");
+            grab.setLocation(50, 50);
+            Container c = grab.getContentPane();
+            //Grab2Socket grab2 = new Grab2Socket(this, socket, game, identifier, nickName, grab, timer);
+            //c.add(grab2);
+            grab.setSize(500, 500);
+            grab.setVisible(true);
+        }catch (IOException ex) {
+
+        }
     }
 
     public synchronized void shootSecondAction() throws InterruptedException {
-
+        JFrame shoot = new JFrame("Second action - shoot");
+        shoot.setLocation(50,50);
+        Container c = shoot.getContentPane();
+        //Shoot2Socket shoot2 = new Shoot2Socket(this, socket, game, identifier, nickName);
+        //c.add(shoot2);
+        shoot.setSize(500,500);
+        shoot.setVisible(true);
     }
 
     //TODO image
     public void usePowerUpCard() throws RemoteException {
-        /*MyTask task = new MyTask(game, identifier, this.getNickName(), socket);
-        Timer timer = new Timer();
-        timer.schedule(task, 150000);
-        JFrame jF = new JFrame("Use Power-Up Card");
-        jF.setLocation(150,150);
-        Container c = jF.getContentPane();
-        UsePUCPanel u = new UsePUCPanel(this, socket, jF , game, nickName, timer, 1);
-        c.add(u);
-        jF.setSize(400,400);
-        jF.setVisible(true);*/
+        try {
+            MyTaskSocket task = new MyTaskSocket(game, identifier, this.getNickName(), socket);
+            Timer timer = new Timer();
+            timer.schedule(task, 150000);
+            JFrame jF = new JFrame("Use Power-Up Card");
+            jF.setLocation(150, 150);
+            Container c = jF.getContentPane();
+            UsePUCPanelSocket u = new UsePUCPanelSocket(this, socket, jF, game, nickName, timer, 1);
+            c.add(u);
+            jF.setSize(400, 400);
+            jF.setVisible(true);
+        }catch (IOException ex) {
+
+        }
     }
 
     public void usePowerUpCard2() throws RemoteException {
-        /*MyTask task = new MyTask(game, identifier, this.getNickName(), socket);
-        Timer timer = new Timer();
-        timer.schedule(task, 150000);
-        JFrame jF = new JFrame("Use Power-Up Card");
-        jF.setLocation(150,150);
-        Container c = jF.getContentPane();
-        UsePUCPanel u = new UsePUCPanel(this, socket, jF , game, nickName, timer, 2);
-        c.add(u);
-        jF.setSize(400,400);
-        jF.setVisible(true);*/
+        try {
+            MyTaskSocket task = new MyTaskSocket(game, identifier, this.getNickName(), socket);
+            Timer timer = new Timer();
+            timer.schedule(task, 150000);
+            JFrame jF = new JFrame("Use Power-Up Card");
+            jF.setLocation(150, 150);
+            Container c = jF.getContentPane();
+            UsePUCPanelSocket u = new UsePUCPanelSocket(this, socket, jF, game, nickName, timer, 2);
+            c.add(u);
+            jF.setSize(400, 400);
+            jF.setVisible(true);
+        }catch (IOException ex) {
+
+        }
     }
 
     public void usePowerUpCard3() throws RemoteException {
-        /*MyTask task = new MyTask(game, identifier, this.getNickName(), socket);
-        Timer timer = new Timer();
-        timer.schedule(task, 150000);
-        JFrame jF = new JFrame("Use Power-Up Card");
-        jF.setLocation(150,150);
-        Container c = jF.getContentPane();
-        UsePUCPanel u = new UsePUCPanel(this, socket, jF , game, nickName, timer, 3);
-        c.add(u);
-        jF.setSize(400,400);
-        jF.setVisible(true);*/
+        try {
+            MyTaskSocket task = new MyTaskSocket(game, identifier, this.getNickName(), socket);
+            Timer timer = new Timer();
+            timer.schedule(task, 150000);
+            JFrame jF = new JFrame("Use Power-Up Card");
+            jF.setLocation(150, 150);
+            Container c = jF.getContentPane();
+            UsePUCPanelSocket u = new UsePUCPanelSocket(this, socket, jF, game, nickName, timer, 3);
+            c.add(u);
+            jF.setSize(400, 400);
+            jF.setVisible(true);
+        }catch (IOException ex) {
+
+        }
     }
 
-    public void TGPUC(Timer timer, int turn) throws RemoteException, InterruptedException{
+    public void TGPUC(Timer timer, int turn, String col) throws RemoteException, InterruptedException{
+        try {
+            JFrame jF = new JFrame("Effect");
+            jF.setLocation(150, 150);
+            Container c = jF.getContentPane();
+            TGPUCPanelSocket u = new TGPUCPanelSocket(this, socket, jF, game, nickName, timer, turn, col);
+            c.add(u);
+            jF.setSize(400, 400);
+            jF.setVisible(true);
+        }catch (IOException ex) {
 
+        }
     }
 
-    public void TSPUC(Timer timer, int turn) throws RemoteException, InterruptedException{
+    public void TSPUC(Timer timer, int turn, String col) throws RemoteException, InterruptedException{
+        try {
+            JFrame jF = new JFrame("Effect");
+            jF.setLocation(150, 150);
+            Container c = jF.getContentPane();
+            TSPUCPanelSocket u = new TSPUCPanelSocket(this, socket, jF, game, nickName, timer, turn, col);
+            c.add(u);
+            jF.setSize(400, 400);
+            jF.setVisible(true);
+        }catch (IOException ex) {
 
+        }
     }
 
-    public void NPUC(Timer timer, int turn) throws RemoteException, InterruptedException{
+    public void NPUC(Timer timer, int turn, String col) throws RemoteException, InterruptedException{
+        try {
+            JFrame jF = new JFrame("Effect");
+            jF.setLocation(150,150);
+            Container c = jF.getContentPane();
+            NPUCPanelSocket u = new NPUCPanelSocket(this, socket, jF , game, nickName, timer, turn, col);
+            c.add(u);
+            jF.setSize(400,400);
+            jF.setVisible(true);
+        }catch (IOException ex) {
 
+        }
     }
 
-    public void TPUC(Timer timer, int turn) throws RemoteException, InterruptedException{
+    public void TPUC(Timer timer, int turn, String col) throws RemoteException, InterruptedException{
+        try {
+            JFrame jF = new JFrame("Effect");
+            jF.setLocation(150,150);
+            Container c = jF.getContentPane();
+            TPUCPanelSocket u = new TPUCPanelSocket(this, socket, jF , game, nickName, timer, turn, col);
+            c.add(u);
+            jF.setSize(400,400);
+            jF.setVisible(true);
+        }catch (IOException ex) {
 
+        }
     }
 
     public boolean doYouWantToUsePUC() throws RemoteException {

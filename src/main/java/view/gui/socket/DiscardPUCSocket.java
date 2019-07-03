@@ -71,7 +71,7 @@ public class DiscardPUCSocket extends JPanel implements ActionListener {
                     isValidPickAndDiscard = socketIn.nextLine();
 
                     gui.selectSpawnPoint();
-                }while(isValidPickAndDiscard.equals("true"));
+                }while(!isValidPickAndDiscard.equals("true"));
 
                 socketOut.println("Message Pick And Discard");
                 socketOut.println(game);
@@ -94,7 +94,7 @@ public class DiscardPUCSocket extends JPanel implements ActionListener {
                     isValidPickAndDiscard = socketIn.nextLine();
 
                     gui.selectSpawnPoint();
-                }while(isValidPickAndDiscard.equals("true"));
+                }while(!isValidPickAndDiscard.equals("true"));
 
                 socketOut.println("Message Pick And Discard");
                 socketOut.println(game);

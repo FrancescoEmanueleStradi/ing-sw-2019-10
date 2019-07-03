@@ -27,7 +27,7 @@ public class MyTaskSocket extends TimerTask {
      * @param socket     socket
      * @throws IOException some I/O exception
      */
-    MyTaskSocket(int game, int identifier, String nickName, Socket socket) throws IOException {
+    public MyTaskSocket(int game, int identifier, String nickName, Socket socket) throws IOException {
         this.game = game;
         this.identifier = identifier;
         this.nickName = nickName;

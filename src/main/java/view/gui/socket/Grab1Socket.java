@@ -15,6 +15,7 @@ import java.rmi.RemoteException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Timer;
 
 public class Grab1Socket extends JPanel {
 
@@ -43,8 +44,10 @@ public class Grab1Socket extends JPanel {
     private JButton finalConfirm;
     private JComboBox slotList;
     private JComboBox slot1List, slot2List, slot3List;
+    private JFrame parent;
+    private Timer timer;
 
-    public Grab1Socket(GUISocket gui, Socket socket, int game, int identifier, String nickName) throws IOException {
+    public Grab1Socket(GUISocket gui, Socket socket, int game, int identifier, String nickName, JFrame parent, Timer timer) throws IOException {
         super();
         this.gui = gui;
         this.socket = socket;
@@ -53,6 +56,8 @@ public class Grab1Socket extends JPanel {
         this.game = game;
         this.identifier = identifier;
         this.nickName = nickName;
+        this.parent = parent;
+        this.timer = timer;
         //directions = new LinkedList<>();
 
         add(new JLabel("Select the directions you want to move in, if you like; one if you haven't unlocked the adrenaline" +
@@ -85,6 +90,7 @@ public class Grab1Socket extends JPanel {
     private class CardSelect implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
+            timer.cancel();
             JButton cardConfirm = (JButton)e.getSource();
             //weaponConfirm.setEnabled(false);
             //ammoConfirm.setEnabled(false);
@@ -213,8 +219,8 @@ public class Grab1Socket extends JPanel {
         } else wGrab.add(new JLabel("You have no PowerUpCards with which to pay"));
 
         finalConfirm = new JButton("Confirm grab");
-         wGrab.add(finalConfirm);
-         finalConfirm.setEnabled(false);
+        wGrab.add(finalConfirm);
+        finalConfirm.setEnabled(false);
 
     }
 
@@ -301,7 +307,7 @@ public class Grab1Socket extends JPanel {
 
         String isValidFirstActionGrab = socketIn.nextLine();
 
-        if(isValidFirstActionGrab.equals("true"))
+        if(!isValidFirstActionGrab.equals("true"))
             gui.grabFirstAction();
 
         socketOut.println("Message First Action Grab");

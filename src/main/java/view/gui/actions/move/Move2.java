@@ -118,7 +118,7 @@ public class Move2 extends JPanel implements ActionListener {
             l.add(Integer.parseInt(txt2.getText()));
             l.add(Integer.parseInt(txt3.getText()));*/
             if(!server.messageIsValidSecondActionMove(game, nickName, directions)) {
-                gui.moveFirstAction();
+                gui.moveSecondAction();
                 parent.dispose();
             }
             else {

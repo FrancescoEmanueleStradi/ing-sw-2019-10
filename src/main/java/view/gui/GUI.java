@@ -155,20 +155,26 @@ public class GUI implements View, Serializable {
     }
 
     public synchronized void moveFirstAction() throws InterruptedException {
+        MyTask task = new MyTask(game, identifier, this.getNickName(), server);
+        Timer timer = new Timer();
+        timer.schedule(task, 150000);
         JFrame move = new JFrame("First action - move");
         move.setLocation(50,50);
         Container c = move.getContentPane();
-        Move1 move1 = new Move1(this, server, game, identifier, nickName, move);
+        Move1 move1 = new Move1(this, server, game, identifier, nickName, move, timer);
         c.add(move1);
         move.setSize(400, 400);
         move.setVisible(true);
     }
 
     public synchronized void grabFirstAction() throws InterruptedException {
+        MyTask task = new MyTask(game, identifier, this.getNickName(), server);
+        Timer timer = new Timer();
+        timer.schedule(task, 150000);
         JFrame grab = new JFrame("First action - grab");
         grab.setLocation(50,50);
         Container c = grab.getContentPane();
-        Grab1 grab1 = new Grab1(this, server, game, identifier, nickName);
+        Grab1 grab1 = new Grab1(this, server, game, identifier, nickName, grab, timer);
         c.add(grab1);
         grab.setSize(500,500);
         grab.setVisible(true);
@@ -196,20 +202,26 @@ public class GUI implements View, Serializable {
     }
 
     public synchronized void moveSecondAction() throws InterruptedException {
+        MyTask task = new MyTask(game, identifier, this.getNickName(), server);
+        Timer timer = new Timer();
+        timer.schedule(task, 150000);
         JFrame move = new JFrame("First action - move");
         move.setLocation(50,50);
         Container c = move.getContentPane();
-        Move2 move2 = new Move2(this, server, game, identifier, nickName, move);
+        Move2 move2 = new Move2(this, server, game, identifier, nickName, move, timer);
         c.add(move2);
         move.setSize(400, 400);
         move.setVisible(true);
     }
 
     public synchronized void grabSecondAction() throws InterruptedException {
+        MyTask task = new MyTask(game, identifier, this.getNickName(), server);
+        Timer timer = new Timer();
+        timer.schedule(task, 150000);
         JFrame grab = new JFrame("Second action - grab");
         grab.setLocation(50,50);
         Container c = grab.getContentPane();
-        //Grab2 grab2 = new Grab2(this, server, game, identifier, nickName);
+        //Grab2 grab2 = new Grab2(this, server, game, identifier, nickName, grab, timer);
         //c.add(grab2);
         grab.setSize(500,500);
         grab.setVisible(true);

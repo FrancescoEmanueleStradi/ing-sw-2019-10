@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Timer;
 
 public class Move1 extends JPanel implements ActionListener {
 
@@ -26,11 +27,12 @@ public class Move1 extends JPanel implements ActionListener {
     private JButton reset;
     private int dirCount;
     private JButton b;
+    private Timer timer;
     /*private JTextField txt1;
     private JTextField txt2;
     private JTextField txt3;*/
 
-    public Move1(GUI gui, ServerInterface server, int game, int identifier, String nickName, JFrame parent) {
+    public Move1(GUI gui, ServerInterface server, int game, int identifier, String nickName, JFrame parent, Timer timer) {
         super();
         this.gui = gui;
         this.server = server;
@@ -38,6 +40,7 @@ public class Move1 extends JPanel implements ActionListener {
         this.game = game;
         this.identifier = identifier;
         this.nickName = nickName;
+        this.timer = timer;
 
         /*txt1 = new JTextField("Write here", 25);
         txt2 = new JTextField("Write here", 25);
@@ -110,6 +113,7 @@ public class Move1 extends JPanel implements ActionListener {
 
     public synchronized void actionPerformed(ActionEvent e) {
         try {
+            timer.cancel();
             /*List<Integer> l = new LinkedList<>();
             l.add(Integer.parseInt(txt1.getText()));
             l.add(Integer.parseInt(txt2.getText()));

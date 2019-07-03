@@ -98,7 +98,7 @@ public interface View extends Remote {
      * @throws RemoteException RMI exception
      * @throws InterruptedException thread interruption
      */
-    void moveFirstAction() throws RemoteException, InterruptedException;
+    void moveFirstAction() throws IOException, InterruptedException;
 
     /**
      * Asks user to input shoot (first action) parameters.
@@ -106,7 +106,7 @@ public interface View extends Remote {
      * @throws RemoteException RMI exception
      * @throws InterruptedException thread interruption
      */
-    void shootFirstAction() throws InterruptedException, IOException;
+    void shootFirstAction() throws IOException, InterruptedException;
 
     /**
      * Asks user to input grab (second action) parameters.
@@ -114,7 +114,7 @@ public interface View extends Remote {
      * @throws RemoteException RMI exception
      * @throws InterruptedException thread interruption
      */
-    void grabFirstAction() throws RemoteException, InterruptedException;
+    void grabFirstAction() throws IOException, InterruptedException;
 
     /**
      * Asks user to select their second action.

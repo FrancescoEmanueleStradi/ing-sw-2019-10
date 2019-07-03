@@ -55,7 +55,6 @@ public class GUISocket implements View, Serializable {
         this.players = new JPanel();
     }
 
-    @Override
     public int getGame() {
         return game;
     }
@@ -68,8 +67,6 @@ public class GUISocket implements View, Serializable {
         this.colour = colour;
     }
 
-
-    @Override
     public View getView() {
         return this;
     }
@@ -78,22 +75,18 @@ public class GUISocket implements View, Serializable {
         this.socket = socket;
     }
 
-    @Override
     public void setGame(int game) {
         this.game = game;
     }
 
-    @Override
     public void setIdentifier(int identifier) {
         this.identifier = identifier;
     }
 
-    @Override
     public String getNickName() {
         return nickName;
     }
 
-    @Override
     public void setInformation(int identifier) {
         socketOut.println("Get Suspended Name");
         socketOut.println(game);
@@ -108,13 +101,11 @@ public class GUISocket implements View, Serializable {
         this.identifier = identifier;
     }
 
-    @Override
     public void disconnected(int disconnected) {
         textArea.append("Player number " + disconnected + " is disconnected");
         this.gameGraphic.revalidate();
     }
 
-    @Override
     public synchronized void askNameAndColour() {
         socketOut.println("Message Game Is Not Started");
         socketOut.println(game);
@@ -145,8 +136,6 @@ public class GUISocket implements View, Serializable {
         }
     }
 
-
-    @Override
     public synchronized void selectSpawnPoint() throws RemoteException, InterruptedException {
         socketOut.println("Message Give Two PU Card");
         socketOut.println(game);
@@ -179,7 +168,6 @@ public class GUISocket implements View, Serializable {
     }
 
 
-    @Override
     public synchronized void action1() throws InterruptedException {
         JFrame action = new JFrame(this.nickName + "'s FIRST ACTION");
         action.setLocation(50,50);
@@ -218,7 +206,6 @@ public class GUISocket implements View, Serializable {
         //shoot.add(new Shoot1(this, socket, game, identifier, nickName));
     }
 
-    @Override
     public synchronized void action2() throws InterruptedException {
         JFrame action = new JFrame(this.nickName + "'s SECOND ACTION");
         action.setLocation(50,50);
@@ -247,8 +234,8 @@ public class GUISocket implements View, Serializable {
 
     }
 
-    @Override
-    public void usePowerUpCard() throws RemoteException{                    //TODO image
+    //TODO image
+    public void usePowerUpCard() throws RemoteException {
         /*MyTask task = new MyTask(game, identifier, this.getNickName(), socket);
         Timer timer = new Timer();
         timer.schedule(task, 150000);
@@ -261,7 +248,7 @@ public class GUISocket implements View, Serializable {
         jF.setVisible(true);*/
     }
 
-    public void usePowerUpCard2() throws RemoteException{
+    public void usePowerUpCard2() throws RemoteException {
         /*MyTask task = new MyTask(game, identifier, this.getNickName(), socket);
         Timer timer = new Timer();
         timer.schedule(task, 150000);
@@ -303,8 +290,7 @@ public class GUISocket implements View, Serializable {
 
     }
 
-    @Override
-    public boolean doYouWantToUsePUC() throws RemoteException{
+    public boolean doYouWantToUsePUC() throws RemoteException {
         socketOut.println("Stop Game");
         socketOut.println(game);
         String stopGame = socketIn.nextLine();
@@ -342,7 +328,6 @@ public class GUISocket implements View, Serializable {
         jF.setVisible(true);
     }
 
-    @Override
     public void reload() throws RemoteException, InterruptedException {
         JFrame jF = new JFrame("Reload");
         jF.setLocation(50,50);
@@ -353,7 +338,6 @@ public class GUISocket implements View, Serializable {
         jF.setVisible(true);
     }
 
-    @Override
     public void scoring() throws RemoteException {
         socketOut.println("Message Is Valid Scoring");
         socketOut.println(game);
@@ -368,7 +352,6 @@ public class GUISocket implements View, Serializable {
         this.replace();
     }
 
-    @Override
     public void newSpawnPoint() throws RemoteException {
             List<String> deadList = new LinkedList<>();
             socketOut.println("Message Get Dead List");
@@ -413,7 +396,6 @@ public class GUISocket implements View, Serializable {
             this.finalFrenzyTurn();
     }
 
-    @Override
     public void replace() throws RemoteException {
         socketOut.println("Message Replace");
         socketOut.println(game);
@@ -430,12 +412,10 @@ public class GUISocket implements View, Serializable {
         this.newSpawnPoint();
     }
 
-    @Override
     public void finalFrenzyTurn() {
         //TODO
     }
 
-    @Override
     public void endFinalFrenzy() throws RemoteException {
         socketOut.println("Message End Turn Final Frenzy");
         socketOut.println(game);
@@ -444,7 +424,6 @@ public class GUISocket implements View, Serializable {
         this.finalScoring();
     }
 
-    @Override
     public void finalScoring() throws RemoteException {
         socketOut.println("Message Final Scoring");
         socketOut.println(game);
@@ -474,7 +453,6 @@ public class GUISocket implements View, Serializable {
         this.gameGraphic.revalidate();
     }
 
-    @Override
     public void printPlayer(List<String> information) throws RemoteException {
         //players.add(new PlayerName(information.get(0), information.get(1), information.get(2)));
         this.gameGraphic.add(players);
@@ -482,32 +460,28 @@ public class GUISocket implements View, Serializable {
         gameGraphic.revalidate();
     }
 
-    @Override
     public void printScore(List<String> information) throws RemoteException {
         textArea.append("Player: " + information.get(0) + " has now this score: " + information.get(1));
         this.gameGraphic.revalidate();
     }
 
-    @Override
     public void printPosition(List<String> information) throws RemoteException {
         textArea.append("Now Player: " + information.get(0) + " is in the cell " + information.get(1) + " " + information.get(2));
         this.gameGraphic.revalidate();
     }
 
-    @Override
     public void printMark(List<String> information) throws RemoteException {
         textArea.append("Player: " + information.get(0) + "give a new Mark to Player" + information.get(1));
         this.gameGraphic.revalidate();
     }
 
-    @Override
     public void printDamage(List<String> information) throws RemoteException {
         textArea.append("Player: " + information.get(0) + " give " + information.get(1) + " damages to Player: " + information.get(2));
         this.gameGraphic.revalidate();
     }
 
-    @Override
-    public void printType() throws RemoteException {                            //TODO image
+    //TODO image
+    public void printType() throws RemoteException {
         this.gameGraphic.setSize(1400, 1400);
         this.container = gameGraphic.getContentPane();
         if(type == 1) {
@@ -556,12 +530,10 @@ public class GUISocket implements View, Serializable {
         gameGraphic.setVisible(true);
     }
 
-    @Override
     public void setType(int type) throws RemoteException {
         this.type = type;
     }
-
-    @Override
+    
     public void exit() {
         System.exit(0);
     }

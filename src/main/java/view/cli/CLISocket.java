@@ -11,6 +11,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Socket view class for CLI.
+ */
 public class CLISocket extends UnicastRemoteObject implements View {
 
     private int game;
@@ -28,6 +31,13 @@ public class CLISocket extends UnicastRemoteObject implements View {
     private static final String EXITSTRING = "Do you want to go back and change action?";
     private static final String YESPROMPT = "(Yes/yes/y)";
 
+    /**
+     * Creates a new CLI socket.
+     *
+     * @param game game
+     * @param socket socket
+     * @throws IOException I/O exception of some sort
+     */
     public CLISocket(int game, Socket socket) throws IOException {
         super();
         this.game = game;
@@ -283,7 +293,7 @@ public class CLISocket extends UnicastRemoteObject implements View {
         }
     }
 
-    private void moveFirstAction() {
+    public void moveFirstAction() {
         Scanner in = new Scanner(System.in);
         Scanner intScan = new Scanner(System.in);
         List<Integer> l = new LinkedList<>();
@@ -337,7 +347,7 @@ public class CLISocket extends UnicastRemoteObject implements View {
             socketOut.println(i);
     }
 
-    private void shootFirstAction() throws IOException {
+    public void shootFirstAction() throws IOException {
         String inputReminder = "Below are the relevant strings (marked by capital letters) you must enter for this card,\nwith respect to any possible order of effects as " +
                 "described in the manual. The order of the sub-effects MUST be respected.\nIn brackets is the additional ammo cost for certain effects and firing modes.\n" +
                 "Also in brackets is the OPTIONAL tag for certain sub-effects, which MUST receive an empty string,\nor 0 in case of a direction, " +
@@ -562,7 +572,7 @@ public class CLISocket extends UnicastRemoteObject implements View {
         action1();
     }
 
-    private void grabFirstAction() {
+    public void grabFirstAction() {
         Scanner in = new Scanner(System.in);
         Scanner intScan = new Scanner(System.in);
         boolean x;
@@ -763,7 +773,7 @@ public class CLISocket extends UnicastRemoteObject implements View {
         }
     }
 
-    private void moveSecondAction() {
+    public void moveSecondAction() {
         Scanner in = new Scanner(System.in);
         Scanner intScan = new Scanner(System.in);
         List<Integer> l = new LinkedList<>();
@@ -817,7 +827,7 @@ public class CLISocket extends UnicastRemoteObject implements View {
             socketOut.println(i);
     }
 
-    private void shootSecondAction() throws IOException {
+    public void shootSecondAction() throws IOException {
         String inputReminder = "Below are the relevant strings (marked by capital letters) you must enter for this card,\nwith respect to any possible order of effects as " +
                 "described in the manual. The order of the sub-effects MUST be respected.\nIn brackets is the additional ammo cost for certain effects and firing modes.\n" +
                 "Also in brackets is the OPTIONAL tag for certain sub-effects, which MUST receive an empty string,\nor 0 in case of a direction, " +
@@ -1042,7 +1052,7 @@ public class CLISocket extends UnicastRemoteObject implements View {
         action2();
     }
 
-    private void grabSecondAction() {
+    public void grabSecondAction() {
         Scanner in = new Scanner(System.in);
         Scanner intScan = new Scanner(System.in);
         boolean x;

@@ -10,6 +10,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * RMI view class for CLI.
+ */
 public class CLI extends UnicastRemoteObject implements View {
 
     private int game;
@@ -25,6 +28,13 @@ public class CLI extends UnicastRemoteObject implements View {
     static final String EXITSTRING = "Do you want to go back and change action?";
     static final String YESPROMPT = "(Yes/yes/y)";
 
+    /**
+     * Creates a new CLI.
+     *
+     * @param game   game
+     * @param server server
+     * @throws RemoteException RMI exception
+     */
     public CLI(int game, ServerInterface server) throws RemoteException {
         super();
         this.game = game;
@@ -49,10 +59,6 @@ public class CLI extends UnicastRemoteObject implements View {
 
     public String getNickName() {
         return nickName;
-    }
-
-    public void setServer(ServerInterface server) {
-        this.server = server;
     }
 
     public void setInformation(int identifier) throws RemoteException {
@@ -195,7 +201,7 @@ public class CLI extends UnicastRemoteObject implements View {
             this.grabFirstAction();
     }
 
-    private void moveFirstAction() throws RemoteException {
+    public void moveFirstAction() throws RemoteException {
         Scanner in = new Scanner(System.in);
         Scanner intScan = new Scanner(System.in);
         boolean x;
@@ -229,7 +235,7 @@ public class CLI extends UnicastRemoteObject implements View {
         this.server.messageFirstActionMove(game, this.nickName, l);
     }
 
-    private void shootFirstAction() throws RemoteException {
+    public void shootFirstAction() throws RemoteException {
         String inputReminder = "Below are the relevant strings (marked by capital letters) you must enter for this card,\nwith respect to any possible order of effects as " +
                 "described in the manual. The order of the sub-effects MUST be respected.\nIn brackets is the additional ammo cost for certain effects and firing modes.\n" +
                 "Also in brackets is the OPTIONAL tag for certain sub-effects, which MUST receive an empty string,\nor 0 in case of a direction, " +
@@ -428,7 +434,7 @@ public class CLI extends UnicastRemoteObject implements View {
         action1();
     }
 
-    private void grabFirstAction() throws RemoteException {
+    public void grabFirstAction() throws RemoteException {
         Scanner in = new Scanner(System.in);
         Scanner intScan = new Scanner(System.in);
         boolean x;
@@ -557,7 +563,7 @@ public class CLI extends UnicastRemoteObject implements View {
             this.grabSecondAction();
     }
 
-    private void moveSecondAction() throws RemoteException {
+    public void moveSecondAction() throws RemoteException {
         Scanner in = new Scanner(System.in);
         Scanner intScan = new Scanner(System.in);
         boolean x;
@@ -591,7 +597,7 @@ public class CLI extends UnicastRemoteObject implements View {
         this.server.messageSecondActionMove(game, this.nickName, l);
     }
 
-    private void shootSecondAction() throws RemoteException {
+    public void shootSecondAction() throws RemoteException {
         String inputReminder = "Below are the relevant strings (marked by capital letters) you must enter for this card,\nwith respect to any possible order of effects as " +
                 "described in the manual. The order of the sub-effects MUST be respected.\nIn brackets is the additional ammo cost for certain effects and firing modes.\n" +
                 "Also in brackets is the OPTIONAL tag for certain sub-effects, which MUST receive an empty string,\nor 0 in case of a direction, " +
@@ -790,7 +796,7 @@ public class CLI extends UnicastRemoteObject implements View {
         action2();
     }
 
-    private void grabSecondAction() throws RemoteException {
+    public void grabSecondAction() throws RemoteException {
         Scanner in = new Scanner(System.in);
         Scanner intScan = new Scanner(System.in);
         boolean x;
@@ -1071,10 +1077,10 @@ public class CLI extends UnicastRemoteObject implements View {
     public void replace() throws RemoteException {
         System.out.println("Replacing...");
         this.server.messageReplace(game);
-        System.out.println("Your turn has ended. Wait for other players to play their turn.");
+        System.out.println("Your turn has ended. Wait for other players to have their turn.");
     }
 
-    public void finalFrenzyTurn()throws RemoteException {
+    public void finalFrenzyTurn() throws RemoteException {
         Scanner in = new Scanner(System.in);
         List<String> l = new LinkedList<>();
 
@@ -1336,13 +1342,12 @@ public class CLI extends UnicastRemoteObject implements View {
         this.server.messageFinalFrenzyTurnScoring(game);
     }
 
-    @Override
-    public void endFinalFrenzy()throws RemoteException {
+    public void endFinalFrenzy() throws RemoteException {
         this.server.messageEndTurnFinalFrenzy(game);
         System.out.println("\nGame finished: calculating the result...");
     }
 
-    public void finalScoring()throws RemoteException {
+    public void finalScoring() throws RemoteException {
         this.server.messageFinalScoring(game);
 
         System.out.println("\n\n---------- FINAL SCOREBOARD ----------\n");
@@ -1382,6 +1387,12 @@ public class CLI extends UnicastRemoteObject implements View {
         this.type = type;
     }
 
+    /**
+     * Handles exiting from a method or input loop.
+     *
+     * @param in scanner
+     * @return boolean
+     */
     private boolean exitHandler(Scanner in) {
         System.out.println(EXITSTRING + YESPROMPT);
         String exitInput = in.next();

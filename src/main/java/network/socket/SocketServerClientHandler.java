@@ -1,6 +1,7 @@
-package network;
+package network.socket;
 
 import model.Colour;
+import network.ServerMethods;
 
 import java.io.IOException;
 import java.io.PrintWriter;

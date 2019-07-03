@@ -57,7 +57,7 @@ public class TakeInformationSocket extends JPanel implements ActionListener {
         add(b);
     }
 
-    public synchronized void actionPerformed(ActionEvent e) {
+    public void actionPerformed(ActionEvent e) {
         try {
             b.setEnabled(false);
             if (identifier == 1) {
@@ -73,7 +73,7 @@ public class TakeInformationSocket extends JPanel implements ActionListener {
 
     }
 
-    private synchronized void getInformation() throws RemoteException {
+    private void getInformation() throws RemoteException {
         String colour = (String) colourList.getSelectedItem();
         Integer type = (Integer) arenaList.getSelectedItem();
 
@@ -98,7 +98,7 @@ public class TakeInformationSocket extends JPanel implements ActionListener {
         parent.dispose();
     }
 
-    private synchronized void getLessInformation() throws RemoteException {
+    private void getLessInformation() throws RemoteException {
         String colour = (String) colourList.getSelectedItem();
 
         socketOut.println("Get Type");

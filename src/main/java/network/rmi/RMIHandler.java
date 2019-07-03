@@ -1,4 +1,6 @@
-package network;
+package network.rmi;
+
+import network.ServerMethods;
 
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;

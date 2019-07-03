@@ -1,4 +1,6 @@
-package network;
+package network.rmi;
+
+import network.ServerInterface;
 
 import java.rmi.RemoteException;
 import java.util.TimerTask;

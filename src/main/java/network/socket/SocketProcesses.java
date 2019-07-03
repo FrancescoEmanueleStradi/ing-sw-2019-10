@@ -1,8 +1,7 @@
-package network;
+package network.socket;
 
 import view.View;
 import view.cli.CLISocket;
-import view.gui.GUI;
 import view.gui.socket.GUISocket;
 
 import java.io.IOException;

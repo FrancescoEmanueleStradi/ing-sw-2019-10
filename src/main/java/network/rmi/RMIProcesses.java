@@ -1,5 +1,6 @@
-package network;
+package network.rmi;
 
+import network.ServerInterface;
 import view.View;
 import view.cli.CLI;
 import view.gui.GUI;

@@ -1,7 +1,7 @@
 package view.gui;
 
 import model.Colour;
-import network.MyTask;
+import network.rmi.MyTask;
 import network.ServerInterface;
 import view.*;
 import view.gui.actions.Action1;
@@ -15,13 +15,9 @@ import java.awt.*;
 import javax.swing.*;
 
 import java.io.Serializable;
-import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Timer;
-
-import static javax.swing.ScrollPaneConstants.LOWER_LEFT_CORNER;
 
 public class GUI implements View, Serializable {
 

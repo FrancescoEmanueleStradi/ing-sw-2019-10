@@ -1,7 +1,7 @@
 package view.gui.socket;
 
 import model.Colour;
-import network.MyTaskSocket;
+import network.socket.MyTaskSocket;
 import view.*;
 import view.gui.*;
 import view.gui.actions.Action1;

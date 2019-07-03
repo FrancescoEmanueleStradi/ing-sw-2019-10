@@ -1,16 +1,11 @@
 package view.gui.socket;
 
 import model.Colour;
-import network.MyTask;
 import network.MyTaskSocket;
 import view.*;
 import view.gui.*;
 import view.gui.actions.Action1;
 import view.gui.actions.Action2;
-import view.gui.actions.grab.Grab1;
-import view.gui.actions.move.Move1;
-import view.gui.actions.move.Move2;
-import view.gui.actions.shoot.Shoot1;
 
 import java.awt.*;
 import javax.swing.*;
@@ -401,8 +396,8 @@ public class GUISocket implements View, Serializable {
         JFrame jF = new JFrame("Power-Up Card");
         jF.setLocation(50,50);
         Container c = jF.getContentPane();
-        /*WantUsePUCPanel w = new WantUsePUCPanel(this, jF);
-        c.add(w);*/
+        WantUsePUCPanel w = new WantUsePUCPanel(null, this, jF);
+        c.add(w);
         jF.setSize(400,400);
         jF.setVisible(true);
         return true;
@@ -412,8 +407,8 @@ public class GUISocket implements View, Serializable {
         JFrame jF = new JFrame("Power-Up Card");
         jF.setLocation(50,50);
         Container c = jF.getContentPane();
-        /*WantUsePUCPanel2 w = new WantUsePUCPanel2(this, jF);
-        c.add(w);*/
+        WantUsePUCPanel2 w = new WantUsePUCPanel2(null, this, jF);
+        c.add(w);
         jF.setSize(400,400);
         jF.setVisible(true);
     }
@@ -422,20 +417,24 @@ public class GUISocket implements View, Serializable {
         JFrame jF = new JFrame("Power-Up Card");
         jF.setLocation(50,50);
         Container c = jF.getContentPane();
-        /*WantUsePUCPanel3 w = new WantUsePUCPanel3(this, jF);
-        c.add(w);*/
+        WantUsePUCPanel3 w = new WantUsePUCPanel3(null, this, jF);
+        c.add(w);
         jF.setSize(400,400);
         jF.setVisible(true);
     }
 
     public void reload() throws RemoteException, InterruptedException {
-        JFrame jF = new JFrame("Reload");
-        jF.setLocation(50,50);
-        Container c = jF.getContentPane();
-        /*ReloadPanel reloadPanel = new ReloadPanel(this, socket, jF, game, nickName);
-        c.add(reloadPanel);*/
-        jF.setSize(400,400);
-        jF.setVisible(true);
+        try {
+            JFrame jF = new JFrame("Reload");
+            jF.setLocation(50, 50);
+            Container c = jF.getContentPane();
+            ReloadPanelSocket reloadPanel = new ReloadPanelSocket(this, socket, jF, game, nickName);
+            c.add(reloadPanel);
+            jF.setSize(400, 400);
+            jF.setVisible(true);
+        }catch (IOException ex) {
+
+        }
     }
 
     public void scoring() throws RemoteException {
@@ -453,21 +452,25 @@ public class GUISocket implements View, Serializable {
     }
 
     public void newSpawnPoint() throws RemoteException {
-            List<String> deadList = new LinkedList<>();
-            socketOut.println("Message Get Dead List");
-            socketOut.println(game);
-            int size = Integer.parseInt(socketIn.nextLine());
-            for(int i = 0; i < size; i++)
-                deadList.add(socketIn.nextLine());
+        List<String> deadList = new LinkedList<>();
+        socketOut.println("Message Get Dead List");
+        socketOut.println(game);
+        int size = Integer.parseInt(socketIn.nextLine());
+        for(int i = 0; i < size; i++)
+            deadList.add(socketIn.nextLine());
 
-            if(deadList.contains(this.nickName)) {
-            JFrame jF = new JFrame("Reload");
-            jF.setLocation(50,50);
-            Container c = jF.getContentPane();
-            /*NewSpawnPointPanel newSpawnPointPanel =  new NewSpawnPointPanel(this, socket, jF, game, nickName);
-            c.add(newSpawnPointPanel);*/
-            jF.setSize(400,400);
-            jF.setVisible(true);
+        if(deadList.contains(this.nickName)) {
+            try {
+                JFrame jF = new JFrame("Reload");
+                jF.setLocation(50, 50);
+                Container c = jF.getContentPane();
+                NewSpawnPointPanelSocket newSpawnPointPanel = new NewSpawnPointPanelSocket(this, socket, jF, game, nickName);
+                c.add(newSpawnPointPanel);
+                jF.setSize(400, 400);
+                jF.setVisible(true);
+            }catch (IOException ex) {
+
+            }
         }
 
         while(true){
@@ -486,6 +489,7 @@ public class GUISocket implements View, Serializable {
             if (isMyTurn.equals("true"))
                 break;
         }
+
         socketOut.println("Is Not Final Frenzy");
         socketOut.println(game);
         String isNotFF = socketIn.nextLine();
@@ -509,6 +513,7 @@ public class GUISocket implements View, Serializable {
 
         if (stopGame.equals("true"))
             this.endFinalFrenzy();
+
         this.newSpawnPoint();
     }
 
@@ -519,6 +524,7 @@ public class GUISocket implements View, Serializable {
     public void endFinalFrenzy() throws RemoteException {
         socketOut.println("Message End Turn Final Frenzy");
         socketOut.println(game);
+
         textArea.append("We are calculating the result");
         this.gameGraphic.revalidate();
         this.finalScoring();
@@ -533,10 +539,10 @@ public class GUISocket implements View, Serializable {
         socketOut.println("Message Get Players");
         socketOut.println(game);
         int size = Integer.parseInt(socketIn.nextLine());
-        List<String> players = new LinkedList<>();
+        List<String> playersFinal = new LinkedList<>();
         for(int i = 0; i < size; i++)
-            players.add(socketIn.nextLine());
-        players.forEach(textArea::append);
+            playersFinal.add(socketIn.nextLine());
+        playersFinal.forEach(textArea::append);
 
         textArea.append("");
 
@@ -583,16 +589,22 @@ public class GUISocket implements View, Serializable {
     //TODO image
     public void printType() throws RemoteException {
         this.gameGraphic.setSize(1400, 1400);
-        this.container = gameGraphic.getContentPane();
+        //this.container = gameGraphic.getContentPane();
         if(type == 1) {
             ImageIcon Left14Grid = new ImageIcon("Images/Left14Grid.png");
             ImageIcon Right12Grid = new ImageIcon("Images/Right12Grid.png");
             JLabel L14Grid = new JLabel(Left14Grid);
-            L14Grid.setSize(300, 300);
+            //L14Grid.doLayout();
+            L14Grid.setHorizontalAlignment(SwingConstants.CENTER);
             JLabel R12Grid = new JLabel(Right12Grid);
-            R12Grid.setSize(300, 300);
-            this.container.add(L14Grid).doLayout();
-            this.container.add(R12Grid).doLayout();
+            R12Grid.setHorizontalAlignment(SwingConstants.RIGHT);
+            //R12Grid.doLayout();
+            //R12Grid.setSize(10, 10);
+            gameGraphic.add(L14Grid).setBounds(700, 700, 400, 400);
+            gameGraphic.add(R12Grid).setBounds(1000, 700, 400, 400);
+            gameGraphic.pack();
+            //this.container.add(L14Grid).setSize(10,10);
+            //this.container.add(R12Grid).setSize(10,10);
         }
         if(type == 2) {
             ImageIcon Left23Grid = new ImageIcon("Images/Left23Grid.png");

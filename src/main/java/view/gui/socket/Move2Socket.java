@@ -1,15 +1,11 @@
 package view.gui.socket;
 
-import network.ServerInterface;
-import view.gui.GUI;
-
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.rmi.RemoteException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;

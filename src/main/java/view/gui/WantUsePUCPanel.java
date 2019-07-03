@@ -1,6 +1,6 @@
 package view.gui;
 
-import view.View;
+import view.gui.socket.GUISocket;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -10,12 +10,18 @@ import java.rmi.RemoteException;
 public class WantUsePUCPanel extends JPanel implements ActionListener {
 
     private GUI gui;
+    private GUISocket guiSocket;
     private JFrame parent;
     private JButton firstButton;
     private JButton secondButton;
 
-    public WantUsePUCPanel(GUI gui, JFrame parent) {
-        this.gui = gui;
+    public WantUsePUCPanel(GUI gui, GUISocket guiSocket, JFrame parent) {
+
+        if(gui != null)
+            this.gui = gui;
+        else
+            this.guiSocket = guiSocket;
+
         this.parent = parent;
         add(new JLabel("Do you want to use Power Up card?"));
         firstButton = new JButton("Yes");
@@ -33,12 +39,18 @@ public class WantUsePUCPanel extends JPanel implements ActionListener {
             if(action == firstButton) {
                 parent.setVisible(false);
                 parent.dispose();
-                gui.usePowerUpCard();
+                if(gui != null)
+                    gui.usePowerUpCard();
+                else
+                    guiSocket.usePowerUpCard();
             }
             else if(action == secondButton) {
                 parent.setVisible(false);
                 parent.dispose();
-                gui.action1();
+                if(gui != null)
+                    gui.action1();
+                else
+                    guiSocket.action1();
             }
 
         }catch (InterruptedException i) {

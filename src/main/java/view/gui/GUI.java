@@ -309,7 +309,7 @@ public class GUI implements View, Serializable {
         JFrame jF = new JFrame("Power-Up Card");
         jF.setLocation(50,50);
         Container c = jF.getContentPane();
-        WantUsePUCPanel w = new WantUsePUCPanel(this, jF);
+        WantUsePUCPanel w = new WantUsePUCPanel(this, null, jF);
         c.add(w);
         jF.setSize(400,400);
         jF.setVisible(true);
@@ -320,7 +320,7 @@ public class GUI implements View, Serializable {
         JFrame jF = new JFrame("Power-Up Card");
         jF.setLocation(50,50);
         Container c = jF.getContentPane();
-        WantUsePUCPanel2 w = new WantUsePUCPanel2(this, jF);
+        WantUsePUCPanel2 w = new WantUsePUCPanel2(this, null, jF);
         c.add(w);
         jF.setSize(400,400);
         jF.setVisible(true);
@@ -330,7 +330,7 @@ public class GUI implements View, Serializable {
         JFrame jF = new JFrame("Power-Up Card");
         jF.setLocation(50,50);
         Container c = jF.getContentPane();
-        WantUsePUCPanel3 w = new WantUsePUCPanel3(this, jF);
+        WantUsePUCPanel3 w = new WantUsePUCPanel3(this, null, jF);
         c.add(w);
         jF.setSize(400,400);
         jF.setVisible(true);
@@ -406,7 +406,7 @@ public class GUI implements View, Serializable {
     }
 
     public void printPlayer(List<String> information) throws RemoteException {
-        players.add(new PlayerName(information.get(0), information.get(1), information.get(2)));
+        //players.add(new PlayerName(information.get(0), information.get(1), information.get(2)));
         this.gameGraphic.add(players);
         textArea.append("Player " + information.get(0) + " (identifier " + information.get(2)+ ") whose colour is " + information.get(1) + " is now a player of this game.");
         gameGraphic.revalidate();

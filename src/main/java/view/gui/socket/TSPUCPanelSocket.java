@@ -1,8 +1,6 @@
 package view.gui.socket;
 
 import model.Colour;
-import network.ServerInterface;
-import view.gui.GUI;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

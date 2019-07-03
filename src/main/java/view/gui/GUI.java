@@ -435,16 +435,20 @@ public class GUI implements View, Serializable {
     //TODO image
     public void printType() throws RemoteException {
         this.gameGraphic.setSize(1400, 1400);
-        this.container = gameGraphic.getContentPane();
+        //this.container = gameGraphic.getContentPane();
         if(type == 1) {
             ImageIcon Left14Grid = new ImageIcon("Images/Left14Grid.png");
             ImageIcon Right12Grid = new ImageIcon("Images/Right12Grid.png");
             JLabel L14Grid = new JLabel(Left14Grid);
-            L14Grid.setSize(10, 10);
+            //L14Grid.doLayout();
+            //L14Grid.setSize(10, 10);
             JLabel R12Grid = new JLabel(Right12Grid);
-            R12Grid.setSize(10, 10);
-            this.container.add(L14Grid).doLayout();
-            this.container.add(R12Grid).doLayout();
+            //R12Grid.doLayout();
+            //R12Grid.setSize(10, 10);
+            gameGraphic.add(L14Grid).setBounds(700, 700, 400, 400);
+            gameGraphic.add(R12Grid).setBounds(1000, 700, 400, 400);
+            //this.container.add(L14Grid).setSize(10,10);
+            //this.container.add(R12Grid).setSize(10,10);
         }
         if(type == 2) {
             ImageIcon Left23Grid = new ImageIcon("Images/Left23Grid.png");

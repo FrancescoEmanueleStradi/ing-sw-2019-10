@@ -117,7 +117,7 @@ public class Move2 extends JPanel implements ActionListener {
             l.add(Integer.parseInt(txt1.getText()));
             l.add(Integer.parseInt(txt2.getText()));
             l.add(Integer.parseInt(txt3.getText()));*/
-            while(!server.messageIsValidSecondActionMove(game, nickName, directions))
+            if(!server.messageIsValidSecondActionMove(game, nickName, directions))
                 gui.moveFirstAction();
             server.messageSecondActionMove(game, nickName, directions);
             gui.doYouWantToUsePUC3();

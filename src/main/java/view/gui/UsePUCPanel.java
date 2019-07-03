@@ -45,22 +45,22 @@ public class UsePUCPanel extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         try {
-            String action = e.getSource().toString();
-            switch(this.server.messageGetPowerUpCard(game, nickName).get(Integer.parseInt(action))){
+            JButton action = (JButton)e.getSource();
+            switch(this.server.messageGetPowerUpCard(game, nickName).get(Integer.parseInt(action.getText()))){
                 case "Tagback Grenade":
-                    gui.TGPUC(timer, turn, this.server.messageGetPowerUpCardColour(game, nickName).get(Integer.parseInt(action)));
+                    gui.TGPUC(timer, turn, this.server.messageGetPowerUpCardColour(game, nickName).get(Integer.parseInt(action.getText())));
                     break;
 
                 case "Targeting Scope":
-                    gui.TSPUC(timer, turn, this.server.messageGetPowerUpCardColour(game, nickName).get(Integer.parseInt(action)));
+                    gui.TSPUC(timer, turn, this.server.messageGetPowerUpCardColour(game, nickName).get(Integer.parseInt(action.getText())));
                     break;
 
                 case "Newton":
-                    gui.NPUC(timer, turn, this.server.messageGetPowerUpCardColour(game, nickName).get(Integer.parseInt(action)));
+                    gui.NPUC(timer, turn, this.server.messageGetPowerUpCardColour(game, nickName).get(Integer.parseInt(action.getText())));
                     break;
 
                 case "Teleporter":
-                    gui.TPUC(timer, turn, this.server.messageGetPowerUpCardColour(game, nickName).get(Integer.parseInt(action)));
+                    gui.TPUC(timer, turn, this.server.messageGetPowerUpCardColour(game, nickName).get(Integer.parseInt(action.getText())));
                     break;
                 default: break;
             }

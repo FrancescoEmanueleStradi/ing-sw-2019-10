@@ -441,8 +441,9 @@ public class GUI implements View, Serializable {
             ImageIcon Right12Grid = new ImageIcon("Images/Right12Grid.png");
             JLabel L14Grid = new JLabel(Left14Grid);
             //L14Grid.doLayout();
-            //L14Grid.setSize(10, 10);
+            L14Grid.setHorizontalAlignment(SwingConstants.CENTER);
             JLabel R12Grid = new JLabel(Right12Grid);
+            R12Grid.setHorizontalAlignment(SwingConstants.RIGHT);
             //R12Grid.doLayout();
             //R12Grid.setSize(10, 10);
             gameGraphic.add(L14Grid).setBounds(700, 700, 400, 400);

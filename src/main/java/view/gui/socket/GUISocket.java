@@ -533,7 +533,7 @@ public class GUISocket implements View, Serializable {
     public void setType(int type) throws RemoteException {
         this.type = type;
     }
-    
+
     public void exit() {
         System.exit(0);
     }

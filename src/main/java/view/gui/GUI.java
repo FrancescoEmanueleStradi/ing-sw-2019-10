@@ -131,8 +131,6 @@ public class GUI implements View, Serializable {
 
     }
 
-
-    @Override
     public synchronized void action1() throws InterruptedException {
         JFrame action = new JFrame(this.nickName + "'s FIRST ACTION");
         action.setLocation(50,50);

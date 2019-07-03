@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Timer;
 
 public class Grab1 extends JPanel {
 
@@ -37,14 +38,18 @@ public class Grab1 extends JPanel {
     private JButton finalConfirm;
     private JComboBox slotList;
     private JComboBox slot1List, slot2List, slot3List;
+    private JFrame parent;
+    private Timer timer;
 
-    public Grab1(GUI gui, ServerInterface server, int game, int identifier, String nickName) {
+    public Grab1(GUI gui, ServerInterface server, int game, int identifier, String nickName, JFrame parent, Timer timer) {
         super();
         this.gui = gui;
         this.server = server;
         this.game = game;
         this.identifier = identifier;
         this.nickName = nickName;
+        this.parent = parent;
+        this.timer = timer;
         //directions = new LinkedList<>();
 
         add(new JLabel("Select the directions you want to move in, if you like; one if you haven't unlocked the adrenaline" +
@@ -77,6 +82,7 @@ public class Grab1 extends JPanel {
     private class CardSelect implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
+            timer.cancel();
             JButton cardConfirm = (JButton)e.getSource();
             //weaponConfirm.setEnabled(false);
             //ammoConfirm.setEnabled(false);
@@ -231,6 +237,9 @@ public class Grab1 extends JPanel {
 
             }
             server.messageFirstActionGrab(game, nickName, directions, wCard, lC, lP, lPC);
+            gui.doYouWantToUsePUC2();
+            parent.setVisible(false);
+            parent.dispose();
         } catch (RemoteException | InterruptedException e) {
 
         }

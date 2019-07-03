@@ -51,7 +51,6 @@ public class GUI implements View, Serializable {
         this.players = new JPanel();
     }
 
-    @Override
     public int getGame() {
         return game;
     }
@@ -64,8 +63,6 @@ public class GUI implements View, Serializable {
         this.colour = colour;
     }
 
-
-    @Override
     public View getView() {
         return this;
     }
@@ -74,35 +71,29 @@ public class GUI implements View, Serializable {
         this.server = server;
     }
 
-    @Override
     public void setGame(int game) {
         this.game = game;
     }
 
-    @Override
     public void setIdentifier(int identifier) throws RemoteException {
         this.identifier = identifier;
     }
 
-    @Override
     public String getNickName() {
         return nickName;
     }
 
-    @Override
     public void setInformation(int identifier) throws RemoteException {
         this.nickName = server.getSuspendedName(game, identifier);
         this.colour = server.getSuspendedColour(game, this.nickName);
         this.identifier = identifier;
     }
 
-    @Override
     public void disconnected(int disconnected) throws RemoteException, InterruptedException {
         textArea.append("Player number " + disconnected + " is disconnected");
         this.gameGraphic.revalidate();
     }
 
-    @Override
     public synchronized void askNameAndColour() throws RemoteException, InterruptedException {
         if(this.server.messageGameIsNotStarted(game) && this.identifier == 1) {
             JFrame f = new JFrame("Name, colour and type");
@@ -127,8 +118,6 @@ public class GUI implements View, Serializable {
         }
     }
 
-
-    @Override
     public synchronized void selectSpawnPoint() throws RemoteException, InterruptedException {
         this.server.messageGiveTwoPUCard(game, this.nickName);
         JFrame spawnPoint = new JFrame("Spawn point selection");
@@ -190,7 +179,6 @@ public class GUI implements View, Serializable {
         shoot.setVisible(true);
     }
 
-    @Override
     public synchronized void action2() throws InterruptedException {
         JFrame action = new JFrame(this.nickName + "'s SECOND ACTION");
         action.setLocation(50,50);
@@ -237,8 +225,8 @@ public class GUI implements View, Serializable {
         shoot.setVisible(true);
     }
 
-    @Override
-    public void usePowerUpCard() throws RemoteException{                    //TODO image
+    //TODO image
+    public void usePowerUpCard() throws RemoteException {
         MyTask task = new MyTask(game, identifier, this.getNickName(), server);
         Timer timer = new Timer();
         timer.schedule(task, 150000);
@@ -251,7 +239,7 @@ public class GUI implements View, Serializable {
         jF.setVisible(true);
     }
 
-    public void usePowerUpCard2() throws RemoteException{
+    public void usePowerUpCard2() throws RemoteException {
         MyTask task = new MyTask(game, identifier, this.getNickName(), server);
         Timer timer = new Timer();
         timer.schedule(task, 150000);
@@ -317,7 +305,6 @@ public class GUI implements View, Serializable {
         jF.setVisible(true);
     }
 
-    @Override
     public boolean doYouWantToUsePUC() throws RemoteException{
         if(server.stopGame(game))
             this.endFinalFrenzy();
@@ -351,7 +338,6 @@ public class GUI implements View, Serializable {
         jF.setVisible(true);
     }
 
-    @Override
     public void reload() throws RemoteException, InterruptedException {
         JFrame jF = new JFrame("Reload");
         jF.setLocation(50,50);
@@ -362,14 +348,12 @@ public class GUI implements View, Serializable {
         jF.setVisible(true);
     }
 
-    @Override
     public void scoring() throws RemoteException {
         if(this.server.messageIsValidScoring(game))
             this.server.messageScoring(game);
         this.replace();
     }
 
-    @Override
     public void newSpawnPoint() throws RemoteException {
         if(this.server.messageGetDeadList(game).contains(this.nickName)){
             JFrame jF = new JFrame("Reload");
@@ -393,7 +377,6 @@ public class GUI implements View, Serializable {
             this.finalFrenzyTurn();
     }
 
-    @Override
     public void replace() throws RemoteException {
         this.server.messageReplace(game);
         server.finishTurn(game);
@@ -402,12 +385,10 @@ public class GUI implements View, Serializable {
         this.newSpawnPoint();
     }
 
-    @Override
     public void finalFrenzyTurn() {
         //TODO
     }
 
-    @Override
     public void endFinalFrenzy() throws RemoteException {
         this.server.messageEndTurnFinalFrenzy(game);
         textArea.append("We are calculating the result");
@@ -415,7 +396,6 @@ public class GUI implements View, Serializable {
         this.finalScoring();
     }
 
-    @Override
     public void finalScoring() throws RemoteException {
         this.server.messageFinalScoring(game);
         textArea.append("FINAL SCORE");
@@ -427,7 +407,6 @@ public class GUI implements View, Serializable {
         this.gameGraphic.revalidate();
     }
 
-    @Override
     public void printPlayer(List<String> information) throws RemoteException {
         players.add(new PlayerName(information.get(0), information.get(1), information.get(2)));
         this.gameGraphic.add(players);
@@ -435,32 +414,28 @@ public class GUI implements View, Serializable {
         gameGraphic.revalidate();
     }
 
-    @Override
     public void printScore(List<String> information) throws RemoteException {
         textArea.append("Player: " + information.get(0) + " has now this score: " + information.get(1));
         this.gameGraphic.revalidate();
     }
 
-    @Override
     public void printPosition(List<String> information) throws RemoteException {
         textArea.append("Now Player: " + information.get(0) + " is in the cell " + information.get(1) + " " + information.get(2));
         this.gameGraphic.revalidate();
     }
 
-    @Override
     public void printMark(List<String> information) throws RemoteException {
         textArea.append("Player: " + information.get(0) + "give a new Mark to Player" + information.get(1));
         this.gameGraphic.revalidate();
     }
 
-    @Override
     public void printDamage(List<String> information) throws RemoteException {
         textArea.append("Player: " + information.get(0) + " give " + information.get(1) + " damages to Player: " + information.get(2));
         this.gameGraphic.revalidate();
     }
 
-    @Override
-    public void printType() throws RemoteException {                            //TODO image
+    //TODO image
+    public void printType() throws RemoteException {
         this.gameGraphic.setSize(1400, 1400);
         this.container = gameGraphic.getContentPane();
         if(type == 1) {
@@ -509,12 +484,10 @@ public class GUI implements View, Serializable {
         gameGraphic.setVisible(true);
     }
 
-    @Override
     public void setType(int type) throws RemoteException {
         this.type = type;
     }
 
-    @Override
     public void exit() {
         System.exit(0);
     }

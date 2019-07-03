@@ -6,6 +6,8 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
+import java.util.LinkedList;
+import java.util.List;
 
 public class UsePUCPanel extends JPanel implements ActionListener {
 
@@ -16,6 +18,7 @@ public class UsePUCPanel extends JPanel implements ActionListener {
     private String nickName;
     private java.util.Timer timer;
     private int turn;
+    private List<JButton> l = new LinkedList<>();
 
     public UsePUCPanel(GUI gui, ServerInterface server, JFrame parent, int game, String nickName, java.util.Timer timer, int turn) throws RemoteException {
         super();
@@ -31,7 +34,9 @@ public class UsePUCPanel extends JPanel implements ActionListener {
 
         for (int i = 0; i < this.server.messageGetPowerUpCard(game, nickName).size(); i++) {
             add(new JLabel(this.server.messageGetPowerUpCard(game, nickName).get(i) + "coloured" + this.server.messageGetPowerUpCardColour(game, nickName).get(i))).doLayout();
-            add(new JButton(Integer.toString(i))).doLayout();
+            l.add(new JButton(Integer.toString(i)));
+            this.add(l.get(l.size()-1)).doLayout();
+            l.get(l.size()-1).addActionListener(this);
             add(new JLabel(server.messageGetDescriptionPUC(game, this.server.messageGetPowerUpCard(game, nickName).get(i), this.server.messageGetPowerUpCardColour(game, nickName).get(i), this.nickName))).doLayout();
         }
 

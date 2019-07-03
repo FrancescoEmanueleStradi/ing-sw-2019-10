@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
 import java.util.LinkedList;
+import java.util.List;
 
 public class ReloadPanel extends JPanel implements ActionListener {
 
@@ -15,6 +16,7 @@ public class ReloadPanel extends JPanel implements ActionListener {
     private JFrame parent;
     private int game;
     private String nickName;
+    private List<JButton> l = new LinkedList<>();
 
     public ReloadPanel(GUI gui, ServerInterface server, JFrame parent, int game, String nickName) throws RemoteException {
         super();
@@ -29,7 +31,10 @@ public class ReloadPanel extends JPanel implements ActionListener {
 
         for (String s : this.server.messageGetWeaponCardUnloaded(game, this.nickName)) {
 
-            this.add(new JButton(s));
+            l.add(new JButton(s));
+            this.add(l.get(l.size()-1)).doLayout();
+            l.get(l.size()-1).addActionListener(this);
+
         }
 
     }

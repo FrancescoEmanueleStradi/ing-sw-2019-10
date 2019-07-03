@@ -43,15 +43,15 @@ public class ReloadPanel extends JPanel implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
         try {
-            String action = e.getSource().toString();
+            JButton action = (JButton)e.getSource();
 
-            if(action.equals("exit")) {
+            if(action.getText().equals("exit")) {
                 gui.reload();
             }
 
             else{
-                if(this.server.messageIsValidReload(game, this.nickName, action))
-                    this.server.messageReload(game, this.nickName, action);
+                if(this.server.messageIsValidReload(game, this.nickName, action.getText()))
+                    this.server.messageReload(game, this.nickName, action.getText());
                 gui.reload();
             }
 

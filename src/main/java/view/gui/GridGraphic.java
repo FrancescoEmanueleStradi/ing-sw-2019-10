@@ -25,7 +25,7 @@ public class GridGraphic extends JPanel implements Serializable {
 
     protected void paintComponent(Graphics g) {
         setOpaque(false);
-        g.drawImage(image1, 250, 0, null);
+        g.drawImage(image1, 0, 0, null);
         super.paintComponent(g);
     }
 

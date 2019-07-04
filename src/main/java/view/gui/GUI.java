@@ -441,8 +441,10 @@ public class GUI implements View, Serializable {
     }
 
     public void printPlayer(List<String> information) throws RemoteException {
-        gridGraphic.changeText("Player " + information.get(0) + " (identifier " + information.get(2)+ ") whose colour is " + information.get(1) + " is now a player of this game.");
-        gameGraphic.revalidate();
+        if(gridGraphic != null) {
+            gridGraphic.changeText("Player " + information.get(0) + " (identifier " + information.get(2) + ") whose colour is " + information.get(1) + " is now a player of this game.");
+            gameGraphic.revalidate();
+        }
     }
 
     public void printScore(List<String> information) throws RemoteException {
@@ -465,9 +467,8 @@ public class GUI implements View, Serializable {
         this.gameGraphic.revalidate();
     }
 
-    //TODO image
     public void printType() throws RemoteException {
-        this.gameGraphic.setSize(1500, 900);
+        this.gameGraphic.setSize(1200, 900);
         if(type == 1) {
             this.gridGraphic = new GridGraphic("Images/Grid1.png");
         }

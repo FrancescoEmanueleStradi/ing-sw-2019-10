@@ -72,37 +72,37 @@ public class FFPanel extends JPanel implements ActionListener {
                     if (this.server.messageIsValidFinalFrenzyAction(game, nickName, l)) {
                         if (l.contains("1")) {
                             if(count == l.size())
-                                gui.FirstFFAction(true);
+                                gui.firstFFAction(true);
                             else
-                                gui.FirstFFAction(false);
+                                gui.firstFFAction(false);
                             count++;
                         }
                         if (l.contains("2")) {
                             if(count == l.size())
-                                gui.SecondFFAction(true);
+                                gui.secondFFAction(true);
                             else
-                                gui.SecondFFAction(false);
+                                gui.secondFFAction(false);
                             count++;
                         }
                         if (l.contains("3")) {
                             if(count == l.size())
-                                gui.ThirdFFAction(true);
+                                gui.thirdFFAction(true);
                             else
-                                gui.ThirdFFAction(false);
+                                gui.thirdFFAction(false);
                             count++;
                         }
                         if (l.contains("4")) {
                             if(count == l.size())
-                                gui.FourthFFAction(true);
+                                gui.fourthFFAction(true);
                             else
-                                gui.FourthFFAction(false);
+                                gui.fourthFFAction(false);
                             count++;
                         }
                         if (l.contains("5")) {
                             if(count == l.size())
-                                gui.FifthFFAction(true);
+                                gui.fifthFFAction(true);
                             else
-                                gui.FifthFFAction(false);
+                                gui.fifthFFAction(false);
                             count++;
                         }
 

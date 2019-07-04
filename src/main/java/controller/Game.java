@@ -2212,13 +2212,13 @@ public class Game {
      * Performs the FF action 1 associated with the isValid.
      *
      * @param nickName       nickname
-     * @param direction      the direction
-     * @param weaponToUse    the weapon to use
-     * @param lI             the l i
-     * @param lS             the l s
-     * @param lAInput        the l a input
-     * @param lPInput        the l p input
-     * @param lPColourInput  the l p colour input
+     * @param direction      direction
+     * @param weaponToUse    weapon name
+     * @param lI             effect number list
+     * @param lS             various strings list
+     * @param lAInput        colour list
+     * @param lPInput        powerup list
+     * @param lPColourInput  powerup colour input
      * @throws RemoteException RMI exception
      */
     public synchronized void finalFrenzyAction1(String nickName, int direction, List<String> weaponToReload, String weaponToUse, List<Integer> lI, List<String> lS, List<Colour> lAInput, List<String> lPInput, List<String> lPColourInput) throws RemoteException {

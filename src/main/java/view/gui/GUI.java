@@ -380,7 +380,7 @@ public class GUI implements View, Serializable {
         this.newSpawnPoint();
     }
 
-    public void finalFrenzyTurn() throws RemoteException{
+    public void finalFrenzyTurn() throws RemoteException {
         MyTask task = new MyTask(game, identifier, this.getNickName(), server);
         Timer timer = new Timer();
         timer.schedule(task, 1500000);
@@ -394,23 +394,26 @@ public class GUI implements View, Serializable {
     }
 
 
-    public synchronized void FirstFFAction(boolean end){
+    public synchronized void firstFFAction(boolean end) {
+        JFrame jF = new JFrame("Final Frenzy Action 1");
+        jF.setLocation(50, 50);
+        Container c  = jF.getContentPane();
+
+    }
+
+    public synchronized void secondFFAction(boolean end) {
         //TODO
     }
 
-    public synchronized void SecondFFAction(boolean end){
+    public synchronized void thirdFFAction(boolean end) {
         //TODO
     }
 
-    public synchronized void ThirdFFAction(boolean end){
+    public synchronized void fourthFFAction(boolean end) {
         //TODO
     }
 
-    public synchronized void FourthFFAction(boolean end){
-        //TODO
-    }
-
-    public synchronized void FifthFFAction(boolean end){
+    public synchronized void fifthFFAction(boolean end) {
         //TODO
     }
 

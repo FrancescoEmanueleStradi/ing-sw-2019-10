@@ -1,7 +1,6 @@
-package view.gui.actions.move;
+package view.gui;
 
 import network.ServerInterface;
-import view.gui.GUI;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -11,14 +10,15 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Timer;
 
-public class Move2 extends JPanel implements ActionListener {
+public class FFAction2 extends JPanel implements ActionListener {
 
     private GUI gui;
     private ServerInterface server;
     private JFrame parent;
     private int game;
-    private int identifier;
     private String nickName;
+    private java.util.Timer timer;
+
     private List<Integer> directions = new LinkedList<>();
     private JButton leftArrow;
     private JButton rightArrow;
@@ -27,20 +27,18 @@ public class Move2 extends JPanel implements ActionListener {
     private JButton reset;
     private int dirCount;
     private JButton b;
-    private Timer timer;
-    /*private JTextField txt1;
-    private JTextField txt2;
-    private JTextField txt3;*/
 
-    public Move2(GUI gui, ServerInterface server, int game, int identifier, String nickName, JFrame parent, java.util.Timer timer) {
+    public FFAction2(GUI gui, ServerInterface server, JFrame parent, int game, String nickName, Timer timer) {
         super();
         this.gui = gui;
         this.server = server;
         this.parent = parent;
         this.game = game;
-        this.identifier = identifier;
         this.nickName = nickName;
         this.timer = timer;
+
+        add(new JLabel("Final Frenzy action 2.\n" +
+                "You may move up to 4 squares."));
 
         add(new JLabel("Select the directions you want to move in, up to 3"));
         leftArrow = new JButton("Left");
@@ -68,7 +66,7 @@ public class Move2 extends JPanel implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             JButton direction = (JButton) e.getSource();
-            while(dirCount >= 1 && dirCount <= 3)
+            if(dirCount >= 1 && dirCount <= 4)
                 b.setEnabled(true);
 
             if(direction == reset) {
@@ -79,39 +77,39 @@ public class Move2 extends JPanel implements ActionListener {
                 upArrow.setEnabled(true);
                 downArrow.setEnabled(true);
             }
+            else {
+                if(direction == leftArrow)
+                    directions.add(4);
+                else if(direction == rightArrow)
+                    directions.add(2);
+                else if(direction == upArrow)
+                    directions.add(1);
+                else if(direction == downArrow)
+                    directions.add(3);
+                dirCount++;
 
-            if(direction == leftArrow)
-                directions.add(4);
-            else if(direction == rightArrow)
-                directions.add(2);
-            else if(direction == upArrow)
-                directions.add(1);
-            else if(direction == downArrow)
-                directions.add(3);
-            dirCount++;
-
-            if(dirCount == 3) {
-                leftArrow.setEnabled(false);
-                rightArrow.setEnabled(false);
-                upArrow.setEnabled(false);
-                downArrow.setEnabled(false);
+                if(dirCount == 4) {
+                    leftArrow.setEnabled(false);
+                    rightArrow.setEnabled(false);
+                    upArrow.setEnabled(false);
+                    downArrow.setEnabled(false);
+                }
             }
         }
     }
 
     public synchronized void actionPerformed(ActionEvent e) {
         try {
-            timer.cancel();
-            if(!server.messageIsValidSecondActionMove(game, nickName, directions)) {
-                gui.moveSecondAction();
+            if(!server.messageIsValidFinalFrenzyAction2(game, nickName, directions)) {
+                gui.firstFFAction(false);
                 parent.dispose();
             }
             else {
-                server.messageSecondActionMove(game, nickName, directions);
+                server.messageFinalFrenzyAction2(game, nickName, directions);
                 gui.doYouWantToUsePUC3();
                 parent.dispose();
             }
-        } catch (RemoteException | InterruptedException ex) {
+        } catch (RemoteException ex) {
 
         }
     }

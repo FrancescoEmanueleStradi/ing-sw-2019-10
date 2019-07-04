@@ -114,10 +114,6 @@ public class Move1 extends JPanel implements ActionListener {
     public synchronized void actionPerformed(ActionEvent e) {
         try {
             timer.cancel();
-            /*List<Integer> l = new LinkedList<>();
-            l.add(Integer.parseInt(txt1.getText()));
-            l.add(Integer.parseInt(txt2.getText()));
-            l.add(Integer.parseInt(txt3.getText()));*/
             if(!server.messageIsValidFirstActionMove(game, nickName, directions)) {
                 gui.moveFirstAction();
                 parent.dispose();

@@ -1,11 +1,13 @@
 package view.gui.socket;
 
 import model.Colour;
+import network.rmi.MyTask;
 import network.socket.MyTaskSocket;
 import view.*;
 import view.gui.*;
 import view.gui.actions.Action1;
 import view.gui.actions.Action2;
+import view.gui.actions.shoot.Shoot1;
 
 import java.awt.*;
 import javax.swing.*;
@@ -203,16 +205,39 @@ public class GUISocket implements View, Serializable {
 
     public void shootFirstAction() {
         try {
+            MyTaskSocket task = new MyTaskSocket(game, identifier, this.getNickName(), socket);
+            Timer timer = new Timer();
+            timer.schedule(task, 150000);
             JFrame shoot = new JFrame("First action - shoot");
-            shoot.setLocation(50, 50);
+            shoot.setLocation(50,50);
             Container c = shoot.getContentPane();
-            Shoot1Socket shoot1 = new Shoot1Socket(this, socket, game, identifier, nickName);
+            Shoot1Socket shoot1 = new Shoot1Socket(this, socket, game, identifier, nickName, shoot, timer);
             c.add(shoot1);
-            shoot.setSize(500, 500);
+            shoot.setSize(500,500);
             shoot.setVisible(true);
         }catch (IOException ex) {
 
         }
+    }
+
+    public void shootToUser1(String weapon){
+        //TODO
+
+    }
+
+    public void shootToUser2(String weapon){
+        //TODO
+
+    }
+
+    public void shootToUser3(String weapon){
+        //TODO
+
+    }
+
+    public void shootToUser4(String weapon){
+        //TODO
+
     }
 
     public void action2() throws InterruptedException {
@@ -267,6 +292,26 @@ public class GUISocket implements View, Serializable {
         //c.add(shoot2);
         shoot.setSize(500,500);
         shoot.setVisible(true);
+    }
+
+    public void shoot2ToUser1(String weapon){
+        //TODO
+
+    }
+
+    public void shoot2ToUser2(String weapon){
+        //TODO
+
+    }
+
+    public void shoot2ToUser3(String weapon){
+        //TODO
+
+    }
+
+    public void shoot2ToUser4(String weapon){
+        //TODO
+
     }
 
     //TODO image
@@ -527,26 +572,73 @@ public class GUISocket implements View, Serializable {
     }
 
     public synchronized void firstFFAction(boolean end) {
-        JFrame jF = new JFrame("Final Frenzy Action 1");
-        jF.setLocation(50, 50);
-        Container c  = jF.getContentPane();
+        try {
+            JFrame jF = new JFrame("Final Frenzy Action 1");
+            jF.setLocation(50, 50);
+            Container c = jF.getContentPane();
+            FFAction1Socket ff1 = new FFAction1Socket(this, socket, jF, game, nickName);
+            c.add(ff1);
+            jF.setSize(400, 400);
+            jF.setVisible(true);
+        }catch (IOException ex) {
 
+        }
     }
 
     public synchronized void secondFFAction(boolean end) {
-        //TODO
+        try {
+            JFrame jF = new JFrame("Final Frenzy Action 2");
+            jF.setLocation(50, 50);
+            Container c = jF.getContentPane();
+            FFAction2Socket ff2 = new FFAction2Socket(this, socket, jF, game, nickName);
+            c.add(ff2);
+            jF.setSize(400, 400);
+            jF.setVisible(true);
+        }catch (IOException ex) {
+
+        }
     }
 
-    public synchronized void thirdFFAction(boolean end) {
-        //TODO
+    public synchronized void thirdFFAction(boolean end) throws RemoteException {
+        try {
+            JFrame jF = new JFrame("Final Frenzy Action 3");
+            jF.setLocation(50, 50);
+            Container c = jF.getContentPane();
+            FFAction3Socket ff3 = new FFAction3Socket(this, socket, jF, game, nickName);
+            c.add(ff3);
+            jF.setSize(400, 400);
+            jF.setVisible(true);
+        }catch (IOException ex) {
+
+        }
     }
 
     public synchronized void fourthFFAction(boolean end) {
-        //TODO
+        try {
+            JFrame jF = new JFrame("Final Frenzy Action 4");
+            jF.setLocation(50, 50);
+            Container c = jF.getContentPane();
+            FFAction4Socket ff4 = new FFAction4Socket(this, socket, jF, game, nickName);
+            c.add(ff4);
+            jF.setSize(400, 400);
+            jF.setVisible(true);
+        }catch (IOException ex) {
+
+        }
     }
 
-    public synchronized void fifthFFAction(boolean end) {
-        //TODO
+    public synchronized void fifthFFAction(boolean end) throws RemoteException {
+        try {
+            JFrame jF = new JFrame("Final Frenzy Action 5");
+            jF.setLocation(50, 50);
+            Container c = jF.getContentPane();
+            FFAction5Socket ff5 = new FFAction5Socket(this, socket, jF, game, nickName);
+            c.add(ff5);
+            jF.setSize(400, 400);
+            jF.setVisible(true);
+        }catch (IOException ex) {
+
+        }
     }
 
     public void endFinalFrenzy() throws RemoteException {

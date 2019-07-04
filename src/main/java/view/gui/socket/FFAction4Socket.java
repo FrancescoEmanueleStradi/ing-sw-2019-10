@@ -18,7 +18,7 @@ public class FFAction4Socket extends JPanel {
     private JFrame parent;
     private int game;
     private String nickName;
-    private java.util.Timer timer;
+    private Timer timer;
 
     private List<Integer> directions = new LinkedList<>();
     private JButton leftArrow;
@@ -29,7 +29,7 @@ public class FFAction4Socket extends JPanel {
     private int dirCount;
     private JButton b;
 
-    public FFAction4Socket(GUISocket gui, Socket socket, JFrame parent, int game, String nickName, Timer timer) throws IOException {
+    public FFAction4Socket(GUISocket gui, Socket socket, JFrame parent, int game, String nickName) throws IOException {
         super();
         this.gui = gui;
         this.socket = socket;
@@ -38,7 +38,6 @@ public class FFAction4Socket extends JPanel {
         this.parent = parent;
         this.game = game;
         this.nickName = nickName;
-        this.timer = timer;
 
         add(new JLabel("Final Frenzy action 4.\n" +
                 "You may move up to 2 squares, reload (optional), then shoot."));

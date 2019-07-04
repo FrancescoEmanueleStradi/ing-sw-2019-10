@@ -108,11 +108,7 @@ public class Grab1Socket extends JPanel {
             if(cardConfirm == weaponConfirm)
                 weaponGrab();
             else if(cardConfirm == ammoConfirm)
-                try {
-                    finalGrab();
-                }catch (IOException ex) {
-
-                }
+                finalGrab();
             weaponConfirm.setEnabled(false);
             ammoConfirm.setEnabled(false);
         }
@@ -314,7 +310,7 @@ public class Grab1Socket extends JPanel {
         }
     }
 
-    private void finalGrab() throws IOException {
+    private void finalGrab() {
         socketOut.println("Message Is Valid First Action Grab");
         socketOut.println(game);
         socketOut.println(nickName);
@@ -363,11 +359,7 @@ public class Grab1Socket extends JPanel {
     private class GrabFinal implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            try {
-                finalGrab();
-            }catch (IOException ex) {
-
-            }
+            finalGrab();
         }
     }
 

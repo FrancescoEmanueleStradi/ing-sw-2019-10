@@ -20,7 +20,7 @@ public class FFAction2Socket extends JPanel implements ActionListener {
     private JFrame parent;
     private int game;
     private String nickName;
-    private java.util.Timer timer;
+    private Timer timer;
 
     private List<Integer> directions = new LinkedList<>();
     private JButton leftArrow;
@@ -31,16 +31,13 @@ public class FFAction2Socket extends JPanel implements ActionListener {
     private int dirCount;
     private JButton b;
 
-    public FFAction2Socket(GUISocket gui, Socket socket, JFrame parent, int game, String nickName, Timer timer) throws IOException {
+    public FFAction2Socket(GUISocket gui, Socket socket, JFrame parent, int game, String nickName) throws IOException {
         super();
         this.gui = gui;
         this.socket = socket;
-        this.socketOut = new PrintWriter(socket.getOutputStream(), true);
-        this.socketIn = new Scanner(socket.getInputStream());
         this.parent = parent;
         this.game = game;
         this.nickName = nickName;
-        this.timer = timer;
 
         add(new JLabel("Final Frenzy action 2.\n" +
                 "You may move up to 4 squares."));
@@ -114,7 +111,7 @@ public class FFAction2Socket extends JPanel implements ActionListener {
         String isValidFFAction2 = socketIn.nextLine();
 
         if(!isValidFFAction2.equals("true")) {
-            gui.firstFFAction(false);
+            gui.secondFFAction(false);
             parent.dispose();
         }
         else {
@@ -125,7 +122,8 @@ public class FFAction2Socket extends JPanel implements ActionListener {
             for(int i1 : directions)
                 socketOut.println(i1);
 
-            gui.doYouWantToUsePUC3();
+            //gui.doYouWantToUsePUC3();
+            parent.setVisible(false);
             parent.dispose();
         }
     }

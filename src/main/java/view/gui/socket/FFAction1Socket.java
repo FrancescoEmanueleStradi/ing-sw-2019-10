@@ -29,7 +29,7 @@ public class FFAction1Socket extends JPanel {
     private int dirCount;
     private JButton b;
 
-    public FFAction1Socket(GUISocket gui, Socket socket, JFrame parent, int game, String nickName, Timer timer) throws IOException {
+    public FFAction1Socket(GUISocket gui, Socket socket, JFrame parent, int game, String nickName) throws IOException {
         super();
         this.gui = gui;
         this.socket = socket;
@@ -38,7 +38,6 @@ public class FFAction1Socket extends JPanel {
         this.parent = parent;
         this.game = game;
         this.nickName = nickName;
-        this.timer = timer;
 
         add(new JLabel("Final Frenzy action 1.\n" +
                 "You may move one square, reload (optional), then shoot."));

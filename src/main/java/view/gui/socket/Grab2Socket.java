@@ -1,9 +1,7 @@
 package view.gui.socket;
 
 import model.Colour;
-import network.ServerInterface;
 import view.gui.CardLinkList;
-import view.gui.GUI;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -11,7 +9,6 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.rmi.RemoteException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
@@ -300,11 +297,11 @@ public class Grab2Socket extends JPanel {
             JCheckBox checked = (JCheckBox)e.getSource();
             ImageIcon power = (ImageIcon)checked.getIcon();
             if(checked.isSelected()) {
-                lP.add(cardLink.getNamefromImageIcon(power));
+                lP.add(cardLink.getNameFromImageIcon(power));
                 lPC.add(cardLink.getColourfromImageIcon(power));
             }
             else {
-                lP.remove(cardLink.getNamefromImageIcon(power));
+                lP.remove(cardLink.getNameFromImageIcon(power));
                 lPC.remove(cardLink.getColourfromImageIcon(power));
             }
             if(!finalConfirm.isEnabled())

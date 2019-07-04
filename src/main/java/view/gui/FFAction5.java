@@ -11,6 +11,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Timer;
 
+/**
+ * Fifth Final Frenzy action panel.
+ */
 public class FFAction5 extends JPanel {
 
     private GUI gui;
@@ -44,6 +47,15 @@ public class FFAction5 extends JPanel {
     private JComboBox slotList;
     private JComboBox slot1List, slot2List, slot3List;
 
+    /**
+     * Creates a new FFAction5.
+     *
+     * @param gui gui
+     * @param server server
+     * @param parent parent
+     * @param game game
+     * @param nickName nickname
+     */
     public FFAction5(GUI gui, ServerInterface server, JFrame parent, int game, String nickName) throws RemoteException {
         super();
         this.gui = gui;
@@ -243,11 +255,11 @@ public class FFAction5 extends JPanel {
             JCheckBox checked = (JCheckBox)e.getSource();
             ImageIcon power = (ImageIcon)checked.getIcon();
             if(checked.isSelected()) {
-                lP.add(cardLink.getNamefromImageIcon(power));
+                lP.add(cardLink.getNameFromImageIcon(power));
                 lPC.add(cardLink.getColourfromImageIcon(power));
             }
             else {
-                lP.remove(cardLink.getNamefromImageIcon(power));
+                lP.remove(cardLink.getNameFromImageIcon(power));
                 lPC.remove(cardLink.getColourfromImageIcon(power));
             }
             if(!finalConfirm.isEnabled())

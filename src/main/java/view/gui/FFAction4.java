@@ -7,6 +7,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Timer;
 
+/**
+ * Fourth Final Frenzy action panel.
+ */
 public class FFAction4 extends JPanel {
 
     private GUI gui;
@@ -25,6 +28,15 @@ public class FFAction4 extends JPanel {
     private int dirCount;
     private JButton b;
 
+    /**
+     * Creates a new FFAction4.
+     *
+     * @param gui gui
+     * @param server server
+     * @param parent parent
+     * @param game game
+     * @param nickName nickname
+     */
     public FFAction4(GUI gui, ServerInterface server, JFrame parent, int game, String nickName) {
         super();
         this.gui = gui;

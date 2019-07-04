@@ -4,12 +4,21 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.Serializable;
 
+/**
+ * Panel containing the layout out of the grid components.
+ */
 public class GridGraphic extends JPanel implements Serializable {
 
     private Image image1;
     private JScrollPane jScrollPane;
     private TextArea textArea;
 
+    /**
+     * Creates a new GridGraphic. Includes an area which lets the user scroll through
+     * messages that appear during the game.
+     *
+     * @param s1 graphic filename
+     */
     public GridGraphic(String s1) {
         image1 = Toolkit.getDefaultToolkit().createImage(s1);
         loadImage(image1);
@@ -23,12 +32,22 @@ public class GridGraphic extends JPanel implements Serializable {
         add(textArea);
     }
 
+    /**
+     * Allows grid graphic to be rendered.
+     *
+     * @param g graphic
+     */
     protected void paintComponent(Graphics g) {
         setOpaque(false);
         g.drawImage(image1, 0, 0, null);
         super.paintComponent(g);
     }
 
+    /**
+     * Loads image.
+     *
+     * @param img image
+     */
     private void loadImage(Image img) {
         try {
             MediaTracker track = new MediaTracker(this);
@@ -39,12 +58,14 @@ public class GridGraphic extends JPanel implements Serializable {
         }
     }
 
+    /**
+     * Refreshes scroll pane text.
+     *
+     * @param text
+     */
     public void changeText(String text){
         //jScrollPane.setToolTipText(text);
         jScrollPane.setToolTipText(text);
         this.revalidate();
     }
-
-
-
 }

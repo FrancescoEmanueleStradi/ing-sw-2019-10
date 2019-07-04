@@ -10,6 +10,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Timer;
 
+/**
+ * Second Final Frenzy action panel.
+ */
 public class FFAction2 extends JPanel implements ActionListener {
 
     private GUI gui;
@@ -28,6 +31,15 @@ public class FFAction2 extends JPanel implements ActionListener {
     private int dirCount;
     private JButton b;
 
+    /**
+     * Creates a new FFAction2.
+     *
+     * @param gui gui
+     * @param server server
+     * @param parent parent
+     * @param game game
+     * @param nickName nickname
+     */
     public FFAction2(GUI gui, ServerInterface server, JFrame parent, int game, String nickName) {
         super();
         this.gui = gui;

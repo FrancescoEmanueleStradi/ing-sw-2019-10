@@ -34,14 +34,14 @@ public class FFAction1Socket extends JPanel {
     private JButton b;
 
     /**
-     * Creates a new FFAction1.
+     * Creates a new FFAction1Socket.
      *
      * @param gui gui
      * @param socket socket
      * @param parent parent
      * @param game game
      * @param nickName nickname
-     * @throws IOException IO Exception
+     * @throws IOException I/O exception of some sort
      */
     public FFAction1Socket(GUISocket gui, Socket socket, JFrame parent, int game, String nickName) throws IOException {
         super();

@@ -10,6 +10,9 @@ import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
 import java.util.Timer;
 
+/**
+ * Panel prompting shoot(first action) input parameters.
+ */
 public class Shoot1 extends JPanel implements ActionListener {
 
     private GUI gui;
@@ -23,6 +26,18 @@ public class Shoot1 extends JPanel implements ActionListener {
     private JFrame parent;
     private CardLinkList l = new CardLinkList();
 
+    /**
+     * Creates a new Shoot1.
+     *
+     * @param gui gui
+     * @param server server
+     * @param game game
+     * @param identifier identifier
+     * @param nickName nickname
+     * @param parent parentframe
+     * @param timer timer
+     * @throws RemoteException RMI exception
+     */
     public Shoot1(GUI gui, ServerInterface server, int game, int identifier, String nickName, JFrame parent, Timer timer) throws RemoteException {
         super();
         this.gui = gui;

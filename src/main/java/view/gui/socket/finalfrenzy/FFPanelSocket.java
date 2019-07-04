@@ -36,7 +36,7 @@ public class FFPanelSocket extends JPanel implements ActionListener {
     private int count = 0;
 
     /**
-     * Creates a new FFPanel.
+     * Creates a new FFPanelSocket.
      *
      * @param gui gui
      * @param socket socket
@@ -44,7 +44,7 @@ public class FFPanelSocket extends JPanel implements ActionListener {
      * @param game game
      * @param nickName nickname
      * @param timer timer
-     * @throws IOException IO Exception
+     * @throws IOException I/O exception of some sort
      */
     public FFPanelSocket(GUISocket gui, Socket socket, JFrame parent, int game, String nickName, Timer timer) throws IOException {
         super();

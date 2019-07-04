@@ -13,6 +13,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Panel prompting choice of powerup card.
+ */
 public class UsePUCPanelSocket extends JPanel implements ActionListener {
 
     private GUISocket gui;
@@ -26,6 +29,18 @@ public class UsePUCPanelSocket extends JPanel implements ActionListener {
     private int turn;
     private List<JButton> l = new LinkedList<>();
 
+    /**
+     * Creates a new UsePUCPanelSocket.
+     *
+     * @param gui gui
+     * @param socket socket
+     * @param parent parent frame
+     * @param game game
+     * @param nickName nickname
+     * @param timer timer
+     * @param turn turn
+     * @throws IOException I/O exception of some sort
+     */
     public UsePUCPanelSocket(GUISocket gui, Socket socket, JFrame parent, int game, String nickName, java.util.Timer timer, int turn) throws IOException {
         super();
         this.gui = gui;

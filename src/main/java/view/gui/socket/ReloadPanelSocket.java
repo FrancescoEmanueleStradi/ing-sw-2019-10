@@ -11,6 +11,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Panel prompting player to reload one or more weapon cards.
+ */
 public class ReloadPanelSocket extends JPanel implements ActionListener {
 
     private GUISocket gui;
@@ -22,6 +25,16 @@ public class ReloadPanelSocket extends JPanel implements ActionListener {
     private String nickName;
     private List<JButton> l = new LinkedList<>();
 
+    /**
+     * Creates a new ReloadPanelSocket.
+     *
+     * @param gui gui
+     * @param socket socket
+     * @param parent parent frame
+     * @param game game
+     * @param nickName nickname
+     * @throws IOException I/O exception of some sort
+     */
     public ReloadPanelSocket(GUISocket gui, Socket socket, JFrame parent, int game, String nickName) throws IOException {
         super();
         this.gui = gui;
@@ -52,8 +65,6 @@ public class ReloadPanelSocket extends JPanel implements ActionListener {
         }
 
     }
-
-
 
     public void actionPerformed(ActionEvent e) {
         try {

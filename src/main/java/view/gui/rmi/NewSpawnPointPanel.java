@@ -23,7 +23,7 @@ public class NewSpawnPointPanel extends JPanel implements ActionListener {
     private JTextField txt2;
 
     /**
-     * Creates a new SpawnPointPanel
+     * Creates a new SpawnPointPanel.
      *
      * @param gui gui
      * @param server server

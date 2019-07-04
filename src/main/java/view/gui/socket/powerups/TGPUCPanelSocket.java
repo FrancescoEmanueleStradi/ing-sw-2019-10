@@ -13,6 +13,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Panel for the Tagback Grenade powerup requesting parameters before use.
+ */
 public class TGPUCPanelSocket extends JPanel implements ActionListener {
 
     private GUISocket gui;
@@ -29,6 +32,19 @@ public class TGPUCPanelSocket extends JPanel implements ActionListener {
     private String c;
     private List<String> l = new LinkedList();
 
+    /**
+     * Creates a new TGPUCPanelSocket.
+     *
+     * @param gui gui
+     * @param socket socket
+     * @param parent parent frame
+     * @param game game
+     * @param nickName nickname
+     * @param timer timer
+     * @param turn turn
+     * @param c ammo cube colour
+     * @throws IOException I/O exception of some sort
+     */
     public TGPUCPanelSocket(GUISocket gui, Socket socket, JFrame parent , int game, String nickName, java.util.Timer timer, int turn, String c) throws IOException {
         this.gui = gui;
         this.socket = socket;

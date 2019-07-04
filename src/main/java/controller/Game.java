@@ -1421,9 +1421,8 @@ public class Game {
         }
     }
 
-    //TODO what does this do again?
     /**
-     *
+     * Socket method for when a card is discarded.
      *
      * @return boolean
      */

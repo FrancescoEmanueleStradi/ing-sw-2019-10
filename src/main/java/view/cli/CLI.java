@@ -355,7 +355,6 @@ public class CLI extends UnicastRemoteObject implements View {
                 break;
 
             case "Plasma Gun":
-                //TODO
                 System.out.println(inputReminder +
                         "basic effect (1): TARGET you can see\n" +
                         "phase glide (2): NUMBER of cells you want to move (1 or 2) and the DIRECTION(s)\n" +
@@ -364,7 +363,6 @@ public class CLI extends UnicastRemoteObject implements View {
                 break;
 
             case "Power Glove":
-                //TODO
                 System.out.println(inputReminder +
                         "basic mode (1): TARGET 1 move away\n" +
                         "rocket fist mode (2) [1 blue]: 1. COORDINATES of cell 1 move away\n" +
@@ -384,7 +382,6 @@ public class CLI extends UnicastRemoteObject implements View {
                 break;
 
             case "Rocket Launcher":
-                //TODO
                 System.out.println(inputReminder +
                         "basic effect (1): 1. TARGET you can see but not in your cell\n" +
                         "              2. (2) [OPTIONAL] DIRECTION in which you want to move them\n" +
@@ -714,7 +711,6 @@ public class CLI extends UnicastRemoteObject implements View {
                 break;
 
             case "Plasma Gun":
-                //TODO
                 System.out.println(inputReminder +
                         "basic effect (1): TARGET you can see\n" +
                         "phase glide (2): NUMBER of cells you want to move (1 or 2) and the DIRECTION(s)\n" +
@@ -723,7 +719,6 @@ public class CLI extends UnicastRemoteObject implements View {
                 break;
 
             case "Power Glove":
-                //TODO
                 System.out.println(inputReminder +
                         "basic mode (1): TARGET 1 move away\n" +
                         "rocket fist mode (2) [1 blue]: 1. COORDINATES of cell 1 move away\n" +
@@ -743,7 +738,6 @@ public class CLI extends UnicastRemoteObject implements View {
                 break;
 
             case "Rocket Launcher":
-                //TODO
                 System.out.println(inputReminder +
                         "basic effect (1): 1. TARGET you can see but not in your cell\n" +
                         "              2. (2) [OPTIONAL] DIRECTION in which you want to move them\n" +

@@ -32,7 +32,7 @@ public class DiscardPUCSocket extends JPanel implements ActionListener {
     private String c2;
 
     /**
-     * Creates a new DiscardPUC.
+     * Creates a new DiscardPUCSocket.
      *
      * @param gui gui
      * @param socket socket
@@ -43,7 +43,7 @@ public class DiscardPUCSocket extends JPanel implements ActionListener {
      * @param c1 powerup colour 1
      * @param c2 powerup colour 2
      * @param parent parent frame
-     * @throws IOException IO Exception
+     * @throws IOException I/O exception of some sort
      */
     public DiscardPUCSocket(GUISocket gui, Socket socket, int game, String nickName, String n1, String n2, String c1, String c2, JFrame parent) throws IOException {
         super();

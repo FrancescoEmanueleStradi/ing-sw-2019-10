@@ -37,14 +37,14 @@ public class FFAction2Socket extends JPanel implements ActionListener {
     private JButton b;
 
     /**
-     * Creates a new FFAction2.
+     * Creates a new FFAction2Socket.
      *
      * @param gui gui
      * @param socket socket
      * @param parent parent
      * @param game game
      * @param nickName nickname
-     * @throws IOException IO Exception
+     * @throws IOException I/O exception of some sort
      */
     public FFAction2Socket(GUISocket gui, Socket socket, JFrame parent, int game, String nickName) throws IOException {
         super();

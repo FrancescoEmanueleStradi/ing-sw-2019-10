@@ -11,6 +11,9 @@ import java.net.Socket;
 import java.rmi.RemoteException;
 import java.util.Scanner;
 
+/**
+ * Initial panel prompting players to enter their name and colour.
+ */
 public class TakeInformationSocket extends JPanel implements ActionListener {
 
     private GUISocket gui;
@@ -24,10 +27,18 @@ public class TakeInformationSocket extends JPanel implements ActionListener {
     private JComboBox colourList;
     private JComboBox arenaList;
     private JTextField txt1;
-    /*private JTextField txt2;
-    private JTextField txt3;*/
-    private boolean error = false;
 
+    /**
+     * Creates a new TakeInformationSocket. Slightly different conditions for the first
+     * player who must choose the arena type.
+     *
+     * @param gui gui
+     * @param socket socket
+     * @param game game
+     * @param identifier identifier
+     * @param parent parent frame
+     * @throws IOException I/O exception of some sort
+     */
     public TakeInformationSocket(GUISocket gui, Socket socket, int game, int identifier, JFrame parent) throws IOException {
         super();
         this.gui = gui;
@@ -43,8 +54,6 @@ public class TakeInformationSocket extends JPanel implements ActionListener {
         txt1 = new JTextField("Write here", 25);
         colourList = new JComboBox(colours);
         arenaList = new JComboBox(arenas);
-        //txt2 = new JTextField("Write here", 25);
-        //txt3 = new JTextField("Write here", 25);
         b.addActionListener(this);
         add(new JLabel(("Enter your name:"))).doLayout();
         add(txt1).doLayout();
@@ -73,6 +82,11 @@ public class TakeInformationSocket extends JPanel implements ActionListener {
 
     }
 
+    /**
+     * Receives first player's information.
+     *
+     * @throws RemoteException RMI exception
+     */
     private void getInformation() throws RemoteException {
         String colour = (String) colourList.getSelectedItem();
         Integer type = (Integer) arenaList.getSelectedItem();
@@ -98,6 +112,11 @@ public class TakeInformationSocket extends JPanel implements ActionListener {
         parent.dispose();
     }
 
+    /**
+     * Receives all other players' information.
+     *
+     * @throws RemoteException RMI exception
+     */
     private void getLessInformation() throws RemoteException {
         String colour = (String) colourList.getSelectedItem();
 

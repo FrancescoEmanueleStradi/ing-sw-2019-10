@@ -15,6 +15,9 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.Timer;
 
+/**
+ * Panel prompting grab (second action) input parameters.
+ */
 public class Grab2Socket extends JPanel {
 
     private GUISocket gui;
@@ -48,6 +51,18 @@ public class Grab2Socket extends JPanel {
     private JFrame parent;
     private java.util.Timer timer;
 
+    /**
+     * Creates a new Grab2Socket.
+     *
+     * @param gui gui
+     * @param socket socket
+     * @param game game
+     * @param identifier identifier
+     * @param nickName nickname
+     * @param parent parent frame
+     * @param timer timer
+     * @throws IOException I/O exception of some sort
+     */
     public Grab2Socket(GUISocket gui, Socket socket, int game, int identifier, String nickName, JFrame parent, Timer timer) throws IOException {
         super();
         this.gui = gui;

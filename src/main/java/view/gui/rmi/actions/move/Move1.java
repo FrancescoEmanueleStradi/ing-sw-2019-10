@@ -11,6 +11,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Timer;
 
+/**
+ * Panel prompting move (first action) input parameters.
+ */
 public class Move1 extends JPanel implements ActionListener {
 
     private GUI gui;
@@ -28,10 +31,18 @@ public class Move1 extends JPanel implements ActionListener {
     private int dirCount;
     private JButton b;
     private Timer timer;
-    /*private JTextField txt1;
-    private JTextField txt2;
-    private JTextField txt3;*/
 
+    /**
+     * Creates a new Move1.
+     *
+     * @param gui gui
+     * @param server server
+     * @param game game
+     * @param identifier identifier
+     * @param nickName nickname
+     * @param parent parent frame
+     * @param timer timer
+     */
     public Move1(GUI gui, ServerInterface server, int game, int identifier, String nickName, JFrame parent, Timer timer) {
         super();
         this.gui = gui;
@@ -41,17 +52,6 @@ public class Move1 extends JPanel implements ActionListener {
         this.identifier = identifier;
         this.nickName = nickName;
         this.timer = timer;
-
-        /*txt1 = new JTextField("Write here", 25);
-        txt2 = new JTextField("Write here", 25);
-        txt3 = new JTextField("Write here", 25);
-        b.addActionListener(this);
-        add(new JLabel(("Enter your first direction:")));
-        add(txt1);
-        add(new JLabel("Enter your second direction:"));
-        add(txt2);
-        add(new JLabel("Enter your third direction:"));
-        add(txt3);*/
 
         add(new JLabel("Select the directions you want to move in, up to 3"));
         leftArrow = new JButton("Left");

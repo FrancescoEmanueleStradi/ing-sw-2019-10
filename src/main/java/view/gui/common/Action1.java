@@ -8,6 +8,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
+/**
+ * Panel prompting choice of first action.
+ */
 public class Action1 extends JPanel implements ActionListener {
 
     private GUI gui = null;
@@ -17,6 +20,13 @@ public class Action1 extends JPanel implements ActionListener {
     JButton grabButton;
     JButton shootButton;
 
+    /**
+     * Creates a new Action1.
+     *
+     * @param gui gui
+     * @param guiSocket socket gui
+     * @param parent parent frame
+     */
     public Action1(GUI gui, GUISocket guiSocket, JFrame parent) {
         super();
 

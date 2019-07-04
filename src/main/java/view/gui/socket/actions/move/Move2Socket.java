@@ -13,6 +13,9 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.Timer;
 
+/**
+ * Panel prompting move (second action) input parameters.
+ */
 public class Move2Socket extends JPanel implements ActionListener {
 
     private GUISocket gui;
@@ -33,6 +36,18 @@ public class Move2Socket extends JPanel implements ActionListener {
     private JButton b;
     private Timer timer;
 
+    /**
+     * Creates a new Move2Socket.
+     *
+     * @param gui gui
+     * @param socket socket
+     * @param game game
+     * @param identifier identifier
+     * @param nickName nickname
+     * @param parent parent frame
+     * @param timer timer
+     * @throws IOException I/O exception of some sort
+     */
     public Move2Socket(GUISocket gui, Socket socket, int game, int identifier, String nickName, JFrame parent, Timer timer) throws IOException {
         super();
         this.gui = gui;

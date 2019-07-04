@@ -13,6 +13,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Timer;
 
+/**
+ * Panel prompting grab (second action) input parameters.
+ */
 public class Grab2 extends JPanel {
 
     private GUI gui;
@@ -44,6 +47,18 @@ public class Grab2 extends JPanel {
     private JFrame parent;
     private java.util.Timer timer;
 
+    /**
+     * Creates a new Grab2.
+     *
+     * @param gui gui
+     * @param server server
+     * @param game game
+     * @param identifier identifier
+     * @param nickName nickname
+     * @param parent parent frame
+     * @param timer timer
+     * @throws RemoteException RMI exception
+     */
     public Grab2(GUI gui, ServerInterface server, int game, int identifier, String nickName, JFrame parent, Timer timer) throws RemoteException {
         super();
         this.gui = gui;

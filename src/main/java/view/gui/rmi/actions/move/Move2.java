@@ -11,6 +11,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Timer;
 
+/**
+ * Panel prompting move (second action) input parameters.
+ */
 public class Move2 extends JPanel implements ActionListener {
 
     private GUI gui;
@@ -28,10 +31,18 @@ public class Move2 extends JPanel implements ActionListener {
     private int dirCount;
     private JButton b;
     private Timer timer;
-    /*private JTextField txt1;
-    private JTextField txt2;
-    private JTextField txt3;*/
 
+    /**
+     * Creates a new Move2.
+     *
+     * @param gui gui
+     * @param server server
+     * @param game game
+     * @param identifier identifier
+     * @param nickName nickname
+     * @param parent parent frame
+     * @param timer timer
+     */
     public Move2(GUI gui, ServerInterface server, int game, int identifier, String nickName, JFrame parent, java.util.Timer timer) {
         super();
         this.gui = gui;

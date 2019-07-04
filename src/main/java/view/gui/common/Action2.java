@@ -8,6 +8,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
 
+/**
+ * Panel prompting choice of second action.
+ */
 public class Action2 extends JPanel implements ActionListener {
 
     private GUI gui = null;
@@ -17,6 +20,13 @@ public class Action2 extends JPanel implements ActionListener {
     JButton grabButton;
     JButton shootButton;
 
+    /**
+     * Creates a new Action2.
+     *
+     * @param gui gui
+     * @param guiSocket socket gui
+     * @param parent parent frame
+     */
     public Action2(GUI gui, GUISocket guiSocket, JFrame parent) {
         super();
 

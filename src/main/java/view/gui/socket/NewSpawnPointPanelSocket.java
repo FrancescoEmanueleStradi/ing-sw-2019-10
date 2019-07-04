@@ -11,6 +11,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Panel prompting to discard a powerup card for new spawn point. Simpler
+ * implementation comapred to DiscardPUC.
+ */
 public class NewSpawnPointPanelSocket extends JPanel implements ActionListener {
 
     private GUISocket gui;
@@ -24,6 +28,16 @@ public class NewSpawnPointPanelSocket extends JPanel implements ActionListener {
     private JTextField txt1;
     private JTextField txt2;
 
+    /**
+     * Creates a new NewSpawnPointPanelSocket.
+     *
+     * @param gui gui
+     * @param socket socket
+     * @param parent parent frame
+     * @param game game
+     * @param nickName nickname
+     * @throws IOException I/O exception of some sort
+     */
     public NewSpawnPointPanelSocket(GUISocket gui, Socket socket, JFrame parent, int game, String nickName) throws IOException {
         super();
         this.gui = gui;

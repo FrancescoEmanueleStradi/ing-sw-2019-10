@@ -14,6 +14,9 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.Timer;
 
+/**
+ * Panel prompting shoot(first action) input parameters.
+ */
 public class Shoot1Socket extends JPanel implements ActionListener {
 
     private GUISocket gui;
@@ -29,6 +32,18 @@ public class Shoot1Socket extends JPanel implements ActionListener {
     private JFrame parent;
     private CardLinkList l = new CardLinkList();
 
+    /**
+     * Creates a new Shoot1.
+     *
+     * @param gui gui
+     * @param socket socket
+     * @param game game
+     * @param identifier identifier
+     * @param nickName nickname
+     * @param parent parentframe
+     * @param timer timer
+     * @throws IOException I/O exception of some sort
+     */
     public Shoot1Socket(GUISocket gui, Socket socket, int game, int identifier, String nickName, JFrame parent, Timer timer) throws IOException {
         super();
         this.gui = gui;

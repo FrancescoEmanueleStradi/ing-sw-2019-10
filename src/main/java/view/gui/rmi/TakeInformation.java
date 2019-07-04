@@ -22,7 +22,6 @@ public class TakeInformation extends JPanel implements ActionListener {
     private JComboBox colourList;
     private JComboBox arenaList;
     private JTextField txt1;
-    private boolean error = false;
 
     /**
      * Creates a new TakeInformation. Slightly different conditions for the first
@@ -79,9 +78,8 @@ public class TakeInformation extends JPanel implements ActionListener {
      * Receives first player's information.
      *
      * @throws RemoteException RMI exception
-     * @throws InterruptedException Thread interruption
      */
-    private void getInformation()  throws RemoteException, InterruptedException {
+    private void getInformation()  throws RemoteException {
         String colour = (String)colourList.getSelectedItem();
         Integer type = (Integer)arenaList.getSelectedItem();
 

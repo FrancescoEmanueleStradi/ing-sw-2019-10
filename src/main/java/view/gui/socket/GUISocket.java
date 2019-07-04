@@ -176,7 +176,6 @@ public class GUISocket implements View, Serializable {
         }
     }
 
-
     public void action1() throws InterruptedException {
         JFrame action = new JFrame(this.nickName + "'s FIRST ACTION");
         action.setLocation(50,50);
@@ -187,7 +186,7 @@ public class GUISocket implements View, Serializable {
         action.setVisible(true);
     }
 
-    public void moveFirstAction(){
+    public void moveFirstAction() {
         try {
             MyTaskSocket task = new MyTaskSocket(game, identifier, this.getNickName(), socket);
             Timer timer = new Timer();
@@ -204,7 +203,7 @@ public class GUISocket implements View, Serializable {
         }
     }
 
-    public void grabFirstAction()  {
+    public void grabFirstAction() {
         try {
             MyTaskSocket task = new MyTaskSocket(game, identifier, this.getNickName(), socket);
             Timer timer = new Timer();
@@ -332,7 +331,6 @@ public class GUISocket implements View, Serializable {
 
     }
 
-    //TODO image
     public void usePowerUpCard() throws RemoteException {
         try {
             MyTaskSocket task = new MyTaskSocket(game, identifier, this.getNickName(), socket);
@@ -384,7 +382,7 @@ public class GUISocket implements View, Serializable {
         }
     }
 
-    public void TGPUC(Timer timer, int turn, String col) throws RemoteException, InterruptedException{
+    public void TGPUC(Timer timer, int turn, String col) throws RemoteException, InterruptedException {
         try {
             JFrame jF = new JFrame("Effect");
             jF.setLocation(150, 150);
@@ -398,7 +396,7 @@ public class GUISocket implements View, Serializable {
         }
     }
 
-    public void TSPUC(Timer timer, int turn, String col) throws RemoteException, InterruptedException{
+    public void TSPUC(Timer timer, int turn, String col) throws RemoteException, InterruptedException {
         try {
             JFrame jF = new JFrame("Effect");
             jF.setLocation(150, 150);
@@ -412,7 +410,7 @@ public class GUISocket implements View, Serializable {
         }
     }
 
-    public void NPUC(Timer timer, int turn, String col) throws RemoteException, InterruptedException{
+    public void NPUC(Timer timer, int turn, String col) throws RemoteException, InterruptedException {
         try {
             JFrame jF = new JFrame("Effect");
             jF.setLocation(150,150);
@@ -426,7 +424,7 @@ public class GUISocket implements View, Serializable {
         }
     }
 
-    public void TPUC(Timer timer, int turn, String col) throws RemoteException, InterruptedException{
+    public void TPUC(Timer timer, int turn, String col) throws RemoteException, InterruptedException {
         try {
             JFrame jF = new JFrame("Effect");
             jF.setLocation(150,150);

@@ -489,14 +489,6 @@ public class GUI implements View, Serializable {
         jF.setVisible(true);
     }
 
-
-
-
-
-
-
-
-
     public void endFinalFrenzy() throws RemoteException {
         this.server.messageEndTurnFinalFrenzy(game);
         gridGraphic.changeText("We are calculating the result");

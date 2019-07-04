@@ -246,12 +246,11 @@ public class Board {
         }
     }
 
-    //TODO
     /**
-     * Substitute
+     * Substitutes skulls.
      *
-     * @param n the n
-     * @return the int
+     * @param n  n
+     * @return int (default: -1)
      */
     public int substituteSkull(int n) {
         for(int i = 0; i <this.k.getSkulls().length; i++) {

@@ -34,7 +34,7 @@ public class UsePUCPanel extends JPanel implements ActionListener {
      * @param nickName nickname
      * @param timer timer
      * @param turn turn
-     * @throws RemoteException RMI exeption
+     * @throws RemoteException RMI exception
      */
     public UsePUCPanel(GUI gui, ServerInterface server, JFrame parent, int game, String nickName, java.util.Timer timer, int turn) throws RemoteException {
         super();

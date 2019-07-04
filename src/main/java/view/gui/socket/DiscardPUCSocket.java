@@ -43,8 +43,6 @@ public class DiscardPUCSocket extends JPanel implements ActionListener {
         this.c2 = c2;
         CardLinkList l = new CardLinkList();
         add(new JLabel("The following are " + this.nickName +"'s starting PowerUpCards")).setBounds(0,0, 5, 5);
-        add(new JLabel(l.getImageIconFromName(n1, c1))).setBounds(0, 5, 10, 10);
-        add(new JLabel(l.getImageIconFromName(n2, c2))).setBounds(10, 5, 10, 10);
         add(new JLabel("Enter the name of the card you want to keep; you will discard the other one corresponding to the " +
                 "colour of your spawn point")).doLayout();
         firstButton = new JButton(this.n1 + " coloured " + this.c1);

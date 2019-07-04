@@ -379,9 +379,47 @@ public class GUI implements View, Serializable {
         this.newSpawnPoint();
     }
 
-    public void finalFrenzyTurn() {
+    public void finalFrenzyTurn() throws RemoteException{
+        MyTask task = new MyTask(game, identifier, this.getNickName(), server);
+        Timer timer = new Timer();
+        timer.schedule(task, 1500000);
+        JFrame jF = new JFrame("Final Frenzy");
+        jF.setLocation(50,50);
+        Container c = jF.getContentPane();
+        FFPanel ffPanel = new FFPanel(this, server, jF, game, nickName, timer);
+        c.add(ffPanel);
+        jF.setSize(400,400);
+        jF.setVisible(true);
+    }
+
+
+    public synchronized void FirstFFAction(){
         //TODO
     }
+
+    public synchronized void SecondFFAction(){
+        //TODO
+    }
+
+    public synchronized void ThirdFFAction(){
+        //TODO
+    }
+
+    public synchronized void FourthFFAction(){
+        //TODO
+    }
+
+    public synchronized void FifthFFAction(){
+        //TODO
+    }
+
+
+
+
+
+
+
+
 
     public void endFinalFrenzy() throws RemoteException {
         this.server.messageEndTurnFinalFrenzy(game);

@@ -11,6 +11,9 @@ import java.net.Socket;
 import java.rmi.RemoteException;
 import java.util.Scanner;
 
+/**
+ * Panel prompting to discard a powerup card for the spawn point.
+ */
 public class DiscardPUCSocket extends JPanel implements ActionListener {
 
     private GUISocket gui;
@@ -27,7 +30,20 @@ public class DiscardPUCSocket extends JPanel implements ActionListener {
     private String c1;
     private String c2;
 
-
+    /**
+     * Creates a new DiscardPUC.
+     *
+     * @param gui gui
+     * @param socket socket
+     * @param game game
+     * @param nickName nickname
+     * @param n1 powerup 1
+     * @param n2 powerup 2
+     * @param c1 powerup colour 1
+     * @param c2 powerup colour 2
+     * @param parent parent frame
+     * @throws IOException IO Exception
+     */
     public DiscardPUCSocket(GUISocket gui, Socket socket, int game, String nickName, String n1, String n2, String c1, String c2, JFrame parent) throws IOException {
         super();
         this.gui = gui;

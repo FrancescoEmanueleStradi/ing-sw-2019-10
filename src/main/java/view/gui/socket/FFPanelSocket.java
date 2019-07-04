@@ -12,6 +12,9 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.Timer;
 
+/**
+ * Panel prompting selection of Final Frenzy action(s).
+ */
 public class FFPanelSocket extends JPanel implements ActionListener {
 
     private GUISocket gui;
@@ -30,6 +33,17 @@ public class FFPanelSocket extends JPanel implements ActionListener {
     private Timer timer;
     private int count = 0;
 
+    /**
+     * Creates a new FFPanel.
+     *
+     * @param gui gui
+     * @param socket socket
+     * @param parent parent
+     * @param game game
+     * @param nickName nickname
+     * @param timer timer
+     * @throws IOException IO Exception
+     */
     public FFPanelSocket(GUISocket gui, Socket socket, JFrame parent, int game, String nickName, Timer timer) throws IOException {
         super();
         this.gui = gui;

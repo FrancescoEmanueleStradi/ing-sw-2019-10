@@ -2,7 +2,6 @@ package view.gui.socket;
 
 import model.Colour;
 import view.gui.CardLinkList;
-import view.gui.FFAction5;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -15,6 +14,9 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.Timer;
 
+/**
+ * Fifth Final Frenzy action panel.
+ */
 public class FFAction5Socket extends JPanel {
 
     private GUISocket gui;
@@ -49,6 +51,16 @@ public class FFAction5Socket extends JPanel {
     private JComboBox slotList;
     private JComboBox slot1List, slot2List, slot3List;
 
+    /**
+     * Creates a new FFAction5.
+     *
+     * @param gui gui
+     * @param socket socket
+     * @param parent parent
+     * @param game game
+     * @param nickName nickname
+     * @throws IOException IO Exception
+     */
     public FFAction5Socket(GUISocket gui, Socket socket, JFrame parent, int game, String nickName) throws IOException {
         super();
         this.gui = gui;
@@ -299,11 +311,11 @@ public class FFAction5Socket extends JPanel {
             JCheckBox checked = (JCheckBox)e.getSource();
             ImageIcon power = (ImageIcon)checked.getIcon();
             if(checked.isSelected()) {
-                lP.add(cardLink.getNamefromImageIcon(power));
+                lP.add(cardLink.getNameFromImageIcon(power));
                 lPC.add(cardLink.getColourfromImageIcon(power));
             }
             else {
-                lP.remove(cardLink.getNamefromImageIcon(power));
+                lP.remove(cardLink.getNameFromImageIcon(power));
                 lPC.remove(cardLink.getColourfromImageIcon(power));
             }
             if(!finalConfirm.isEnabled())

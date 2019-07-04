@@ -7,8 +7,10 @@ import java.net.Socket;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.Timer;
 
+/**
+ * First Final Frenzy action panel.
+ */
 public class FFAction1Socket extends JPanel {
 
     private GUISocket gui;
@@ -18,7 +20,7 @@ public class FFAction1Socket extends JPanel {
     private JFrame parent;
     private int game;
     private String nickName;
-    private java.util.Timer timer;
+    private Timer timer;
 
     private List<Integer> directions = new LinkedList<>();
     private JButton leftArrow;
@@ -29,6 +31,16 @@ public class FFAction1Socket extends JPanel {
     private int dirCount;
     private JButton b;
 
+    /**
+     * Creates a new FFAction1.
+     *
+     * @param gui gui
+     * @param socket socket
+     * @param parent parent
+     * @param game game
+     * @param nickName nickname
+     * @throws IOException IO Exception
+     */
     public FFAction1Socket(GUISocket gui, Socket socket, JFrame parent, int game, String nickName) throws IOException {
         super();
         this.gui = gui;

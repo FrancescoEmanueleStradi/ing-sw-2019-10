@@ -9,6 +9,9 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.Timer;
 
+/**
+ * Fourth Final Frenzy action panel.
+ */
 public class FFAction4Socket extends JPanel {
 
     private GUISocket gui;
@@ -29,6 +32,16 @@ public class FFAction4Socket extends JPanel {
     private int dirCount;
     private JButton b;
 
+    /**
+     * Creates a new FFAction4.
+     *
+     * @param gui gui
+     * @param socket socket
+     * @param parent parent
+     * @param game game
+     * @param nickName nickname
+     * @throws IOException IO Exception
+     */
     public FFAction4Socket(GUISocket gui, Socket socket, JFrame parent, int game, String nickName) throws IOException {
         super();
         this.gui = gui;

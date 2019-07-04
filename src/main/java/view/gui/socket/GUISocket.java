@@ -1,13 +1,11 @@
 package view.gui.socket;
 
 import model.Colour;
-import network.rmi.MyTask;
 import network.socket.MyTaskSocket;
 import view.*;
 import view.gui.*;
 import view.gui.actions.Action1;
 import view.gui.actions.Action2;
-import view.gui.actions.shoot.Shoot1;
 
 import java.awt.*;
 import javax.swing.*;
@@ -22,6 +20,11 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.Timer;
 
+/**
+ * View class for GUISocket.
+ * Note that many of the non-interface methods are merely extension of existing ones
+ * and do not require additional documentation.
+ */
 public class GUISocket implements View, Serializable {
 
     private int game;
@@ -35,8 +38,13 @@ public class GUISocket implements View, Serializable {
     private GridGraphic gridGraphic;
     private Colour colour;
 
-
-
+    /**
+     * Creates new GUISocket, starting with a single base JFrame.
+     *
+     * @param game game
+     * @param socket socket
+     * @throws IOException IO exception
+     */
     public GUISocket(int game, Socket socket) throws IOException {
         super();
         this.game = game;
@@ -599,7 +607,7 @@ public class GUISocket implements View, Serializable {
         }
     }
 
-    public synchronized void thirdFFAction(boolean end) throws RemoteException {
+    public synchronized void thirdFFAction(boolean end) {
         try {
             JFrame jF = new JFrame("Final Frenzy Action 3");
             jF.setLocation(50, 50);
@@ -627,7 +635,7 @@ public class GUISocket implements View, Serializable {
         }
     }
 
-    public synchronized void fifthFFAction(boolean end) throws RemoteException {
+    public synchronized void fifthFFAction(boolean end) {
         try {
             JFrame jF = new JFrame("Final Frenzy Action 5");
             jF.setLocation(50, 50);

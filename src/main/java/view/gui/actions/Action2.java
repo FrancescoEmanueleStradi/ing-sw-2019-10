@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.rmi.RemoteException;
 
 public class Action2 extends JPanel implements ActionListener {
 
@@ -65,6 +66,8 @@ public class Action2 extends JPanel implements ActionListener {
             parent.dispose();
         }catch (InterruptedException i) {
 
+        }catch(RemoteException exc){
+            
         }
     }
 }

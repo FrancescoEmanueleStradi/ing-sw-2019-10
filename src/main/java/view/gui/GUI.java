@@ -119,7 +119,7 @@ public class GUI implements View, Serializable {
         this.server.messageGiveTwoPUCard(game, this.nickName);
         JFrame spawnPoint = new JFrame("Spawn point selection");
         spawnPoint.setLocation(10,10);
-        Container c = spawnPoint.getContentPane();                  //TODO image
+        Container c = spawnPoint.getContentPane();
         DiscardPUC d = new DiscardPUC(this, server, game, nickName, this.server.messageGetPlayerPowerUpCard(game, this.nickName).get(0), this.server.messageGetPlayerPowerUpCard(game, this.nickName).get(1), this.server.messageGetPlayerPowerUpCardColour(game, this.nickName).get(0), this.server.messageGetPlayerPowerUpCardColour(game, this.nickName).get(1), spawnPoint);
         d.setLayout(new FlowLayout(FlowLayout.LEFT));
         c.add(d);
@@ -220,7 +220,6 @@ public class GUI implements View, Serializable {
         shoot.setVisible(true);
     }
 
-    //TODO image
     public void usePowerUpCard() throws RemoteException {
         MyTask task = new MyTask(game, identifier, this.getNickName(), server);
         Timer timer = new Timer();

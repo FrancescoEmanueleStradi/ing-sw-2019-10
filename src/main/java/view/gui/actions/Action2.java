@@ -67,7 +67,7 @@ public class Action2 extends JPanel implements ActionListener {
         }catch (InterruptedException i) {
 
         }catch(RemoteException exc){
-            
+
         }
     }
 }

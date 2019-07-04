@@ -41,7 +41,7 @@ public class CLIWeaponPrompt {
             System.out.println(ENTER_AMMO_COLOUR);
             lC = enterAmmoColour(in);
 
-            server.messageGetPowerUpCard(game, nickName).forEach(System.out::println);
+            server.messageGetPlayerPowerUpCard(game, nickName).forEach(System.out::println);
 
             System.out.println(ENTER_POWER_UP);
             lP = enterPowerUp(in);
@@ -87,7 +87,7 @@ public class CLIWeaponPrompt {
             System.out.println(ENTER_AMMO_COLOUR);
             lC = enterAmmoColour(in);
 
-            server.messageGetPowerUpCard(game, nickName).forEach(System.out::println);
+            server.messageGetPlayerPowerUpCard(game, nickName).forEach(System.out::println);
 
             System.out.println(ENTER_POWER_UP);
             lP = enterPowerUp(in);
@@ -130,7 +130,7 @@ public class CLIWeaponPrompt {
            System.out.println(ENTER_AMMO_COLOUR);
            lC = enterAmmoColour(in);
 
-           server.messageGetPowerUpCard(game, nickName).forEach(System.out::println);
+           server.messageGetPlayerPowerUpCard(game, nickName).forEach(System.out::println);
 
            System.out.println(ENTER_POWER_UP);
            lP = enterPowerUp(in);
@@ -173,7 +173,7 @@ public class CLIWeaponPrompt {
             System.out.println(ENTER_AMMO_COLOUR);
             lC = enterAmmoColour(in);
 
-            server.messageGetPowerUpCard(game, nickName).forEach(System.out::println);
+            server.messageGetPlayerPowerUpCard(game, nickName).forEach(System.out::println);
 
             System.out.println(ENTER_POWER_UP);
             lP = enterPowerUp(in);

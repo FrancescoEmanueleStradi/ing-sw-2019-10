@@ -29,9 +29,9 @@ public class Shoot1 extends JPanel implements ActionListener {
         this.nickName = nickName;
 
         add(new JLabel("Select the weapon you want to use:"));
-        for(String weaponName : server.messageGetWeaponCardLoaded(game, nickName))
+        for(String weaponName : server.messageGetPlayerWeaponCardLoaded(game, nickName))
             add(new JLabel(l.getImageIconFromName(weaponName, null))).doLayout();
-        Object[] weapons = server.messageGetWeaponCardLoaded(game, nickName).toArray();
+        Object[] weapons = server.messageGetPlayerWeaponCardLoaded(game, nickName).toArray();
         weaponsList = new JComboBox(weapons);
         add(weaponsList).doLayout();
 

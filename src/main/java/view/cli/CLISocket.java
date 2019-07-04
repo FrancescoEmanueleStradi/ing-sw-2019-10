@@ -28,6 +28,10 @@ public class CLISocket extends UnicastRemoteObject implements View {
     private static final String ERRORRETRY = "Error: please retry";
     private static final String COLOURED = " coloured ";
     private static final String DIRECTIONS = "1 = north, 2 = east, 3 = south, 4 = west";
+    private static final String inputReminder = "Below are the relevant strings (marked by capital letters) you must enter for this card,\nwith respect to any possible order of effects as " +
+            "described in the manual. The order of the sub-effects MUST be respected.\nIn brackets is the additional ammo cost for certain effects and firing modes.\n" +
+            "Also in brackets is the OPTIONAL tag for certain sub-effects, which MUST receive an empty string,\nor 0 in case of a direction, " +
+            "should they not be used.\n";
     private static final String EXITSTRING = "Do you want to go back and change action?";
     private static final String YESPROMPT = "(Yes/yes/y)";
 
@@ -348,10 +352,6 @@ public class CLISocket extends UnicastRemoteObject implements View {
     }
 
     public void shootFirstAction() throws IOException {
-        String inputReminder = "Below are the relevant strings (marked by capital letters) you must enter for this card,\nwith respect to any possible order of effects as " +
-                "described in the manual. The order of the sub-effects MUST be respected.\nIn brackets is the additional ammo cost for certain effects and firing modes.\n" +
-                "Also in brackets is the OPTIONAL tag for certain sub-effects, which MUST receive an empty string,\nor 0 in case of a direction, " +
-                "should they not be used.\n";
         Scanner in = new Scanner(System.in);
         String s;
 
@@ -828,10 +828,6 @@ public class CLISocket extends UnicastRemoteObject implements View {
     }
 
     public void shootSecondAction() throws IOException {
-        String inputReminder = "Below are the relevant strings (marked by capital letters) you must enter for this card,\nwith respect to any possible order of effects as " +
-                "described in the manual. The order of the sub-effects MUST be respected.\nIn brackets is the additional ammo cost for certain effects and firing modes.\n" +
-                "Also in brackets is the OPTIONAL tag for certain sub-effects, which MUST receive an empty string,\nor 0 in case of a direction, " +
-                "should they not be used.\n";
         Scanner in = new Scanner(System.in);
         String s;
 

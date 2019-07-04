@@ -9,7 +9,7 @@ import java.util.List;
  * This class contains the vital information to be stored for each active connection.
  * Each Player in a game has a nickName, identifier, and a boolean isMyTurn which are necessary
  * to maintain turn order, especially if a player reconnects should an issue be encountered.
- * The Lists of Lists are used in notify methods within socket connections.
+ * The lists of lists are used in notify methods within socket connections.
  */
 public class Connection {
 
@@ -103,7 +103,6 @@ public class Connection {
 
     //methods used for notify (socket)
 
-
     /**
      * Gets list of players to be printed.
      *
@@ -128,7 +127,6 @@ public class Connection {
     public void setPrintPlayerList(List<String> informationPrintPlayer) {
         printPlayerList.add(informationPrintPlayer);
     }
-
 
     /**
      * Gets score list to be printed.
@@ -155,7 +153,6 @@ public class Connection {
         printScoreList.add(informationPrintScore);
     }
 
-
     /**
      * Gets position list to be printed.
      *
@@ -181,7 +178,6 @@ public class Connection {
         printPositionList.add(informationPrintPosition);
     }
 
-
     /**
      * Gets mark list to be printed
      *
@@ -206,7 +202,6 @@ public class Connection {
     public void setPrintMarkList(List<String> informationPrintMark) {
         printMarkList.add(informationPrintMark);
     }
-
 
     /**
      * Gets damage list to be printed.

@@ -174,14 +174,14 @@ public class SocketServerClientHandler implements Runnable {
                     case "Message Get Initial PowerUp Card":
                         int gameMessageGetInitialPowerUpCard = Integer.parseInt(inScanner.nextLine());
                         String nicknameMessageGetInitialPowerUpCard = inScanner.nextLine();
-                        outPrinter.println(server.messageGetPowerUpCard(gameMessageGetInitialPowerUpCard, nicknameMessageGetInitialPowerUpCard).get(0));
-                        outPrinter.println(server.messageGetPowerUpCard(gameMessageGetInitialPowerUpCard, nicknameMessageGetInitialPowerUpCard).get(1));
+                        outPrinter.println(server.messageGetPlayerPowerUpCard(gameMessageGetInitialPowerUpCard, nicknameMessageGetInitialPowerUpCard).get(0));
+                        outPrinter.println(server.messageGetPlayerPowerUpCard(gameMessageGetInitialPowerUpCard, nicknameMessageGetInitialPowerUpCard).get(1));
                         break;
                     case "Message Get Initial PowerUp Card Colour":
                         int gameMessageGetInitialPowerUpCardColour = Integer.parseInt(inScanner.nextLine());
                         String nicknameMessageGetInitialPowerUpCardColour = inScanner.nextLine();
-                        outPrinter.println(server.messageGetPowerUpCardColour(gameMessageGetInitialPowerUpCardColour, nicknameMessageGetInitialPowerUpCardColour).get(0));
-                        outPrinter.println(server.messageGetPowerUpCardColour(gameMessageGetInitialPowerUpCardColour, nicknameMessageGetInitialPowerUpCardColour).get(1));
+                        outPrinter.println(server.messageGetPlayerPowerUpCardColour(gameMessageGetInitialPowerUpCardColour, nicknameMessageGetInitialPowerUpCardColour).get(0));
+                        outPrinter.println(server.messageGetPlayerPowerUpCardColour(gameMessageGetInitialPowerUpCardColour, nicknameMessageGetInitialPowerUpCardColour).get(1));
                         break;
                     case "Message Is Valid Pick And Discard":
                         int gameMessageIsValidPickAndDiscard = Integer.parseInt(inScanner.nextLine());
@@ -200,11 +200,11 @@ public class SocketServerClientHandler implements Runnable {
                     case "Message Get PowerUp Card Name And Colour":
                         int game = Integer.parseInt(inScanner.nextLine());
                         String nickname = inScanner.nextLine();
-                        int size = server.messageGetPowerUpCard(game, nickname).size();
+                        int size = server.messageGetPlayerPowerUpCard(game, nickname).size();
                         outPrinter.println(size);
                         for(int i = 0; i < size; i++) {
-                            outPrinter.println(server.messageGetPowerUpCard(game, nickname).get(i));
-                            outPrinter.println(server.messageGetPowerUpCardColour(game, nickname).get(i));
+                            outPrinter.println(server.messageGetPlayerPowerUpCard(game, nickname).get(i));
+                            outPrinter.println(server.messageGetPlayerPowerUpCardColour(game, nickname).get(i));
                         }
                         break;
                     case "Message Get Description PUC":
@@ -212,7 +212,7 @@ public class SocketServerClientHandler implements Runnable {
                         String pUC = inScanner.nextLine();
                         String pUCCol = inScanner.nextLine();
                         String nickDesc = inScanner.nextLine();
-                        outPrinter.println(server.messageGetDescriptionPUC(gameDesc, pUC, pUCCol, nickDesc));
+                        outPrinter.println(server.messageGetPlayerDescriptionPUC(gameDesc, pUC, pUCCol, nickDesc));
                         break;
                     case "Message Is Valid Use PowerUp Card":
                         int game1 = Integer.parseInt(inScanner.nextLine());
@@ -253,10 +253,10 @@ public class SocketServerClientHandler implements Runnable {
                     case "Message Get Weapon Card Unloaded":
                         int game3 = Integer.parseInt(inScanner.nextLine());
                         String nickname3 = inScanner.nextLine();
-                        int size3 = server.messageGetWeaponCardUnloaded(game3, nickname3).size();
+                        int size3 = server.messageGetPlayerWeaponCardUnloaded(game3, nickname3).size();
                         outPrinter.println(size3);
                         for(int i = 0; i < size3; i++)
-                            outPrinter.println(server.messageGetWeaponCardUnloaded(game3, nickname3).get(i));
+                            outPrinter.println(server.messageGetPlayerWeaponCardUnloaded(game3, nickname3).get(i));
                         break;
                     case "Message Is Valid Reload":
                         int gameMessageIsValidReload = Integer.parseInt(inScanner.nextLine());
@@ -285,7 +285,7 @@ public class SocketServerClientHandler implements Runnable {
                     case "Message Get Player Weapon Card":
                         int game4 = Integer.parseInt(inScanner.nextLine());
                         String nickname4 = inScanner.nextLine();
-                        int size4 = server.messageGetWeaponCardUnloaded(game4, nickname4).size();
+                        int size4 = server.messageGetPlayerWeaponCardUnloaded(game4, nickname4).size();
                         outPrinter.println(size4);
                         for(int i = 0; i < size4; i++)
                             outPrinter.println(server.messageGetPlayerWeaponCard(game4, nickname4).get(i));
@@ -730,9 +730,9 @@ public class SocketServerClientHandler implements Runnable {
                     case "Message Get Weapon Card Loaded":
                         int game27 = Integer.parseInt(inScanner.nextLine());
                         String nickname24 = inScanner.nextLine();
-                        outPrinter.println(server.messageGetWeaponCardLoaded(game27, nickname24).size());
-                        for(int i = 0; i < server.messageGetWeaponCardLoaded(game27, nickname24).size(); i++)
-                            outPrinter.println(server.messageGetWeaponCardLoaded(game27, nickname24).get(i));
+                        outPrinter.println(server.messageGetPlayerWeaponCardLoaded(game27, nickname24).size());
+                        for(int i = 0; i < server.messageGetPlayerWeaponCardLoaded(game27, nickname24).size(); i++)
+                            outPrinter.println(server.messageGetPlayerWeaponCardLoaded(game27, nickname24).get(i));
                         break;
                     case "Message Is Valid Card":
                         int gameMessageIsValidCard = Integer.parseInt(inScanner.nextLine());
@@ -744,8 +744,8 @@ public class SocketServerClientHandler implements Runnable {
                         int gameMessageGetReloadCost = Integer.parseInt(inScanner.nextLine());
                         String selectionMessageGetReloadCost = inScanner.nextLine();
                         String nicknameMessageGetReloadCost = inScanner.nextLine();
-                        outPrinter.println(server.messageGetReloadCost(gameMessageGetReloadCost, selectionMessageGetReloadCost, nicknameMessageGetReloadCost).size());
-                        outPrinter.println(server.messageGetReloadCost(gameMessageGetReloadCost, selectionMessageGetReloadCost, nicknameMessageGetReloadCost));
+                        outPrinter.println(server.messageGetPlayerReloadCost(gameMessageGetReloadCost, selectionMessageGetReloadCost, nicknameMessageGetReloadCost).size());
+                        outPrinter.println(server.messageGetPlayerReloadCost(gameMessageGetReloadCost, selectionMessageGetReloadCost, nicknameMessageGetReloadCost));
                         break;
                     case "Message Get Reload Cost Reduced":
                         int gameMessageGetReloadCostReduced = Integer.parseInt(inScanner.nextLine());
@@ -756,7 +756,7 @@ public class SocketServerClientHandler implements Runnable {
                         int gameMessageGetDescriptionWC = Integer.parseInt(inScanner.nextLine());
                         String selectionMessageGetDescriptionWC = inScanner.nextLine();
                         String nicknameMessageGetDescriptionWC = inScanner.nextLine();
-                        outPrinter.println(server.messageGetDescriptionWC(gameMessageGetDescriptionWC, selectionMessageGetDescriptionWC, nicknameMessageGetDescriptionWC));
+                        outPrinter.println(server.messageGetPlayerDescriptionWC(gameMessageGetDescriptionWC, selectionMessageGetDescriptionWC, nicknameMessageGetDescriptionWC));
                         break;
                     case "Message Is Valid First Action Shoot":
                         int game28 = Integer.parseInt(inScanner.nextLine());

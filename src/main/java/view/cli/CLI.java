@@ -22,6 +22,10 @@ public class CLI extends UnicastRemoteObject implements View {
     private String nickName;
     private Colour colour;
     private static CLIWeaponPrompt wPrompt = new CLIWeaponPrompt();
+    private static final String inputReminder = "Below are the relevant strings (marked by capital letters) you must enter for this card,\nwith respect to any possible order of effects as " +
+            "described in the manual. The order of the sub-effects MUST be respected.\nIn brackets is the additional ammo cost for certain effects and firing modes.\n" +
+            "Also in brackets is the OPTIONAL tag for certain sub-effects, which MUST receive an empty string,\nor 0 in case of a direction, " +
+            "should they not be used.\n";
     private static final String ERRORRETRY = "Error: please retry";
     private static final String COLOURED = " coloured ";
     private static final String DIRECTIONS = "1 = north, 2 = east, 3 = south, 4 = west";
@@ -145,8 +149,8 @@ public class CLI extends UnicastRemoteObject implements View {
         this.server.messageGiveTwoPUCard(game, this.nickName);
 
         System.out.println("The following are " + this.nickName +"'s starting PowerUpCards:");
-        System.out.println(this.server.messageGetPowerUpCard(game, this.nickName).get(0) + COLOURED + this.server.messageGetPowerUpCardColour(game, this.nickName).get(0));
-        System.out.println(this.server.messageGetPowerUpCard(game, this.nickName).get(1) + COLOURED + this.server.messageGetPowerUpCardColour(game, this.nickName).get(1));
+        System.out.println(this.server.messageGetPlayerPowerUpCard(game, this.nickName).get(0) + COLOURED + this.server.messageGetPlayerPowerUpCardColour(game, this.nickName).get(0));
+        System.out.println(this.server.messageGetPlayerPowerUpCard(game, this.nickName).get(1) + COLOURED + this.server.messageGetPlayerPowerUpCardColour(game, this.nickName).get(1));
 
         System.out.println("\n---------- SPAWN POINT SELECTION ----------\n");
         while(true) {
@@ -163,14 +167,14 @@ public class CLI extends UnicastRemoteObject implements View {
                 System.out.println(ERRORRETRY);
         }
 
-        if(this.server.messageGetPowerUpCard(game, this.nickName).get(0).equals(p) && this.server.messageGetPowerUpCardColour(game, this.nickName).get(0).equals(c)) {
-            String spawnColour = this.server.messageGetPowerUpCardColour(game, this.nickName).get(1);
-            this.server.messagePickAndDiscardCard(game, this.nickName, this.server.messageGetPowerUpCard(game, this.nickName).get(0), this.server.messageGetPowerUpCardColour(game, this.nickName).get(0));
+        if(this.server.messageGetPlayerPowerUpCard(game, this.nickName).get(0).equals(p) && this.server.messageGetPlayerPowerUpCardColour(game, this.nickName).get(0).equals(c)) {
+            String spawnColour = this.server.messageGetPlayerPowerUpCardColour(game, this.nickName).get(1);
+            this.server.messagePickAndDiscardCard(game, this.nickName, this.server.messageGetPlayerPowerUpCard(game, this.nickName).get(0), this.server.messageGetPlayerPowerUpCardColour(game, this.nickName).get(0));
             System.out.println("Your spawn point is " + spawnColour + "\n");
         }
         else {
-            String spawnColour = this.server.messageGetPowerUpCardColour(game, this.nickName).get(0);
-            this.server.messagePickAndDiscardCard(game, this.nickName, this.server.messageGetPowerUpCard(game, this.nickName).get(1), this.server.messageGetPowerUpCardColour(game, this.nickName).get(1));
+            String spawnColour = this.server.messageGetPlayerPowerUpCardColour(game, this.nickName).get(0);
+            this.server.messagePickAndDiscardCard(game, this.nickName, this.server.messageGetPlayerPowerUpCard(game, this.nickName).get(1), this.server.messageGetPlayerPowerUpCardColour(game, this.nickName).get(1));
             System.out.println("Your spawn point is " + spawnColour + "\n");
         }
     }
@@ -236,16 +240,13 @@ public class CLI extends UnicastRemoteObject implements View {
     }
 
     public void shootFirstAction() throws RemoteException {
-        String inputReminder = "Below are the relevant strings (marked by capital letters) you must enter for this card,\nwith respect to any possible order of effects as " +
-                "described in the manual. The order of the sub-effects MUST be respected.\nIn brackets is the additional ammo cost for certain effects and firing modes.\n" +
-                "Also in brackets is the OPTIONAL tag for certain sub-effects, which MUST receive an empty string,\nor 0 in case of a direction, " +
-                "should they not be used.\n";
         Scanner in = new Scanner(System.in);
         String s;
+        System.out.println(this.server.messageCheckOthersStatus(game, this.nickName));
 
         while(true) {
             System.out.println("Choose one of the cards below to use. Make sure you have the required ammo at least for the basic effect/mode\n");
-            this.server.messageGetWeaponCardLoaded(game, this.nickName).forEach(System.out::println);
+            this.server.messageGetPlayerWeaponCardLoaded(game, this.nickName).forEach(System.out::println);
             s = in.nextLine();
 
             if(this.server.messageIsValidCard(game, nickName, s))
@@ -253,8 +254,8 @@ public class CLI extends UnicastRemoteObject implements View {
             else
                 System.out.println(ERRORRETRY);
         }
-        System.out.println(this.server.messageGetReloadCost(game, s, nickName));
-        System.out.println(this.server.messageGetDescriptionWC(game, s, nickName));
+        System.out.println(this.server.messageGetPlayerReloadCost(game, s, nickName));
+        System.out.println(this.server.messageGetPlayerDescriptionWC(game, s, nickName));
 
         switch(s) {
             case "Cyberblade":
@@ -598,16 +599,13 @@ public class CLI extends UnicastRemoteObject implements View {
     }
 
     public void shootSecondAction() throws RemoteException {
-        String inputReminder = "Below are the relevant strings (marked by capital letters) you must enter for this card,\nwith respect to any possible order of effects as " +
-                "described in the manual. The order of the sub-effects MUST be respected.\nIn brackets is the additional ammo cost for certain effects and firing modes.\n" +
-                "Also in brackets is the OPTIONAL tag for certain sub-effects, which MUST receive an empty string,\nor 0 in case of a direction, " +
-                "should they not be used.\n";
         Scanner in = new Scanner(System.in);
         String s;
+        System.out.println(this.server.messageCheckOthersStatus(game, this.nickName));
 
         while(true) {
             System.out.println("Choose one of the cards below to use. Make sure you have the required ammo at least for the basic effect/mode\n");
-            this.server.messageGetWeaponCardLoaded(game, this.nickName).forEach(System.out::println);
+            this.server.messageGetPlayerWeaponCardLoaded(game, this.nickName).forEach(System.out::println);
             s = in.nextLine();
 
             if(this.server.messageIsValidCard(game, nickName, s))
@@ -615,8 +613,8 @@ public class CLI extends UnicastRemoteObject implements View {
             else
                 System.out.println(ERRORRETRY);
         }
-        System.out.println(this.server.messageGetReloadCost(game, s, nickName));
-        System.out.println(this.server.messageGetDescriptionWC(game, s, nickName));
+        System.out.println(this.server.messageGetPlayerReloadCost(game, s, nickName));
+        System.out.println(this.server.messageGetPlayerDescriptionWC(game, s, nickName));
 
         switch(s) {
             case "Cyberblade":
@@ -915,15 +913,15 @@ public class CLI extends UnicastRemoteObject implements View {
         List<String> lS = new LinkedList<>();
 
         System.out.println("Enter which PowerUpCard you want to use. You have the following:");
-        for(int i = 0; i < this.server.messageGetPowerUpCard(game, nickName).size(); i++) {
-            System.out.println(this.server.messageGetPowerUpCard(game, nickName).get(i) + COLOURED + this.server.messageGetPowerUpCardColour(game, nickName).get(i));
+        for(int i = 0; i < this.server.messageGetPlayerPowerUpCard(game, nickName).size(); i++) {
+            System.out.println(this.server.messageGetPlayerPowerUpCard(game, nickName).get(i) + COLOURED + this.server.messageGetPlayerPowerUpCardColour(game, nickName).get(i));
         }
 
         namePC = in.nextLine();
 
         System.out.println("Enter the colour of the chosen PowerUpCard:");
         colourPC = in.nextLine();
-        this.server.messageGetDescriptionPUC(game, namePC, colourPC, nickName);
+        this.server.messageGetPlayerDescriptionPUC(game, namePC, colourPC, nickName);
 
         switch(namePC) {
             case "Tagback Grenade":
@@ -1026,7 +1024,7 @@ public class CLI extends UnicastRemoteObject implements View {
 
     public void reload() throws RemoteException {
         Scanner in = new Scanner(System.in);
-        this.server.messageGetWeaponCardUnloaded(game, this.nickName).forEach(System.out::println);
+        this.server.messageGetPlayerWeaponCardUnloaded(game, this.nickName).forEach(System.out::println);
 
         String reloadChoice;
 
@@ -1122,7 +1120,7 @@ public class CLI extends UnicastRemoteObject implements View {
                         System.out.println("Write the direction you want to move:");
                         i = in.nextInt();
 
-                        System.out.println("Write the card(s) you want to reload: " + this.server.messageGetWeaponCardUnloaded(game, nickName));
+                        System.out.println("Write the card(s) you want to reload: " + this.server.messageGetPlayerWeaponCardUnloaded(game, nickName));
                         while(in.hasNext())
                             lW.add(in.next());
 
@@ -1142,7 +1140,7 @@ public class CLI extends UnicastRemoteObject implements View {
                             lC.add(Colour.valueOf(in.next()));
 
                         System.out.println("Enter the PowerUpCard you want to use for paying during your turn:");
-                        this.server.messageGetPowerUpCard(game, nickName).forEach(System.out::println);
+                        this.server.messageGetPlayerPowerUpCard(game, nickName).forEach(System.out::println);
                         while(in.hasNext())
                             lP.add(in.next());
 
@@ -1254,7 +1252,7 @@ public class CLI extends UnicastRemoteObject implements View {
                         while(in.hasNext())
                             list3.add(in.nextInt());
 
-                        System.out.println("Write the card(s) you want to reload: " + this.server.messageGetWeaponCardUnloaded(game, nickName));
+                        System.out.println("Write the card(s) you want to reload: " + this.server.messageGetPlayerWeaponCardUnloaded(game, nickName));
                         while(in.hasNext())
                             lW2.add(in.next());
 
@@ -1273,7 +1271,7 @@ public class CLI extends UnicastRemoteObject implements View {
                             lC3.add(Colour.valueOf(in.next()));
 
                         System.out.println("Enter the PowerUpCard you want to use for paying during your turn, if necessary:");
-                        server.messageGetPowerUpCard(game, nickName).forEach(System.out::println);
+                        server.messageGetPlayerPowerUpCard(game, nickName).forEach(System.out::println);
                         while(in.hasNext())
                             lP3.add(in.next());
 

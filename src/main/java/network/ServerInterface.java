@@ -83,6 +83,8 @@ public interface ServerInterface extends Remote {
 
     String messageCheckYourStatus(int game, String nick) throws RemoteException;
 
+    String messageCheckOthersStatus(int game, String nick) throws RemoteException;
+
     String messageShowCardsOnBoard(int game) throws RemoteException;
 
     List<String> messageCheckWeaponSlotContents(int game, int n) throws RemoteException;
@@ -101,15 +103,15 @@ public interface ServerInterface extends Remote {
 
     void messageFirstActionMove(int game, String nick, List<Integer> d) throws RemoteException;
 
-    List<String> messageGetWeaponCardLoaded(int game, String nick) throws RemoteException;
+    List<String> messageGetPlayerWeaponCardLoaded(int game, String nick) throws RemoteException;
 
     boolean messageIsValidCard(int game, String nick, String weaponCard) throws RemoteException;
 
-    List<Colour> messageGetReloadCost(int game, String s, String nick) throws RemoteException;
+    List<Colour> messageGetPlayerReloadCost(int game, String s, String nick) throws RemoteException;
 
     List<Colour> messageGetReloadCostReduced(int game, String s) throws RemoteException;
 
-    String messageGetDescriptionWC(int game, String s, String nick) throws RemoteException;
+    String messageGetPlayerDescriptionWC(int game, String s, String nick) throws RemoteException;
 
     boolean messageIsValidFirstActionGrab(int game, String nick, List<Integer> d, String wC, String wS, List<Colour> lA, List<String> lP, List<String> lPC) throws RemoteException;
 
@@ -131,17 +133,17 @@ public interface ServerInterface extends Remote {
 
     void messageSecondActionGrab(int game, String nick, List<Integer> d, String wC, List<Colour> lC, List<String> lP, List<String> lPC) throws RemoteException;
 
-    List<String> messageGetPowerUpCard(int game, String nick) throws RemoteException;
+    List<String> messageGetPlayerPowerUpCard(int game, String nick) throws RemoteException;
 
-    String messageGetDescriptionPUC(int game, String pC, String col, String nick) throws RemoteException;
+    String messageGetPlayerDescriptionPUC(int game, String pC, String col, String nick) throws RemoteException;
 
-    List<String> messageGetPowerUpCardColour(int game, String nickName) throws RemoteException;
+    List<String> messageGetPlayerPowerUpCardColour(int game, String nickName) throws RemoteException;
 
     boolean messageIsValidUsePowerUpCard(int game, String nick, String pC, String col, List<String> l,Colour c) throws RemoteException;
 
     void messageUsePowerUpCard(int game, String nick, String pC, String col, List<String> l, Colour c) throws RemoteException;
 
-    List<String> messageGetWeaponCardUnloaded(int game, String nick) throws RemoteException;
+    List<String> messageGetPlayerWeaponCardUnloaded(int game, String nick) throws RemoteException;
 
     boolean messageIsValidReload(int game, String nick, String s) throws RemoteException;
 

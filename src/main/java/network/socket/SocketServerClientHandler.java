@@ -750,8 +750,10 @@ public class SocketServerClientHandler implements Runnable {
                         int gameMessageGetReloadCost = Integer.parseInt(inScanner.nextLine());
                         String selectionMessageGetReloadCost = inScanner.nextLine();
                         String nicknameMessageGetReloadCost = inScanner.nextLine();
-                        outPrinter.println(server.messageGetPlayerReloadCost(gameMessageGetReloadCost, selectionMessageGetReloadCost, nicknameMessageGetReloadCost).size());
-                        outPrinter.println(server.messageGetPlayerReloadCost(gameMessageGetReloadCost, selectionMessageGetReloadCost, nicknameMessageGetReloadCost));
+                        int sizeMessageGetReloadCost = server.messageGetPlayerReloadCost(gameMessageGetReloadCost, selectionMessageGetReloadCost, nicknameMessageGetReloadCost).size();
+                        outPrinter.println(sizeMessageGetReloadCost);
+                        for(int i = 0; i < sizeMessageGetReloadCost; i++)
+                            outPrinter.println(server.messageGetPlayerReloadCost(gameMessageGetReloadCost, selectionMessageGetReloadCost, nicknameMessageGetReloadCost).get(i));
                         break;
                     case "Message Get Reload Cost Reduced":
                         int gameMessageGetReloadCostReduced = Integer.parseInt(inScanner.nextLine());

@@ -23,7 +23,7 @@ public class CLI extends UnicastRemoteObject implements View {
     private Colour colour;
     private static CLIWeaponPrompt wPrompt = new CLIWeaponPrompt();
     private static final String inputReminder = "Below are the relevant strings (marked by capital letters) you must enter for this card,\nwith respect to any possible order of effects as " +
-            "described in the manual. The order of the sub-effects MUST be respected.\nIn brackets is the additional ammo cost for certain effects and firing modes.\n" +
+            "described in the manual. The number of the effect is in brackets (). The order of the sub-effects MUST be respected.\nIn brackets is the additional ammo cost for certain effects and firing modes.\n" +
             "Also in brackets is the OPTIONAL tag for certain sub-effects, which MUST receive an empty string,\nor 0 in case of a direction, " +
             "should they not be used.\n";
     private static final String ERRORRETRY = "Error: please retry";
@@ -92,7 +92,7 @@ public class CLI extends UnicastRemoteObject implements View {
             int counterColour = 0;
             do {
                 if(counterColour > 0)
-                    System.out.println(ERRORRETRY);
+                    System.out.println("Invalid colour, please retry.");
 
                 System.out.println(yourColour);
                 s1 = in.nextLine();
@@ -134,7 +134,7 @@ public class CLI extends UnicastRemoteObject implements View {
             int counterColour = 0;
             do {
                 if(counterColour > 0)
-                    System.out.println(ERRORRETRY);
+                    System.out.println("Invalid colour, please retry.");
 
                 System.out.println(yourColour);
                 s2 = in.nextLine();
@@ -181,7 +181,7 @@ public class CLI extends UnicastRemoteObject implements View {
             int counterPUCCOlour = 0;
             do {
                 if(counterPUCCOlour > 0)
-                    System.out.println(ERRORRETRY);
+                    System.out.println("Invalid colour, please retry.");
 
                 System.out.println("Enter the colour of the chosen PowerUp card:");
                 c = in.nextLine();
@@ -288,97 +288,97 @@ public class CLI extends UnicastRemoteObject implements View {
         switch(s) {
             case "Cyberblade":
                 System.out.println(inputReminder +
-                        "basic effect: TARGET in your cell\n" +
-                        "shadowstep: DIRECTION you want to move to\n" +
-                        "slice and dice [1 yellow]: DIFFERENT TARGET in your cell");
+                        "basic effect (1): TARGET in your cell\n" +
+                        "shadowstep (2): DIRECTION you want to move to\n" +
+                        "slice and dice (3) [1 yellow]: DIFFERENT TARGET in your cell");
                 wPrompt.shootToUser1(game, server, nickName, s);
                 break;
 
             case "Electroscythe":
                 System.out.println(inputReminder +
-                        "basic mode: none\n" +
-                        "reaper mode [1 red 1 blue]: none");
+                        "basic mode (1): none\n" +
+                        "reaper mode (2) [1 red 1 blue]: none");
                 wPrompt.shootToUser2(game, server, nickName, s);
                 break;
 
             case "Flamethrower":
                 System.out.println(inputReminder +
-                        "basic mode: 1. TARGET 1 move away\n " +
+                        "basic mode (1): 1. TARGET 1 move away\n " +
                         "            2. [OPTIONAL] ANOTHER TARGET 1 more move away in the same direction\n" +
-                        "barbecue mode [2 yellow]: 1. COORDINATES of cell of target(s) 1 move away\n" +
+                        "barbecue mode (2) [2 yellow]: 1. COORDINATES of cell of target(s) 1 move away\n" +
                         "                          2. [OPTIONAL] COORDINATES of another cell 1 more more away in the same direction");
                 wPrompt.shootToUser1(game, server, nickName, s);
                 break;
 
             case "Furnace":
                 System.out.println(inputReminder +
-                        "basic mode: COLOUR of room you can see that isn't your room\n" +
-                        "cozy fire mode: COORDINATES of cell 1 move away");
+                        "basic mode (1): COLOUR of room you can see that isn't your room\n" +
+                        "cozy fire mode (2): COORDINATES of cell 1 move away");
                 wPrompt.shootToUser3(game, server, nickName, s);
                 break;
 
             case "Grenade Launcher":
                 System.out.println(inputReminder +
-                        "basic effect: 1. TARGET you can see\n" +
+                        "basic effect (1): 1. TARGET you can see\n" +
                         "              2. [OPTIONAL] DIRECTION you wish to move that target in\n" +
-                        "extra grenade: COORDINATES of cell you can see [1 red]");
+                        "extra grenade (2): COORDINATES of cell you can see [1 red]");
                 wPrompt.shootToUser1(game, server, nickName, s);
                 break;
 
             case "Heatseeker":
                 System.out.println(inputReminder +
-                        "effect: TARGET you canNOT see");
+                        "effect (1): TARGET you canNOT see");
                 wPrompt.shootToUser3(game, server, nickName, s);
                 break;
 
             case "Hellion":
                 System.out.println(inputReminder +
-                        "basic mode: TARGET you can see at least 1 move away\n" +
-                        "nano-tracer mode [1 red]: as with basic mode");
+                        "basic mode (1): TARGET you can see at least 1 move away\n" +
+                        "nano-tracer mode (2) [1 red]: as with basic mode");
                 wPrompt.shootToUser1(game, server, nickName, s);
                 break;
 
             case "Lock Rifle":
                 System.out.println(inputReminder +
-                        "basic effect: TARGET you can see\n" +
-                        "second lock [1 red]: DIFFERENT TARGET you can see");
+                        "basic effect (1): TARGET you can see\n" +
+                        "second lock (2) [1 red]: DIFFERENT TARGET you can see");
                 wPrompt.shootToUser1(game, server, nickName, s);
                 break;
 
             case "Machine Gun":
                 System.out.println(inputReminder +
-                        "basic effect: 1. TARGET you can see\n" +
+                        "basic effect (1): 1. TARGET you can see\n" +
                         "              2. [OPTIONAL] ANOTHER TARGET you can see" +
-                        "focus shot [1 yellow]: ONE of those TARGETS\n" +
-                        "turret tripod [1 blue]: the OTHER of those TARGETS and/or a DIFFERENT TARGET you can see");
+                        "focus shot (2) [1 yellow]: ONE of those TARGETS\n" +
+                        "turret tripod (3) [1 blue]: the OTHER of those TARGETS and/or a DIFFERENT TARGET you can see");
                 wPrompt.shootToUser1(game, server, nickName, s);
                 break;
 
             case "Plasma Gun":
                 //TODO
                 System.out.println(inputReminder +
-                        "basic effect: TARGET you can see\n" +
-                        "phase glide: NUMBER of cells you want to move (1 or 2) and the DIRECTION(s)\n" +
-                        "charged shot [1 blue]: none");
+                        "basic effect (1): TARGET you can see\n" +
+                        "phase glide (2): NUMBER of cells you want to move (1 or 2) and the DIRECTION(s)\n" +
+                        "charged shot (3) [1 blue]: none");
                 wPrompt.shootToUser1(game, server, nickName, s);
                 break;
 
             case "Power Glove":
                 //TODO
                 System.out.println(inputReminder +
-                        "basic mode: TARGET 1 move away\n" +
-                        "rocket fist mode [1 blue]: 1. COORDINATES of cell 1 move away\n" +
-                        "                           2. [OPTIONAL] TARGET on that cell\n" +
-                        "(You may repeat 2. once with a cell in the same direction just 1 square away, plus a target on that cell\n" +
+                        "basic mode (1): TARGET 1 move away\n" +
+                        "rocket fist mode (2) [1 blue]: 1. COORDINATES of cell 1 move away\n" +
+                        "                           2. (3) [OPTIONAL] TARGET on that cell\n" +
+                        "(You may repeat 2. once with a cell in the same direction just 1 square away (4), plus a target on that cell (5)\n" +
                         "This makes for a total of 4 empty strings if only the first target is chosen.)");
                 wPrompt.shootToUser1(game, server, nickName, s);
                 break;
 
             case "Railgun":
                 System.out.println(inputReminder +
-                        "basic mode: TARGET in a cardinal direction\n" +
-                        "piercing mode: 1. TARGET in a cardinal direction\n" +
-                        "               2. ANOTHER TARGET in that direction\n" +
+                        "basic mode (1): TARGET in a cardinal direction\n" +
+                        "piercing mode (2): 1. TARGET in a cardinal direction\n" +
+                        "               2. [OPTIONAL] ANOTHER TARGET in that direction\n" +
                         "               (keep in mind this mode IGNORES walls)");
                 wPrompt.shootToUser3(game, server, nickName, s);
                 break;
@@ -386,74 +386,74 @@ public class CLI extends UnicastRemoteObject implements View {
             case "Rocket Launcher":
                 //TODO
                 System.out.println(inputReminder +
-                        "basic effect: 1. TARGET you can see but not in your cell\n" +
-                        "              2. [OPTIONAL] DIRECTION in which you want to move them\n" +
-                        "rocket jump [1 blue]: number of cells you want to move (1 or 2) and the direction(s)\n" +
-                        "fragmenting warhead: none [1 yellow]");
+                        "basic effect (1): 1. TARGET you can see but not in your cell\n" +
+                        "              2. (2) [OPTIONAL] DIRECTION in which you want to move them\n" +
+                        "rocket jump (3) [1 blue]: number of cells you want to move (1 or 2) and the direction(s)\n" +
+                        "fragmenting warhead (4): none [1 yellow]");
                 wPrompt.shootToUser1(game, server, nickName, s);
                 break;
 
             case "Shockwave":
                 System.out.println(inputReminder +
-                        "basic mode: 1. TARGET in some cell\n" +
+                        "basic mode (1): 1. TARGET in some cell\n" +
                         "            2. [OPTIONAL] TARGET in some other cell\n" +
                         "            3. [OPTIONAL] TARGET in yet another cell\n" +
-                        "tsunami mode [1 yellow]: none");
+                        "tsunami mode (2) [1 yellow]: none");
                 wPrompt.shootToUser1(game, server, nickName, s);
                 break;
 
             case "Shotgun":
                 System.out.println(inputReminder +
-                        "basic mode: 1. TARGET in your cell\n" +
-                        "            2. [OPTIONAL] DIRECTION you want to move them in\n" +
-                        "long barrel mode: TARGET 1 move away");
+                        "basic mode (1): 1. TARGET in your cell\n" +
+                        "            2. (2) [OPTIONAL] DIRECTION you want to move them in\n" +
+                        "long barrel mode (3): TARGET 1 move away");
                 wPrompt.shootToUser3(game, server, nickName, s);
                 break;
 
             case "Sledgehammer":
                 System.out.println(inputReminder +
-                        "basic mode: TARGET in your cell\n" +
-                        "pulverize mode: 1. TARGET in your cell\n" +
-                        "                2. NUMBER of squares (1 or 2) you want to move them and the DIRECTION(s)\n" +
+                        "basic mode (1): TARGET in your cell\n" +
+                        "pulverize mode (2): 1. TARGET in your cell\n" +
+                        "                2. (3) NUMBER of squares (1 or 2) you want to move them and the DIRECTION(s)\n" +
                         "                   (leave 1 empty string if just 1 direction");
                 wPrompt.shootToUser1(game, server, nickName, s);
                 break;
 
             case "T.H.O.R.":
                 System.out.println(inputReminder +
-                        "basic effect: TARGET you can see\n" +
-                        "chain reaction [1 blue]: TARGET your first target can see\n" +
-                        "high voltage [1 blue]: TARGET your second target can see");
+                        "basic effect (1): TARGET you can see\n" +
+                        "chain reaction (2) [1 blue]: TARGET your first target can see\n" +
+                        "high voltage (3) [1 blue]: TARGET your second target can see");
                 wPrompt.shootToUser1(game, server, nickName, s);
                 break;
 
             case "Tractor Beam":
                 System.out.println(inputReminder +
-                        "basic mode: 1. TARGET you may or may not see\n" +
+                        "basic mode (1): 1. TARGET you may or may not see\n" +
                         "            2. COORDINATES of a cell you can see up to 2 squares away from you\n" +
-                        "punisher mode [1 red 1 yellow]: TARGET up to 2 moves away");
+                        "punisher mode (2) [1 red 1 yellow]: TARGET up to 2 moves away");
                 wPrompt.shootToUser1(game, server, nickName, s);
                 break;
 
             case "Vortex Cannon":
                 System.out.println(inputReminder +
-                        "basic effect: 1. TARGET up to 1 move away from the 'vortex'\n" +
+                        "basic effect (1): 1. TARGET up to 1 move away from the 'vortex'\n" +
                         "              2. COORDINATES of the cell the vortex is to be placed in (must not be your cell)\n" +
-                        "black hole [1 red]: 1. TARGET on the vortex or 1 move away from it\n" +
+                        "black hole (2) [1 red]: 1. TARGET on the vortex or 1 move away from it\n" +
                         "                    2. [OPTIONAL] ANOTHER TARGET on the vortex or 1 move away from it");
                 wPrompt.shootToUser1(game, server, nickName, s);
                 break;
 
             case "Whisper":
                 System.out.println(inputReminder +
-                        "effect: TARGET you can see at least 2 moves away)");
+                        "effect (1): TARGET you can see at least 2 moves away)");
                 wPrompt.shootToUser4(game, server, nickName, s);
                 break;
 
             case "ZX-2":
                 System.out.println(inputReminder +
-                        "basic mode: TARGET you can see\n" +
-                        "scanner mode: 1. TARGET you can see\n" +
+                        "basic mode (1): TARGET you can see\n" +
+                        "scanner mode (2): 1. TARGET you can see\n" +
                         "              2. [OPTIONAL] ANOTHER TARGET you can see\n" +
                         "              3. [OPTIONAL] YET ANOTHER TARGET you can see");
                 wPrompt.shootToUser3(game, server, nickName, s);
@@ -647,97 +647,97 @@ public class CLI extends UnicastRemoteObject implements View {
         switch(s) {
             case "Cyberblade":
                 System.out.println(inputReminder +
-                        "basic effect: TARGET in your cell\n" +
-                        "shadowstep: DIRECTION you want to move to\n" +
-                        "slice and dice [1 yellow]: DIFFERENT TARGET in your cell");
+                        "basic effect (1): TARGET in your cell\n" +
+                        "shadowstep (2): DIRECTION you want to move to\n" +
+                        "slice and dice (3) [1 yellow]: DIFFERENT TARGET in your cell");
                 wPrompt.shoot2ToUser1(game, server, nickName, s);
                 break;
 
             case "Electroscythe":
                 System.out.println(inputReminder +
-                        "basic mode: none\n" +
-                        "reaper mode [1 red 1 blue]: none");
+                        "basic mode (1): none\n" +
+                        "reaper mode (2) [1 red 1 blue]: none");
                 wPrompt.shoot2ToUser2(game, server, nickName, s);
                 break;
 
             case "Flamethrower":
                 System.out.println(inputReminder +
-                        "basic mode: 1. TARGET 1 move away\n " +
+                        "basic mode (1): 1. TARGET 1 move away\n " +
                         "            2. [OPTIONAL] ANOTHER TARGET 1 more move away in the same direction\n" +
-                        "barbecue mode [2 yellow]: 1. COORDINATES of cell of target(s) 1 move away\n" +
+                        "barbecue mode (2) [2 yellow]: 1. COORDINATES of cell of target(s) 1 move away\n" +
                         "                          2. [OPTIONAL] COORDINATES of another cell 1 more more away in the same direction");
                 wPrompt.shoot2ToUser1(game, server, nickName, s);
                 break;
 
             case "Furnace":
                 System.out.println(inputReminder +
-                        "basic mode: COLOUR of room you can see that isn't your room\n" +
-                        "cozy fire mode: COORDINATES of cell 1 move away");
+                        "basic mode (1): COLOUR of room you can see that isn't your room\n" +
+                        "cozy fire mode (2): COORDINATES of cell 1 move away");
                 wPrompt.shoot2ToUser3(game, server, nickName, s);
                 break;
 
             case "Grenade Launcher":
                 System.out.println(inputReminder +
-                        "basic effect: 1. TARGET you can see\n" +
+                        "basic effect (1): 1. TARGET you can see\n" +
                         "              2. [OPTIONAL] DIRECTION you wish to move that target in\n" +
-                        "extra grenade: COORDINATES of cell you can see [1 red]");
+                        "extra grenade (2): COORDINATES of cell you can see [1 red]");
                 wPrompt.shoot2ToUser1(game, server, nickName, s);
                 break;
 
             case "Heatseeker":
                 System.out.println(inputReminder +
-                        "effect: TARGET you canNOT see");
+                        "effect (1): TARGET you canNOT see");
                 wPrompt.shoot2ToUser3(game, server, nickName, s);
                 break;
 
             case "Hellion":
                 System.out.println(inputReminder +
-                        "basic mode: TARGET you can see at least 1 move away\n" +
-                        "nano-tracer mode [1 red]: as with basic mode");
+                        "basic mode (1): TARGET you can see at least 1 move away\n" +
+                        "nano-tracer mode (2) [1 red]: as with basic mode");
                 wPrompt.shoot2ToUser1(game, server, nickName, s);
                 break;
 
             case "Lock Rifle":
                 System.out.println(inputReminder +
-                        "basic effect: TARGET you can see\n" +
-                        "second lock [1 red]: DIFFERENT TARGET you can see");
+                        "basic effect (1): TARGET you can see\n" +
+                        "second lock (2) [1 red]: DIFFERENT TARGET you can see");
                 wPrompt.shoot2ToUser1(game, server, nickName, s);
                 break;
 
             case "Machine Gun":
                 System.out.println(inputReminder +
-                        "basic effect: 1. TARGET you can see\n" +
+                        "basic effect (1): 1. TARGET you can see\n" +
                         "              2. [OPTIONAL] ANOTHER TARGET you can see" +
-                        "focus shot [1 yellow]: ONE of those TARGETS\n" +
-                        "turret tripod [1 blue]: the OTHER of those TARGETS and/or a DIFFERENT TARGET you can see");
+                        "focus shot (2) [1 yellow]: ONE of those TARGETS\n" +
+                        "turret tripod (3) [1 blue]: the OTHER of those TARGETS and/or a DIFFERENT TARGET you can see");
                 wPrompt.shoot2ToUser1(game, server, nickName, s);
                 break;
 
             case "Plasma Gun":
                 //TODO
                 System.out.println(inputReminder +
-                        "basic effect: TARGET you can see\n" +
-                        "phase glide: NUMBER of cells you want to move (1 or 2) and the DIRECTION(s)\n" +
-                        "charged shot [1 blue]: none");
+                        "basic effect (1): TARGET you can see\n" +
+                        "phase glide (2): NUMBER of cells you want to move (1 or 2) and the DIRECTION(s)\n" +
+                        "charged shot (3) [1 blue]: none");
                 wPrompt.shoot2ToUser1(game, server, nickName, s);
                 break;
 
             case "Power Glove":
                 //TODO
                 System.out.println(inputReminder +
-                        "basic mode: TARGET 1 move away\n" +
-                        "rocket fist mode [1 blue]: 1. COORDINATES of cell 1 move away\n" +
-                        "                           2. [OPTIONAL] TARGET on that cell\n" +
-                        "(You may repeat 2. once with a cell in the same direction just 1 square away, plus a target on that cell\n" +
+                        "basic mode (1): TARGET 1 move away\n" +
+                        "rocket fist mode (2) [1 blue]: 1. COORDINATES of cell 1 move away\n" +
+                        "                           2. (3) [OPTIONAL] TARGET on that cell\n" +
+                        "(You may repeat 2. once with a cell in the same direction just 1 square away (4), plus a target on that cell (5)\n" +
                         "This makes for a total of 4 empty strings if only the first target is chosen.)");
                 wPrompt.shoot2ToUser1(game, server, nickName, s);
                 break;
 
             case "Railgun":
                 System.out.println(inputReminder +
-                        "basic mode: TARGET in a cardinal direction\n" +
-                        "piercing mode: 1. TARGET in a cardinal direction\n" +
-                        "               2. ANOTHER TARGET in that direction\n" +
+                        "basic mode (1): TARGET in a cardinal direction\n" +
+                        "piercing mode (2): 1. TARGET in a cardinal direction\n" +
+                        "               2. [OPTIONAL] ANOTHER TARGET in that direction\n" +
                         "               (keep in mind this mode IGNORES walls)");
                 wPrompt.shoot2ToUser3(game, server, nickName, s);
                 break;
@@ -745,81 +745,80 @@ public class CLI extends UnicastRemoteObject implements View {
             case "Rocket Launcher":
                 //TODO
                 System.out.println(inputReminder +
-                        "basic effect: 1. TARGET you can see but not in your cell\n" +
-                        "              2. [OPTIONAL] DIRECTION in which you want to move them\n" +
-                        "rocket jump [1 blue]: number of cells you want to move (1 or 2) and the direction(s)\n" +
-                        "fragmenting warhead: none [1 yellow]");
+                        "basic effect (1): 1. TARGET you can see but not in your cell\n" +
+                        "              2. (2) [OPTIONAL] DIRECTION in which you want to move them\n" +
+                        "rocket jump (3) [1 blue]: number of cells you want to move (1 or 2) and the direction(s)\n" +
+                        "fragmenting warhead (4): none [1 yellow]");
                 wPrompt.shoot2ToUser1(game, server, nickName, s);
                 break;
 
             case "Shockwave":
                 System.out.println(inputReminder +
-                        "basic mode: 1. TARGET in some cell\n" +
+                        "basic mode (1): 1. TARGET in some cell\n" +
                         "            2. [OPTIONAL] TARGET in some other cell\n" +
                         "            3. [OPTIONAL] TARGET in yet another cell\n" +
-                        "tsunami mode [1 yellow]: none");
+                        "tsunami mode (2) [1 yellow]: none");
                 wPrompt.shoot2ToUser1(game, server, nickName, s);
                 break;
 
             case "Shotgun":
                 System.out.println(inputReminder +
-                        "basic mode: 1. TARGET in your cell\n" +
-                        "            2. [OPTIONAL] DIRECTION you want to move them in\n" +
-                        "long barrel mode: TARGET 1 move away");
+                        "basic mode (1): 1. TARGET in your cell\n" +
+                        "            2. (2) [OPTIONAL] DIRECTION you want to move them in\n" +
+                        "long barrel mode (3): TARGET 1 move away");
                 wPrompt.shoot2ToUser3(game, server, nickName, s);
                 break;
 
             case "Sledgehammer":
                 System.out.println(inputReminder +
-                        "basic mode: TARGET in your cell\n" +
-                        "pulverize mode: 1. TARGET in your cell\n" +
-                        "                2. NUMBER of squares (1 or 2) you want to move them and the DIRECTION(s)\n" +
+                        "basic mode (1): TARGET in your cell\n" +
+                        "pulverize mode (2): 1. TARGET in your cell\n" +
+                        "                2. (3) NUMBER of squares (1 or 2) you want to move them and the DIRECTION(s)\n" +
                         "                   (leave 1 empty string if just 1 direction");
                 wPrompt.shoot2ToUser1(game, server, nickName, s);
                 break;
 
             case "T.H.O.R.":
                 System.out.println(inputReminder +
-                        "basic effect: TARGET you can see\n" +
-                        "chain reaction [1 blue]: TARGET your first target can see\n" +
-                        "high voltage [1 blue]: TARGET your second target can see");
+                        "basic effect (1): TARGET you can see\n" +
+                        "chain reaction (2) [1 blue]: TARGET your first target can see\n" +
+                        "high voltage (3) [1 blue]: TARGET your second target can see");
                 wPrompt.shoot2ToUser1(game, server, nickName, s);
                 break;
 
             case "Tractor Beam":
                 System.out.println(inputReminder +
-                        "basic mode: 1. TARGET you may or may not see\n" +
+                        "basic mode (1): 1. TARGET you may or may not see\n" +
                         "            2. COORDINATES of a cell you can see up to 2 squares away from you\n" +
-                        "punisher mode [1 red 1 yellow]: TARGET up to 2 moves away");
+                        "punisher mode (2) [1 red 1 yellow]: TARGET up to 2 moves away");
                 wPrompt.shoot2ToUser1(game, server, nickName, s);
                 break;
 
             case "Vortex Cannon":
                 System.out.println(inputReminder +
-                        "basic effect: 1. TARGET up to 1 move away from the 'vortex'\n" +
+                        "basic effect (1): 1. TARGET up to 1 move away from the 'vortex'\n" +
                         "              2. COORDINATES of the cell the vortex is to be placed in (must not be your cell)\n" +
-                        "black hole [1 red]: 1. TARGET on the vortex or 1 move away from it\n" +
+                        "black hole (2) [1 red]: 1. TARGET on the vortex or 1 move away from it\n" +
                         "                    2. [OPTIONAL] ANOTHER TARGET on the vortex or 1 move away from it");
                 wPrompt.shoot2ToUser1(game, server, nickName, s);
                 break;
 
             case "Whisper":
                 System.out.println(inputReminder +
-                        "effect: TARGET you can see at least 2 moves away)");
+                        "effect (1): TARGET you can see at least 2 moves away)");
                 wPrompt.shoot2ToUser4(game, server, nickName, s);
                 break;
 
             case "ZX-2":
                 System.out.println(inputReminder +
-                        "basic mode: TARGET you can see\n" +
-                        "scanner mode: 1. TARGET you can see\n" +
+                        "basic mode (1): TARGET you can see\n" +
+                        "scanner mode (2): 1. TARGET you can see\n" +
                         "              2. [OPTIONAL] ANOTHER TARGET you can see\n" +
                         "              3. [OPTIONAL] YET ANOTHER TARGET you can see");
                 wPrompt.shoot2ToUser3(game, server, nickName, s);
                 break;
             default: break;
         }
-        action2();
     }
 
     public void grabSecondAction() throws RemoteException {
@@ -924,6 +923,8 @@ public class CLI extends UnicastRemoteObject implements View {
             String wCDiscard = in.nextLine();
             this.server.messageDiscardWeaponCard(game, nickName, weaponSlot, wCDiscard);
         }
+
+        System.out.println("Your status:\n" + this.server.messageCheckYourStatus(game, nickName));
     }
 
     public boolean doYouWantToUsePUC() {

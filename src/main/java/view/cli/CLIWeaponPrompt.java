@@ -10,12 +10,12 @@ import java.util.Scanner;
 
 public class CLIWeaponPrompt {
 
-    private static final String ENTER_EFFECT = "Enter the number(s) of the effect(s) you want to use; 0 to finish";
-    private static final String ENTER_RELEVANT_STRING = "Enter the relevant strings for the card; 0 to finish";
-    private static final String ENTER_AMMO_COLOUR = "Enter the colour(s) of the required AmmoCube(s) needed for the effect; 0 to finish";
-    private static final String ENTER_POWER_UP = "Enter the PowerUpCard(s) you want to use for paying during your turn; 0 to finish";
-    private static final String ENTER_POWER_UP_COLOUR = "Enter the colour(s) of the PowerUpCard(s); 0 to finish";
-    private static final String ENTER_ADRENALINE_DIR = "If you are in Adrenaline, enter the direction of the move, 0 otherwise";
+    private static final String ENTER_EFFECT = "Enter the number(s) of the effect(s) you want to use; 5 to finish";
+    private static final String ENTER_RELEVANT_STRING = "Enter the relevant strings for the card; 5 to finish";
+    private static final String ENTER_AMMO_COLOUR = "Enter the colour(s) of the required AmmoCube(s) needed for the effect; 5 to finish";
+    private static final String ENTER_POWER_UP = "Enter the PowerUpCard(s) you want to use for paying during your turn; 5 to finish";
+    private static final String ENTER_POWER_UP_COLOUR = "Enter the colour(s) of the PowerUpCard(s); 5 to finish";
+    private static final String ENTER_ADRENALINE_DIR = "If you are in Adrenaline, enter the direction of the move, 5 otherwise";
     private static final String PROMPT_ERROR_RETRY = "Error: please retry";
     private static final String EXIT = CLI.EXITSTRING;
     private static final String YES_PROMPT = CLI.YESPROMPT;
@@ -337,7 +337,7 @@ public class CLIWeaponPrompt {
         List<Integer> l = new LinkedList<>();
         while(in.hasNextInt()) {
             effect = in.nextInt();
-            if(effect == 0)
+            if(effect == 5)
                 break;
             l.add(effect);
         }
@@ -349,7 +349,7 @@ public class CLIWeaponPrompt {
         List<String> l = new LinkedList<>();
         while(true) {
             str = in.nextLine();
-            if(str.equals("0")) {
+            if(str.equals("5")) {
                 break;
             } else
                 l.add(str);
@@ -362,7 +362,7 @@ public class CLIWeaponPrompt {
         List<Colour> l = new LinkedList<>();
         while(true) {
             colour = in.nextLine();
-            if(colour.equals("0")) {
+            if(colour.equals("5")) {
                 break;
             } else
                 l.add(Colour.valueOf(colour));
@@ -375,7 +375,7 @@ public class CLIWeaponPrompt {
         List<String> l = new LinkedList<>();
         while(true) {
             pUC = in.next();
-            if(pUC.equals("0")) {
+            if(pUC.equals("5")) {
                 break;
             } else
                 l.add(pUC);
@@ -388,7 +388,7 @@ public class CLIWeaponPrompt {
         List<String> l = new LinkedList<>();
         while(true) {
             colour = in.next();
-            if(colour.equals("0")) {
+            if(colour.equals("5")) {
                 break;
             } else
                 l.add(colour);

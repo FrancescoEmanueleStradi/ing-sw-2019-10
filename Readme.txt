@@ -11,6 +11,11 @@ Requisiti implementati:
 - RMI
 - Funzionalità Aggiuntiva: Partite Multiple
 
+Generazione dei .jar a partire da maven assembly:
+Nel pom vi è il plugin maven assembly che genera entrambi i .jar.
+Prima di eseguire il build, alla configurazione va aggiunto il Maven Goal "clean package".
+I .jar di default si troveranno in target.
+
 Modalità di esecuzione:
 Nella repository sono presenti due file .jar, uno per il Server e uno per il Client.
 	Server:

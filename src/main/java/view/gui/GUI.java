@@ -7,6 +7,7 @@ import view.*;
 import view.gui.actions.Action1;
 import view.gui.actions.Action2;
 import view.gui.actions.grab.Grab1;
+import view.gui.actions.grab.Grab2;
 import view.gui.actions.move.Move1;
 import view.gui.actions.move.Move2;
 import view.gui.actions.shoot.Shoot1;
@@ -195,7 +196,7 @@ public class GUI implements View, Serializable {
         move.setVisible(true);
     }
 
-    public synchronized void grabSecondAction() throws InterruptedException {
+    public synchronized void grabSecondAction() throws RemoteException, InterruptedException {
         MyTask task = new MyTask(game, identifier, this.getNickName(), server);
         Timer timer = new Timer();
         timer.schedule(task, 150000);

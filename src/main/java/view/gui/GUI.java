@@ -91,7 +91,7 @@ public class GUI implements View, Serializable {
         this.gameGraphic.revalidate();
     }
 
-    public synchronized void askNameAndColour() throws RemoteException, InterruptedException {
+    public void askNameAndColour() throws RemoteException, InterruptedException {
         if(this.server.messageGameIsNotStarted(game) && this.identifier == 1) {
             JFrame f = new JFrame("Name, colour and type");
             f.setLocation(10,10);
@@ -115,7 +115,7 @@ public class GUI implements View, Serializable {
         }
     }
 
-    public synchronized void selectSpawnPoint() throws RemoteException, InterruptedException {
+    public void selectSpawnPoint() throws RemoteException, InterruptedException {
         this.server.messageGiveTwoPUCard(game, this.nickName);
         JFrame spawnPoint = new JFrame("Spawn point selection");
         spawnPoint.setLocation(10,10);
@@ -128,7 +128,7 @@ public class GUI implements View, Serializable {
 
     }
 
-    public synchronized void action1() throws InterruptedException {
+    public void action1() throws InterruptedException {
         JFrame action = new JFrame(this.nickName + "'s FIRST ACTION");
         action.setLocation(50,50);
         Container c = action.getContentPane();
@@ -138,7 +138,7 @@ public class GUI implements View, Serializable {
         action.setVisible(true);
     }
 
-    public synchronized void moveFirstAction() throws InterruptedException {
+    public void moveFirstAction() throws InterruptedException {
         MyTask task = new MyTask(game, identifier, this.getNickName(), server);
         Timer timer = new Timer();
         timer.schedule(task, 150000);
@@ -151,7 +151,7 @@ public class GUI implements View, Serializable {
         move.setVisible(true);
     }
 
-    public synchronized void grabFirstAction() throws  RemoteException, InterruptedException {
+    public void grabFirstAction() throws  RemoteException, InterruptedException {
         MyTask task = new MyTask(game, identifier, this.getNickName(), server);
         Timer timer = new Timer();
         timer.schedule(task, 150000);
@@ -164,7 +164,7 @@ public class GUI implements View, Serializable {
         grab.setVisible(true);
     }
 
-    public synchronized void shootFirstAction() throws RemoteException, InterruptedException {
+    public void shootFirstAction() throws RemoteException, InterruptedException {
         JFrame shoot = new JFrame("First action - shoot");
         shoot.setLocation(50,50);
         Container c = shoot.getContentPane();
@@ -184,11 +184,11 @@ public class GUI implements View, Serializable {
         action.setVisible(true);
     }
 
-    public synchronized void moveSecondAction() throws InterruptedException {
+    public void moveSecondAction() throws InterruptedException {
         MyTask task = new MyTask(game, identifier, this.getNickName(), server);
         Timer timer = new Timer();
         timer.schedule(task, 150000);
-        JFrame move = new JFrame("First action - move");
+        JFrame move = new JFrame("Second action - move");
         move.setLocation(50,50);
         Container c = move.getContentPane();
         Move2 move2 = new Move2(this, server, game, identifier, nickName, move, timer);
@@ -197,7 +197,7 @@ public class GUI implements View, Serializable {
         move.setVisible(true);
     }
 
-    public synchronized void grabSecondAction() throws RemoteException, InterruptedException {
+    public void grabSecondAction() throws RemoteException, InterruptedException {
         MyTask task = new MyTask(game, identifier, this.getNickName(), server);
         Timer timer = new Timer();
         timer.schedule(task, 150000);
@@ -210,7 +210,7 @@ public class GUI implements View, Serializable {
         grab.setVisible(true);
     }
 
-    public synchronized void shootSecondAction() throws InterruptedException {
+    public void shootSecondAction() throws InterruptedException {
         JFrame shoot = new JFrame("Second action - shoot");
         shoot.setLocation(50,50);
         Container c = shoot.getContentPane();
@@ -424,56 +424,50 @@ public class GUI implements View, Serializable {
 
     public void endFinalFrenzy() throws RemoteException {
         this.server.messageEndTurnFinalFrenzy(game);
-        textArea.append("We are calculating the result");
+        gridGraphic.changeText("We are calculating the result");
         this.gameGraphic.revalidate();
         this.finalScoring();
     }
 
     public void finalScoring() throws RemoteException {
         this.server.messageFinalScoring(game);
-        textArea.append("FINAL SCORE");
+        gridGraphic.changeText("FINAL SCORE");
         this.server.messageGetPlayers(game).forEach(textArea::append);
-        textArea.append("");
+        gridGraphic.changeText("");
         this.server.messageGetScore(game).stream().map(a -> Integer.toString(a)).forEach(textArea::append);
-        textArea.append("");
-        textArea.append("END GAME");
+        gridGraphic.changeText("");
+        gridGraphic.changeText("END GAME");
         this.gameGraphic.revalidate();
     }
 
     public void printPlayer(List<String> information) throws RemoteException {
-        //players.add(new PlayerName(information.get(0), information.get(1), information.get(2)));
-        this.gameGraphic.add(players);
-        textArea.append("Player " + information.get(0) + " (identifier " + information.get(2)+ ") whose colour is " + information.get(1) + " is now a player of this game.");
+        gridGraphic.changeText("Player " + information.get(0) + " (identifier " + information.get(2)+ ") whose colour is " + information.get(1) + " is now a player of this game.");
         gameGraphic.revalidate();
     }
 
     public void printScore(List<String> information) throws RemoteException {
-        textArea.append("Player: " + information.get(0) + " has now this score: " + information.get(1));
+        gridGraphic.changeText("Player: " + information.get(0) + " has now this score: " + information.get(1));
         this.gameGraphic.revalidate();
     }
 
     public void printPosition(List<String> information) throws RemoteException {
-        textArea.append("Now Player: " + information.get(0) + " is in the cell " + information.get(1) + " " + information.get(2));
+        gridGraphic.changeText("Now Player: " + information.get(0) + " is in the cell " + information.get(1) + " " + information.get(2));
         this.gameGraphic.revalidate();
     }
 
     public void printMark(List<String> information) throws RemoteException {
-        textArea.append("Player: " + information.get(0) + "give a new Mark to Player" + information.get(1));
+        gridGraphic.changeText("Player: " + information.get(0) + "give a new Mark to Player" + information.get(1));
         this.gameGraphic.revalidate();
     }
 
     public void printDamage(List<String> information) throws RemoteException {
-        textArea.append("Player: " + information.get(0) + " give " + information.get(1) + " damages to Player: " + information.get(2));
+        gridGraphic.changeText("Player: " + information.get(0) + " give " + information.get(1) + " damages to Player: " + information.get(2));
         this.gameGraphic.revalidate();
     }
 
     //TODO image
     public void printType() throws RemoteException {
         this.gameGraphic.setSize(1500, 900);
-        //textArea.setMaximumSize(new Dimension(300, 300));
-        //jScrollPane = new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-        //jScrollPane.setLocation(0,0);
-        //add(jScrollPane).doLayout();
         if(type == 1) {
             this.gridGraphic = new GridGraphic("Images/Grid1.png");
         }
@@ -486,10 +480,7 @@ public class GUI implements View, Serializable {
         if(type == 4) {
             this.gridGraphic = new GridGraphic("Images/Grid4.png");
         }
-        //players.setLayout(new FlowLayout(FlowLayout.LEFT));
-        //gridGraphic.add(players);
         gameGraphic.getContentPane().add(gridGraphic);
-        //gameGraphic.getContentPane().add(jScrollPane);
         gameGraphic.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         gameGraphic.setVisible(true);
     }

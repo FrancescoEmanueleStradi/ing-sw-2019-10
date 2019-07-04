@@ -7,31 +7,20 @@ import java.io.Serializable;
 public class GridGraphic extends JPanel implements Serializable {
 
     private Image image1;
-    private JScrollBar jScrollBar;
+    private JScrollPane jScrollPane;
     private TextArea textArea;
 
     public GridGraphic(String s1) {
         image1 = Toolkit.getDefaultToolkit().createImage(s1);
         loadImage(image1);
         textArea = new TextArea();
-        textArea.setSize(1000, 1000);
-        //textArea.setLocation(0,0);
-        jScrollBar = new JScrollBar(Adjustable.VERTICAL);
-        jScrollBar.add(textArea);
-        jScrollBar.setSize(1000, 1000);
-        jScrollBar.setMaximum(10000);
-        //jScrollBar.setLocation(0,0);
-        add(jScrollBar);
-
-
-
-
-
-
-        //jScrollPane.setSize(new Dimension(1000, 150));
-        //jScrollPane.setLocation(0,0);
-        //add(jScrollPane).setLocation(0, 0);
-
+        textArea.setBackground(Color.darkGray);
+        textArea.setForeground(Color.WHITE);
+        textArea.setSize(200, 200);
+        jScrollPane = new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        jScrollPane.setLayout(new ScrollPaneLayout());
+        jScrollPane.setLocation(0, 0);
+        add(textArea);
     }
 
     protected void paintComponent(Graphics g) {
@@ -52,7 +41,7 @@ public class GridGraphic extends JPanel implements Serializable {
 
     public void changeText(String text){
         //jScrollPane.setToolTipText(text);
-        jScrollBar.setToolTipText(text);
+        jScrollPane.setToolTipText(text);
         this.revalidate();
     }
 

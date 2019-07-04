@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.Timer;
 
-public class Move1Socket extends JPanel implements ActionListener {
+public class FFAction2Socket extends JPanel implements ActionListener {
 
     private GUISocket gui;
     private Socket socket;
@@ -19,8 +19,9 @@ public class Move1Socket extends JPanel implements ActionListener {
     private Scanner socketIn;
     private JFrame parent;
     private int game;
-    private int identifier;
     private String nickName;
+    private java.util.Timer timer;
+
     private List<Integer> directions = new LinkedList<>();
     private JButton leftArrow;
     private JButton rightArrow;
@@ -29,12 +30,8 @@ public class Move1Socket extends JPanel implements ActionListener {
     private JButton reset;
     private int dirCount;
     private JButton b;
-    private Timer timer;
-    /*private JTextField txt1;
-    private JTextField txt2;
-    private JTextField txt3;*/
 
-    public Move1Socket(GUISocket gui, Socket socket, int game, int identifier, String nickName, JFrame parent, Timer timer) throws IOException {
+    public FFAction2Socket(GUISocket gui, Socket socket, JFrame parent, int game, String nickName, Timer timer) throws IOException {
         super();
         this.gui = gui;
         this.socket = socket;
@@ -42,20 +39,11 @@ public class Move1Socket extends JPanel implements ActionListener {
         this.socketIn = new Scanner(socket.getInputStream());
         this.parent = parent;
         this.game = game;
-        this.identifier = identifier;
         this.nickName = nickName;
         this.timer = timer;
 
-        /*txt1 = new JTextField("Write here", 25);
-        txt2 = new JTextField("Write here", 25);
-        txt3 = new JTextField("Write here", 25);
-        b.addActionListener(this);
-        add(new JLabel(("Enter your first direction:")));
-        add(txt1);
-        add(new JLabel("Enter your second direction:"));
-        add(txt2);
-        add(new JLabel("Enter your third direction:"));
-        add(txt3);*/
+        add(new JLabel("Final Frenzy action 2.\n" +
+                "You may move up to 4 squares."));
 
         add(new JLabel("Select the directions you want to move in, up to 3"));
         leftArrow = new JButton("Left");
@@ -83,7 +71,7 @@ public class Move1Socket extends JPanel implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             JButton direction = (JButton) e.getSource();
-            if(dirCount >= 1 && dirCount <= 3)
+            if(dirCount >= 1 && dirCount <= 4)
                 b.setEnabled(true);
 
             if(direction == reset) {
@@ -105,7 +93,7 @@ public class Move1Socket extends JPanel implements ActionListener {
                     directions.add(3);
                 dirCount++;
 
-                if(dirCount == 3) {
+                if(dirCount == 4) {
                     leftArrow.setEnabled(false);
                     rightArrow.setEnabled(false);
                     upArrow.setEnabled(false);
@@ -116,37 +104,29 @@ public class Move1Socket extends JPanel implements ActionListener {
     }
 
     public synchronized void actionPerformed(ActionEvent e) {
-        timer.cancel();
-
-        String validMove;
-        int counterValidMove = 0;
-
-        do {
-            if(counterValidMove > 0) {
-                gui.moveFirstAction();
-                parent.dispose();
-            }
-
-            socketOut.println("Message Is Valid First Action Move");
-            socketOut.println(game);
-            socketOut.println(nickName);
-            socketOut.println(directions.size());
-            for(Integer i : directions)
-                socketOut.println(i);
-            validMove = socketIn.nextLine();
-
-            counterValidMove++;
-
-        }while(!validMove.equals("true"));
-
-        socketOut.println("Message First Action Move");
+        socketOut.println("Message Is Valid Final Frenzy Action 2");
         socketOut.println(game);
         socketOut.println(nickName);
         socketOut.println(directions.size());
-        for(Integer i : directions)
-            socketOut.println(i);
+        for(int i1 : directions)
+            socketOut.println(i1);
 
-        gui.doYouWantToUsePUC2();
-        parent.dispose();
+        String isValidFFAction2 = socketIn.nextLine();
+
+        if(!isValidFFAction2.equals("true")) {
+            gui.firstFFAction(false);
+            parent.dispose();
+        }
+        else {
+            socketOut.println("Message Final Frenzy Action 2");
+            socketOut.println(game);
+            socketOut.println(nickName);
+            socketOut.println(directions.size());
+            for(int i1 : directions)
+                socketOut.println(i1);
+
+            gui.doYouWantToUsePUC3();
+            parent.dispose();
+        }
     }
 }

@@ -46,17 +46,6 @@ public class Move2Socket extends JPanel implements ActionListener {
         this.nickName = nickName;
         this.timer = timer;
 
-        /*txt1 = new JTextField("Write here", 25);
-        txt2 = new JTextField("Write here", 25);
-        txt3 = new JTextField("Write here", 25);
-        b.addActionListener(this);
-        add(new JLabel(("Enter your first direction:")));
-        add(txt1);
-        add(new JLabel("Enter your second direction:"));
-        add(txt2);
-        add(new JLabel("Enter your third direction:"));
-        add(txt3);*/
-
         add(new JLabel("Select the directions you want to move in, up to 3"));
         leftArrow = new JButton("Left");
         rightArrow = new JButton("Right");
@@ -117,10 +106,6 @@ public class Move2Socket extends JPanel implements ActionListener {
     public synchronized void actionPerformed(ActionEvent e) {
         try {
             timer.cancel();
-            /*List<Integer> l = new LinkedList<>();
-            l.add(Integer.parseInt(txt1.getText()));
-            l.add(Integer.parseInt(txt2.getText()));
-            l.add(Integer.parseInt(txt3.getText()));*/
 
             String validMove;
             int counterValidMove = 0;

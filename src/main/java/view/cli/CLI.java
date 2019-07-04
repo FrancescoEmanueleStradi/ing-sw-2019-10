@@ -1028,15 +1028,18 @@ public class CLI extends UnicastRemoteObject implements View {
 
         String reloadChoice;
 
-        do {
+        while(true) {
             System.out.println("Choose the weapon card you want to reload, or enter 'end' if you don't need/want to");
             reloadChoice = in.nextLine();
+
+            if(reloadChoice.equals("end"))
+                break;
 
             if (this.server.messageIsValidReload(game, this.nickName, reloadChoice))
                 this.server.messageReload(game, this.nickName, reloadChoice);
             else
-                System.out.println("You don't have enough ammo to reload the chosen weapon :(");
-        }while(!reloadChoice.equals("end"));
+                System.out.println("You don't have enough ammo to reload the chosen weapon\n (or you have selected a weapon you don't have: don't try to cheat!");
+        }
     }
 
     public void scoring() throws RemoteException {

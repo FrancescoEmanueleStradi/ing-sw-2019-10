@@ -1701,7 +1701,7 @@ public class Game {
      */
     public boolean isValidSecondActionMove(String nickName, List<Integer> directions) {
         Player p = this.grid.getPlayerObject(nickName);
-        return (this.gameState.equals(ACTION1) && (!directions.isEmpty()) && (directions.size() < 4) && grid.canGhostMove(p, directions));
+        return (this.gameState.equals(ACTION1) && (directions.isEmpty() || (directions.size() < 4 && grid.canGhostMove(p, directions))));
     }
 
     /**
@@ -1992,7 +1992,9 @@ public class Game {
      */
     public boolean isValidReload(String nickName, String s) {
         Player p = this.grid.getPlayerObject(nickName);
-        return (p.checkAmmoCube(p.getWeaponCardObject(s).getReloadCost()) && this.gameState.equals(ACTION2));
+        if(p.getWeaponCardObject(s) != null)
+            return (p.checkAmmoCube(p.getWeaponCardObject(s).getReloadCost()) && this.gameState.equals(ACTION2));
+        return false;
     }
 
     /**
@@ -2133,6 +2135,7 @@ public class Game {
        this.grid.replaceWeaponCard();
        if(this.grid.getBoard().getK().getSkulls()[7] != 0)
            finalFrenzy = true;
+       this.gameState = STARTTURN;
     }
 
     //FINAL FRENZY ACTIONS

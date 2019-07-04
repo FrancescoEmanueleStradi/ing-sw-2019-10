@@ -1,7 +1,5 @@
 package view.gui;
 
-import view.gui.CardLink;
-
 import javax.swing.*;
 import java.util.LinkedList;
 import java.util.List;
@@ -72,7 +70,6 @@ public class CardLinkList {
         cards.add(new CardLink("Whisper", null, new ImageIcon("Images/Whisper.png")));
         cards.add(new CardLink("ZX-2", null, new ImageIcon("Images/ZX2.png")));
     }
-
 
     public List<ImageIcon> getImageIconFromName(List<String> cardName, List<String> cardColour) {
         List<ImageIcon> l = new LinkedList<>();

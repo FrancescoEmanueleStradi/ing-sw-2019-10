@@ -24,6 +24,9 @@ public class Grab1 extends JPanel {
     private List<Colour> lC = new LinkedList<>();
     private List<String> lP = new LinkedList<>();
     private List<String> lPC = new LinkedList<>();
+    private List<String> powerUps;
+    private List<String> powerUpColours;
+    private List<Colour> reducedReload;
     private CardLinkList cardLink = new CardLinkList();
     private String wCard = "";
     private String weaponSlot = "";
@@ -41,7 +44,7 @@ public class Grab1 extends JPanel {
     private JFrame parent;
     private Timer timer;
 
-    public Grab1(GUI gui, ServerInterface server, int game, int identifier, String nickName, JFrame parent, Timer timer) {
+    public Grab1(GUI gui, ServerInterface server, int game, int identifier, String nickName, JFrame parent, Timer timer) throws RemoteException {
         super();
         this.gui = gui;
         this.server = server;
@@ -50,7 +53,8 @@ public class Grab1 extends JPanel {
         this.nickName = nickName;
         this.parent = parent;
         this.timer = timer;
-        //directions = new LinkedList<>();
+        this.powerUps = server.messageGetPlayerPowerUpCard(game, nickName);
+        this.powerUpColours = server.messageGetPlayerPowerUpCardColour(game, nickName);
 
         add(new JLabel("Select the directions you want to move in, if you like; one if you haven't unlocked the adrenaline" +
                 "move, up to two otherwise"));
@@ -84,12 +88,14 @@ public class Grab1 extends JPanel {
         public void actionPerformed(ActionEvent e) {
             timer.cancel();
             JButton cardConfirm = (JButton)e.getSource();
-            //weaponConfirm.setEnabled(false);
-            //ammoConfirm.setEnabled(false);
+            weaponConfirm.setEnabled(false);
+            ammoConfirm.setEnabled(false);
             if(cardConfirm == weaponConfirm)
                 weaponGrab();
             else if(cardConfirm == ammoConfirm)
-                ammoGrab();
+                finalGrab();
+            weaponConfirm.setEnabled(false);
+            ammoConfirm.setEnabled(false);
         }
     }
 
@@ -155,27 +161,35 @@ public class Grab1 extends JPanel {
             wGrab.add(slot3List).doLayout();
             slot3List.setVisible(false);
 
-            List<String> powerUps = server.messageGetPowerUpCard(game, nickName);
-            List<String> powerUpColours = server.messageGetPowerUpCardColour(game, nickName);
-
+            List<JCheckBox> ammoBoxes = new LinkedList<>();
             List<JCheckBox> powerUpBoxes = new LinkedList<>();
+
+            if(reducedReload.isEmpty()) {
+                add(new JLabel("Choose an AmmoCube/s to pay with if necessary")).doLayout();
+                for(int i = 0; i < reducedReload.size(); i++) {
+                    ammoBoxes.add(new JCheckBox(reducedReload.get(i).getColourId()));
+                    wGrab.add(ammoBoxes.get(i));
+                    ammoBoxes.get(i).addActionListener(new AmmoSelect());
+                }
+            } else wGrab.add(new JLabel("You have no AmmoCubes with which to pay"));
+
             if(!powerUps.isEmpty()) {
                 add(new JLabel("Choose a PowerUpCard/s to pay with if necessary")).doLayout();
                 for(int i = 0; i < powerUps.size(); i++) {
                     powerUpBoxes.add(new JCheckBox(cardLink.getImageIconFromName(powerUps.get(i), powerUpColours.get(i))));
-                    wGrab.add(powerUpBoxes.get(i));
+                    wGrab.add(new JLabel("Powerup " + powerUps.get(i) + " of colour " + powerUpColours.get(i)));
+                    wGrab.add(powerUpBoxes.get(i)).setVisible(true);
                     powerUpBoxes.get(i).addActionListener(new PowerUpSelect());
                 }
             } else wGrab.add(new JLabel("You have no PowerUpCards with which to pay"));
-
             finalConfirm = new JButton("Confirm grab");
             wGrab.add(finalConfirm);
-            finalConfirm.setEnabled(false);
+            finalConfirm.addActionListener(new GrabFinal());
+            finalConfirm.setEnabled(true);
 
-        } catch (RemoteException /*| InterruptedException*/ e) {
+        } catch(RemoteException /*| InterruptedException*/ e){
 
         }
-
     }
 
     private class SlotSelect implements ActionListener {
@@ -189,23 +203,36 @@ public class Grab1 extends JPanel {
                     slot1List.setVisible(true);
                     slot2List.setVisible(false);
                     slot3List.setVisible(false);
-                    lC = server.messageGetReloadCostReduced(game, (String)slot1List.getSelectedItem());
+                    setReducedReload(server.messageGetPlayerReloadCost(game,(String)slot1List.getSelectedItem(), nickName));
                 }
                 else if(slotNum == 2) {
                     slot1List.setVisible(false);
                     slot2List.setVisible(true);
                     slot3List.setVisible(false);
-                    lC = server.messageGetReloadCostReduced(game, (String)slot2List.getSelectedItem());
+                    setReducedReload(server.messageGetPlayerReloadCost(game,(String)slot2List.getSelectedItem(), nickName));
                 }
                 else if(slotNum == 3) {
                     slot1List.setVisible(false);
                     slot2List.setVisible(false);
                     slot3List.setVisible(true);
-                    lC = server.messageGetReloadCostReduced(game, (String)slot3List.getSelectedItem());
+                    setReducedReload(server.messageGetPlayerReloadCost(game,(String)slot3List.getSelectedItem(), nickName));
             }
 
             } catch (RemoteException ex) {
 
+            }
+        }
+    }
+
+    private class AmmoSelect implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            JCheckBox checked = (JCheckBox)e.getSource();
+            if(checked.isSelected()) {
+                lC.add(checked.getName());
+            }
+            else {
+                lC.remove(checked.getName());
             }
         }
     }
@@ -215,26 +242,23 @@ public class Grab1 extends JPanel {
         public void actionPerformed(ActionEvent e) {
             JCheckBox checked = (JCheckBox)e.getSource();
             ImageIcon power = (ImageIcon)checked.getIcon();
-            if(!checked.isSelected()) {
-                checked.setSelected(false);
-                lP.remove(cardLink.getNamefromImageIcon(power));
-                lPC.remove(cardLink.getColourfromImageIcon(power));
-            }
-            else if(checked.isSelected()) {
-                checked.setSelected(true);
+            if(checked.isSelected()) {
                 lP.add(cardLink.getNamefromImageIcon(power));
                 lPC.add(cardLink.getColourfromImageIcon(power));
+            }
+            else {
+                lP.remove(cardLink.getNamefromImageIcon(power));
+                lPC.remove(cardLink.getColourfromImageIcon(power));
             }
             if(!finalConfirm.isEnabled())
                 finalConfirm.setEnabled(true);
         }
     }
 
-    private void ammoGrab() {
+    private void finalGrab() {
         try {
             if(!this.server.messageIsValidFirstActionGrab(game, nickName, directions, wCard, weaponSlot, lC, lP, lPC)) {
                 gui.grabFirstAction();
-
             }
             server.messageFirstActionGrab(game, nickName, directions, wCard, lC, lP, lPC);
             gui.doYouWantToUsePUC2();
@@ -243,5 +267,20 @@ public class Grab1 extends JPanel {
         } catch (RemoteException | InterruptedException e) {
 
         }
+    }
+
+    private class GrabFinal implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            finalGrab();
+        }
+    }
+
+    public List<Colour> getReducedReload() {
+        return reducedReload;
+    }
+
+    public void setReducedReload(List<Colour> reload) {
+        this.reducedReload = reload;
     }
 }

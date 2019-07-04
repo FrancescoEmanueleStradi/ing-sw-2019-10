@@ -119,7 +119,7 @@ public class GUI implements View, Serializable {
         JFrame spawnPoint = new JFrame("Spawn point selection");
         spawnPoint.setLocation(10,10);
         Container c = spawnPoint.getContentPane();                  //TODO image
-        DiscardPUC d = new DiscardPUC(this, server, game, nickName, this.server.messageGetPowerUpCard(game, this.nickName).get(0), this.server.messageGetPowerUpCard(game, this.nickName).get(1), this.server.messageGetPowerUpCardColour(game, this.nickName).get(0), this.server.messageGetPowerUpCardColour(game, this.nickName).get(1), spawnPoint);
+        DiscardPUC d = new DiscardPUC(this, server, game, nickName, this.server.messageGetPlayerPowerUpCard(game, this.nickName).get(0), this.server.messageGetPlayerPowerUpCard(game, this.nickName).get(1), this.server.messageGetPlayerPowerUpCardColour(game, this.nickName).get(0), this.server.messageGetPlayerPowerUpCardColour(game, this.nickName).get(1), spawnPoint);
         d.setLayout(new FlowLayout(FlowLayout.LEFT));
         c.add(d);
         spawnPoint.setSize(900,500);

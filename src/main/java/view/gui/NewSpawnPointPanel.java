@@ -28,8 +28,8 @@ public class NewSpawnPointPanel extends JPanel implements ActionListener {
 
         add(new JLabel("The following are " + this.nickName +"'s starting PowerUpCards")).setBounds(0,0, 5, 5);
         add(new JLabel("Enter the PowerUp card you want to discard; its colour will be your new spawn point:")).doLayout();
-        for (int i = 0; i < this.server.messageGetPowerUpCard(game, nickName).size(); i++)
-            add(new JLabel(this.server.messageGetPowerUpCard(game, nickName).get(i) + "coloured" + this.server.messageGetPowerUpCardColour(game, nickName).get(i))).doLayout();
+        for (int i = 0; i < this.server.messageGetPlayerPowerUpCard(game, nickName).size(); i++)
+            add(new JLabel(this.server.messageGetPlayerPowerUpCard(game, nickName).get(i) + "coloured" + this.server.messageGetPlayerPowerUpCardColour(game, nickName).get(i))).doLayout();
 
         b = new JButton("Confirm");
         txt1 = new JTextField("Write here the name", 25);

@@ -217,46 +217,6 @@ public class Game {
         return lC;
     }
 
-    //TODO remove?
-    /*public List<String> getWeaponCardLoaded(String nickName) {
-        Player p = this.grid.getPlayerObject(nickName);
-        return p.getWeaponCards().stream().filter(WeaponCard::isReloaded).map(WeaponCard::getCardName).collect(Collectors.toList());
-    }
-
-    public List<String> getWeaponCardUnloaded(String nickName) {
-        Player p = this.grid.getPlayerObject(nickName);
-        return p.getWeaponCards().stream().filter(a -> !a.isReloaded()).map(WeaponCard::getCardName).collect(Collectors.toList());
-    }
-
-    public String getDescriptionWC(String s, String nickName) {
-        Player p = this.grid.getPlayerObject(nickName);
-        WeaponCard wC = p.getWeaponCardObject(s);
-        return wC.getDescription();
-    }
-
-    public List<Colour> getReloadCost(String s, String nickName) {
-        Player p = this.grid.getPlayerObject(nickName);
-        WeaponCard wC = p.getWeaponCardObject(s);
-        return Arrays.stream(wC.getPlayerReloadCost()).map(AmmoCube::getC).collect(Collectors.toList());
-    }
-
-    public List<String> getPowerUpCard(String nickName) {
-        Player p = this.grid.getPlayerObject(nickName);
-        return p.getPowerUpCards().stream().map(PowerUpCard::getCardName).collect(Collectors.toList());
-    }
-
-    public List<String> getPowerUpCardColour(String nickName) {
-        Player p = this.grid.getPlayerObject(nickName);
-        return p.getPowerUpCards().stream().map(PowerUpCard::getC).map(Colour::getColourId).collect(Collectors.toList());
-    }
-
-    public String getDescriptionPUC(String s, String colour, String nickName) {
-        Player p = this.grid.getPlayerObject(nickName);
-        Colour col = Colour.valueOf(colour);
-        PowerUpCard pC = p.getPowerUpCardObject(s, col);
-        return pC.getDescription();
-    }*/
-
     /**
      * Returns player's weapon cards.
      *
@@ -360,6 +320,85 @@ public class Game {
      */
     public List<Integer> getScore() {
         return this.grid.getPlayers().stream().map(Player::getScore).collect(Collectors.toList());
+    }
+
+    /**
+     * Returns string containing information about the player's own damage taken, position, weapon cards,
+     * powerup cards, and ammo. Broadcast only to the client calling it.
+     *
+     * @param nickName nickname
+     * @return player info
+     */
+    public String checkYourStatus(String nickName) {
+        Player p = grid.getPlayerObject(nickName);
+        List<String> wCards = new LinkedList<>();
+        List<String> pCards = new LinkedList<>();
+        List<String> aCubes = new LinkedList<>();
+        int count = 0;
+
+        for(int d = 0; d < 12; d++) {
+            if(p.getPlayerBoard().getDamage().getDamageTokens()[d] != null)
+                count++;
+        }
+        String damageDetails = "You have received the following amount of damage: " + count + "\n";
+        String posDetails = "You are currently in cell " + p.getCell().getPos().getX() + " " + p.getCell().getPos().getY() + "\n";
+
+        String yourWeapons = "These are the WeaponCards currently in your possession:\n";
+        for(WeaponCard w : p.getWeaponCards())
+            wCards.add(w.getCardName());
+
+        String yourPups = "These are the PowerUpCards currently in your possession:\n";
+        for(PowerUpCard c : p.getPowerUpCards()) {
+            pCards.add(c.getCardName() + " coloured " + c.getC().getColourId());
+        }
+
+        String yourAmmo = "These are the AmmoCubes currently in your possession:\n";
+        for(int i = 0; i < 9; i++) {
+            if(p.getAmmoCubes()[i] != null)
+                aCubes.add(p.getAmmoCubes()[i].getC().getColourId());
+        }
+
+        String joinWC = String.join(", ", wCards);
+        String joinPC = String.join(", ", pCards);
+        String joinAC = String.join(", ", aCubes);
+
+        return damageDetails + posDetails + yourWeapons + joinWC + "\n" + yourPups + joinPC + "\n" + yourAmmo + joinAC + "\n";
+    }
+
+    /**
+     * Returns string containing information about all the other players' damage taken and position.
+     *
+     * @param yourNick nickname
+     * @return player info
+     */
+    public String checkOthersStatus(String yourNick) {
+        List<Player> players = new LinkedList<>();
+        List<Integer> damageVals = new LinkedList<>();
+        List<String> positions = new LinkedList<>();
+
+        for(Player p : grid.getPlayers()) {
+            if (!p.equals(grid.getPlayerObject(yourNick)))
+                players.add(p);
+        }
+
+        for(Player p : players) {
+            int count = 0;
+            for(int d = 0; d < 12; d++) {
+                if(p.getPlayerBoard().getDamage().getDamageTokens()[d] != null)
+                    count++;
+            }
+            damageVals.add(count);
+            if(p.getCell().getPos().getX() <= 3 && p.getCell().getPos().getX() >= 0 &&
+                    p.getCell().getPos().getY() <= 3 && p.getCell().getPos().getY() >= 0)
+                positions.add(p.getCell().getPos().getX() + " " + p.getCell().getPos().getY());
+        }
+
+        StringBuilder build = new StringBuilder();
+        for(int i = 0; i < players.size(); i++) {
+            build.append("\nPlayer " + players.get(i).getNickName() + " in " + positions.get(i) + " has taken " + damageVals.get(i) + " damage.");
+        }
+
+        return build.toString();
     }
 
     /**
@@ -1463,49 +1502,6 @@ public class Game {
                 l.add(new AmmoCube(p.getC()));
         }
         return l;
-    }
-
-    /**
-     * Returns string containing information about the player's own damage taken, position, weapon cards,
-     * powerup cards, and ammo. Broadcast only to the client calling it.
-     *
-     * @param nickName nickname
-     * @return player info
-     */
-    public String checkYourStatus(String nickName) {
-        Player p = grid.getPlayerObject(nickName);
-        List<String> wCards = new LinkedList<>();
-        List<String> pCards = new LinkedList<>();
-        List<String> aCubes = new LinkedList<>();
-        int count = 0;
-
-        for(int d = 0; d < 12; d++) {
-            if(p.getPlayerBoard().getDamage().getDamageTokens()[d] != null)
-                count++;
-        }
-        String damageDetails = "You have received the following amount of damage: " + count + "\n";
-        String posDetails = "You are currently in cell " + p.getCell().getPos().getX() + " " + p.getCell().getPos().getY() + "\n";
-
-        String yourWeapons = "These are the WeaponCards currently in your possession:\n";
-        for(WeaponCard w : p.getWeaponCards())
-            wCards.add(w.getCardName());
-
-        String yourPups = "These are the PowerUpCards currently in your possession:\n";
-        for(PowerUpCard c : p.getPowerUpCards()) {
-            pCards.add(c.getCardName() + " coloured " + c.getC().getColourId());
-        }
-
-        String yourAmmo = "These are the AmmoCubes currently in your possession:\n";
-        for(int i = 0; i < 9; i++) {
-            if(p.getAmmoCubes()[i] != null)
-                aCubes.add(p.getAmmoCubes()[i].getC().getColourId());
-        }
-
-        String joinWC = String.join(", ", wCards);
-        String joinPC = String.join(", ", pCards);
-        String joinAC = String.join(", ", aCubes);
-
-        return damageDetails + posDetails + yourWeapons + joinWC + "\n" + yourPups + joinPC + "\n" + yourAmmo + joinAC + "\n";
     }
 
     /**

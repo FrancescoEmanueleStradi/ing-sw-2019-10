@@ -29,7 +29,7 @@ public class ReloadPanel extends JPanel implements ActionListener {
         add(new JLabel("Click on the name of the card you want to load, or on exit if you have finished"));
         add(new JButton("exit"));
 
-        for (String s : this.server.messageGetWeaponCardUnloaded(game, this.nickName)) {
+        for (String s : this.server.messageGetPlayerWeaponCardUnloaded(game, this.nickName)) {
 
             l.add(new JButton(s));
             this.add(l.get(l.size()-1)).doLayout();

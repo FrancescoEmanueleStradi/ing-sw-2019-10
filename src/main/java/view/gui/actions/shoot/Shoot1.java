@@ -177,6 +177,8 @@ public class Shoot1 extends JPanel implements ActionListener {
                 gui.shootToUser3(weaponSelected);
                 break;
             default: break;
+
         }
+        parent.dispose();
     }
 }

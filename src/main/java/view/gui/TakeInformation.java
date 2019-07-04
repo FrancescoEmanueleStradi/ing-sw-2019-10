@@ -8,6 +8,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
 
+/**
+ * Initial panel prompting players to enter their name and colour.
+ */
 public class TakeInformation extends JPanel implements ActionListener {
 
     private GUI gui;
@@ -19,10 +22,18 @@ public class TakeInformation extends JPanel implements ActionListener {
     private JComboBox colourList;
     private JComboBox arenaList;
     private JTextField txt1;
-    /*private JTextField txt2;
-    private JTextField txt3;*/
     private boolean error = false;
 
+    /**
+     * Creates a new TakeInformation. Slightly different conditions for the first
+     * player who must choose the arena type.
+     *
+     * @param gui gui
+     * @param server server
+     * @param game game
+     * @param identifier identifier
+     * @param parent parent frame
+     */
     public TakeInformation(GUI gui, ServerInterface server, int game, int identifier, JFrame parent) {
         super();
         this.gui = gui;
@@ -36,8 +47,6 @@ public class TakeInformation extends JPanel implements ActionListener {
         txt1 = new JTextField("Write here", 25);
         colourList = new JComboBox(colours);
         arenaList = new JComboBox(arenas);
-        //txt2 = new JTextField("Write here", 25);
-        //txt3 = new JTextField("Write here", 25);
         b.addActionListener(this);
         add(new JLabel(("Enter your name:"))).doLayout();
         add(txt1).doLayout();
@@ -64,9 +73,14 @@ public class TakeInformation extends JPanel implements ActionListener {
         } catch (RemoteException | InterruptedException ex) {
 
         }
-
     }
 
+    /**
+     * Receives first player's information.
+     *
+     * @throws RemoteException RMI exception
+     * @throws InterruptedException Thread interruption
+     */
     private void getInformation()  throws RemoteException, InterruptedException {
         String colour = (String)colourList.getSelectedItem();
         Integer type = (Integer)arenaList.getSelectedItem();
@@ -81,6 +95,12 @@ public class TakeInformation extends JPanel implements ActionListener {
         parent.dispose();
     }
 
+    /**
+     * Receives all other players' information.
+     *
+     * @throws RemoteException RMI exception
+     * @throws InterruptedException Thread interruption
+     */
     private void getLessInformation() throws RemoteException, InterruptedException {
         String colour = (String)colourList.getSelectedItem();
         gui.setType(server.getType(game));

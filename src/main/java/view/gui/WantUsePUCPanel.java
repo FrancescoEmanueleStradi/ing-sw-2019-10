@@ -7,6 +7,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
 
+/**
+ * Prompts choice of using a powerup card. Use this before any action.
+ */
 public class WantUsePUCPanel extends JPanel implements ActionListener {
 
     private GUI gui;
@@ -15,8 +18,14 @@ public class WantUsePUCPanel extends JPanel implements ActionListener {
     private JButton firstButton;
     private JButton secondButton;
 
+    /**
+     * Creates a new WantUsePUCPanel.
+     *
+     * @param gui gui
+     * @param guiSocket socket gui
+     * @param parent parent frame
+     */
     public WantUsePUCPanel(GUI gui, GUISocket guiSocket, JFrame parent) {
-
         if(gui != null)
             this.gui = gui;
         else

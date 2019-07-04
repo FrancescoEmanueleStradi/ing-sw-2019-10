@@ -9,6 +9,9 @@ import java.rmi.RemoteException;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Panel prompting choice of powerup card.
+ */
 public class UsePUCPanel extends JPanel implements ActionListener {
 
     private GUI gui;
@@ -20,6 +23,18 @@ public class UsePUCPanel extends JPanel implements ActionListener {
     private int turn;
     private List<JButton> l = new LinkedList<>();
 
+    /**
+     * Creates a new UsePUCPanel.
+     *
+     * @param gui gui
+     * @param server server
+     * @param parent parent frame
+     * @param game game
+     * @param nickName nickname
+     * @param timer timer
+     * @param turn turn
+     * @throws RemoteException RMI exeption
+     */
     public UsePUCPanel(GUI gui, ServerInterface server, JFrame parent, int game, String nickName, java.util.Timer timer, int turn) throws RemoteException {
         super();
         this.gui = gui;
@@ -39,7 +54,6 @@ public class UsePUCPanel extends JPanel implements ActionListener {
             l.get(l.size()-1).addActionListener(this);
             add(new JLabel(server.messageGetPlayerDescriptionPUC(game, this.server.messageGetPlayerPowerUpCard(game, nickName).get(i), this.server.messageGetPlayerPowerUpCardColour(game, nickName).get(i), this.nickName))).doLayout();
         }
-
     }
 
     @Override
@@ -69,10 +83,8 @@ public class UsePUCPanel extends JPanel implements ActionListener {
 
        }
          catch (RemoteException r) {
-
         } catch (InterruptedException i) {
 
         }
     }
-
 }

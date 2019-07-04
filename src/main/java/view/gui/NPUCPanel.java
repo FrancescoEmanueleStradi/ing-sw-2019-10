@@ -8,7 +8,11 @@ import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Timer;
 
+/**
+ * Panel for the Newton powerup requesting parameters before use.
+ */
 public class NPUCPanel extends JPanel implements ActionListener {
 
     private GUI gui;
@@ -21,12 +25,24 @@ public class NPUCPanel extends JPanel implements ActionListener {
     private JTextField txt3;
     private JTextField txt4;
     private JButton b;
-    private java.util.Timer timer;
+    private Timer timer;
     private int turn;
     private String c;
     private List<String> l = new LinkedList<>();
 
-    public NPUCPanel(GUI gui, ServerInterface server, JFrame parent, int game, String nickName, java.util.Timer timer, int turn, String c) {
+    /**
+     * Creates a new NPUCPanel.
+     *
+     * @param gui gui
+     * @param server server
+     * @param parent parent frame
+     * @param game game
+     * @param nickName nickname
+     * @param timer timer
+     * @param turn turn
+     * @param c ammo cube colour
+     */
+    public NPUCPanel(GUI gui, ServerInterface server, JFrame parent, int game, String nickName, Timer timer, int turn, String c) {
         this.gui = gui;
         this.server = server;
         this.parent = parent;
@@ -50,7 +66,6 @@ public class NPUCPanel extends JPanel implements ActionListener {
         b.addActionListener(this);
         add(b);
     }
-
 
     public void actionPerformed(ActionEvent e) {
         try {
@@ -82,8 +97,6 @@ public class NPUCPanel extends JPanel implements ActionListener {
 
         }
     }
-
-
 }
 
 

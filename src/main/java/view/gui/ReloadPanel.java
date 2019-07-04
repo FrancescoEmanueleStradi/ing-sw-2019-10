@@ -9,6 +9,9 @@ import java.rmi.RemoteException;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Panel prompting player to reload one or more weapon cards.
+ */
 public class ReloadPanel extends JPanel implements ActionListener {
 
     private GUI gui;
@@ -18,6 +21,16 @@ public class ReloadPanel extends JPanel implements ActionListener {
     private String nickName;
     private List<JButton> l = new LinkedList<>();
 
+    /**
+     * Creates a new ReloadPanel.
+     *
+     * @param gui gui
+     * @param server server
+     * @param parent parent frame
+     * @param game game
+     * @param nickName nickname
+     * @throws RemoteException RMI exception
+     */
     public ReloadPanel(GUI gui, ServerInterface server, JFrame parent, int game, String nickName) throws RemoteException {
         super();
         this.gui = gui;
@@ -36,10 +49,7 @@ public class ReloadPanel extends JPanel implements ActionListener {
             l.get(l.size()-1).addActionListener(this);
 
         }
-
     }
-
-
 
     public void actionPerformed(ActionEvent e) {
         try {
@@ -48,7 +58,6 @@ public class ReloadPanel extends JPanel implements ActionListener {
             if(action.getText().equals("exit")) {
                 gui.reload();
             }
-
             else{
                 if(this.server.messageIsValidReload(game, this.nickName, action.getText()))
                     this.server.messageReload(game, this.nickName, action.getText());
@@ -57,8 +66,6 @@ public class ReloadPanel extends JPanel implements ActionListener {
 
             parent.setVisible(false);
             parent.dispose();
-
-
         }catch(RemoteException ex) {
 
         }catch (InterruptedException exc){

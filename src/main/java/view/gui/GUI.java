@@ -40,7 +40,7 @@ public class GUI implements View, Serializable {
 
     /**
      * Creates new GUI, starting with a single base JFrame.
-     * 
+     *
      * @param game game
      * @param server server
      * @throws RemoteException RMI exception

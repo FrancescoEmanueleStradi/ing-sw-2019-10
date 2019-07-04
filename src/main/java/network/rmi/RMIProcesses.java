@@ -3,7 +3,7 @@ package network.rmi;
 import network.ServerInterface;
 import view.View;
 import view.cli.CLI;
-import view.gui.GUI;
+import view.gui.rmi.GUI;
 
 import java.rmi.RemoteException;
 import java.util.Scanner;

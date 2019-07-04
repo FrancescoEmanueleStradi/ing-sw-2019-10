@@ -3,9 +3,19 @@ package view.gui.socket;
 import model.Colour;
 import network.socket.MyTaskSocket;
 import view.*;
-import view.gui.*;
-import view.gui.actions.Action1;
-import view.gui.actions.Action2;
+import view.gui.common.Action1;
+import view.gui.common.Action2;
+import view.gui.common.GridGraphic;
+import view.gui.common.WantUsePUCPanel;
+import view.gui.common.WantUsePUCPanel2;
+import view.gui.common.WantUsePUCPanel3;
+import view.gui.socket.finalfrenzy.*;
+import view.gui.socket.actions.grab.Grab1Socket;
+import view.gui.socket.actions.grab.Grab2Socket;
+import view.gui.socket.actions.move.Move1Socket;
+import view.gui.socket.actions.move.Move2Socket;
+import view.gui.socket.powerups.*;
+import view.gui.socket.actions.shoot.Shoot1Socket;
 
 import java.awt.*;
 import javax.swing.*;
@@ -695,23 +705,31 @@ public class GUISocket implements View, Serializable {
     }
 
     public void printScore(List<String> information) throws RemoteException {
-        gridGraphic.changeText("Player: " + information.get(0) + " has now this score: " + information.get(1));
-        this.gameGraphic.revalidate();
+        if(gridGraphic != null) {
+            gridGraphic.changeText("Player: " + information.get(0) + " has now this score: " + information.get(1));
+            this.gameGraphic.revalidate();
+        }
     }
 
     public void printPosition(List<String> information) throws RemoteException {
-        gridGraphic.changeText("Now Player: " + information.get(0) + " is in the cell " + information.get(1) + " " + information.get(2));
-        this.gameGraphic.revalidate();
+        if(gridGraphic != null) {
+            gridGraphic.changeText("Now Player: " + information.get(0) + " is in the cell " + information.get(1) + " " + information.get(2));
+            this.gameGraphic.revalidate();
+        }
     }
 
     public void printMark(List<String> information) throws RemoteException {
-        gridGraphic.changeText("Player: " + information.get(0) + "give a new Mark to Player" + information.get(1));
-        this.gameGraphic.revalidate();
+        if(gridGraphic != null) {
+            gridGraphic.changeText("Player: " + information.get(0) + "give a new Mark to Player" + information.get(1));
+            this.gameGraphic.revalidate();
+        }
     }
 
     public void printDamage(List<String> information) throws RemoteException {
-        gridGraphic.changeText("Player: " + information.get(0) + " give " + information.get(1) + " damages to Player: " + information.get(2));
-        this.gameGraphic.revalidate();
+        if(gridGraphic != null) {
+            gridGraphic.changeText("Player: " + information.get(0) + " give " + information.get(1) + " damages to Player: " + information.get(2));
+            this.gameGraphic.revalidate();
+        }
     }
 
     public void printType() throws RemoteException {

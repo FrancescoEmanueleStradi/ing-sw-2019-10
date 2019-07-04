@@ -24,6 +24,7 @@ public class FFPanel extends JPanel implements ActionListener {
     private JButton b4;
     private JButton b5;
     private Timer timer;
+    private int count = 0;
 
     public FFPanel(GUI gui, ServerInterface server, JFrame parent, int game, String nickName, Timer timer) throws RemoteException {
         super();
@@ -69,16 +70,41 @@ public class FFPanel extends JPanel implements ActionListener {
                     l.add((action.getText()));
                 else {
                     if (this.server.messageIsValidFinalFrenzyAction(game, nickName, l)) {
-                        if (l.contains("1"))
-                            gui.FirstFFAction();
-                        if (l.contains("2"))
-                            gui.SecondFFAction();
-                        if (l.contains("3"))
-                            gui.ThirdFFAction();
-                        if (l.contains("4"))
-                            gui.FourthFFAction();
-                        if (l.contains("5"))
-                            gui.FifthFFAction();
+                        if (l.contains("1")) {
+                            if(count == l.size())
+                                gui.FirstFFAction(true);
+                            else
+                                gui.FirstFFAction(false);
+                            count++;
+                        }
+                        if (l.contains("2")) {
+                            if(count == l.size())
+                                gui.SecondFFAction(true);
+                            else
+                                gui.SecondFFAction(false);
+                            count++;
+                        }
+                        if (l.contains("3")) {
+                            if(count == l.size())
+                                gui.ThirdFFAction(true);
+                            else
+                                gui.ThirdFFAction(false);
+                            count++;
+                        }
+                        if (l.contains("4")) {
+                            if(count == l.size())
+                                gui.FourthFFAction(true);
+                            else
+                                gui.FourthFFAction(false);
+                            count++;
+                        }
+                        if (l.contains("5")) {
+                            if(count == l.size())
+                                gui.FifthFFAction(true);
+                            else
+                                gui.FifthFFAction(false);
+                            count++;
+                        }
 
                         this.parent.setVisible(false);
                         this.parent.dispose();

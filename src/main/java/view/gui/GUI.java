@@ -393,23 +393,23 @@ public class GUI implements View, Serializable {
     }
 
 
-    public synchronized void FirstFFAction(){
+    public synchronized void FirstFFAction(boolean end){
         //TODO
     }
 
-    public synchronized void SecondFFAction(){
+    public synchronized void SecondFFAction(boolean end){
         //TODO
     }
 
-    public synchronized void ThirdFFAction(){
+    public synchronized void ThirdFFAction(boolean end){
         //TODO
     }
 
-    public synchronized void FourthFFAction(){
+    public synchronized void FourthFFAction(boolean end){
         //TODO
     }
 
-    public synchronized void FifthFFAction(){
+    public synchronized void FifthFFAction(boolean end){
         //TODO
     }
 

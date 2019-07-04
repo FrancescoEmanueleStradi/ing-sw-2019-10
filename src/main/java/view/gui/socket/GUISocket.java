@@ -1,6 +1,7 @@
 package view.gui.socket;
 
 import model.Colour;
+import network.rmi.MyTask;
 import network.socket.MyTaskSocket;
 import view.*;
 import view.gui.*;
@@ -258,8 +259,8 @@ public class GUISocket implements View, Serializable {
             JFrame grab = new JFrame("Second action - grab");
             grab.setLocation(50, 50);
             Container c = grab.getContentPane();
-            //Grab2Socket grab2 = new Grab2Socket(this, socket, game, identifier, nickName, grab, timer);
-            //c.add(grab2);
+            Grab2Socket grab2 = new Grab2Socket(this, socket, game, identifier, nickName, grab, timer);
+            c.add(grab2);
             grab.setSize(500, 500);
             grab.setVisible(true);
         }catch (IOException ex) {
@@ -518,6 +519,39 @@ public class GUISocket implements View, Serializable {
     }
 
     public void finalFrenzyTurn() {
+        try {
+            MyTaskSocket task = new MyTaskSocket(game, identifier, this.getNickName(), socket);
+            Timer timer = new Timer();
+            timer.schedule(task, 1500000);
+            JFrame jF = new JFrame("Final Frenzy");
+            jF.setLocation(50, 50);
+            Container c = jF.getContentPane();
+            FFPanelSocket ffPanel = new FFPanelSocket(this, socket, jF, game, nickName, timer);
+            c.add(ffPanel);
+            jF.setSize(400, 400);
+            jF.setVisible(true);
+        }catch (IOException ex) {
+
+        }
+    }
+
+    public synchronized void FirstFFAction(boolean end){
+        //TODO
+    }
+
+    public synchronized void SecondFFAction(boolean end){
+        //TODO
+    }
+
+    public synchronized void ThirdFFAction(boolean end){
+        //TODO
+    }
+
+    public synchronized void FourthFFAction(boolean end){
+        //TODO
+    }
+
+    public synchronized void FifthFFAction(boolean end){
         //TODO
     }
 

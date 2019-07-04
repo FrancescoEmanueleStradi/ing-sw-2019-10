@@ -259,10 +259,10 @@ public class Grab2 extends JPanel {
     private void finalGrab() {
         try {
             if(!this.server.messageIsValidSecondActionGrab(game, nickName, directions, wCard, weaponSlot, lC, lP, lPC)) {
-                gui.grabFirstAction();
+                gui.grabSecondAction();
             }
             server.messageSecondActionGrab(game, nickName, directions, wCard, lC, lP, lPC);
-            gui.doYouWantToUsePUC2();
+            gui.doYouWantToUsePUC3();
             parent.setVisible(false);
             parent.dispose();
         } catch (RemoteException | InterruptedException e) {

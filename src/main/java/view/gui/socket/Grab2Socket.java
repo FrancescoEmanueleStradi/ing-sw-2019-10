@@ -1,7 +1,9 @@
 package view.gui.socket;
 
 import model.Colour;
+import network.ServerInterface;
 import view.gui.CardLinkList;
+import view.gui.GUI;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -9,12 +11,13 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.rmi.RemoteException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Timer;
 
-public class Grab1Socket extends JPanel {
+public class Grab2Socket extends JPanel {
 
     private GUISocket gui;
     private Socket socket;
@@ -45,9 +48,9 @@ public class Grab1Socket extends JPanel {
     private JComboBox slotList;
     private JComboBox slot1List, slot2List, slot3List;
     private JFrame parent;
-    private Timer timer;
+    private java.util.Timer timer;
 
-    public Grab1Socket(GUISocket gui, Socket socket, int game, int identifier, String nickName, JFrame parent, Timer timer) throws IOException {
+    public Grab2Socket(GUISocket gui, Socket socket, int game, int identifier, String nickName, JFrame parent, Timer timer) throws IOException {
         super();
         this.gui = gui;
         this.socket = socket;
@@ -108,11 +111,7 @@ public class Grab1Socket extends JPanel {
             if(cardConfirm == weaponConfirm)
                 weaponGrab();
             else if(cardConfirm == ammoConfirm)
-                try {
-                    finalGrab();
-                }catch (IOException ex) {
-
-                }
+                finalGrab();
             weaponConfirm.setEnabled(false);
             ammoConfirm.setEnabled(false);
         }
@@ -231,7 +230,6 @@ public class Grab1Socket extends JPanel {
         wGrab.add(finalConfirm);
         finalConfirm.addActionListener(new GrabFinal());
         finalConfirm.setEnabled(true);
-
     }
 
     private class SlotSelect implements ActionListener {
@@ -314,7 +312,7 @@ public class Grab1Socket extends JPanel {
         }
     }
 
-    private void finalGrab() throws IOException {
+    private void finalGrab() {
         socketOut.println("Message Is Valid First Action Grab");
         socketOut.println(game);
         socketOut.println(nickName);
@@ -335,8 +333,13 @@ public class Grab1Socket extends JPanel {
 
         String isValidFirstActionGrab = socketIn.nextLine();
 
-        if(!isValidFirstActionGrab.equals("true"))
-            gui.grabFirstAction();
+        if(!isValidFirstActionGrab.equals("true")) {
+            try {
+                gui.grabSecondAction();
+            }catch (InterruptedException ex) {
+
+            }
+        }
 
         socketOut.println("Message First Action Grab");
         socketOut.println(game);
@@ -358,16 +361,16 @@ public class Grab1Socket extends JPanel {
         gui.doYouWantToUsePUC2();
         parent.setVisible(false);
         parent.dispose();
+
+        gui.doYouWantToUsePUC3();
+        parent.setVisible(false);
+        parent.dispose();
     }
 
     private class GrabFinal implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            try {
-                finalGrab();
-            }catch (IOException ex) {
-
-            }
+            finalGrab();
         }
     }
 
@@ -379,3 +382,4 @@ public class Grab1Socket extends JPanel {
         this.reducedReload = reload;
     }
 }
+

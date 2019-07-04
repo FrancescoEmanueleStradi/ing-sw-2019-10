@@ -10,6 +10,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Timer;
 
+/**
+ * Panel prompting selection of Final Frenzy action(s).
+ */
 public class FFPanel extends JPanel implements ActionListener {
 
     private GUI gui;
@@ -26,6 +29,17 @@ public class FFPanel extends JPanel implements ActionListener {
     private Timer timer;
     private int count = 0;
 
+    /**
+     * Creates a new FFPanel.
+     *
+     * @param gui gui
+     * @param server server
+     * @param parent parent
+     * @param game game
+     * @param nickName nickname
+     * @param timer timer
+     * @throws RemoteException RMI exception
+     */
     public FFPanel(GUI gui, ServerInterface server, JFrame parent, int game, String nickName, Timer timer) throws RemoteException {
         super();
         this.gui = gui;
@@ -60,66 +74,59 @@ public class FFPanel extends JPanel implements ActionListener {
         add(new JButton("exit"));
     }
 
-
-
-        public void actionPerformed(ActionEvent e) {
-            try {
-                this.timer.cancel();
-                JButton action = (JButton) e.getSource();
-                if (!action.getText().equals("exit"))
-                    l.add((action.getText()));
-                else {
-                    if (this.server.messageIsValidFinalFrenzyAction(game, nickName, l)) {
-                        if (l.contains("1")) {
-                            if(count == l.size())
-                                gui.firstFFAction(true);
-                            else
-                                gui.firstFFAction(false);
-                            count++;
-                        }
-                        if (l.contains("2")) {
-                            if(count == l.size())
-                                gui.secondFFAction(true);
-                            else
-                                gui.secondFFAction(false);
-                            count++;
-                        }
-                        if (l.contains("3")) {
-                            if(count == l.size())
-                                gui.thirdFFAction(true);
-                            else
-                                gui.thirdFFAction(false);
-                            count++;
-                        }
-                        if (l.contains("4")) {
-                            if(count == l.size())
-                                gui.fourthFFAction(true);
-                            else
-                                gui.fourthFFAction(false);
-                            count++;
-                        }
-                        if (l.contains("5")) {
-                            if(count == l.size())
-                                gui.fifthFFAction(true);
-                            else
-                                gui.fifthFFAction(false);
-                            count++;
-                        }
-
-                        this.parent.setVisible(false);
-                        this.parent.dispose();
-                    } else {
-                        gui.finalFrenzyTurn();
-                        this.parent.setVisible(false);
-                        this.parent.dispose();
+    public void actionPerformed(ActionEvent e) {
+        try {
+            this.timer.cancel();
+            JButton action = (JButton) e.getSource();
+            if (!action.getText().equals("exit"))
+                l.add((action.getText()));
+            else {
+                if (this.server.messageIsValidFinalFrenzyAction(game, nickName, l)) {
+                    if (l.contains("1")) {
+                        if(count == l.size())
+                            gui.firstFFAction(true);
+                        else
+                            gui.firstFFAction(false);
+                        count++;
                     }
+                    if (l.contains("2")) {
+                        if(count == l.size())
+                            gui.secondFFAction(true);
+                        else
+                            gui.secondFFAction(false);
+                        count++;
+                    }
+                    if (l.contains("3")) {
+                        if(count == l.size())
+                            gui.thirdFFAction(true);
+                        else
+                            gui.thirdFFAction(false);
+                        count++;
+                    }
+                    if (l.contains("4")) {
+                        if(count == l.size())
+                            gui.fourthFFAction(true);
+                        else
+                            gui.fourthFFAction(false);
+                        count++;
+                    }
+                    if (l.contains("5")) {
+                        if(count == l.size())
+                            gui.fifthFFAction(true);
+                        else
+                            gui.fifthFFAction(false);
+                        count++;
+                    }
+                    this.parent.setVisible(false);
+                    this.parent.dispose();
+                } else {
+                    gui.finalFrenzyTurn();
+                    this.parent.setVisible(false);
+                    this.parent.dispose();
                 }
-
+            }
             } catch (RemoteException ex) {
 
             }
         }
-
-
-
 }

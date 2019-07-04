@@ -22,6 +22,11 @@ import java.util.Timer;
 
 import static javax.swing.ScrollPaneConstants.LOWER_LEFT_CORNER;
 
+/**
+ * View class for GUI.
+ * Note that many of the non-interface methods are merely extension of existing ones
+ * and do not require additional documentation.
+ */
 public class GUI implements View, Serializable {
 
     private int game;
@@ -33,7 +38,13 @@ public class GUI implements View, Serializable {
     private GridGraphic gridGraphic;
     private Colour colour;
 
-
+    /**
+     * Creates new GUI, starting with a single base JFrame.
+     * 
+     * @param game game
+     * @param server server
+     * @throws RemoteException RMI exception
+     */
     public GUI(int game, ServerInterface server) throws RemoteException {
         super();
         this.game = game;

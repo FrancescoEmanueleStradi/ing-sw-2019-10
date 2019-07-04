@@ -4,10 +4,17 @@ import javax.swing.*;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Contains all CardLinks and methods that can access a graphical component's
+ * attributes from its image and vice versa.
+ */
 public class CardLinkList {
 
     private List<CardLink> cards;
 
+    /**
+     * Creates a new CardLinkList.
+     */
     public CardLinkList() {
         cards = new LinkedList<>();
         cards.add(new CardLink("BlackPlayerBoard", null, new ImageIcon("Images/BlackPlayerBoard.png")));
@@ -71,7 +78,14 @@ public class CardLinkList {
         cards.add(new CardLink("ZX-2", null, new ImageIcon("Images/ZX2.png")));
     }
 
-    public List<ImageIcon> getImageIconFromName(List<String> cardName, List<String> cardColour) {
+    /**
+     * Gets image icons from names (and possibly colours).
+     *
+     * @param cardName   name list
+     * @param cardColour colour list
+     * @return icon list
+     */
+    public List<ImageIcon> getImageIconsFromNames(List<String> cardName, List<String> cardColour) {
         List<ImageIcon> l = new LinkedList<>();
         for(int i = 0; i < cardName.size(); i++) {
             for(CardLink c : cards) {
@@ -82,6 +96,13 @@ public class CardLinkList {
         return l;
     }
 
+    /**
+     * Gets image icon from name (and possibly colour).
+     *
+     * @param cardName   name
+     * @param cardColour colour
+     * @return icon (default: null)
+     */
     public ImageIcon getImageIconFromName(String cardName, String cardColour) {
         for(CardLink c : cards) {
             if(c.getCard().equals(cardName) && (c.getColour() == null || (!cardColour.isEmpty() && c.getColour().equals(cardColour))))
@@ -90,8 +111,13 @@ public class CardLinkList {
             return null;
         }
 
-
-    public List<String> getNamefromImageIcon(List<ImageIcon> cardImages) {
+    /**
+     * Gets name from image icon.
+     *
+     * @param cardImages image list
+     * @return name list
+     */
+    public List<String> getNamesFromImageIcons(List<ImageIcon> cardImages) {
         List<String> l = new LinkedList<>();
         for(ImageIcon i : cardImages) {
             for(CardLink c : cards) {
@@ -102,24 +128,33 @@ public class CardLinkList {
         return l;
     }
 
-    public String getNamefromImageIcon(ImageIcon cardImages) {
+    /**
+     * Gets name from image icon.
+     *
+     * @param cardImage image
+     * @return name (default: null)
+     */
+    public String getNameFromImageIcon(ImageIcon cardImage) {
         for(CardLink c : cards) {
-            if(c.getImage().equals(cardImages))
+            if(c.getImage().equals(cardImage))
                 return c.getCard();
         }
 
         return null;
     }
 
-    public String getColourfromImageIcon(ImageIcon cardImages) {
+    /**
+     * Gets colour from image icon.
+     *
+     * @param cardImage image
+     * @return colour (default: null)
+     */
+    public String getColourfromImageIcon(ImageIcon cardImage) {
         for(CardLink c : cards) {
-            if(c.getImage().equals(cardImages))
+            if(c.getImage().equals(cardImage))
                 return c.getColour();
         }
 
         return null;
     }
-
-
-
 }

@@ -244,11 +244,11 @@ public class Grab1 extends JPanel {
             JCheckBox checked = (JCheckBox)e.getSource();
             ImageIcon power = (ImageIcon)checked.getIcon();
             if(checked.isSelected()) {
-                lP.add(cardLink.getNamefromImageIcon(power));
+                lP.add(cardLink.getNameFromImageIcon(power));
                 lPC.add(cardLink.getColourfromImageIcon(power));
             }
             else {
-                lP.remove(cardLink.getNamefromImageIcon(power));
+                lP.remove(cardLink.getNameFromImageIcon(power));
                 lPC.remove(cardLink.getColourfromImageIcon(power));
             }
             if(!finalConfirm.isEnabled())

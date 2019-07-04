@@ -20,8 +20,6 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.Timer;
 
-import static javax.swing.ScrollPaneConstants.LOWER_LEFT_CORNER;
-
 public class GUISocket implements View, Serializable {
 
     private int game;
@@ -31,13 +29,10 @@ public class GUISocket implements View, Serializable {
     private PrintWriter socketOut;
     private Scanner socketIn;
     private String nickName;
-    private Colour colour;
-    private Container container;
     private JFrame gameGraphic;
     private GridGraphic gridGraphic;
-    private JScrollPane jScrollPane;
-    private TextArea textArea;
-    private JPanel players;
+    private Colour colour;
+
 
 
     public GUISocket(int game, Socket socket) throws IOException {
@@ -46,10 +41,7 @@ public class GUISocket implements View, Serializable {
         this.socket = socket;
         this.socketOut = new PrintWriter(socket.getOutputStream(), true);
         this.socketIn = new Scanner(socket.getInputStream());
-        this.container = new Container();
         this.gameGraphic = new JFrame();
-        this.textArea = new TextArea();
-        this.players = new JPanel();
     }
 
     public int getGame() {
@@ -99,11 +91,11 @@ public class GUISocket implements View, Serializable {
     }
 
     public void disconnected(int disconnected) {
-        textArea.append("Player number " + disconnected + " is disconnected");
+        gridGraphic.changeText("Player number " + disconnected + " is disconnected");
         this.gameGraphic.revalidate();
     }
 
-    public synchronized void askNameAndColour() {
+    public void askNameAndColour() {
         socketOut.println("Message Game Is Not Started");
         socketOut.println(game);
         String gameIsNotStarted = socketIn.nextLine();
@@ -133,7 +125,7 @@ public class GUISocket implements View, Serializable {
         }
     }
 
-    public synchronized void selectSpawnPoint() throws RemoteException, InterruptedException {
+    public void selectSpawnPoint() throws RemoteException, InterruptedException {
         socketOut.println("Message Give Two PU Card");
         socketOut.println(game);
         socketOut.println(nickName);
@@ -153,7 +145,7 @@ public class GUISocket implements View, Serializable {
         try {
             JFrame spawnPoint = new JFrame("Spawn point selection");
             spawnPoint.setLocation(10, 10);
-            Container c = spawnPoint.getContentPane();                  //TODO image
+            Container c = spawnPoint.getContentPane();
             DiscardPUCSocket d = new DiscardPUCSocket(this, socket, game, nickName, pUCard1, pUCard2, pUCard1Colour, pUCard2Colour, spawnPoint);
             d.setLayout(new FlowLayout(FlowLayout.LEFT));
             c.add(d);
@@ -165,7 +157,7 @@ public class GUISocket implements View, Serializable {
     }
 
 
-    public synchronized void action1() throws InterruptedException {
+    public void action1() throws InterruptedException {
         JFrame action = new JFrame(this.nickName + "'s FIRST ACTION");
         action.setLocation(50,50);
         Container c = action.getContentPane();
@@ -175,7 +167,7 @@ public class GUISocket implements View, Serializable {
         action.setVisible(true);
     }
 
-    public synchronized void moveFirstAction(){
+    public void moveFirstAction(){
         try {
             MyTaskSocket task = new MyTaskSocket(game, identifier, this.getNickName(), socket);
             Timer timer = new Timer();
@@ -192,7 +184,7 @@ public class GUISocket implements View, Serializable {
         }
     }
 
-    public synchronized void grabFirstAction()  {
+    public void grabFirstAction()  {
         try {
             MyTaskSocket task = new MyTaskSocket(game, identifier, this.getNickName(), socket);
             Timer timer = new Timer();
@@ -209,7 +201,7 @@ public class GUISocket implements View, Serializable {
         }
     }
 
-    public synchronized void shootFirstAction() {
+    public void shootFirstAction() {
         try {
             JFrame shoot = new JFrame("First action - shoot");
             shoot.setLocation(50, 50);
@@ -223,7 +215,7 @@ public class GUISocket implements View, Serializable {
         }
     }
 
-    public synchronized void action2() throws InterruptedException {
+    public void action2() throws InterruptedException {
         JFrame action = new JFrame(this.nickName + "'s SECOND ACTION");
         action.setLocation(50,50);
         Container c = action.getContentPane();
@@ -233,12 +225,12 @@ public class GUISocket implements View, Serializable {
         action.setVisible(true);
     }
 
-    public synchronized void moveSecondAction() throws InterruptedException {
+    public void moveSecondAction() throws InterruptedException {
         try {
             MyTaskSocket task = new MyTaskSocket(game, identifier, this.getNickName(), socket);
             Timer timer = new Timer();
             timer.schedule(task, 150000);
-            JFrame move = new JFrame("First action - move");
+            JFrame move = new JFrame("Second action - move");
             move.setLocation(50, 50);
             Container c = move.getContentPane();
             Move2Socket move2 = new Move2Socket(this, socket, game, identifier, nickName, move, timer);
@@ -250,7 +242,7 @@ public class GUISocket implements View, Serializable {
         }
     }
 
-    public synchronized void grabSecondAction() throws InterruptedException {
+    public  void grabSecondAction() throws InterruptedException {
         try {
             MyTaskSocket task = new MyTaskSocket(game, identifier, this.getNickName(), socket);
             Timer timer = new Timer();
@@ -267,7 +259,7 @@ public class GUISocket implements View, Serializable {
         }
     }
 
-    public synchronized void shootSecondAction() throws InterruptedException {
+    public void shootSecondAction() throws InterruptedException {
         JFrame shoot = new JFrame("Second action - shoot");
         shoot.setLocation(50,50);
         Container c = shoot.getContentPane();
@@ -558,7 +550,7 @@ public class GUISocket implements View, Serializable {
         socketOut.println("Message End Turn Final Frenzy");
         socketOut.println(game);
 
-        textArea.append("We are calculating the result");
+        gridGraphic.changeText("We are calculating the result");
         this.gameGraphic.revalidate();
         this.finalScoring();
     }
@@ -567,7 +559,7 @@ public class GUISocket implements View, Serializable {
         socketOut.println("Message Final Scoring");
         socketOut.println(game);
 
-        textArea.append("FINAL SCORE");
+        gridGraphic.changeText("FINAL SCORE");
 
         socketOut.println("Message Get Players");
         socketOut.println(game);
@@ -575,9 +567,9 @@ public class GUISocket implements View, Serializable {
         List<String> playersFinal = new LinkedList<>();
         for(int i = 0; i < size; i++)
             playersFinal.add(socketIn.nextLine());
-        playersFinal.forEach(textArea::append);
+        playersFinal.forEach(gridGraphic::changeText);
 
-        textArea.append("");
+        gridGraphic.changeText("");
 
         socketOut.println("Message Get Score");
         List<Integer> score = new LinkedList<>();
@@ -585,47 +577,42 @@ public class GUISocket implements View, Serializable {
         for(int i = 0; i < size1; i++)
             score.add(Integer.parseInt(socketIn.nextLine()));
 
-        score.stream().map(a -> Integer.toString(a)).forEach(textArea::append);
+        score.stream().map(a -> Integer.toString(a)).forEach(gridGraphic::changeText);
 
-        textArea.append("");
-        textArea.append("END GAME");
+        gridGraphic.changeText("");
+        gridGraphic.changeText("END GAME");
         this.gameGraphic.revalidate();
     }
 
     public void printPlayer(List<String> information) throws RemoteException {
-        //players.add(new PlayerName(information.get(0), information.get(1), information.get(2)));
-        this.gameGraphic.add(players);
-        textArea.append("Player " + information.get(0) + " (identifier " + information.get(2)+ ") whose colour is " + information.get(1) + " is now a player of this game.");
-        gameGraphic.revalidate();
+        if(gridGraphic != null) {
+            gridGraphic.changeText("Player " + information.get(0) + " (identifier " + information.get(2) + ") whose colour is " + information.get(1) + " is now a player of this game.");
+            gameGraphic.revalidate();
+        }
     }
 
     public void printScore(List<String> information) throws RemoteException {
-        textArea.append("Player: " + information.get(0) + " has now this score: " + information.get(1));
+        gridGraphic.changeText("Player: " + information.get(0) + " has now this score: " + information.get(1));
         this.gameGraphic.revalidate();
     }
 
     public void printPosition(List<String> information) throws RemoteException {
-        textArea.append("Now Player: " + information.get(0) + " is in the cell " + information.get(1) + " " + information.get(2));
+        gridGraphic.changeText("Now Player: " + information.get(0) + " is in the cell " + information.get(1) + " " + information.get(2));
         this.gameGraphic.revalidate();
     }
 
     public void printMark(List<String> information) throws RemoteException {
-        textArea.append("Player: " + information.get(0) + "give a new Mark to Player" + information.get(1));
+        gridGraphic.changeText("Player: " + information.get(0) + "give a new Mark to Player" + information.get(1));
         this.gameGraphic.revalidate();
     }
 
     public void printDamage(List<String> information) throws RemoteException {
-        textArea.append("Player: " + information.get(0) + " give " + information.get(1) + " damages to Player: " + information.get(2));
+        gridGraphic.changeText("Player: " + information.get(0) + " give " + information.get(1) + " damages to Player: " + information.get(2));
         this.gameGraphic.revalidate();
     }
 
-    //TODO image
     public void printType() throws RemoteException {
-        this.gameGraphic.setSize(1500, 900);
-        //textArea.setMaximumSize(new Dimension(300, 300));
-        //jScrollPane = new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-        //jScrollPane.setLocation(0,0);
-        //add(jScrollPane).doLayout();
+        this.gameGraphic.setSize(1200, 900);
         if(type == 1) {
             this.gridGraphic = new GridGraphic("Images/Grid1.png");
         }
@@ -638,10 +625,7 @@ public class GUISocket implements View, Serializable {
         if(type == 4) {
             this.gridGraphic = new GridGraphic("Images/Grid4.png");
         }
-        //players.setLayout(new FlowLayout(FlowLayout.LEFT));
-        //gridGraphic.add(players);
         gameGraphic.getContentPane().add(gridGraphic);
-        //gameGraphic.getContentPane().add(jScrollPane);
         gameGraphic.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         gameGraphic.setVisible(true);
     }

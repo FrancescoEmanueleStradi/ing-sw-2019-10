@@ -106,8 +106,19 @@ public class CLISocket extends UnicastRemoteObject implements View {
             socketOut.println(identifier);
             socketOut.println(nickName);
 
-            System.out.println(yourColour);
-            String s1 = in.nextLine();
+            String s1;
+            int counterColour = 0;
+            do {
+                if(counterColour > 0)
+                    System.out.println(ERRORRETRY);
+
+                System.out.println(yourColour);
+                s1 = in.nextLine();
+
+                counterColour++;
+            }while(!(s1.equals("BLUE") || s1.equals("BLACK") || s1.equals("YELLOW") || s1.equals("PURPLE") || s1.equals("GREEN")));
+
+
             this.colour = Colour.valueOf(s1);
             socketOut.println("Message Game Start");
             socketOut.println(game);
@@ -159,8 +170,17 @@ public class CLISocket extends UnicastRemoteObject implements View {
             socketOut.println(identifier);
             socketOut.println(nickName);
 
-            System.out.println(yourColour);
-            s2 = in.nextLine();
+            int counterColour = 0;
+            do {
+                if(counterColour > 0)
+                    System.out.println(ERRORRETRY);
+
+                System.out.println(yourColour);
+                s2 = in.nextLine();
+
+                counterColour++;
+            }while(!(s2.equals("BLUE") || s2.equals("BLACK") || s2.equals("YELLOW") || s2.equals("PURPLE") || s2.equals("GREEN")));
+
             this.colour = Colour.valueOf(s2);
 
             socketOut.println("Message Is Valid Add Player");
@@ -1436,9 +1456,12 @@ public class CLISocket extends UnicastRemoteObject implements View {
 
         String reloadChoice;
 
-        do {
+        while(true) {
             System.out.println("Choose the weapon card you want to reload, or enter 'end' if you don't need/want to");
             reloadChoice = in.nextLine();
+
+            if(reloadChoice.equals("end"))
+                break;
 
             socketOut.println("Message Is Valid Reload");
             socketOut.println(game);
@@ -1454,8 +1477,8 @@ public class CLISocket extends UnicastRemoteObject implements View {
                 socketOut.println(reloadChoice);
             }
             else
-                System.out.println("You don't have enough ammo to reload the chosen weapon :(");
-        }while(!reloadChoice.equals("end"));
+                System.out.println("You don't have enough ammo to reload the chosen weapon\n (or you have selected a weapon you don't have: don't try to cheat!");
+        }
     }
 
     public void scoring() {

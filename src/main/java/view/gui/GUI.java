@@ -29,23 +29,16 @@ public class GUI implements View, Serializable {
     private int type;
     private ServerInterface server;
     private String nickName;
-    private Colour colour;
-    private Container container;
     private JFrame gameGraphic;
     private GridGraphic gridGraphic;
-    private JScrollPane jScrollPane;
-    private TextArea textArea;
-    private JPanel players;
+    private Colour colour;
 
 
     public GUI(int game, ServerInterface server) throws RemoteException {
         super();
         this.game = game;
         this.server = server;
-        this.container = new Container();
         this.gameGraphic = new JFrame();
-        this.textArea = new TextArea();
-        this.players = new JPanel();
     }
 
     public int getGame() {
@@ -87,7 +80,7 @@ public class GUI implements View, Serializable {
     }
 
     public void disconnected(int disconnected) throws RemoteException, InterruptedException {
-        textArea.append("Player number " + disconnected + " is disconnected");
+        gridGraphic.changeText("Player number " + disconnected + " is disconnected");
         this.gameGraphic.revalidate();
     }
 
@@ -119,7 +112,7 @@ public class GUI implements View, Serializable {
         this.server.messageGiveTwoPUCard(game, this.nickName);
         JFrame spawnPoint = new JFrame("Spawn point selection");
         spawnPoint.setLocation(10,10);
-        Container c = spawnPoint.getContentPane();                  //TODO image
+        Container c = spawnPoint.getContentPane();
         DiscardPUC d = new DiscardPUC(this, server, game, nickName, this.server.messageGetPlayerPowerUpCard(game, this.nickName).get(0), this.server.messageGetPlayerPowerUpCard(game, this.nickName).get(1), this.server.messageGetPlayerPowerUpCardColour(game, this.nickName).get(0), this.server.messageGetPlayerPowerUpCardColour(game, this.nickName).get(1), spawnPoint);
         d.setLayout(new FlowLayout(FlowLayout.LEFT));
         c.add(d);
@@ -220,7 +213,6 @@ public class GUI implements View, Serializable {
         shoot.setVisible(true);
     }
 
-    //TODO image
     public void usePowerUpCard() throws RemoteException {
         MyTask task = new MyTask(game, identifier, this.getNickName(), server);
         Timer timer = new Timer();
@@ -435,17 +427,19 @@ public class GUI implements View, Serializable {
     public void finalScoring() throws RemoteException {
         this.server.messageFinalScoring(game);
         gridGraphic.changeText("FINAL SCORE");
-        this.server.messageGetPlayers(game).forEach(textArea::append);
+        this.server.messageGetPlayers(game).forEach(gridGraphic::changeText);
         gridGraphic.changeText("");
-        this.server.messageGetScore(game).stream().map(a -> Integer.toString(a)).forEach(textArea::append);
+        this.server.messageGetScore(game).stream().map(a -> Integer.toString(a)).forEach(gridGraphic::changeText);
         gridGraphic.changeText("");
         gridGraphic.changeText("END GAME");
         this.gameGraphic.revalidate();
     }
 
     public void printPlayer(List<String> information) throws RemoteException {
-        gridGraphic.changeText("Player " + information.get(0) + " (identifier " + information.get(2)+ ") whose colour is " + information.get(1) + " is now a player of this game.");
-        gameGraphic.revalidate();
+        if(gridGraphic != null) {
+            gridGraphic.changeText("Player " + information.get(0) + " (identifier " + information.get(2) + ") whose colour is " + information.get(1) + " is now a player of this game.");
+            gameGraphic.revalidate();
+        }
     }
 
     public void printScore(List<String> information) throws RemoteException {
@@ -468,9 +462,8 @@ public class GUI implements View, Serializable {
         this.gameGraphic.revalidate();
     }
 
-    //TODO image
     public void printType() throws RemoteException {
-        this.gameGraphic.setSize(1500, 900);
+        this.gameGraphic.setSize(1200, 900);
         if(type == 1) {
             this.gridGraphic = new GridGraphic("Images/Grid1.png");
         }

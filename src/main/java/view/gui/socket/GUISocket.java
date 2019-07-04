@@ -621,57 +621,21 @@ public class GUISocket implements View, Serializable {
     //TODO image
     public void printType() throws RemoteException {
         this.gameGraphic.setSize(1000, 1000);
-        //this.container = gameGraphic.getContentPane();
         if(type == 1) {
-            this.gridGraphic = new GridGraphic("Images/Left14Grid.png", "Images/Right12Grid.png");
+            this.gridGraphic = new GridGraphic("Images/Grid1.png");
             this.gameGraphic.getContentPane().add(gridGraphic);
-
-
-
-
-
-
-            //ImageIcon Right12Grid = new ImageIcon("Images/Right12Grid.png");
-            //JLabel L14Grid = new JLabel(Left14Grid);
-            //L14Grid.doLayout();
-            //L14Grid.setHorizontalAlignment(SwingConstants.CENTER);
-            //JLabel R12Grid = new JLabel(Right12Grid);
-            //R12Grid.setHorizontalAlignment(SwingConstants.RIGHT);
-            //R12Grid.doLayout();
-            //R12Grid.setSize(10, 10);
-            //gameGraphic.add(L14Grid).setBounds(700, 700, 400, 400);
-            //gameGraphic.add(R12Grid).setBounds(1000, 700, 400, 400);
-            //gameGraphic.pack();
-            //this.container.add(L14Grid).setSize(10,10);
-            //this.container.add(R12Grid).setSize(10,10);
         }
         if(type == 2) {
-            ImageIcon Left23Grid = new ImageIcon("Images/Left23Grid.png");
-            ImageIcon Right12Grid = new ImageIcon("Images/Right12Grid.png");
-            JLabel L23Grid = new JLabel(Left23Grid);
-            JLabel R12Grid = new JLabel(Right12Grid);
-            L23Grid.setMaximumSize(new Dimension(300, 300));
-            R12Grid.setMaximumSize(new Dimension(300, 300));
-            L23Grid.setDisplayedMnemonic(SwingConstants.CENTER);
-            R12Grid.doLayout();
-            this.gridGraphic.add(L23Grid);
-            this.gridGraphic.add(R12Grid);
+            this.gridGraphic = new GridGraphic("Images/Grid2.png");
+            this.gameGraphic.getContentPane().add(gridGraphic);
         }
         if(type == 3) {
-            ImageIcon Left23Grid = new ImageIcon("Images/Left23Grid.png");
-            ImageIcon Right34Grid = new ImageIcon("Images/Right34Grid.png");
-            JLabel L23Grid = new JLabel(Left23Grid);
-            JLabel R34Grid = new JLabel(Right34Grid);
-            this.gridGraphic.add(L23Grid).setBounds(350, 600, 125, 0);
-            this.gridGraphic.add(R34Grid).setBounds(475, 600, 350, 0);
+            this.gridGraphic = new GridGraphic("Images/Grid3.png");
+            this.gameGraphic.getContentPane().add(gridGraphic);
         }
         if(type == 4) {
-            ImageIcon Left14Grid = new ImageIcon("Images/Left14Grid.png");
-            ImageIcon Right34Grid = new ImageIcon("Images/Right34Grid.png");
-            JLabel L14Grid = new JLabel(Left14Grid);
-            JLabel R34Grid = new JLabel(Right34Grid);
-            this.gridGraphic.add(L14Grid).setBounds(350, 600, 125, 0);
-            this.gridGraphic.add(R34Grid).setBounds(475, 600, 350, 0);
+            this.gridGraphic = new GridGraphic("Images/Grid4.png");
+            this.gameGraphic.getContentPane().add(gridGraphic);
         }
         //scrollPane.setCorner(LOWER_LEFT_CORNER, new JPanel());
         //players.setLayout(new FlowLayout(FlowLayout.LEFT));

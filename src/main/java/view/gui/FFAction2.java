@@ -101,12 +101,13 @@ public class FFAction2 extends JPanel implements ActionListener {
     public synchronized void actionPerformed(ActionEvent e) {
         try {
             if(!server.messageIsValidFinalFrenzyAction2(game, nickName, directions)) {
-                gui.firstFFAction(false);
+                gui.secondFFAction(false);
                 parent.dispose();
             }
             else {
                 server.messageFinalFrenzyAction2(game, nickName, directions);
-                gui.doYouWantToUsePUC3();
+                //gui.doYouWantToUsePUC3();
+                parent.setVisible(false);
                 parent.dispose();
             }
         } catch (RemoteException ex) {

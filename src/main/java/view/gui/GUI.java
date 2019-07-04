@@ -29,7 +29,7 @@ public class GUI implements View, Serializable {
     private Colour colour;
     private Container container;
     private JFrame gameGraphic;
-    private JPanel gridGraphic;
+    private GridGraphic gridGraphic;
     private JScrollPane scrollPane;
     private TextArea textArea;
     private JPanel players;
@@ -41,7 +41,6 @@ public class GUI implements View, Serializable {
         this.server = server;
         this.container = new Container();
         this.gameGraphic = new JFrame();
-        this.gridGraphic = new JPanel();
         this.textArea = new TextArea();
         this.scrollPane = new JScrollPane (textArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         this.players = new JPanel();
@@ -468,21 +467,28 @@ public class GUI implements View, Serializable {
 
     //TODO image
     public void printType() throws RemoteException {
-        this.gameGraphic.setSize(1400, 1400);
+        this.gameGraphic.setSize(1000, 1000);
         //this.container = gameGraphic.getContentPane();
         if(type == 1) {
-            ImageIcon Left14Grid = new ImageIcon("Images/Left14Grid.png");
-            ImageIcon Right12Grid = new ImageIcon("Images/Right12Grid.png");
-            JLabel L14Grid = new JLabel(Left14Grid);
+            this.gridGraphic = new GridGraphic("Images/Left14Grid.png", "Images/Right12Grid.png");
+            this.gameGraphic.getContentPane().add(gridGraphic);
+
+
+
+
+
+
+            //ImageIcon Right12Grid = new ImageIcon("Images/Right12Grid.png");
+            //JLabel L14Grid = new JLabel(Left14Grid);
             //L14Grid.doLayout();
-            L14Grid.setHorizontalAlignment(SwingConstants.CENTER);
-            JLabel R12Grid = new JLabel(Right12Grid);
-            R12Grid.setHorizontalAlignment(SwingConstants.RIGHT);
+            //L14Grid.setHorizontalAlignment(SwingConstants.CENTER);
+            //JLabel R12Grid = new JLabel(Right12Grid);
+            //R12Grid.setHorizontalAlignment(SwingConstants.RIGHT);
             //R12Grid.doLayout();
             //R12Grid.setSize(10, 10);
-            gameGraphic.add(L14Grid).setBounds(700, 700, 400, 400);
-            gameGraphic.add(R12Grid).setBounds(1000, 700, 400, 400);
-            gameGraphic.pack();
+            //gameGraphic.add(L14Grid).setBounds(700, 700, 400, 400);
+            //gameGraphic.add(R12Grid).setBounds(1000, 700, 400, 400);
+            //gameGraphic.pack();
             //this.container.add(L14Grid).setSize(10,10);
             //this.container.add(R12Grid).setSize(10,10);
         }

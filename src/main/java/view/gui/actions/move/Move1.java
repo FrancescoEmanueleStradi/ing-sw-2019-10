@@ -79,8 +79,6 @@ public class Move1 extends JPanel implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             JButton direction = (JButton) e.getSource();
-            if(dirCount >= 1 && dirCount <= 3)
-                b.setEnabled(true);
 
             if(direction == reset) {
                 dirCount = 0;
@@ -100,6 +98,8 @@ public class Move1 extends JPanel implements ActionListener {
                 else if(direction == downArrow)
                     directions.add(3);
                 dirCount++;
+                if(dirCount >= 1 && dirCount <= 3)
+                    b.setEnabled(true);
 
                 if(dirCount == 3) {
                     leftArrow.setEnabled(false);

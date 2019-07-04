@@ -14,7 +14,7 @@ public class FFAction4 extends JPanel {
     private JFrame parent;
     private int game;
     private String nickName;
-    private java.util.Timer timer;
+    private Timer timer;
 
     private List<Integer> directions = new LinkedList<>();
     private JButton leftArrow;
@@ -25,14 +25,13 @@ public class FFAction4 extends JPanel {
     private int dirCount;
     private JButton b;
 
-    public FFAction4(GUI gui, ServerInterface server, JFrame parent, int game, String nickName, Timer timer) {
+    public FFAction4(GUI gui, ServerInterface server, JFrame parent, int game, String nickName) {
         super();
         this.gui = gui;
         this.server = server;
         this.parent = parent;
         this.game = game;
         this.nickName = nickName;
-        this.timer = timer;
 
         add(new JLabel("Final Frenzy action 4.\n" +
                 "You may move up to 2 squares, reload (optional), then shoot."));

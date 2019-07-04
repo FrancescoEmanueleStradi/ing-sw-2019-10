@@ -25,14 +25,13 @@ public class FFAction1 extends JPanel {
     private int dirCount;
     private JButton b;
 
-    public FFAction1(GUI gui, ServerInterface server, JFrame parent, int game, String nickName, Timer timer) {
+    public FFAction1(GUI gui, ServerInterface server, JFrame parent, int game, String nickName) {
         super();
         this.gui = gui;
         this.server = server;
         this.parent = parent;
         this.game = game;
         this.nickName = nickName;
-        this.timer = timer;
 
         add(new JLabel("Final Frenzy action 1.\n" +
                 "You may move one square, reload (optional), then shoot."));

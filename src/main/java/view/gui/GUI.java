@@ -390,23 +390,50 @@ public class GUI implements View, Serializable {
         JFrame jF = new JFrame("Final Frenzy Action 1");
         jF.setLocation(50, 50);
         Container c  = jF.getContentPane();
-
+        FFAction1 ff1 = new FFAction1(this, server, jF, game, nickName);
+        c.add(ff1);
+        jF.setSize(400,400);
+        jF.setVisible(true);
     }
 
     public synchronized void secondFFAction(boolean end) {
-        //TODO
+        JFrame jF = new JFrame("Final Frenzy Action 2");
+        jF.setLocation(50, 50);
+        Container c  = jF.getContentPane();
+        FFAction2 ff2 = new FFAction2(this, server, jF, game, nickName);
+        c.add(ff2);
+        jF.setSize(400,400);
+        jF.setVisible(true);
     }
 
-    public synchronized void thirdFFAction(boolean end) {
-        //TODO
+    public synchronized void thirdFFAction(boolean end) throws RemoteException {
+        JFrame jF = new JFrame("Final Frenzy Action 3");
+        jF.setLocation(50, 50);
+        Container c  = jF.getContentPane();
+        FFAction3 ff3 = new FFAction3(this, server, jF, game, nickName);
+        c.add(ff3);
+        jF.setSize(400,400);
+        jF.setVisible(true);
     }
 
     public synchronized void fourthFFAction(boolean end) {
-        //TODO
+        JFrame jF = new JFrame("Final Frenzy Action 4");
+        jF.setLocation(50, 50);
+        Container c  = jF.getContentPane();
+        FFAction4 ff4 = new FFAction4(this, server, jF, game, nickName);
+        c.add(ff4);
+        jF.setSize(400,400);
+        jF.setVisible(true);
     }
 
-    public synchronized void fifthFFAction(boolean end) {
-        //TODO
+    public synchronized void fifthFFAction(boolean end) throws RemoteException {
+        JFrame jF = new JFrame("Final Frenzy Action 5");
+        jF.setLocation(50, 50);
+        Container c  = jF.getContentPane();
+        FFAction5 ff5 = new FFAction5(this, server, jF, game, nickName);
+        c.add(ff5);
+        jF.setSize(400,400);
+        jF.setVisible(true);
     }
 
 

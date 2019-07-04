@@ -45,14 +45,13 @@ public class FFAction3 extends JPanel {
     private JComboBox slotList;
     private JComboBox slot1List, slot2List, slot3List;
 
-    public FFAction3(GUI gui, ServerInterface server, JFrame parent, int game, String nickName, Timer timer) throws RemoteException {
+    public FFAction3(GUI gui, ServerInterface server, JFrame parent, int game, String nickName) throws RemoteException {
         super();
         this.gui = gui;
         this.server = server;
         this.parent = parent;
         this.game = game;
         this.nickName = nickName;
-        this.timer = timer;
         this.powerUps = server.messageGetPlayerPowerUpCard(game, nickName);
         this.powerUpColours = server.messageGetPlayerPowerUpCardColour(game, nickName);
 

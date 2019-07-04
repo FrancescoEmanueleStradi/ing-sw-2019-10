@@ -203,8 +203,8 @@ public class GUI implements View, Serializable {
         JFrame grab = new JFrame("Second action - grab");
         grab.setLocation(50,50);
         Container c = grab.getContentPane();
-        //Grab2 grab2 = new Grab2(this, server, game, identifier, nickName, grab, timer);
-        //c.add(grab2);
+        Grab2 grab2 = new Grab2(this, server, game, identifier, nickName, grab, timer);
+        c.add(grab2);
         grab.setSize(500,500);
         grab.setVisible(true);
     }

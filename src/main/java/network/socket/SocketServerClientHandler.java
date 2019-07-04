@@ -250,6 +250,12 @@ public class SocketServerClientHandler implements Runnable {
                         String messageCheckYourStatus = server.messageCheckYourStatus(gameMessageCheckYourStatus, nicknameMessageCheckYourStatus);
                         outPrinter.println(messageCheckYourStatus);
                         break;
+                    case "Message Check Others Status":
+                        int gameMessageCheckOthersStatus = Integer.parseInt(inScanner.nextLine());
+                        String nicknameMessageCheckOthersStatus = inScanner.nextLine();
+                        String messageCheckOthersStatus = server.messageCheckOthersStatus(gameMessageCheckOthersStatus, nicknameMessageCheckOthersStatus);
+                        outPrinter.println(messageCheckOthersStatus);
+                        break;
                     case "Message Get Weapon Card Unloaded":
                         int game3 = Integer.parseInt(inScanner.nextLine());
                         String nickname3 = inScanner.nextLine();
@@ -866,6 +872,14 @@ public class SocketServerClientHandler implements Runnable {
                             lPC15.add(inScanner.nextLine());
                         server.messageSecondActionShoot(game31, nickname28, weapon3, lI14, lS14, adrenaline3, lC15, lP15, lPC15);
                         break;
+                    case "Message Get Score":
+                        int gameGetScore = Integer.parseInt(inScanner.nextLine());
+                        int sizeGetScore = server.messageGetScore(gameGetScore).size();
+                        outPrinter.println(sizeGetScore);
+                        for(int i = 0; i < sizeGetScore; i++)
+                            outPrinter.println(server.messageGetScore(gameGetScore).get(i));
+                        break;
+
 
                     //Notify calls
                     case "Notify Player Size":

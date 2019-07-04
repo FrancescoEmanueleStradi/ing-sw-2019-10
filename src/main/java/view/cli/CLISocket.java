@@ -244,8 +244,16 @@ public class CLISocket extends UnicastRemoteObject implements View {
                     "You will discard the other one, and its colour will be the colour of your spawn point.");
             p = in.nextLine();
 
-            System.out.println("Enter the colour of the chosen PowerUp card:");
-            c = in.nextLine();
+            int counterPUCCOlour = 0;
+            do {
+                if(counterPUCCOlour > 0)
+                    System.out.println(ERRORRETRY);
+
+                System.out.println("Enter the colour of the chosen PowerUp card:");
+                c = in.nextLine();
+
+                counterPUCCOlour++;
+            }while(!(c.equals("RED") || c.equals("YELLOW") || c.equals("BLUE")));
 
             socketOut.println("Message Is Valid Pick And Discard");
             socketOut.println(game);
@@ -375,6 +383,19 @@ public class CLISocket extends UnicastRemoteObject implements View {
         Scanner in = new Scanner(System.in);
         String s;
 
+        socketOut.println("Message Get Players");
+        socketOut.println(game);
+        int playersNum = Integer.parseInt(socketIn.nextLine());
+        for(int i = 0; i < playersNum; i++)
+            socketIn.nextLine();
+
+        socketOut.println("Message Check Others Status");
+        socketOut.println(game);
+        socketOut.println(nickName);
+
+        for(int i = 0; i < playersNum; i++)
+            System.out.println(socketIn.nextLine());
+
         while(true) {
             System.out.println("Choose one of the cards below to use. Make sure you have the required ammo at least for the basic effect/mode\n");
 
@@ -396,8 +417,14 @@ public class CLISocket extends UnicastRemoteObject implements View {
 
             if(isValidCard.equals("true"))
                 break;
-            else
+            else {
                 System.out.println(ERRORRETRY);
+                boolean x = exitHandler(in);
+                if(x) {
+                    action1();
+                    return;
+                }
+            }
         }
 
         socketOut.println("Message Get Reload Cost");
@@ -851,6 +878,20 @@ public class CLISocket extends UnicastRemoteObject implements View {
         Scanner in = new Scanner(System.in);
         String s;
 
+        socketOut.println("Message Get Players");
+        socketOut.println(game);
+        int playersNum = Integer.parseInt(socketIn.nextLine());
+        for(int i = 0; i < playersNum; i++)
+            socketIn.nextLine();
+
+        socketOut.println("Message Check Others Status");
+        socketOut.println(game);
+        socketOut.println(nickName);
+
+        for(int i = 0; i < playersNum; i++)
+            System.out.println(socketIn.nextLine());
+
+
         while(true) {
             System.out.println("Choose one of the cards below to use. Make sure you have the required ammo at least for the basic effect/mode\n");
 
@@ -872,8 +913,14 @@ public class CLISocket extends UnicastRemoteObject implements View {
 
             if(isValidCard.equals("true"))
                 break;
-            else
+            else{
                 System.out.println(ERRORRETRY);
+                boolean x = exitHandler(in);
+                if(x) {
+                    action2();
+                    return;
+                }
+            }
         }
 
         socketOut.println("Message Get Reload Cost");
@@ -2064,6 +2111,7 @@ public class CLISocket extends UnicastRemoteObject implements View {
             players.add(socketIn.nextLine());
 
         socketOut.println("Message Get Score");
+        socketOut.println(game);
         List<Integer> score = new LinkedList<>();
         int size1 = Integer.parseInt(socketIn.nextLine());
         for(int i = 0; i < size1; i++)
@@ -2078,7 +2126,7 @@ public class CLISocket extends UnicastRemoteObject implements View {
 
 
     public void printPlayer(List<String> information) {
-        System.out.println("Player " + information.get(0) + " (identifier " + information.get(2)+ ") whose colour is " + information.get(1) + " is now a player of this game.");
+        System.out.println("Player " + information.get(0) + " (identifier " + information.get(1)+ ") whose colour is " + information.get(2) + " is now a player of this game.");
     }
 
     public void printScore(List<String> information) {

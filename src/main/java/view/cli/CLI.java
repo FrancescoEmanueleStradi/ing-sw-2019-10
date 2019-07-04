@@ -87,9 +87,19 @@ public class CLI extends UnicastRemoteObject implements View {
             this.nickName = in.nextLine();
             server.setNickName(this.game, this.identifier, this.nickName);
 
-            System.out.println(yourColour);
-            String s1 = in.nextLine();
-            this.colour = Colour.valueOf(s1);
+            String s1;
+
+            int counterColour = 0;
+            do {
+                if(counterColour > 0)
+                    System.out.println(ERRORRETRY);
+
+                System.out.println(yourColour);
+                s1 = in.nextLine();
+
+                counterColour++;
+            }while(!(s1.equals("BLUE") || s1.equals("BLACK") || s1.equals("YELLOW") || s1.equals("PURPLE") || s1.equals("GREEN")));
+
             this.server.messageGameStart(game, nickName, colour);
 
             int typeInput;
@@ -114,14 +124,24 @@ public class CLI extends UnicastRemoteObject implements View {
         System.out.println("\n---------- NAME AND COLOUR SELECTION ----------\n");
 
         int isValidAddPlayer;
+        String s2;
 
         do {
             System.out.println(yourName);
             this.nickName = in.nextLine();
             server.setNickName(this.game, this.identifier, this.nickName);
 
-            System.out.println(yourColour);
-            String s2 = in.nextLine();
+            int counterColour = 0;
+            do {
+                if(counterColour > 0)
+                    System.out.println(ERRORRETRY);
+
+                System.out.println(yourColour);
+                s2 = in.nextLine();
+
+                counterColour++;
+            }while(!(s2.equals("BLUE") || s2.equals("BLACK") || s2.equals("YELLOW") || s2.equals("PURPLE") || s2.equals("GREEN")));
+
             this.colour = Colour.valueOf(s2);
 
             isValidAddPlayer = this.server.messageIsValidAddPlayer(game, this.nickName, this.colour);
@@ -158,8 +178,16 @@ public class CLI extends UnicastRemoteObject implements View {
                             "You will discard the other one, and its colour will be the colour of your spawn point.");
             p = in.nextLine();
 
-            System.out.println("Enter the colour of the chosen PowerUp card:");
-            c = in.nextLine();
+            int counterPUCCOlour = 0;
+            do {
+                if(counterPUCCOlour > 0)
+                    System.out.println(ERRORRETRY);
+
+                System.out.println("Enter the colour of the chosen PowerUp card:");
+                c = in.nextLine();
+
+                counterPUCCOlour++;
+            }while(!(c.equals("RED") || c.equals("YELLOW") || c.equals("BLUE")));
 
             if(this.server.messageIsValidPickAndDiscard(game, this.nickName, p, c))
                 break;

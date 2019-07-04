@@ -388,8 +388,7 @@ public class Game {
                     count++;
             }
             damageVals.add(count);
-            if(p.getCell().getPos().getX() <= 3 && p.getCell().getPos().getX() >= 0 &&
-                    p.getCell().getPos().getY() <= 3 && p.getCell().getPos().getY() >= 0)
+            if(p.getCell() != null)
                 positions.add(p.getCell().getPos().getX() + " " + p.getCell().getPos().getY());
         }
 

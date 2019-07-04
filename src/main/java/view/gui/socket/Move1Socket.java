@@ -30,9 +30,6 @@ public class Move1Socket extends JPanel implements ActionListener {
     private int dirCount;
     private JButton b;
     private Timer timer;
-    /*private JTextField txt1;
-    private JTextField txt2;
-    private JTextField txt3;*/
 
     public Move1Socket(GUISocket gui, Socket socket, int game, int identifier, String nickName, JFrame parent, Timer timer) throws IOException {
         super();
@@ -45,17 +42,6 @@ public class Move1Socket extends JPanel implements ActionListener {
         this.identifier = identifier;
         this.nickName = nickName;
         this.timer = timer;
-
-        /*txt1 = new JTextField("Write here", 25);
-        txt2 = new JTextField("Write here", 25);
-        txt3 = new JTextField("Write here", 25);
-        b.addActionListener(this);
-        add(new JLabel(("Enter your first direction:")));
-        add(txt1);
-        add(new JLabel("Enter your second direction:"));
-        add(txt2);
-        add(new JLabel("Enter your third direction:"));
-        add(txt3);*/
 
         add(new JLabel("Select the directions you want to move in, up to 3"));
         leftArrow = new JButton("Left");
@@ -83,8 +69,6 @@ public class Move1Socket extends JPanel implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             JButton direction = (JButton) e.getSource();
-            if(dirCount >= 1 && dirCount <= 3)
-                b.setEnabled(true);
 
             if(direction == reset) {
                 dirCount = 0;
@@ -104,6 +88,8 @@ public class Move1Socket extends JPanel implements ActionListener {
                 else if(direction == downArrow)
                     directions.add(3);
                 dirCount++;
+                if(dirCount >= 1 && dirCount <= 3)
+                    b.setEnabled(true);
 
                 if(dirCount == 3) {
                     leftArrow.setEnabled(false);

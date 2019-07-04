@@ -30,9 +30,6 @@ public class Move2Socket extends JPanel implements ActionListener {
     private int dirCount;
     private JButton b;
     private Timer timer;
-    /*private JTextField txt1;
-    private JTextField txt2;
-    private JTextField txt3;*/
 
     public Move2Socket(GUISocket gui, Socket socket, int game, int identifier, String nickName, JFrame parent, Timer timer) throws IOException {
         super();
@@ -72,8 +69,6 @@ public class Move2Socket extends JPanel implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             JButton direction = (JButton) e.getSource();
-            while(dirCount >= 1 && dirCount <= 3)
-                b.setEnabled(true);
 
             if(direction == reset) {
                 dirCount = 0;
@@ -83,22 +78,25 @@ public class Move2Socket extends JPanel implements ActionListener {
                 upArrow.setEnabled(true);
                 downArrow.setEnabled(true);
             }
+            else {
+                if(direction == leftArrow)
+                    directions.add(4);
+                else if(direction == rightArrow)
+                    directions.add(2);
+                else if(direction == upArrow)
+                    directions.add(1);
+                else if(direction == downArrow)
+                    directions.add(3);
+                dirCount++;
+                if(dirCount >= 1 && dirCount <= 3)
+                    b.setEnabled(true);
 
-            if(direction == leftArrow)
-                directions.add(4);
-            else if(direction == rightArrow)
-                directions.add(2);
-            else if(direction == upArrow)
-                directions.add(1);
-            else if(direction == downArrow)
-                directions.add(3);
-            dirCount++;
-
-            if(dirCount == 3) {
-                leftArrow.setEnabled(false);
-                rightArrow.setEnabled(false);
-                upArrow.setEnabled(false);
-                downArrow.setEnabled(false);
+                if(dirCount == 3) {
+                    leftArrow.setEnabled(false);
+                    rightArrow.setEnabled(false);
+                    upArrow.setEnabled(false);
+                    downArrow.setEnabled(false);
+                }
             }
         }
     }

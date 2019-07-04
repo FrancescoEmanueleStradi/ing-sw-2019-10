@@ -150,7 +150,7 @@ public class GUI implements View, Serializable {
         move.setVisible(true);
     }
 
-    public synchronized void grabFirstAction() throws InterruptedException {
+    public synchronized void grabFirstAction() throws  RemoteException, InterruptedException {
         MyTask task = new MyTask(game, identifier, this.getNickName(), server);
         Timer timer = new Timer();
         timer.schedule(task, 150000);

@@ -1,4 +1,4 @@
-Prova Finale di Ingegneria del Software - A.A. 2018/2019
+﻿Prova Finale di Ingegneria del Software - A.A. 2018/2019
 
 Scaglione Professor Cugola Gianpaolo
 Gruppo 10 - Stradi Francesco Emanuele, Stanimirov Alexander Elvis, Savoia Diego
@@ -14,7 +14,7 @@ Requisiti implementati:
 Generazione dei .jar a partire da maven assembly:
 Nel pom vi è il plugin maven assembly che genera entrambi i .jar.
 Prima di eseguire il build, alla configurazione va aggiunto il Maven Goal "clean package".
-I .jar di default si troveranno in target.
+I .jar di default si troveranno in target, ma vanno spostati nel root della directory.
 
 Modalità di esecuzione:
 Nella repository sono presenti due file .jar, uno per il Server e uno per il Client.

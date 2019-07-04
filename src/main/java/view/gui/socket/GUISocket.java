@@ -623,7 +623,7 @@ public class GUISocket implements View, Serializable {
         this.gameGraphic.setSize(1000, 1000);
         //this.container = gameGraphic.getContentPane();
         if(type == 1) {
-            this.gridGraphic = new GridGraphic("Images/Left14Grid.png", "Images/Right12Grid.png");
+            this.gridGraphic = new GridGraphic("Images/Left14Grid.png");
             this.gameGraphic.getContentPane().add(gridGraphic);
 
 

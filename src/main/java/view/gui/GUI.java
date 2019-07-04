@@ -20,6 +20,8 @@ import java.rmi.RemoteException;
 import java.util.List;
 import java.util.Timer;
 
+import static javax.swing.ScrollPaneConstants.LOWER_LEFT_CORNER;
+
 public class GUI implements View, Serializable {
 
     private int game;
@@ -31,7 +33,7 @@ public class GUI implements View, Serializable {
     private Container container;
     private JFrame gameGraphic;
     private GridGraphic gridGraphic;
-    private JScrollPane scrollPane;
+    private JScrollPane jScrollPane;
     private TextArea textArea;
     private JPanel players;
 
@@ -43,7 +45,6 @@ public class GUI implements View, Serializable {
         this.container = new Container();
         this.gameGraphic = new JFrame();
         this.textArea = new TextArea();
-        this.scrollPane = new JScrollPane (textArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         this.players = new JPanel();
     }
 
@@ -468,27 +469,27 @@ public class GUI implements View, Serializable {
 
     //TODO image
     public void printType() throws RemoteException {
-        this.gameGraphic.setSize(1000, 1000);
+        this.gameGraphic.setSize(1500, 900);
+        //textArea.setMaximumSize(new Dimension(300, 300));
+        //jScrollPane = new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        //jScrollPane.setLocation(0,0);
+        //add(jScrollPane).doLayout();
         if(type == 1) {
             this.gridGraphic = new GridGraphic("Images/Grid1.png");
-            this.gameGraphic.getContentPane().add(gridGraphic);
         }
         if(type == 2) {
             this.gridGraphic = new GridGraphic("Images/Grid2.png");
-            this.gameGraphic.getContentPane().add(gridGraphic);
         }
         if(type == 3) {
             this.gridGraphic = new GridGraphic("Images/Grid3.png");
-            this.gameGraphic.getContentPane().add(gridGraphic);
         }
         if(type == 4) {
             this.gridGraphic = new GridGraphic("Images/Grid4.png");
-            this.gameGraphic.getContentPane().add(gridGraphic);
         }
-        //scrollPane.setCorner(LOWER_LEFT_CORNER, new JPanel());
         //players.setLayout(new FlowLayout(FlowLayout.LEFT));
-        //container.add(players);
-        //container.add(scrollPane);
+        //gridGraphic.add(players);
+        gameGraphic.getContentPane().add(gridGraphic);
+        //gameGraphic.getContentPane().add(jScrollPane);
         gameGraphic.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         gameGraphic.setVisible(true);
     }

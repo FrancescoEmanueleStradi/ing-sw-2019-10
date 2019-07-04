@@ -228,11 +228,12 @@ public class Grab1 extends JPanel {
         @Override
         public void actionPerformed(ActionEvent e) {
             JCheckBox checked = (JCheckBox)e.getSource();
+            Colour ammoColour = Colour.valueOf(checked.getName());
             if(checked.isSelected()) {
-                lC.add(checked.getName());
+                lC.add(ammoColour);
             }
             else {
-                lC.remove(checked.getName());
+                lC.remove(ammoColour);
             }
         }
     }

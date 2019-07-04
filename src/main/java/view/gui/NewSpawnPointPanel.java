@@ -7,6 +7,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
 
+/**
+ * Panel prompting to discard a powerup card for new spawn point. Simpler
+ * implementation comapred to DiscardPUC.
+ */
 public class NewSpawnPointPanel extends JPanel implements ActionListener {
 
     private GUI gui;
@@ -18,6 +22,16 @@ public class NewSpawnPointPanel extends JPanel implements ActionListener {
     private JTextField txt1;
     private JTextField txt2;
 
+    /**
+     * Creates a new SpawnPointPanel
+     *
+     * @param gui gui
+     * @param server server
+     * @param parent parent frame
+     * @param game game
+     * @param nickName nickname
+     * @throws RemoteException RMI exception
+     */
     public NewSpawnPointPanel(GUI gui, ServerInterface server, JFrame parent, int game, String nickName) throws RemoteException{
         super();
         this.gui = gui;

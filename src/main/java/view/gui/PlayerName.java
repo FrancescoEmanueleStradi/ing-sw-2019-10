@@ -1,10 +1,11 @@
 package view.gui;
 
-import model.Colour;
-
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Part of the grid graphic displaying the player's names in formatted text.
+ */
 public class PlayerName extends JTextField {
 
     private String nickName;
@@ -13,6 +14,13 @@ public class PlayerName extends JTextField {
     private JLabel jname;
     private JLabel jidentifier;
 
+    /**
+     * Creates a new PlayerName.
+     *
+     * @param nickName nickname
+     * @param c colour
+     * @param identifier identifier
+     */
     public PlayerName(String nickName, String c, String identifier) {
         this.nickName = nickName;
         this.c = Color.getColor(c);

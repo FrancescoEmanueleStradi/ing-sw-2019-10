@@ -10,6 +10,9 @@ import java.rmi.RemoteException;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Panel for the Targeting Scope powerup requesting parameters before use.
+ */
 public class TSPUCPanel extends JPanel implements ActionListener {
 
     private GUI gui;
@@ -26,6 +29,18 @@ public class TSPUCPanel extends JPanel implements ActionListener {
     private String c;
     private List<String> l = new LinkedList<>();
 
+    /**
+     * Creates a new TSPUCPanel.
+     *
+     * @param gui gui
+     * @param server server
+     * @param parent parent frame
+     * @param game game
+     * @param nickName nickname
+     * @param timer timer
+     * @param turn turn
+     * @param c ammo cube colour
+     */
     public TSPUCPanel(GUI gui, ServerInterface server, JFrame parent , int game, String nickName, java.util.Timer timer, int turn, String c){
         this.gui = gui;
         this.server = server;

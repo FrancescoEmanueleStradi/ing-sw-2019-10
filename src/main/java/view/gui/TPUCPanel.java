@@ -9,6 +9,9 @@ import java.rmi.RemoteException;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Panel for the Teleporter powerup requesting parameters before use.
+ */
 public class TPUCPanel extends JPanel implements ActionListener {
 
     private GUI gui;
@@ -24,6 +27,18 @@ public class TPUCPanel extends JPanel implements ActionListener {
     private String c;
     private List<String> l = new LinkedList<>();
 
+    /**
+     * Creates a new TPUCPanel.
+     *
+     * @param gui gui
+     * @param server server
+     * @param parent parent frame
+     * @param game game
+     * @param nickName nickname
+     * @param timer timer
+     * @param turn turn
+     * @param c ammo cube colour
+     */
     public TPUCPanel(GUI gui, ServerInterface server, JFrame parent , int game, String nickName, java.util.Timer timer, int turn, String c){
         this.gui = gui;
         this.server = server;

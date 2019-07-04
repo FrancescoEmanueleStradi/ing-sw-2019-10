@@ -158,13 +158,36 @@ public class GUI implements View, Serializable {
     }
 
     public void shootFirstAction() throws RemoteException, InterruptedException {
+        MyTask task = new MyTask(game, identifier, this.getNickName(), server);
+        Timer timer = new Timer();
+        timer.schedule(task, 150000);
         JFrame shoot = new JFrame("First action - shoot");
         shoot.setLocation(50,50);
         Container c = shoot.getContentPane();
-        Shoot1 shoot1 = new Shoot1(this, server, game, identifier, nickName);
+        Shoot1 shoot1 = new Shoot1(this, server, game, identifier, nickName, shoot, timer);
         c.add(shoot1);
         shoot.setSize(500,500);
         shoot.setVisible(true);
+    }
+
+    public void shootToUser1(String weapon){
+        //TODO
+
+    }
+
+    public void shootToUser2(String weapon){
+        //TODO
+
+    }
+
+    public void shootToUser3(String weapon){
+        //TODO
+
+    }
+
+    public void shootToUser4(String weapon){
+        //TODO
+
     }
 
     public synchronized void action2() throws InterruptedException {

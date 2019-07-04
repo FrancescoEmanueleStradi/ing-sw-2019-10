@@ -29,23 +29,16 @@ public class GUI implements View, Serializable {
     private int type;
     private ServerInterface server;
     private String nickName;
-    private Colour colour;
-    private Container container;
     private JFrame gameGraphic;
     private GridGraphic gridGraphic;
-    private JScrollPane jScrollPane;
-    private TextArea textArea;
-    private JPanel players;
+    private Colour colour;
 
 
     public GUI(int game, ServerInterface server) throws RemoteException {
         super();
         this.game = game;
         this.server = server;
-        this.container = new Container();
         this.gameGraphic = new JFrame();
-        this.textArea = new TextArea();
-        this.players = new JPanel();
     }
 
     public int getGame() {
@@ -87,7 +80,7 @@ public class GUI implements View, Serializable {
     }
 
     public void disconnected(int disconnected) throws RemoteException, InterruptedException {
-        textArea.append("Player number " + disconnected + " is disconnected");
+        gridGraphic.changeText("Player number " + disconnected + " is disconnected");
         this.gameGraphic.revalidate();
     }
 
@@ -431,9 +424,9 @@ public class GUI implements View, Serializable {
     public void finalScoring() throws RemoteException {
         this.server.messageFinalScoring(game);
         gridGraphic.changeText("FINAL SCORE");
-        this.server.messageGetPlayers(game).forEach(textArea::append);
+        this.server.messageGetPlayers(game).forEach(gridGraphic::changeText);
         gridGraphic.changeText("");
-        this.server.messageGetScore(game).stream().map(a -> Integer.toString(a)).forEach(textArea::append);
+        this.server.messageGetScore(game).stream().map(a -> Integer.toString(a)).forEach(gridGraphic::changeText);
         gridGraphic.changeText("");
         gridGraphic.changeText("END GAME");
         this.gameGraphic.revalidate();

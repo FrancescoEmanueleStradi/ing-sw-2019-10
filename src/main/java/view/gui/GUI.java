@@ -471,7 +471,7 @@ public class GUI implements View, Serializable {
         this.gameGraphic.setSize(1000, 1000);
         //this.container = gameGraphic.getContentPane();
         if(type == 1) {
-            this.gridGraphic = new GridGraphic("Images/Left14Grid.png", "Images/Right12Grid.png");
+            this.gridGraphic = new GridGraphic("Images/Grid1.png");
             this.gameGraphic.getContentPane().add(gridGraphic);
 
 

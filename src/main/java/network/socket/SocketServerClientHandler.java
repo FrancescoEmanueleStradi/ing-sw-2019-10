@@ -552,7 +552,7 @@ public class SocketServerClientHandler implements Runnable {
                         int sizeMessageGetPlayers = server.messageGetPlayers(game16).size();
                         outPrinter.println(sizeMessageGetPlayers);
                         for(int i = 0; i < sizeMessageGetPlayers; i++)
-                            outPrinter.println(server.messageGetPlayers(game16));
+                            outPrinter.println(server.messageGetPlayers(game16).get(i));
                         break;
                     case "Message Get Dead List":
                         int game17 = Integer.parseInt(inScanner.nextLine());
@@ -764,7 +764,14 @@ public class SocketServerClientHandler implements Runnable {
                         int gameMessageGetDescriptionWC = Integer.parseInt(inScanner.nextLine());
                         String selectionMessageGetDescriptionWC = inScanner.nextLine();
                         String nicknameMessageGetDescriptionWC = inScanner.nextLine();
-                        outPrinter.println(server.messageGetPlayerDescriptionWC(gameMessageGetDescriptionWC, selectionMessageGetDescriptionWC, nicknameMessageGetDescriptionWC));
+                        String descriptionWC = server.messageGetPlayerDescriptionWC(gameMessageGetDescriptionWC, selectionMessageGetDescriptionWC, nicknameMessageGetDescriptionWC);
+                        int counterDesc = 0;
+                        for(char c : descriptionWC.toCharArray()) {
+                            if(c == '\n')
+                                counterDesc++;
+                        }
+                        outPrinter.println(counterDesc);
+                        outPrinter.println(descriptionWC);
                         break;
                     case "Message Is Valid First Action Shoot":
                         int game28 = Integer.parseInt(inScanner.nextLine());

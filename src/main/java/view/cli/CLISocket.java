@@ -24,7 +24,7 @@ public class CLISocket extends UnicastRemoteObject implements View {
     private int type = 0;
     private String nickName;
     private Colour colour;
-    private static CLISocketWeaponPrompt wPrompt = new CLISocketWeaponPrompt();
+    private CLISocketWeaponPrompt wPrompt = new CLISocketWeaponPrompt(this);
     private static final String ERRORRETRY = "Error: please retry";
     private static final String COLOURED = " coloured ";
     private static final String DIRECTIONS = "1 = north, 2 = east, 3 = south, 4 = west";
@@ -435,12 +435,15 @@ public class CLISocket extends UnicastRemoteObject implements View {
         for(int i = 0; i < sizeReloadCost; i++)
             System.out.println(socketIn.nextLine());
 
-        //TODO print description with socket (\n in description)
-        /*socketOut.println("Message Get Description WC");
+        socketOut.println("Message Get Description WC");
         socketOut.println(game);
         socketOut.println(s);
         socketOut.println(nickName);
-        System.out.println(socketIn.nextLine());*/
+        int counterDesc = Integer.parseInt(socketIn.nextLine());
+        for(int i = 0; i < counterDesc; i++)
+            System.out.println(socketIn.nextLine());
+
+        socketIn.nextLine();
 
         switch(s) {
             case "Cyberblade":
@@ -932,12 +935,15 @@ public class CLISocket extends UnicastRemoteObject implements View {
         for(int i = 0; i < sizeReloadCost; i++)
             System.out.println(socketIn.nextLine());
 
-        //TODO print description with socket (\n in description)
-        /*socketOut.println("Message Get Description WC");
+        socketOut.println("Message Get Description WC");
         socketOut.println(game);
         socketOut.println(s);
         socketOut.println(nickName);
-        System.out.println(socketIn.nextLine());*/
+        int counterDesc = Integer.parseInt(socketIn.nextLine());
+        for(int i = 0; i < counterDesc; i++)
+            System.out.println(socketIn.nextLine());
+
+        socketIn.nextLine();
 
         switch(s) {
             case "Cyberblade":
@@ -2128,7 +2134,7 @@ public class CLISocket extends UnicastRemoteObject implements View {
             score.add(Integer.parseInt(socketIn.nextLine()));
 
         for(int i = 0; i < size; i++) {
-            System.out.println(players.get(i) + "\t" + score.get(i));
+            System.out.println(players.get(i) + "\t\t" + score.get(i));
         }
 
         System.out.println("\nThe game is over. Thanks for playing!\n");

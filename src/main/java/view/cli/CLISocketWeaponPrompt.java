@@ -21,6 +21,11 @@ public class CLISocketWeaponPrompt implements Serializable {
     private static final String PROMPT_ERROR_RETRY = "Error: please retry";
     private static final String EXIT = CLI.EXITSTRING;
     private static final String YES_PROMPT = CLI.YESPROMPT;
+    private CLISocket cliSocket;
+
+    CLISocketWeaponPrompt(CLISocket cliSocket) {
+        this.cliSocket = cliSocket;
+    }
 
     public void shootToUser1(int game, Socket socket, String nickName, String s) throws IOException {
         PrintWriter socketOut = new PrintWriter(socket.getOutputStream(), true);
@@ -92,6 +97,7 @@ public class CLISocketWeaponPrompt implements Serializable {
                 System.out.println(EXIT + YES_PROMPT);
                 String exitInput = in.next();
                 if(exitInput.equals("Yes") || exitInput.equals("yes") || exitInput.equals("y")) {
+                    cliSocket.action1();
                     return;
                 }
             }
@@ -189,6 +195,7 @@ public class CLISocketWeaponPrompt implements Serializable {
                 System.out.println(EXIT + YES_PROMPT);
                 String exitInput = in.next();
                 if(exitInput.equals("Yes") || exitInput.equals("yes") || exitInput.equals("y")) {
+                    cliSocket.action2();
                     return;
                 }
             }
@@ -283,6 +290,7 @@ public class CLISocketWeaponPrompt implements Serializable {
                 System.out.println(EXIT + YES_PROMPT);
                 String exitInput = in.next();
                 if(exitInput.equals("Yes") || exitInput.equals("yes") || exitInput.equals("y")) {
+                    cliSocket.action1();
                     return;
                 }
             }
@@ -377,6 +385,7 @@ public class CLISocketWeaponPrompt implements Serializable {
                 System.out.println(EXIT + YES_PROMPT);
                 String exitInput = in.next();
                 if(exitInput.equals("Yes") || exitInput.equals("yes") || exitInput.equals("y")) {
+                    cliSocket.action2();
                     return;
                 }
             }
@@ -457,6 +466,7 @@ public class CLISocketWeaponPrompt implements Serializable {
                 System.out.println(EXIT + YES_PROMPT);
                 String exitInput = in.next();
                 if(exitInput.equals("Yes") || exitInput.equals("yes") || exitInput.equals("y")) {
+                    cliSocket.action1();
                     return;
                 }
             }
@@ -537,6 +547,7 @@ public class CLISocketWeaponPrompt implements Serializable {
                 System.out.println(EXIT + YES_PROMPT);
                 String exitInput = in.next();
                 if(exitInput.equals("Yes") || exitInput.equals("yes") || exitInput.equals("y")) {
+                    cliSocket.action2();
                     return;
                 }
             }
@@ -614,6 +625,7 @@ public class CLISocketWeaponPrompt implements Serializable {
                 System.out.println(EXIT + YES_PROMPT);
                 String exitInput = in.next();
                 if(exitInput.equals("Yes") || exitInput.equals("yes") || exitInput.equals("y")) {
+                    cliSocket.action1();
                     return;
                 }
             }
@@ -691,6 +703,7 @@ public class CLISocketWeaponPrompt implements Serializable {
                 System.out.println(EXIT + YES_PROMPT);
                 String exitInput = in.next();
                 if(exitInput.equals("Yes") || exitInput.equals("yes") || exitInput.equals("y")) {
+                    cliSocket.action2();
                     return;
                 }
             }

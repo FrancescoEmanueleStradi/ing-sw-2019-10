@@ -19,6 +19,11 @@ public class CLIWeaponPrompt {
     private static final String PROMPT_ERROR_RETRY = "Error: please retry";
     private static final String EXIT = CLI.EXITSTRING;
     private static final String YES_PROMPT = CLI.YESPROMPT;
+    private CLI cli;
+
+    CLIWeaponPrompt(CLI cli) {
+        this.cli = cli;
+    }
 
     public void shootToUser1(int game, ServerInterface server, String nickName, String s) throws RemoteException {
         Scanner in = new Scanner(System.in);
@@ -59,6 +64,7 @@ public class CLIWeaponPrompt {
                 System.out.println(EXIT + YES_PROMPT);
                 String exit = in.next();
                 if(exit.equals("Yes") || exit.equals("yes") || exit.equals("y")) {
+                    cli.action1();
                     return;
                 }
             }
@@ -105,6 +111,7 @@ public class CLIWeaponPrompt {
                 System.out.println(EXIT + YES_PROMPT);
                 String exit = in.next();
                 if(exit.equals("Yes") || exit.equals("yes") || exit.equals("y")) {
+                    cli.action2();
                     return;
                 }
             }
@@ -148,6 +155,7 @@ public class CLIWeaponPrompt {
                System.out.println(EXIT + YES_PROMPT);
                String exit = in.next();
                if(exit.equals("Yes") || exit.equals("yes") || exit.equals("y")) {
+                   cli.action1();
                    return;
                }
            }
@@ -191,6 +199,7 @@ public class CLIWeaponPrompt {
                 System.out.println(EXIT + YES_PROMPT);
                 String exit = in.next();
                 if(exit.equals("Yes") || exit.equals("yes") || exit.equals("y")) {
+                    cli.action2();
                     return;
                 }
             }
@@ -226,6 +235,7 @@ public class CLIWeaponPrompt {
                 System.out.println(EXIT + YES_PROMPT);
                 String exit = in.next();
                 if(exit.equals("Yes") || exit.equals("yes") || exit.equals("y")) {
+                    cli.action1();
                     return;
                 }
             }
@@ -261,6 +271,7 @@ public class CLIWeaponPrompt {
                 System.out.println(EXIT + YES_PROMPT);
                 String exit = in.next();
                 if(exit.equals("Yes") || exit.equals("yes") || exit.equals("y")) {
+                    cli.action2();
                     return;
                 }
             }
@@ -293,6 +304,7 @@ public class CLIWeaponPrompt {
                 System.out.println(EXIT + YES_PROMPT);
                 String exit = in.next();
                 if(exit.equals("Yes") || exit.equals("yes") || exit.equals("y")) {
+                    cli.action1();
                     return;
                 }
             }
@@ -325,6 +337,7 @@ public class CLIWeaponPrompt {
                 System.out.println(EXIT + YES_PROMPT);
                 String exit = in.next();
                 if(exit.equals("Yes") || exit.equals("yes") || exit.equals("y")) {
+                    cli.action2();
                     return;
                 }
             }

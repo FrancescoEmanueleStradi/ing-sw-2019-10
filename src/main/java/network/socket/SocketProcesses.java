@@ -207,7 +207,7 @@ public class SocketProcesses {
 
                             MyTaskSocket task2 = new MyTaskSocket(game, identifier, view.getNickName(), socket);
                             Timer timer2 = new Timer();
-                            timer2.schedule(task2, 150000);
+                            timer2.schedule(task2, 200000);
                             view.action1();
                             timer2.cancel();
 
@@ -225,7 +225,7 @@ public class SocketProcesses {
 
                             MyTaskSocket task4 = new MyTaskSocket(game, identifier, view.getNickName(), socket);
                             Timer timer4 = new Timer();
-                            timer4.schedule(task4, 150000);
+                            timer4.schedule(task4, 200000);
                             view.action2();
                             timer4.cancel();
 

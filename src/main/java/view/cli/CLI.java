@@ -21,7 +21,7 @@ public class CLI extends UnicastRemoteObject implements View {
     private transient ServerInterface server;
     private String nickName;
     private Colour colour;
-    private static CLIWeaponPrompt wPrompt = new CLIWeaponPrompt();
+    private CLIWeaponPrompt wPrompt = new CLIWeaponPrompt(this);
     private static final String inputReminder = "Below are the relevant strings (marked by capital letters) you must enter for this card,\nwith respect to any possible order of effects as " +
             "described in the manual. The number of the effect is in brackets (). The order of the sub-effects MUST be respected.\nIn brackets is the additional ammo cost for certain effects and firing modes.\n" +
             "Also in brackets is the OPTIONAL tag for certain sub-effects, which MUST receive an empty string,\nor 0 in case of a direction, " +
@@ -1382,7 +1382,7 @@ public class CLI extends UnicastRemoteObject implements View {
 
         System.out.println("\n\n---------- FINAL SCOREBOARD ----------\n");
         for(int i = 0; i < this.server.messageGetPlayers(game).size(); i++) {
-            System.out.println(this.server.messageGetPlayers(game).get(i) + "\t" + this.server.messageGetScore(game).get(i));
+            System.out.println(this.server.messageGetPlayers(game).get(i) + "\t\t" + this.server.messageGetScore(game).get(i));
         }
 
         System.out.println("\nThe game is over. Thanks for playing!\n");

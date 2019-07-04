@@ -149,7 +149,7 @@ public class RMIProcesses {
 
                             MyTask task2 = new MyTask(game, identifier, view.getNickName(), centralServer);
                             Timer timer2 = new Timer();
-                            timer2.schedule(task2, 150000);
+                            timer2.schedule(task2, 200000);
                             view.action1();
                             timer2.cancel();
 
@@ -163,7 +163,7 @@ public class RMIProcesses {
 
                             MyTask task4 = new MyTask(game, identifier, view.getNickName(), centralServer);
                             Timer timer4 = new Timer();
-                            timer4.schedule(task4, 150000);
+                            timer4.schedule(task4, 200000);
                             view.action2();
                             timer4.cancel();
 

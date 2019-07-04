@@ -236,6 +236,26 @@ public class GUI implements View, Serializable {
         shoot.setVisible(true);
     }
 
+    public void shoot2ToUser1(String weapon){
+        //TODO
+
+    }
+
+    public void shoot2ToUser2(String weapon){
+        //TODO
+
+    }
+
+    public void shoot2ToUser3(String weapon){
+        //TODO
+
+    }
+
+    public void shoot2ToUser4(String weapon){
+        //TODO
+
+    }
+
     public void usePowerUpCard() throws RemoteException {
         MyTask task = new MyTask(game, identifier, this.getNickName(), server);
         Timer timer = new Timer();

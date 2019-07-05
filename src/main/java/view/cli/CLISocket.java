@@ -1322,7 +1322,11 @@ public class CLISocket extends UnicastRemoteObject implements View {
         socketOut.println(namePC);
         socketOut.println(colourPC);
         socketOut.println(nickName);
-        System.out.println(socketIn.nextLine());
+        int counterDesc = Integer.parseInt(socketIn.nextLine());
+        for(int i = 0; i < counterDesc; i++)
+            System.out.println(socketIn.nextLine());
+
+        socketIn.nextLine();
 
         switch(namePC) {
             case "Tagback Grenade":
@@ -1504,17 +1508,18 @@ public class CLISocket extends UnicastRemoteObject implements View {
     public void reload() {
         Scanner in = new Scanner(System.in);
 
-        socketOut.println("Message Get Weapon Card Unloaded");
-        socketOut.println(game);
-        socketOut.println(nickName);
-        int size = Integer.parseInt(socketIn.nextLine());
-        for(int i = 0; i < size; i++)
-            System.out.println(socketIn.nextLine());
-
         String reloadChoice;
 
         while(true) {
             System.out.println("Choose the weapon card you want to reload, or enter 'end' if you don't need/want to");
+
+            socketOut.println("Message Get Weapon Card Unloaded");
+            socketOut.println(game);
+            socketOut.println(nickName);
+            int size = Integer.parseInt(socketIn.nextLine());
+            for(int i = 0; i < size; i++)
+                System.out.println(socketIn.nextLine());
+
             reloadChoice = in.nextLine();
 
             if(reloadChoice.equals("end"))

@@ -212,7 +212,14 @@ public class SocketServerClientHandler implements Runnable {
                         String pUC = inScanner.nextLine();
                         String pUCCol = inScanner.nextLine();
                         String nickDesc = inScanner.nextLine();
-                        outPrinter.println(server.messageGetPlayerDescriptionPUC(gameDesc, pUC, pUCCol, nickDesc));
+                        String descriptionPUC = server.messageGetPlayerDescriptionPUC(gameDesc, pUC, pUCCol, nickDesc);
+                        int counterPUC = 0;
+                        for(char c : descriptionPUC.toCharArray()) {
+                            if(c == '\n')
+                                counterPUC++;
+                        }
+                        outPrinter.println(counterPUC);
+                        outPrinter.println(descriptionPUC);
                         break;
                     case "Message Is Valid Use PowerUp Card":
                         int game1 = Integer.parseInt(inScanner.nextLine());

@@ -100,6 +100,8 @@ public class CLI extends UnicastRemoteObject implements View {
                 counterColour++;
             }while(!(s1.equals("BLUE") || s1.equals("BLACK") || s1.equals("YELLOW") || s1.equals("PURPLE") || s1.equals("GREEN")));
 
+            this.colour = Colour.valueOf(s1);
+
             this.server.messageGameStart(game, nickName, colour);
 
             int typeInput;

@@ -2214,6 +2214,7 @@ public class Game {
      *
      * @param nickName       nickname
      * @param direction      direction
+     * @param weaponToReload weapon name list
      * @param weaponToUse    weapon name
      * @param lI             effect number list
      * @param lS             various strings list

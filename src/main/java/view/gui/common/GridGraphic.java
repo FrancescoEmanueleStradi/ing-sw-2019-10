@@ -61,7 +61,7 @@ public class GridGraphic extends JPanel implements Serializable {
     /**
      * Refreshes scroll pane text.
      *
-     * @param text
+     * @param text text
      */
     public void changeText(String text){
         //jScrollPane.setToolTipText(text);

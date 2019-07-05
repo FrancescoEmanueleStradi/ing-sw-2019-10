@@ -58,6 +58,7 @@ public class FFAction3 extends JPanel {
      * @param parent parent
      * @param game game
      * @param nickName nickname
+     * @throws RemoteException RMI exception
      */
     public FFAction3(GUI gui, ServerInterface server, JFrame parent, int game, String nickName) throws RemoteException {
         super();

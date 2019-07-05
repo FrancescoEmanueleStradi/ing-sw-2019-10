@@ -38,7 +38,7 @@ public class DiscardPUC extends JPanel implements ActionListener {
      * @param c1 powerup colour 1
      * @param c2 powerup colour 2
      * @param parent parent frame
-     * @throws RemoteException
+     * @throws RemoteException RMI exception
      */
     public DiscardPUC(GUI gui, ServerInterface server, int game, String nickName, String n1, String n2, String c1, String c2, JFrame parent) throws RemoteException{
         super();

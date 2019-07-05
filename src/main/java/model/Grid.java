@@ -572,6 +572,8 @@ public class Grid {
 
     /**
      * Draws a weapon card from the top of the weapon deck.
+     *
+     * @return weapon card
      */
     private WeaponCard pickWeaponCard() {
         return this.weaponDeck.getTopOfDeck();

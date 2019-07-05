@@ -19,6 +19,8 @@ public enum Colour implements Serializable {
 
     /**
      * Sets name of colour.
+     *
+     * @param colourId colourId
      */
     Colour(String colourId) {
         this.colourId = colourId;

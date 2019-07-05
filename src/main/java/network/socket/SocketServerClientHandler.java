@@ -25,7 +25,7 @@ public class SocketServerClientHandler implements Runnable {
      * @param socket socket
      * @param server server
      */
-    public SocketServerClientHandler(Socket socket, ServerMethods server) {
+    SocketServerClientHandler(Socket socket, ServerMethods server) {
         this.socket = socket;
         this.server = server;
     }

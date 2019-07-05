@@ -686,7 +686,8 @@ public class SocketServerClientHandler implements Runnable {
                         break;
                     case "Message Is Discard":
                         int gameMessageIsDiscard = Integer.parseInt(inScanner.nextLine());
-                        outPrinter.println(server.messageIsDiscard(gameMessageIsDiscard));
+                        String isDiscard = String.valueOf(server.messageIsDiscard(gameMessageIsDiscard));
+                        outPrinter.println(isDiscard);
                         break;
                     case "Message Discard Weapon Card":
                         int gameMessageDiscardWeaponCard = Integer.parseInt(inScanner.nextLine());

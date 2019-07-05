@@ -937,6 +937,8 @@ public class CLI extends UnicastRemoteObject implements View {
         String colourPC;
         List<String> lS = new LinkedList<>();
 
+        System.out.println(this.server.messageCheckOthersStatus(game, this.nickName));
+
         System.out.println("Enter which PowerUpCard you want to use. You have the following:");
         for(int i = 0; i < this.server.messageGetPlayerPowerUpCard(game, nickName).size(); i++) {
             System.out.println(this.server.messageGetPlayerPowerUpCard(game, nickName).get(i) + COLOURED + this.server.messageGetPlayerPowerUpCardColour(game, nickName).get(i));
@@ -999,7 +1001,8 @@ public class CLI extends UnicastRemoteObject implements View {
             case "Newton":
                 while(true) {
                     System.out.println("Enter the nickname of a player:");
-                    lS.add(in.nextLine());
+                    String p = in.nextLine();
+                    lS.add(p);
 
                     System.out.println("Enter the direction(s) in which you want the enemy to go; 0 to finish");
                     while(true) {
@@ -1007,7 +1010,7 @@ public class CLI extends UnicastRemoteObject implements View {
                         if(s.equals("0"))
                             break;
                         else
-                            lS.add(in.next());
+                            lS.add(s);
                     }
 
                     if(this.server.messageIsValidUsePowerUpCard(game, nickName, namePC, colourPC, lS, null)) {

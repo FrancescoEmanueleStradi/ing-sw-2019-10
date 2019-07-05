@@ -1303,6 +1303,19 @@ public class CLISocket extends UnicastRemoteObject implements View {
         String colourPC;
         List<String> lS = new LinkedList<>();
 
+        socketOut.println("Message Get Players");
+        socketOut.println(game);
+        int playersNum = Integer.parseInt(socketIn.nextLine());
+        for(int i = 0; i < playersNum; i++)
+            socketIn.nextLine();
+
+        socketOut.println("Message Check Others Status");
+        socketOut.println(game);
+        socketOut.println(nickName);
+
+        for(int i = 0; i < playersNum; i++)
+            System.out.println(socketIn.nextLine());
+
         socketOut.println("Message Get PowerUp Card Name And Colour");
         socketOut.println(game);
         socketOut.println(nickName);
@@ -1419,7 +1432,8 @@ public class CLISocket extends UnicastRemoteObject implements View {
             case "Newton":
                 while(true) {
                     System.out.println("Enter the nickname of a player:");
-                    lS.add(in.nextLine());
+                    String p = in.nextLine();
+                    lS.add(p);
 
                     System.out.println("Enter the direction(s) in which you want the enemy to go; 0 to finish");
                     while(true) {
@@ -1427,7 +1441,7 @@ public class CLISocket extends UnicastRemoteObject implements View {
                         if(s.equals("0"))
                             break;
                         else
-                            lS.add(in.next());
+                            lS.add(s);
                     }
 
                     socketOut.println("Message Is Valid Use PowerUp Card");

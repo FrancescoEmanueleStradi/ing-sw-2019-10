@@ -11,6 +11,8 @@ Requisiti implementati:
 - RMI
 - Funzionalità Aggiuntiva: Partite Multiple
 
+P.S. I bug presenti con maven sono relativi alla GUI. 
+
 Generazione dei .jar a partire da maven assembly:
 Nel pom vi è il plugin maven assembly che genera entrambi i .jar.
 Prima di eseguire il build, alla configurazione va aggiunto il Maven Goal "clean package".

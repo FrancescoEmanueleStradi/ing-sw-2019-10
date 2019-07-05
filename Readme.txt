@@ -1,4 +1,4 @@
-﻿Prova Finale di Ingegneria del Software - A.A. 2018/2019
+Prova Finale di Ingegneria del Software - A.A. 2018/2019
 
 Scaglione Professor Cugola Gianpaolo
 Gruppo 10 - Stradi Francesco Emanuele, Stanimirov Alexander Elvis, Savoia Diego
@@ -6,7 +6,7 @@ Gruppo 10 - Stradi Francesco Emanuele, Stanimirov Alexander Elvis, Savoia Diego
 Requisiti implementati:
 - Regole Complete
 - CLI
-- GUI (attualmente in sviluppo)
+- GUI (purtroppo non siamo riusciti a completarla; abbiamo però lasciato il codice da noi scritto, sperando non sia un problema, per mostrare a che punto fossimo arrivati)
 - Socket
 - RMI
 - Funzionalità Aggiuntiva: Partite Multiple

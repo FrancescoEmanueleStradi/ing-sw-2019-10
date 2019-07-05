@@ -158,9 +158,9 @@ public class ServerMethods extends UnicastRemoteObject implements ServerInterfac
             notifyAll();
         }
         if(connections.get(game).size() == 3) {
-            wait(2000);
+            wait(20000);
             while(connections.get(game).size() < 3)
-                wait(2000);
+                wait(20000);
             canStartList.add(game, true);
         }
     }

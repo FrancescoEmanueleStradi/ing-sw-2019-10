@@ -594,7 +594,8 @@ public class SocketServerClientHandler implements Runnable {
                         List<Integer> directions2 = new LinkedList<>();
                         for(int i = 0; i < size48; i++)
                             directions2.add(Integer.parseInt(inScanner.nextLine()));
-                        outPrinter.println(server.messageIsValidFirstActionMove(game18, nickname16, directions2));
+                        String isValidFirstMove = String.valueOf(server.messageIsValidFirstActionMove(game18, nickname16, directions2));
+                        outPrinter.println(isValidFirstMove);
                         break;
                     case "Message First Action Move":
                         int game19 = Integer.parseInt(inScanner.nextLine());
@@ -612,7 +613,8 @@ public class SocketServerClientHandler implements Runnable {
                         List<Integer> directions4 = new LinkedList<>();
                         for(int i = 0; i < size50; i++)
                             directions4.add(Integer.parseInt(inScanner.nextLine()));
-                        outPrinter.println(server.messageIsValidSecondActionMove(game20, nickname18, directions4));
+                        String isValidSecondMove = String.valueOf(server.messageIsValidSecondActionMove(game20, nickname18, directions4));
+                        outPrinter.println(isValidSecondMove);
                         break;
                     case "Message Second Action Move":
                         int game21 = Integer.parseInt(inScanner.nextLine());
@@ -660,7 +662,8 @@ public class SocketServerClientHandler implements Runnable {
                         int size55 = Integer.parseInt(inScanner.nextLine());
                         for(int i = 0; i < size55; i++)
                             lPC8.add(inScanner.nextLine());
-                        outPrinter.println(server.messageIsValidFirstActionGrab(game23, nickname20, list6, wCard6, wSlot2, lC8, lP8, lPC8));
+                        String isValidFirstGrab = String.valueOf(server.messageIsValidFirstActionGrab(game23, nickname20, list6, wCard6, wSlot2, lC8, lP8, lPC8));
+                        outPrinter.println(isValidFirstGrab);
                         break;
                     case "Message First Action Grab":
                         int game24 = Integer.parseInt(inScanner.nextLine());
@@ -717,7 +720,8 @@ public class SocketServerClientHandler implements Runnable {
                         int size63 = Integer.parseInt(inScanner.nextLine());
                         for(int i = 0; i < size63; i++)
                             lPC10.add(inScanner.nextLine());
-                        outPrinter.println(server.messageIsValidSecondActionGrab(game25, nickname22, list8, wCard8, wSlot3, lC10, lP10, lPC10));
+                        String isValidSecondGrab = String.valueOf(server.messageIsValidSecondActionGrab(game25, nickname22, list8, wCard8, wSlot3, lC10, lP10, lPC10));
+                        outPrinter.println(isValidSecondGrab);
                         break;
                     case "Message Second Action Grab":
                         int game26 = Integer.parseInt(inScanner.nextLine());
@@ -752,7 +756,8 @@ public class SocketServerClientHandler implements Runnable {
                         int gameMessageIsValidCard = Integer.parseInt(inScanner.nextLine());
                         String nicknameMessageIsValidCard = inScanner.nextLine();
                         String cardMessageIsValidCard = inScanner.nextLine();
-                        outPrinter.println(server.messageIsValidCard(gameMessageIsValidCard, nicknameMessageIsValidCard, cardMessageIsValidCard));
+                        String isValidCard = String.valueOf(server.messageIsValidCard(gameMessageIsValidCard, nicknameMessageIsValidCard, cardMessageIsValidCard));
+                        outPrinter.println(isValidCard);
                         break;
                     case "Message Get Reload Cost":
                         int gameMessageGetReloadCost = Integer.parseInt(inScanner.nextLine());
@@ -806,7 +811,8 @@ public class SocketServerClientHandler implements Runnable {
                         int size72 = Integer.parseInt(inScanner.nextLine());
                         for(int i = 0; i < size72; i++)
                             lPC12.add(inScanner.nextLine());
-                        outPrinter.println(server.messageIsValidFirstActionShoot(game28, nickname25, weapon, lI11, lS11, adrenaline, lC12, lP12, lPC12));
+                        String isValidFirstShoot = String.valueOf(server.messageIsValidFirstActionShoot(game28, nickname25, weapon, lI11, lS11, adrenaline, lC12, lP12, lPC12));
+                        outPrinter.println(isValidFirstShoot);
                         break;
                     case "Message Is Valid Second Action Shoot":
                         int game29 = Integer.parseInt(inScanner.nextLine());
@@ -833,7 +839,8 @@ public class SocketServerClientHandler implements Runnable {
                         int size77 = Integer.parseInt(inScanner.nextLine());
                         for(int i = 0; i < size77; i++)
                             lPC13.add(inScanner.nextLine());
-                        outPrinter.println(server.messageIsValidSecondActionShoot(game29, nickname26, weapon1, lI12, lS12, adrenaline1, lC13, lP13, lPC13));
+                        String isValidSecondShoot = String.valueOf(server.messageIsValidSecondActionShoot(game29, nickname26, weapon1, lI12, lS12, adrenaline1, lC13, lP13, lPC13));
+                        outPrinter.println(isValidSecondShoot);
                         break;
                     case "Message First Action Shoot":
                         int game30 = Integer.parseInt(inScanner.nextLine());

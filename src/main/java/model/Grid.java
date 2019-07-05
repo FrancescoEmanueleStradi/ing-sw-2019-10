@@ -251,7 +251,7 @@ public class Grid {
      *
      * @param p1 target player
      * @param p2 player (self)
-     * @throws RemoteException
+     * @throws RemoteException RemoteException
      */
     private void removeMarkAndAdd(Player p1, Player p2) throws RemoteException {
         long x = p1.getPlayerBoard().getMarks().stream().filter(a -> a.getC() == p2.getC()).count();
@@ -443,7 +443,7 @@ public class Grid {
      * @param p1 other player
      * @return boolean
      */
-    public boolean isInTheRoom(Player p, Player p1) {
+    boolean isInTheRoom(Player p, Player p1) {
         return (p.getCell().getC().equals(p1.getCell().getC()));
     }
 

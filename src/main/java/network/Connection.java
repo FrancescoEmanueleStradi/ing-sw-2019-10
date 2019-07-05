@@ -60,7 +60,7 @@ public class Connection {
      *
      * @return boolean
      */
-    public boolean isMyTurn() {
+    boolean isMyTurn() {
         return isMyTurn;
     }
 
@@ -96,7 +96,7 @@ public class Connection {
      *
      * @param myTurn player's current own turn boolean
      */
-    public void setMyTurn(boolean myTurn) {
+    void setMyTurn(boolean myTurn) {
         isMyTurn = myTurn;
     }
 
@@ -108,14 +108,14 @@ public class Connection {
      *
      * @return list of players
      */
-    public List<List<String>> getPrintPlayerList() {
+    List<List<String>> getPrintPlayerList() {
         return printPlayerList;
     }
 
     /**
      * Removes first member from player list to be printed.
      */
-    public void removeFirstPrintPlayerList() {
+    void removeFirstPrintPlayerList() {
         printPlayerList.remove(0);
     }
 
@@ -124,7 +124,7 @@ public class Connection {
      *
      * @param informationPrintPlayer player information
      */
-    public void setPrintPlayerList(List<String> informationPrintPlayer) {
+    void setPrintPlayerList(List<String> informationPrintPlayer) {
         printPlayerList.add(informationPrintPlayer);
     }
 
@@ -133,14 +133,14 @@ public class Connection {
      *
      * @return score list
      */
-    public List<List<String>> getPrintScoreList() {
+    List<List<String>> getPrintScoreList() {
         return printScoreList;
     }
 
     /**
      * Removes first member from score list to be printed.
      */
-    public void removeFirstPrintScoreList() {
+    void removeFirstPrintScoreList() {
         printScoreList.remove(0);
     }
 
@@ -149,7 +149,7 @@ public class Connection {
      *
      * @param informationPrintScore current score information
      */
-    public void setPrintScoreList(List<String> informationPrintScore) {
+    void setPrintScoreList(List<String> informationPrintScore) {
         printScoreList.add(informationPrintScore);
     }
 
@@ -158,14 +158,14 @@ public class Connection {
      *
      * @return position list
      */
-    public List<List<String>> getPrintPositionList() {
+    List<List<String>> getPrintPositionList() {
         return printPositionList;
     }
 
     /**
      * Removes first member from position list to be printed.
      */
-    public void removeFirstPrintPositionList() {
+    void removeFirstPrintPositionList() {
         printPositionList.remove(0);
     }
 
@@ -174,7 +174,7 @@ public class Connection {
      *
      * @param informationPrintPosition current position information
      */
-    public void setPrintPositionList(List<String> informationPrintPosition) {
+    void setPrintPositionList(List<String> informationPrintPosition) {
         printPositionList.add(informationPrintPosition);
     }
 
@@ -183,14 +183,14 @@ public class Connection {
      *
      * @return mark list
      */
-    public List<List<String>> getPrintMarkList() {
+    List<List<String>> getPrintMarkList() {
         return printMarkList;
     }
 
     /**
      * Removes the first member from mark list to be printed.
      */
-    public void removeFirstPrintMarkList() {
+    void removeFirstPrintMarkList() {
         printMarkList.remove(0);
     }
 
@@ -199,7 +199,7 @@ public class Connection {
      *
      * @param informationPrintMark current mark information.
      */
-    public void setPrintMarkList(List<String> informationPrintMark) {
+    void setPrintMarkList(List<String> informationPrintMark) {
         printMarkList.add(informationPrintMark);
     }
 
@@ -208,14 +208,14 @@ public class Connection {
      *
      * @return damage list
      */
-    public List<List<String>> getPrintDamageList() {
+    List<List<String>> getPrintDamageList() {
         return printDamageList;
     }
 
     /**
      * Removes first member from damage list to be printed.
      */
-    public void removeFirstPrintDamageList() {
+    void removeFirstPrintDamageList() {
         printDamageList.remove(0);
     }
 
@@ -224,7 +224,7 @@ public class Connection {
      *
      * @param informationPrintDamage current damage information
      */
-    public void setPrintDamageList(List<String> informationPrintDamage) {
+    void setPrintDamageList(List<String> informationPrintDamage) {
         printDamageList.add(informationPrintDamage);
     }
 }

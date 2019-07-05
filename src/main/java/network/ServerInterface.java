@@ -3,7 +3,6 @@ package network;
 import model.Colour;
 import view.View;
 
-import java.net.Socket;
 import java.rmi.*;
 import java.util.List;
 

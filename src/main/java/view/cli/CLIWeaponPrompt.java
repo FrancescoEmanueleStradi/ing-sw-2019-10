@@ -8,7 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
-public class CLIWeaponPrompt {
+class CLIWeaponPrompt {
 
     private static final String ENTER_EFFECT = "Enter the number(s) of the effect(s) you want to use; 5 to finish";
     private static final String ENTER_RELEVANT_STRING = "Enter the relevant strings for the card; 5 to finish";
@@ -25,7 +25,7 @@ public class CLIWeaponPrompt {
         this.cli = cli;
     }
 
-    public void shootToUser1(int game, ServerInterface server, String nickName, String s) throws RemoteException {
+    void shootToUser1(int game, ServerInterface server, String nickName, String s) throws RemoteException {
         Scanner in = new Scanner(System.in);
         Scanner intScan = new Scanner(System.in);
 
@@ -72,7 +72,7 @@ public class CLIWeaponPrompt {
         server.messageFirstActionShoot(game, nickName, s, lI, lS, i, lC, lP, lPC);
     }
 
-    public void shoot2ToUser1(int game, ServerInterface server, String nickName, String s) throws RemoteException {
+    void shoot2ToUser1(int game, ServerInterface server, String nickName, String s) throws RemoteException {
         Scanner in = new Scanner(System.in);
         Scanner intScan = new Scanner(System.in);
 
@@ -119,7 +119,7 @@ public class CLIWeaponPrompt {
         server.messageSecondActionShoot(game, nickName, s, lI, lS, i, lC, lP, lPC);
     }
 
-   public void shootToUser2(int game, ServerInterface server, String nickName, String s) throws RemoteException {
+   void shootToUser2(int game, ServerInterface server, String nickName, String s) throws RemoteException {
        Scanner in = new Scanner(System.in);
        Scanner intScan = new Scanner(System.in);
 
@@ -163,7 +163,7 @@ public class CLIWeaponPrompt {
        server.messageFirstActionShoot(game, nickName, s, lI, lS, i, lC, lP, lPC);
    }
 
-    public void shoot2ToUser2(int game, ServerInterface server, String nickName, String s) throws RemoteException {
+    void shoot2ToUser2(int game, ServerInterface server, String nickName, String s) throws RemoteException {
         Scanner in = new Scanner(System.in);
         Scanner intScan = new Scanner(System.in);
 
@@ -207,7 +207,7 @@ public class CLIWeaponPrompt {
         server.messageSecondActionShoot(game, nickName, s, lI, lS, i, lC, lP, lPC);
     }
 
-    public void shootToUser3(int game, ServerInterface server, String nickName, String s) throws RemoteException {
+    void shootToUser3(int game, ServerInterface server, String nickName, String s) throws RemoteException {
         Scanner in = new Scanner(System.in);
         Scanner intScan = new Scanner(System.in);
 
@@ -243,7 +243,7 @@ public class CLIWeaponPrompt {
         server.messageFirstActionShoot(game, nickName, s, lI, lS, i, lC, lP, lPC);
     }
 
-    public void shoot2ToUser3(int game, ServerInterface server, String nickName, String s) throws RemoteException {
+    void shoot2ToUser3(int game, ServerInterface server, String nickName, String s) throws RemoteException {
         Scanner in = new Scanner(System.in);
         Scanner intScan = new Scanner(System.in);
 
@@ -279,7 +279,7 @@ public class CLIWeaponPrompt {
         server.messageSecondActionShoot(game, nickName, s, lI, lS, i, lC, lP, lPC);
     }
 
-    public void shootToUser4(int game, ServerInterface server, String nickName, String s) throws RemoteException {
+    void shootToUser4(int game, ServerInterface server, String nickName, String s) throws RemoteException {
         Scanner in = new Scanner(System.in);
         Scanner intScan = new Scanner(System.in);
 
@@ -312,7 +312,7 @@ public class CLIWeaponPrompt {
         server.messageFirstActionShoot(game, nickName, s, lI, lS, i, lC, lP, lPC);
     }
 
-    public void shoot2ToUser4(int game, ServerInterface server, String nickName, String s) throws RemoteException {
+    void shoot2ToUser4(int game, ServerInterface server, String nickName, String s) throws RemoteException {
         Scanner in = new Scanner(System.in);
         Scanner intScan = new Scanner(System.in);
 

@@ -10,7 +10,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
-public class CLISocketWeaponPrompt implements Serializable {
+class CLISocketWeaponPrompt implements Serializable {
 
     private static final String ENTER_EFFECT = "Enter the number(s) of the effect(s) you want to use; 5 to finish";
     private static final String ENTER_RELEVANT_STRING = "Enter the relevant strings for the card; 5 to finish";
@@ -27,7 +27,7 @@ public class CLISocketWeaponPrompt implements Serializable {
         this.cliSocket = cliSocket;
     }
 
-    public void shootToUser1(int game, Socket socket, String nickName, String s) throws IOException {
+    void shootToUser1(int game, Socket socket, String nickName, String s) throws IOException {
         PrintWriter socketOut = new PrintWriter(socket.getOutputStream(), true);
         Scanner socketIn = new Scanner(socket.getInputStream());
         Scanner in = new Scanner(System.in);
@@ -125,7 +125,7 @@ public class CLISocketWeaponPrompt implements Serializable {
             socketOut.println(s1);
     }
 
-    public void shoot2ToUser1(int game, Socket socket, String nickName, String s) throws IOException {
+    void shoot2ToUser1(int game, Socket socket, String nickName, String s) throws IOException {
         PrintWriter socketOut = new PrintWriter(socket.getOutputStream(), true);
         Scanner socketIn = new Scanner(socket.getInputStream());
         Scanner in = new Scanner(System.in);
@@ -223,7 +223,7 @@ public class CLISocketWeaponPrompt implements Serializable {
             socketOut.println(s1);
     }
 
-    public void shootToUser2(int game, Socket socket, String nickName, String s) throws IOException {
+    void shootToUser2(int game, Socket socket, String nickName, String s) throws IOException {
         PrintWriter socketOut = new PrintWriter(socket.getOutputStream(), true);
         Scanner socketIn = new Scanner(socket.getInputStream());
         Scanner in = new Scanner(System.in);
@@ -318,7 +318,7 @@ public class CLISocketWeaponPrompt implements Serializable {
             socketOut.println(s1);
     }
 
-    public void shoot2ToUser2(int game, Socket socket, String nickName, String s) throws IOException {
+    void shoot2ToUser2(int game, Socket socket, String nickName, String s) throws IOException {
         PrintWriter socketOut = new PrintWriter(socket.getOutputStream(), true);
         Scanner socketIn = new Scanner(socket.getInputStream());
         Scanner in = new Scanner(System.in);
@@ -413,7 +413,7 @@ public class CLISocketWeaponPrompt implements Serializable {
             socketOut.println(s1);
     }
 
-    public void shootToUser3(int game, Socket socket, String nickName, String s) throws IOException {
+    void shootToUser3(int game, Socket socket, String nickName, String s) throws IOException {
         PrintWriter socketOut = new PrintWriter(socket.getOutputStream(), true);
         Scanner socketIn = new Scanner(socket.getInputStream());
         Scanner in = new Scanner(System.in);
@@ -494,7 +494,7 @@ public class CLISocketWeaponPrompt implements Serializable {
             socketOut.println(s1);
     }
 
-    public void shoot2ToUser3(int game, Socket socket, String nickName, String s) throws IOException {
+    void shoot2ToUser3(int game, Socket socket, String nickName, String s) throws IOException {
         PrintWriter socketOut = new PrintWriter(socket.getOutputStream(), true);
         Scanner socketIn = new Scanner(socket.getInputStream());
         Scanner in = new Scanner(System.in);
@@ -575,7 +575,7 @@ public class CLISocketWeaponPrompt implements Serializable {
             socketOut.println(s1);
     }
 
-    public void shootToUser4(int game, Socket socket, String nickName, String s) throws IOException {
+    void shootToUser4(int game, Socket socket, String nickName, String s) throws IOException {
         PrintWriter socketOut = new PrintWriter(socket.getOutputStream(), true);
         Scanner socketIn = new Scanner(socket.getInputStream());
         Scanner in = new Scanner(System.in);
@@ -653,7 +653,7 @@ public class CLISocketWeaponPrompt implements Serializable {
             socketOut.println(s1);
     }
 
-    public void shoot2ToUser4(int game, Socket socket, String nickName, String s) throws IOException {
+    void shoot2ToUser4(int game, Socket socket, String nickName, String s) throws IOException {
         PrintWriter socketOut = new PrintWriter(socket.getOutputStream(), true);
         Scanner socketIn = new Scanner(socket.getInputStream());
         Scanner in = new Scanner(System.in);

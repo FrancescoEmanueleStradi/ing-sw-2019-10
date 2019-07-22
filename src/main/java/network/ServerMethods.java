@@ -81,6 +81,7 @@ public class ServerMethods extends UnicastRemoteObject implements ServerInterfac
      */
     public synchronized void setView(int game, int identifier, View view) throws RemoteException {
         connections.get(game).get(identifier-1).setView(view);
+        System.out.println("si registra il client: " + view);
     }
 
     /**

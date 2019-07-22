@@ -53,7 +53,7 @@ public class Client {
                     rmiSocket = true;
                     System.out.println("Creating RMI connection, please wait...");
                     ServerInterface centralServer = (ServerInterface) Naming.lookup("rmi://" + serverIP + ":5099/central_server");
-                    System.out.println("RMI connection created successfully!\n");
+                    System.out.println("RMI connection created successfully!: "+ centralServer + "\n");
                     RMIProcesses.rmiProcesses(centralServer);
                     break;
                 default: break;
